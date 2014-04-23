@@ -16,7 +16,8 @@
 
 package org.parboiled.annotations;
 
-import org.parboiled.BaseParser;
+import org.parboiled.Action;
+import org.parboiled.ContextAware;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -25,19 +26,40 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Do not run any action in "predicate" rules
+ * Do not run actions in "predicate" rules ({@code Test} and {@code TestNot})
  *
- * <p>Predicate rules here are {@link BaseParser#Test(Object)}</p>
- * Annotation that can be used on parser rule methods (i.e. methods returning a {@link org.parboiled.Rule} or the
- * parser class itself.
- * Instructs parboiled to skip the evaluation of action expressions in the rule method (or all methods if the
- * annotation is used on the parser class itself) if the rule is currently being run inside a Test/TestNot rule
- * (no matter what the nesting depth is).
- * Note that this annotation only affects action expressions (explicit or implicit)! Custom action objects, be them
- * anonymous actions or instances of some other class implementing the {@link org.parboiled.Action} interface still
- * need to take care of their predicate sensitivities themselves.
- * If you use this annotation on the parser class itself you can override it on specific rule methods with the
- * {@link DontSkipActionsInPredicates} annotation.
+ * <p>{@link Action}s can be used to perform user defined operations, which can
+ * include, for instance, setting values into beans etc. For instance:</p>
+ *
+ * <pre>
+ *     Rule myRule()
+ *     {
+ *         return Sequence(someRule(), storeSomeValue());
+ *     }
+ * </pre>
+ *
+ * <p>The problem is that you may also use such rules in a {@code Test} or
+ * {@code TestNot} rule such as in:</p>
+ *
+ * <pre>
+ *     Rule otherRule()
+ *     {
+ *         return Sequence(TestNot(myRule()), someOtherRule());
+ *     }
+ * </pre>
+ *
+ * <p>In this case, you may not want {@code storeSomeValue()} to be executed in
+ * that particular context. This annotation helps with that.</p>
+ *
+ * <p>You can either use it at the rule level or at the class level. If at the
+ * class level, it will affect all rules with defined actions.</p>
+ *
+ * <p>If at the class level, you can also use the {@link
+ * DontSkipActionsInPredicates} annotation on a rule to override this
+ * annotation.</p>
+ *
+ * @see Action
+ * @see ContextAware
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

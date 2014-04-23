@@ -16,6 +16,9 @@
 
 package org.parboiled.annotations;
 
+import org.parboiled.Action;
+import org.parboiled.ContextAware;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -23,12 +26,20 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation that can be used on parser methods returning {@link org.parboiled.Rule} objects.
- * Overrides a global {@link SkipActionsInPredicates} annotation on the parser
- * class for the specific method.
+ * Override {@link SkipActionsInPredicates} for one particular rule
+ *
+ * <p>If your parser class is configured to {@link SkipActionsInPredicates}, you
+ * can use this annotation on one particular rule to override this behaviour and
+ * execute the action(s) of this rule nevertheless.</p>
+ *
+ * <p>You probably want to use this annotation if your action performs a check
+ * of the currently matched input.</p>
+ *
+ * @see Action
+ * @see ContextAware
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD})
+@Target(ElementType.METHOD)
 public @interface DontSkipActionsInPredicates {
 }
