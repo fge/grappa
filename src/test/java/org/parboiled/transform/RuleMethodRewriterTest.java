@@ -46,7 +46,7 @@ public class RuleMethodRewriterTest extends TransformationTest {
         setup(TestParser.class);
     }
 
-    @Test(dependsOnGroups = "primary")
+    @Test
     public void testRuleMethodRewriting() throws Exception {
         assertEquals(getMethodInstructionList(processMethod("RuleWithIndirectImplicitAction", processors)), "" +
                 "Method 'RuleWithIndirectImplicitAction':\n" +

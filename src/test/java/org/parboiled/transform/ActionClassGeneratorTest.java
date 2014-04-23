@@ -45,7 +45,7 @@ public class ActionClassGeneratorTest extends TransformationTest {
         setup(TestParser.class);
     }
 
-    @Test(dependsOnGroups = "primary")
+    @Test
     public void testActionClassGeneration() throws Exception {
         RuleMethod method = processMethod("RuleWithComplexActionSetup", processors);
 

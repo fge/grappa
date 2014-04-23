@@ -41,7 +41,7 @@ public class InstructionGroupPreparerTest extends TransformationTest {
         setup(TestParser.class);
     }
 
-    @Test(dependsOnGroups = "primary")
+    @Test
     public void testRuleWithComplexActionSetup() throws Exception {
         RuleMethod method = processMethod("RuleWithComplexActionSetup", processors);
 

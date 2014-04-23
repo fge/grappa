@@ -24,7 +24,16 @@ import java.util.Set;
 import static org.parboiled.common.Preconditions.checkState;
 import static org.parboiled.transform.AsmTestUtils.verifyIntegrity;
 
-@Test(groups = "primary")
+/*
+ * FIXME: fails for:
+ *
+ * - method = "RuleWithComplexActionSetup";
+ * - group = "VarInit$something";
+ * - internalName = "org/parboiled/transform/VarInit$something"
+ *
+ * classCode is null in this case.
+ */
+@Test
 public class ParserExtensionVerificationTest {
 
     public void verifyTestParserExtension() throws Exception {
