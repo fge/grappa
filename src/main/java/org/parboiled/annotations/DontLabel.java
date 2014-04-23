@@ -16,15 +16,26 @@
 
 package org.parboiled.annotations;
 
+import org.parboiled.Rule;
+
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation that can be used on parser methods returning {@link org.parboiled.Rule} objects or the
- * parser class itself. Instructs parboiled to not automatically label the created rules.
+ * Do not generate a label for this rule, or parser
+ *
+ * <p>By default, all generated parsers and rule methods are labeled (with the
+ * parser class name and the rule method name respectively). If this annotation
+ * is present on a parser class or method, then such a label will not be
+ * generated.</p>
+ *
+ * @see Rule#label(String)
+ * @see Label
  */
+@Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.TYPE})
 public @interface DontLabel {

@@ -16,6 +16,7 @@
 
 package org.parboiled.annotations;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -25,6 +26,7 @@ import java.lang.annotation.Target;
  * Annotation that can be used on parser methods returning {@link org.parboiled.Rule} objects.
  * Instructs parboiled to memoize consecutive mismatches of this rule.
  */
+@Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
 public @interface MemoMismatches {

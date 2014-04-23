@@ -16,6 +16,7 @@
 
 package org.parboiled.annotations;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -29,6 +30,7 @@ import java.lang.annotation.Target;
  * "invisible" in the parse tree, the rule still exists as a regular rule in the rule tree and is accompanied by
  * a "regular" rule {@link org.parboiled.Context} during rule matching.
  */
+@Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
 public @interface SkipNode {

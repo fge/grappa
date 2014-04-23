@@ -16,18 +16,35 @@
 
 package org.parboiled.annotations;
 
+import org.parboiled.Rule;
+import org.parboiled.transform.CacheArguments;
+
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.HashMap;
 
 /**
- * Annotation that can be used on parser methods returning {@link org.parboiled.Rule}s and having parameters.
- * Instructs parboiled to automatically cache the method return value for the parameters it was created with.
- * Note that all parser methods returning {@link org.parboiled.Rule} objects and <b>not</b> taking any parameter are
- * automatically cached and are therefore not allowed to carry this annotation.
+ * Build a cache for {@link Rule}s having arguments
+ *
+ * <p>This annotation can be used on rules with arguments; for instance:</p>
+ *
+ * <pre>
+ *     Rule matchChar(final char c)
+ *     {
+ *         return Ch(c);
+ *     }
+ * </pre>
+ *
+ * <p>The generated parser will then have a {@link HashMap} whose keys are
+ * {@link CacheArguments} instances and values are {@link Rule}s.</p>
+ * <p>You must <strong>not</strong> use this annotation for rules having no
+ * arguments (this will raise an error).</p>
  */
+@Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD})
+@Target(ElementType.METHOD)
 public @interface Cached {
 }

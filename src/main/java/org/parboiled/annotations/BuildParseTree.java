@@ -16,22 +16,32 @@
 
 package org.parboiled.annotations;
 
+import org.parboiled.parserunners.RecoveringParseRunner;
+
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * <p>Annotation that can be used on the parser class itself.
- * Instructs parboiled to build a parse tree during a parsing run. When this annotation is present on the parser class
- * the parse tree building can be further tweaked by decorating certain rules with {@link SuppressNode},
- * {@link SuppressSubnodes} and/or {@link SkipNode}. When this annotation is not present on the parser class the listed
- * rule annotations do not have any effect because no parse tree is build at all.</p>
- * <p>Note: If the input contains parse errors and you use the {@link org.parboiled.parserunners.RecoveringParseRunner} parboiled
- * will create parse tree nodes for all rules that have recorded parse errors (note that this always includes the root
- * rule)</p>
+ * Build a parse tree
+ *
+ * <p>This annotation is to be used on a parser class. When present, the
+ * generated parsers will build a parse tree for their input.</p>
+ *
+ * <p>You can further control the tree building process by using annotations on
+ * rules within the parser: namely, {@link SuppressSubnodes}, {@link SkipNode}
+ * and {@link SuppressNode}. These annotations have no effect if this annotation
+ * is not present.</p>
+ *
+ * <p>Note: if the input contains parse errors and you use a {@link
+ * RecoveringParseRunner}, the generated parser will create parse tree nodes for
+ * all rules that have recorded parse errors (note that this always includes
+ * the root rule).</p>
  */
+@Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE})
+@Target(ElementType.TYPE)
 public @interface BuildParseTree {
 }

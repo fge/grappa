@@ -16,6 +16,7 @@
 
 package org.parboiled.annotations;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -26,6 +27,7 @@ import java.lang.annotation.Target;
  * Instructs parboiled to not create parse tree nodes for the subrules of the rule,
  * which can significantly increase parsing performance.
  */
+@Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
 public @interface SuppressSubnodes {

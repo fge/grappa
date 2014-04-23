@@ -16,16 +16,26 @@
 
 package org.parboiled.annotations;
 
+import org.parboiled.Rule;
+import org.parboiled.transform.ParserTransformer;
+
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation that can be used on parser methods returning {@link org.parboiled.Rule} objects.
- * Instructs parboiled to completely ignore this method during parser extension.
+ * Do not generate a wrapper method for this rule
+ *
+ * <p>The normal process of parser generation is to create a wrapper method for
+ * each {@link Rule} defined in your parser class; this annotation will instruct
+ * the generation process to not generate such a wrapper method.</p>
+ *
+ * @see ParserTransformer
  */
+@Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD})
+@Target(ElementType.METHOD)
 public @interface DontExtend {
 }

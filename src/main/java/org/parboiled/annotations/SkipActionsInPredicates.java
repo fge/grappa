@@ -16,12 +16,18 @@
 
 package org.parboiled.annotations;
 
+import org.parboiled.BaseParser;
+
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * Do not run any action in "predicate" rules
+ *
+ * <p>Predicate rules here are {@link BaseParser#Test(Object)}</p>
  * Annotation that can be used on parser rule methods (i.e. methods returning a {@link org.parboiled.Rule} or the
  * parser class itself.
  * Instructs parboiled to skip the evaluation of action expressions in the rule method (or all methods if the
@@ -33,6 +39,7 @@ import java.lang.annotation.Target;
  * If you use this annotation on the parser class itself you can override it on specific rule methods with the
  * {@link DontSkipActionsInPredicates} annotation.
  */
+@Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.TYPE})
 public @interface SkipActionsInPredicates {

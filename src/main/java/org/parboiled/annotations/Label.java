@@ -16,6 +16,7 @@
 
 package org.parboiled.annotations;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -27,6 +28,7 @@ import java.lang.annotation.Target;
  * If this annotation is not present on a rule method parboiled automatically names the created rules with the
  * method name, unless a {@link DontLabel} annotation is present on the method or the parser class.
  */
+@Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
 public @interface Label {

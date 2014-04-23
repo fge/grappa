@@ -16,6 +16,7 @@
 
 package org.parboiled.annotations;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -26,6 +27,7 @@ import java.lang.annotation.Target;
  * Overrides a global {@link SkipActionsInPredicates} annotation on the parser
  * class for the specific method.
  */
+@Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
 public @interface DontSkipActionsInPredicates {
