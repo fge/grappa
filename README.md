@@ -18,6 +18,8 @@ But parboiled does not deserve to die, it is just too good. No other package all
 write grammars entirely in Java... And what is more, it performs really well. This package is
 therefore dedicated to continuing its development.
 
+Grappa requires Java 6 or later.
+
 ## How it differs from parboiled
 
 At this moment:
@@ -60,5 +62,17 @@ public class DoubleQuotedString
         return Sequence('"', NSN(), '"', EOI);
     }
 }
+```
+
+## How to build
+
+You will need a JDK 6 or 7. **Note that for the moment, Java 8 does not work**. Then use this
+command to build and install into your local repository:
+
+```
+# Unix systems: Linux, MacOSX, *BSD
+./gradlew clean test install
+# Windows systems
+gradlew.bat clean test install
 ```
 
