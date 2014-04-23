@@ -16,6 +16,8 @@
 
 package org.parboiled.annotations;
 
+import org.parboiled.Context;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -23,15 +25,38 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation that can be used on parser methods returning {@link org.parboiled.Rule} objects.
- * Instructs parboiled to not create a parse tree node for this rule. The parse tree nodes of all subrules are
- * directly attached to the parent of this rule (or more correctly: the first ancestor not carrying @SkipNode).
- * Note that, even though a rule carrying @SkipNode does not create a parse tree node of its own and is therefore
- * "invisible" in the parse tree, the rule still exists as a regular rule in the rule tree and is accompanied by
- * a "regular" rule {@link org.parboiled.Context} during rule matching.
+ * Do not create a parse tree node for this rule
+ *
+ * <p>When building a parsing tree, all rules will generate a parsing node by
+ * default. This annotation can be used on a rule to prevent the creation of a
+ * node for this particular rule <strong>only</strong> (this means the
+ * <em>children</em> of this rule will still see their nodes created).</p>
+ *
+ * <p>For instance, this set of rules:</p>
+ *
+ * <pre>
+ *     &#x0040;SkipNode
+ *     Rule ab()
+ *     {
+ *         return Sequence(a(), b());
+ *     }
+ *
+ *     Rule a() {...}
+ *
+ *     Rule b() {...}
+ *
+ * </pre>
+ *
+ * <p>will generate nodes for {@code a} and {@code b} but not for {@code ab}.
+ * </p>
+ *
+ * <p>Note however that such rules still have a {@link Context} available.</p>
+ *
+ * @see SuppressNode
+ * @see SuppressSubnodes
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD})
+@Target(ElementType.METHOD)
 public @interface SkipNode {
 }

@@ -16,6 +16,9 @@
 
 package org.parboiled.annotations;
 
+import org.parboiled.Action;
+import org.parboiled.BaseParser;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -23,12 +26,25 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation that can be used on parser rule methods (i.e. methods returning a {@link org.parboiled.Rule} or the
- * parser class itself.
- * Instructs parboiled to not perform implicit action expression wrapping, i.e. not treat expressions that form
- * parameters to Boolean.valueOf(boolean) calls as action expressions.
- * Instead only expressions wrapped by explicit calls to {@link org.parboiled.BaseParser#ACTION(boolean)} will be
- * treated as action expressions.
+ * Don't wrap boolean expressions into {@link Action}s
+ *
+ * <p>When used in rules, expressions returning {@code boolean}s are wrapped
+ * into {@link Action}s by the parser generator. Example:</p>
+ *
+ * <pre>
+ *     Rule myRule()
+ *     {
+ *         // Only if depth level is less than 5
+ *         return Sequence(someRule(), getContext().getLevel() < 5);
+ *     }
+ * </pre>
+ *
+ * <p>If this annotation is used (either at the method level or at the class
+ * level), such automatic wrapping does not happen anymore and you have to use
+ * {@link BaseParser#ACTION(boolean)} to make actions explicit.</p>
+ *
+ * @see SkipActionsInPredicates
+ * @see DontSkipActionsInPredicates
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

@@ -16,6 +16,8 @@
 
 package org.parboiled.annotations;
 
+import org.parboiled.Rule;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -23,14 +25,18 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation that can be used on parser methods returning {@link org.parboiled.Rule} objects.
- * Instructs parboiled to automatically label the created rules with the given label.
- * If this annotation is not present on a rule method parboiled automatically names the created rules with the
- * method name, unless a {@link DontLabel} annotation is present on the method or the parser class.
+ * Apply a custom label to a {@link Rule}
+ *
+ * <p>The default behaviour of the parser generator is to label a rule after the
+ * method name producing that rule. Using this annotation, you can instruct the
+ * generator to give the rule a name of your choice.</p>
+ *
+ * @see Rule#label(String)
+ * @see DontLabel
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD})
+@Target(ElementType.METHOD)
 public @interface Label {
     String value();
 }

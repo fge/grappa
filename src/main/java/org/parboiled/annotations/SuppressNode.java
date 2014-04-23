@@ -23,12 +23,16 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation that can be used on parser methods returning {@link org.parboiled.Rule} objects.
- * Instructs parboiled to not create a parse tree node for this rule <b>and all subrules</b>,
- * which can significantly increase parsing performance.
+ * Do not create parse tree nodes for this rule and all its children
+ *
+ * <p>This acts the same as {@link SkipNode}, except that it will extend to this
+ * rule and all its children.</p>
+ *
+ * @see SkipNode
+ * @see SuppressSubnodes
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD})
+@Target(ElementType.METHOD)
 public @interface SuppressNode {
 }

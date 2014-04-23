@@ -23,11 +23,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation that can be used on parser methods returning {@link org.parboiled.Rule} objects.
- * Instructs parboiled to memoize consecutive mismatches of this rule.
+ * Record mismatches for a particular rule
+ *
+ * <p>Rules by default will only be recorded in parser statistics if they
+ * succeed. With this annotation, statistics will also memorize the number of
+ * times the rule <em>failed</em> to match.</p>
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD})
+@Target(ElementType.METHOD)
 public @interface MemoMismatches {
 }
