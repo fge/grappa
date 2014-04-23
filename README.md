@@ -28,8 +28,8 @@ Grappa requires Java 6 or later.
 
 ### And, uh, the name?
 
-Well, you write _gra_mmars and can then generate _pa_rsers for them. (I also happen to like the
-[drink of the same name](http://www.istitutograppa.org/))
+Well, you write <i>gra</i>mmars and can then generate <i>pa</i>rsers for them. (I also happen to
+like the [drink of the same name](http://www.istitutograppa.org/))
 
 ## How it differs from parboiled
 
