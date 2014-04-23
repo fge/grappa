@@ -1,5 +1,7 @@
 ![logo](misc/grappa-logo.png)
 
+\[Original image courtesy of [clipartbest.com](www.clipartbest.com/clipart-Kin5EMyiq)\]
+
 ## What this is
 
 This is a package allowing you to write
