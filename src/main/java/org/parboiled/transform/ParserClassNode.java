@@ -33,7 +33,7 @@ import java.util.TreeMap;
 
 import static org.parboiled.common.Preconditions.checkArgNotNull;
 
-class ParserClassNode extends ClassNode {
+public class ParserClassNode extends ClassNode {
 
     private final Class<?> parentClass;
     private final Type parentType;

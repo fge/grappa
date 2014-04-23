@@ -18,6 +18,7 @@ package org.parboiled.transform;
 
 import org.objectweb.asm.tree.MethodNode;
 import org.parboiled.common.Predicate;
+import org.parboiled.transform.process.TransformationTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -26,7 +27,8 @@ import java.util.Collection;
 
 import static org.testng.Assert.assertEquals;
 
-public class ClassNodeInializerTest extends TransformationTest {
+public class ClassNodeInializerTest extends TransformationTest
+{
 
     @BeforeClass
     public void setup() throws IOException {

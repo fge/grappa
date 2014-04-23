@@ -19,13 +19,15 @@ package org.parboiled.transform;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
+import org.parboiled.transform.process.GroupClassGenerator;
 
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.ARETURN;
 import static org.parboiled.common.Preconditions.checkArgNotNull;
 import static org.parboiled.transform.Types.BASE_VAR_INIT;
 
-class VarInitClassGenerator extends GroupClassGenerator {
+public class VarInitClassGenerator extends GroupClassGenerator
+{
 
     public VarInitClassGenerator(boolean forceCodeBuilding) {
         super(forceCodeBuilding);

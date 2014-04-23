@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 
-package org.parboiled.transform;
+package org.parboiled.transform.process;
 
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.MethodInsnNode;
+import org.parboiled.transform.ParserClassNode;
+import org.parboiled.transform.RuleMethod;
 
 import static org.objectweb.asm.Opcodes.ARETURN;
 import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
@@ -30,7 +32,7 @@ import static org.parboiled.common.Preconditions.checkState;
 /**
  * Replaces the method code with a simple call to the super method.
  */
-class SuperCallRewriter implements RuleMethodProcessor {
+public class SuperCallRewriter implements RuleMethodProcessor {
 
     public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
         checkArgNotNull(classNode, "classNode");

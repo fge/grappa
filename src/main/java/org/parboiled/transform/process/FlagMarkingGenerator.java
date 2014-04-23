@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package org.parboiled.transform;
+package org.parboiled.transform.process;
 
 import org.objectweb.asm.tree.AbstractInsnNode;
-import org.objectweb.asm.tree.AnnotationNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.LabelNode;
-import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
-import org.parboiled.common.StringUtils;
+import org.parboiled.transform.ParserClassNode;
+import org.parboiled.transform.RuleMethod;
+import org.parboiled.transform.Types;
 
 import static org.objectweb.asm.Opcodes.ARETURN;
 import static org.objectweb.asm.Opcodes.DUP;
@@ -34,21 +34,22 @@ import static org.parboiled.common.Preconditions.checkArgNotNull;
 import static org.parboiled.common.Preconditions.checkState;
 
 /**
- * Adds automatic labelling code before the return instruction.
+ * Adds the required flag marking calls before the return instruction.
  */
-class LabellingGenerator implements RuleMethodProcessor {
+public class FlagMarkingGenerator implements RuleMethodProcessor {
 
     public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
         checkArgNotNull(classNode, "classNode");
         checkArgNotNull(method, "method");
-        return !method.hasDontLabelAnnotation();
+        return method.hasSuppressNodeAnnotation() || method.hasSuppressSubnodesAnnotation() ||
+                method.hasSkipNodeAnnotation() || method.hasMemoMismatchesAnnotation();
     }
 
     public void process(ParserClassNode classNode, RuleMethod method) throws Exception {
         checkArgNotNull(classNode, "classNode");
         checkArgNotNull(method, "method");
         checkState(!method.isSuperMethod()); // super methods have flag moved to the overriding method
-
+        
         InsnList instructions = method.instructions;
 
         AbstractInsnNode ret = instructions.getLast();
@@ -56,33 +57,26 @@ class LabellingGenerator implements RuleMethodProcessor {
             ret = ret.getPrevious();
         }
 
-        LabelNode isNullLabel = new LabelNode();
         // stack: <rule>
         instructions.insertBefore(ret, new InsnNode(DUP));
         // stack: <rule> :: <rule>
+        LabelNode isNullLabel = new LabelNode();
         instructions.insertBefore(ret, new JumpInsnNode(IFNULL, isNullLabel));
         // stack: <rule>
-        instructions.insertBefore(ret, new LdcInsnNode(getLabelText(method)));
-        // stack: <rule> :: <labelText>
-        instructions.insertBefore(ret, new MethodInsnNode(INVOKEINTERFACE, Types.RULE.getInternalName(),
-                "label", "(Ljava/lang/String;)" + Types.RULE_DESC));
+
+        if (method.hasSuppressNodeAnnotation()) generateMarkerCall(instructions, ret, "suppressNode");
+        if (method.hasSuppressSubnodesAnnotation()) generateMarkerCall(instructions, ret, "suppressSubnodes");
+        if (method.hasSkipNodeAnnotation()) generateMarkerCall(instructions, ret, "skipNode");
+        if (method.hasMemoMismatchesAnnotation()) generateMarkerCall(instructions, ret, "memoMismatches");
+        
         // stack: <rule>
         instructions.insertBefore(ret, isNullLabel);
         // stack: <rule>
     }
 
-    public String getLabelText(RuleMethod method) {
-        if (method.visibleAnnotations != null) {
-            for (Object annotationObj : method.visibleAnnotations) {
-                AnnotationNode annotation = (AnnotationNode) annotationObj;
-                if (annotation.desc.equals(Types.LABEL_DESC) && annotation.values != null) {
-                    checkState("value".equals(annotation.values.get(0)));
-                    String labelValue = (String) annotation.values.get(1);
-                    return StringUtils.isEmpty(labelValue) ? method.name : labelValue;
-                }
-            }
-        }
-        return method.name;
+    private void generateMarkerCall(InsnList instructions, AbstractInsnNode ret, String call) {
+        instructions.insertBefore(ret, new MethodInsnNode(INVOKEINTERFACE, Types.RULE.getInternalName(), call,
+                "()" + Types.RULE.getDescriptor()));
     }
 
 }

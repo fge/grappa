@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * A group of instructions belonging to a ACTION or Var initializer
  */
-class InstructionGroup {
+public class InstructionGroup {
 
     private final List<InstructionGraphNode> nodes = new ArrayList<InstructionGraphNode>();
     private final InsnList instructions = new InsnList();

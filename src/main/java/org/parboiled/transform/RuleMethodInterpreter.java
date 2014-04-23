@@ -35,7 +35,7 @@ import java.util.List;
 
 import static org.parboiled.common.Preconditions.checkState;
 
-class RuleMethodInterpreter extends BasicInterpreter {
+public class RuleMethodInterpreter extends BasicInterpreter {
 
     private final RuleMethod method;
     private final List<Edge> additionalEdges = new ArrayList<Edge>();

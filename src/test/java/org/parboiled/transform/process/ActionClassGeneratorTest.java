@@ -14,23 +14,24 @@
  * limitations under the License.
  */
 
-package org.parboiled.transform;
+package org.parboiled.transform.process;
 
-import org.parboiled.BaseParser;
-import org.parboiled.Rule;
 import org.parboiled.common.ImmutableList;
-import org.parboiled.support.Var;
+import org.parboiled.transform.ActionClassGenerator;
+import org.parboiled.transform.InstructionGroup;
+import org.parboiled.transform.RuleMethod;
+import org.parboiled.transform.TestParser;
+import org.parboiled.transform.VarInitClassGenerator;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.parboiled.transform.AsmTestUtils.getClassDump;
 import static org.testng.Assert.assertEquals;
 
-public class VarInitClassGeneratorTest extends TransformationTest {
+public class ActionClassGeneratorTest extends TransformationTest {
 
     private final List<RuleMethodProcessor> processors = ImmutableList.of(
             new UnusedLabelsRemover(),
@@ -43,25 +44,15 @@ public class VarInitClassGeneratorTest extends TransformationTest {
             new VarInitClassGenerator(true)
     );
 
-    static class Parser extends BaseParser<Integer> {
-
-        @SuppressWarnings({"UnusedDeclaration"})
-        public Rule A() {
-            Var<List<String>> list = new Var<List<String>>(new ArrayList<String>());
-            Var<Integer> i = new Var<Integer>(26);
-            return Sequence('a', list.get().add(match()));
-        }
-
-    }
 
     @BeforeClass
     public void setup() throws IOException {
-        setup(Parser.class);
+        setup(TestParser.class);
     }
 
     @Test
-    public void testVarInitClassGeneration() throws Exception {
-        RuleMethod method = processMethod("A", processors);
+    public void testActionClassGeneration() throws Exception {
+        RuleMethod method = processMethod("RuleWithComplexActionSetup", processors);
 
         assertEquals(method.getGroups().size(), 3);
 
@@ -69,7 +60,7 @@ public class VarInitClassGeneratorTest extends TransformationTest {
         assertEquals(getClassDump(group.getGroupClassCode()), "" +
                 "// class version 49.0 (49)\n" +
                 "// access flags 0x1011\n" +
-                "public final synthetic class org/parboiled/transform/VarInit$eYqwbz6zYKb27FsS extends org/parboiled/transform/BaseVarInit  {\n" +
+                "public final synthetic class org/parboiled/transform/VarInit$ojjPlnt06r72YBBm extends org/parboiled/transform/BaseVarInit  {\n" +
                 "\n" +
                 "\n" +
                 "  // access flags 0x1\n" +
@@ -83,11 +74,9 @@ public class VarInitClassGeneratorTest extends TransformationTest {
                 "\n" +
                 "  // access flags 0x1\n" +
                 "  public create()Ljava/lang/Object;\n" +
-                "    NEW java/util/ArrayList\n" +
-                "    DUP\n" +
-                "    INVOKESPECIAL java/util/ArrayList.<init> ()V\n" +
+                "    LDC \"text\"\n" +
                 "    ARETURN\n" +
-                "    MAXSTACK = 2\n" +
+                "    MAXSTACK = 1\n" +
                 "    MAXLOCALS = 1\n" +
                 "}\n");
 
@@ -95,39 +84,17 @@ public class VarInitClassGeneratorTest extends TransformationTest {
         assertEquals(getClassDump(group.getGroupClassCode()), "" +
                 "// class version 49.0 (49)\n" +
                 "// access flags 0x1011\n" +
-                "public final synthetic class org/parboiled/transform/VarInit$L7SMqNxExCwCkL9F extends org/parboiled/transform/BaseVarInit  {\n" +
-                "\n" +
-                "\n" +
-                "  // access flags 0x1\n" +
-                "  public <init>(Ljava/lang/String;)V\n" +
-                "    ALOAD 0\n" +
-                "    ALOAD 1\n" +
-                "    INVOKESPECIAL org/parboiled/transform/BaseVarInit.<init> (Ljava/lang/String;)V\n" +
-                "    RETURN\n" +
-                "    MAXSTACK = 2\n" +
-                "    MAXLOCALS = 2\n" +
-                "\n" +
-                "  // access flags 0x1\n" +
-                "  public create()Ljava/lang/Object;\n" +
-                "    BIPUSH 26\n" +
-                "    INVOKESTATIC java/lang/Integer.valueOf (I)Ljava/lang/Integer;\n" +
-                "    ARETURN\n" +
-                "    MAXSTACK = 1\n" +
-                "    MAXLOCALS = 1\n" +
-                "}\n");
-
-        group = method.getGroups().get(2);
-        assertEquals(getClassDump(group.getGroupClassCode()), "" +
-                "// class version 49.0 (49)\n" +
-                "// access flags 0x1011\n" +
-                "public final synthetic class org/parboiled/transform/Action$ha3NOiBr9DZ3I2Sh extends org/parboiled/transform/BaseAction  {\n" +
+                "public final synthetic class org/parboiled/transform/Action$LmzJHalG7AngCUsX extends org/parboiled/transform/BaseAction  {\n" +
                 "\n" +
                 "\n" +
                 "  // access flags 0x1001\n" +
-                "  public synthetic Lorg/parboiled/support/Var; field$0\n" +
+                "  public synthetic I field$0\n" +
                 "\n" +
                 "  // access flags 0x1001\n" +
-                "  public synthetic Lorg/parboiled/transform/VarInitClassGeneratorTest$Parser$$parboiled; field$1\n" +
+                "  public synthetic I field$1\n" +
+                "\n" +
+                "  // access flags 0x1001\n" +
+                "  public synthetic I field$2\n" +
                 "\n" +
                 "  // access flags 0x1\n" +
                 "  public <init>(Ljava/lang/String;)V\n" +
@@ -141,18 +108,81 @@ public class VarInitClassGeneratorTest extends TransformationTest {
                 "  // access flags 0x1\n" +
                 "  public run(Lorg/parboiled/Context;)Z\n" +
                 "    ALOAD 0\n" +
-                "    GETFIELD org/parboiled/transform/Action$ha3NOiBr9DZ3I2Sh.field$0 : Lorg/parboiled/support/Var;\n" +
-                "    INVOKEVIRTUAL org/parboiled/support/Var.get ()Ljava/lang/Object;\n" +
-                "    CHECKCAST java/util/List\n" +
+                "    GETFIELD org/parboiled/transform/Action$LmzJHalG7AngCUsX.field$0 : I\n" +
                 "    ALOAD 0\n" +
-                "    GETFIELD org/parboiled/transform/Action$ha3NOiBr9DZ3I2Sh.field$1 : Lorg/parboiled/transform/VarInitClassGeneratorTest$Parser$$parboiled;\n" +
-                "    DUP\n" +
-                "    ALOAD 1\n" +
-                "    INVOKEINTERFACE org/parboiled/ContextAware.setContext (Lorg/parboiled/Context;)V\n" +
-                "    INVOKEVIRTUAL org/parboiled/transform/VarInitClassGeneratorTest$Parser.match ()Ljava/lang/String;\n" +
-                "    INVOKEINTERFACE java/util/List.add (Ljava/lang/Object;)Z\n" +
+                "    GETFIELD org/parboiled/transform/Action$LmzJHalG7AngCUsX.field$1 : I\n" +
+                "    ALOAD 0\n" +
+                "    GETFIELD org/parboiled/transform/Action$LmzJHalG7AngCUsX.field$2 : I\n" +
+                "    IADD\n" +
+                "    IF_ICMPLE L0\n" +
+                "    ICONST_1\n" +
+                "    GOTO L1\n" +
+                "   L0\n" +
+                "    ICONST_0\n" +
+                "   L1\n" +
                 "    IRETURN\n" +
-                "    MAXSTACK = 4\n" +
+                "    MAXSTACK = 3\n" +
+                "    MAXLOCALS = 2\n" +
+                "}\n");
+
+        group = method.getGroups().get(2);
+        assertEquals(getClassDump(group.getGroupClassCode()), "" +
+                "// class version 49.0 (49)\n" +
+                "// access flags 0x1011\n" +
+                "public final synthetic class org/parboiled/transform/Action$OrG2zjbz0MYoT8sO extends org/parboiled/transform/BaseAction  {\n" +
+                "\n" +
+                "\n" +
+                "  // access flags 0x1001\n" +
+                "  public synthetic Lorg/parboiled/transform/TestParser$$parboiled; field$0\n" +
+                "\n" +
+                "  // access flags 0x1001\n" +
+                "  public synthetic I field$1\n" +
+                "\n" +
+                "  // access flags 0x1001\n" +
+                "  public synthetic Lorg/parboiled/support/Var; field$2\n" +
+                "\n" +
+                "  // access flags 0x1001\n" +
+                "  public synthetic I field$3\n" +
+                "\n" +
+                "  // access flags 0x1001\n" +
+                "  public synthetic I field$4\n" +
+                "\n" +
+                "  // access flags 0x1\n" +
+                "  public <init>(Ljava/lang/String;)V\n" +
+                "    ALOAD 0\n" +
+                "    ALOAD 1\n" +
+                "    INVOKESPECIAL org/parboiled/transform/BaseAction.<init> (Ljava/lang/String;)V\n" +
+                "    RETURN\n" +
+                "    MAXSTACK = 2\n" +
+                "    MAXLOCALS = 2\n" +
+                "\n" +
+                "  // access flags 0x1\n" +
+                "  public run(Lorg/parboiled/Context;)Z\n" +
+                "    ALOAD 0\n" +
+                "    GETFIELD org/parboiled/transform/Action$OrG2zjbz0MYoT8sO.field$0 : Lorg/parboiled/transform/TestParser$$parboiled;\n" +
+                "    GETFIELD org/parboiled/transform/TestParser.integer : I\n" +
+                "    ALOAD 0\n" +
+                "    GETFIELD org/parboiled/transform/Action$OrG2zjbz0MYoT8sO.field$1 : I\n" +
+                "    IADD\n" +
+                "    ALOAD 0\n" +
+                "    GETFIELD org/parboiled/transform/Action$OrG2zjbz0MYoT8sO.field$2 : Lorg/parboiled/support/Var;\n" +
+                "    INVOKEVIRTUAL org/parboiled/support/Var.get ()Ljava/lang/Object;\n" +
+                "    CHECKCAST java/lang/String\n" +
+                "    INVOKEVIRTUAL java/lang/String.length ()I\n" +
+                "    ALOAD 0\n" +
+                "    GETFIELD org/parboiled/transform/Action$OrG2zjbz0MYoT8sO.field$3 : I\n" +
+                "    ISUB\n" +
+                "    ALOAD 0\n" +
+                "    GETFIELD org/parboiled/transform/Action$OrG2zjbz0MYoT8sO.field$4 : I\n" +
+                "    ISUB\n" +
+                "    IF_ICMPGE L0\n" +
+                "    ICONST_1\n" +
+                "    GOTO L1\n" +
+                "   L0\n" +
+                "    ICONST_0\n" +
+                "   L1\n" +
+                "    IRETURN\n" +
+                "    MAXSTACK = 3\n" +
                 "    MAXLOCALS = 2\n" +
                 "}\n");
     }

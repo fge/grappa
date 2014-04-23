@@ -14,12 +14,16 @@
  * limitations under the License.
  */
 
-package org.parboiled.transform;
+package org.parboiled.transform.process;
 
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
+import org.parboiled.transform.InstructionGraphNode;
+import org.parboiled.transform.ParserClassNode;
+import org.parboiled.transform.RuleMethod;
+import org.parboiled.transform.Types;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -36,7 +40,7 @@ import static org.parboiled.transform.AsmUtils.isBooleanValueOfZ;
 /**
  * Makes all implicit action expressions in a rule method explicit.
  */
-class ImplicitActionsConverter implements RuleMethodProcessor {
+public class ImplicitActionsConverter implements RuleMethodProcessor {
 
     private final Set<InstructionGraphNode> covered = new HashSet<InstructionGraphNode>();
     private RuleMethod method;

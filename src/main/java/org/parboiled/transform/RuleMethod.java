@@ -49,13 +49,13 @@ import static org.parboiled.transform.AsmUtils.isAssignableTo;
 import static org.parboiled.transform.AsmUtils.isBooleanValueOfZ;
 import static org.parboiled.transform.AsmUtils.isVarRoot;
 
-class RuleMethod extends MethodNode {
+public class RuleMethod extends MethodNode {
 
     private final List<InstructionGroup> groups = new ArrayList<InstructionGroup>();
     private final List<LabelNode> usedLabels = new ArrayList<LabelNode>();
 
     private final Class<?> ownerClass;
-    private int parameterCount;
+    private final int parameterCount;
     private boolean containsImplicitActions; // calls to Boolean.valueOf(boolean)
     private boolean containsExplicitActions; // calls to BaseParser.ACTION(boolean)
     private boolean containsVars; // calls to Var.<init>(T)

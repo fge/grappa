@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
-package org.parboiled.transform;
+package org.parboiled.transform.process;
 
 import org.parboiled.common.ImmutableList;
+import org.parboiled.transform.InstructionGroup;
+import org.parboiled.transform.RuleMethod;
+import org.parboiled.transform.TestParser;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 

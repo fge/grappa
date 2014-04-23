@@ -18,6 +18,20 @@ package org.parboiled.transform;
 
 import org.objectweb.asm.ClassWriter;
 import org.parboiled.common.ImmutableList;
+import org.parboiled.transform.process.BodyWithSuperCallReplacer;
+import org.parboiled.transform.process.CachingGenerator;
+import org.parboiled.transform.process.FlagMarkingGenerator;
+import org.parboiled.transform.process.ImplicitActionsConverter;
+import org.parboiled.transform.process.InstructionGraphCreator;
+import org.parboiled.transform.process.InstructionGroupCreator;
+import org.parboiled.transform.process.InstructionGroupPreparer;
+import org.parboiled.transform.process.LabellingGenerator;
+import org.parboiled.transform.process.ReturnInstructionUnifier;
+import org.parboiled.transform.process.RuleMethodProcessor;
+import org.parboiled.transform.process.RuleMethodRewriter;
+import org.parboiled.transform.process.SuperCallRewriter;
+import org.parboiled.transform.process.UnusedLabelsRemover;
+import org.parboiled.transform.process.VarFramingGenerator;
 
 import java.util.List;
 

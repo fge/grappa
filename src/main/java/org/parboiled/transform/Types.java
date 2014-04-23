@@ -39,7 +39,7 @@ import org.parboiled.matchers.ProxyMatcher;
 import org.parboiled.matchers.VarFramingMatcher;
 import org.parboiled.support.Var;
 
-interface Types {
+public interface Types {
     static final Type BASE_ACTION = Type.getType(BaseAction.class);
     static final Type BASE_VAR_INIT = Type.getType(BaseVarInit.class);
     static final Type BASE_PARSER = Type.getType(BaseParser.class);

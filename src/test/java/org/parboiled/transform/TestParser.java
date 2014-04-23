@@ -31,7 +31,7 @@ import static org.parboiled.common.StringUtils.isEmpty;
 
 @SuppressWarnings({"UnusedDeclaration"})
 @BuildParseTree
-class TestParser extends BaseParser<Integer> {
+public class TestParser extends BaseParser<Integer> {
 
     protected int integer;
     private int privateInt;

@@ -44,7 +44,7 @@ import java.util.Map;
 
 import static org.parboiled.common.Preconditions.checkArgNotNull;
 
-class AsmUtils {
+public class AsmUtils {
 
     public static ClassReader createClassReader(Class<?> clazz) throws IOException {
         checkArgNotNull(clazz, "clazz");

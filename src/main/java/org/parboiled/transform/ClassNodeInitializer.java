@@ -46,7 +46,7 @@ import static org.parboiled.transform.AsmUtils.getExtendedParserClassName;
 /**
  * Initializes the basic ParserClassNode fields and collects all methods.
  */
-class ClassNodeInitializer extends ClassVisitor {
+public class ClassNodeInitializer extends ClassVisitor {
 
     private ParserClassNode classNode;
     private Class<?> ownerClass;

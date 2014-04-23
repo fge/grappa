@@ -39,7 +39,7 @@ import static org.parboiled.common.Preconditions.checkArgNotNull;
 /**
  * A node in the instruction dependency graph.
  */
-class InstructionGraphNode extends BasicValue {
+public class InstructionGraphNode extends BasicValue {
 
     private AbstractInsnNode instruction;
     private final BasicValue resultValue;

@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package org.parboiled.transform;
+package org.parboiled.transform.process;
 
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.LabelNode;
+import org.parboiled.transform.ParserClassNode;
+import org.parboiled.transform.RuleMethod;
 
 import static org.objectweb.asm.Opcodes.ARETURN;
 import static org.objectweb.asm.Opcodes.GOTO;
@@ -29,7 +31,7 @@ import static org.parboiled.common.Preconditions.checkState;
  * Replaces all "non-last" return instructions with goto instructions to the last return instruction.
  * If a method contains only one return instruction the transformer does nothing.
  */
-class ReturnInstructionUnifier implements RuleMethodProcessor {
+public class ReturnInstructionUnifier implements RuleMethodProcessor {
 
     public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
         return true;

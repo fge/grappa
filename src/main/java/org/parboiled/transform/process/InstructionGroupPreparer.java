@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.parboiled.transform;
+package org.parboiled.transform.process;
 
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
@@ -25,6 +25,10 @@ import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.VarInsnNode;
 import org.parboiled.common.Base64;
 import org.parboiled.common.StringUtils;
+import org.parboiled.transform.InstructionGraphNode;
+import org.parboiled.transform.InstructionGroup;
+import org.parboiled.transform.ParserClassNode;
+import org.parboiled.transform.RuleMethod;
 
 import java.nio.ByteBuffer;
 import java.security.MessageDigest;
@@ -36,7 +40,7 @@ import static org.objectweb.asm.Opcodes.ALOAD;
 import static org.parboiled.common.Preconditions.checkArgNotNull;
 import static org.parboiled.common.Preconditions.checkState;
 
-class InstructionGroupPreparer implements RuleMethodProcessor {
+public class InstructionGroupPreparer implements RuleMethodProcessor {
 
     private static final Base64 CUSTOM_BASE64 =
             new Base64("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxy0123456789zzzz");

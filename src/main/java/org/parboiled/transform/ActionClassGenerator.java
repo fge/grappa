@@ -19,12 +19,14 @@ package org.parboiled.transform;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
+import org.parboiled.transform.process.GroupClassGenerator;
 
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.IRETURN;
 import static org.parboiled.common.Preconditions.checkArgNotNull;
 
-class ActionClassGenerator extends GroupClassGenerator {
+public class ActionClassGenerator extends GroupClassGenerator
+{
 
     public ActionClassGenerator(boolean forceCodeBuilding) {
         super(forceCodeBuilding);

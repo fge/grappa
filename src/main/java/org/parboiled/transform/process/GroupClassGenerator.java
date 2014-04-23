@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.parboiled.transform;
+package org.parboiled.transform.process;
 
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
@@ -26,6 +26,11 @@ import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
+import org.parboiled.transform.InstructionGraphNode;
+import org.parboiled.transform.InstructionGroup;
+import org.parboiled.transform.ParserClassNode;
+import org.parboiled.transform.RuleMethod;
+import org.parboiled.transform.Types;
 
 import static org.objectweb.asm.Opcodes.ACC_FINAL;
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
@@ -42,7 +47,7 @@ import static org.parboiled.common.Preconditions.checkArgNotNull;
 import static org.parboiled.transform.AsmUtils.findLoadedClass;
 import static org.parboiled.transform.AsmUtils.loadClass;
 
-abstract class GroupClassGenerator implements RuleMethodProcessor {
+public abstract class GroupClassGenerator implements RuleMethodProcessor {
 
     private static final Object lock = new Object();
 

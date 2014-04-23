@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
-package org.parboiled.transform;
+package org.parboiled.transform.process;
 
-interface RuleMethodProcessor {
+import org.parboiled.transform.ParserClassNode;
+import org.parboiled.transform.RuleMethod;
+
+public interface RuleMethodProcessor {
 
     boolean appliesTo(ParserClassNode classNode, RuleMethod method);
 

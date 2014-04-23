@@ -20,12 +20,16 @@
  * THE SOFTWARE.
  */
 
-package org.parboiled.transform;
+package org.parboiled.transform.process;
 
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.parboiled.support.Checks;
+import org.parboiled.transform.InstructionGraphNode;
+import org.parboiled.transform.InstructionGroup;
+import org.parboiled.transform.ParserClassNode;
+import org.parboiled.transform.RuleMethod;
 
 import java.lang.reflect.Modifier;
 import java.util.Collections;
@@ -47,7 +51,7 @@ import static org.parboiled.transform.AsmUtils.getClassField;
 import static org.parboiled.transform.AsmUtils.getClassForInternalName;
 import static org.parboiled.transform.AsmUtils.getClassMethod;
 
-class InstructionGroupCreator implements RuleMethodProcessor  {
+public class InstructionGroupCreator implements RuleMethodProcessor  {
 
     private final Map<String, Integer> memberModifiers = new HashMap<String, Integer>();
     private RuleMethod method;

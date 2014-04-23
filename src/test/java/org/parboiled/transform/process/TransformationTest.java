@@ -14,12 +14,16 @@
  * limitations under the License.
  */
 
-package org.parboiled.transform;
+package org.parboiled.transform.process;
+
+import org.parboiled.transform.ClassNodeInitializer;
+import org.parboiled.transform.ParserClassNode;
+import org.parboiled.transform.RuleMethod;
 
 import java.io.IOException;
 import java.util.List;
 
-abstract class TransformationTest {
+public abstract class TransformationTest {
 
     protected ParserClassNode classNode;
 

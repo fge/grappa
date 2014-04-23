@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package org.parboiled.transform;
+package org.parboiled.transform.process;
 
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
@@ -31,6 +31,10 @@ import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
+import org.parboiled.transform.InstructionGraphNode;
+import org.parboiled.transform.InstructionGroup;
+import org.parboiled.transform.ParserClassNode;
+import org.parboiled.transform.RuleMethod;
 
 import static org.objectweb.asm.Opcodes.DUP;
 import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
@@ -43,7 +47,7 @@ import static org.parboiled.transform.AsmUtils.getLoadingOpcode;
 /**
  * Inserts action group class instantiation code at the groups respective placeholders.
  */
-class RuleMethodRewriter implements RuleMethodProcessor {
+public class RuleMethodRewriter implements RuleMethodProcessor {
 
     private RuleMethod method;
     private InstructionGroup group;

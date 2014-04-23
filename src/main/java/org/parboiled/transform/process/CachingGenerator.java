@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package org.parboiled.transform;
+package org.parboiled.transform.process;
 
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
@@ -34,6 +34,10 @@ import org.objectweb.asm.tree.LabelNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
+import org.parboiled.transform.CacheArguments;
+import org.parboiled.transform.ParserClassNode;
+import org.parboiled.transform.RuleMethod;
+import org.parboiled.transform.Types;
 
 import static org.objectweb.asm.Opcodes.AASTORE;
 import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
@@ -66,7 +70,8 @@ import static org.parboiled.common.Preconditions.checkState;
 /**
  * Wraps the method code with caching and proxying constructs.
  */
-public class CachingGenerator implements RuleMethodProcessor {
+public class CachingGenerator implements RuleMethodProcessor
+{
 
     private ParserClassNode classNode;
     private RuleMethod method;

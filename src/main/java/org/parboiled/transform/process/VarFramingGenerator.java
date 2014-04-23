@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.parboiled.transform;
+package org.parboiled.transform.process;
 
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.InsnList;
@@ -25,6 +25,8 @@ import org.objectweb.asm.tree.LocalVariableNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
+import org.parboiled.transform.ParserClassNode;
+import org.parboiled.transform.RuleMethod;
 
 import static org.objectweb.asm.Opcodes.AASTORE;
 import static org.objectweb.asm.Opcodes.ALOAD;
@@ -47,7 +49,7 @@ import static org.parboiled.transform.Types.VAR_FRAMING_MATCHER;
  * Inserts code for wrapping the created rule into a VarFramingMatcher if the method contains local variables
  * assignable to {@link org.parboiled.support.Var}.
  */
-class VarFramingGenerator implements RuleMethodProcessor {
+public class VarFramingGenerator implements RuleMethodProcessor {
 
     public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
         checkArgNotNull(classNode, "classNode");

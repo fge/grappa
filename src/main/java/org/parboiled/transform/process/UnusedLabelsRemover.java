@@ -14,16 +14,18 @@
  * limitations under the License.
  */
 
-package org.parboiled.transform;
+package org.parboiled.transform.process;
 
 import org.objectweb.asm.tree.AbstractInsnNode;
+import org.parboiled.transform.ParserClassNode;
+import org.parboiled.transform.RuleMethod;
 
 import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * Removes all unused labels.
  */
-class UnusedLabelsRemover implements RuleMethodProcessor {
+public class UnusedLabelsRemover implements RuleMethodProcessor {
 
     public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
         return true;
