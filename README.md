@@ -4,10 +4,11 @@
 
 ## What this is
 
-This is a package allowing you to write
-[PEG](http://en.wikipedia.org/wiki/Parsing_expression_grammar)s entirely in Java. Unlike, for
-instance, ANTLR and JavaCC, parsers written with this package do **not** require a pre-processing
-phase. Yes, this means you generate your parsers at _runtime_. And there is no DSL. Pure Java!
+This is a package allowing you to write grammars (more precisely, parsing expression grammars, or
+[PEG](http://en.wikipedia.org/wiki/Parsing_expression_grammar) for short) entirely in Java. Unlike,
+for instance, ANTLR and JavaCC, parsers written with this package do **not** require a
+pre-processing phase. Yes, this means you generate your parsers at _runtime_. And there is no DSL.
+Pure Java!
 
 License is Apache 2.0. See [here](https://github.com/parboiled1/project-info) for further
 information.
