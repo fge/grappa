@@ -16,17 +16,38 @@
 
 package org.parboiled;
 
-import org.parboiled.annotations.*;
+import org.parboiled.annotations.Cached;
+import org.parboiled.annotations.DontExtend;
+import org.parboiled.annotations.DontLabel;
+import org.parboiled.annotations.SuppressNode;
+import org.parboiled.annotations.SuppressSubnodes;
 import org.parboiled.common.Utils;
 import org.parboiled.errors.GrammarException;
-import org.parboiled.matchers.*;
+import org.parboiled.matchers.ActionMatcher;
+import org.parboiled.matchers.AnyMatcher;
+import org.parboiled.matchers.AnyOfMatcher;
+import org.parboiled.matchers.CharIgnoreCaseMatcher;
+import org.parboiled.matchers.CharMatcher;
+import org.parboiled.matchers.CharRangeMatcher;
+import org.parboiled.matchers.EmptyMatcher;
+import org.parboiled.matchers.FirstOfMatcher;
+import org.parboiled.matchers.FirstOfStringsMatcher;
+import org.parboiled.matchers.NothingMatcher;
+import org.parboiled.matchers.OneOrMoreMatcher;
+import org.parboiled.matchers.OptionalMatcher;
+import org.parboiled.matchers.SequenceMatcher;
+import org.parboiled.matchers.StringMatcher;
+import org.parboiled.matchers.TestMatcher;
+import org.parboiled.matchers.TestNotMatcher;
+import org.parboiled.matchers.ZeroOrMoreMatcher;
 import org.parboiled.support.Characters;
 import org.parboiled.support.Chars;
 import org.parboiled.support.Checks;
 
 import java.util.Arrays;
 
-import static org.parboiled.common.Preconditions.*;
+import static org.parboiled.common.Preconditions.checkArgNotNull;
+import static org.parboiled.common.Preconditions.checkArgument;
 
 /**
  * Base class of all parboiled parsers. Defines the basic rule creation methods.

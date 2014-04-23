@@ -22,7 +22,6 @@
 
 package org.parboiled.transform;
 
-import static org.parboiled.common.Preconditions.*;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Type;
@@ -39,8 +38,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.objectweb.asm.Opcodes.*;
-import static org.parboiled.transform.AsmUtils.*;
+import static org.objectweb.asm.Opcodes.ARETURN;
+import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
+import static org.objectweb.asm.Opcodes.INVOKESTATIC;
+import static org.parboiled.common.Preconditions.checkArgNotNull;
+import static org.parboiled.common.Preconditions.checkState;
+import static org.parboiled.transform.AsmUtils.getClassForType;
+import static org.parboiled.transform.AsmUtils.isActionRoot;
+import static org.parboiled.transform.AsmUtils.isAssignableTo;
+import static org.parboiled.transform.AsmUtils.isBooleanValueOfZ;
+import static org.parboiled.transform.AsmUtils.isVarRoot;
 
 class RuleMethod extends MethodNode {
 

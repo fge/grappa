@@ -16,11 +16,13 @@
 
 package org.parboiled.transform;
 
-import static org.parboiled.common.Preconditions.*;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
-import static org.objectweb.asm.Opcodes.*;
+
+import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
+import static org.objectweb.asm.Opcodes.IRETURN;
+import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 class ActionClassGenerator extends GroupClassGenerator {
 

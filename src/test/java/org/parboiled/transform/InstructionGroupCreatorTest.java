@@ -16,7 +16,6 @@
 
 package org.parboiled.transform;
 
-import static org.parboiled.common.Preconditions.*;
 import org.parboiled.common.FileUtils;
 import org.parboiled.common.ImmutableList;
 import org.testng.annotations.Test;
@@ -26,6 +25,7 @@ import java.io.FileOutputStream;
 import java.util.List;
 import java.util.zip.CRC32;
 
+import static org.parboiled.common.Preconditions.checkArgNotNull;
 import static org.parboiled.transform.AsmTestUtils.getMethodInstructionList;
 import static org.testng.Assert.assertEquals;
 

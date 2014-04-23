@@ -21,8 +21,10 @@ import org.parboiled.common.ImmutableList;
 
 import java.util.List;
 
-import static org.parboiled.common.Preconditions.*;
-import static org.parboiled.transform.AsmUtils.*;
+import static org.parboiled.common.Preconditions.checkArgNotNull;
+import static org.parboiled.transform.AsmUtils.findLoadedClass;
+import static org.parboiled.transform.AsmUtils.getExtendedParserClassName;
+import static org.parboiled.transform.AsmUtils.loadClass;
 
 public class ParserTransformer {
 

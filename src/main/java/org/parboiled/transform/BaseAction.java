@@ -22,8 +22,9 @@
 
 package org.parboiled.transform;
 
-import static org.parboiled.common.Preconditions.*;
 import org.parboiled.SkippableAction;
+
+import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * Base class of generated classes wrapping action expressions.

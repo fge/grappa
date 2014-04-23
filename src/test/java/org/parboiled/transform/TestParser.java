@@ -18,8 +18,13 @@ package org.parboiled.transform;
 
 import org.parboiled.BaseParser;
 import org.parboiled.Rule;
+import org.parboiled.annotations.BuildParseTree;
+import org.parboiled.annotations.Cached;
+import org.parboiled.annotations.DontLabel;
+import org.parboiled.annotations.ExplicitActionsOnly;
+import org.parboiled.annotations.Label;
+import org.parboiled.annotations.SuppressNode;
 import org.parboiled.support.Var;
-import org.parboiled.annotations.*;
 
 import static java.lang.Integer.parseInt;
 import static org.parboiled.common.StringUtils.isEmpty;

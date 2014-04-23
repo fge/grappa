@@ -21,8 +21,8 @@ import org.testng.annotations.Test;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.parboiled.transform.AsmTestUtils.*;
-import static org.parboiled.common.Preconditions.*;
+import static org.parboiled.common.Preconditions.checkState;
+import static org.parboiled.transform.AsmTestUtils.verifyIntegrity;
 
 @Test(groups = "primary")
 public class ParserExtensionVerificationTest {

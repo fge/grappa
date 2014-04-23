@@ -22,7 +22,6 @@
 
 package org.parboiled.transform;
 
-import static org.parboiled.common.Preconditions.*;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.analysis.AnalyzerException;
@@ -33,6 +32,8 @@ import org.parboiled.support.Checks;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static org.parboiled.common.Preconditions.checkState;
 
 class RuleMethodInterpreter extends BasicInterpreter {
 

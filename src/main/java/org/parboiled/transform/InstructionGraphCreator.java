@@ -22,8 +22,9 @@
 
 package org.parboiled.transform;
 
-import static org.parboiled.common.Preconditions.*;
 import org.objectweb.asm.tree.analysis.Analyzer;
+
+import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * Performs data/control flow analysis and constructs the instructions graph.

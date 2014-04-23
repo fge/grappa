@@ -22,16 +22,26 @@
 
 package org.parboiled.transform;
 
-import static org.parboiled.common.Preconditions.*;
-import org.objectweb.asm.*;
+import org.objectweb.asm.AnnotationVisitor;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.MethodNode;
 import org.parboiled.support.Checks;
 
 import java.io.IOException;
 
+import static org.objectweb.asm.Opcodes.ACC_ABSTRACT;
+import static org.objectweb.asm.Opcodes.ACC_FINAL;
+import static org.objectweb.asm.Opcodes.ACC_NATIVE;
+import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
+import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
+import static org.objectweb.asm.Opcodes.V1_6;
+import static org.parboiled.common.Preconditions.checkArgNotNull;
 import static org.parboiled.transform.AsmUtils.createClassReader;
 import static org.parboiled.transform.AsmUtils.getExtendedParserClassName;
-import static org.objectweb.asm.Opcodes.*;
 
 /**
  * Initializes the basic ParserClassNode fields and collects all methods.

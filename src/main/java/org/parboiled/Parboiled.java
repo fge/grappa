@@ -20,8 +20,8 @@ import org.parboiled.transform.ParserTransformer;
 
 import java.lang.reflect.Constructor;
 
-import static org.parboiled.common.Preconditions.*;
-import static org.parboiled.common.Utils.*;
+import static org.parboiled.common.Preconditions.checkArgNotNull;
+import static org.parboiled.common.Utils.findConstructor;
 
 /**
  * Main class providing the high-level entry point into the parboiled library.

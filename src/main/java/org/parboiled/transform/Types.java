@@ -17,10 +17,23 @@
 package org.parboiled.transform;
 
 import org.objectweb.asm.Type;
-import org.parboiled.*;
-import org.parboiled.annotations.*;
 import org.parboiled.Action;
 import org.parboiled.BaseParser;
+import org.parboiled.Context;
+import org.parboiled.ContextAware;
+import org.parboiled.Rule;
+import org.parboiled.annotations.BuildParseTree;
+import org.parboiled.annotations.Cached;
+import org.parboiled.annotations.DontExtend;
+import org.parboiled.annotations.DontLabel;
+import org.parboiled.annotations.DontSkipActionsInPredicates;
+import org.parboiled.annotations.ExplicitActionsOnly;
+import org.parboiled.annotations.Label;
+import org.parboiled.annotations.MemoMismatches;
+import org.parboiled.annotations.SkipActionsInPredicates;
+import org.parboiled.annotations.SkipNode;
+import org.parboiled.annotations.SuppressNode;
+import org.parboiled.annotations.SuppressSubnodes;
 import org.parboiled.matchers.Matcher;
 import org.parboiled.matchers.ProxyMatcher;
 import org.parboiled.matchers.VarFramingMatcher;

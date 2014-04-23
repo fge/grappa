@@ -16,9 +16,10 @@
 
 package org.parboiled.transform;
 
-import static org.parboiled.common.Preconditions.*;
-
-import org.objectweb.asm.*;
+import org.objectweb.asm.Label;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.VarInsnNode;
@@ -32,6 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.objectweb.asm.Opcodes.ALOAD;
+import static org.parboiled.common.Preconditions.checkArgNotNull;
+import static org.parboiled.common.Preconditions.checkState;
 
 class InstructionGroupPreparer implements RuleMethodProcessor {
 

@@ -22,17 +22,30 @@
 
 package org.parboiled.transform;
 
-import static org.parboiled.common.Preconditions.*;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.parboiled.support.Checks;
 
 import java.lang.reflect.Modifier;
-import java.util.*;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import static org.objectweb.asm.Opcodes.*;
-import static org.parboiled.transform.AsmUtils.*;
+import static org.objectweb.asm.Opcodes.GETFIELD;
+import static org.objectweb.asm.Opcodes.GETSTATIC;
+import static org.objectweb.asm.Opcodes.INVOKEINTERFACE;
+import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
+import static org.objectweb.asm.Opcodes.INVOKESTATIC;
+import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
+import static org.parboiled.common.Preconditions.checkArgNotNull;
+import static org.parboiled.common.Preconditions.checkState;
+import static org.parboiled.transform.AsmUtils.getClassConstructor;
+import static org.parboiled.transform.AsmUtils.getClassField;
+import static org.parboiled.transform.AsmUtils.getClassForInternalName;
+import static org.parboiled.transform.AsmUtils.getClassMethod;
 
 class InstructionGroupCreator implements RuleMethodProcessor  {
 

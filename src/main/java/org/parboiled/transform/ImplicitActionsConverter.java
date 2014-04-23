@@ -16,9 +16,6 @@
 
 package org.parboiled.transform;
 
-import static org.parboiled.common.Preconditions.*;
-import static org.objectweb.asm.Opcodes.*;
-
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
@@ -29,6 +26,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static org.objectweb.asm.Opcodes.AASTORE;
+import static org.objectweb.asm.Opcodes.ANEWARRAY;
+import static org.objectweb.asm.Opcodes.INVOKESTATIC;
+import static org.parboiled.common.Preconditions.checkArgNotNull;
+import static org.parboiled.common.Preconditions.checkState;
 import static org.parboiled.transform.AsmUtils.isBooleanValueOfZ;
 
 /**

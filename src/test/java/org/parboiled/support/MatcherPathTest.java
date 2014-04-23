@@ -22,7 +22,8 @@ import org.parboiled.Rule;
 import org.parboiled.matchers.Matcher;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 public class MatcherPathTest {
 

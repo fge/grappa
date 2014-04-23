@@ -16,9 +16,8 @@
 
 package org.parboiled.transform;
 
-import static org.parboiled.common.Preconditions.*;
-import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
@@ -26,12 +25,17 @@ import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.analysis.Analyzer;
 import org.objectweb.asm.tree.analysis.AnalyzerException;
 import org.objectweb.asm.tree.analysis.SimpleVerifier;
-import org.objectweb.asm.util.*;
+import org.objectweb.asm.util.CheckMethodAdapter;
+import org.objectweb.asm.util.Printer;
+import org.objectweb.asm.util.Textifier;
+import org.objectweb.asm.util.TraceClassVisitor;
+import org.objectweb.asm.util.TraceMethodVisitor;
 import org.parboiled.common.StringUtils;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import static org.parboiled.common.Preconditions.checkArgNotNull;
 import static org.testng.Assert.assertEquals;
 
 public class AsmTestUtils {

@@ -16,8 +16,9 @@
 
 package org.parboiled.transform;
 
-import static org.parboiled.common.Preconditions.*;
 import org.objectweb.asm.tree.AbstractInsnNode;
+
+import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * Removes all unused labels.

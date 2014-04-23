@@ -20,7 +20,6 @@ import org.parboiled.common.ImmutableList;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.io.Console;
 import java.io.IOException;
 import java.util.List;
 
