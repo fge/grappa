@@ -1,0 +1,176 @@
+
+group = "com.github.parboiled1";
+version = "1.0.0-beta.1-SNAPSHOT";
+
+project.ext {
+    description = "Write parsers in pure Java";
+    sourceCompatibility = "1.6";
+    targetCompatibility = "1.6"; // defaults to sourceCompatibility
+};
+
+apply(plugin: "java");
+apply(plugin: "maven");
+apply(plugin: "signing");
+apply(plugin: "osgi");
+apply(plugin: "idea");
+apply(plugin: "eclipse");
+
+repositories {
+    mavenCentral();
+    mavenLocal();
+    jcenter();
+}
+
+dependencies {
+    compile(group: "org.ow2.asm", name: "asm", version: "4.2");
+    compile(group: "org.ow2.asm", name: "asm-tree", version: "4.2");
+    compile(group: "org.ow2.asm", name: "asm-analysis", version: "4.2");
+    compile(group: "org.ow2.asm", name: "asm-util", version: "4.2");
+    testCompile(group: "org.testng", name: "testng", version: "6.8.7") {
+        exclude(group: "junit", module: "junit");
+        exclude(group: "org.beanshell", module: "bsh");
+        exclude(group: "org.yaml", module: "snakeyaml");
+    };
+}
+
+javadoc.options.links("http://docs.oracle.com/javase/6/docs/api/");
+javadoc.options.links("http://jsr-305.googlecode.com/svn/trunk/javadoc/");
+javadoc.options.links("http://asm.ow2.org/asm40/javadoc/user/");
+
+test {
+    useTestNG() {
+        useDefaultListeners = true;
+    };
+}
+
+/*
+ * Necessary to generate the source and javadoc jars
+ */
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = "sources";
+    from sourceSets.main.allSource;
+}
+
+/*
+ * Javadoc: we need to tell where the overview.html is, it will not pick it up
+ * automatically...
+ */
+
+//javadoc {
+//    options.overview = "src/main/java/overview.html";
+//}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = "javadoc";
+    from javadoc.destinationDir;
+}
+
+artifacts {
+    archives jar;
+    archives sourcesJar;
+    archives javadocJar;
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = "1.11";
+    distributionUrl = "http://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip";
+}
+
+task pom << {
+    pom {}.writeTo("${projectDir}/pom.xml");
+}
+
+/*
+ * SIGNING
+ */
+
+project.ext {
+    gitrwscm = sprintf("git@github.com:parboiled1/%s", name);
+    gitroscm = sprintf("https://github.com/parboiled1/%s.git", name);
+    projectURL = sprintf("https://github.com/parboiled1/%s", name);
+    sonatypeStaging = "https://oss.sonatype.org/service/local/staging/deploy/maven2/";
+    sonatypeSnapshots = "https://oss.sonatype.org/content/repositories/snapshots/";
+};
+
+task checkSigningRequirements << {
+    def requiredProperties = [ "sonatypeUsername", "sonatypePassword" ];
+    def noDice = false;
+    requiredProperties.each {
+        if (project.properties[it] == null) {
+            noDice = true;
+            System.err.printf("property \"%s\" is not defined!", it);
+        }
+    }
+    if (noDice)
+        throw new IllegalStateException("missing required properties for " +
+            "upload");
+}
+
+uploadArchives {
+    dependsOn(checkSigningRequirements);
+    repositories {
+        mavenDeployer {
+            beforeDeployment {
+                MavenDeployment deployment -> signing.signPom(deployment);
+            }
+
+            repository(url: "${sonatypeStaging}") {
+                authentication(
+                    userName: project.properties["sonatypeUsername"],
+                    password: project.properties["sonatypePassword"]
+                );
+            }
+
+            snapshotRepository(url: "${sonatypeSnapshots}") {
+                authentication(
+                    userName: project.properties["sonatypeUsername"],
+                    password: project.properties["sonatypePassword"]
+                );
+            }
+        }
+    }
+}
+
+/*
+ * Configure pom.xml on install, uploadArchives
+ */
+[
+    install.repositories.mavenInstaller,
+    uploadArchives.repositories.mavenDeployer
+]*.pom*.whenConfigured { pom ->
+    pom.project {
+        name "${name}";
+        packaging "jar";
+        description "${description}";
+        url "${projectURL}";
+
+        scm {
+            url "${gitrwscm}";
+            connection "${gitrwscm}";
+            developerConnection "${gitroscm}";
+        }
+
+        licenses {
+            license {
+                name "Apache Software License, version 2.0";
+                url "http://www.apache.org/licenses/LICENSE-2.0";
+                distribution "repo";
+            }
+        }
+
+        developers {
+            developer {
+                id "fge";
+                name "Francis Galiegue";
+                email "fgaliegue@gmail.com";
+            }
+        }
+    }
+}
+
+ext.forRelease = !version.endsWith("-SNAPSHOT");
+signing {
+    required { forRelease && gradle.taskGraph.hasTask("uploadArchives") };
+    sign configurations.archives;
+}
+
