@@ -3,7 +3,7 @@
 This is a package allowing you to write
 [PEG](http://en.wikipedia.org/wiki/Parsing_expression_grammar)s entirely in Java. Unlike, for
 instance, ANTLR and JavaCC, parsers written with this package do **not** require a pre-processing
-phase.
+phase. Yes, this means you generate your parsers at _runtime_. And there is no DSL. Pure Java!
 
 License is Apache 2.0. See [here](https://github.com/parboiled1/project-info) for further
 information.
@@ -19,6 +19,11 @@ write grammars entirely in Java... And what is more, it performs really well. Th
 therefore dedicated to continuing its development.
 
 Grappa requires Java 6 or later.
+
+### And, uh, the name?
+
+Well, you write _gra_mmars and can then generate _pa_rsers for them. (I also happen to like the
+[drink of the same name](http://www.istitutograppa.org/))
 
 ## How it differs from parboiled
 
