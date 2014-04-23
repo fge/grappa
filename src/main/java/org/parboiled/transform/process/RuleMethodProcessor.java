@@ -19,10 +19,19 @@ package org.parboiled.transform.process;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
 
-public interface RuleMethodProcessor {
+/**
+ * An individual processor for altering a generated {@link RuleMethod}
+ *
+ * <p>All processors defined make use of ASM to manipulate the byte code of
+ * generated methods. A given processor may, or may not, apply to a given rule.
+ * This depends on what annotations are used on the rule, whether it takes
+ * arguments, etc etc.</p>
+ */
+public interface RuleMethodProcessor
+{
 
     boolean appliesTo(ParserClassNode classNode, RuleMethod method);
 
-    void process(ParserClassNode classNode, RuleMethod method) throws Exception;
-
+    void process(ParserClassNode classNode, RuleMethod method)
+        throws Exception;
 }
