@@ -35,10 +35,6 @@ import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import static org.objectweb.asm.Opcodes.AASTORE;
 import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
 import static org.objectweb.asm.Opcodes.ALOAD;
@@ -66,7 +62,6 @@ import static org.objectweb.asm.Opcodes.PUTFIELD;
 import static org.objectweb.asm.Opcodes.SWAP;
 import static org.parboiled.common.Preconditions.checkArgNotNull;
 import static org.parboiled.common.Preconditions.checkState;
-import static org.parboiled.common.Utils.toObjectArray;
 
 /**
  * Wraps the method code with caching and proxying constructs.
@@ -167,7 +162,7 @@ public class CachingGenerator implements RuleMethodProcessor {
         if (paramTypes.length > 1 || paramTypes[0].getSort() == Type.ARRAY) {
             // generate: push new Arguments(new Object[] {<params>})
 
-            String arguments = Type.getInternalName(Arguments.class);
+            String arguments = Type.getInternalName(CacheArguments.class);
             // stack: <hashMap>
             insert(new TypeInsnNode(NEW, arguments));
             // stack: <hashMap> :: <arguments>
@@ -352,69 +347,5 @@ public class CachingGenerator implements RuleMethodProcessor {
 
     private void insert(AbstractInsnNode instruction) {
         instructions.insertBefore(current, instruction);
-    }
-
-    public static class Arguments {
-        private final Object[] params;
-
-        public Arguments(Object[] params) {
-            // we need to "unroll" all inner Object arrays
-            List<Object> list = new ArrayList<Object>();
-            unroll(params, list);
-            this.params = list.toArray();
-        }
-
-        private void unroll(Object[] params, List<Object> list) {
-            for (Object param : params) {
-                if (param != null && param.getClass().isArray()) {
-                    switch (Type.getType(param.getClass().getComponentType()).getSort()) {
-                        case Type.BOOLEAN:
-                            unroll(toObjectArray((boolean[]) param), list);
-                            continue;
-                        case Type.BYTE:
-                            unroll(toObjectArray((byte[]) param), list);
-                            continue;
-                        case Type.CHAR:
-                            unroll(toObjectArray((char[]) param), list);
-                            continue;
-                        case Type.DOUBLE:
-                            unroll(toObjectArray((double[]) param), list);
-                            continue;
-                        case Type.FLOAT:
-                            unroll(toObjectArray((float[]) param), list);
-                            continue;
-                        case Type.INT:
-                            unroll(toObjectArray((int[]) param), list);
-                            continue;
-                        case Type.LONG:
-                            unroll(toObjectArray((long[]) param), list);
-                            continue;
-                        case Type.SHORT:
-                            unroll(toObjectArray((short[]) param), list);
-                            continue;
-                        case Type.OBJECT:
-                        case Type.ARRAY:
-                            unroll((Object[]) param, list);
-                            continue;
-                        default:
-                            throw new IllegalStateException();
-                    }
-                }
-                list.add(param);
-            }
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof Arguments)) return false;
-            Arguments that = (Arguments) o;
-            return Arrays.equals(params, that.params);
-        }
-
-        @Override
-        public int hashCode() {
-            return params != null ? Arrays.hashCode(params) : 0;
-        }
     }
 }
