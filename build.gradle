@@ -8,12 +8,27 @@ project.ext {
     targetCompatibility = "1.6"; // defaults to sourceCompatibility
 };
 
+buildscript {
+    repositories {
+        maven { url "http://repo.springsource.org/plugins-release" }
+        maven { url "http://repo.springsource.org/plugins-snapshot" }
+    }
+    dependencies {
+        classpath("org.springframework.build.gradle:propdeps-plugin:0.0.6-SNAPSHOT")
+    }
+}
+
 apply(plugin: "java");
 apply(plugin: "maven");
 apply(plugin: "signing");
 apply(plugin: "osgi");
 apply(plugin: "idea");
 apply(plugin: "eclipse");
+apply(plugin: "propdeps");
+apply(plugin: "propdeps-maven");
+apply(plugin: "propdeps-idea");
+apply(plugin: "propdeps-eclipse");
+
 
 repositories {
     mavenCentral();
@@ -22,6 +37,8 @@ repositories {
 }
 
 dependencies {
+    provided(group: "com.google.code.findbugs", name: "jsr305",
+        version: "2.0.1");
     compile(group: "org.ow2.asm", name: "asm", version: "4.2");
     compile(group: "org.ow2.asm", name: "asm-tree", version: "4.2");
     compile(group: "org.ow2.asm", name: "asm-analysis", version: "4.2");
