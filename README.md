@@ -1,3 +1,5 @@
+![logo](misc/grappa-logo.png)
+
 ## What this is
 
 This is a package allowing you to write
