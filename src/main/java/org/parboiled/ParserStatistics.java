@@ -100,38 +100,18 @@ public class ParserStatistics
     private final Map<Class<?>, MatcherStats<?>> specialMatcherStats
         = new LinkedHashMap<Class<?>, MatcherStats<?>>();
 
-    private final Set<AnyMatcher> anyMatchers = new HashSet<AnyMatcher>();
-    private final Set<CharIgnoreCaseMatcher> charIgnoreCaseMatchers = new HashSet<CharIgnoreCaseMatcher>();
-    private final Set<CharMatcher> charMatchers = new HashSet<CharMatcher>();
-    private final Set<CustomMatcher> customMatchers = new HashSet<CustomMatcher>();
-    private final Set<CharRangeMatcher> charRangeMatchers = new HashSet<CharRangeMatcher>();
-    private final Set<AnyOfMatcher> anyOfMatchers = new HashSet<AnyOfMatcher>();
-    private final Set<EmptyMatcher> emptyMatchers = new HashSet<EmptyMatcher>();
-    private final Set<FirstOfMatcher> firstOfMatchers = new HashSet<FirstOfMatcher>();
-    private final Set<FirstOfStringsMatcher> firstOfStringMatchers = new HashSet<FirstOfStringsMatcher>();
-    private final Set<NothingMatcher> nothingMatchers = new HashSet<NothingMatcher>();
-    private final Set<OneOrMoreMatcher> oneOrMoreMatchers = new HashSet<OneOrMoreMatcher>();
-    private final Set<OptionalMatcher> optionalMatchers = new HashSet<OptionalMatcher>();
-    private final Set<SequenceMatcher> sequenceMatchers = new HashSet<SequenceMatcher>();
-    private final Set<StringMatcher> stringMatchers = new HashSet<StringMatcher>();
-    private final Set<TestMatcher> testMatchers = new HashSet<TestMatcher>();
-    private final Set<TestNotMatcher> testNotMatchers = new HashSet<TestNotMatcher>();
-    private final Set<ZeroOrMoreMatcher> zeroOrMoreMatchers = new HashSet<ZeroOrMoreMatcher>();
-
-    private final Set<Action> actions = new HashSet<Action>();
+    private final Set<Action<?>> actions = new HashSet<Action<?>>();
     private final Set<Class<?>> actionClasses = new HashSet<Class<?>>();
-    private final Set<ProxyMatcher> proxyMatchers = new HashSet<ProxyMatcher>();
-    private final Set<VarFramingMatcher> varFramingMatchers = new HashSet<VarFramingMatcher>();
-    private final Set<MemoMismatchesMatcher> memoMismatchesMatchers = new HashSet<MemoMismatchesMatcher>();
 
-    @SuppressWarnings({"unchecked"})
-    public static ParserStatistics generateFor(Rule rule) {
+    public static ParserStatistics generateFor(final Rule rule)
+    {
         checkArgNotNull(rule, "rule");
-        Matcher matcher = (Matcher) rule;
+        final Matcher matcher = (Matcher) rule;
         return matcher.accept(new ParserStatistics(matcher));
     }
 
-    private ParserStatistics(Matcher root) {
+    private ParserStatistics(final Matcher root)
+    {
         this.root = root;
         for (final Class<? extends Matcher> c: REGULAR_MATCHER_CLASSES)
             regularMatcherStats.put(c, MatcherStats.forClass(c, false));
@@ -142,104 +122,104 @@ public class ParserStatistics
 
     // MatcherVisitor interface
 
-    public ParserStatistics visit(ActionMatcher matcher) {
-        if (!actions.contains(matcher.action)) {
+    @Override
+    public ParserStatistics visit(final ActionMatcher matcher)
+    {
+        if (actions.add(matcher.action)) {
             totalRules++;
-            actions.add(matcher.action);
             actionClasses.add(matcher.action.getClass());
         }
         return this;
     }
 
-    public ParserStatistics visit(AnyMatcher matcher) {
+    @Override
+    public ParserStatistics visit(final AnyMatcher matcher)
+    {
         return doVisit(matcher);
-        //return visit(matcher, anyMatchers);
     }
 
-    public ParserStatistics visit(CharIgnoreCaseMatcher matcher) {
+    @Override
+    public ParserStatistics visit(final CharIgnoreCaseMatcher matcher)
+    {
         return doVisit(matcher);
-        //return visit(matcher, charIgnoreCaseMatchers);
     }
 
-    public ParserStatistics visit(CharMatcher matcher) {
+    @Override
+    public ParserStatistics visit(final CharMatcher matcher)
+    {
         return doVisit(matcher);
-        //return visit(matcher, charMatchers);
     }
 
-    public ParserStatistics visit(CustomMatcher matcher) {
+    @Override
+    public ParserStatistics visit(final CustomMatcher matcher)
+    {
         return doVisit(matcher);
-        //return visit(matcher, customMatchers);
     }
 
-    public ParserStatistics visit(CharRangeMatcher matcher) {
+    @Override
+    public ParserStatistics visit(final CharRangeMatcher matcher)
+    {
         return doVisit(matcher);
-        //return visit(matcher, charRangeMatchers);
     }
 
-    public ParserStatistics visit(AnyOfMatcher matcher) {
+    @Override
+    public ParserStatistics visit(final AnyOfMatcher matcher)
+    {
         return doVisit(matcher);
-        //return visit(matcher, anyOfMatchers);
     }
 
-    public ParserStatistics visit(EmptyMatcher matcher) {
+    @Override
+    public ParserStatistics visit(final EmptyMatcher matcher)
+    {
         return doVisit(matcher);
-        //return visit(matcher, emptyMatchers);
     }
 
-    public ParserStatistics visit(FirstOfMatcher matcher) {
+    @Override
+    public ParserStatistics visit(final FirstOfMatcher matcher)
+    {
         return doVisit(matcher);
-//        return matcher instanceof FirstOfStringsMatcher ?
-//                visit((FirstOfStringsMatcher)matcher, firstOfStringMatchers) :
-//                visit(matcher, firstOfMatchers);
     }
 
-    public ParserStatistics visit(NothingMatcher matcher) {
+    @Override
+    public ParserStatistics visit(final NothingMatcher matcher)
+    {
         return doVisit(matcher);
-        //return visit(matcher, nothingMatchers);
     }
 
-    public ParserStatistics visit(OneOrMoreMatcher matcher) {
+    @Override
+    public ParserStatistics visit(final OneOrMoreMatcher matcher)
+    {
         return doVisit(matcher);
-        //return visit(matcher, oneOrMoreMatchers);
     }
 
-    public ParserStatistics visit(OptionalMatcher matcher) {
+    @Override
+    public ParserStatistics visit(final OptionalMatcher matcher)
+    {
         return doVisit(matcher);
-        //return visit(matcher, optionalMatchers);
     }
 
-    public ParserStatistics visit(SequenceMatcher matcher) {
+    @Override
+    public ParserStatistics visit(final SequenceMatcher matcher)
+    {
         return doVisit(matcher);
-//        return matcher instanceof StringMatcher ?
-//                visit((StringMatcher)matcher, stringMatchers) :
-//                visit(matcher, sequenceMatchers);
     }
 
-    public ParserStatistics visit(TestMatcher matcher) {
+    @Override
+    public ParserStatistics visit(final TestMatcher matcher)
+    {
         return doVisit(matcher);
-        //return visit(matcher, testMatchers);
     }
 
-    public ParserStatistics visit(TestNotMatcher matcher) {
+    @Override
+    public ParserStatistics visit(final TestNotMatcher matcher)
+    {
         return doVisit(matcher);
-        //return visit(matcher, testNotMatchers);
     }
 
-    public ParserStatistics visit(ZeroOrMoreMatcher matcher) {
+    @Override
+    public ParserStatistics visit(final ZeroOrMoreMatcher matcher)
+    {
         return doVisit(matcher);
-        //return visit(matcher, zeroOrMoreMatchers);
-    }
-
-    private <M extends Matcher> ParserStatistics visit(M matcher, Set<M> set) {
-        if (!set.contains(matcher)) {
-            totalRules++;
-            set.add(matcher);
-            for (Matcher child : matcher.getChildren()) {
-                countSpecials(child);
-                child.accept(this);
-            }
-        }
-        return this;
     }
 
     private <M extends Matcher> ParserStatistics doVisit(final M matcher)
@@ -251,7 +231,7 @@ public class ParserStatistics
         checkArgNotNull(stats, c.getCanonicalName() + " not recorded??");
         if (stats.recordInstance(matcher)) {
             totalRules++;
-            for (final Matcher child : matcher.getChildren()) {
+            for (final Matcher child: matcher.getChildren()) {
                 countSpecials(child);
                 child.accept(this);
             }
@@ -259,52 +239,15 @@ public class ParserStatistics
         return this;
     }
 
-    private void countSpecials(Matcher matcher) {
-//        if (matcher instanceof ProxyMatcher) {
-//            proxyMatchers.add((ProxyMatcher) matcher);
-//        } else if (matcher instanceof VarFramingMatcher) {
-//            varFramingMatchers.add((VarFramingMatcher) matcher);
-//        } else if (matcher instanceof MemoMismatchesMatcher) {
-//            memoMismatchesMatchers.add((MemoMismatchesMatcher) matcher);
-//        }
+    private void countSpecials(final Matcher matcher)
+    {
         final Class<? extends Matcher> matcherClass = matcher.getClass();
         if (SPECIAL_MATCHER_CLASSES.contains(matcherClass))
             specialMatcherStats.get(matcherClass).recordInstance(matcher);
     }
 
     @Override
-    public String toString() {
-        return toString2();
-//        return new StringBuilder("Parser statistics for rule '").append(root).append("':\n")
-//                .append("    Total rules       : ").append(totalRules / 2).append(
-//                '\n')
-//                .append("        Actions       : ").append(actions.size()).append('\n')
-//                .append("        Any           : ").append(anyMatchers.size()).append('\n')
-//                .append("        CharIgnoreCase: ").append(charIgnoreCaseMatchers.size()).append('\n')
-//                .append("        Char          : ").append(charMatchers.size()).append('\n')
-//                .append("        Custom        : ").append(customMatchers.size()).append('\n')
-//                .append("        CharRange     : ").append(charRangeMatchers.size()).append('\n')
-//                .append("        AnyOf         : ").append(anyOfMatchers.size()).append('\n')
-//                .append("        Empty         : ").append(emptyMatchers.size()).append('\n')
-//                .append("        FirstOf       : ").append(firstOfMatchers.size()).append('\n')
-//                .append("        FirstOfStrings: ").append(firstOfStringMatchers.size()).append('\n')
-//                .append("        Nothing       : ").append(nothingMatchers.size()).append('\n')
-//                .append("        OneOrMore     : ").append(oneOrMoreMatchers.size()).append('\n')
-//                .append("        Optional      : ").append(optionalMatchers.size()).append('\n')
-//                .append("        Sequence      : ").append(sequenceMatchers.size()).append('\n')
-//                .append("        String        : ").append(stringMatchers.size()).append('\n')
-//                .append("        Test          : ").append(testMatchers.size()).append('\n')
-//                .append("        TestNot       : ").append(testNotMatchers.size()).append('\n')
-//                .append("        ZeroOrMore    : ").append(zeroOrMoreMatchers.size()).append('\n')
-//                .append('\n')
-//                .append("    Action Classes    : ").append(actionClasses.size()).append('\n')
-//                .append("    ProxyMatchers     : ").append(proxyMatchers.size()).append('\n')
-//                .append("    VarFramingMatchers: ").append(varFramingMatchers.size()).append('\n')
-//                .append("MemoMismatchesMatchers: ").append(memoMismatchesMatchers.size()).append('\n')
-//                .toString();
-    }
-
-    private String toString2()
+    public String toString()
     {
         final StringBuilder sb = new StringBuilder();
 
@@ -320,39 +263,42 @@ public class ParserStatistics
         return sb.append('\n').toString();
     }
 
-    public String printActionClassInstances() {
-        StringBuilder sb = new StringBuilder("Action classes and their instances for rule '")
-                .append(root).append("':\n");
+    public String printActionClassInstances()
+    {
+        final StringBuilder sb = new StringBuilder(
+            "Action classes and their instances for rule '").append(root)
+            .append("':\n");
 
-        for (String line : printActionClassLines()) {
+        for (final String line: printActionClassLines())
             sb.append("    ").append(line).append('\n');
-        }
         return sb.toString();
     }
 
-    private List<String> printActionClassLines() {
-        List<String> lines = new ArrayList<String>();
+    private List<String> printActionClassLines()
+    {
+        final List<String> lines = new ArrayList<String>();
         int anonymous = 0;
-        for (Class<?> actionClass : actionClasses) {
-            String name = actionClass.getSimpleName();
+        for (final Class<?> c : actionClasses) {
+            final String name = c.getSimpleName();
             if (StringUtils.isEmpty(name)) {
                 anonymous++;
             } else {
-                lines.add(name + " : " + StringUtils.join(printActionClassInstances(actionClass), ", "));
+                lines.add(name + " : "
+                    + StringUtils.join(printActionClassInstances(c), ", "));
             }
         }
         Collections.sort(lines);
-        if (anonymous > 0) lines.add("and " + anonymous + " anonymous instance(s)");
+        if (anonymous > 0)
+            lines.add("and " + anonymous + " anonymous instance(s)");
         return lines;
     }
 
-    private List<String> printActionClassInstances(Class<?> actionClass) {
-        List<String> actionNames = new ArrayList<String>();
-        for (Action action : actions) {
-            if (action.getClass().equals(actionClass)) {
+    private List<String> printActionClassInstances(final Class<?> actionClass)
+    {
+        final List<String> actionNames = new ArrayList<String>();
+        for (final Action<?> action: actions)
+            if (action.getClass().equals(actionClass))
                 actionNames.add(action.toString());
-            }
-        }
         Collections.sort(actionNames);
         return actionNames;
     }
@@ -367,7 +313,6 @@ public class ParserStatistics
         {
             return new MatcherStats<M>(matcherClass, special);
         }
-
 
         private MatcherStats(final Class<T> matcherClass, final boolean special)
         {
