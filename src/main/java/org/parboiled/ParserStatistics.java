@@ -41,18 +41,65 @@ import org.parboiled.matchers.VarFramingMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
 import org.parboiled.matchervisitors.MatcherVisitor;
 
+import java.nio.CharBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static org.parboiled.common.Preconditions.checkArgNotNull;
 
-public class ParserStatistics implements MatcherVisitor<ParserStatistics> {
+public class ParserStatistics
+    implements MatcherVisitor<ParserStatistics>
+{
+    /*
+     * Modify these maps if you add matcher classes!
+     */
+    private static final Set<Class<? extends Matcher>> REGULAR_MATCHER_CLASSES;
+    private static final Set<Class<? extends Matcher>> SPECIAL_MATCHER_CLASSES;
+
+    static {
+        REGULAR_MATCHER_CLASSES = new LinkedHashSet<Class<? extends Matcher>>();
+
+        REGULAR_MATCHER_CLASSES.add(AnyMatcher.class);
+        REGULAR_MATCHER_CLASSES.add(CharIgnoreCaseMatcher.class);
+        REGULAR_MATCHER_CLASSES.add(CharMatcher.class);
+        REGULAR_MATCHER_CLASSES.add(CustomMatcher.class);
+        REGULAR_MATCHER_CLASSES.add(CharRangeMatcher.class);
+        REGULAR_MATCHER_CLASSES.add(AnyOfMatcher.class);
+        REGULAR_MATCHER_CLASSES.add(EmptyMatcher.class);
+        REGULAR_MATCHER_CLASSES.add(FirstOfMatcher.class);
+        REGULAR_MATCHER_CLASSES.add(FirstOfStringsMatcher.class);
+        REGULAR_MATCHER_CLASSES.add(NothingMatcher.class);
+        REGULAR_MATCHER_CLASSES.add(OneOrMoreMatcher.class);
+        REGULAR_MATCHER_CLASSES.add(OptionalMatcher.class);
+        REGULAR_MATCHER_CLASSES.add(SequenceMatcher.class);
+        REGULAR_MATCHER_CLASSES.add(StringMatcher.class);
+        REGULAR_MATCHER_CLASSES.add(TestMatcher.class);
+        REGULAR_MATCHER_CLASSES.add(TestNotMatcher.class);
+        REGULAR_MATCHER_CLASSES.add(ZeroOrMoreMatcher.class);
+
+        SPECIAL_MATCHER_CLASSES = new LinkedHashSet<Class<? extends Matcher>>();
+
+        SPECIAL_MATCHER_CLASSES.add(ProxyMatcher.class);
+        SPECIAL_MATCHER_CLASSES.add(VarFramingMatcher.class);
+        SPECIAL_MATCHER_CLASSES.add(MemoMismatchesMatcher.class);
+    }
 
     private final Matcher root;
     private int totalRules;
+
+    private final Map<Class<?>, MatcherStats<?>> regularMatcherStats
+        = new LinkedHashMap<Class<?>, MatcherStats<?>>();
+
+    private final Map<Class<?>, MatcherStats<?>> specialMatcherStats
+        = new LinkedHashMap<Class<?>, MatcherStats<?>>();
+
     private final Set<AnyMatcher> anyMatchers = new HashSet<AnyMatcher>();
     private final Set<CharIgnoreCaseMatcher> charIgnoreCaseMatchers = new HashSet<CharIgnoreCaseMatcher>();
     private final Set<CharMatcher> charMatchers = new HashSet<CharMatcher>();
@@ -253,4 +300,57 @@ public class ParserStatistics implements MatcherVisitor<ParserStatistics> {
         return actionNames;
     }
 
+    public static final class MatcherStats<T extends Matcher>
+    {
+        private final String name;
+        private final Set<T> instances = new HashSet<T>();
+        private final boolean special;
+
+        private static <M extends Matcher> MatcherStats<M> forClass(
+            final Class<M> matcherClass, final boolean special)
+        {
+            return new MatcherStats<M>(matcherClass, special);
+        }
+
+
+        private MatcherStats(final Class<T> matcherClass, final boolean special)
+        {
+            this.special = special;
+            name = generateName(matcherClass.getSimpleName(), special);
+        }
+
+        private boolean recordInstance(final T matcher)
+        {
+            return instances.add(matcher);
+        }
+
+        public int getInstanceCount()
+        {
+            return instances.size();
+        }
+
+        private static String generateName(final String name,
+            final boolean special)
+        {
+            // FIXME: 22 is hardcoded!!
+            // It is the length of "MemoMismatchesMatchers"
+            final char[] array = new char[22];
+            Arrays.fill(array, ' ');
+            final CharBuffer buf = CharBuffer.wrap(array);
+            final String realName = special ? name + 's'
+                : name.replaceFirst("Matcher$", "");
+            int position = special ? 4 : 8;
+            while (realName.length() + position > 22)
+                position -= 4;
+            buf.position(position);
+            buf.put(realName).rewind();
+            return buf.toString();
+        }
+
+        @Override
+        public String toString()
+        {
+            return name + ": " + instances.size();
+        }
+    }
 }
