@@ -120,6 +120,31 @@ public class ParserStatistics
         countSpecials(root);
     }
 
+    public int getTotalRules()
+    {
+        return totalRules;
+    }
+
+    public Map<Class<?>, MatcherStats<?>> getRegularMatcherStats()
+    {
+        return Collections.unmodifiableMap(regularMatcherStats);
+    }
+
+    public Map<Class<?>, MatcherStats<?>> getSpecialMatcherStats()
+    {
+        return Collections.unmodifiableMap(specialMatcherStats);
+    }
+
+    public Set<Action<?>> getActions()
+    {
+        return Collections.unmodifiableSet(actions);
+    }
+
+    public Set<Class<?>> getActionClasses()
+    {
+        return Collections.unmodifiableSet(actionClasses);
+    }
+
     // MatcherVisitor interface
 
     @Override
