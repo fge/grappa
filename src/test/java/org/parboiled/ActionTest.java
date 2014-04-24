@@ -18,7 +18,10 @@ package org.parboiled;
 
 import org.parboiled.annotations.BuildParseTree;
 import org.parboiled.annotations.Label;
+import org.parboiled.matchers.CharMatcher;
+import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.test.TestNgParboiledTest;
+import org.parboiled.util.StatsAssert;
 import org.testng.annotations.Test;
 
 public class ActionTest extends TestNgParboiledTest<Integer> {
@@ -105,33 +108,14 @@ public class ActionTest extends TestNgParboiledTest<Integer> {
                         "      [Last, {2}] 'd'\n" +
                         "        ['d', {74}] 'd'\n");
 
+        StatsAssert.assertStatsForRule(parser.A())
+            .hasRecordedTotalOf(17).hasRecordedActionsCountOf(9)
+            .hasRecorded(CharMatcher.class).withCount(4)
+            .hasRecorded(SequenceMatcher.class).withCount(4)
+            .hasCountedActionClasses(8)
+            .hasRecordedNoOtherMatchers();
+
         ParserStatistics stats = ParserStatistics.generateFor(parser.A());
-        assertEquals(stats.toString(), "" +
-                "Parser statistics for rule 'A':\n" +
-                "    Total rules       : 17\n" +
-                "        Actions       : 9\n" +
-                "        Any           : 0\n" +
-                "        CharIgnoreCase: 0\n" +
-                "        Char          : 4\n" +
-                "        Custom        : 0\n" +
-                "        CharRange     : 0\n" +
-                "        AnyOf         : 0\n" +
-                "        Empty         : 0\n" +
-                "        FirstOf       : 0\n" +
-                "        FirstOfStrings: 0\n" +
-                "        Nothing       : 0\n" +
-                "        OneOrMore     : 0\n" +
-                "        Optional      : 0\n" +
-                "        Sequence      : 4\n" +
-                "        String        : 0\n" +
-                "        Test          : 0\n" +
-                "        TestNot       : 0\n" +
-                "        ZeroOrMore    : 0\n" +
-                "\n" +
-                "    Action Classes    : 8\n" +
-                "    ProxyMatchers     : 0\n" +
-                "    VarFramingMatchers: 0\n" +
-                "MemoMismatchesMatchers: 0\n");
 
         assertEquals(stats.printActionClassInstances(), "" +
                 "Action classes and their instances for rule 'A':\n" +

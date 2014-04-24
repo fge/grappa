@@ -19,6 +19,7 @@ package org.parboiled;
 import org.parboiled.annotations.MemoMismatches;
 import org.parboiled.matchers.CharMatcher;
 import org.parboiled.matchers.FirstOfMatcher;
+import org.parboiled.matchers.MemoMismatchesMatcher;
 import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.matchers.TestNotMatcher;
 import org.parboiled.parserunners.ProfilingParseRunner;
@@ -93,33 +94,14 @@ public class MemoMismatchesTest {
     public void test2() {
         MemoParser parser = Parboiled.createParser(MemoParser.class);
 
-        ParserStatistics stats = ParserStatistics.generateFor(parser.Clause());
-        assertEquals(stats.toString(), "" +
-                "Parser statistics for rule 'Clause':\n" +
-                "    Total rules       : 13\n" +
-                "        Actions       : 0\n" +
-                "        Any           : 0\n" +
-                "        CharIgnoreCase: 0\n" +
-                "        Char          : 6\n" +
-                "        Custom        : 0\n" +
-                "        CharRange     : 0\n" +
-                "        AnyOf         : 0\n" +
-                "        Empty         : 0\n" +
-                "        FirstOf       : 2\n" +
-                "        FirstOfStrings: 0\n" +
-                "        Nothing       : 0\n" +
-                "        OneOrMore     : 0\n" +
-                "        Optional      : 0\n" +
-                "        Sequence      : 4\n" +
-                "        String        : 0\n" +
-                "        Test          : 0\n" +
-                "        TestNot       : 1\n" +
-                "        ZeroOrMore    : 0\n" +
-                "\n" +
-                "    Action Classes    : 0\n" +
-                "    ProxyMatchers     : 0\n" +
-                "    VarFramingMatchers: 0\n" +
-                "MemoMismatchesMatchers: 1\n");
+        StatsAssert.assertStatsForRule(parser.Clause()).hasRecordedTotalOf(13)
+            .hasRecorded(CharMatcher.class).withCount(6)
+            .hasRecorded(FirstOfMatcher.class).withCount(2)
+            .hasRecorded(SequenceMatcher.class).withCount(4)
+            .hasRecorded(TestNotMatcher.class).withCount(1)
+            .hasNotRecordedAnyActions().hasNotCountedAnyActionClasses()
+            .hasRecorded(MemoMismatchesMatcher.class).withCount(1)
+            .hasRecordedNoOtherMatchers();
 
         ProfilingParseRunner runner = new ProfilingParseRunner(parser.Clause());
         assertFalse(runner.run("2").hasErrors());
@@ -136,5 +118,4 @@ public class MemoMismatchesTest {
                 "Rule re-mismatches       :               2\n" +
                 "Rule re-invocation share :           23.53 %\n");
     }
-
 }

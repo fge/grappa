@@ -18,8 +18,16 @@ package org.parboiled;
 
 import org.parboiled.annotations.BuildParseTree;
 import org.parboiled.annotations.SuppressNode;
+import org.parboiled.matchers.CharMatcher;
+import org.parboiled.matchers.CharRangeMatcher;
+import org.parboiled.matchers.OneOrMoreMatcher;
+import org.parboiled.matchers.OptionalMatcher;
+import org.parboiled.matchers.ProxyMatcher;
+import org.parboiled.matchers.SequenceMatcher;
+import org.parboiled.matchers.VarFramingMatcher;
 import org.parboiled.support.Var;
 import org.parboiled.test.TestNgParboiledTest;
+import org.parboiled.util.StatsAssert;
 import org.testng.annotations.Test;
 
 public class VarFramingTest extends TestNgParboiledTest<Integer> {
@@ -61,33 +69,17 @@ public class VarFramingTest extends TestNgParboiledTest<Integer> {
         Parser parser = Parboiled.createParser(Parser.class);
         Rule rule = parser.Clause();
 
-        ParserStatistics stats = ParserStatistics.generateFor(rule);
-        assertEquals(stats.toString(), "" +
-                "Parser statistics for rule 'Clause':\n" +
-                "    Total rules       : 11\n" +
-                "        Actions       : 4\n" +
-                "        Any           : 0\n" +
-                "        CharIgnoreCase: 0\n" +
-                "        Char          : 1\n" +
-                "        Custom        : 0\n" +
-                "        CharRange     : 1\n" +
-                "        AnyOf         : 0\n" +
-                "        Empty         : 0\n" +
-                "        FirstOf       : 0\n" +
-                "        FirstOfStrings: 0\n" +
-                "        Nothing       : 0\n" +
-                "        OneOrMore     : 1\n" +
-                "        Optional      : 1\n" +
-                "        Sequence      : 3\n" +
-                "        String        : 0\n" +
-                "        Test          : 0\n" +
-                "        TestNot       : 0\n" +
-                "        ZeroOrMore    : 0\n" +
-                "\n" +
-                "    Action Classes    : 4\n" +
-                "    ProxyMatchers     : 1\n" +
-                "    VarFramingMatchers: 1\n" +
-                "MemoMismatchesMatchers: 0\n");
+        StatsAssert.assertStatsForRule(rule)
+            .hasRecordedTotalOf(11)
+            .hasRecorded(CharMatcher.class).withCount(1)
+            .hasRecorded(CharRangeMatcher.class).withCount(1)
+            .hasRecorded(OneOrMoreMatcher.class).withCount(1)
+            .hasRecorded(OptionalMatcher.class).withCount(1)
+            .hasRecorded(SequenceMatcher.class).withCount(3)
+            .hasCountedActionClasses(4)
+            .hasRecorded(ProxyMatcher.class).withCount(1)
+            .hasRecorded(VarFramingMatcher.class).withCount(1)
+            .hasRecordedNoOtherMatchers();
 
         test(rule, "1+2+3")
                 .hasNoErrors()

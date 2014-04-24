@@ -17,8 +17,12 @@
 package org.parboiled;
 
 import org.parboiled.annotations.Label;
+import org.parboiled.matchers.CharMatcher;
+import org.parboiled.matchers.CharRangeMatcher;
 import org.parboiled.matchers.FirstOfMatcher;
 import org.parboiled.matchers.Matcher;
+import org.parboiled.matchers.SequenceMatcher;
+import org.parboiled.util.StatsAssert;
 import org.testng.annotations.Test;
 
 import static org.parboiled.trees.GraphUtils.countAllDistinct;
@@ -67,59 +71,23 @@ public class CachingTest {
         assertEquals(countAllDistinct(matcher1), 5);
         assertEquals(countAllDistinct(matcher2), 6);
 
-        assertEquals(ParserStatistics.generateFor(parser.Rule1()).toString(), "" +
-                "Parser statistics for rule 'Rule1':\n" +
-                "    Total rules       : 5\n" +
-                "        Actions       : 0\n" +
-                "        Any           : 0\n" +
-                "        CharIgnoreCase: 0\n" +
-                "        Char          : 2\n" +
-                "        Custom        : 0\n" +
-                "        CharRange     : 1\n" +
-                "        AnyOf         : 0\n" +
-                "        Empty         : 0\n" +
-                "        FirstOf       : 1\n" +
-                "        FirstOfStrings: 0\n" +
-                "        Nothing       : 0\n" +
-                "        OneOrMore     : 0\n" +
-                "        Optional      : 0\n" +
-                "        Sequence      : 1\n" +
-                "        String        : 0\n" +
-                "        Test          : 0\n" +
-                "        TestNot       : 0\n" +
-                "        ZeroOrMore    : 0\n" +
-                "\n" +
-                "    Action Classes    : 0\n" +
-                "    ProxyMatchers     : 0\n" +
-                "    VarFramingMatchers: 0\n" +
-                "MemoMismatchesMatchers: 0\n");
+        StatsAssert.assertStatsForRule(parser.Rule1())
+            .hasRecordedTotalOf(5)
+            .hasRecorded(CharMatcher.class).withCount(2)
+            .hasRecorded(CharRangeMatcher.class).withCount(1)
+            .hasRecorded(FirstOfMatcher.class).withCount(1)
+            .hasRecorded(SequenceMatcher.class).withCount(1)
+            .hasNotRecordedAnyActions().hasNotCountedAnyActionClasses()
+            .hasRecordedNoOtherMatchers();
 
-        assertEquals(ParserStatistics.generateFor(parser.Rule2()).toString(), "" +
-                "Parser statistics for rule 'Rule2':\n" +
-                "    Total rules       : 6\n" +
-                "        Actions       : 0\n" +
-                "        Any           : 0\n" +
-                "        CharIgnoreCase: 0\n" +
-                "        Char          : 2\n" +
-                "        Custom        : 0\n" +
-                "        CharRange     : 1\n" +
-                "        AnyOf         : 0\n" +
-                "        Empty         : 0\n" +
-                "        FirstOf       : 2\n" +
-                "        FirstOfStrings: 0\n" +
-                "        Nothing       : 0\n" +
-                "        OneOrMore     : 0\n" +
-                "        Optional      : 0\n" +
-                "        Sequence      : 1\n" +
-                "        String        : 0\n" +
-                "        Test          : 0\n" +
-                "        TestNot       : 0\n" +
-                "        ZeroOrMore    : 0\n" +
-                "\n" +
-                "    Action Classes    : 0\n" +
-                "    ProxyMatchers     : 0\n" +
-                "    VarFramingMatchers: 0\n" +
-                "MemoMismatchesMatchers: 0\n");
+        StatsAssert.assertStatsForRule(parser.Rule2())
+            .hasRecordedTotalOf(6)
+            .hasRecorded(CharMatcher.class).withCount(2)
+            .hasRecorded(CharRangeMatcher.class).withCount(1)
+            .hasRecorded(FirstOfMatcher.class).withCount(2)
+            .hasRecorded(SequenceMatcher.class).withCount(1)
+            .hasNotCountedAnyActionClasses().hasNotRecordedAnyActions()
+            .hasRecordedNoOtherMatchers();
     }
 
 }

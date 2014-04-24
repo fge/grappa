@@ -122,4 +122,34 @@ public final class StatsAssert
 
         return this;
     }
+
+    public StatsAssert hasRecordedActionsCountOf(final int expected)
+    {
+        final int size = actions.size();
+        assertThat(size).overridingErrorMessage(
+            "recored number of actions is incorrect! Expected %d but got %d",
+            expected, size
+        ).isEqualTo(expected);
+        return this;
+    }
+
+    public StatsAssert hasNotRecordedAnyActions()
+    {
+        return hasRecordedActionsCountOf(0);
+    }
+
+    public StatsAssert hasCountedActionClasses(final int expected)
+    {
+        final int size = actionClasses.size();
+        assertThat(size).overridingErrorMessage(
+            "recorded count of action classes is incorrect! Is %d, expected %d",
+            size, expected
+        ).isEqualTo(expected);
+        return this;
+    }
+
+    public StatsAssert hasNotCountedAnyActionClasses()
+    {
+        return hasCountedActionClasses(0);
+    }
 }
