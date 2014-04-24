@@ -1,5 +1,6 @@
 package org.parboiled.matchers;
 
+import org.parboiled.BaseParser;
 import org.parboiled.MatcherContext;
 import org.parboiled.matchervisitors.MatcherVisitor;
 
@@ -14,6 +15,10 @@ import static org.parboiled.common.Preconditions.checkArgNotNull;
  * Multilingual Plane</a>, that is Unicode characters ranging from U+10000 to
  * U+10FFFF.</p>
  *
+ * <p>A {@code char} in Java being a UTF-16 code unit, Java needs two {@code
+ * char}s to represent such a code point; therefore a simple {@link
+ * CharMatcher} cannot do the job.</p>
+ *
  * @see Character#toChars(int)
  */
 public class SupplementaryCharMatcher
@@ -21,9 +26,18 @@ public class SupplementaryCharMatcher
 {
     private final char[] chars;
 
+    /**
+     * Constructor
+     *
+     * <p>Note that at this point, the validity of the code point is already
+     * checked!</p>
+     *
+     * @param codePoint the code point
+     * @see BaseParser#UnicodeChar(int)
+     */
     public SupplementaryCharMatcher(final int codePoint)
     {
-        super(getLabel(codePoint));
+        super(String.format("U+%X", codePoint));
         chars = Character.toChars(codePoint);
     }
 
@@ -67,14 +81,6 @@ public class SupplementaryCharMatcher
     {
         checkArgNotNull(visitor, "visitor");
         return visitor.visit(this);
-    }
-
-    private static String getLabel(final int codePoint)
-    {
-        if (!Character.isValidCodePoint(codePoint))
-            throw new IllegalArgumentException("invalid code point "
-                + codePoint);
-        return String.format("U+%X", codePoint);
     }
 
     @Override

@@ -39,6 +39,7 @@ import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.matchers.StringMatcher;
 import org.parboiled.matchers.TestMatcher;
 import org.parboiled.matchers.TestNotMatcher;
+import org.parboiled.matchers.SupplementaryCharMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
 import org.parboiled.support.Characters;
 import org.parboiled.support.Chars;
@@ -148,6 +149,31 @@ public abstract class BaseParser<V> extends BaseActions<V> {
     public Rule CharRange(char cLow, char cHigh) {
         return cLow == cHigh ? Ch(cLow) : new CharRangeMatcher(cLow, cHigh);
     }
+
+    /**
+     * Creates a rule matching a Unicode code point
+     *
+     * <p>If the code point provided as an argument is not a supplementary
+     * character, this will delegate to {@link #Ch(char)}, otherwise it will
+     * create a {@link SupplementaryCharMatcher}.</p>
+     *
+     * <p>Rules produced by this method are {@link Cached}.</p>
+     *
+     * @param codePoint the code point
+     * @return a new rule
+     *
+     * @throws IllegalArgumentException argument is not a valid code point
+     */
+    @Cached
+    @DontLabel
+    public Rule UnicodeChar(final int codePoint)
+    {
+        checkArgument(Character.isValidCodePoint(codePoint),
+            "invalid code point " + codePoint);
+        return codePoint <= 0xffff ? Ch((char) codePoint)
+            : new SupplementaryCharMatcher(codePoint);
+    }
+
 
     /**
      * Creates a new rule that matches any of the characters in the given string.
