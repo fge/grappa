@@ -39,7 +39,7 @@ import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.matchers.StringMatcher;
 import org.parboiled.matchers.TestMatcher;
 import org.parboiled.matchers.TestNotMatcher;
-import org.parboiled.matchers.UnicodeCharMatcher;
+import org.parboiled.matchers.unicode.UnicodeCharMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
 import org.parboiled.support.Characters;
 import org.parboiled.support.Chars;

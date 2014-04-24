@@ -1,8 +1,9 @@
-package org.parboiled.matchers;
+package org.parboiled.matchers.unicode;
 
 import org.parboiled.BaseParser;
 import org.parboiled.Parboiled;
 import org.parboiled.Rule;
+import org.parboiled.matchers.unicode.UnicodeCharMatcher;
 import org.parboiled.util.StatsAssert;
 import org.testng.annotations.Test;
 

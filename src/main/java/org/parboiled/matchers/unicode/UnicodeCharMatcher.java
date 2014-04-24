@@ -1,6 +1,7 @@
-package org.parboiled.matchers;
+package org.parboiled.matchers.unicode;
 
 import org.parboiled.common.Preconditions;
+import org.parboiled.matchers.AbstractMatcher;
 import org.parboiled.matchervisitors.MatcherVisitor;
 
 public abstract class UnicodeCharMatcher

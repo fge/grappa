@@ -1,6 +1,7 @@
-package org.parboiled.matchers;
+package org.parboiled.matchers.unicode;
 
 import org.parboiled.MatcherContext;
+import org.parboiled.matchers.CharMatcher;
 
 public class BMPUnicodeCharMatcher
     extends UnicodeCharMatcher
