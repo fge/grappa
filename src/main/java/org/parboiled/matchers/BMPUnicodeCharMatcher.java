@@ -30,4 +30,11 @@ public class BMPUnicodeCharMatcher
     {
         return matcher.match(context);
     }
+
+    @Override
+    protected Object clone()
+        throws CloneNotSupportedException
+    {
+        return super.clone();
+    }
 }

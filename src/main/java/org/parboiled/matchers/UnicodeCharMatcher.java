@@ -30,4 +30,11 @@ public abstract class UnicodeCharMatcher
         Preconditions.checkArgNotNull(visitor, "visitor");
         return visitor.visit(this);
     }
+
+    @Override
+    protected Object clone()
+        throws CloneNotSupportedException
+    {
+        return super.clone();
+    }
 }

@@ -37,4 +37,11 @@ public class SupplementaryUnicodeCharMatcher
         }
         return success;
     }
+
+    @Override
+    protected Object clone()
+        throws CloneNotSupportedException
+    {
+        return super.clone();
+    }
 }
