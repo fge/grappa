@@ -32,6 +32,7 @@ import org.parboiled.matchers.OptionalMatcher;
 import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.matchers.TestMatcher;
 import org.parboiled.matchers.TestNotMatcher;
+import org.parboiled.matchers.UnicodeCharMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
 
 /**
@@ -54,6 +55,12 @@ public class DefaultMatcherVisitor<R> implements MatcherVisitor<R> {
     }
 
     public R visit(CharMatcher matcher) {
+        return defaultValue(matcher);
+    }
+
+    @Override
+    public R visit(final UnicodeCharMatcher matcher)
+    {
         return defaultValue(matcher);
     }
 

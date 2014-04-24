@@ -31,6 +31,7 @@ import org.parboiled.matchers.OptionalMatcher;
 import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.matchers.TestMatcher;
 import org.parboiled.matchers.TestNotMatcher;
+import org.parboiled.matchers.UnicodeCharMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
 
 /**
@@ -48,6 +49,8 @@ public interface MatcherVisitor<R> {
     R visit(CharIgnoreCaseMatcher matcher);
 
     R visit(CharMatcher matcher);
+
+    R visit(UnicodeCharMatcher matcher);
 
     R visit(CustomMatcher matcher);
 

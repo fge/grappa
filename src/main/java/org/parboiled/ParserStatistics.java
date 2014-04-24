@@ -37,6 +37,7 @@ import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.matchers.StringMatcher;
 import org.parboiled.matchers.TestMatcher;
 import org.parboiled.matchers.TestNotMatcher;
+import org.parboiled.matchers.UnicodeCharMatcher;
 import org.parboiled.matchers.VarFramingMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
 import org.parboiled.matchervisitors.MatcherVisitor;
@@ -171,6 +172,12 @@ public class ParserStatistics
 
     @Override
     public ParserStatistics visit(final CharMatcher matcher)
+    {
+        return doVisit(matcher);
+    }
+
+    @Override
+    public ParserStatistics visit(final UnicodeCharMatcher matcher)
     {
         return doVisit(matcher);
     }

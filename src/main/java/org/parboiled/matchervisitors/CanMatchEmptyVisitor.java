@@ -32,6 +32,7 @@ import org.parboiled.matchers.OptionalMatcher;
 import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.matchers.TestMatcher;
 import org.parboiled.matchers.TestNotMatcher;
+import org.parboiled.matchers.UnicodeCharMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
 import org.parboiled.support.Checks;
 
@@ -53,6 +54,12 @@ public class CanMatchEmptyVisitor implements MatcherVisitor<Boolean> {
     }
 
     public Boolean visit(CharMatcher matcher) {
+        return false;
+    }
+
+    @Override
+    public Boolean visit(final UnicodeCharMatcher matcher)
+    {
         return false;
     }
 
