@@ -22,13 +22,17 @@ public abstract class UnicodeRangeMatcher
              * OK, highChars is a supplementary code point. We need two
              * matchers: one for low-0xffff and one for 0x10000-high
              */
-            final CharRangeMatcher bmpMatcher
+            final CharRangeMatcher bmp
                 = new CharRangeMatcher(lowChars[0], Character.MAX_VALUE);
             final UnicodeRangeMatcher supplementary
                 = supplementaryOf(label, MIN_SUPPLEMENTARY, highChars);
+            return new CombinedUnicodeRangeMatcher(label, bmp, supplementary);
         }
 
-        return null;
+        /*
+         * Both are supplementary, so...
+         */
+        return supplementaryOf(label, lowChars, highChars);
     }
 
     protected UnicodeRangeMatcher(final String label)
