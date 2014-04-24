@@ -58,12 +58,6 @@ public final class SingleLeadSurrogateRangeMatcher
     }
 
     @Override
-    public <R> R accept(final MatcherVisitor<R> visitor)
-    {
-        return null;
-    }
-
-    @Override
     protected Object clone()
         throws CloneNotSupportedException
     {

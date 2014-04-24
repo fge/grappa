@@ -1,5 +1,6 @@
 package org.parboiled.matchers.unicode;
 
+import org.parboiled.common.Preconditions;
 import org.parboiled.matchers.CharRangeMatcher;
 import org.parboiled.matchervisitors.MatcherVisitor;
 
@@ -43,6 +44,7 @@ public abstract class UnicodeRangeMatcher
     @Override
     public <R> R accept(final MatcherVisitor<R> visitor)
     {
+        Preconditions.checkArgNotNull(visitor, "visitor");
         return visitor.visit(this);
     }
 
