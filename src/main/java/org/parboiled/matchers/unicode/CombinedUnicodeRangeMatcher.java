@@ -42,4 +42,11 @@ public class CombinedUnicodeRangeMatcher
         return supplementaryMatcher.match(context)
             || bmpMatcher.match(context);
     }
+
+    @Override
+    protected Object clone()
+        throws CloneNotSupportedException
+    {
+        return super.clone();
+    }
 }

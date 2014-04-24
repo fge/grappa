@@ -62,4 +62,11 @@ public final class SingleLeadSurrogateRangeMatcher
     {
         return null;
     }
+
+    @Override
+    protected Object clone()
+        throws CloneNotSupportedException
+    {
+        return super.clone();
+    }
 }

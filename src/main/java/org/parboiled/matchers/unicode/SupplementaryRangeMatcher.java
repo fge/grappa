@@ -7,4 +7,11 @@ public abstract class SupplementaryRangeMatcher
     {
         super(label);
     }
+
+    @Override
+    protected Object clone()
+        throws CloneNotSupportedException
+    {
+        return super.clone();
+    }
 }

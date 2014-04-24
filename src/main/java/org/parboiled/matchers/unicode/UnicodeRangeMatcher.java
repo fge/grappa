@@ -25,14 +25,14 @@ public abstract class UnicodeRangeMatcher
             final CharRangeMatcher bmp
                 = new CharRangeMatcher(lowChars[0], Character.MAX_VALUE);
             final UnicodeRangeMatcher supplementary
-                = supplementaryOf(label, MIN_SUPPLEMENTARY, highChars);
+                = supplementaryRange(label, MIN_SUPPLEMENTARY, highChars);
             return new CombinedUnicodeRangeMatcher(label, bmp, supplementary);
         }
 
         /*
          * Both are supplementary, so...
          */
-        return supplementaryOf(label, lowChars, highChars);
+        return supplementaryRange(label, lowChars, highChars);
     }
 
     protected UnicodeRangeMatcher(final String label)
@@ -53,7 +53,7 @@ public abstract class UnicodeRangeMatcher
         return super.clone();
     }
 
-    private static UnicodeRangeMatcher supplementaryOf(final String label,
+    private static UnicodeRangeMatcher supplementaryRange(final String label,
         final char[] lowChars, final char[] highChars)
     {
         return lowChars[0] == highChars[0]

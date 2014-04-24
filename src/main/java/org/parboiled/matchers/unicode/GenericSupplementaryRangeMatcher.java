@@ -1,7 +1,6 @@
 package org.parboiled.matchers.unicode;
 
 import org.parboiled.MatcherContext;
-import org.parboiled.matchervisitors.MatcherVisitor;
 
 public class GenericSupplementaryRangeMatcher
     extends SupplementaryRangeMatcher
@@ -50,5 +49,12 @@ public class GenericSupplementaryRangeMatcher
         context.advanceIndex(2);
         context.createNode();
         return true;
+    }
+
+    @Override
+    protected Object clone()
+        throws CloneNotSupportedException
+    {
+        return super.clone();
     }
 }

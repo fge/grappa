@@ -2,7 +2,6 @@ package org.parboiled.matchers.unicode;
 
 import org.parboiled.MatcherContext;
 import org.parboiled.matchers.CharRangeMatcher;
-import org.parboiled.matchervisitors.MatcherVisitor;
 
 public class BmpRangeMatcher
     extends UnicodeRangeMatcher
@@ -31,5 +30,12 @@ public class BmpRangeMatcher
     public <V> boolean match(final MatcherContext<V> context)
     {
         return matcher.match(context);
+    }
+
+    @Override
+    protected Object clone()
+        throws CloneNotSupportedException
+    {
+        return super.clone();
     }
 }
