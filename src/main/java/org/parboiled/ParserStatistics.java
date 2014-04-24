@@ -133,6 +133,10 @@ public class ParserStatistics
 
     private ParserStatistics(Matcher root) {
         this.root = root;
+        for (final Class<? extends Matcher> c: REGULAR_MATCHER_CLASSES)
+            regularMatcherStats.put(c, MatcherStats.forClass(c, false));
+        for (final Class<? extends Matcher> c: SPECIAL_MATCHER_CLASSES)
+            specialMatcherStats.put(c, MatcherStats.forClass(c, true));
         countSpecials(root);
     }
 
@@ -148,67 +152,82 @@ public class ParserStatistics
     }
 
     public ParserStatistics visit(AnyMatcher matcher) {
-        return visit(matcher, anyMatchers);
+        return doVisit(matcher);
+        //return visit(matcher, anyMatchers);
     }
 
     public ParserStatistics visit(CharIgnoreCaseMatcher matcher) {
-        return visit(matcher, charIgnoreCaseMatchers);
+        return doVisit(matcher);
+        //return visit(matcher, charIgnoreCaseMatchers);
     }
 
     public ParserStatistics visit(CharMatcher matcher) {
-        return visit(matcher, charMatchers);
+        return doVisit(matcher);
+        //return visit(matcher, charMatchers);
     }
 
     public ParserStatistics visit(CustomMatcher matcher) {
-        return visit(matcher, customMatchers);
+        return doVisit(matcher);
+        //return visit(matcher, customMatchers);
     }
 
     public ParserStatistics visit(CharRangeMatcher matcher) {
-        return visit(matcher, charRangeMatchers);
+        return doVisit(matcher);
+        //return visit(matcher, charRangeMatchers);
     }
 
     public ParserStatistics visit(AnyOfMatcher matcher) {
-        return visit(matcher, anyOfMatchers);
+        return doVisit(matcher);
+        //return visit(matcher, anyOfMatchers);
     }
 
     public ParserStatistics visit(EmptyMatcher matcher) {
-        return visit(matcher, emptyMatchers);
+        return doVisit(matcher);
+        //return visit(matcher, emptyMatchers);
     }
 
     public ParserStatistics visit(FirstOfMatcher matcher) {
-        return matcher instanceof FirstOfStringsMatcher ?
-                visit((FirstOfStringsMatcher)matcher, firstOfStringMatchers) :
-                visit(matcher, firstOfMatchers);
+        return doVisit(matcher);
+//        return matcher instanceof FirstOfStringsMatcher ?
+//                visit((FirstOfStringsMatcher)matcher, firstOfStringMatchers) :
+//                visit(matcher, firstOfMatchers);
     }
 
     public ParserStatistics visit(NothingMatcher matcher) {
-        return visit(matcher, nothingMatchers);
+        return doVisit(matcher);
+        //return visit(matcher, nothingMatchers);
     }
 
     public ParserStatistics visit(OneOrMoreMatcher matcher) {
-        return visit(matcher, oneOrMoreMatchers);
+        return doVisit(matcher);
+        //return visit(matcher, oneOrMoreMatchers);
     }
 
     public ParserStatistics visit(OptionalMatcher matcher) {
-        return visit(matcher, optionalMatchers);
+        return doVisit(matcher);
+        //return visit(matcher, optionalMatchers);
     }
 
     public ParserStatistics visit(SequenceMatcher matcher) {
-        return matcher instanceof StringMatcher ?
-                visit((StringMatcher)matcher, stringMatchers) :
-                visit(matcher, sequenceMatchers);
+        return doVisit(matcher);
+//        return matcher instanceof StringMatcher ?
+//                visit((StringMatcher)matcher, stringMatchers) :
+//                visit(matcher, sequenceMatchers);
     }
 
     public ParserStatistics visit(TestMatcher matcher) {
-        return visit(matcher, testMatchers);
+        return doVisit(matcher);
+        //return visit(matcher, testMatchers);
     }
 
     public ParserStatistics visit(TestNotMatcher matcher) {
-        return visit(matcher, testNotMatchers);
+        return doVisit(matcher);
+        //return visit(matcher, testNotMatchers);
     }
 
     public ParserStatistics visit(ZeroOrMoreMatcher matcher) {
-        return visit(matcher, zeroOrMoreMatchers);
+        return doVisit(matcher);
+        //return visit(matcher, zeroOrMoreMatchers);
     }
 
     private <M extends Matcher> ParserStatistics visit(M matcher, Set<M> set) {
@@ -223,44 +242,82 @@ public class ParserStatistics
         return this;
     }
 
-    private void countSpecials(Matcher matcher) {
-        if (matcher instanceof ProxyMatcher) {
-            proxyMatchers.add((ProxyMatcher) matcher);
-        } else if (matcher instanceof VarFramingMatcher) {
-            varFramingMatchers.add((VarFramingMatcher) matcher);
-        } else if (matcher instanceof MemoMismatchesMatcher) {
-            memoMismatchesMatchers.add((MemoMismatchesMatcher) matcher);
+    private <M extends Matcher> ParserStatistics doVisit(final M matcher)
+    {
+        final Class<? extends Matcher> c = matcher.getClass();
+        final MatcherStats<?> stats = REGULAR_MATCHER_CLASSES.contains(c)
+            ? regularMatcherStats.get(c)
+            : specialMatcherStats.get(c);
+        checkArgNotNull(stats, c.getCanonicalName() + " not recorded??");
+        if (stats.recordInstance(matcher)) {
+            totalRules++;
+            for (final Matcher child : matcher.getChildren()) {
+                countSpecials(child);
+                child.accept(this);
+            }
         }
+        return this;
+    }
+
+    private void countSpecials(Matcher matcher) {
+//        if (matcher instanceof ProxyMatcher) {
+//            proxyMatchers.add((ProxyMatcher) matcher);
+//        } else if (matcher instanceof VarFramingMatcher) {
+//            varFramingMatchers.add((VarFramingMatcher) matcher);
+//        } else if (matcher instanceof MemoMismatchesMatcher) {
+//            memoMismatchesMatchers.add((MemoMismatchesMatcher) matcher);
+//        }
+        final Class<? extends Matcher> matcherClass = matcher.getClass();
+        if (SPECIAL_MATCHER_CLASSES.contains(matcherClass))
+            specialMatcherStats.get(matcherClass).recordInstance(matcher);
     }
 
     @Override
     public String toString() {
-        return new StringBuilder("Parser statistics for rule '").append(root).append("':\n")
-                .append("    Total rules       : ").append(totalRules).append('\n')
-                .append("        Actions       : ").append(actions.size()).append('\n')
-                .append("        Any           : ").append(anyMatchers.size()).append('\n')
-                .append("        CharIgnoreCase: ").append(charIgnoreCaseMatchers.size()).append('\n')
-                .append("        Char          : ").append(charMatchers.size()).append('\n')
-                .append("        Custom        : ").append(customMatchers.size()).append('\n')
-                .append("        CharRange     : ").append(charRangeMatchers.size()).append('\n')
-                .append("        AnyOf         : ").append(anyOfMatchers.size()).append('\n')
-                .append("        Empty         : ").append(emptyMatchers.size()).append('\n')
-                .append("        FirstOf       : ").append(firstOfMatchers.size()).append('\n')
-                .append("        FirstOfStrings: ").append(firstOfStringMatchers.size()).append('\n')
-                .append("        Nothing       : ").append(nothingMatchers.size()).append('\n')
-                .append("        OneOrMore     : ").append(oneOrMoreMatchers.size()).append('\n')
-                .append("        Optional      : ").append(optionalMatchers.size()).append('\n')
-                .append("        Sequence      : ").append(sequenceMatchers.size()).append('\n')
-                .append("        String        : ").append(stringMatchers.size()).append('\n')
-                .append("        Test          : ").append(testMatchers.size()).append('\n')
-                .append("        TestNot       : ").append(testNotMatchers.size()).append('\n')
-                .append("        ZeroOrMore    : ").append(zeroOrMoreMatchers.size()).append('\n')
-                .append('\n')
-                .append("    Action Classes    : ").append(actionClasses.size()).append('\n')
-                .append("    ProxyMatchers     : ").append(proxyMatchers.size()).append('\n')
-                .append("    VarFramingMatchers: ").append(varFramingMatchers.size()).append('\n')
-                .append("MemoMismatchesMatchers: ").append(memoMismatchesMatchers.size()).append('\n')
-                .toString();
+        return toString2();
+//        return new StringBuilder("Parser statistics for rule '").append(root).append("':\n")
+//                .append("    Total rules       : ").append(totalRules / 2).append(
+//                '\n')
+//                .append("        Actions       : ").append(actions.size()).append('\n')
+//                .append("        Any           : ").append(anyMatchers.size()).append('\n')
+//                .append("        CharIgnoreCase: ").append(charIgnoreCaseMatchers.size()).append('\n')
+//                .append("        Char          : ").append(charMatchers.size()).append('\n')
+//                .append("        Custom        : ").append(customMatchers.size()).append('\n')
+//                .append("        CharRange     : ").append(charRangeMatchers.size()).append('\n')
+//                .append("        AnyOf         : ").append(anyOfMatchers.size()).append('\n')
+//                .append("        Empty         : ").append(emptyMatchers.size()).append('\n')
+//                .append("        FirstOf       : ").append(firstOfMatchers.size()).append('\n')
+//                .append("        FirstOfStrings: ").append(firstOfStringMatchers.size()).append('\n')
+//                .append("        Nothing       : ").append(nothingMatchers.size()).append('\n')
+//                .append("        OneOrMore     : ").append(oneOrMoreMatchers.size()).append('\n')
+//                .append("        Optional      : ").append(optionalMatchers.size()).append('\n')
+//                .append("        Sequence      : ").append(sequenceMatchers.size()).append('\n')
+//                .append("        String        : ").append(stringMatchers.size()).append('\n')
+//                .append("        Test          : ").append(testMatchers.size()).append('\n')
+//                .append("        TestNot       : ").append(testNotMatchers.size()).append('\n')
+//                .append("        ZeroOrMore    : ").append(zeroOrMoreMatchers.size()).append('\n')
+//                .append('\n')
+//                .append("    Action Classes    : ").append(actionClasses.size()).append('\n')
+//                .append("    ProxyMatchers     : ").append(proxyMatchers.size()).append('\n')
+//                .append("    VarFramingMatchers: ").append(varFramingMatchers.size()).append('\n')
+//                .append("MemoMismatchesMatchers: ").append(memoMismatchesMatchers.size()).append('\n')
+//                .toString();
+    }
+
+    private String toString2()
+    {
+        final StringBuilder sb = new StringBuilder();
+
+        sb.append("Parser statistics for rule '").append(root).append("':\n");
+        sb.append("    Total rules       : ").append(totalRules).append('\n');
+        sb.append("        Actions       : ").append(actions.size())
+            .append('\n');
+        sb.append(StringUtils.join(regularMatcherStats.values(), "\n"));
+        sb.append("\n\n");
+        sb.append("    Action Classes    : ").append(actionClasses.size())
+            .append('\n');
+        sb.append(StringUtils.join(specialMatcherStats.values(), "\n"));
+        return sb.append('\n').toString();
     }
 
     public String printActionClassInstances() {
@@ -303,8 +360,7 @@ public class ParserStatistics
     public static final class MatcherStats<T extends Matcher>
     {
         private final String name;
-        private final Set<T> instances = new HashSet<T>();
-        private final boolean special;
+        private final Set<Matcher> instances = new HashSet<Matcher>();
 
         private static <M extends Matcher> MatcherStats<M> forClass(
             final Class<M> matcherClass, final boolean special)
@@ -315,11 +371,10 @@ public class ParserStatistics
 
         private MatcherStats(final Class<T> matcherClass, final boolean special)
         {
-            this.special = special;
             name = generateName(matcherClass.getSimpleName(), special);
         }
 
-        private boolean recordInstance(final T matcher)
+        private boolean recordInstance(final Matcher matcher)
         {
             return instances.add(matcher);
         }
