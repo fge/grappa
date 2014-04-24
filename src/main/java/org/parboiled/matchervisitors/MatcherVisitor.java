@@ -31,8 +31,9 @@ import org.parboiled.matchers.OptionalMatcher;
 import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.matchers.TestMatcher;
 import org.parboiled.matchers.TestNotMatcher;
-import org.parboiled.matchers.unicode.UnicodeCharMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
+import org.parboiled.matchers.unicode.UnicodeCharMatcher;
+import org.parboiled.matchers.unicode.UnicodeRangeMatcher;
 
 /**
  * The interface to be implemented by all visitors of {@link org.parboiled.matchers.Matcher}s.
@@ -51,6 +52,8 @@ public interface MatcherVisitor<R> {
     R visit(CharMatcher matcher);
 
     R visit(UnicodeCharMatcher matcher);
+
+    R visit(UnicodeRangeMatcher matcher);
 
     R visit(CustomMatcher matcher);
 

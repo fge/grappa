@@ -33,6 +33,7 @@ import org.parboiled.matchers.TestMatcher;
 import org.parboiled.matchers.TestNotMatcher;
 import org.parboiled.matchers.unicode.UnicodeCharMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
+import org.parboiled.matchers.unicode.UnicodeRangeMatcher;
 
 /**
  * A {@link MatcherVisitor} determining whether a matcher is a basic single character matcher.
@@ -63,6 +64,12 @@ public class IsSingleCharMatcherVisitor implements MatcherVisitor<Boolean> {
 
     public Boolean visit(CharRangeMatcher matcher) {
         return true;
+    }
+
+    @Override
+    public Boolean visit(final UnicodeRangeMatcher matcher)
+    {
+        return matcher.matchesSingleCharOnly();
     }
 
     public Boolean visit(AnyOfMatcher matcher) {

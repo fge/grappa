@@ -34,6 +34,7 @@ import org.parboiled.matchers.TestMatcher;
 import org.parboiled.matchers.TestNotMatcher;
 import org.parboiled.matchers.unicode.UnicodeCharMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
+import org.parboiled.matchers.unicode.UnicodeRangeMatcher;
 
 /**
  * A basic {@link MatcherVisitor} implementation that delegates all visiting methods to one default value method.
@@ -65,6 +66,12 @@ public class DefaultMatcherVisitor<R> implements MatcherVisitor<R> {
     }
 
     public R visit(CharRangeMatcher matcher) {
+        return defaultValue(matcher);
+    }
+
+    @Override
+    public R visit(final UnicodeRangeMatcher matcher)
+    {
         return defaultValue(matcher);
     }
 

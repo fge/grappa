@@ -1,11 +1,10 @@
 package org.parboiled.matchers.unicode;
 
 import org.parboiled.common.Preconditions;
-import org.parboiled.matchers.AbstractMatcher;
 import org.parboiled.matchervisitors.MatcherVisitor;
 
 public abstract class UnicodeCharMatcher
-    extends AbstractMatcher
+    extends UnicodeMatcher
 {
     public static UnicodeCharMatcher forCodePoint(final int codePoint)
     {
@@ -20,10 +19,6 @@ public abstract class UnicodeCharMatcher
     {
         super(label);
     }
-
-    public abstract boolean matchesSingleCharOnly();
-
-    public abstract boolean canStartWithChar(final char c);
 
     @Override
     public final <R> R accept(final MatcherVisitor<R> visitor)

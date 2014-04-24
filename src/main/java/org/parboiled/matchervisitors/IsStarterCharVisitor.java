@@ -34,6 +34,7 @@ import org.parboiled.matchers.TestMatcher;
 import org.parboiled.matchers.TestNotMatcher;
 import org.parboiled.matchers.unicode.UnicodeCharMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
+import org.parboiled.matchers.unicode.UnicodeRangeMatcher;
 import org.parboiled.support.Chars;
 
 /**
@@ -72,6 +73,12 @@ public class IsStarterCharVisitor implements MatcherVisitor<Boolean> {
 
     public Boolean visit(CharRangeMatcher matcher) {
         return matcher.cLow <= starterChar && starterChar <= matcher.cHigh;
+    }
+
+    @Override
+    public Boolean visit(final UnicodeRangeMatcher matcher)
+    {
+        return matcher.canStartWithChar(starterChar);
     }
 
     public Boolean visit(AnyOfMatcher matcher) {

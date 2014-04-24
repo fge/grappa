@@ -40,6 +40,7 @@ import org.parboiled.matchers.TestNotMatcher;
 import org.parboiled.matchers.unicode.UnicodeCharMatcher;
 import org.parboiled.matchers.VarFramingMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
+import org.parboiled.matchers.unicode.UnicodeRangeMatcher;
 import org.parboiled.matchervisitors.MatcherVisitor;
 
 import java.nio.CharBuffer;
@@ -73,6 +74,7 @@ public class ParserStatistics
         REGULAR_MATCHER_CLASSES.add(UnicodeCharMatcher.class);
         REGULAR_MATCHER_CLASSES.add(CustomMatcher.class);
         REGULAR_MATCHER_CLASSES.add(CharRangeMatcher.class);
+        REGULAR_MATCHER_CLASSES.add(UnicodeRangeMatcher.class);
         REGULAR_MATCHER_CLASSES.add(AnyOfMatcher.class);
         REGULAR_MATCHER_CLASSES.add(EmptyMatcher.class);
         REGULAR_MATCHER_CLASSES.add(FirstOfMatcher.class);
@@ -193,6 +195,12 @@ public class ParserStatistics
     public ParserStatistics visit(final CharRangeMatcher matcher)
     {
         return doVisit(matcher);
+    }
+
+    @Override
+    public ParserStatistics visit(final UnicodeRangeMatcher matcher)
+    {
+        return doVisit(matcher, UnicodeRangeMatcher.class);
     }
 
     @Override
