@@ -70,6 +70,7 @@ public class ParserStatistics
         REGULAR_MATCHER_CLASSES.add(AnyMatcher.class);
         REGULAR_MATCHER_CLASSES.add(CharIgnoreCaseMatcher.class);
         REGULAR_MATCHER_CLASSES.add(CharMatcher.class);
+        REGULAR_MATCHER_CLASSES.add(UnicodeCharMatcher.class);
         REGULAR_MATCHER_CLASSES.add(CustomMatcher.class);
         REGULAR_MATCHER_CLASSES.add(CharRangeMatcher.class);
         REGULAR_MATCHER_CLASSES.add(AnyOfMatcher.class);
@@ -179,7 +180,7 @@ public class ParserStatistics
     @Override
     public ParserStatistics visit(final UnicodeCharMatcher matcher)
     {
-        return doVisit(matcher);
+        return doVisit(matcher, UnicodeCharMatcher.class);
     }
 
     @Override
@@ -256,7 +257,12 @@ public class ParserStatistics
 
     private <M extends Matcher> ParserStatistics doVisit(final M matcher)
     {
-        final Class<? extends Matcher> c = matcher.getClass();
+        return doVisit(matcher, matcher.getClass());
+    }
+
+    private <M extends Matcher> ParserStatistics doVisit(final M matcher,
+        final Class<? extends M> c)
+    {
         final MatcherStats<?> stats = REGULAR_MATCHER_CLASSES.contains(c)
             ? regularMatcherStats.get(c)
             : specialMatcherStats.get(c);
