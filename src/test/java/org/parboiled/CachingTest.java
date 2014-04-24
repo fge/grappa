@@ -72,22 +72,20 @@ public class CachingTest {
         assertEquals(countAllDistinct(matcher2), 6);
 
         StatsAssert.assertStatsForRule(parser.Rule1())
-            .hasRecordedTotalOf(5)
-            .hasRecorded(CharMatcher.class).withCount(2)
-            .hasRecorded(CharRangeMatcher.class).withCount(1)
-            .hasRecorded(FirstOfMatcher.class).withCount(1)
-            .hasRecorded(SequenceMatcher.class).withCount(1)
-            .hasNotRecordedAnyActions().hasNotCountedAnyActionClasses()
-            .hasRecordedNoOtherMatchers();
+            .hasCountedTotal(5)
+            .hasCounted(2, CharMatcher.class)
+            .hasCounted(1, CharRangeMatcher.class)
+            .hasCounted(1, FirstOfMatcher.class)
+            .hasCounted(1, SequenceMatcher.class)
+            .hasCountedNothingElse();
 
         StatsAssert.assertStatsForRule(parser.Rule2())
-            .hasRecordedTotalOf(6)
-            .hasRecorded(CharMatcher.class).withCount(2)
-            .hasRecorded(CharRangeMatcher.class).withCount(1)
-            .hasRecorded(FirstOfMatcher.class).withCount(2)
-            .hasRecorded(SequenceMatcher.class).withCount(1)
-            .hasNotCountedAnyActionClasses().hasNotRecordedAnyActions()
-            .hasRecordedNoOtherMatchers();
+            .hasCountedTotal(6)
+            .hasCounted(2, CharMatcher.class)
+            .hasCounted(1, CharRangeMatcher.class)
+            .hasCounted(2, FirstOfMatcher.class)
+            .hasCounted(1, SequenceMatcher.class)
+            .hasCountedNothingElse();
     }
 
 }

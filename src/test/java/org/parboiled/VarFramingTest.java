@@ -70,16 +70,16 @@ public class VarFramingTest extends TestNgParboiledTest<Integer> {
         Rule rule = parser.Clause();
 
         StatsAssert.assertStatsForRule(rule)
-            .hasRecordedTotalOf(11)
-            .hasRecorded(CharMatcher.class).withCount(1)
-            .hasRecorded(CharRangeMatcher.class).withCount(1)
-            .hasRecorded(OneOrMoreMatcher.class).withCount(1)
-            .hasRecorded(OptionalMatcher.class).withCount(1)
-            .hasRecorded(SequenceMatcher.class).withCount(3)
-            .hasCountedActionClasses(4)
-            .hasRecorded(ProxyMatcher.class).withCount(1)
-            .hasRecorded(VarFramingMatcher.class).withCount(1)
-            .hasRecordedNoOtherMatchers();
+            .hasCountedTotal(11)
+            .hasCounted(1, CharMatcher.class)
+            .hasCounted(1, CharRangeMatcher.class)
+            .hasCounted(1, OneOrMoreMatcher.class)
+            .hasCounted(1, OptionalMatcher.class)
+            .hasCounted(3, SequenceMatcher.class)
+            .hasCounted(1, ProxyMatcher.class)
+            .hasCounted(1, VarFramingMatcher.class)
+            .hasCountedActionClasses(4).hasCountedActions(4)
+            .hasCountedNothingElse();
 
         test(rule, "1+2+3")
                 .hasNoErrors()

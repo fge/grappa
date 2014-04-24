@@ -28,9 +28,8 @@ public final class StatsAssert
     private final Set<Class<?>> actionClasses;
     private final int totalRules;
 
-
-    Class<? extends Matcher> currentMatcherClass = null;
-    MatcherStats<? extends Matcher> currentStats = null;
+    private boolean actionsCounted = false;
+    private boolean actionClassesCounted = false;
 
     public static StatsAssert assertStatsForRule(final Rule rule)
     {
@@ -49,7 +48,7 @@ public final class StatsAssert
         totalRules = actual.getTotalRules();
     }
 
-    public StatsAssert hasRecordedTotalOf(final int expected)
+    public StatsAssert hasCountedTotal(final int expected)
     {
         assertThat(totalRules).overridingErrorMessage(
             "number of recorded rules is incorrect: expected %d but got %d",
@@ -58,41 +57,53 @@ public final class StatsAssert
         return this;
     }
 
-    public StatsAssert hasRecorded(
+    public StatsAssert hasCounted(final int expected,
         final Class<? extends Matcher> matcherClass)
     {
-        Map<Class<?>, MatcherStats<?>> map = regularMatcherStats;
-        currentStats = map.get(matcherClass);
-        if (currentStats == null) {
-            map = specialMatcherStats;
-            currentStats = map.get(matcherClass);
-        }
+        MatcherStats<?> stats = regularMatcherStats.remove(matcherClass);
+        if (stats == null)
+            stats = specialMatcherStats.remove(matcherClass);
 
-        assertThat(currentStats)
+        assertThat(stats)
             .overridingErrorMessage(matcherClass + " not found in stats??")
             .isNotNull();
 
-        currentMatcherClass = matcherClass;
-        currentStats = map.remove(matcherClass);
-        return this;
-    }
-
-    public StatsAssert withCount(final int expected)
-    {
-        assertThat(currentStats)
-            .overridingErrorMessage("No current stats; call .hasMatcher()")
-            .isNotNull();
-
-        final int count = currentStats.getInstanceCount();
+        final int count = stats.getInstanceCount();
         assertThat(count).overridingErrorMessage(
             "recorded invocation count for class %s differ from expectations! "
-            + "Wanted %d, got %d", currentMatcherClass.getSimpleName(), count,
-            expected
+            + "Wanted %d, got %d", matcherClass.getSimpleName(), count, expected
         ).isEqualTo(expected);
         return this;
     }
 
-    public StatsAssert hasRecordedNoOtherMatchers()
+    public StatsAssert hasCountedActions(final int expected)
+    {
+        final int size = actions.size();
+        assertThat(size).overridingErrorMessage(
+            "recored number of actions is incorrect! Expected %d but got %d",
+            expected, size
+        ).isEqualTo(expected);
+        actionsCounted = true;
+        return this;
+    }
+
+    public StatsAssert hasCountedActionClasses(final int expected)
+    {
+        final int size = actionClasses.size();
+        assertThat(size).overridingErrorMessage(
+            "recorded count of action classes is incorrect! Is %d, expected %d",
+            size, expected
+        ).isEqualTo(expected);
+        actionClassesCounted = true;
+        return this;
+    }
+
+    public StatsAssert hasCountedNothingElse()
+    {
+        return noMatchersLeft().noActionsLeft().noActionClassesLeft();
+    }
+
+    private StatsAssert noMatchersLeft()
     {
         final List<String> mishaps = new ArrayList<String>();
         final String fmt = "matcher class %s: recorded %d instances";
@@ -123,33 +134,13 @@ public final class StatsAssert
         return this;
     }
 
-    public StatsAssert hasRecordedActionsCountOf(final int expected)
+    private StatsAssert noActionsLeft()
     {
-        final int size = actions.size();
-        assertThat(size).overridingErrorMessage(
-            "recored number of actions is incorrect! Expected %d but got %d",
-            expected, size
-        ).isEqualTo(expected);
-        return this;
+        return actionsCounted ? this : hasCountedActions(0);
     }
 
-    public StatsAssert hasNotRecordedAnyActions()
+    private StatsAssert noActionClassesLeft()
     {
-        return hasRecordedActionsCountOf(0);
-    }
-
-    public StatsAssert hasCountedActionClasses(final int expected)
-    {
-        final int size = actionClasses.size();
-        assertThat(size).overridingErrorMessage(
-            "recorded count of action classes is incorrect! Is %d, expected %d",
-            size, expected
-        ).isEqualTo(expected);
-        return this;
-    }
-
-    public StatsAssert hasNotCountedAnyActionClasses()
-    {
-        return hasCountedActionClasses(0);
+        return actionClassesCounted ? this : hasCountedActionClasses(0);
     }
 }

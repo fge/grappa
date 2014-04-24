@@ -109,11 +109,11 @@ public class ActionTest extends TestNgParboiledTest<Integer> {
                         "        ['d', {74}] 'd'\n");
 
         StatsAssert.assertStatsForRule(parser.A())
-            .hasRecordedTotalOf(17).hasRecordedActionsCountOf(9)
-            .hasRecorded(CharMatcher.class).withCount(4)
-            .hasRecorded(SequenceMatcher.class).withCount(4)
+            .hasCountedTotal(17).hasCountedActions(9)
+            .hasCounted(4, CharMatcher.class)
+            .hasCounted(4, SequenceMatcher.class)
             .hasCountedActionClasses(8)
-            .hasRecordedNoOtherMatchers();
+            .hasCountedNothingElse();
 
         ParserStatistics stats = ParserStatistics.generateFor(parser.A());
 

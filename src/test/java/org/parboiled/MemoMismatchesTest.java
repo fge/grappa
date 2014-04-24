@@ -67,12 +67,12 @@ public class MemoMismatchesTest {
     public void test1() {
         Parser parser = Parboiled.createParser(Parser.class);
 
-        StatsAssert.assertStatsForRule(parser.Clause()).hasRecordedTotalOf(13)
-            .hasRecorded(CharMatcher.class).withCount(6)
-            .hasRecorded(FirstOfMatcher.class).withCount(2)
-            .hasRecorded(SequenceMatcher.class).withCount(4)
-            .hasRecorded(TestNotMatcher.class).withCount(1)
-            .hasRecordedNoOtherMatchers();
+        StatsAssert.assertStatsForRule(parser.Clause()).hasCountedTotal(13)
+            .hasCounted(6, CharMatcher.class)
+            .hasCounted(2, FirstOfMatcher.class)
+            .hasCounted(4, SequenceMatcher.class)
+            .hasCounted(1, TestNotMatcher.class)
+            .hasCountedNothingElse();
 
         ProfilingParseRunner runner = new ProfilingParseRunner(parser.Clause());
         assertFalse(runner.run("2").hasErrors());
@@ -94,14 +94,13 @@ public class MemoMismatchesTest {
     public void test2() {
         MemoParser parser = Parboiled.createParser(MemoParser.class);
 
-        StatsAssert.assertStatsForRule(parser.Clause()).hasRecordedTotalOf(13)
-            .hasRecorded(CharMatcher.class).withCount(6)
-            .hasRecorded(FirstOfMatcher.class).withCount(2)
-            .hasRecorded(SequenceMatcher.class).withCount(4)
-            .hasRecorded(TestNotMatcher.class).withCount(1)
-            .hasNotRecordedAnyActions().hasNotCountedAnyActionClasses()
-            .hasRecorded(MemoMismatchesMatcher.class).withCount(1)
-            .hasRecordedNoOtherMatchers();
+        StatsAssert.assertStatsForRule(parser.Clause()).hasCountedTotal(13)
+            .hasCounted(6, CharMatcher.class)
+            .hasCounted(2, FirstOfMatcher.class)
+            .hasCounted(4, SequenceMatcher.class)
+            .hasCounted(1, TestNotMatcher.class)
+            .hasCounted(1, MemoMismatchesMatcher.class)
+            .hasCountedNothingElse();
 
         ProfilingParseRunner runner = new ProfilingParseRunner(parser.Clause());
         assertFalse(runner.run("2").hasErrors());
