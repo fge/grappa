@@ -3,12 +3,12 @@ package org.parboiled.matchers.unicode;
 import org.parboiled.MatcherContext;
 import org.parboiled.buffers.InputBuffer;
 
-public class SupplementaryUnicodeCharMatcher
+public class SupplementaryCharMatcher
     extends UnicodeCharMatcher
 {
     private final char[] chars;
 
-    SupplementaryUnicodeCharMatcher(final String label, final char[] chars)
+    SupplementaryCharMatcher(final String label, final char[] chars)
     {
         super(label);
         this.chars = chars;

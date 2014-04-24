@@ -3,12 +3,12 @@ package org.parboiled.matchers.unicode;
 import org.parboiled.MatcherContext;
 import org.parboiled.matchers.CharMatcher;
 
-public class BMPUnicodeCharMatcher
+public class BmpCharMatcher
     extends UnicodeCharMatcher
 {
     private final CharMatcher matcher;
 
-    BMPUnicodeCharMatcher(final String label, final char c)
+    BmpCharMatcher(final String label, final char c)
     {
         super(label);
         matcher = new CharMatcher(c);

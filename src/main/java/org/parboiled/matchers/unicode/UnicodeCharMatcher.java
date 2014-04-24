@@ -11,8 +11,8 @@ public abstract class UnicodeCharMatcher
         final String label = String.format("U+%04X", codePoint);
         final char[] chars = Character.toChars(codePoint);
         return chars.length == 1
-            ? new BMPUnicodeCharMatcher(label, chars[0])
-            : new SupplementaryUnicodeCharMatcher(label, chars);
+            ? new BmpCharMatcher(label, chars[0])
+            : new SupplementaryCharMatcher(label, chars);
     }
 
     protected UnicodeCharMatcher(final String label)
