@@ -1,6 +1,8 @@
 package org.parboiled.matchers.unicode;
 
+import org.parboiled.common.Preconditions;
 import org.parboiled.matchers.CustomMatcher;
+import org.parboiled.matchervisitors.MatcherVisitor;
 
 public abstract class UnicodeCharMatcher
     extends CustomMatcher
@@ -17,5 +19,11 @@ public abstract class UnicodeCharMatcher
     protected UnicodeCharMatcher(final String label)
     {
         super(label);
+    }
+
+    public <R> R accept(MatcherVisitor<R> visitor)
+    {
+        Preconditions.checkArgNotNull(visitor, "visitor");
+        return visitor.visit(this);
     }
 }

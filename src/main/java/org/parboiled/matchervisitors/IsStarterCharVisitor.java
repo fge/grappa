@@ -68,7 +68,7 @@ public class IsStarterCharVisitor implements MatcherVisitor<Boolean> {
     @Override
     public Boolean visit(final UnicodeCharMatcher matcher)
     {
-        return matcher.canStartWithChar(starterChar);
+        return matcher.isStarterChar(starterChar);
     }
 
     public Boolean visit(CharRangeMatcher matcher) {
@@ -78,7 +78,7 @@ public class IsStarterCharVisitor implements MatcherVisitor<Boolean> {
     @Override
     public Boolean visit(final UnicodeRangeMatcher matcher)
     {
-        return matcher.canStartWithChar(starterChar);
+        return matcher.isStarterChar(starterChar);
     }
 
     public Boolean visit(AnyOfMatcher matcher) {

@@ -1,7 +1,9 @@
 package org.parboiled.matchers.unicode;
 
+import org.parboiled.common.Preconditions;
 import org.parboiled.matchers.CharRangeMatcher;
 import org.parboiled.matchers.CustomMatcher;
+import org.parboiled.matchervisitors.MatcherVisitor;
 
 public abstract class UnicodeRangeMatcher
     extends CustomMatcher
@@ -47,5 +49,11 @@ public abstract class UnicodeRangeMatcher
             ? new SingleLeadSurrogateRangeMatcher(label, lowChars[0],
                 lowChars[1], highChars[1])
             : new GenericSupplementaryRangeMatcher(label, lowChars, highChars);
+    }
+
+    public <R> R accept(MatcherVisitor<R> visitor)
+    {
+        Preconditions.checkArgNotNull(visitor, "visitor");
+        return visitor.visit(this);
     }
 }
