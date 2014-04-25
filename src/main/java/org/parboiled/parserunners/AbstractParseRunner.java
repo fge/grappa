@@ -19,6 +19,7 @@ package org.parboiled.parserunners;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
+import org.parboiled.buffers.CharSequenceInputBuffer;
 import org.parboiled.buffers.DefaultInputBuffer;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.errors.ParseError;
@@ -76,7 +77,7 @@ public abstract class AbstractParseRunner<V> implements ParseRunner<V> {
     @Override
     public ParsingResult<V> run(String input) {
         checkArgNotNull(input, "input");
-        return run(input.toCharArray());
+        return run(new CharSequenceInputBuffer(input));
     }
 
     @Override
