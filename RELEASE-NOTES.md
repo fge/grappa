@@ -7,4 +7,5 @@
 * Depend on mockito, AssertJ for tests.
 * Add Unicode and UnicodeRange.
 * Add UnicodeChar and UnicodeRange.
+* Add dependency on Guava
 

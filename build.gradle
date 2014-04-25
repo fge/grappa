@@ -43,6 +43,7 @@ dependencies {
     compile(group: "org.ow2.asm", name: "asm-tree", version: "4.2");
     compile(group: "org.ow2.asm", name: "asm-analysis", version: "4.2");
     compile(group: "org.ow2.asm", name: "asm-util", version: "4.2");
+    compile(group: "com.google.guava", name: "guava", version: "17.0");
     testCompile(group: "org.testng", name: "testng", version: "6.8.7") {
         exclude(group: "junit", module: "junit");
         exclude(group: "org.beanshell", module: "bsh");
@@ -55,6 +56,7 @@ dependencies {
 javadoc.options.links("http://docs.oracle.com/javase/6/docs/api/");
 javadoc.options.links("http://jsr-305.googlecode.com/svn/trunk/javadoc/");
 javadoc.options.links("http://asm.ow2.org/asm40/javadoc/user/");
+javadoc.options.links("http://docs.guava-libraries.googlecode.com/git-history/v17.0/javadoc/");
 
 test {
     useTestNG() {
