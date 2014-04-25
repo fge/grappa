@@ -16,9 +16,9 @@
 
 package org.parboiled.matchers;
 
+import com.google.common.collect.ImmutableList;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
-import org.parboiled.common.ImmutableList;
 import org.parboiled.common.Utils;
 import org.parboiled.trees.ImmutableGraphNode;
 
@@ -43,7 +43,7 @@ public abstract class AbstractMatcher extends ImmutableGraphNode<Matcher> implem
     }
 
     public AbstractMatcher(Rule[] subRules, String label) {
-        super(ImmutableList.<Matcher>of(toMatchers(checkArgNotNull(subRules, "subRules"))));
+        super(ImmutableList.copyOf(toMatchers(checkArgNotNull(subRules, "subRules"))));
         this.label = label;
     }
 

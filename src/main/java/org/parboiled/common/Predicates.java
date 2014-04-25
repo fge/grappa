@@ -16,6 +16,8 @@
 
 package org.parboiled.common;
 
+import com.google.common.collect.ImmutableList;
+
 import java.util.Collection;
 
 import static org.parboiled.common.Preconditions.checkArgNotNull;
@@ -106,7 +108,7 @@ public final class Predicates {
      * @return a predicate
      */
     public static <T> Predicate<T> and(Predicate<? super T>... components) {
-        return new AndPredicate<T>(ImmutableList.of(components));
+        return new AndPredicate<T>(ImmutableList.copyOf(components));
     }
 
     /**
@@ -120,9 +122,9 @@ public final class Predicates {
      * @return a predicate
      */
     public static <T> Predicate<T> and(Predicate<? super T> first, Predicate<? super T> second) {
-        checkArgNotNull(first, "first");
-        checkArgNotNull(second, "second");
-        return new AndPredicate<T>(ImmutableList.<Predicate<? super T>>of(first, second));
+        return new AndPredicate<T>(
+            ImmutableList.<Predicate<? super T>>of(first, second)
+        );
     }
 
     /**
@@ -154,7 +156,9 @@ public final class Predicates {
      * @return a predicate
      */
     public static <T> Predicate<T> or(Predicate<? super T>... components) {
-        return new OrPredicate<T>(ImmutableList.of(components));
+        return new OrPredicate<T>(
+            ImmutableList.copyOf(components)
+        );
     }
 
     /**
@@ -168,8 +172,6 @@ public final class Predicates {
      * @return a predicate
      */
     public static <T> Predicate<T> or(Predicate<? super T> first, Predicate<? super T> second) {
-        checkArgNotNull(first, "first");
-        checkArgNotNull(second, "second");
         return new OrPredicate<T>(ImmutableList.<Predicate<? super T>>of(first, second));
     }
 

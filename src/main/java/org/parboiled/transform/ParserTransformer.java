@@ -16,8 +16,8 @@
 
 package org.parboiled.transform;
 
+import com.google.common.collect.ImmutableList;
 import org.objectweb.asm.ClassWriter;
-import org.parboiled.common.ImmutableList;
 import org.parboiled.transform.process.BodyWithSuperCallReplacer;
 import org.parboiled.transform.process.CachingGenerator;
 import org.parboiled.transform.process.FlagMarkingGenerator;

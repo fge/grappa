@@ -22,7 +22,6 @@ import org.parboiled.Rule;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.buffers.MutableInputBuffer;
 import org.parboiled.common.ImmutableLinkedList;
-import org.parboiled.common.ImmutableList;
 import org.parboiled.common.Preconditions;
 import org.parboiled.errors.InvalidInputError;
 import org.parboiled.matchers.AbstractMatcher;

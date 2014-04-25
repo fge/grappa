@@ -16,7 +16,8 @@
 
 package org.parboiled.trees;
 
-import org.parboiled.common.ImmutableList;
+
+import com.google.common.collect.ImmutableList;
 
 /**
  * A simple immutable implementation of the {@link BinaryTreeNode} interface.

@@ -28,8 +28,11 @@ import static org.parboiled.common.Utils.arrayOf;
  * A simple, immutable List implementation wrapping an array.
  *
  * @param <T>
+ *
+ * @deprecated use {@link com.google.common.collect.ImmutableList} instead
  */
 @SuppressWarnings( {"unchecked"})
+@Deprecated
 public abstract class ImmutableList<T> extends AbstractList<T> {
 
     private final static ImmutableList<?> EMPTY_LIST = new ImmutableList<Object>() {

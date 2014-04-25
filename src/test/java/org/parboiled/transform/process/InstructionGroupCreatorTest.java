@@ -16,8 +16,8 @@
 
 package org.parboiled.transform.process;
 
+import com.google.common.collect.ImmutableList;
 import org.parboiled.common.FileUtils;
-import org.parboiled.common.ImmutableList;
 import org.parboiled.transform.InstructionGraphNode;
 import org.parboiled.transform.RuleMethod;
 import org.parboiled.transform.TestParser;

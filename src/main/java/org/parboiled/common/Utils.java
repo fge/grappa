@@ -16,6 +16,7 @@
 
 package org.parboiled.common;
 
+import com.google.common.collect.ImmutableList;
 import org.parboiled.errors.GrammarException;
 
 import java.lang.reflect.Array;
@@ -209,7 +210,8 @@ public final class Utils {
         toCheck.add(implementation);
         while (true) {
             // if we have checked everything and not found the base class we return an empty list
-            if (toCheck.isEmpty()) return ImmutableList.of();
+            if (toCheck.isEmpty())
+                return ImmutableList.of();
 
             type = toCheck.remove();
             Class<?> clazz;

@@ -16,8 +16,7 @@
 
 package org.parboiled.trees;
 
-import org.parboiled.common.ImmutableLinkedList;
-import org.parboiled.common.ImmutableList;
+import com.google.common.collect.ImmutableList;
 
 import java.util.List;
 
@@ -35,11 +34,8 @@ public class ImmutableGraphNode<T extends GraphNode<T>> implements GraphNode<T> 
     }
 
     public ImmutableGraphNode(List<T> children) {
-        this.children = children ==
-                null ? ImmutableList.<T>of() :
-                children instanceof ImmutableList ? children :
-                children instanceof ImmutableLinkedList ? children :
-                ImmutableList.copyOf(children);
+        this.children = children == null ? ImmutableList.<T>of() :
+            ImmutableList.copyOf(children);
     }
 
     public List<T> getChildren() {

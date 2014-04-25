@@ -16,9 +16,9 @@
 
 package org.parboiled.transform.process;
 
+import com.google.common.collect.ImmutableList;
 import org.parboiled.BaseParser;
 import org.parboiled.Rule;
-import org.parboiled.common.ImmutableList;
 import org.parboiled.transform.ActionClassGenerator;
 import org.testng.annotations.Test;
 

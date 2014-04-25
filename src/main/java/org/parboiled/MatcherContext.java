@@ -16,6 +16,7 @@
 
 package org.parboiled;
 
+import com.google.common.collect.Iterables;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.common.ImmutableLinkedList;
 import org.parboiled.common.StringUtils;
