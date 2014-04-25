@@ -79,8 +79,8 @@ public class DoubleQuotedString
 
 ## How to build
 
-You will need a JDK 6 or 7. **Note that for the moment, Java 8 does not work**. Then use this
-command to build and install into your local repository:
+You will need a JDK 6 or greater; **Java 8 works now!**. Then use this command
+to build and install into your local repository:
 
 ```
 # Unix systems: Linux, MacOSX, *BSD
