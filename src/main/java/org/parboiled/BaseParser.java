@@ -41,6 +41,7 @@ import org.parboiled.matchers.TestMatcher;
 import org.parboiled.matchers.TestNotMatcher;
 import org.parboiled.matchers.unicode.UnicodeCharMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
+import org.parboiled.matchers.unicode.UnicodeRangeMatcher;
 import org.parboiled.support.Characters;
 import org.parboiled.support.Chars;
 import org.parboiled.support.Checks;
@@ -142,6 +143,19 @@ public abstract class BaseParser<V> extends BaseActions<V> {
         checkArgument(Character.isValidCodePoint(codePoint),
             "invalid code point " + codePoint);
         return UnicodeCharMatcher.forCodePoint(codePoint);
+    }
+
+    @Cached
+    @DontLabel
+    public Rule UnicodeRange(final int low, final int high)
+    {
+        checkArgument(Character.isValidCodePoint(low),
+            "invalid code point " + low);
+        checkArgument(Character.isValidCodePoint(high),
+            "invalid code point " + high);
+        checkArgument(low <= high, "invalid range: " + low + " > " + high);
+        return low == high ? UnicodeCharMatcher.forCodePoint(low)
+            : UnicodeRangeMatcher.forRange(low, high);
     }
 
     /**
