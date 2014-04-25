@@ -16,10 +16,10 @@
 
 package org.parboiled.support;
 
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import org.parboiled.Node;
 import org.parboiled.buffers.InputBuffer;
-import org.parboiled.common.Predicate;
-import org.parboiled.common.Predicates;
 import org.parboiled.common.StringUtils;
 
 import java.util.Collection;

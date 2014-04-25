@@ -16,8 +16,8 @@
 
 package org.parboiled.support;
 
+import com.google.common.base.Predicate;
 import org.parboiled.Node;
-import org.parboiled.common.Predicate;
 
 /**
  * A simple Node predicate determining whether a Node matches a given label prefix.
@@ -25,7 +25,8 @@ import org.parboiled.common.Predicate;
  *
  * @param <V> the type of the value field of a parse tree node
  */
-public class LabelPrefixPredicate<V> implements Predicate<Node<V>> {
+public class LabelPrefixPredicate<V> implements Predicate<Node<V>>
+{
     private final String labelPrefix;
 
     public LabelPrefixPredicate(String labelPrefix) {

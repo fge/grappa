@@ -16,9 +16,9 @@
 
 package org.parboiled.trees;
 
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import org.parboiled.common.Formatter;
-import org.parboiled.common.Predicate;
-import org.parboiled.common.Predicates;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -59,7 +59,8 @@ public final class GraphUtils {
      * @return the last child node of the given node or null if node is null or does not have any children
      */
     public static <T extends GraphNode<T>> T getLastChild(T node) {
-        return hasChildren(node) ? node.getChildren().get(node.getChildren().size() - 1) : null;
+        return hasChildren(node) ? node.getChildren().get(
+            node.getChildren().size() - 1) : null;
     }
 
     /**

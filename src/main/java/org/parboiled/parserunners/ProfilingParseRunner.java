@@ -16,11 +16,11 @@
 
 package org.parboiled.parserunners;
 
+import com.google.common.base.Predicate;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
 import org.parboiled.buffers.InputBuffer;
-import org.parboiled.common.Predicate;
 import org.parboiled.matchers.Matcher;
 import org.parboiled.matchervisitors.DoWithMatcherVisitor;
 import org.parboiled.support.ParsingResult;
@@ -331,9 +331,12 @@ public class ProfilingParseRunner<V> extends AbstractParseRunner<V> implements M
         }
 
         public Report sortBySubInvocations() {
-            Collections.sort(ruleReports, new Comparator<RuleReport>() {
-                public int compare(RuleReport a, RuleReport b) {
-                    return intCompare(a.getInvocationSubs(), b.getInvocationSubs());
+            Collections.sort(ruleReports, new Comparator<RuleReport>()
+            {
+                public int compare(RuleReport a, RuleReport b)
+                {
+                    return intCompare(a.getInvocationSubs(),
+                        b.getInvocationSubs());
                 }
             });
             return this;
@@ -351,8 +354,9 @@ public class ProfilingParseRunner<V> extends AbstractParseRunner<V> implements M
         public Report sortByTimePerInvocation() {
             Collections.sort(ruleReports, new Comparator<RuleReport>() {
                 public int compare(RuleReport a, RuleReport b) {
-                    return doubleCompare(a.getNanoTime() / (double) a.getInvocations(),
-                            b.getNanoTime() / (double) b.getInvocations());
+                    return doubleCompare(
+                        a.getNanoTime() / (double) a.getInvocations(),
+                        b.getNanoTime() / (double) b.getInvocations());
                 }
             });
             return this;
@@ -379,7 +383,8 @@ public class ProfilingParseRunner<V> extends AbstractParseRunner<V> implements M
         public Report sortByReinvocations() {
             Collections.sort(ruleReports, new Comparator<RuleReport>() {
                 public int compare(RuleReport a, RuleReport b) {
-                    return intCompare(a.getReinvocations(), b.getReinvocations());
+                    return intCompare(a.getReinvocations(),
+                        b.getReinvocations());
                 }
             });
             return this;
@@ -388,7 +393,8 @@ public class ProfilingParseRunner<V> extends AbstractParseRunner<V> implements M
         public Report sortByResubinvocations() {
             Collections.sort(ruleReports, new Comparator<RuleReport>() {
                 public int compare(RuleReport a, RuleReport b) {
-                    return doubleCompare(a.getReinvocationSubs(), b.getReinvocationSubs());
+                    return doubleCompare(a.getReinvocationSubs(),
+                        b.getReinvocationSubs());
                 }
             });
             return this;
@@ -415,7 +421,8 @@ public class ProfilingParseRunner<V> extends AbstractParseRunner<V> implements M
         public Report sortByResubmismatches() {
             Collections.sort(ruleReports, new Comparator<RuleReport>() {
                 public int compare(RuleReport a, RuleReport b) {
-                    return doubleCompare(a.getRemismatchSubs(), b.getRemismatchSubs());
+                    return doubleCompare(a.getRemismatchSubs(),
+                        b.getRemismatchSubs());
                 }
             });
             return this;

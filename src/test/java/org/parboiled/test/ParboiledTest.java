@@ -16,10 +16,10 @@
 
 package org.parboiled.test;
 
+import com.google.common.base.Predicate;
 import org.parboiled.Node;
 import org.parboiled.Rule;
 import org.parboiled.buffers.InputBuffer;
-import org.parboiled.common.Predicate;
 import org.parboiled.parserunners.RecoveringParseRunner;
 import org.parboiled.parserunners.ReportingParseRunner;
 import org.parboiled.support.ParsingResult;

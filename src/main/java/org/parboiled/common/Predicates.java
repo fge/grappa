@@ -23,6 +23,12 @@ import java.util.Collection;
 
 import static org.parboiled.common.Preconditions.checkArgNotNull;
 
+/**
+ * DEPRECATED!
+ *
+ * @deprecated use Guava's {@link com.google.common.base.Predicates} instead
+ */
+@Deprecated
 public final class Predicates {
 
     private static final Joiner COMMA = Joiner.on(", ");

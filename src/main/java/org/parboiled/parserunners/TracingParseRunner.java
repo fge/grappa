@@ -16,14 +16,14 @@
 
 package org.parboiled.parserunners;
 
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import org.parboiled.Context;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.common.ConsoleSink;
-import org.parboiled.common.Predicate;
-import org.parboiled.common.Predicates;
 import org.parboiled.common.Sink;
 import org.parboiled.common.Tuple2;
 import org.parboiled.matchers.Matcher;

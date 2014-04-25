@@ -16,11 +16,11 @@
 
 package org.parboiled.support;
 
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import org.parboiled.Context;
 import org.parboiled.Node;
 import org.parboiled.Rule;
-import org.parboiled.common.Predicate;
-import org.parboiled.common.Predicates;
 import org.parboiled.common.Tuple2;
 import org.parboiled.matchers.Matcher;
 

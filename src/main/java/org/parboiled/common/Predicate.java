@@ -16,8 +16,14 @@
 
 package org.parboiled.common;
 
-public interface Predicate<T> {
-
-  boolean apply(T input);
-    
+/**
+ * DEPRECATED!
+ *
+ * @param <T> deprecated...
+ *
+ * @deprecated use {@link com.google.common.base.Predicate} instead
+ */
+public interface Predicate<T>
+    extends com.google.common.base.Predicate<T>
+{
 }
