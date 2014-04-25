@@ -27,7 +27,6 @@ import org.parboiled.annotations.SuppressNode;
 import org.parboiled.support.Var;
 
 import static java.lang.Integer.parseInt;
-import static org.parboiled.common.StringUtils.isEmpty;
 
 @SuppressWarnings({"UnusedDeclaration"})
 @BuildParseTree
@@ -119,7 +118,7 @@ public class TestParser extends BaseParser<Integer> {
     public Rule NumberRule() {
         return Sequence(
                 OneOrMore(CharRange('0', '9')).suppressNode(),
-                push(parseInt(isEmpty(match()) ? "0" : match()))
+                push(parseInt(match()))
         );
     }
 

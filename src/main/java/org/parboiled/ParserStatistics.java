@@ -326,7 +326,7 @@ public class ParserStatistics
         int anonymous = 0;
         for (final Class<?> c : actionClasses) {
             final String name = c.getSimpleName();
-            if (StringUtils.isEmpty(name)) {
+            if (name.isEmpty()) {
                 anonymous++;
             } else {
                 lines.add(name + " : "

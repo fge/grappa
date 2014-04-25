@@ -51,7 +51,7 @@ public class DefaultInvalidInputErrorFormatter implements Formatter<InvalidInput
             sb.append("Invalid input");
         }
         String expectedString = getExpectedString(error);
-        if (StringUtils.isNotEmpty(expectedString)) {
+        if (!expectedString.isEmpty()) {
             sb.append(", expected ").append(expectedString);
         }
         return sb.toString();

@@ -24,7 +24,6 @@ import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.LabelNode;
 import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
-import org.parboiled.common.StringUtils;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
 import org.parboiled.transform.Types;
@@ -81,7 +80,7 @@ public class LabellingGenerator implements RuleMethodProcessor {
                 if (annotation.desc.equals(Types.LABEL_DESC) && annotation.values != null) {
                     checkState("value".equals(annotation.values.get(0)));
                     String labelValue = (String) annotation.values.get(1);
-                    return StringUtils.isEmpty(labelValue) ? method.name : labelValue;
+                    return labelValue.isEmpty() ? method.name : labelValue;
                 }
             }
         }

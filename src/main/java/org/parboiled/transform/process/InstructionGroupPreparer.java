@@ -24,7 +24,6 @@ import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.VarInsnNode;
 import org.parboiled.common.Base64;
-import org.parboiled.common.StringUtils;
 import org.parboiled.transform.InstructionGraphNode;
 import org.parboiled.transform.InstructionGroup;
 import org.parboiled.transform.ParserClassNode;
@@ -268,7 +267,11 @@ public class InstructionGroupPreparer implements RuleMethodProcessor {
         }
 
         private void update(String str) {
-            if (StringUtils.isNotEmpty(str)) {
+            if (str == null)
+                return;
+            if (str.isEmpty())
+                return;
+            if (!str.isEmpty()) {
                 int len = str.length();
                 ensureRemaining(len * 2);
                 for (int i = 0; i < len; i++) {

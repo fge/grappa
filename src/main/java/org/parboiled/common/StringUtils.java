@@ -37,7 +37,7 @@ public final class StringUtils {
      * @return the escaped string
      */
     public static String escape(String string) {
-        if (isEmpty(string)) return "";
+        if (string.isEmpty()) return "";
         StringBuilder sb = new StringBuilder();
         char[] chars = string.toCharArray();
         for (int i = 0; i < chars.length; i++) {
@@ -242,6 +242,7 @@ public final class StringUtils {
      * @param str the String to check, may be null
      * @return <code>true</code> if the String is empty or null
      */
+    @Deprecated
     public static boolean isEmpty(String str) {
         return str == null || str.length() == 0;
     }
@@ -260,8 +261,9 @@ public final class StringUtils {
      * @param str the String to check, may be null
      * @return <code>true</code> if the String is not empty and not null
      */
+    @Deprecated
     public static boolean isNotEmpty(String str) {
-        return !isEmpty(str);
+        return !str.isEmpty();
     }
 
     /**

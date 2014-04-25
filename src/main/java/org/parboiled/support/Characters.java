@@ -256,7 +256,8 @@ public class Characters {
      * @return a new Characters object
      */
     public static Characters of(String chars) {
-        return StringUtils.isEmpty(chars) ? Characters.NONE : new Characters(false, chars.toCharArray());
+        return chars.isEmpty() ? Characters.NONE
+            : new Characters(false, chars.toCharArray());
     }
 
     /**
@@ -286,7 +287,8 @@ public class Characters {
      * @return a new Characters object
      */
     public static Characters allBut(String chars) {
-        return StringUtils.isEmpty(chars) ? Characters.ALL : new Characters(true, chars.toCharArray());
+        return chars.isEmpty() ? Characters.ALL
+            : new Characters(true, chars.toCharArray());
     }
 
 }
