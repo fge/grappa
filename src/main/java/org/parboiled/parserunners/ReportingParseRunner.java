@@ -58,6 +58,7 @@ public class ReportingParseRunner<V> extends AbstractParseRunner<V> {
         super(rule);
     }
 
+    @Override
     public ParsingResult<V> run(InputBuffer inputBuffer) {
         checkArgNotNull(inputBuffer, "inputBuffer");
         resetValueStack();

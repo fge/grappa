@@ -51,6 +51,7 @@ public class DefaultInputBuffer implements InputBuffer {
         this.length = buffer.length;
     }
 
+    @Override
     public char charAt(int index) {
         return 0 <= index && index < length ? buffer[index] :
                 index - length > 100000 ? throwParsingException() : Chars.EOI;
@@ -61,6 +62,7 @@ public class DefaultInputBuffer implements InputBuffer {
                 "verify that your grammar does not consume EOI indefinitely!");
     }
 
+    @Override
     public boolean test(int index, char[] characters) {
         int len = characters.length;
         if (index < 0 || index > length - len) {
@@ -72,6 +74,7 @@ public class DefaultInputBuffer implements InputBuffer {
         return true;
     }
 
+    @Override
     public String extract(int start, int end) {
         if (start < 0) start = 0;
         if (end >= length) end = length;
@@ -79,10 +82,12 @@ public class DefaultInputBuffer implements InputBuffer {
         return new String(buffer, start, end - start);
     }
 
+    @Override
     public String extract(IndexRange range) {
         return new String(buffer, range.start, Math.min(range.end, length) - range.start);
     }
 
+    @Override
     public Position getPosition(int index) {
         buildNewlines();
         int line = getLine0(newlines, index);
@@ -90,6 +95,7 @@ public class DefaultInputBuffer implements InputBuffer {
         return new Position(line + 1, column);
     }
 
+    @Override
     public int getOriginalIndex(int index) {
         return index;
     }
@@ -100,6 +106,7 @@ public class DefaultInputBuffer implements InputBuffer {
         return j >= 0 ? j : -(j + 1);
     }
 
+    @Override
     public String extractLine(int lineNumber) {
         buildNewlines();
         checkArgument(0 < lineNumber && lineNumber <= newlines.length + 1);
@@ -109,6 +116,7 @@ public class DefaultInputBuffer implements InputBuffer {
         return extract(start, end);
     }
 
+    @Override
     public int getLineCount() {
         buildNewlines();
         return newlines.length + 1;

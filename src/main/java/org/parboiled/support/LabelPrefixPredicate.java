@@ -33,6 +33,7 @@ public class LabelPrefixPredicate<V> implements Predicate<Node<V>>
         this.labelPrefix = labelPrefix;
     }
 
+    @Override
     public boolean apply(Node<V> input) {
         return input != null && input.getLabel().startsWith(labelPrefix);
     }

@@ -79,12 +79,14 @@ public class CachingGenerator implements RuleMethodProcessor
     private AbstractInsnNode current;
     private String cacheFieldName;
 
+    @Override
     public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
         checkArgNotNull(classNode, "classNode");
         checkArgNotNull(method, "method");
         return method.hasCachedAnnotation();
     }
 
+    @Override
     public void process(ParserClassNode classNode, RuleMethod method) throws Exception {
         checkArgNotNull(classNode, "classNode");
         checkArgNotNull(method, "method");

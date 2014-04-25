@@ -33,6 +33,7 @@ public class SequenceMatcher extends CustomDefaultLabelMatcher<SequenceMatcher> 
         super(checkArgNotNull(subRules, "subRules"), "Sequence");
     }
 
+    @Override
     public boolean match(MatcherContext context) {
         Object valueStackSnapshot = context.getValueStack().takeSnapshot();
 
@@ -54,6 +55,7 @@ public class SequenceMatcher extends CustomDefaultLabelMatcher<SequenceMatcher> 
         return true;
     }
 
+    @Override
     public <R> R accept(MatcherVisitor<R> visitor) {
         checkArgNotNull(visitor, "visitor");
         return visitor.visit(this);

@@ -30,11 +30,13 @@ public class EmptyMatcher extends AbstractMatcher {
         super("EMPTY");
     }
 
+    @Override
     public boolean match(MatcherContext context) {
         context.createNode();
         return true;
     }
 
+    @Override
     public <R> R accept(MatcherVisitor<R> visitor) {
         checkArgNotNull(visitor, "visitor");
         return visitor.visit(this);

@@ -91,34 +91,42 @@ public class IndentDedentInputBuffer implements InputBuffer {
         indexMap = converter.builder.getIndexMap();
     }
 
+    @Override
     public char charAt(int index) {
         return convBuffer.charAt(index);
     }
 
+    @Override
     public boolean test(int index, char[] characters) {
         return convBuffer.test(index, characters);
     }
 
+    @Override
     public String extract(int start, int end) {
         return origBuffer.extract(map(start), map(end));
     }
 
+    @Override
     public String extract(IndexRange range) {
         return origBuffer.extract(map(range.start), map(range.end));
     }
 
+    @Override
     public Position getPosition(int index) {
         return origBuffer.getPosition(map(index));
     }
 
+    @Override
     public int getOriginalIndex(int index) {
         return map(index);
     }
 
+    @Override
     public String extractLine(int lineNumber) {
         return origBuffer.extractLine(lineNumber);
     }
 
+    @Override
     public int getLineCount() {return origBuffer.getLineCount();}
 
     private int map(int convIndex) {

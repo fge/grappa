@@ -37,6 +37,7 @@ public class ProxyMatcher implements Matcher, Cloneable {
     private boolean memoMismatches;
     private boolean dirty;
 
+    @Override
     public List<Matcher> getChildren() {
         if (dirty) apply();
         return target.getChildren();
@@ -71,51 +72,61 @@ public class ProxyMatcher implements Matcher, Cloneable {
         dirty = label != null || nodeSuppressed || subnodesSuppressed || nodeSkipped || memoMismatches;
     }
 
+    @Override
     public <V> boolean match(MatcherContext<V> context) {
         if (dirty) apply();
         return target.match(context);
     }
 
+    @Override
     public String getLabel() {
         if (dirty) apply();
         return target.getLabel();
     }
 
+    @Override
     public boolean hasCustomLabel() {
         if (dirty) apply();
         return target.hasCustomLabel();
     }
 
+    @Override
     public boolean isNodeSuppressed() {
         if (dirty) apply();
         return target.isNodeSuppressed();
     }
 
+    @Override
     public boolean areSubnodesSuppressed() {
         if (dirty) apply();
         return target.areSubnodesSuppressed();
     }
 
+    @Override
     public boolean isNodeSkipped() {
         if (dirty) apply();
         return target.isNodeSkipped();
     }
 
+    @Override
     public boolean areMismatchesMemoed() {
         if (dirty) apply();
         return target.areMismatchesMemoed();
     }
 
+    @Override
     public void setTag(Object tagObject) {
         if (dirty) apply();
         target.setTag(tagObject);
     }
 
+    @Override
     public Object getTag() {
         if (dirty) apply();
         return target.getTag();
     }
 
+    @Override
     public <R> R accept(MatcherVisitor<R> visitor) {
         checkArgNotNull(visitor, "visitor");
         if (dirty) apply();
@@ -136,6 +147,7 @@ public class ProxyMatcher implements Matcher, Cloneable {
         if (nodeSkipped) skipNode();
     }
 
+    @Override
     public Rule label(String label) {
         if (target == null) {
             // if we have no target yet we need to save the label and "apply" it later
@@ -159,6 +171,7 @@ public class ProxyMatcher implements Matcher, Cloneable {
         return target;
     }
 
+    @Override
     public Rule suppressNode() {
         if (target == null) {
             // if we have no target yet we need to save the marker and "apply" it later
@@ -173,6 +186,7 @@ public class ProxyMatcher implements Matcher, Cloneable {
         return target;
     }
 
+    @Override
     public Rule suppressSubnodes() {
         if (target == null) {
             // if we have no target yet we need to save the marker and "apply" it later
@@ -187,6 +201,7 @@ public class ProxyMatcher implements Matcher, Cloneable {
         return target;
     }
 
+    @Override
     public Rule skipNode() {
         if (target == null) {
             // if we have no target yet we need to save the marker and "apply" it later
@@ -201,6 +216,7 @@ public class ProxyMatcher implements Matcher, Cloneable {
         return target;
     }
 
+    @Override
     public Rule memoMismatches() {
         if (target == null) {
             // if we have no target yet we need to save the marker and "apply" it later
@@ -240,6 +256,7 @@ public class ProxyMatcher implements Matcher, Cloneable {
         return matcher;
     }
 
+    @Override
     public MatcherContext getSubContext(MatcherContext context) {
         if (dirty) apply();
         return target.getSubContext(context);

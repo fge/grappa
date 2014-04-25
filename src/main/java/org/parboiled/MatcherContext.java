@@ -140,34 +140,42 @@ public class MatcherContext<V> implements Context<V> {
 
     //////////////////////////////// CONTEXT INTERFACE ////////////////////////////////////
 
+    @Override
     public MatcherContext<V> getParent() {
         return parent;
     }
 
+    @Override
     public InputBuffer getInputBuffer() {
         return inputBuffer;
     }
 
+    @Override
     public int getStartIndex() {
         return startIndex;
     }
 
+    @Override
     public Matcher getMatcher() {
         return matcher;
     }
 
+    @Override
     public char getCurrentChar() {
         return currentChar;
     }
 
+    @Override
     public List<ParseError> getParseErrors() {
         return parseErrors;
     }
 
+    @Override
     public int getCurrentIndex() {
         return currentIndex;
     }
 
+    @Override
     public MatcherPath getPath() {
         if (path == null) {
             path = new MatcherPath(new MatcherPath.Element(matcher, startIndex, level),
@@ -176,14 +184,17 @@ public class MatcherContext<V> implements Context<V> {
         return path;
     }
 
+    @Override
     public int getLevel() {
         return level;
     }
 
+    @Override
     public boolean fastStringMatching() {
         return fastStringMatching;
     }
 
+    @Override
     public ImmutableLinkedList<Node<V>> getSubNodes() {
         return matcher.isNodeSkipped() ? subNodes : getSubNodes(subNodes, ImmutableLinkedList.<Node<V>>nil());
     }
@@ -202,23 +213,28 @@ public class MatcherContext<V> implements Context<V> {
         return tail;
     }
 
+    @Override
     public boolean inPredicate() {
         return matcher instanceof TestMatcher || matcher instanceof TestNotMatcher ||
                 parent != null && parent.inPredicate();
     }
 
+    @Override
     public boolean inErrorRecovery() {
         return inErrorRecovery;
     }
     
+    @Override
     public boolean isNodeSuppressed() {
         return nodeSuppressed;
     }
 
+    @Override
     public boolean hasError() {
         return hasError;
     }
 
+    @Override
     public String getMatch() {
         checkActionContext();
         MatcherContext prevContext = subContext;
@@ -230,6 +246,7 @@ public class MatcherContext<V> implements Context<V> {
         return inputBuffer.extract(prevContext.startIndex, prevContext.currentIndex);
     }
 
+    @Override
     public char getFirstMatchChar() {
         checkActionContext();
         int ix = subContext.startIndex;
@@ -239,25 +256,30 @@ public class MatcherContext<V> implements Context<V> {
         return inputBuffer.charAt(ix);
     }
 
+    @Override
     public int getMatchStartIndex() {
         checkActionContext();
         return subContext.startIndex;
     }
 
+    @Override
     public int getMatchEndIndex() {
         checkActionContext();
         return subContext.currentIndex;
     }
 
+    @Override
     public int getMatchLength() {
         checkActionContext();
         return subContext.currentIndex - subContext.getStartIndex();
     }
 
+    @Override
     public Position getPosition() {
         return inputBuffer.getPosition(currentIndex);
     }
 
+    @Override
     public IndexRange getMatchRange() {
         checkActionContext();
         return new IndexRange(subContext.startIndex, subContext.currentIndex);
@@ -271,6 +293,7 @@ public class MatcherContext<V> implements Context<V> {
                         "only valid in Sequence rule actions that are not in first position");
     }
 
+    @Override
     public ValueStack<V> getValueStack() {
         return valueStack;
     }

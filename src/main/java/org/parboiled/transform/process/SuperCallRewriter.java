@@ -34,12 +34,14 @@ import static org.parboiled.common.Preconditions.checkState;
  */
 public class SuperCallRewriter implements RuleMethodProcessor {
 
+    @Override
     public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
         checkArgNotNull(classNode, "classNode");
         checkArgNotNull(method, "method");
         return method.containsPotentialSuperCalls();
     }
 
+    @Override
     public void process(ParserClassNode classNode, RuleMethod method) throws Exception {
         checkArgNotNull(classNode, "classNode");
         checkArgNotNull(method, "method");

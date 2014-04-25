@@ -38,6 +38,7 @@ public abstract class BaseAction extends BaseGroupClass implements SkippableActi
         super(checkArgNotNull(name, "name"));
     }
 
+    @Override
     public boolean skipInPredicates() {
         return skipInPredicates;
     }

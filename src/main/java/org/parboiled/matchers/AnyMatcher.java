@@ -31,6 +31,7 @@ public class AnyMatcher extends AbstractMatcher {
         super("ANY");
     }
 
+    @Override
     public boolean match(MatcherContext context) {
         switch (context.getCurrentChar()) {
             case Chars.DEL_ERROR:
@@ -47,6 +48,7 @@ public class AnyMatcher extends AbstractMatcher {
         return true;
     }
 
+    @Override
     public <R> R accept(MatcherVisitor<R> visitor) {
         checkArgNotNull(visitor, "visitor");
         return visitor.visit(this);

@@ -39,6 +39,7 @@ public class ImmutableTreeNode<T extends TreeNode<T>> extends ImmutableGraphNode
         acquireChildren();
     }
 
+    @Override
     public T getParent() {
         return parent;
     }

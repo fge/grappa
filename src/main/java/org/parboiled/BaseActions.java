@@ -46,6 +46,7 @@ public abstract class BaseActions<V> implements ContextAware<V> {
      *
      * @param context the context
      */
+    @Override
     public void setContext(Context<V> context) {
         this.context = checkArgNotNull(context, "context");
     }

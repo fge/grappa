@@ -40,18 +40,22 @@ import org.parboiled.matchers.unicode.UnicodeRangeMatcher;
  */
 public class IsSingleCharMatcherVisitor implements MatcherVisitor<Boolean> {
 
+    @Override
     public Boolean visit(ActionMatcher matcher) {
         return false;
     }
 
+    @Override
     public Boolean visit(AnyMatcher matcher) {
         return true;
     }
 
+    @Override
     public Boolean visit(CharIgnoreCaseMatcher matcher) {
         return true;
     }
 
+    @Override
     public Boolean visit(CharMatcher matcher) {
         return true;
     }
@@ -62,6 +66,7 @@ public class IsSingleCharMatcherVisitor implements MatcherVisitor<Boolean> {
         return matcher.isSingleCharMatcher();
     }
 
+    @Override
     public Boolean visit(CharRangeMatcher matcher) {
         return true;
     }
@@ -72,46 +77,57 @@ public class IsSingleCharMatcherVisitor implements MatcherVisitor<Boolean> {
         return matcher.isSingleCharMatcher();
     }
 
+    @Override
     public Boolean visit(AnyOfMatcher matcher) {
         return true;
     }
 
+    @Override
     public Boolean visit(CustomMatcher matcher) {
         return matcher.isSingleCharMatcher();
     }
 
+    @Override
     public Boolean visit(EmptyMatcher matcher) {
         return false;
     }
 
+    @Override
     public Boolean visit(FirstOfMatcher matcher) {
         return false;
     }
 
+    @Override
     public Boolean visit(NothingMatcher matcher) {
         return false;
     }
 
+    @Override
     public Boolean visit(OneOrMoreMatcher matcher) {
         return false;
     }
 
+    @Override
     public Boolean visit(OptionalMatcher matcher) {
         return false;
     }
 
+    @Override
     public Boolean visit(SequenceMatcher matcher) {
         return false;
     }
 
+    @Override
     public Boolean visit(TestMatcher matcher) {
         return false;
     }
 
+    @Override
     public Boolean visit(TestNotMatcher matcher) {
         return false;
     }
 
+    @Override
     public Boolean visit(ZeroOrMoreMatcher matcher) {
         return false;
     }

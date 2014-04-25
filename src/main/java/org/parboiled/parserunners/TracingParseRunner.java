@@ -107,6 +107,7 @@ public class TracingParseRunner<V> extends ReportingParseRunner<V> implements Ma
         return createParsingResult(matched, rootContext);
     }
 
+    @Override
     @SuppressWarnings( {"unchecked"})
     public boolean match(MatcherContext<?> context) {
         Matcher matcher = context.getMatcher();

@@ -51,6 +51,7 @@ public class CharMatcher extends AbstractMatcher {
         }
     }
 
+    @Override
     public boolean match(MatcherContext context) {
         if (context.getCurrentChar() != character) return false;
         context.advanceIndex(1);
@@ -58,6 +59,7 @@ public class CharMatcher extends AbstractMatcher {
         return true;
     }
 
+    @Override
     public <R> R accept(MatcherVisitor<R> visitor) {
         checkArgNotNull(visitor, "visitor");
         return visitor.visit(this);

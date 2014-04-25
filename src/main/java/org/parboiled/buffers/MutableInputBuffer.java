@@ -39,36 +39,44 @@ public class MutableInputBuffer implements InputBuffer {
         this.buffer = buffer;
     }
 
+    @Override
     public char charAt(int index) {
         int j = Arrays.binarySearch(inserts, index);
         if (j >= 0) return chars[j];
         return buffer.charAt(index + (j + 1));
     }
 
+    @Override
     public boolean test(int index, char[] characters) {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public Position getPosition(int index) {
         return buffer.getPosition(map(index));
     }
 
+    @Override
     public int getOriginalIndex(int index) {
         return buffer.getOriginalIndex(map(index));
     }
 
+    @Override
     public String extractLine(int lineNumber) {
         return buffer.extractLine(lineNumber);
     }
 
+    @Override
     public String extract(int start, int end) {
         return buffer.extract(map(start), map(end));
     }
 
+    @Override
     public String extract(IndexRange range) {
         return buffer.extract(map(range.start), map(range.end));
     }
 
+    @Override
     public int getLineCount() {
         return buffer.getLineCount();
     }

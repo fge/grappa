@@ -55,26 +55,32 @@ public abstract class AbstractMatcher extends ImmutableGraphNode<Matcher> implem
         return matchers;
     }
 
+    @Override
     public boolean isNodeSuppressed() {
         return nodeSuppressed;
     }
 
+    @Override
     public boolean areSubnodesSuppressed() {
         return subnodesSuppressed;
     }
 
+    @Override
     public boolean isNodeSkipped() {
         return nodeSkipped;
     }
 
+    @Override
     public boolean areMismatchesMemoed() {
         return false;
     }
 
+    @Override
     public String getLabel() {
         return label;
     }
 
+    @Override
     public boolean hasCustomLabel() {
         // this is the default implementation for single character matchers
         // complex matchers override with a custom implementation
@@ -86,6 +92,7 @@ public abstract class AbstractMatcher extends ImmutableGraphNode<Matcher> implem
         return getLabel();
     }
 
+    @Override
     public AbstractMatcher label(String label) {
         if (Utils.equal(label, this.label)) return this;
         AbstractMatcher clone = createClone();
@@ -93,6 +100,7 @@ public abstract class AbstractMatcher extends ImmutableGraphNode<Matcher> implem
         return clone;
     }
 
+    @Override
     public Rule suppressNode() {
         if (nodeSuppressed) return this;
         AbstractMatcher clone = createClone();
@@ -100,6 +108,7 @@ public abstract class AbstractMatcher extends ImmutableGraphNode<Matcher> implem
         return clone;
     }
 
+    @Override
     public Rule suppressSubnodes() {
         if (subnodesSuppressed) return this;
         AbstractMatcher clone = createClone();
@@ -107,6 +116,7 @@ public abstract class AbstractMatcher extends ImmutableGraphNode<Matcher> implem
         return clone;
     }
 
+    @Override
     public Rule skipNode() {
         if (nodeSkipped) return this;
         AbstractMatcher clone = createClone();
@@ -114,18 +124,22 @@ public abstract class AbstractMatcher extends ImmutableGraphNode<Matcher> implem
         return clone;
     }
 
+    @Override
     public Rule memoMismatches() {
         return new MemoMismatchesMatcher(this);
     }
 
+    @Override
     public Object getTag() {
         return tag;
     }
+    @Override
     public void setTag(Object tagObject) {
         tag = tagObject;
     }
 
     // default implementation is to simply delegate to the context
+    @Override
     public MatcherContext getSubContext(MatcherContext context) {
         return context.getSubContext(this);
     }

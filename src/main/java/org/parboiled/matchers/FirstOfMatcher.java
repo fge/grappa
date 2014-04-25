@@ -33,6 +33,7 @@ public class FirstOfMatcher extends CustomDefaultLabelMatcher<FirstOfMatcher> {
         super(checkArgNotNull(subRules, "subRules"), "FirstOf");
     }
 
+    @Override
     @SuppressWarnings( {"ForLoopReplaceableByForEach"})
     public boolean match(MatcherContext context) {
         List<Matcher> children = getChildren();
@@ -47,6 +48,7 @@ public class FirstOfMatcher extends CustomDefaultLabelMatcher<FirstOfMatcher> {
         return false;
     }
 
+    @Override
     public <R> R accept(MatcherVisitor<R> visitor) {
         checkArgNotNull(visitor, "visitor");
         return visitor.visit(this);

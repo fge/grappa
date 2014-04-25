@@ -46,6 +46,7 @@ public abstract class AbstractParseRunner<V> implements ParseRunner<V> {
         return rootMatcher;
     }
 
+    @Override
     public ParseRunner<V> withParseErrors(List<ParseError> parseErrors) {
         this.parseErrors = parseErrors;
         return this;
@@ -58,6 +59,7 @@ public abstract class AbstractParseRunner<V> implements ParseRunner<V> {
         return parseErrors;
     }
 
+    @Override
     public ParseRunner<V>withValueStack(ValueStack<V> valueStack) {
         this.valueStack = checkArgNotNull(valueStack, "valueStack");
         this.initialValueStackSnapshot = valueStack.takeSnapshot();
@@ -71,11 +73,13 @@ public abstract class AbstractParseRunner<V> implements ParseRunner<V> {
         return valueStack;
     }    
 
+    @Override
     public ParsingResult<V> run(String input) {
         checkArgNotNull(input, "input");
         return run(input.toCharArray());
     }
 
+    @Override
     public ParsingResult<V> run(char[] input) {
         checkArgNotNull(input, "input");
         return run(new DefaultInputBuffer(input));

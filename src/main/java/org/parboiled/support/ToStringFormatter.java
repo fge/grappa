@@ -35,6 +35,7 @@ public class ToStringFormatter<T> implements Formatter<T> {
         this.nullString = nullString;
     }
 
+    @Override
     public String format(T obj) {
         return obj != null ? obj.toString() : nullString;
     }

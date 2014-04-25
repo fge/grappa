@@ -37,6 +37,7 @@ public class VarFramingMatcher implements Matcher {
         this.variables = checkArgNotNull(variables, "variables");
     }
 
+    @Override
     public <V> boolean match(MatcherContext<V> context) {
         for (Var var : variables) {
             var.enterFrame();
@@ -53,56 +54,72 @@ public class VarFramingMatcher implements Matcher {
 
     // GraphNode
 
+    @Override
     public List<Matcher> getChildren() {
         return inner.getChildren();
     }
 
     // Rule
 
+    @Override
     public Rule label(String label) {
         return new VarFramingMatcher(inner.label(label), variables);
     }
 
+    @Override
     public Rule suppressNode() {
         return new VarFramingMatcher(inner.suppressNode(), variables);
     }
 
+    @Override
     public Rule suppressSubnodes() {
         return new VarFramingMatcher(inner.suppressSubnodes(), variables);
     }
 
+    @Override
     public Rule skipNode() {
         return new VarFramingMatcher(inner.skipNode(), variables);
     }
 
+    @Override
     public Rule memoMismatches() {
         return new VarFramingMatcher(inner.memoMismatches(), variables);
     }
 
     // Matcher
 
+    @Override
     public String getLabel() {return inner.getLabel();}
 
+    @Override
     public boolean hasCustomLabel() {return inner.hasCustomLabel();}
 
+    @Override
     public boolean isNodeSuppressed() {return inner.isNodeSuppressed();}
 
+    @Override
     public boolean areSubnodesSuppressed() {return inner.areSubnodesSuppressed();}
 
+    @Override
     public boolean isNodeSkipped() {return inner.isNodeSkipped();}
 
+    @Override
     public boolean areMismatchesMemoed() { return inner.areMismatchesMemoed(); }
 
+    @Override
     public void setTag(Object tagObject) { inner.setTag(tagObject); }
 
+    @Override
     public Object getTag() { return inner.getTag(); }
     
+    @Override
     public MatcherContext getSubContext(MatcherContext context) {
         MatcherContext subContext = inner.getSubContext(context);
         subContext.setMatcher(this); // we need to inject ourselves here otherwise we get cut out
         return subContext;
     }
 
+    @Override
     public <R> R accept(MatcherVisitor<R> visitor) {
         checkArgNotNull(visitor, "visitor");
         return inner.accept(visitor);

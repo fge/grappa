@@ -33,14 +33,17 @@ public class MutableTreeNodeImpl<T extends MutableTreeNode<T>> implements Mutabl
     private final List<T> childrenView = Collections.unmodifiableList(children);
     private T parent;
 
+    @Override
     public T getParent() {
         return parent;
     }
 
+    @Override
     public List<T> getChildren() {
         return childrenView;
     }
 
+    @Override
     public void addChild(int index, T child) {
         checkElementIndex(index, children.size() + 1);
 
@@ -57,6 +60,7 @@ public class MutableTreeNodeImpl<T extends MutableTreeNode<T>> implements Mutabl
         setParent(child, this);
     }
 
+    @Override
     public void setChild(int index, T child) {
         checkElementIndex(index, children.size());
 
@@ -75,6 +79,7 @@ public class MutableTreeNodeImpl<T extends MutableTreeNode<T>> implements Mutabl
         setParent(child, this);
     }
 
+    @Override
     public T removeChild(int index) {
         checkElementIndex(index, children.size());
         T removed = children.remove(index);

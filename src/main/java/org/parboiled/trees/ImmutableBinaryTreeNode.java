@@ -39,10 +39,12 @@ public class ImmutableBinaryTreeNode<T extends BinaryTreeNode<T>> extends Immuta
         this.right = right;
     }
 
+    @Override
     public T left() {
         return left;
     }
 
+    @Override
     public T right() {
         return right;
     }

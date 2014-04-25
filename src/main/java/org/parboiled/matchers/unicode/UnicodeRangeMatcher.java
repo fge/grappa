@@ -51,6 +51,7 @@ public abstract class UnicodeRangeMatcher
             : new GenericSupplementaryRangeMatcher(label, lowChars, highChars);
     }
 
+    @Override
     public <R> R accept(MatcherVisitor<R> visitor)
     {
         Preconditions.checkArgNotNull(visitor, "visitor");

@@ -54,12 +54,14 @@ public class RuleMethodRewriter implements RuleMethodProcessor {
     private int actionNr;
     private int varInitNr;
 
+    @Override
     public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
         checkArgNotNull(classNode, "classNode");
         checkArgNotNull(method, "method");
         return method.containsExplicitActions() || method.containsVars();
     }
 
+    @Override
     public void process(ParserClassNode classNode, RuleMethod method) throws Exception {
         this.method = checkArgNotNull(method, "method");
         actionNr = 0;

@@ -43,18 +43,22 @@ import org.parboiled.matchers.unicode.UnicodeRangeMatcher;
  */
 public class DefaultMatcherVisitor<R> implements MatcherVisitor<R> {
 
+    @Override
     public R visit(ActionMatcher matcher) {
         return defaultValue(matcher);
     }
 
+    @Override
     public R visit(AnyMatcher matcher) {
         return defaultValue(matcher);
     }
 
+    @Override
     public R visit(CharIgnoreCaseMatcher matcher) {
         return defaultValue(matcher);
     }
 
+    @Override
     public R visit(CharMatcher matcher) {
         return defaultValue(matcher);
     }
@@ -65,6 +69,7 @@ public class DefaultMatcherVisitor<R> implements MatcherVisitor<R> {
         return defaultValue(matcher);
     }
 
+    @Override
     public R visit(CharRangeMatcher matcher) {
         return defaultValue(matcher);
     }
@@ -75,46 +80,57 @@ public class DefaultMatcherVisitor<R> implements MatcherVisitor<R> {
         return defaultValue(matcher);
     }
 
+    @Override
     public R visit(AnyOfMatcher matcher) {
         return defaultValue(matcher);
     }
 
+    @Override
     public R visit(CustomMatcher matcher) {
         return defaultValue(matcher);
     }
 
+    @Override
     public R visit(EmptyMatcher matcher) {
         return defaultValue(matcher);
     }
 
+    @Override
     public R visit(FirstOfMatcher matcher) {
         return defaultValue(matcher);
     }
 
+    @Override
     public R visit(NothingMatcher matcher) {
         return defaultValue(matcher);
     }
 
+    @Override
     public R visit(OneOrMoreMatcher matcher) {
         return defaultValue(matcher);
     }
 
+    @Override
     public R visit(OptionalMatcher matcher) {
         return defaultValue(matcher);
     }
 
+    @Override
     public R visit(SequenceMatcher matcher) {
         return defaultValue(matcher);
     }
 
+    @Override
     public R visit(TestMatcher matcher) {
         return defaultValue(matcher);
     }
 
+    @Override
     public R visit(TestNotMatcher matcher) {
         return defaultValue(matcher);
     }
 
+    @Override
     public R visit(ZeroOrMoreMatcher matcher) {
         return defaultValue(matcher);
     }

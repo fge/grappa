@@ -58,6 +58,7 @@ public class Var<T> extends Reference<T> {
     public Var(final T value) {
         super(value);
         initialValueFactory = new Factory<T>() {
+            @Override
             public T create() {
                 return value;
             }

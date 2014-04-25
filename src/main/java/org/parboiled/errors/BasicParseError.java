@@ -37,14 +37,17 @@ public class BasicParseError implements ParseError {
         this.errorMessage = errorMessage;
     }
 
+    @Override
     public InputBuffer getInputBuffer() {
         return inputBuffer;
     }
 
+    @Override
     public int getStartIndex() {
         return startIndex + indexDelta;
     }
 
+    @Override
     public int getEndIndex() {
         return endIndex + indexDelta;
     }
@@ -53,6 +56,7 @@ public class BasicParseError implements ParseError {
         this.endIndex = endIndex - indexDelta;
     }
 
+    @Override
     public String getErrorMessage() {
         return errorMessage;
     }

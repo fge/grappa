@@ -42,18 +42,22 @@ import org.parboiled.support.Checks;
  */
 public class CanMatchEmptyVisitor implements MatcherVisitor<Boolean> {
 
+    @Override
     public Boolean visit(ActionMatcher matcher) {
         return true;
     }
 
+    @Override
     public Boolean visit(AnyMatcher matcher) {
         return false;
     }
 
+    @Override
     public Boolean visit(CharIgnoreCaseMatcher matcher) {
         return false;
     }
 
+    @Override
     public Boolean visit(CharMatcher matcher) {
         return false;
     }
@@ -70,22 +74,27 @@ public class CanMatchEmptyVisitor implements MatcherVisitor<Boolean> {
         return false;
     }
 
+    @Override
     public Boolean visit(CharRangeMatcher matcher) {
         return false;
     }
 
+    @Override
     public Boolean visit(AnyOfMatcher matcher) {
         return false;
     }
 
+    @Override
     public Boolean visit(CustomMatcher matcher) {
         return matcher.canMatchEmpty();
     }
 
+    @Override
     public Boolean visit(EmptyMatcher matcher) {
         return true;
     }
 
+    @Override
     public Boolean visit(FirstOfMatcher matcher) {
         for (Matcher child : matcher.getChildren()) {
             if (child.accept(this)) return true;
@@ -93,20 +102,24 @@ public class CanMatchEmptyVisitor implements MatcherVisitor<Boolean> {
         return false;
     }
 
+    @Override
     public Boolean visit(NothingMatcher matcher) {
         return false;
     }
 
+    @Override
     public Boolean visit(OneOrMoreMatcher matcher) {
         Checks.ensure(!matcher.subMatcher.accept(this),
                 "Rule '%s' must not allow empty matches as sub-rule of an OneOrMore-rule", matcher.subMatcher);
         return false;
     }
 
+    @Override
     public Boolean visit(OptionalMatcher matcher) {
         return true;
     }
 
+    @Override
     public Boolean visit(SequenceMatcher matcher) {
         for (Matcher child : matcher.getChildren()) {
             if (!child.accept(this)) return false;
@@ -114,14 +127,17 @@ public class CanMatchEmptyVisitor implements MatcherVisitor<Boolean> {
         return true;
     }
 
+    @Override
     public Boolean visit(TestMatcher matcher) {
         return true;
     }
 
+    @Override
     public Boolean visit(TestNotMatcher matcher) {
         return true;
     }
 
+    @Override
     public Boolean visit(ZeroOrMoreMatcher matcher) {
         Checks.ensure(!matcher.subMatcher.accept(this),
                 "Rule '%s' must not allow empty matches as sub-rule of an ZeroOrMore-rule", matcher.subMatcher);

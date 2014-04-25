@@ -33,10 +33,12 @@ import static org.parboiled.common.Preconditions.checkState;
  */
 public class ReturnInstructionUnifier implements RuleMethodProcessor {
 
+    @Override
     public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
         return true;
     }
 
+    @Override
     public void process(ParserClassNode classNode, RuleMethod method) throws Exception {
         checkArgNotNull(classNode, "classNode");
         checkArgNotNull(method, "method");

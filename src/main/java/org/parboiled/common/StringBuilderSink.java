@@ -19,6 +19,7 @@ package org.parboiled.common;
 public class StringBuilderSink implements Sink<String>{
     public final StringBuilder builder = new StringBuilder();
     
+    @Override
     public void receive(String value) {
         builder.append(value);
     }

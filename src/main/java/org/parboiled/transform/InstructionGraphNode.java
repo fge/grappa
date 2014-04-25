@@ -62,6 +62,7 @@ public class InstructionGraphNode extends BasicValue {
         this.isXStore = ISTORE <= instruction.getOpcode() && instruction.getOpcode() < IASTORE;
     }
 
+    @Override
     public int getSize() {
         return resultValue.getSize();
     }

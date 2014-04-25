@@ -56,12 +56,14 @@ public class InstructionGroupCreator implements RuleMethodProcessor  {
     private final Map<String, Integer> memberModifiers = new HashMap<String, Integer>();
     private RuleMethod method;
 
+    @Override
     public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
         checkArgNotNull(classNode, "classNode");
         checkArgNotNull(method, "method");
         return method.containsExplicitActions() || method.containsVars();
     }
 
+    @Override
     public void process(ParserClassNode classNode, RuleMethod method) {
         this.method = checkArgNotNull(method, "method");
 
@@ -118,6 +120,7 @@ public class InstructionGroupCreator implements RuleMethodProcessor  {
     private void sort(InstructionGroup group) {
         final InsnList instructions = method.instructions;
         Collections.sort(group.getNodes(), new Comparator<InstructionGraphNode>() {
+            @Override
             public int compare(InstructionGraphNode a, InstructionGraphNode b) {
                 return Integer.valueOf(instructions.indexOf(a.getInstruction()))
                         .compareTo(instructions.indexOf(b.getInstruction()));

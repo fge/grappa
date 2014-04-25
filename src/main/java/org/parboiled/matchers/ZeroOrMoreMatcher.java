@@ -34,6 +34,7 @@ public class ZeroOrMoreMatcher extends CustomDefaultLabelMatcher<ZeroOrMoreMatch
         this.subMatcher = getChildren().get(0);
     }
 
+    @Override
     public boolean match(MatcherContext context) {
         checkArgNotNull(context, "context");
         int lastIndex = context.getCurrentIndex();
@@ -50,6 +51,7 @@ public class ZeroOrMoreMatcher extends CustomDefaultLabelMatcher<ZeroOrMoreMatch
         return true;
     }
 
+    @Override
     public <R> R accept(MatcherVisitor<R> visitor) {
         checkArgNotNull(visitor, "visitor");
         return visitor.visit(this);

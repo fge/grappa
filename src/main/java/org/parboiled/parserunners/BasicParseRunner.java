@@ -59,6 +59,7 @@ public class BasicParseRunner<V> extends AbstractParseRunner<V> implements Match
         super(rule);
     }
 
+    @Override
     public ParsingResult<V> run(InputBuffer inputBuffer) {
         checkArgNotNull(inputBuffer, "inputBuffer");
         resetValueStack();
@@ -68,6 +69,7 @@ public class BasicParseRunner<V> extends AbstractParseRunner<V> implements Match
         return createParsingResult(matched, rootContext);
     }
 
+    @Override
     public boolean match(MatcherContext<?> context) {
         return context.getMatcher().match(context);
     }

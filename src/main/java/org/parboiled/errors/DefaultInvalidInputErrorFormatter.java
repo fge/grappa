@@ -36,6 +36,7 @@ public class DefaultInvalidInputErrorFormatter
 {
     private static final Escaper ESCAPER = CharsEscaper.INSTANCE;
 
+    @Override
     public String format(InvalidInputError error) {
         if (error == null) return "";
 

@@ -37,6 +37,7 @@ public class Filters {
      * do not have sub nodes.
      */
     public static final Predicate<Node<Object>> SKIP_EMPTY_OPTS = new Predicate<Node<Object>>() {
+        @Override
         public boolean apply(Node<Object> node) {
             return hasChildren(node) || node.getEndIndex() != node.getStartIndex() ||
                     !"Optional".equals(node.getLabel());
@@ -48,6 +49,7 @@ public class Filters {
      * do not have sub nodes.
      */
     public static final Predicate<Node<Object>> SKIP_EMPTY_ZOMS = new Predicate<Node<Object>>() {
+        @Override
         public boolean apply(Node<Object> node) {
             return hasChildren(node) || node.getEndIndex() != node.getStartIndex() ||
                     !"ZeroOrMore".equals(node.getLabel());
@@ -70,6 +72,7 @@ public class Filters {
         return new Predicate<Matcher>() {
             private final Set<Matcher> visited = new HashSet<Matcher>();
 
+            @Override
             public boolean apply(Matcher node) {
                 node = unwrap(node);
                 if (visited.contains(node)) {
@@ -91,6 +94,7 @@ public class Filters {
      */
     public static Predicate<Tuple2<Context<?>, Boolean>> lines(final int firstLine, final int lastLine) {
         return new Predicate<Tuple2<Context<?>, Boolean>>() {
+            @Override
             public boolean apply(Tuple2<Context<?>, Boolean> tuple) {
                 int line = tuple.a.getInputBuffer().getPosition(tuple.a.getCurrentIndex()).line;
                 return firstLine <= line && line <= lastLine;
@@ -107,6 +111,7 @@ public class Filters {
      */
     public static Predicate<Tuple2<Context<?>, Boolean>> fromLine(final int firstLine) {
         return new Predicate<Tuple2<Context<?>, Boolean>>() {
+            @Override
             public boolean apply(Tuple2<Context<?>, Boolean> tuple) {
                 return tuple.a.getInputBuffer().getPosition(tuple.a.getCurrentIndex()).line >= firstLine;
             }
@@ -122,6 +127,7 @@ public class Filters {
      */
     public static Predicate<Tuple2<Context<?>, Boolean>> untilLine(final int lastLine) {
         return new Predicate<Tuple2<Context<?>, Boolean>>() {
+            @Override
             public boolean apply(Tuple2<Context<?>, Boolean> tuple) {
                 return tuple.a.getInputBuffer().getPosition(tuple.a.getCurrentIndex()).line <= lastLine;
             }
@@ -137,6 +143,7 @@ public class Filters {
      */
     public static Predicate<Tuple2<Context<?>, Boolean>> rules(final Rule... rules) {
         return new Predicate<Tuple2<Context<?>, Boolean>>() {
+            @Override
             public boolean apply(Tuple2<Context<?>, Boolean> tuple) {
                 MatcherPath path = tuple.a.getPath();
                 for (Rule rule : rules) if (path.contains((Matcher) rule)) return true;
@@ -154,6 +161,7 @@ public class Filters {
      */
     public static Predicate<Tuple2<Context<?>, Boolean>> onlyRules(final Rule... rules) {
         return new Predicate<Tuple2<Context<?>, Boolean>>() {
+            @Override
             public boolean apply(Tuple2<Context<?>, Boolean> tuple) {
                 for (Rule rule : rules) if (tuple.a.getMatcher() == rule) return true;
                 return false;
@@ -170,6 +178,7 @@ public class Filters {
      */
     public static Predicate<Tuple2<Context<?>, Boolean>> rulesBelow(final Rule... rules) {
         return new Predicate<Tuple2<Context<?>, Boolean>>() {
+            @Override
             public boolean apply(Tuple2<Context<?>, Boolean> tuple) {
                 MatcherPath path = tuple.a.getPath();
                 for (Rule rule : rules) {
@@ -189,6 +198,7 @@ public class Filters {
      */
     public static Predicate<Tuple2<Context<?>, Boolean>> onlyMatches() {
         return new Predicate<Tuple2<Context<?>, Boolean>>() {
+            @Override
             public boolean apply(Tuple2<Context<?>, Boolean> tuple) {
                 return tuple.b;
             }
@@ -203,6 +213,7 @@ public class Filters {
      */
     public static Predicate<Tuple2<Context<?>, Boolean>> onlyMismatches() {
         return new Predicate<Tuple2<Context<?>, Boolean>>() {
+            @Override
             public boolean apply(Tuple2<Context<?>, Boolean> tuple) {
                 return !tuple.b;
             }

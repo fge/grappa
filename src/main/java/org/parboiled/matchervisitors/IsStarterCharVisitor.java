@@ -49,18 +49,22 @@ public class IsStarterCharVisitor implements MatcherVisitor<Boolean> {
         this.starterChar = starterChar;
     }
 
+    @Override
     public Boolean visit(ActionMatcher matcher) {
         return false;
     }
 
+    @Override
     public Boolean visit(AnyMatcher matcher) {
         return starterChar != Chars.EOI;
     }
 
+    @Override
     public Boolean visit(CharIgnoreCaseMatcher matcher) {
         return matcher.charLow == starterChar || matcher.charUp == starterChar;
     }
 
+    @Override
     public Boolean visit(CharMatcher matcher) {
         return matcher.character == starterChar;
     }
@@ -71,6 +75,7 @@ public class IsStarterCharVisitor implements MatcherVisitor<Boolean> {
         return matcher.isStarterChar(starterChar);
     }
 
+    @Override
     public Boolean visit(CharRangeMatcher matcher) {
         return matcher.cLow <= starterChar && starterChar <= matcher.cHigh;
     }
@@ -81,18 +86,22 @@ public class IsStarterCharVisitor implements MatcherVisitor<Boolean> {
         return matcher.isStarterChar(starterChar);
     }
 
+    @Override
     public Boolean visit(AnyOfMatcher matcher) {
         return matcher.characters.contains(starterChar);
     }
 
+    @Override
     public Boolean visit(CustomMatcher matcher) {
         return matcher.isStarterChar(starterChar);
     }
 
+    @Override
     public Boolean visit(EmptyMatcher matcher) {
         return false;
     }
 
+    @Override
     public Boolean visit(FirstOfMatcher matcher) {
         for (Matcher child : matcher.getChildren()) {
             if (child.accept(this)) return true;
@@ -100,18 +109,22 @@ public class IsStarterCharVisitor implements MatcherVisitor<Boolean> {
         return false;
     }
 
+    @Override
     public Boolean visit(NothingMatcher matcher) {
         return false;
     }
 
+    @Override
     public Boolean visit(OneOrMoreMatcher matcher) {
         return matcher.subMatcher.accept(this);
     }
 
+    @Override
     public Boolean visit(OptionalMatcher matcher) {
         return matcher.subMatcher.accept(this);
     }
 
+    @Override
     public Boolean visit(SequenceMatcher matcher) {
         for (Matcher child : matcher.getChildren()) {
             if (child.accept(this)) return true;
@@ -120,14 +133,17 @@ public class IsStarterCharVisitor implements MatcherVisitor<Boolean> {
         return false;
     }
 
+    @Override
     public Boolean visit(TestMatcher matcher) {
         return matcher.subMatcher.accept(this);
     }
 
+    @Override
     public Boolean visit(TestNotMatcher matcher) {
         return false;
     }
 
+    @Override
     public Boolean visit(ZeroOrMoreMatcher matcher) {
         return matcher.subMatcher.accept(this);
     }

@@ -59,10 +59,12 @@ public class DefaultValueStack<V> implements ValueStack<V> {
         pushAll(values);
     }
 
+    @Override
     public boolean isEmpty() {
         return head == null;
     }
 
+    @Override
     public int size() {
         Element cursor = head;
         int size = 0;
@@ -73,14 +75,17 @@ public class DefaultValueStack<V> implements ValueStack<V> {
         return size;
     }
 
+    @Override
     public void clear() {
         head = null;
     }
 
+    @Override
     public Object takeSnapshot() {
         return head;
     }
 
+    @Override
     public void restoreSnapshot(Object snapshot) {
         try {
             head = (Element) snapshot;
@@ -89,10 +94,12 @@ public class DefaultValueStack<V> implements ValueStack<V> {
         }
     }
 
+    @Override
     public void push(V value) {
         head = new Element(value, head);
     }
 
+    @Override
     public void push(int down, V value) {
         head = push(down, value, head);
     }
@@ -104,20 +111,24 @@ public class DefaultValueStack<V> implements ValueStack<V> {
         throw new IllegalArgumentException("Argument 'down' must not be negative");
     }
 
+    @Override
     public void pushAll(V firstValue, V... moreValues) {
         push(firstValue);
         for (V value : moreValues) push(value);
     }
 
+    @Override
     public void pushAll(Iterable<V> values) {
         head = null;
         for (V value : values) push(value);
     }
 
+    @Override
     public V pop() {
         return pop(0);
     }
 
+    @Override
     public V pop(int down) {
         head = pop(down, head);
         V result = tempValue;
@@ -136,10 +147,12 @@ public class DefaultValueStack<V> implements ValueStack<V> {
         throw new IllegalArgumentException("Argument 'down' must not be negative");
     }
 
+    @Override
     public V peek() {
         return peek(0);
     }
 
+    @Override
     @SuppressWarnings({"unchecked"})
     public V peek(int down) {
         return (V) peek(down, head);
@@ -153,10 +166,12 @@ public class DefaultValueStack<V> implements ValueStack<V> {
         throw new IllegalArgumentException("Argument 'down' must not be negative");
     }
 
+    @Override
     public void poke(V value) {
         poke(0, value);
     }
 
+    @Override
     public void poke(int down, V value) {
         head = poke(down, value, head);
     }
@@ -168,16 +183,19 @@ public class DefaultValueStack<V> implements ValueStack<V> {
         throw new IllegalArgumentException("Argument 'down' must not be negative");
     }
 
+    @Override
     public void dup() {
         push(peek());
     }
 
+    @Override
     public void swap() {
         Checks.ensure(isSizeGTE(2, head), "Swap not allowed on stack with less than two elements");
         Element down1 = head.tail;
         head = new Element(down1.value, new Element(head.value, down1.tail));
     }
 
+    @Override
     public void swap3() {
         Checks.ensure(isSizeGTE(3, head), "Swap3 not allowed on stack with less than 3 elements");
         Element down1 = head.tail;
@@ -185,6 +203,7 @@ public class DefaultValueStack<V> implements ValueStack<V> {
         head = new Element(down2.value, new Element(down1.value, new Element(head.value, down2.tail)));
     }
 
+    @Override
     public void swap4() {
         Checks.ensure(isSizeGTE(4, head), "Swap4 not allowed on stack with less than 4 elements");
         Element down1 = head.tail;
@@ -194,6 +213,7 @@ public class DefaultValueStack<V> implements ValueStack<V> {
                 down3.tail))));
     }
 
+    @Override
     public void swap5() {
         Checks.ensure(isSizeGTE(5, head), "Swap5 not allowed on stack with less than 5 elements");
         Element down1 = head.tail;
@@ -204,6 +224,7 @@ public class DefaultValueStack<V> implements ValueStack<V> {
                 new Element(head.value, down4.tail)))));
     }
 
+    @Override
     public void swap6() {
         Checks.ensure(isSizeGTE(6, head), "Swap6 not allowed on stack with less than 6 elements");
         Element down1 = head.tail;
@@ -219,18 +240,22 @@ public class DefaultValueStack<V> implements ValueStack<V> {
         return minSize == 1 ? head != null : isSizeGTE(minSize - 1, head.tail);
     }
 
+    @Override
     public Iterator<V> iterator() {
         return new Iterator<V>() {
             private Element next = head;
+            @Override
             public boolean hasNext() {
                 return next != null;
             }
+            @Override
             @SuppressWarnings({"unchecked"})
             public V next() {
                 V value = (V) next.value;
                 next = next.tail;
                 return value;
             }
+            @Override
             public void remove() {
                 throw new UnsupportedOperationException();
             }

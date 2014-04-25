@@ -33,6 +33,7 @@ public class VarInitClassGenerator extends GroupClassGenerator
         super(forceCodeBuilding);
     }
 
+    @Override
     public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
         checkArgNotNull(method, "method");
         return method.containsVars();

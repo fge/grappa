@@ -44,26 +44,32 @@ class NodeImpl<V> extends ImmutableTreeNode<Node<V>> implements Node<V> {
         this.hasError = hasError;
     }
 
+    @Override
     public Matcher getMatcher() {
         return matcher;
     }
 
+    @Override
     public String getLabel() {
         return matcher.getLabel();
     }
 
+    @Override
     public int getStartIndex() {
         return startIndex;
     }
 
+    @Override
     public int getEndIndex() {
         return endIndex;
     }
 
+    @Override
     public V getValue() {
         return value;
     }
 
+    @Override
     public boolean hasError() {
         return hasError;
     }

@@ -42,6 +42,7 @@ public class ImmutableGraphNode<T extends GraphNode<T>> implements GraphNode<T> 
                 ImmutableList.copyOf(children);
     }
 
+    @Override
     public List<T> getChildren() {
         return children;
     }

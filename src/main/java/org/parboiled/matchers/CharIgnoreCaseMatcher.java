@@ -35,6 +35,7 @@ public class CharIgnoreCaseMatcher extends AbstractMatcher {
         this.charUp = Character.toUpperCase(character);
     }
 
+    @Override
     public boolean match(MatcherContext context) {
         char c = context.getCurrentChar();
         if (c != charLow && c != charUp) return false;
@@ -43,6 +44,7 @@ public class CharIgnoreCaseMatcher extends AbstractMatcher {
         return true;
     }
 
+    @Override
     public <R> R accept(MatcherVisitor<R> visitor) {
         checkArgNotNull(visitor, "visitor");
         return visitor.visit(this);

@@ -30,10 +30,12 @@ public class NothingMatcher extends AbstractMatcher {
         super("NOTHING");
     }
 
+    @Override
     public boolean match(MatcherContext context) {
         return false;
     }
 
+    @Override
     public <R> R accept(MatcherVisitor<R> visitor) {
         checkArgNotNull(visitor, "visitor");
         return visitor.visit(this);

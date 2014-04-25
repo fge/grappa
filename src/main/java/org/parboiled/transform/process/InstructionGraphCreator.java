@@ -34,12 +34,14 @@ import static org.parboiled.common.Preconditions.checkArgNotNull;
  */
 public class InstructionGraphCreator implements RuleMethodProcessor {
 
+    @Override
     public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
         checkArgNotNull(classNode, "classNode");
         checkArgNotNull(method, "method");
         return method.containsImplicitActions() || method.containsExplicitActions() || method.containsVars();
     }
 
+    @Override
     public void process(ParserClassNode classNode, RuleMethod method) throws Exception {
         checkArgNotNull(method, "method");
         final RuleMethodInterpreter interpreter = new RuleMethodInterpreter(method);

@@ -84,6 +84,7 @@ public class ActionMatcher extends AbstractMatcher {
         }
     }
 
+    @Override
     @SuppressWarnings({"unchecked"})
     public <V> boolean match(MatcherContext<V> context) {
         if (skipInPredicates && context.inPredicate()) return true;
@@ -122,6 +123,7 @@ public class ActionMatcher extends AbstractMatcher {
         return this; // actions are already "suppressNode"
     }
 
+    @Override
     public <R> R accept(MatcherVisitor<R> visitor) {
         checkArgNotNull(visitor, "visitor");
         return visitor.visit(this);

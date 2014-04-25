@@ -46,12 +46,14 @@ public class InstructionGroupPreparer implements RuleMethodProcessor {
 
     private RuleMethod method;
 
+    @Override
     public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
         checkArgNotNull(classNode, "classNode");
         checkArgNotNull(method, "method");
         return method.containsExplicitActions() || method.containsVars();
     }
 
+    @Override
     public void process(ParserClassNode classNode, RuleMethod method) {
         this.method = checkArgNotNull(method, "method");
 

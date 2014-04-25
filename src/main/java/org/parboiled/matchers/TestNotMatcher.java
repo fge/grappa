@@ -34,6 +34,7 @@ public class TestNotMatcher extends CustomDefaultLabelMatcher<TestNotMatcher> {
         this.subMatcher = getChildren().get(0);
     }
 
+    @Override
     public boolean match(MatcherContext context) {
         int lastIndex = context.getCurrentIndex();
         Object valueStackSnapshot = context.getValueStack().takeSnapshot();
@@ -48,6 +49,7 @@ public class TestNotMatcher extends CustomDefaultLabelMatcher<TestNotMatcher> {
         return true;
     }
 
+    @Override
     public <R> R accept(MatcherVisitor<R> visitor) {
         checkArgNotNull(visitor, "visitor");
         return visitor.visit(this);

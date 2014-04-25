@@ -33,6 +33,7 @@ import static org.parboiled.transform.AsmUtils.createArgumentLoaders;
  */
 public class BodyWithSuperCallReplacer implements RuleMethodProcessor {
 
+    @Override
     public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
         checkArgNotNull(classNode, "classNode");
         checkArgNotNull(method, "method");
@@ -41,6 +42,7 @@ public class BodyWithSuperCallReplacer implements RuleMethodProcessor {
                                                         // which needs access to the local variables
     }
 
+    @Override
     public void process(ParserClassNode classNode, RuleMethod method) throws Exception {
         checkArgNotNull(classNode, "classNode");
         checkArgNotNull(method, "method");

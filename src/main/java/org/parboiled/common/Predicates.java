@@ -229,6 +229,7 @@ public final class Predicates {
     private static class AlwaysTruePredicate implements Predicate<Object> {
         private static final Predicate<Object> INSTANCE = new AlwaysTruePredicate();
 
+        @Override
         public boolean apply(Object o) {
             return true;
         }
@@ -243,6 +244,7 @@ public final class Predicates {
     private static class AlwaysFalsePredicate implements Predicate<Object> {
         private static final Predicate<Object> INSTANCE = new AlwaysFalsePredicate();
 
+        @Override
         public boolean apply(Object o) {
             return false;
         }
@@ -261,6 +263,7 @@ public final class Predicates {
             this.predicate = predicate;
         }
 
+        @Override
         public boolean apply(T t) {
             return !predicate.apply(t);
         }
@@ -277,6 +280,7 @@ public final class Predicates {
             this.components = components;
         }
 
+        @Override
         public boolean apply(T t) {
             for (Predicate<? super T> predicate : components) {
                 if (!predicate.apply(t)) {
@@ -299,6 +303,7 @@ public final class Predicates {
             this.components = components;
         }
 
+        @Override
         public boolean apply(T t) {
             for (Predicate<? super T> predicate : components) {
                 if (predicate.apply(t)) {
@@ -321,6 +326,7 @@ public final class Predicates {
             this.target = target;
         }
 
+        @Override
         public boolean apply(T t) {
             return target.equals(t);
         }
@@ -339,6 +345,7 @@ public final class Predicates {
             this.clazz = clazz;
         }
 
+        @Override
         public boolean apply(Object o) {
             return clazz.isInstance(o);
         }
@@ -352,6 +359,7 @@ public final class Predicates {
     private static class IsNullPredicate implements Predicate<Object> {
         private static final Predicate<Object> INSTANCE = new IsNullPredicate();
 
+        @Override
         public boolean apply(Object o) {
             return o == null;
         }
@@ -365,6 +373,7 @@ public final class Predicates {
     private static class NotNullPredicate implements Predicate<Object> {
         private static final Predicate<Object> INSTANCE = new NotNullPredicate();
 
+        @Override
         public boolean apply(Object o) {
             return o != null;
         }
@@ -383,6 +392,7 @@ public final class Predicates {
             this.target = target;
         }
 
+        @Override
         public boolean apply(T t) {
             try {
                 return target.contains(t);

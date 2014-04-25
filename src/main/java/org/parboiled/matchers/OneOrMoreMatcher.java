@@ -35,6 +35,7 @@ public class OneOrMoreMatcher extends CustomDefaultLabelMatcher<OneOrMoreMatcher
         this.subMatcher = getChildren().get(0);
     }
 
+    @Override
     public boolean match(MatcherContext context) {
         boolean matched = subMatcher.getSubContext(context).runMatcher();
         if (!matched) return false;
@@ -54,6 +55,7 @@ public class OneOrMoreMatcher extends CustomDefaultLabelMatcher<OneOrMoreMatcher
         return true;
     }
 
+    @Override
     public <R> R accept(MatcherVisitor<R> visitor) {
         checkArgNotNull(visitor, "visitor");
         return visitor.visit(this);

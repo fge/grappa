@@ -17,6 +17,7 @@
 package org.parboiled.common;
 
 public class ConsoleSink implements Sink<String>{
+    @Override
     public void receive(String value) {
         System.out.print(value);
     }

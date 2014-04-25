@@ -35,6 +35,7 @@ public class AnyOfMatcher extends AbstractMatcher {
         this.characters = characters;
     }
 
+    @Override
     public boolean match(MatcherContext context) {
         if (!characters.contains(context.getCurrentChar())) return false;
         context.advanceIndex(1);
@@ -42,6 +43,7 @@ public class AnyOfMatcher extends AbstractMatcher {
         return true;
     }
 
+    @Override
     public <R> R accept(MatcherVisitor<R> visitor) {
         checkArgNotNull(visitor, "visitor");
         return visitor.visit(this);

@@ -34,6 +34,7 @@ public class MemoMismatchesMatcher implements Matcher {
         this.inner = checkArgNotNull((Matcher) inner, "inner");
     }
 
+    @Override
     @SuppressWarnings({"unchecked"})
     public <V> boolean match(MatcherContext<V> context) {
         if (context.hasMismatched()) {
@@ -48,56 +49,72 @@ public class MemoMismatchesMatcher implements Matcher {
 
     // GraphNode
 
+    @Override
     public List<Matcher> getChildren() {
         return inner.getChildren();
     }
 
     // Rule
 
+    @Override
     public Rule label(String label) {
         return new MemoMismatchesMatcher(inner.label(label));
     }
 
+    @Override
     public Rule suppressNode() {
         return new MemoMismatchesMatcher(inner.suppressNode());
     }
 
+    @Override
     public Rule suppressSubnodes() {
         return new MemoMismatchesMatcher(inner.suppressSubnodes());
     }
 
+    @Override
     public Rule skipNode() {
         return new MemoMismatchesMatcher(inner.skipNode());
     }
 
+    @Override
     public Rule memoMismatches() {
         return this; // already done
     }
 
     // Matcher
 
+    @Override
     public String getLabel() {return inner.getLabel();}
 
+    @Override
     public boolean hasCustomLabel() {return inner.hasCustomLabel();}
 
+    @Override
     public boolean isNodeSuppressed() {return inner.isNodeSuppressed();}
 
+    @Override
     public boolean areSubnodesSuppressed() {return inner.areSubnodesSuppressed();}
 
+    @Override
     public boolean isNodeSkipped() {return inner.isNodeSkipped();}
 
+    @Override
     public boolean areMismatchesMemoed() { return true; }
 
+    @Override
     public void setTag(Object tagObject) { inner.setTag(tagObject); }
 
+    @Override
     public Object getTag() { return inner.getTag(); }
 
+    @Override
     public MatcherContext getSubContext(MatcherContext context) {
         MatcherContext subContext = inner.getSubContext(context);
         subContext.setMatcher(this); // we need to inject ourselves here otherwise we get cut out
         return subContext;
     }
 
+    @Override
     public <R> R accept(MatcherVisitor<R> visitor) {
         checkArgNotNull(visitor, "visitor");
         return inner.accept(visitor);

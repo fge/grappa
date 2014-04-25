@@ -72,6 +72,7 @@ public abstract class CustomMatcher extends AbstractMatcher {
      */
     public abstract char getStarterChar();
 
+    @Override
     public <R> R accept(MatcherVisitor<R> visitor) {
         checkArgNotNull(visitor, "visitor");
         return visitor.visit(this);

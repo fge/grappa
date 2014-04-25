@@ -59,6 +59,7 @@ public abstract class GroupClassGenerator implements RuleMethodProcessor {
         this.forceCodeBuilding = forceCodeBuilding;
     }
 
+    @Override
     public void process(ParserClassNode classNode, RuleMethod method) {
         this.classNode = checkArgNotNull(classNode, "classNode");
         this.method = checkArgNotNull(method, "method");

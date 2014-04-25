@@ -128,6 +128,7 @@ public class RecoveringParseRunner<V> extends AbstractParseRunner<V> {
         this.timeout = timeout;
     }
 
+    @Override
     public ParsingResult<V> run(InputBuffer inputBuffer) {
         checkArgNotNull(inputBuffer, "inputBuffer");
         startTimeStamp = System.currentTimeMillis();
@@ -314,6 +315,7 @@ public class RecoveringParseRunner<V> extends AbstractParseRunner<V> {
         private int fringeIndex;
         private MatcherPath lastMatchPath;
 
+        @Override
         public boolean match(MatcherContext<?> context) {
             Matcher matcher = context.getMatcher();
             if (matcher.accept(isSingleCharMatcherVisitor)) {

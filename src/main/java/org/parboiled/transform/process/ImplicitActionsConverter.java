@@ -45,12 +45,14 @@ public class ImplicitActionsConverter implements RuleMethodProcessor {
     private final Set<InstructionGraphNode> covered = new HashSet<InstructionGraphNode>();
     private RuleMethod method;
 
+    @Override
     public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
         checkArgNotNull(classNode, "classNode");
         checkArgNotNull(method, "method");
         return method.containsImplicitActions();
     }
 
+    @Override
     public void process(ParserClassNode classNode, RuleMethod method) throws Exception {
         this.method = checkArgNotNull(method, "method");
         covered.clear();

@@ -29,6 +29,7 @@ public class MutableBinaryTreeNodeImpl<T extends MutableBinaryTreeNode<T>> exten
         super.addChild(1, null); // right
     }
 
+    @Override
     public T left() {
         return getChildren().get(0);
     }
@@ -37,6 +38,7 @@ public class MutableBinaryTreeNodeImpl<T extends MutableBinaryTreeNode<T>> exten
         setChild(0, node);
     }
 
+    @Override
     public T right() {
         return getChildren().get(1);
     }

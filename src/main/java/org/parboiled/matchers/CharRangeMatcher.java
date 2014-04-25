@@ -37,6 +37,7 @@ public class CharRangeMatcher extends AbstractMatcher {
         this.cHigh = cHigh;
     }
 
+    @Override
     public boolean match(MatcherContext context) {
         char c = context.getCurrentChar();
         if (c < cLow || c > cHigh) return false;
@@ -46,6 +47,7 @@ public class CharRangeMatcher extends AbstractMatcher {
         return true;
     }
 
+    @Override
     public <R> R accept(MatcherVisitor<R> visitor) {
         checkArgNotNull(visitor, "visitor");
         return visitor.visit(this);

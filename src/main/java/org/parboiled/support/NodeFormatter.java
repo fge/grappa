@@ -40,6 +40,7 @@ public class NodeFormatter<V> implements Formatter<Node<V>> {
         this.inputBuffer = checkArgNotNull(inputBuffer, "inputBuffer");
     }
 
+    @Override
     public String format(Node<V> node) {
         String nodeLabel = node.toString();
         final String text = ParseTreeUtils.getNodeText(node, inputBuffer);

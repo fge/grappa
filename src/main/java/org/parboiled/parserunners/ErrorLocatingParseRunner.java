@@ -57,6 +57,7 @@ public class ErrorLocatingParseRunner<V> extends AbstractParseRunner<V> implemen
         this.inner = inner;
     }
 
+    @Override
     public ParsingResult<V> run(InputBuffer inputBuffer) {
         checkArgNotNull(inputBuffer, "inputBuffer");
         resetValueStack();
@@ -71,6 +72,7 @@ public class ErrorLocatingParseRunner<V> extends AbstractParseRunner<V> implemen
         return createParsingResult(matched, rootContext);
     }
 
+    @Override
     public boolean match(MatcherContext<?> context) {
         if (inner == null && context.getMatcher().match(context) || inner != null && inner.match(context)) {
             if (errorIndex < context.getCurrentIndex() && notTestNot(context)) {

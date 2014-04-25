@@ -33,12 +33,14 @@ public class OptionalMatcher extends CustomDefaultLabelMatcher<OptionalMatcher> 
         this.subMatcher = getChildren().get(0);
     }
 
+    @Override
     public boolean match(MatcherContext context) {
         subMatcher.getSubContext(context).runMatcher();
         context.createNode();
         return true;
     }
 
+    @Override
     public <R> R accept(MatcherVisitor<R> visitor) {
         checkArgNotNull(visitor, "visitor");
         return visitor.visit(this);

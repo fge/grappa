@@ -21,6 +21,7 @@ public abstract class UnicodeCharMatcher
         super(label);
     }
 
+    @Override
     public <R> R accept(MatcherVisitor<R> visitor)
     {
         Preconditions.checkArgNotNull(visitor, "visitor");
