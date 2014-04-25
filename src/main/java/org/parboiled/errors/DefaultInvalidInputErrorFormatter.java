@@ -16,7 +16,7 @@
 
 package org.parboiled.errors;
 
-import com.github.fge.grappa.util.GrappaEscaper;
+import org.parboiled.support.CharsEscaper;
 import com.google.common.escape.Escaper;
 import org.parboiled.common.Formatter;
 import org.parboiled.matchers.AnyOfMatcher;
@@ -34,7 +34,7 @@ import java.util.List;
 public class DefaultInvalidInputErrorFormatter
     implements Formatter<InvalidInputError>
 {
-    private static final Escaper ESCAPER = GrappaEscaper.INSTANCE;
+    private static final Escaper ESCAPER = CharsEscaper.INSTANCE;
 
     public String format(InvalidInputError error) {
         if (error == null) return "";

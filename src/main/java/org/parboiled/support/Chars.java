@@ -16,7 +16,6 @@
 
 package org.parboiled.support;
 
-import com.github.fge.grappa.util.GrappaEscaper;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
 
@@ -35,7 +34,7 @@ public class Chars
      *
      * @return an escape map (immutable)
      *
-     * @see GrappaEscaper
+     * @see CharsEscaper
      */
     public static Map<Character, String> escapeMap()
     {

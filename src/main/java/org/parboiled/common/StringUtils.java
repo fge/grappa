@@ -16,7 +16,7 @@
 
 package org.parboiled.common;
 
-import com.github.fge.grappa.util.GrappaEscaper;
+import org.parboiled.support.CharsEscaper;
 import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
@@ -43,7 +43,7 @@ public final class StringUtils {
      * @param string the string
      * @return the escaped string
      *
-     * @deprecated use {@link GrappaEscaper} instead
+     * @deprecated use {@link CharsEscaper} instead
      */
     @Deprecated
     public static String escape(String string) {

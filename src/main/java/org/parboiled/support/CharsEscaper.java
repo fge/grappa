@@ -1,13 +1,12 @@
-package com.github.fge.grappa.util;
+package org.parboiled.support;
 
 import com.google.common.escape.ArrayBasedCharEscaper;
 import com.google.common.escape.Escaper;
-import org.parboiled.support.Chars;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
-public final class GrappaEscaper
+public final class CharsEscaper
     extends Escaper
 {
     private static final ArrayBasedCharEscaper DELEGATE
@@ -21,9 +20,9 @@ public final class GrappaEscaper
         }
     };
 
-    public static final Escaper INSTANCE = new GrappaEscaper();
+    public static final Escaper INSTANCE = new CharsEscaper();
 
-    private GrappaEscaper()
+    private CharsEscaper()
     {
     }
 

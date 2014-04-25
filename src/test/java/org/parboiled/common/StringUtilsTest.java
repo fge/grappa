@@ -16,7 +16,7 @@
 
 package org.parboiled.common;
 
-import com.github.fge.grappa.util.GrappaEscaper;
+import org.parboiled.support.CharsEscaper;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
@@ -26,7 +26,7 @@ public class StringUtilsTest {
     @Test
     public void testStringEscaping()
     {
-        assertEquals(GrappaEscaper.INSTANCE.escape("Hallo\r\nMeister!"),
+        assertEquals(CharsEscaper.INSTANCE.escape("Hallo\r\nMeister!"),
             "Hallo\\nMeister!");
     }
 

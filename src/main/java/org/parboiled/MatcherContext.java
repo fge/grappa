@@ -16,7 +16,7 @@
 
 package org.parboiled;
 
-import com.github.fge.grappa.util.GrappaEscaper;
+import org.parboiled.support.CharsEscaper;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.common.ImmutableLinkedList;
 import org.parboiled.errors.BasicParseError;
@@ -109,8 +109,10 @@ public class MatcherContext<V> implements Context<V> {
      */
     public MatcherContext(InputBuffer inputBuffer, ValueStack<V> valueStack, List<ParseError> parseErrors,
                           MatchHandler matchHandler, Matcher matcher, boolean fastStringMatching) {
-        this(checkArgNotNull(inputBuffer, "inputBuffer"), checkArgNotNull(valueStack, "valueStack"),
-                checkArgNotNull(parseErrors, "parseErrors"), checkArgNotNull(matchHandler, "matchHandler"),
+        this(checkArgNotNull(inputBuffer, "inputBuffer"), checkArgNotNull(
+            valueStack, "valueStack"),
+                checkArgNotNull(parseErrors, "parseErrors"), checkArgNotNull(
+            matchHandler, "matchHandler"),
                 null, 0, fastStringMatching,  new HashSet<MatcherPosition>());
         this.currentChar = inputBuffer.charAt(0);
         this.matcher = ProxyMatcher.unwrap(checkArgNotNull(matcher, "matcher"));
@@ -221,7 +223,8 @@ public class MatcherContext<V> implements Context<V> {
         MatcherContext prevContext = subContext;
         if (hasError) {
             Node prevNode = prevContext.node;
-            return prevNode != null ? ParseTreeUtils.getNodeText(prevNode, inputBuffer) : "";
+            return prevNode != null ? ParseTreeUtils.getNodeText(prevNode,
+                inputBuffer) : "";
         }
         return inputBuffer.extract(prevContext.startIndex, prevContext.currentIndex);
     }
@@ -382,7 +385,7 @@ public class MatcherContext<V> implements Context<V> {
                 );
             throw new ParserRuntimeException(e, printParseError(
                 new  BasicParseError(inputBuffer, currentIndex,
-                    GrappaEscaper.INSTANCE.escape(msg))));
+                    CharsEscaper.INSTANCE.escape(msg))));
         }
     }
 }
