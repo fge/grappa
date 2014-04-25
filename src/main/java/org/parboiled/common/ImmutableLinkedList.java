@@ -16,177 +16,99 @@
 
 package org.parboiled.common;
 
-import java.util.AbstractSequentialList;
+import com.google.common.collect.ForwardingList;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+
+import java.util.List;
 import java.util.ListIterator;
 
-import static org.parboiled.common.Preconditions.checkArgNotNull;
-
-public class ImmutableLinkedList<T> extends AbstractSequentialList<T> {
-
-    private static final ImmutableLinkedList<Object> NIL = new ImmutableLinkedList<Object>() {
-        private final ListIterator<Object> iterator = new IllIterator<Object>(this);
-
+// TODO: get rid of it
+public class ImmutableLinkedList<T>
+    extends ForwardingList<T>
+{
+    private static final ImmutableLinkedList<Object> NIL
+        = new ImmutableLinkedList<Object>(ImmutableList.of())
+    {
         @Override
-        public Object head() {
+        public Object head()
+        {
             throw new UnsupportedOperationException("head of empty list");
         }
 
         @Override
-        public ImmutableLinkedList<Object> tail() {
+        public ImmutableLinkedList<Object> tail()
+        {
             throw new UnsupportedOperationException("tail of empty list");
         }
 
         @Override
-        public Object last() {
+        public Object last()
+        {
             throw new UnsupportedOperationException("last of empty list");
         }
 
         @Override
-        public ListIterator<Object> listIterator(int index) {
-            return iterator;
+        protected List<Object> delegate()
+        {
+            return ImmutableList.of();
+        }
+
+        @Override
+        public ListIterator<Object> listIterator(int index)
+        {
+            return ImmutableList.of().listIterator();
         }
     };
 
-    @SuppressWarnings({"unchecked"})
-    public static <T> ImmutableLinkedList<T> nil() {
+    private final List<T> elements;
+
+    @Override
+    protected List<T> delegate()
+    {
+        return elements;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> ImmutableLinkedList<T> nil()
+    {
         return (ImmutableLinkedList<T>) NIL;
     }
 
-    private final T head;
-    private final ImmutableLinkedList<T> tail;
-
-    // only used by NIL
-    private ImmutableLinkedList() {
-        head = null;
-        tail = null;
+    public ImmutableLinkedList(T head, ImmutableLinkedList<T> tail)
+    {
+        elements = ImmutableList.<T>builder().add(head)
+            .addAll(tail).build();
     }
 
-    public ImmutableLinkedList(T head, ImmutableLinkedList<T> tail) {
-        checkArgNotNull(tail, "tail");
-        this.head = head;
-        this.tail = tail;
+    private ImmutableLinkedList(final List<T> elements)
+    {
+        this.elements = ImmutableList.copyOf(elements);
     }
 
-    public T head() {
-        return head;
+    public T head()
+    {
+        return Iterables.getFirst(elements, null);
     }
 
-    public ImmutableLinkedList<T> tail() {
-        return tail;
+    public ImmutableLinkedList<T> tail()
+    {
+        return new ImmutableLinkedList<T>(elements.subList(1, elements.size()));
     }
 
-    public T last() {
-        ImmutableLinkedList<T> cursor = this;
-        while (!cursor.tail.isEmpty()) {
-            cursor = cursor.tail();
-        }
-        return cursor.head();
+    public T last()
+    {
+        return Iterables.getLast(elements);
     }
 
-    public ImmutableLinkedList<T> prepend(T object) {
+    public ImmutableLinkedList<T> prepend(T object)
+    {
         return new ImmutableLinkedList<T>(object, this);
     }
 
-    public ImmutableLinkedList<T> reverse() {
-        if (tail == NIL) return this;
-        
-        ImmutableLinkedList<T> reversed = nil();
-        ImmutableLinkedList<T> next = this;
-        while (next != NIL) {
-            reversed = reversed.prepend(next.head);
-            next = next.tail;
-        }
-        return reversed;
+    public ImmutableLinkedList<T> reverse()
+    {
+        return new ImmutableLinkedList<T>(Lists.reverse(elements));
     }
-
-    public static <T> boolean equal(ImmutableLinkedList<T> a, ImmutableLinkedList<T> b) {
-        checkArgNotNull(a, "a");
-        checkArgNotNull(b, "b");
-        return Utils.equal(a.head, b.head) && equal(a.tail, b.tail);
-    }
-
-    public static int hashCode(ImmutableLinkedList<?> list) {
-        checkArgNotNull(list, "list");
-        return list.isEmpty() ? 0 : 31 * list.head.hashCode() + hashCode(list.tail);
-    }
-
-    @Override
-    public ListIterator<T> listIterator(int index) {
-        ListIterator<T> iterator = new IllIterator<T>(this);
-        while (index-- > 0) {
-            if (!iterator.hasNext()) throw new IndexOutOfBoundsException();
-            iterator.next();
-        }
-        return iterator;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return this == NIL;
-    }
-
-    @Override
-    public int size() {
-        ImmutableLinkedList<T> cursor = this;
-        int size = 0;
-        while (!cursor.isEmpty()) {
-            size++;
-            cursor = cursor.tail();
-        }
-        return size;
-    }
-
-    private static class IllIterator<T> implements ListIterator<T> {
-        private final ImmutableLinkedList<T> start;
-        private ImmutableLinkedList<T> current;
-        private int nextIndex = 0;
-
-        private IllIterator(ImmutableLinkedList<T> start) {
-            this.start = start;
-            this.current = start;
-        }
-
-        public boolean hasNext() {
-            return current != NIL;
-        }
-
-        public T next() {
-            ImmutableLinkedList<T> next = current;
-            current = current.tail;
-            nextIndex++;
-            return next.head;
-        }
-
-        public boolean hasPrevious() {
-            return current != start;
-        }
-
-        public T previous() {
-            ImmutableLinkedList<T> previous = start;
-            while (previous.tail != current) previous = previous.tail;
-            nextIndex--;
-            return previous.head;
-        }
-
-        public int nextIndex() {
-            return nextIndex;
-        }
-
-        public int previousIndex() {
-            return nextIndex - 1;
-        }
-
-        public void remove() {
-            throw new UnsupportedOperationException();
-        }
-
-        public void set(T t) {
-            throw new UnsupportedOperationException();
-        }
-
-        public void add(T t) {
-            throw new UnsupportedOperationException();
-        }
-    }
-
 }
