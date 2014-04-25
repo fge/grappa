@@ -72,7 +72,13 @@ public abstract class AbstractParseRunner<V> implements ParseRunner<V> {
             withValueStack(new DefaultValueStack<V>());
         }
         return valueStack;
-    }    
+    }
+
+    @Override
+    public ParsingResult<V> run(final String input)
+    {
+        return run((CharSequence) input);
+    }
 
     @Override
     public ParsingResult<V> run(final CharSequence input) {
