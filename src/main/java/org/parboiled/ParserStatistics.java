@@ -166,19 +166,19 @@ public class ParserStatistics
     @Override
     public ParserStatistics visit(final AnyMatcher matcher)
     {
-        return doVisit(matcher);
+        return doVisit(matcher, AnyMatcher.class);
     }
 
     @Override
     public ParserStatistics visit(final CharIgnoreCaseMatcher matcher)
     {
-        return doVisit(matcher);
+        return doVisit(matcher, CharIgnoreCaseMatcher.class);
     }
 
     @Override
     public ParserStatistics visit(final CharMatcher matcher)
     {
-        return doVisit(matcher);
+        return doVisit(matcher, CharMatcher.class);
     }
 
     @Override
@@ -190,13 +190,13 @@ public class ParserStatistics
     @Override
     public ParserStatistics visit(final CustomMatcher matcher)
     {
-        return doVisit(matcher);
+        return doVisit(matcher, CustomMatcher.class);
     }
 
     @Override
     public ParserStatistics visit(final CharRangeMatcher matcher)
     {
-        return doVisit(matcher);
+        return doVisit(matcher, CharRangeMatcher.class);
     }
 
     @Override
@@ -208,61 +208,61 @@ public class ParserStatistics
     @Override
     public ParserStatistics visit(final AnyOfMatcher matcher)
     {
-        return doVisit(matcher);
+        return doVisit(matcher, AnyOfMatcher.class);
     }
 
     @Override
     public ParserStatistics visit(final EmptyMatcher matcher)
     {
-        return doVisit(matcher);
+        return doVisit(matcher, EmptyMatcher.class);
     }
 
     @Override
     public ParserStatistics visit(final FirstOfMatcher matcher)
     {
-        return doVisit(matcher);
+        return doVisit(matcher, FirstOfMatcher.class);
     }
 
     @Override
     public ParserStatistics visit(final NothingMatcher matcher)
     {
-        return doVisit(matcher);
+        return doVisit(matcher, NothingMatcher.class);
     }
 
     @Override
     public ParserStatistics visit(final OneOrMoreMatcher matcher)
     {
-        return doVisit(matcher);
+        return doVisit(matcher, OneOrMoreMatcher.class);
     }
 
     @Override
     public ParserStatistics visit(final OptionalMatcher matcher)
     {
-        return doVisit(matcher);
+        return doVisit(matcher, OptionalMatcher.class);
     }
 
     @Override
     public ParserStatistics visit(final SequenceMatcher matcher)
     {
-        return doVisit(matcher);
+        return doVisit(matcher, SequenceMatcher.class);
     }
 
     @Override
     public ParserStatistics visit(final TestMatcher matcher)
     {
-        return doVisit(matcher);
+        return doVisit(matcher, TestMatcher.class);
     }
 
     @Override
     public ParserStatistics visit(final TestNotMatcher matcher)
     {
-        return doVisit(matcher);
+        return doVisit(matcher, TestNotMatcher.class);
     }
 
     @Override
     public ParserStatistics visit(final ZeroOrMoreMatcher matcher)
     {
-        return doVisit(matcher);
+        return doVisit(matcher, ZeroOrMoreMatcher.class);
     }
 
     private <M extends Matcher> ParserStatistics doVisit(final M matcher)
