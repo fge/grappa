@@ -15,15 +15,27 @@ public class SupplementaryCharMatcher
     }
 
     @Override
-    public boolean matchesSingleCharOnly()
+    public boolean isSingleCharMatcher()
     {
         return false;
     }
 
     @Override
-    public boolean canStartWithChar(final char c)
+    public boolean canMatchEmpty()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean isStarterChar(final char c)
     {
         return c == chars[0];
+    }
+
+    @Override
+    public char getStarterChar()
+    {
+        return chars[0];
     }
 
     @Override
@@ -36,12 +48,5 @@ public class SupplementaryCharMatcher
             context.createNode();
         }
         return success;
-    }
-
-    @Override
-    protected Object clone()
-        throws CloneNotSupportedException
-    {
-        return super.clone();
     }
 }

@@ -1,10 +1,9 @@
 package org.parboiled.matchers.unicode;
 
-import org.parboiled.common.Preconditions;
-import org.parboiled.matchervisitors.MatcherVisitor;
+import org.parboiled.matchers.CustomMatcher;
 
 public abstract class UnicodeCharMatcher
-    extends UnicodeMatcher
+    extends CustomMatcher
 {
     public static UnicodeCharMatcher forCodePoint(final int codePoint)
     {
@@ -18,19 +17,5 @@ public abstract class UnicodeCharMatcher
     protected UnicodeCharMatcher(final String label)
     {
         super(label);
-    }
-
-    @Override
-    public final <R> R accept(final MatcherVisitor<R> visitor)
-    {
-        Preconditions.checkArgNotNull(visitor, "visitor");
-        return visitor.visit(this);
-    }
-
-    @Override
-    protected Object clone()
-        throws CloneNotSupportedException
-    {
-        return super.clone();
     }
 }

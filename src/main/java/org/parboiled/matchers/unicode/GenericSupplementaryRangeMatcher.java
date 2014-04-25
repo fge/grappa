@@ -3,7 +3,7 @@ package org.parboiled.matchers.unicode;
 import org.parboiled.MatcherContext;
 
 public class GenericSupplementaryRangeMatcher
-    extends SupplementaryRangeMatcher
+    extends UnicodeRangeMatcher
 {
     private final char[] lowChars;
     private final char[] highChars;
@@ -21,15 +21,27 @@ public class GenericSupplementaryRangeMatcher
     }
 
     @Override
-    public boolean matchesSingleCharOnly()
+    public boolean isSingleCharMatcher()
     {
         return false;
     }
 
     @Override
-    public boolean canStartWithChar(final char c)
+    public boolean canMatchEmpty()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean isStarterChar(final char c)
     {
         return c >= lowChars[0] && c <= highChars[0];
+    }
+
+    @Override
+    public char getStarterChar()
+    {
+        return lowChars[0];
     }
 
     @Override
@@ -49,12 +61,5 @@ public class GenericSupplementaryRangeMatcher
         context.advanceIndex(2);
         context.createNode();
         return true;
-    }
-
-    @Override
-    protected Object clone()
-        throws CloneNotSupportedException
-    {
-        return super.clone();
     }
 }

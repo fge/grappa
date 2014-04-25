@@ -1,10 +1,9 @@
 package org.parboiled.matchers.unicode;
 
 import org.parboiled.MatcherContext;
-import org.parboiled.matchervisitors.MatcherVisitor;
 
-public final class SingleLeadSurrogateRangeMatcher
-    extends SupplementaryRangeMatcher
+public class SingleLeadSurrogateRangeMatcher
+    extends UnicodeRangeMatcher
 {
     private final char lead;
     private final char lowTrail;
@@ -20,15 +19,27 @@ public final class SingleLeadSurrogateRangeMatcher
     }
 
     @Override
-    public boolean matchesSingleCharOnly()
+    public boolean isSingleCharMatcher()
     {
         return false;
     }
 
     @Override
-    public boolean canStartWithChar(final char c)
+    public boolean canMatchEmpty()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean isStarterChar(final char c)
     {
         return c == lead;
+    }
+
+    @Override
+    public char getStarterChar()
+    {
+        return lead;
     }
 
     @Override
@@ -55,12 +66,5 @@ public final class SingleLeadSurrogateRangeMatcher
         // No match. Too bad.
         context.advanceIndex(-1);
         return false;
-    }
-
-    @Override
-    protected Object clone()
-        throws CloneNotSupportedException
-    {
-        return super.clone();
     }
 }

@@ -15,27 +15,32 @@ public class BmpCharMatcher
     }
 
     @Override
-    public boolean matchesSingleCharOnly()
+    public boolean isSingleCharMatcher()
     {
         return true;
     }
 
     @Override
-    public boolean canStartWithChar(final char c)
+    public boolean canMatchEmpty()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean isStarterChar(final char c)
     {
         return c == matcher.character;
+    }
+
+    @Override
+    public char getStarterChar()
+    {
+        return matcher.character;
     }
 
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
         return matcher.match(context);
-    }
-
-    @Override
-    protected Object clone()
-        throws CloneNotSupportedException
-    {
-        return super.clone();
     }
 }

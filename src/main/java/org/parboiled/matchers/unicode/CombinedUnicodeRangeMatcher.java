@@ -6,29 +6,40 @@ import org.parboiled.matchers.CharRangeMatcher;
 public class CombinedUnicodeRangeMatcher
     extends UnicodeRangeMatcher
 {
-    final UnicodeRangeMatcher supplementaryMatcher;
-    final CharRangeMatcher bmpMatcher;
+    final UnicodeRangeMatcher supplementary;
+    final CharRangeMatcher bmp;
 
-    CombinedUnicodeRangeMatcher(final String label,
-        final CharRangeMatcher bmpMatcher,
-        final UnicodeRangeMatcher supplementaryMatcher)
+    CombinedUnicodeRangeMatcher(final String label, final CharRangeMatcher bmp,
+        final UnicodeRangeMatcher supplementary)
     {
         super(label);
-        this.bmpMatcher = bmpMatcher;
-        this.supplementaryMatcher = supplementaryMatcher;
+        this.bmp = bmp;
+        this.supplementary = supplementary;
     }
 
     @Override
-    public boolean matchesSingleCharOnly()
+    public boolean isSingleCharMatcher()
     {
         return false;
     }
 
     @Override
-    public boolean canStartWithChar(final char c)
+    public boolean canMatchEmpty()
     {
-        return c >= bmpMatcher.cLow && c <= bmpMatcher.cHigh
-            || supplementaryMatcher.canStartWithChar(c);
+        return false;
+    }
+
+    @Override
+    public boolean isStarterChar(final char c)
+    {
+        return c >= bmp.cLow && c <= bmp.cHigh
+            || supplementary.isStarterChar(c);
+    }
+
+    @Override
+    public char getStarterChar()
+    {
+        return (char) Math.min(bmp.cLow, supplementary.getStarterChar());
     }
 
     @Override
@@ -39,14 +50,7 @@ public class CombinedUnicodeRangeMatcher
          * String constants with only lead surrogates, for instance, so we
          * might as well match as much as possible.
          */
-        return supplementaryMatcher.match(context)
-            || bmpMatcher.match(context);
-    }
-
-    @Override
-    protected Object clone()
-        throws CloneNotSupportedException
-    {
-        return super.clone();
+        return supplementary.match(context)
+            || bmp.match(context);
     }
 }

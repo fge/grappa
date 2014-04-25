@@ -1,11 +1,10 @@
 package org.parboiled.matchers.unicode;
 
-import org.parboiled.common.Preconditions;
 import org.parboiled.matchers.CharRangeMatcher;
-import org.parboiled.matchervisitors.MatcherVisitor;
+import org.parboiled.matchers.CustomMatcher;
 
 public abstract class UnicodeRangeMatcher
-    extends UnicodeMatcher
+    extends CustomMatcher
 {
     private static final char[] MIN_SUPPLEMENTARY = Character.toChars(0x10000);
 
@@ -39,20 +38,6 @@ public abstract class UnicodeRangeMatcher
     protected UnicodeRangeMatcher(final String label)
     {
         super(label);
-    }
-
-    @Override
-    public <R> R accept(final MatcherVisitor<R> visitor)
-    {
-        Preconditions.checkArgNotNull(visitor, "visitor");
-        return visitor.visit(this);
-    }
-
-    @Override
-    protected Object clone()
-        throws CloneNotSupportedException
-    {
-        return super.clone();
     }
 
     private static UnicodeRangeMatcher supplementaryRange(final String label,
