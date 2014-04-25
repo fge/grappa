@@ -16,6 +16,7 @@
 
 package org.parboiled.transform;
 
+import com.google.common.base.Joiner;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
@@ -39,6 +40,8 @@ import static org.parboiled.common.Preconditions.checkArgNotNull;
 import static org.testng.Assert.assertEquals;
 
 public class AsmTestUtils {
+
+    private static final Joiner NEWLINE = Joiner.on('\n');
 
     public static String getClassDump(byte[] code) {
         StringWriter stringWriter = new StringWriter();
@@ -69,7 +72,8 @@ public class AsmTestUtils {
                 lines[i] = String.format("%2d %s", lineNr++, lines[i]);
             }
         }
-        return "Method '" + methodNode.name + "':\n" + StringUtils.join(lines, "\n") + '\n';
+        return "Method '" + methodNode.name + "':\n"
+            + NEWLINE.join(lines) + '\n';
     }
 
     public static void assertTraceDumpEquality(MethodNode method, String traceDump) throws Exception {

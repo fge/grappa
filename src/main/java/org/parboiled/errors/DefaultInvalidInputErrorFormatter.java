@@ -16,8 +16,9 @@
 
 package org.parboiled.errors;
 
+import com.github.fge.grappa.util.GrappaEscaper;
+import com.google.common.escape.Escaper;
 import org.parboiled.common.Formatter;
-import org.parboiled.common.StringUtils;
 import org.parboiled.matchers.AnyOfMatcher;
 import org.parboiled.matchers.Matcher;
 import org.parboiled.support.Chars;
@@ -30,7 +31,10 @@ import java.util.List;
  * A {@link Formatter} for {@link InvalidInputError}s that automatically creates the correct "expected" text
  * for the error.
  */
-public class DefaultInvalidInputErrorFormatter implements Formatter<InvalidInputError> {
+public class DefaultInvalidInputErrorFormatter
+    implements Formatter<InvalidInputError>
+{
+    private static final Escaper ESCAPER = GrappaEscaper.INSTANCE;
 
     public String format(InvalidInputError error) {
         if (error == null) return "";
@@ -43,7 +47,7 @@ public class DefaultInvalidInputErrorFormatter implements Formatter<InvalidInput
                 sb.append("Unexpected end of input");
             } else {
                 sb.append("Invalid input '")
-                        .append(StringUtils.escape(String.valueOf(c)));
+                        .append(ESCAPER.escape(String.valueOf(c)));
                 if (len > 1) sb.append("...");
                 sb.append('\'');
             }
@@ -107,7 +111,7 @@ public class DefaultInvalidInputErrorFormatter implements Formatter<InvalidInput
             if (i > 0) sb.append(i < labelList.size() - 1 ? ", " : " or ");
             sb.append(labelList.get(i));
         }
-        return StringUtils.escape(sb.toString());
+        return ESCAPER.escape(sb.toString());
     }
 
 }

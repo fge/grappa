@@ -1,10 +1,10 @@
 package org.parboiled.util;
 
+import com.google.common.base.Joiner;
 import org.assertj.core.api.AbstractAssert;
 import org.parboiled.Action;
 import org.parboiled.ParserStatistics;
 import org.parboiled.Rule;
-import org.parboiled.common.StringUtils;
 import org.parboiled.matchers.Matcher;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -22,6 +22,8 @@ import static org.parboiled.ParserStatistics.MatcherStats;
 public final class StatsAssert
     extends AbstractAssert<StatsAssert, ParserStatistics>
 {
+    private static final Joiner NEWLINE = Joiner.on('\n');
+
     private final Map<Class<?>, MatcherStats<?>> regularMatcherStats;
     private final Map<Class<?>, MatcherStats<?>> specialMatcherStats;
     private final Set<Action<?>> actions;
@@ -128,7 +130,7 @@ public final class StatsAssert
 
         assertThat(mishaps).overridingErrorMessage(
             "Unwanted matcher counts! List follows\n\n%s\n",
-            StringUtils.join(mishaps, "\n")
+            NEWLINE.join(mishaps)
         ).isEmpty();
 
         return this;

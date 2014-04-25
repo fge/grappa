@@ -16,10 +16,9 @@
 
 package org.parboiled;
 
-import com.google.common.collect.Iterables;
+import com.github.fge.grappa.util.GrappaEscaper;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.common.ImmutableLinkedList;
-import org.parboiled.common.StringUtils;
 import org.parboiled.errors.BasicParseError;
 import org.parboiled.errors.GrammarException;
 import org.parboiled.errors.ParseError;
@@ -376,10 +375,14 @@ public class MatcherContext<V> implements Context<V> {
         } catch (RecoveringParseRunner.TimeoutException e) {
             throw e; // don't wrap, just bubble up
         } catch (Throwable e) {
-            throw new ParserRuntimeException(e,
-                    printParseError(new BasicParseError(inputBuffer, currentIndex,
-                            StringUtils.escape(String.format("Error while parsing %s '%s' at input position",
-                                    matcher instanceof ActionMatcher ? "action" : "rule", getPath())))) + '\n' + e);
+            final String msg = String.format(
+                "Error while parsing %s '%s' at input position\n%s",
+                    matcher instanceof ActionMatcher ? "action" : "rule",
+                    getPath(), e
+                );
+            throw new ParserRuntimeException(e, printParseError(
+                new  BasicParseError(inputBuffer, currentIndex,
+                    GrappaEscaper.INSTANCE.escape(msg))));
         }
     }
 }

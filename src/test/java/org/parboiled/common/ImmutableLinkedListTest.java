@@ -16,12 +16,15 @@
 
 package org.parboiled.common;
 
+import com.google.common.base.Joiner;
 import org.testng.annotations.Test;
 
 import static org.parboiled.common.ImmutableLinkedList.nil;
 import static org.testng.Assert.assertEquals;
 
-public class ImmutableLinkedListTest {
+public class ImmutableLinkedListTest
+{
+    private static final Joiner COMMA = Joiner.on(',');
 
     @Test
     public void testImmutableLinkedList() {
@@ -30,7 +33,7 @@ public class ImmutableLinkedListTest {
         assertEquals(nil().prepend(5).prepend(7).size(), 2);
 
         ImmutableLinkedList<Object> abc = nil().prepend("c").prepend("b").prepend("a");
-        assertEquals(StringUtils.join(abc, ","), "a,b,c");
-        assertEquals(StringUtils.join(abc.reverse(), ","), "c,b,a");
+        assertEquals(COMMA.join(abc), "a,b,c");
+        assertEquals(COMMA.join(abc.reverse()), "c,b,a");
     }
 }

@@ -17,7 +17,7 @@
 package org.parboiled.errors;
 
 import org.parboiled.buffers.InputBuffer;
-import org.parboiled.common.StringUtils;
+import org.parboiled.support.Chars;
 import org.parboiled.support.Position;
 
 /**
@@ -36,6 +36,6 @@ public class IllegalIndentationException extends RuntimeException {
     public String getMessage() {
         return "Illegal indentation in line " + position.line + ":\n" +
                 buffer.extractLine(position.line) + '\n' +
-                StringUtils.repeat('^', position.column - 1) + '\n';
+                Chars.repeat('^', position.column - 1) + '\n';
     }
 }

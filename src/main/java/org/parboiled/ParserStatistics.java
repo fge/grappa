@@ -16,7 +16,7 @@
 
 package org.parboiled;
 
-import org.parboiled.common.StringUtils;
+import com.google.common.base.Joiner;
 import org.parboiled.matchers.ActionMatcher;
 import org.parboiled.matchers.AnyMatcher;
 import org.parboiled.matchers.AnyOfMatcher;
@@ -37,9 +37,9 @@ import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.matchers.StringMatcher;
 import org.parboiled.matchers.TestMatcher;
 import org.parboiled.matchers.TestNotMatcher;
-import org.parboiled.matchers.unicode.UnicodeCharMatcher;
 import org.parboiled.matchers.VarFramingMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
+import org.parboiled.matchers.unicode.UnicodeCharMatcher;
 import org.parboiled.matchers.unicode.UnicodeRangeMatcher;
 import org.parboiled.matchervisitors.MatcherVisitor;
 
@@ -59,6 +59,8 @@ import static org.parboiled.common.Preconditions.checkArgNotNull;
 public class ParserStatistics
     implements MatcherVisitor<ParserStatistics>
 {
+    private static final Joiner NEWLINE = Joiner.on('\n');
+    private static final Joiner COMMA = Joiner.on(", ");
     /*
      * Modify these maps if you add matcher classes!
      */
@@ -301,11 +303,11 @@ public class ParserStatistics
         sb.append("    Total rules       : ").append(totalRules).append('\n');
         sb.append("        Actions       : ").append(actions.size())
             .append('\n');
-        sb.append(StringUtils.join(regularMatcherStats.values(), "\n"));
+        NEWLINE.appendTo(sb, regularMatcherStats.values());
         sb.append("\n\n");
         sb.append("    Action Classes    : ").append(actionClasses.size())
             .append('\n');
-        sb.append(StringUtils.join(specialMatcherStats.values(), "\n"));
+        NEWLINE.appendTo(sb, specialMatcherStats.values());
         return sb.append('\n').toString();
     }
 
@@ -330,7 +332,7 @@ public class ParserStatistics
                 anonymous++;
             } else {
                 lines.add(name + " : "
-                    + StringUtils.join(printActionClassInstances(c), ", "));
+                    + COMMA.join(printActionClassInstances(c)));
             }
         }
         Collections.sort(lines);

@@ -16,8 +16,8 @@
 
 package org.parboiled;
 
+import com.github.fge.grappa.util.GrappaEscaper;
 import org.parboiled.common.ImmutableLinkedList;
-import org.parboiled.common.StringUtils;
 import org.parboiled.matchers.Matcher;
 import org.parboiled.trees.ImmutableTreeNode;
 
@@ -78,7 +78,7 @@ class NodeImpl<V> extends ImmutableTreeNode<Node<V>> implements Node<V> {
         }
         sb.append(']');
         if (hasError) sb.append('E'); 
-        return StringUtils.escape(sb.toString());
+        return GrappaEscaper.INSTANCE.escape(sb.toString());
     }
 
 }

@@ -16,6 +16,7 @@
 
 package org.parboiled.common;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 
 import java.util.Collection;
@@ -23,6 +24,8 @@ import java.util.Collection;
 import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 public final class Predicates {
+
+    private static final Joiner COMMA = Joiner.on(", ");
 
     private Predicates() {}
 
@@ -278,7 +281,7 @@ public final class Predicates {
 
         @Override
         public String toString() {
-            return "And(" + StringUtils.join(components, ", ") + ")";
+            return "And(" + COMMA.join(components) + ")";
         }
     }
 
@@ -300,7 +303,7 @@ public final class Predicates {
 
         @Override
         public String toString() {
-            return "Or(" + StringUtils.join(components, ", ") + ")";
+            return "Or(" + COMMA.join(components) + ")";
         }
     }
 

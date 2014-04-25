@@ -16,9 +16,43 @@
 
 package org.parboiled.support;
 
-public class Chars {
+import com.github.fge.grappa.util.GrappaEscaper;
+import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableMap;
 
-    private Chars() {}
+import java.util.Arrays;
+import java.util.Map;
+
+//TODO: make final
+public class Chars
+{
+    private Chars()
+    {
+    }
+
+    /**
+     * Return a map of characters to escape and their replacements
+     *
+     * @return an escape map (immutable)
+     *
+     * @see GrappaEscaper
+     */
+    public static Map<Character, String> escapeMap()
+    {
+        return ESCAPE_MAP;
+    }
+
+    public static String escape(final char c)
+    {
+        return Optional.fromNullable(ESCAPE_MAP.get(c)).or(String.valueOf(c));
+    }
+
+    public static String repeat(final char c, final int n)
+    {
+        final char[] array = new char[n];
+        Arrays.fill(array, c);
+        return new String(array);
+    }
 
     /**
      * Special non-character used during error recovery. Signals that an illegal input character was skipped at this
@@ -48,12 +82,12 @@ public class Chars {
      * Special non-character used during error recovery. Signals the end of a resynchronization block.
      */
     public static final char RESYNC_END = '\uFDEE';
-    
+
     /**
      * Special non-character used during error recovery. Signals a resynchronization at EOI.
      */
     public static final char RESYNC_EOI = '\uFDEF';
-    
+
     /**
      * The End-of-Input non-character.
      */
@@ -68,5 +102,23 @@ public class Chars {
      * Special non-character used by the {@link org.parboiled.buffers.IndentDedentInputBuffer}.
      */
     public static final char DEDENT = '\uFDD1';
-    
+
+    private static final Map<Character, String> ESCAPE_MAP
+        = ImmutableMap.<Character, String>builder()
+        .put('\r', "\\r")
+        .put('\n', "\\n")
+        .put('\t', "\\t")
+        .put('\f', "\\f")
+        .put(DEL_ERROR, "DEL_ERROR")
+        .put(INS_ERROR, "INS_ERROR")
+        .put(RESYNC, "RESYNC")
+        .put(RESYNC_START, "RESYNC_START")
+        .put(RESYNC_END, "RESYNC_END")
+        .put(RESYNC_EOI, "RESYNC_EOI")
+        .put(INDENT, "INDENT")
+        .put(DEDENT, "DEDENT")
+        .put(EOI, "EOI")
+        .build();
+
+
 }

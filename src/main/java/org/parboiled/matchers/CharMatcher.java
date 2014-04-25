@@ -21,7 +21,7 @@ import org.parboiled.matchervisitors.MatcherVisitor;
 import org.parboiled.support.Chars;
 
 import static org.parboiled.common.Preconditions.checkArgNotNull;
-import static org.parboiled.common.StringUtils.escape;
+import static org.parboiled.support.Chars.escape;
 
 /**
  * A {@link Matcher} matching a single given character.

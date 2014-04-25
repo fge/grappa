@@ -16,13 +16,16 @@
 
 package org.parboiled.support;
 
+import com.google.common.base.Joiner;
 import org.parboiled.common.ConsoleSink;
 import org.parboiled.common.Sink;
-import org.parboiled.common.StringUtils;
 
 import java.util.LinkedList;
 
 public class DebuggingValueStack<V> extends DefaultValueStack<V> {
+
+    private static final Joiner COMMA = Joiner.on(", ");
+
     public final Sink<String> log;
     
     public DebuggingValueStack() {
@@ -114,11 +117,11 @@ public class DebuggingValueStack<V> extends DefaultValueStack<V> {
 
     protected void log(String action) {
         log.receive(action);
-        log.receive(StringUtils.repeat(' ', 15 - action.length()));
+        log.receive(Chars.repeat(' ', 15 - action.length()));
         log.receive(": ");
         LinkedList<V> elements = new LinkedList<V>();
         for (V v : this) elements.addFirst(v);
-        log.receive(StringUtils.join(elements, ", "));
+        log.receive(COMMA.join(elements));
         log.receive("\n");
     }
 }

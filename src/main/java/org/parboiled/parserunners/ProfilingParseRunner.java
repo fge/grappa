@@ -21,7 +21,6 @@ import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.common.Predicate;
-import org.parboiled.common.StringUtils;
 import org.parboiled.matchers.Matcher;
 import org.parboiled.matchervisitors.DoWithMatcherVisitor;
 import org.parboiled.support.ParsingResult;
@@ -301,11 +300,12 @@ public class ProfilingParseRunner<V> extends AbstractParseRunner<V> implements M
                     count++;
                     continue;
                 }
+                final Matcher matcher = rep.getMatcher();
+                final String s = matcher.toString() + ": "
+                    + matcher.getClass().getSimpleName().replace("Matcher", "");
                 sb.append(String.format(
                         "%-30s | %6.0f ms | %6s / %6s | %6s / %6s | %6s / %6s | %,12.0f ns | %6.2f%% | %6s / %6s | %6s / %6s | %6s / %6s | %6.2f%% / %6.2f%%\n",
-                        StringUtils.left(
-                                rep.getMatcher().toString() + ": " + rep.getMatcher().getClass().getSimpleName()
-                                        .replace("Matcher", ""), 30),
+                        s.substring(0, Math.min(s.length(), 30)),
                         rep.getNanoTime() / 1000000.0,
                         humanize(rep.getInvocations()), humanize(rep.getInvocationSubs()),
                         humanize(rep.getMatches()), humanize(rep.getMatchSubs()),

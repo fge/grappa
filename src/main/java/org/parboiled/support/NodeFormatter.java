@@ -16,10 +16,10 @@
 
 package org.parboiled.support;
 
+import com.github.fge.grappa.util.GrappaEscaper;
 import org.parboiled.Node;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.common.Formatter;
-import org.parboiled.common.StringUtils;
 
 import static org.parboiled.common.Preconditions.checkArgNotNull;
 
@@ -41,7 +41,8 @@ public class NodeFormatter<V> implements Formatter<Node<V>> {
 
     public String format(Node<V> node) {
         String nodeLabel = node.toString();
-        String nodeText = StringUtils.escape(ParseTreeUtils.getNodeText(node, inputBuffer));
+        final String text = ParseTreeUtils.getNodeText(node, inputBuffer);
+        String nodeText = GrappaEscaper.INSTANCE.escape(text);
         return nodeText.isEmpty() ? nodeLabel
             : nodeLabel + " '" + nodeText + '\'';
     }

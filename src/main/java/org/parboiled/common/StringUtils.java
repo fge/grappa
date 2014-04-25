@@ -16,6 +16,10 @@
 
 package org.parboiled.common;
 
+import com.github.fge.grappa.util.GrappaEscaper;
+import com.google.common.base.Joiner;
+import com.google.common.base.Optional;
+import com.google.common.base.Strings;
 import org.parboiled.support.Characters;
 import org.parboiled.support.Chars;
 
@@ -24,7 +28,10 @@ import java.util.Iterator;
 
 /**
  * General utility methods for string manipulation.
+ *
+ * @deprecated see the individual methods for replacements, if any
  */
+@Deprecated
 public final class StringUtils {
 
     private StringUtils() {}
@@ -35,7 +42,10 @@ public final class StringUtils {
      *
      * @param string the string
      * @return the escaped string
+     *
+     * @deprecated use {@link GrappaEscaper} instead
      */
+    @Deprecated
     public static String escape(String string) {
         if (string.isEmpty()) return "";
         StringBuilder sb = new StringBuilder();
@@ -54,7 +64,10 @@ public final class StringUtils {
      *
      * @param c the character to escape
      * @return the escaped string
+     *
+     * @deprecated use {@link Chars#escape(char)} instead
      */
+    @Deprecated
     public static String escape(char c) {
         switch (c) {
             case '\r':
@@ -94,6 +107,8 @@ public final class StringUtils {
      * @param c the char
      * @param n the number of times to repeat
      * @return the string
+     *
+     * @deprecated use {@link Chars#repeat(char, int)}
      */
     public static String repeat(char c, int n) {
         char[] array = new char[n];
@@ -117,7 +132,10 @@ public final class StringUtils {
      * @param iterable the <code>Iterable</code> of values to join together, may be null
      * @param separator  the separator character to use, null treated as ""
      * @return the joined String, <code>null</code> if null iterator input
+     *
+     * @deprecated use a {@link Joiner} instead
      */
+    @Deprecated
     public static String join(Iterable iterable, String separator) {
         return iterable == null ? null : join(iterable.iterator(), separator);
     }
@@ -132,7 +150,10 @@ public final class StringUtils {
      * @param iterator  the <code>Iterator</code> of values to join together, may be null
      * @param separator the separator character to use, null treated as ""
      * @return the joined String, <code>null</code> if null iterator input
+     *
+     * @deprecated use a {@link Joiner} instead
      */
+    @Deprecated
     public static String join(Iterator iterator, String separator) {
         // handle null, zero and one elements before building a buffer
         if (iterator == null) return null;
@@ -174,7 +195,10 @@ public final class StringUtils {
      * @param array     the array of values to join together, may be null
      * @param separator the separator character to use, null treated as ""
      * @return the joined String, <code>null</code> if null array input
+     *
+     * @deprecated use a {@link Joiner} instead
      */
+    @Deprecated
     public static String join(Object[] array, String separator) {
         return array == null ? null : join(array, separator, 0, array.length);
     }
@@ -205,7 +229,10 @@ public final class StringUtils {
      * @param endIndex   the index to stop joining from (exclusive). It is
      *                   an error to pass in an end index past the end of the array
      * @return the joined String, <code>null</code> if null array input
+     *
+     * @deprecated use a {@link Joiner} instead
      */
+    @Deprecated
     public static String join(Object[] array, String separator, int startIndex, int endIndex) {
         if (array == null) return null;
         if (separator == null) separator = "";
@@ -241,6 +268,9 @@ public final class StringUtils {
      *
      * @param str the String to check, may be null
      * @return <code>true</code> if the String is empty or null
+     *
+     * @deprecated use {@link String#isEmpty()} instead, or {@link
+     * Strings#isNullOrEmpty(String)}
      */
     @Deprecated
     public static boolean isEmpty(String str) {
@@ -260,6 +290,9 @@ public final class StringUtils {
      *
      * @param str the String to check, may be null
      * @return <code>true</code> if the String is not empty and not null
+     *
+     * @deprecated use (inverted) {@link String#isEmpty()} or, if need be,
+     * (inverted) {@link Strings#isNullOrEmpty(String)}
      */
     @Deprecated
     public static boolean isNotEmpty(String str) {
@@ -271,6 +304,12 @@ public final class StringUtils {
      *
      * @param str a String or <code>null</code>
      * @return String length or <code>0</code> if the String is <code>null</code>.
+     *
+     * @deprecated use {@link Optional} as in:
+     *
+     * <pre>
+     *     Optional.fromNullable(str).or("").length();
+     * </pre>
      */
     @Deprecated
     public static int length(String str) {
@@ -296,6 +335,9 @@ public final class StringUtils {
      * @param str2 the second String, may be null
      * @return <code>true</code> if the Strings are equal, case insensitive, or
      *         both <code>null</code>
+     *
+     * @deprecated use {@link Optional} in combination with {@link
+     * String#equalsIgnoreCase(String)}
      */
     @Deprecated
     public static boolean equalsIgnoreCase(String str1, String str2) {
@@ -314,6 +356,9 @@ public final class StringUtils {
      * @param string the string
      * @param prefix the prefix
      * @return true if string starts with prefix
+     *
+     * @deprecated use {@link Optional} in combination with {@link
+     * String#startsWith(String)}
      */
     @Deprecated
     public static boolean startsWith(String string, String prefix) {
@@ -343,6 +388,8 @@ public final class StringUtils {
      * @param start the position to start from, negative means
      *              count back from the end of the String by this many characters
      * @return substring from start position, <code>null</code> if null String input
+     *
+     * @deprecated and will not be replaced
      */
     @Deprecated
     public static String substring(String str, int start) {
@@ -399,6 +446,8 @@ public final class StringUtils {
      *              count back from the end of the String by this many characters
      * @return substring from start position to end positon,
      *         <code>null</code> if null String input
+     *
+     * @deprecated and will not be replaced.
      */
     @Deprecated
     public static String substring(String str, int start, int end) {
@@ -456,6 +505,8 @@ public final class StringUtils {
      * @param str the String to get the leftmost characters from, may be null
      * @param len the length of the required String, must be zero or positive
      * @return the leftmost characters, <code>null</code> if null String input
+     *
+     * @deprecated use {@link String#substring(int, int)}
      */
     @Deprecated
     public static String left(String str, int len) {
@@ -490,6 +541,8 @@ public final class StringUtils {
      * @param str the String to get the rightmost characters from, may be null
      * @param len the length of the required String, must be zero or positive
      * @return the rightmost characters, <code>null</code> if null String input
+     *
+     * @deprecated and will not be replaced
      */
     @Deprecated
     public static String right(String str, int len) {
@@ -528,6 +581,8 @@ public final class StringUtils {
      * @param pos the position to start from, negative treated as zero
      * @param len the length of the required String, must be zero or positive
      * @return the middle characters, <code>null</code> if null String input
+     *
+     * @deprecated use {@link String#substring(int, int)} instead
      */
     @Deprecated
     public static String mid(String str, int pos, int len) {
