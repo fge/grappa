@@ -22,6 +22,8 @@ import org.parboiled.matchers.CharIgnoreCaseMatcher;
 import org.parboiled.matchers.CharMatcher;
 import org.parboiled.matchers.CharRangeMatcher;
 import org.parboiled.matchers.CustomMatcher;
+import org.parboiled.matchers.unicode.UnicodeCharMatcher;
+import org.parboiled.matchers.unicode.UnicodeRangeMatcher;
 import org.parboiled.support.Characters;
 
 import java.util.Random;
@@ -66,6 +68,18 @@ public class GetStarterCharVisitor extends DefaultMatcherVisitor<Character> {
     @Override
     public Character visit(CharRangeMatcher matcher) {
         return matcher.cLow;
+    }
+
+    @Override
+    public Character visit(final UnicodeCharMatcher matcher)
+    {
+        return matcher.getStarterChar();
+    }
+
+    @Override
+    public Character visit(final UnicodeRangeMatcher matcher)
+    {
+        return matcher.getStarterChar();
     }
 
     @Override

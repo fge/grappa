@@ -59,7 +59,7 @@ public class IsSingleCharMatcherVisitor implements MatcherVisitor<Boolean> {
     @Override
     public Boolean visit(final UnicodeCharMatcher matcher)
     {
-        return matcher.matchesSingleCharOnly();
+        return matcher.isSingleCharMatcher();
     }
 
     public Boolean visit(CharRangeMatcher matcher) {
@@ -69,7 +69,7 @@ public class IsSingleCharMatcherVisitor implements MatcherVisitor<Boolean> {
     @Override
     public Boolean visit(final UnicodeRangeMatcher matcher)
     {
-        return matcher.matchesSingleCharOnly();
+        return matcher.isSingleCharMatcher();
     }
 
     public Boolean visit(AnyOfMatcher matcher) {
