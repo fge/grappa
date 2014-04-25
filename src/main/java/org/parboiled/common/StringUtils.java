@@ -272,6 +272,7 @@ public final class StringUtils {
      * @param str a String or <code>null</code>
      * @return String length or <code>0</code> if the String is <code>null</code>.
      */
+    @Deprecated
     public static int length(String str) {
         return str == null ? 0 : str.length();
     }
@@ -296,6 +297,7 @@ public final class StringUtils {
      * @return <code>true</code> if the Strings are equal, case insensitive, or
      *         both <code>null</code>
      */
+    @Deprecated
     public static boolean equalsIgnoreCase(String str1, String str2) {
         return str1 == null ? str2 == null : str1.equalsIgnoreCase(str2);
     }
@@ -313,6 +315,7 @@ public final class StringUtils {
      * @param prefix the prefix
      * @return true if string starts with prefix
      */
+    @Deprecated
     public static boolean startsWith(String string, String prefix) {
         return string != null && (prefix == null || string.startsWith(prefix));
     }
@@ -341,6 +344,7 @@ public final class StringUtils {
      *              count back from the end of the String by this many characters
      * @return substring from start position, <code>null</code> if null String input
      */
+    @Deprecated
     public static String substring(String str, int start) {
         if (str == null) {
             return null;
@@ -396,6 +400,7 @@ public final class StringUtils {
      * @return substring from start position to end positon,
      *         <code>null</code> if null String input
      */
+    @Deprecated
     public static String substring(String str, int start, int end) {
         if (str == null) {
             return null;
@@ -452,6 +457,7 @@ public final class StringUtils {
      * @param len the length of the required String, must be zero or positive
      * @return the leftmost characters, <code>null</code> if null String input
      */
+    @Deprecated
     public static String left(String str, int len) {
         if (str == null) {
             return null;
@@ -485,6 +491,7 @@ public final class StringUtils {
      * @param len the length of the required String, must be zero or positive
      * @return the rightmost characters, <code>null</code> if null String input
      */
+    @Deprecated
     public static String right(String str, int len) {
         if (str == null) {
             return null;
@@ -522,6 +529,7 @@ public final class StringUtils {
      * @param len the length of the required String, must be zero or positive
      * @return the middle characters, <code>null</code> if null String input
      */
+    @Deprecated
     public static String mid(String str, int pos, int len) {
         if (str == null) {
             return null;

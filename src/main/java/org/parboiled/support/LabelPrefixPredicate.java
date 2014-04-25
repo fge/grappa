@@ -18,7 +18,6 @@ package org.parboiled.support;
 
 import org.parboiled.Node;
 import org.parboiled.common.Predicate;
-import org.parboiled.common.StringUtils;
 
 /**
  * A simple Node predicate determining whether a Node matches a given label prefix.
@@ -34,6 +33,6 @@ public class LabelPrefixPredicate<V> implements Predicate<Node<V>> {
     }
 
     public boolean apply(Node<V> input) {
-        return input != null && StringUtils.startsWith(input.getLabel(), labelPrefix);
+        return input != null && input.getLabel().startsWith(labelPrefix);
     }
 }

@@ -18,7 +18,6 @@ package org.parboiled.errors;
 
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.common.Formatter;
-import org.parboiled.common.StringUtils;
 import org.parboiled.matchers.Matcher;
 import org.parboiled.matchers.TestNotMatcher;
 import org.parboiled.support.MatcherPath;
@@ -159,7 +158,8 @@ public final class ErrorUtils {
         sb.append(line);
         sb.append('\n');
 
-        int charCount = Math.max(Math.min(endIndex - startIndex, StringUtils.length(line) - pos.column + 2), 1);
+        int charCount = Math.max(Math.min(endIndex - startIndex,
+            line.length() - pos.column + 2), 1);
         for (int i = 0; i < pos.column - 1; i++) sb.append(' ');
         for (int i = 0; i < charCount; i++) sb.append('^');
         sb.append("\n");

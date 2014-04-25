@@ -96,7 +96,7 @@ public abstract class BaseActions<V> implements ContextAware<V> {
     public String matchOrDefault(String defaultString) {
         check();
         String match = context.getMatch();
-        return match.length() == 0 ? defaultString : match;
+        return match.isEmpty() ? defaultString : match;
     }
 
     /**
