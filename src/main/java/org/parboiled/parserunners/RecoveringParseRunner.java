@@ -16,6 +16,7 @@
 
 package org.parboiled.parserunners;
 
+import com.google.common.collect.ImmutableList;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
