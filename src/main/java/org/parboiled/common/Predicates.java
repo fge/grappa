@@ -199,7 +199,7 @@ public final class Predicates {
      * Returns a predicate that evaluates to {@code true} if the object being
      * tested is an instance of the given class. If the object being tested
      * is {@code null} this predicate evaluates to {@code false}.
-     * <p/>
+     *
      *
      * @param clazz the clazz
      * @return a predicate
@@ -213,8 +213,9 @@ public final class Predicates {
      * being tested is a member of the given collection. It does not defensively
      * copy the collection passed in, so future changes to it will alter the
      * behavior of the predicate.
-     * <p/>
-     * This method can technically accept any Collection<?>, but using a typed
+     *
+     * This method can technically accept any Collection&lt;?&gt;,
+     * but using a typed
      * collection helps prevent bugs. This approach doesn't block any potential
      * users since it is always possible to use {@code Predicates.<Object>in()}.
      *

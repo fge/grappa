@@ -601,7 +601,7 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      * <p>Note: This methods provides caching, which means that multiple invocations with the same
      * arguments will yield the same rule instance.</p>
      *
-     * @param repetitions The number of repetitions to match. Must be >= 0.
+     * @param repetitions The number of repetitions to match. Must be &gt;= 0.
      * @param rule      the sub rule to match repeatedly.
      * @return a new rule
      */
@@ -617,7 +617,7 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      * <p>Note: This methods provides caching, which means that multiple invocations with the same
      * arguments will yield the same rule instance.</p>
      *
-     * @param repetitions The number of repetitions to match. Must be >= 0.
+     * @param repetitions The number of repetitions to match. Must be &gt;= 0.
      * @param rule      the sub rule to match repeatedly.
      * @param separator the separator to match, if null the individual sub rules will be matched without separator.
      * @return a new rule

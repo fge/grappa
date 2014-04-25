@@ -49,7 +49,8 @@ import static org.parboiled.matchers.MatcherUtils.unwrap;
 
 /**
  * <p>The Context implementation orchestrating most of the matching process.</p>
- * <p>The parsing process works as following:</br>
+ * <p>The parsing process works as following:</p>
+ * <p>
  * After the rule tree (which is in fact a directed and potentially even cyclic graph of {@link Matcher} instances)
  * has been created a root MatcherContext is instantiated for the root rule (Matcher).
  * A subsequent call to {@link #runMatcher()} starts the parsing process.</p>

@@ -67,7 +67,7 @@ public final class TreeUtils {
      * <pre>
      *        o1                    o2
      *       / \                   / \
-     *      A   o2     ====>     o1   C
+     *      A   o2     ====&gt;     o1   C
      *         / \              / \
      *        B   C            A   B
      * </pre>

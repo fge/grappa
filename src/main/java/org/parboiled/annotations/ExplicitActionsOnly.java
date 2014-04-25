@@ -35,7 +35,7 @@ import java.lang.annotation.Target;
  *     Rule myRule()
  *     {
  *         // Only if depth level is less than 5
- *         return Sequence(someRule(), getContext().getLevel() < 5);
+ *         return Sequence(someRule(), getContext().getLevel() &lt; 5);
  *     }
  * </pre>
  *

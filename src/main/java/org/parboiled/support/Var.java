@@ -25,14 +25,14 @@ import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * <p>This class provides a "local variable"-like construct for action expressions in parser rule methods.
- * Var<T> objects wrap an internal value of an arbitrary (reference) type, can have an initial value,
+ * Var objects wrap an internal value of an arbitrary (reference) type, can have an initial value,
  * allow read/write access to their values and can be passed around as parameters to nested rule methods.
- * Each rule invocation (i.e. rule matching attempt) receives its own Var<T> scope (which is automatically
+ * Each rule invocation (i.e. rule matching attempt) receives its own Var scope (which is automatically
  * initialized with the initial value), so actions in recursive rules work just like expected.</p>
- * <p>Var<T> objects generally behave just like local variables with one exception:<br/>
+ * <p>Var objects generally behave just like local variables with one exception:
  * When rule method A() passes a Var defined in its scope to another rule method B() as a parameter and an action
  * in rule method B() writes to this Var all actions in rule method A() running after B() will "see" this newly written
- * value (since values in Var<T> objects are passed by reference)</p>
+ * value (since values in Var objects are passed by reference)</p>
  *
  * @param <T> the type wrapped by this Var
  */

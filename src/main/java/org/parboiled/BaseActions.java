@@ -420,7 +420,7 @@ public abstract class BaseActions<V> implements ContextAware<V> {
      * <code>
      * return Sequence(
      * ...,
-     * !hasError() && actions.doSomething()
+     * !hasError() &amp;&amp; actions.doSomething()
      * );
      * </code>
      *
