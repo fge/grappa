@@ -63,7 +63,9 @@ public final class CharSequenceInputBuffer
     @Override
     public String extract(final int start, final int end)
     {
-        return charSequence.subSequence(start, end).toString();
+        final int realStart = Math.max(start, 0);
+        final int realEnd = Math.min(end, charSequence.length());
+        return charSequence.subSequence(realStart, realEnd).toString();
     }
 
     @Override
