@@ -31,10 +31,10 @@ import org.objectweb.asm.util.Printer;
 import org.objectweb.asm.util.Textifier;
 import org.objectweb.asm.util.TraceClassVisitor;
 import org.objectweb.asm.util.TraceMethodVisitor;
-import org.parboiled.common.StringUtils;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.regex.Pattern;
 
 import static org.parboiled.common.Preconditions.checkArgNotNull;
 import static org.testng.Assert.assertEquals;
@@ -42,6 +42,7 @@ import static org.testng.Assert.assertEquals;
 public class AsmTestUtils {
 
     private static final Joiner NEWLINE = Joiner.on('\n');
+    private static final Pattern PATTERN = Pattern.compile("\n");
 
     public static String getClassDump(byte[] code) {
         StringWriter stringWriter = new StringWriter();
@@ -65,7 +66,7 @@ public class AsmTestUtils {
         PrintWriter printWriter = new PrintWriter(stringWriter);
         printer.print(printWriter);
         printWriter.flush();
-        String[] lines = stringWriter.toString().split("\n");
+        String[] lines = PATTERN.split(stringWriter.toString());
         int lineNr = 0;
         for (int i = 0; i < lines.length; i++) {
             if (!lines[i].startsWith("  @")) {
