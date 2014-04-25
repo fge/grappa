@@ -113,6 +113,12 @@ public class AsmTestUtils {
     }
 
     private static class NonMaxTextifier extends Textifier {
+
+        private NonMaxTextifier()
+        {
+            super(Opcodes.ASM4);
+        }
+
         @Override
         public void visitMaxs(int maxStack, int maxLocals) {
             // don't include max values
