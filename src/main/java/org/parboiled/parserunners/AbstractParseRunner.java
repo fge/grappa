@@ -75,7 +75,7 @@ public abstract class AbstractParseRunner<V> implements ParseRunner<V> {
     }    
 
     @Override
-    public ParsingResult<V> run(String input) {
+    public ParsingResult<V> run(final CharSequence input) {
         checkArgNotNull(input, "input");
         return run(new CharSequenceInputBuffer(input));
     }

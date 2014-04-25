@@ -21,10 +21,16 @@ import org.parboiled.errors.ParseError;
 import org.parboiled.support.ParsingResult;
 import org.parboiled.support.ValueStack;
 
+import java.nio.CharBuffer;
 import java.util.List;
 
 /**
  * A ParseRunner performs the actual parsing run of a given parser rule on a given input text.
+ *
+ * <p>Note: if you want to use a parser on a {@link String} input, use the
+ * {@link #run(CharSequence)} method, since String implements
+ * {@link CharSequence} (and so does {@link CharBuffer}; see also <a
+ * href="https://github.com/fge/largetext">for large files</a>).</p>
  */
 public interface ParseRunner<V> {
 
@@ -50,7 +56,7 @@ public interface ParseRunner<V> {
      * @param input the input text to parse
      * @return the ParsingResult for the run
      */
-    ParsingResult<V> run(String input);
+    ParsingResult<V> run(CharSequence input);
 
     /**
      * Performs the actual parse and creates a corresponding ParsingResult instance.
