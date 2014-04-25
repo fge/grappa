@@ -16,10 +16,14 @@
 
 package org.parboiled.buffers;
 
-import org.parboiled.common.FileUtils;
+import com.google.common.io.Closer;
 import org.parboiled.errors.IllegalIndentationException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.testng.reporters.Files;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 import static org.parboiled.buffers.InputBufferUtils.collectContent;
 import static org.testng.Assert.assertEquals;
@@ -115,12 +119,14 @@ public class IndentDedentInputBufferTest {
     }
     
     @Test
-    public void testIndentDedentInputBuffer2() {
-        String input = FileUtils.readAllTextFromResource("IndentDedentBuffer2.test");
+    public void testIndentDedentInputBuffer2()
+        throws IOException
+    {
+        String input = fromResource("IndentDedentBuffer2.test");
         InputBuffer buf = new IndentDedentInputBuffer(input.toCharArray(), 4, "#", false);
         
         String bufContent = collectContent(buf);
-        assertEquals(bufContent, FileUtils.readAllTextFromResource("IndentDedentBuffer2.converted.test"));
+        assertEquals(bufContent, fromResource("IndentDedentBuffer2.converted.test"));
         
         String text = "go deep";
         int start = bufContent.indexOf(text);
@@ -128,11 +134,14 @@ public class IndentDedentInputBufferTest {
     }
 
     @Test
-    public void testIndentDedentInputBuffer3() {
-        String input = FileUtils.readAllTextFromResource("IndentDedentBuffer3.test");
+    public void testIndentDedentInputBuffer3()
+        throws IOException
+    {
+        String input = fromResource("IndentDedentBuffer3.test");
         InputBuffer buf = new IndentDedentInputBuffer(input.toCharArray(), 4, "//", false);
         String bufContent = collectContent(buf);
-        assertEquals(bufContent, FileUtils.readAllTextFromResource("IndentDedentBuffer3.converted.test"));        
+        assertEquals(bufContent, fromResource(
+            "IndentDedentBuffer3.converted.test"));
         assertEquals(buf.extract(0, bufContent.length()), input);
     }
     
@@ -202,5 +211,24 @@ public class IndentDedentInputBufferTest {
     public void testEmptyIndentDedentInputBuffer() {
         InputBuffer buf = new IndentDedentInputBuffer(new char[0], 2, "#", false);
         assertEquals(buf.extract(0, 1), "");
+    }
+
+    private static String fromResource(final String resourcePath)
+        throws IOException
+    {
+        final Closer closer = Closer.create();
+
+        final InputStream in;
+
+        try {
+            in = closer.register(IndentDedentInputBufferTest.class
+                .getClassLoader()
+                .getResourceAsStream(resourcePath));
+            if (in == null)
+                throw new IOException(resourcePath + " not found");
+            return Files.streamToString(in);
+        } finally {
+            closer.close();
+        }
     }
 }

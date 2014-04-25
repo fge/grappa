@@ -17,14 +17,11 @@
 package org.parboiled.transform.process;
 
 import com.google.common.collect.ImmutableList;
-import org.parboiled.common.FileUtils;
 import org.parboiled.transform.InstructionGraphNode;
 import org.parboiled.transform.RuleMethod;
 import org.parboiled.transform.TestParser;
 import org.testng.annotations.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.FileOutputStream;
 import java.util.List;
 import java.util.zip.CRC32;
 
@@ -110,22 +107,6 @@ public class InstructionGroupCreatorTest extends TransformationTest {
         }
         sb.append("}\n");
         return sb.toString();
-    }
-
-    @SuppressWarnings({"UnusedDeclaration"})
-    private static void renderToGraphViz(String dotSource) throws Exception {
-        String command = "/usr/local/bin/dot -Tpng";
-        String output = "/Users/mathias/Downloads/graph.png";
-
-        final Process process = Runtime.getRuntime().exec(command);
-        FileUtils.copyAll(new ByteArrayInputStream(dotSource.getBytes("UTF-8")), process.getOutputStream());
-        new Thread(new Runnable() {
-            public void run() {
-                FileUtils.copyAll(process.getErrorStream(), System.err);
-            }
-        }).start();
-        FileUtils.copyAll(process.getInputStream(), new FileOutputStream(output));
-        process.waitFor();
     }
 
     private static long computeCRC(String text) throws Exception {

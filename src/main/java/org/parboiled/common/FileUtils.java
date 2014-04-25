@@ -16,6 +16,8 @@
 
 package org.parboiled.common;
 
+import com.google.common.io.Files;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -41,6 +43,12 @@ import java.nio.charset.Charset;
 
 import static org.parboiled.common.Preconditions.checkArgNotNull;
 
+/**
+ * Deprecated!
+ *
+ * @deprecated use {@link Files} instead
+ */
+@Deprecated
 public final class FileUtils {
 
     private FileUtils() {}
