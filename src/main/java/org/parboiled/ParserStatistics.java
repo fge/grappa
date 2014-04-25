@@ -17,6 +17,7 @@
 package org.parboiled;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Preconditions;
 import org.parboiled.matchers.ActionMatcher;
 import org.parboiled.matchers.AnyMatcher;
 import org.parboiled.matchers.AnyOfMatcher;
@@ -273,9 +274,7 @@ public class ParserStatistics
     private <M extends Matcher> ParserStatistics doVisit(final M matcher,
         final Class<? extends M> c)
     {
-        final MatcherStats<?> stats = REGULAR_MATCHER_CLASSES.contains(c)
-            ? regularMatcherStats.get(c)
-            : specialMatcherStats.get(c);
+        final MatcherStats<?> stats = getMatcherStats(c, matcher.getClass());
         checkArgNotNull(stats, c.getCanonicalName() + " not recorded??");
         if (stats.recordInstance(matcher)) {
             totalRules++;
@@ -285,6 +284,27 @@ public class ParserStatistics
             }
         }
         return this;
+    }
+
+    private MatcherStats<?> getMatcherStats(final Class<?> base,
+    final Class<?> real)
+    {
+        MatcherStats<?> ret;
+
+        ret = regularMatcherStats.get(real);
+        if (ret != null)
+            return ret;
+
+        ret = regularMatcherStats.get(base);
+        if (ret != null)
+            return ret;
+
+        ret = specialMatcherStats.get(real);
+        if (ret != null)
+            return ret;
+
+        return Preconditions.checkNotNull(specialMatcherStats.get(base),
+            "class " + real.getCanonicalName() + " not recorded in stats");
     }
 
     private void countSpecials(final Matcher matcher)
