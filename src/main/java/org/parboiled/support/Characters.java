@@ -138,7 +138,7 @@ public class Characters {
         StringBuilder sb = new StringBuilder();
         sb.append(subtractive ? "![" : "[");
         for (char c : chars) {
-            sb.append(StringUtils.escape(c));
+            sb.append(Chars.escape(c));
         }
         sb.append(']');
         return sb.toString();
