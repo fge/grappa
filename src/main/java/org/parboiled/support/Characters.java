@@ -154,9 +154,7 @@ public class Characters {
 
     @Override
     public int hashCode() {
-        int result = (subtractive ? 1 : 0);
-        result = 31 * result + Arrays.hashCode(chars);
-        return result;
+        return Arrays.hashCode(chars) + (subtractive ? 31 : 0);
     }
 
     private Characters addToChars(char[] chs) {
@@ -290,5 +288,4 @@ public class Characters {
         return chars.isEmpty() ? Characters.ALL
             : new Characters(true, chars.toCharArray());
     }
-
 }
