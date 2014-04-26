@@ -46,5 +46,6 @@ import java.util.HashMap;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface Cached {
+public @interface Cached
+{
 }

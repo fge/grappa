@@ -43,5 +43,6 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface BuildParseTree {
+public @interface BuildParseTree
+{
 }
