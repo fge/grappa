@@ -5,7 +5,6 @@
 * Document all parser/rule annotations.
 * Rewrite ParserStatistics; add custom matcher.
 * Depend on mockito, AssertJ for tests.
-* Add Unicode and UnicodeRange.
 * Add UnicodeChar and UnicodeRange.
 * Add dependency on Guava.
 * ASM 5.0.1: make package work with Java 8.
