@@ -47,6 +47,22 @@ The current version is **1.0.0-beta.1**. The major new features compared to parb
 
 And many other things; see the [release notes](RELEASE-NOTES.md) for more details.
 
+To add it to your projects:
+
+```
+# with gradle:
+dependencies {
+    compile(group: "com.github.parboiled1", name: "grappa", version: "1.0.0-beta.1");
+}
+
+# with maven:
+<dependency>
+    <groupId>com.github.parboiled1</groupId>
+    <artifactId>grappa</artifactId>
+    <version>1.0.0-beta.1</version>
+</dependency>
+```
+
 ## Example grammars
 
 You can have a first taste by looking at the [examples
