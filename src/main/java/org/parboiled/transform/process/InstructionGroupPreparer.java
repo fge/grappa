@@ -16,6 +16,7 @@
 
 package org.parboiled.transform.process;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
@@ -38,8 +39,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.objectweb.asm.Opcodes.ALOAD;
-import static org.parboiled.common.Preconditions.checkArgNotNull;
-import static org.parboiled.common.Preconditions.checkState;
 
 public class InstructionGroupPreparer implements RuleMethodProcessor {
 
@@ -50,14 +49,14 @@ public class InstructionGroupPreparer implements RuleMethodProcessor {
 
     @Override
     public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
-        checkArgNotNull(classNode, "classNode");
-        checkArgNotNull(method, "method");
+        Preconditions.checkNotNull(classNode, "classNode");
+        Preconditions.checkNotNull(method, "method");
         return method.containsExplicitActions() || method.containsVars();
     }
 
     @Override
     public void process(ParserClassNode classNode, RuleMethod method) {
-        this.method = checkArgNotNull(method, "method");
+        this.method = Preconditions.checkNotNull(method, "method");
 
         // prepare groups for later stages
         for (InstructionGroup group : method.getGroups()) {
@@ -215,7 +214,7 @@ public class InstructionGroupPreparer implements RuleMethodProcessor {
                 ensureRemaining(8);
                 buffer.putDouble((Double) cst);
             } else {
-                checkState(cst instanceof Type);
+                Preconditions.checkState(cst instanceof Type);
                 update(((Type) cst).getInternalName());
             }
         }
