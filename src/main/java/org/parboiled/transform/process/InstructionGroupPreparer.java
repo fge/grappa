@@ -16,6 +16,7 @@
 
 package org.parboiled.transform.process;
 
+import com.google.common.base.Strings;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -30,6 +31,7 @@ import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
 
 import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -269,17 +271,11 @@ public class InstructionGroupPreparer implements RuleMethodProcessor {
         }
 
         private void update(String str) {
-            if (str == null)
+            if (Strings.isNullOrEmpty(str))
                 return;
-            if (str.isEmpty())
-                return;
-            if (!str.isEmpty()) {
-                int len = str.length();
-                ensureRemaining(len * 2);
-                for (int i = 0; i < len; i++) {
-                    buffer.putChar(str.charAt(i));
-                }
-            }
+            final CharBuffer buf = CharBuffer.wrap(str);
+            while (buf.hasRemaining())
+                buffer.putChar(buf.get());
         }
 
         private void update(Label label) {
