@@ -180,7 +180,8 @@ public class InstructionGroupPreparer implements RuleMethodProcessor {
         }
 
         @Override
-        public void visitMethodInsn(int opcode, String owner, String name, String desc) {
+        public void visitMethodInsn(int opcode, String owner, String name,
+            String desc, boolean itf) {
             update(opcode);
             update(owner);
             update(name);
