@@ -32,7 +32,7 @@ public class AnyMatcher extends AbstractMatcher {
     }
 
     @Override
-    public boolean match(MatcherContext context) {
+    public <V> boolean match(MatcherContext<V> context) {
         switch (context.getCurrentChar()) {
             case Chars.DEL_ERROR:
             case Chars.INS_ERROR:

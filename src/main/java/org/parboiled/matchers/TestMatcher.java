@@ -35,7 +35,7 @@ public class TestMatcher extends CustomDefaultLabelMatcher<TestMatcher> {
     }
 
     @Override
-    public boolean match(MatcherContext context) {
+    public <V> boolean match(MatcherContext<V> context) {
         int lastIndex = context.getCurrentIndex();
         Object valueStackSnapshot = context.getValueStack().takeSnapshot();
 

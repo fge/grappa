@@ -34,7 +34,7 @@ public class OptionalMatcher extends CustomDefaultLabelMatcher<OptionalMatcher> 
     }
 
     @Override
-    public boolean match(MatcherContext context) {
+    public <V> boolean match(MatcherContext<V> context) {
         subMatcher.getSubContext(context).runMatcher();
         context.createNode();
         return true;

@@ -38,7 +38,7 @@ public class CharRangeMatcher extends AbstractMatcher {
     }
 
     @Override
-    public boolean match(MatcherContext context) {
+    public <V> boolean match(MatcherContext<V> context) {
         char c = context.getCurrentChar();
         if (c < cLow || c > cHigh) return false;
 

@@ -35,9 +35,9 @@ public class FollowMatchersVisitor extends DefaultMatcherVisitor<Boolean> {
 
     private final CanMatchEmptyVisitor canMatchEmptyVisitor = new CanMatchEmptyVisitor();
     private final List<Matcher> followMatchers = new ArrayList<Matcher>();
-    private MatcherContext context;
+    private MatcherContext<?> context;
 
-    public List<Matcher> getFollowMatchers(MatcherContext currentContext) {
+    public List<Matcher> getFollowMatchers(MatcherContext<?> currentContext) {
         followMatchers.clear();
         context = currentContext.getParent();
         while (context != null) {

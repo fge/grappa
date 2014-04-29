@@ -36,7 +36,7 @@ public class OneOrMoreMatcher extends CustomDefaultLabelMatcher<OneOrMoreMatcher
     }
 
     @Override
-    public boolean match(MatcherContext context) {
+    public <V> boolean match(MatcherContext<V> context) {
         boolean matched = subMatcher.getSubContext(context).runMatcher();
         if (!matched) return false;
 

@@ -52,7 +52,7 @@ public class CharMatcher extends AbstractMatcher {
     }
 
     @Override
-    public boolean match(MatcherContext context) {
+    public <V> boolean match(MatcherContext<V> context) {
         if (context.getCurrentChar() != character) return false;
         context.advanceIndex(1);
         context.createNode();

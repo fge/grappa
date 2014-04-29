@@ -257,7 +257,7 @@ public class ProxyMatcher implements Matcher, Cloneable {
     }
 
     @Override
-    public MatcherContext getSubContext(MatcherContext context) {
+    public <V> MatcherContext<V> getSubContext(MatcherContext<V> context) {
         if (dirty) apply();
         return target.getSubContext(context);
     }

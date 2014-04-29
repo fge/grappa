@@ -31,7 +31,7 @@ public class EmptyMatcher extends AbstractMatcher {
     }
 
     @Override
-    public boolean match(MatcherContext context) {
+    public <V> boolean match(MatcherContext<V> context) {
         context.createNode();
         return true;
     }

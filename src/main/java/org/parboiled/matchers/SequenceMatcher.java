@@ -34,7 +34,7 @@ public class SequenceMatcher extends CustomDefaultLabelMatcher<SequenceMatcher> 
     }
 
     @Override
-    public boolean match(MatcherContext context) {
+    public <V> boolean match(MatcherContext<V> context) {
         Object valueStackSnapshot = context.getValueStack().takeSnapshot();
 
         List<Matcher> children = getChildren();

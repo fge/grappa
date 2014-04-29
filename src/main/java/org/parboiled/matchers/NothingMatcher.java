@@ -31,7 +31,7 @@ public class NothingMatcher extends AbstractMatcher {
     }
 
     @Override
-    public boolean match(MatcherContext context) {
+    public <V> boolean match(MatcherContext<V> context) {
         return false;
     }
 

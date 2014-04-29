@@ -64,7 +64,7 @@ public interface Matcher extends Rule, GraphNode<Matcher> {
      * @param context the parent context
      * @return the context this matcher is to be run in
      */
-    MatcherContext getSubContext(MatcherContext context);
+    <V> MatcherContext<V> getSubContext(MatcherContext<V> context);
 
     /**
      * Tries a match on the given MatcherContext.

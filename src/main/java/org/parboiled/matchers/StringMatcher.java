@@ -44,7 +44,7 @@ public class StringMatcher extends SequenceMatcher {
     }
 
     @Override
-    public boolean match(MatcherContext context) {
+    public <V> boolean match(MatcherContext<V> context) {
         if (!context.fastStringMatching()) {
             return super.match(context);
         }

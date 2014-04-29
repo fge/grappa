@@ -352,11 +352,11 @@ public class RecoveringParseRunner<V> extends AbstractParseRunner<V> {
             return false;
         }
 
-        private boolean qualifiesForResync(MatcherContext context) {
+        private boolean qualifiesForResync(MatcherContext<?> context) {
             if (context.getCurrentIndex() == context.getStartIndex() || !context.getPath().isPrefixOf(lastMatchPath)) {
                 // if we have a sequence that hasn't match anything yet or is not a prefix we might still have to
                 // resync on it if there is no other sequence parent anymore
-                MatcherContext parent = context.getParent();
+                MatcherContext<?> parent = context.getParent();
                 while (parent != null) {
                     if (parent.getMatcher() instanceof SequenceMatcher) return false;
                     parent = parent.getParent();
@@ -365,7 +365,7 @@ public class RecoveringParseRunner<V> extends AbstractParseRunner<V> {
             return true;
         }
 
-        private boolean prepareErrorLocation(MatcherContext context) {
+        private boolean prepareErrorLocation(MatcherContext<?> context) {
             switch (context.getCurrentChar()) {
                 case DEL_ERROR:
                     return willMatchDelError(context);
@@ -380,7 +380,7 @@ public class RecoveringParseRunner<V> extends AbstractParseRunner<V> {
             }
         }
 
-        private boolean willMatchDelError(MatcherContext context) {
+        private boolean willMatchDelError(MatcherContext<?> context) {
             int preSkipIndex = context.getCurrentIndex();
             context.advanceIndex(2); // skip del marker char and illegal char
             if (!runTestMatch(context)) {
@@ -393,7 +393,7 @@ public class RecoveringParseRunner<V> extends AbstractParseRunner<V> {
             return true;
         }
 
-        private boolean willMatchInsError(MatcherContext context) {
+        private boolean willMatchInsError(MatcherContext<?> context) {
             int preSkipIndex = context.getCurrentIndex();
             context.advanceIndex(1); // skip ins marker char
             if (!runTestMatch(context)) {
@@ -406,13 +406,13 @@ public class RecoveringParseRunner<V> extends AbstractParseRunner<V> {
             return true;
         }
 
-        private boolean runTestMatch(MatcherContext context) {
+        private boolean runTestMatch(MatcherContext<?> context) {
             TestMatcher testMatcher = new TestMatcher(context.getMatcher());
-            MatcherContext testContext = testMatcher.getSubContext(context);
+            MatcherContext<?> testContext = testMatcher.getSubContext(context);
             return prepareErrorLocation(testContext) && testContext.runMatcher();
         }
 
-        private boolean resynchronize(MatcherContext context) {
+        private boolean resynchronize(MatcherContext<?> context) {
             context.markError();
 
             // create a node for the failed Sequence, taking ownership of all sub nodes created so far
@@ -461,7 +461,7 @@ public class RecoveringParseRunner<V> extends AbstractParseRunner<V> {
         }
 
         @SuppressWarnings("ConstantConditions")
-        private void rerunAndExecuteErrorActions(MatcherContext context) {
+        private void rerunAndExecuteErrorActions(MatcherContext<?> context) {
             // the context is for the resync action, which at this point has FAILED, i.e. ALL its sub actions haven't
             // had a chance to change the value stack, even the ones having run before the actual parse error matcher
             // so we need to rerun all sub matchers of the resync sequence up to the point of the parse error
@@ -493,7 +493,8 @@ public class RecoveringParseRunner<V> extends AbstractParseRunner<V> {
             context.setCurrentIndex(savedCurrentIndex);
         }
 
-        private int gobbleIllegalCharacters(MatcherContext context, List<Matcher> followMatchers) {
+        private int gobbleIllegalCharacters(MatcherContext<?> context,
+            List<Matcher> followMatchers) {
             while_loop:
             while (true) {
                 char currentChar = context.getCurrentChar();

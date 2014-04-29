@@ -83,7 +83,7 @@ public class ErrorLocatingParseRunner<V> extends AbstractParseRunner<V> implemen
         return false;
     }
 
-    private boolean notTestNot(MatcherContext context) {
+    private boolean notTestNot(MatcherContext<?> context) {
         return !(context.getMatcher() instanceof TestNotMatcher) &&
                 (context.getParent() == null || notTestNot(context.getParent()));
     }

@@ -36,7 +36,7 @@ public class AnyOfMatcher extends AbstractMatcher {
     }
 
     @Override
-    public boolean match(MatcherContext context) {
+    public <V> boolean match(MatcherContext<V> context) {
         if (!characters.contains(context.getCurrentChar())) return false;
         context.advanceIndex(1);
         context.createNode();

@@ -71,8 +71,8 @@ public class ActionMatcher extends AbstractMatcher {
     }
 
     @Override
-    public MatcherContext getSubContext(MatcherContext context) {
-        MatcherContext subContext = context.getBasicSubContext();
+    public <V> MatcherContext<V> getSubContext(MatcherContext<V> context) {
+        MatcherContext<V> subContext = context.getBasicSubContext();
         subContext.setMatcher(this);
         if (context.getCurrentIndex() > context.getStartIndex()) {
             // if we have already matched something we must be in a sequence at the second or later position
@@ -90,7 +90,7 @@ public class ActionMatcher extends AbstractMatcher {
         if (skipInPredicates && context.inPredicate()) return true;
 
         // actions need to run in the parent context
-        MatcherContext parentContext = context.getParent();
+        MatcherContext<V> parentContext = context.getParent();
         if (!contextAwares.isEmpty()) {
             for (ContextAware contextAware : contextAwares) {
                 contextAware.setContext(parentContext);

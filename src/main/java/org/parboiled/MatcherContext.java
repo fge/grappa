@@ -237,7 +237,7 @@ public class MatcherContext<V> implements Context<V> {
     @Override
     public String getMatch() {
         checkActionContext();
-        MatcherContext prevContext = subContext;
+        MatcherContext<V> prevContext = subContext;
         if (hasError) {
             Node prevNode = prevContext.node;
             return prevNode != null ? ParseTreeUtils.getNodeText(prevNode,

@@ -140,7 +140,7 @@ public abstract class AbstractMatcher extends ImmutableGraphNode<Matcher> implem
 
     // default implementation is to simply delegate to the context
     @Override
-    public MatcherContext getSubContext(MatcherContext context) {
+    public <V> MatcherContext<V> getSubContext(MatcherContext<V> context) {
         return context.getSubContext(this);
     }
 

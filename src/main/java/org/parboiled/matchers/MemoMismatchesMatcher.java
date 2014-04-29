@@ -108,8 +108,8 @@ public class MemoMismatchesMatcher implements Matcher {
     public Object getTag() { return inner.getTag(); }
 
     @Override
-    public MatcherContext getSubContext(MatcherContext context) {
-        MatcherContext subContext = inner.getSubContext(context);
+    public <V> MatcherContext<V> getSubContext(MatcherContext<V> context) {
+        MatcherContext<V> subContext = inner.getSubContext(context);
         subContext.setMatcher(this); // we need to inject ourselves here otherwise we get cut out
         return subContext;
     }

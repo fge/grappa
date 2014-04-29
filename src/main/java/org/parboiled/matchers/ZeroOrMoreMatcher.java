@@ -35,7 +35,7 @@ public class ZeroOrMoreMatcher extends CustomDefaultLabelMatcher<ZeroOrMoreMatch
     }
 
     @Override
-    public boolean match(MatcherContext context) {
+    public <V> boolean match(MatcherContext<V> context) {
         checkArgNotNull(context, "context");
         int lastIndex = context.getCurrentIndex();
         while (subMatcher.getSubContext(context).runMatcher()) {
