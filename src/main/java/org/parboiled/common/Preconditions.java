@@ -48,7 +48,10 @@ import java.util.NoSuchElementException;
  * these types of exceptions.
  *
  * @author Kevin Bourrillion
+ *
+ * @deprecated use {@link com.google.common.base.Preconditions} instead
  */
+@Deprecated
 public final class Preconditions {
     private Preconditions() {}
 
