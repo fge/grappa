@@ -117,6 +117,10 @@ public abstract class BaseParser<V>
             "to create your parser instance!");
     }
 
+    /*
+     * CORE RULES
+     */
+
     /**
      * Match one given character
      *
@@ -126,26 +130,6 @@ public abstract class BaseParser<V>
     @Cached
     @DontLabel
     public Rule ch(final char c)
-    {
-        return new CharMatcher(c);
-    }
-
-    /**
-     * Explicitly creates a rule matching the given character. Normally you can just specify the character literal
-     * directly in you rule description. However, if you don't want to go through {@link #fromCharLiteral(char)},
-     * e.g. because you redefined it, you can also use this wrapper.
-     * <p>Note: This methods carries a {@link Cached} annotation, which means that multiple invocations with the same
-     * argument will yield the same rule instance.</p>
-     *
-     * @param c the char to match
-     * @return a new rule
-     *
-     * @deprecated use {@link #ch(char)} instead; will be removed in 1.1
-     */
-    @Deprecated
-    @Cached
-    @DontLabel
-    public Rule Ch(char c)
     {
         return new CharMatcher(c);
     }
@@ -165,28 +149,6 @@ public abstract class BaseParser<V>
     }
 
     /**
-     * Explicitly creates a rule matching the given character case-independently.
-     * <p>Note: This methods carries a {@link Cached} annotation, which means that multiple invocations with the same
-     * argument will yield the same rule instance.</p>
-     *
-     * @param c the char to match independently of its case
-     * @return a new rule
-     *
-     * @deprecated use {@link #ignoreCase(char)} instead; will be removed in
-     * 1.1.
-     */
-    @Deprecated
-    @Cached
-    @DontLabel
-    public Rule IgnoreCase(char c)
-    {
-        if (Character.isLowerCase(c) == Character.isUpperCase(c)) {
-            return Ch(c);
-        }
-        return new CharIgnoreCaseMatcher(c);
-    }
-
-    /**
      * Match one Unicode character
      *
      * @param codePoint the code point
@@ -197,25 +159,6 @@ public abstract class BaseParser<V>
     public Rule unicodeChar(final int codePoint)
     {
         Preconditions.checkArgument(Character.isValidCodePoint(codePoint),
-            "invalid code point " + codePoint);
-        return UnicodeCharMatcher.forCodePoint(codePoint);
-    }
-
-    /**
-     * Match one Unicode character
-     *
-     * @param codePoint the code point
-     * @return a rule
-     *
-     * @deprecated use {@link #unicodeChar(int)} instead; will be removed in
-     * 1.1.
-     */
-    @Deprecated
-    @Cached
-    @DontLabel
-    public Rule UnicodeChar(final int codePoint)
-    {
-        checkArgument(Character.isValidCodePoint(codePoint),
             "invalid code point " + codePoint);
         return UnicodeCharMatcher.forCodePoint(codePoint);
     }
@@ -246,34 +189,6 @@ public abstract class BaseParser<V>
     }
 
     /**
-     * Match a Unicode character range
-     *
-     * <p>Note that this method will delegate to "regular" character matchers if
-     * part of, or all of, the specified range is into the basic multilingual
-     * plane.</p>
-     *
-     * @param low the lower code point (inclusive)
-     * @param high the upper code point (inclusive)
-     * @return a rule
-     *
-     * @deprecated use {@link #unicodeRange(int, int)} instead; will be removed
-     * in 1.1.
-     */
-    @Deprecated
-    @Cached
-    @DontLabel
-    public Rule UnicodeRange(final int low, final int high)
-    {
-        checkArgument(Character.isValidCodePoint(low),
-            "invalid code point " + low);
-        checkArgument(Character.isValidCodePoint(high),
-            "invalid code point " + high);
-        checkArgument(low <= high, "invalid range: " + low + " > " + high);
-        return low == high ? UnicodeCharMatcher.forCodePoint(low)
-            : UnicodeRangeMatcher.forRange(low, high);
-    }
-
-    /**
      * Match an inclusive range of {@code char}s
      *
      * @param cLow the start char of the range (inclusively)
@@ -285,26 +200,6 @@ public abstract class BaseParser<V>
     public Rule charRange(final char cLow, final char cHigh)
     {
         return cLow == cHigh ? ch(cLow) : new CharRangeMatcher(cLow, cHigh);
-    }
-
-    /**
-     * Creates a rule matching a range of characters from cLow to cHigh (both inclusively).
-     * <p>Note: This methods carries a {@link Cached} annotation, which means that multiple invocations with the same
-     * arguments will yield the same rule instance.</p>
-     *
-     * @param cLow the start char of the range (inclusively)
-     * @param cHigh the end char of the range (inclusively)
-     * @return a new rule
-     *
-     * @deprecated use {@link #charRange(char, char)} instead; will be removed
-     * in 1.1.
-     */
-    @Deprecated
-    @Cached
-    @DontLabel
-    public Rule CharRange(char cLow, char cHigh)
-    {
-        return cLow == cHigh ? Ch(cLow) : new CharRangeMatcher(cLow, cHigh);
     }
 
     /**
@@ -322,23 +217,6 @@ public abstract class BaseParser<V>
     {
         Preconditions.checkNotNull(characters, "characters");
         // TODO: see in this Characters class whether it is possible to wrap
-        return anyOf(characters.toCharArray());
-    }
-    /**
-     * Creates a new rule that matches any of the characters in the given string.
-     * <p>Note: This methods provides caching, which means that multiple invocations with the same
-     * argument will yield the same rule instance.</p>
-     *
-     * @param characters the characters
-     * @return a new rule
-     *
-     * @deprecated use {@link #anyOf(String)} instead; will be removed in 1.1.
-     */
-    @Deprecated
-    @DontLabel
-    public Rule AnyOf(String characters)
-    {
-        checkArgNotNull(characters, "characters");
         return anyOf(characters.toCharArray());
     }
 
@@ -359,26 +237,6 @@ public abstract class BaseParser<V>
         Preconditions.checkArgument(characters.length > 0);
         return characters.length == 1 ? ch(characters[0])
             : anyOf(Characters.of(characters));
-    }
-
-    /**
-     * Creates a new rule that matches any of the characters in the given char array.
-     * <p>Note: This methods provides caching, which means that multiple invocations with the same
-     * argument will yield the same rule instance.</p>
-     *
-     * @param characters the characters
-     * @return a new rule
-     *
-     * @deprecated use {@link #anyOf(char[])} instead; will be removed in 1.1.
-     */
-    @Deprecated
-    @DontLabel
-    public Rule AnyOf(char[] characters)
-    {
-        Preconditions.checkNotNull(characters, "characters");
-        Preconditions.checkArgument(characters.length > 0);
-        return characters.length == 1 ? Ch(characters[0])
-            : AnyOf(Characters.of(characters));
     }
 
     /**
@@ -403,31 +261,6 @@ public abstract class BaseParser<V>
     }
 
     /**
-     * Creates a new rule that matches any of the given characters.
-     * <p>Note: This methods carries a {@link Cached} annotation, which means that multiple invocations with the same
-     * argument will yield the same rule instance.</p>
-     *
-     * @param characters the characters
-     * @return a new rule
-     *
-     * @deprecated use {@link #anyOf(Characters)} instead; will be removed in
-     * 1.1.
-     */
-    @Deprecated
-    @Cached
-    @DontLabel
-    public Rule AnyOf(Characters characters)
-    {
-        checkArgNotNull(characters, "characters");
-        if (!characters.isSubtractive() && characters.getChars().length == 1) {
-            return Ch(characters.getChars()[0]);
-        }
-        if (characters.equals(Characters.NONE))
-            return NOTHING;
-        return new AnyOfMatcher(characters);
-    }
-
-    /**
      * Match any characters <em>except</em> the ones contained in the strings
      *
      * @param characters the characters
@@ -438,24 +271,6 @@ public abstract class BaseParser<V>
     {
         Preconditions.checkNotNull(characters, "characters");
         return noneOf(characters.toCharArray());
-    }
-
-    /**
-     * Creates a new rule that matches all characters except the ones in the given string and EOI.
-     * <p>Note: This methods provides caching, which means that multiple invocations with the same
-     * argument will yield the same rule instance.</p>
-     *
-     * @param characters the characters
-     * @return a new rule
-     *
-     * @deprecated use {@link #noneOf(String)} instead; will be removed in 1.1.
-     */
-    @Deprecated
-    @DontLabel
-    public Rule NoneOf(String characters)
-    {
-        checkArgNotNull(characters, "characters");
-        return NoneOf(characters.toCharArray());
     }
 
     /**
@@ -489,40 +304,6 @@ public abstract class BaseParser<V>
     }
 
     /**
-     * Creates a new rule that matches all characters except the ones in the given char array and EOI.
-     * <p>Note: This methods provides caching, which means that multiple invocations with the same
-     * argument will yield the same rule instance.</p>
-     *
-     * @param characters the characters
-     * @return a new rule
-     *
-     * @deprecated use {@link #noneOf(char[])} instead; will be removed in 1.1.
-     */
-    @Deprecated
-    @DontLabel
-    public Rule NoneOf(char[] characters)
-    {
-        checkArgNotNull(characters, "characters");
-        checkArgument(characters.length > 0);
-
-        // make sure to always exclude EOI as well
-        boolean containsEOI = false;
-        for (char c : characters)
-            if (c == Chars.EOI) {
-                containsEOI = true;
-                break;
-            }
-        if (!containsEOI) {
-            char[] withEOI = new char[characters.length + 1];
-            System.arraycopy(characters, 0, withEOI, 0, characters.length);
-            withEOI[characters.length] = Chars.EOI;
-            characters = withEOI;
-        }
-
-        return AnyOf(Characters.allBut(characters));
-    }
-
-    /**
      * Match a string literal
      *
      * @param string the string to match
@@ -533,26 +314,6 @@ public abstract class BaseParser<V>
     {
         Preconditions.checkNotNull(string, "string");
         return string(string.toCharArray());
-    }
-
-    /**
-     * Explicitly creates a rule matching the given string. Normally you can just specify the string literal
-     * directly in you rule description. However, if you want to not go through {@link #fromStringLiteral(String)},
-     * e.g. because you redefined it, you can also use this wrapper.
-     * <p>Note: This methods provides caching, which means that multiple invocations with the same
-     * argument will yield the same rule instance.</p>
-     *
-     * @param string the String to match
-     * @return a new rule
-     *
-     * @deprecated use {@link #string(String)} instead; will be removed in 1.1.
-     */
-    @Deprecated
-    @DontLabel
-    public Rule String(String string)
-    {
-        checkArgNotNull(string, "string");
-        return String(string.toCharArray());
     }
 
     /**
@@ -575,33 +336,6 @@ public abstract class BaseParser<V>
     }
 
     /**
-     * Explicitly creates a rule matching the given string. Normally you can just specify the string literal
-     * directly in you rule description. However, if you want to not go through {@link #fromStringLiteral(String)},
-     * e.g. because you redefined it, you can also use this wrapper.
-     * <p>Note: This methods carries a {@link Cached} annotation, which means that multiple invocations with the same
-     * argument will yield the same rule instance.</p>
-     *
-     * @param characters the characters of the string to match
-     * @return a new rule
-     *
-     * @deprecated use {@link #string(char...)} instead; will be removed in 1.1.
-     */
-    @Deprecated
-    @Cached
-    @SuppressSubnodes
-    @DontLabel
-    public Rule String(char... characters)
-    {
-        if (characters.length == 1)
-            return Ch(characters[0]); // optimize one-char strings
-        Rule[] matchers = new Rule[characters.length];
-        for (int i = 0; i < characters.length; i++) {
-            matchers[i] = Ch(characters[i]);
-        }
-        return new StringMatcher(matchers, characters);
-    }
-
-    /**
      * Match a string literal in a case insensitive manner
      *
      * @param string the string to match
@@ -612,25 +346,6 @@ public abstract class BaseParser<V>
     {
         Preconditions.checkNotNull(string, "string");
         return ignoreCase(string.toCharArray());
-    }
-
-    /**
-     * Explicitly creates a rule matching the given string in a case-independent fashion.
-     * <p>Note: This methods provides caching, which means that multiple invocations with the same
-     * argument will yield the same rule instance.</p>
-     *
-     * @param string the string to match
-     * @return a new rule
-     *
-     * @deprecated use {@link #ignoreCase(String)} instead; will be removed in
-     * 1.1.
-     */
-    @Deprecated
-    @DontLabel
-    public Rule IgnoreCase(String string)
-    {
-        checkArgNotNull(string, "string");
-        return IgnoreCase(string.toCharArray());
     }
 
     /**
@@ -654,33 +369,6 @@ public abstract class BaseParser<V>
     }
 
     /**
-     * Explicitly creates a rule matching the given string in a case-independent fashion.
-     * <p>Note: This methods carries a {@link Cached} annotation, which means that multiple invocations with the same
-     * argument will yield the same rule instance.</p>
-     *
-     * @param characters the characters of the string to match
-     * @return a new rule
-     *
-     * @deprecated use {@link #ignoreCase(char...)} instead; will be removed in
-     * 1.1.
-     */
-    @Deprecated
-    @Cached
-    @SuppressSubnodes
-    @DontLabel
-    public Rule IgnoreCase(char... characters)
-    {
-        if (characters.length == 1)
-            return IgnoreCase(characters[0]); // optimize one-char strings
-        Rule[] matchers = new Rule[characters.length];
-        for (int i = 0; i < characters.length; i++) {
-            matchers[i] = IgnoreCase(characters[i]);
-        }
-        return ((SequenceMatcher) Sequence(matchers))
-            .label('"' + String.valueOf(characters) + '"');
-    }
-
-    /**
      * Match the first rule of a series of rules
      *
      * <p>When one rule matches, all others are ignored.</p>
@@ -698,28 +386,6 @@ public abstract class BaseParser<V>
         final Object[] rules = ImmutableList.builder().add(rule).add(rule2)
             .add(moreRules).build().toArray();
         return firstOf(rules);
-    }
-
-    /**
-     * Creates a new rule that successively tries all of the given subrules and succeeds when the first one of
-     * its subrules matches. If all subrules fail this rule fails as well.
-     * <p>Note: This methods provides caching, which means that multiple invocations with the same
-     * arguments will yield the same rule instance.</p>
-     *
-     * @param rule the first subrule
-     * @param rule2 the second subrule
-     * @param moreRules the other subrules
-     * @return a new rule
-     *
-     * @deprecated use {@link #firstOf(Object, Object, Object...)} instead; will
-     * be removed in 1.1.
-     */
-    @Deprecated
-    @DontLabel
-    public Rule FirstOf(Object rule, Object rule2, Object... moreRules)
-    {
-        checkArgNotNull(moreRules, "moreRules");
-        return FirstOf(Utils.arrayOf(rule, rule2, moreRules));
     }
 
     /**
@@ -753,41 +419,6 @@ public abstract class BaseParser<V>
     }
 
     /**
-     * Creates a new rule that successively tries all of the given subrules and succeeds when the first one of
-     * its subrules matches. If all subrules fail this rule fails as well.
-     * <p>Note: This methods carries a {@link Cached} annotation, which means that multiple invocations with the same
-     * argument will yield the same rule instance.</p>
-     *
-     * @param rules the subrules
-     * @return a new rule
-     *
-     * @deprecated use {@link #firstOf(Object[])} instead; will be removed in
-     * 1.1.
-     */
-    @Deprecated
-    @Cached
-    @DontLabel
-    public Rule FirstOf(Object[] rules)
-    {
-        checkArgNotNull(rules, "rules");
-        if (rules.length == 1) {
-            return toRule(rules[0]);
-        }
-        Rule[] convertedRules = toRules(rules);
-        char[][] chars = new char[rules.length][];
-        for (int i = 0, convertedRulesLength = convertedRules.length;
-             i < convertedRulesLength; i++) {
-            Object rule = convertedRules[i];
-            if (rule instanceof StringMatcher) {
-                chars[i] = ((StringMatcher) rule).characters;
-            } else {
-                return new FirstOfMatcher(convertedRules);
-            }
-        }
-        return new FirstOfStringsMatcher(convertedRules, chars);
-    }
-
-    /**
      * Try and match a rule repeatedly, at least once
      *
      * @param rule the subrule
@@ -796,26 +427,6 @@ public abstract class BaseParser<V>
     @Cached
     @DontLabel
     public Rule oneOrMore(@Nonnull final Object rule)
-    {
-        return new OneOrMoreMatcher(toRule(rule));
-    }
-
-    /**
-     * Creates a new rule that tries repeated matches of its subrule and succeeds if the subrule matches at least once.
-     * If the subrule does not match at least once this rule fails.
-     * <p>Note: This methods carries a {@link Cached} annotation, which means that multiple invocations with the same
-     * argument will yield the same rule instance.</p>
-     *
-     * @param rule the subrule
-     * @return a new rule
-     *
-     * @deprecated use {@link #oneOrMore(Object)} instead; will be removed in
-     * 1.1.
-     */
-    @Deprecated
-    @Cached
-    @DontLabel
-    public Rule OneOrMore(Object rule)
     {
         return new OneOrMoreMatcher(toRule(rule));
     }
@@ -837,28 +448,6 @@ public abstract class BaseParser<V>
     }
 
     /**
-     * Creates a new rule that tries repeated matches of a sequence of the given subrules and succeeds if the sequence
-     * matches at least once. If the sequence does not match at least once this rule fails.
-     * <p>Note: This methods provides caching, which means that multiple invocations with the same
-     * arguments will yield the same rule instance.</p>
-     *
-     * @param rule the first subrule
-     * @param rule2 the second subrule
-     * @param moreRules the other subrules
-     * @return a new rule
-     *
-     * @deprecated use {@link #oneOrMore(Object, Object, Object...)} instead;
-     * will be removed in 1.1.
-     */
-    @Deprecated
-    @DontLabel
-    public Rule OneOrMore(Object rule, Object rule2, Object... moreRules)
-    {
-        checkArgNotNull(moreRules, "moreRules");
-        return OneOrMore(Sequence(rule, rule2, moreRules));
-    }
-
-    /**
      * Try and match a rule zero or one time
      *
      * <p>This rule therefore always succeeds.</p>
@@ -871,26 +460,6 @@ public abstract class BaseParser<V>
     public Rule optional(@Nonnull final Object rule)
     {
         Preconditions.checkNotNull(rule);
-        return new OptionalMatcher(toRule(rule));
-    }
-
-    /**
-     * Creates a new rule that tries a match on its subrule and always succeeds, independently of the matching
-     * success of its sub rule.
-     * <p>Note: This methods carries a {@link Cached} annotation, which means that multiple invocations with the same
-     * argument will yield the same rule instance.</p>
-     *
-     * @param rule the subrule
-     * @return a new rule
-     *
-     * @deprecated use {@link #oneOrMore(Object)} instead; will be removed in
-     * 1.1.
-     */
-    @Deprecated
-    @Cached
-    @DontLabel
-    public Rule Optional(Object rule)
-    {
         return new OptionalMatcher(toRule(rule));
     }
 
@@ -913,28 +482,6 @@ public abstract class BaseParser<V>
     }
 
     /**
-     * Creates a new rule that tries a match on the sequence of the given subrules and always succeeds, independently
-     * of the matching success of its sub sequence.
-     * <p>Note: This methods provides caching, which means that multiple invocations with the same
-     * arguments will yield the same rule instance.</p>
-     *
-     * @param rule the first subrule
-     * @param rule2 the second subrule
-     * @param moreRules the other subrules
-     * @return a new rule
-     *
-     * @deprecated use {@link #optional(Object, Object, Object...)} instead;
-     * will be removed in 1.1.
-     */
-    @Deprecated
-    @DontLabel
-    public Rule Optional(Object rule, Object rule2, Object... moreRules)
-    {
-        checkArgNotNull(moreRules, "moreRules");
-        return Optional(Sequence(rule, rule2, moreRules));
-    }
-
-    /**
      * Match a given set of rules, exactly once
      *
      * @param rule the first subrule
@@ -953,27 +500,6 @@ public abstract class BaseParser<V>
     }
 
     /**
-     * Creates a new rule that only succeeds if all of its subrule succeed, one after the other.
-     * <p>Note: This methods provides caching, which means that multiple invocations with the same
-     * arguments will yield the same rule instance.</p>
-     *
-     * @param rule the first subrule
-     * @param rule2 the second subrule
-     * @param moreRules the other subrules
-     * @return a new rule
-     *
-     * @deprecated use {@link #sequence(Object, Object, Object...)} instead;
-     * will be removed in 1.1.
-     */
-    @Deprecated
-    @DontLabel
-    public Rule Sequence(Object rule, Object rule2, Object... moreRules)
-    {
-        checkArgNotNull(moreRules, "moreRules");
-        return Sequence(Utils.arrayOf(rule, rule2, moreRules));
-    }
-
-    /**
      * Match a given set of rules, exactly once
      *
      * @param rules the rules
@@ -984,27 +510,6 @@ public abstract class BaseParser<V>
     public Rule sequence(@Nonnull final Object[] rules)
     {
         Preconditions.checkNotNull(rules, "rules");
-        return rules.length == 1 ? toRule(rules[0])
-            : new SequenceMatcher(toRules(rules));
-    }
-
-    /**
-     * Creates a new rule that only succeeds if all of its subrule succeed, one after the other.
-     * <p>Note: This methods carries a {@link Cached} annotation, which means that multiple invocations with the same
-     * arguments will yield the same rule instance.</p>
-     *
-     * @param rules the sub rules
-     * @return a new rule
-     *
-     * @deprecated use {@link #sequence(Object[])} instead; will be removed in
-     * 1.1.
-     */
-    @Deprecated
-    @Cached
-    @DontLabel
-    public Rule Sequence(Object[] rules)
-    {
-        checkArgNotNull(rules, "rules");
         return rules.length == 1 ? toRule(rules[0])
             : new SequenceMatcher(toRules(rules));
     }
@@ -1034,32 +539,6 @@ public abstract class BaseParser<V>
     }
 
     /**
-     * <p>Creates a new rule that acts as a syntactic predicate, i.e. tests the given sub rule against the current
-     * input position without actually matching any characters. Succeeds if the sub rule succeeds and fails if the
-     * sub rule rails. Since this rule does not actually consume any input it will never create a parse tree node.</p>
-     * <p>Also it carries a {@link SuppressNode} annotation, which means all sub nodes will also never create a parse
-     * tree node. This can be important for actions contained in sub rules of this rule that otherwise expect the
-     * presence of certain parse tree structures in their context.
-     * Also see {@link org.parboiled.annotations.SkipActionsInPredicates}</p>
-     * <p>Note: This methods carries a {@link Cached} annotation, which means that multiple invocations with the same
-     * argument will yield the same rule instance.</p>
-     *
-     * @param rule the subrule
-     * @return a new rule
-     *
-     * @deprecated use {@link #test(Object)} instead; will be removed in 1.1.
-     */
-    @Deprecated
-    @Cached
-    @SuppressNode
-    @DontLabel
-    public Rule Test(Object rule)
-    {
-        Rule subMatcher = toRule(rule);
-        return new TestMatcher(subMatcher);
-    }
-
-    /**
      * Test a set of rules, but do not consume any input
      *
      * @param rule the first subrule
@@ -1078,34 +557,6 @@ public abstract class BaseParser<V>
     }
 
     /**
-     * <p>Creates a new rule that acts as a syntactic predicate, i.e. tests the sequence of the given sub rule against
-     * the current input position without actually matching any characters. Succeeds if the sub sequence succeeds and
-     * fails if the sub sequence rails. Since this rule does not actually consume any input it will never create a
-     * parse tree node.</p>
-     * <p>Also it carries a {@link SuppressNode} annotation, which means all sub nodes will also never create a parse
-     * tree node. This can be important for actions contained in sub rules of this rule that otherwise expect the
-     * presence of certain parse tree structures in their context.
-     * Also see {@link org.parboiled.annotations.SkipActionsInPredicates}</p>
-     * <p>Note: This methods provides caching, which means that multiple invocations with the same
-     * arguments will yield the same rule instance.</p>
-     *
-     * @param rule the first subrule
-     * @param rule2 the second subrule
-     * @param moreRules the other subrules
-     * @return a new rule
-     *
-     * @deprecated use {@link #test(Object, Object, Object...)} instead; will be
-     * removed in 1.1.
-     */
-    @Deprecated
-    @DontLabel
-    public Rule Test(Object rule, Object rule2, Object... moreRules)
-    {
-        checkArgNotNull(moreRules, "moreRules");
-        return Test(Sequence(rule, rule2, moreRules));
-    }
-
-    /**
      * Test, without consuming an input, that a rule does not match
      *
      * <p>The same warnings given in the description of {@link #test(Object)}
@@ -1120,32 +571,6 @@ public abstract class BaseParser<V>
     public Rule testNot(@Nonnull final Object rule)
     {
         return new TestNotMatcher(toRule(rule));
-    }
-
-    /**
-     * <p>Creates a new rule that acts as an inverse syntactic predicate, i.e. tests the given sub rule against the
-     * current input position without actually matching any characters. Succeeds if the sub rule fails and fails if the
-     * sub rule succeeds. Since this rule does not actually consume any input it will never create a parse tree node.</p>
-     * <p>Also it carries a {@link SuppressNode} annotation, which means all sub nodes will also never create a parse
-     * tree node. This can be important for actions contained in sub rules of this rule that otherwise expect the
-     * presence of certain parse tree structures in their context.
-     * Also see {@link org.parboiled.annotations.SkipActionsInPredicates}</p>
-     * <p>Note: This methods carries a {@link Cached} annotation, which means that multiple invocations with the same
-     * argument will yield the same rule instance.</p>
-     *
-     * @param rule the subrule
-     * @return a new rule
-     *
-     * @deprecated use {@link #testNot(Object)} instead; will be removed in 1.1.
-     */
-    @Deprecated
-    @Cached
-    @SuppressNode
-    @DontLabel
-    public Rule TestNot(Object rule)
-    {
-        Rule subMatcher = toRule(rule);
-        return new TestNotMatcher(subMatcher);
     }
 
     /**
@@ -1168,34 +593,6 @@ public abstract class BaseParser<V>
     }
 
     /**
-     * <p>Creates a new rule that acts as an inverse syntactic predicate, i.e. tests the sequence of the given sub rules
-     * against the current input position without actually matching any characters. Succeeds if the sub sequence fails
-     * and fails if the sub sequence succeeds. Since this rule does not actually consume any input it will never create
-     * a parse tree node.</p>
-     * <p>Also it carries a {@link SuppressNode} annotation, which means all sub nodes will also never create a parse
-     * tree node. This can be important for actions contained in sub rules of this rule that otherwise expect the
-     * presence of certain parse tree structures in their context.
-     * Also see {@link org.parboiled.annotations.SkipActionsInPredicates}</p>
-     * <p>Note: This methods provides caching, which means that multiple invocations with the same
-     * arguments will yield the same rule instance.</p>
-     *
-     * @param rule the first subrule
-     * @param rule2 the second subrule
-     * @param moreRules the other subrules
-     * @return a new rule
-     *
-     * @deprecated use {@link #testNot(Object, Object, Object...)} instead; will
-     * be removed in 1.1.
-     */
-    @Deprecated
-    @DontLabel
-    public Rule TestNot(Object rule, Object rule2, Object... moreRules)
-    {
-        checkArgNotNull(moreRules, "moreRules");
-        return TestNot(Sequence(rule, rule2, moreRules));
-    }
-
-    /**
      * Try and match a rule zero or more times
      *
      * <p>The rule will therefore always succeed.</p>
@@ -1206,27 +603,6 @@ public abstract class BaseParser<V>
     @Cached
     @DontLabel
     public Rule zeroOrMore(@Nonnull final Object rule)
-    {
-        return new ZeroOrMoreMatcher(toRule(rule));
-    }
-
-    /**
-     * Creates a new rule that tries repeated matches of its subrule.
-     * Succeeds always, even if the subrule doesn't match even once.
-     * <p>Note: This methods carries a {@link Cached} annotation, which means that multiple invocations with the same
-     * argument will yield the same rule instance.</p>
-     *
-     * @param rule the subrule
-     * @return a new rule
-     *
-     * @deprecated use {@link #zeroOrMore(Object)} instead; will be removed in
-     * 1.1.
-     */
-
-    @Deprecated
-    @Cached
-    @DontLabel
-    public Rule ZeroOrMore(Object rule)
     {
         return new ZeroOrMoreMatcher(toRule(rule));
     }
@@ -1248,28 +624,6 @@ public abstract class BaseParser<V>
     }
 
     /**
-     * Creates a new rule that tries repeated matches of the sequence of the given sub rules.
-     * Succeeds always, even if the sub sequence doesn't match even once.
-     * <p>Note: This methods provides caching, which means that multiple invocations with the same
-     * arguments will yield the same rule instance.</p>
-     *
-     * @param rule the first subrule
-     * @param rule2 the second subrule
-     * @param moreRules the other subrules
-     * @return a new rule
-     *
-     * @deprecated use {@link #zeroOrMore(Object, Object, Object...)} instead;
-     * will be removed in 1.1.
-     */
-    @Deprecated
-    @DontLabel
-    public Rule ZeroOrMore(Object rule, Object rule2, Object... moreRules)
-    {
-        checkArgNotNull(moreRules, "moreRules");
-        return ZeroOrMore(Sequence(rule, rule2, moreRules));
-    }
-
-    /**
      * Match a rule a fixed number of times
      *
      * @param repetitions The number of repetitions to match. Must be &gt;= 0.
@@ -1281,26 +635,6 @@ public abstract class BaseParser<V>
     public Rule nTimes(final int repetitions, @Nonnull final Object rule)
     {
         return nTimes(repetitions, rule, null);
-    }
-
-    /**
-     * Creates a new rule that repeatedly matches a given sub rule a certain fixed number of times.
-     * <p>Note: This methods provides caching, which means that multiple invocations with the same
-     * arguments will yield the same rule instance.</p>
-     *
-     * @param repetitions The number of repetitions to match. Must be &gt;= 0.
-     * @param rule the sub rule to match repeatedly.
-     * @return a new rule
-     *
-     * @deprecated use {@link #nTimes(int, Object)} instead; will be removed in
-     * 1.1.
-     */
-    @Deprecated
-    @Cached
-    @DontLabel
-    public Rule NTimes(int repetitions, Object rule)
-    {
-        return NTimes(repetitions, rule, null);
     }
 
     /**
@@ -1342,6 +676,683 @@ public abstract class BaseParser<V>
         for (final Object o: iterable)
             builder.add(toRule(o));
         return sequence(builder.build().toArray());
+    }
+
+    /*
+     * DEPRECATED RULES
+     *
+     * TODO: remove in 1.1
+     */
+
+    /**
+     * Explicitly creates a rule matching the given character. Normally you can just specify the character literal
+     * directly in you rule description. However, if you don't want to go through {@link #fromCharLiteral(char)},
+     * e.g. because you redefined it, you can also use this wrapper.
+     * <p>Note: This methods carries a {@link Cached} annotation, which means that multiple invocations with the same
+     * argument will yield the same rule instance.</p>
+     *
+     * @param c the char to match
+     * @return a new rule
+     *
+     * @deprecated use {@link #ch(char)} instead; will be removed in 1.1
+     */
+    @Deprecated
+    @Cached
+    @DontLabel
+    public Rule Ch(char c)
+    {
+        return new CharMatcher(c);
+    }
+
+    /**
+     * Explicitly creates a rule matching the given character case-independently.
+     * <p>Note: This methods carries a {@link Cached} annotation, which means that multiple invocations with the same
+     * argument will yield the same rule instance.</p>
+     *
+     * @param c the char to match independently of its case
+     * @return a new rule
+     *
+     * @deprecated use {@link #ignoreCase(char)} instead; will be removed in
+     * 1.1.
+     */
+    @Deprecated
+    @Cached
+    @DontLabel
+    public Rule IgnoreCase(char c)
+    {
+        if (Character.isLowerCase(c) == Character.isUpperCase(c)) {
+            return Ch(c);
+        }
+        return new CharIgnoreCaseMatcher(c);
+    }
+
+    /**
+     * Match one Unicode character
+     *
+     * @param codePoint the code point
+     * @return a rule
+     *
+     * @deprecated use {@link #unicodeChar(int)} instead; will be removed in
+     * 1.1.
+     */
+    @Deprecated
+    @Cached
+    @DontLabel
+    public Rule UnicodeChar(final int codePoint)
+    {
+        checkArgument(Character.isValidCodePoint(codePoint),
+            "invalid code point " + codePoint);
+        return UnicodeCharMatcher.forCodePoint(codePoint);
+    }
+
+    /**
+     * Match a Unicode character range
+     *
+     * <p>Note that this method will delegate to "regular" character matchers if
+     * part of, or all of, the specified range is into the basic multilingual
+     * plane.</p>
+     *
+     * @param low the lower code point (inclusive)
+     * @param high the upper code point (inclusive)
+     * @return a rule
+     *
+     * @deprecated use {@link #unicodeRange(int, int)} instead; will be removed
+     * in 1.1.
+     */
+    @Deprecated
+    @Cached
+    @DontLabel
+    public Rule UnicodeRange(final int low, final int high)
+    {
+        checkArgument(Character.isValidCodePoint(low),
+            "invalid code point " + low);
+        checkArgument(Character.isValidCodePoint(high),
+            "invalid code point " + high);
+        checkArgument(low <= high, "invalid range: " + low + " > " + high);
+        return low == high ? UnicodeCharMatcher.forCodePoint(low)
+            : UnicodeRangeMatcher.forRange(low, high);
+    }
+
+    /**
+     * Creates a rule matching a range of characters from cLow to cHigh (both inclusively).
+     * <p>Note: This methods carries a {@link Cached} annotation, which means that multiple invocations with the same
+     * arguments will yield the same rule instance.</p>
+     *
+     * @param cLow the start char of the range (inclusively)
+     * @param cHigh the end char of the range (inclusively)
+     * @return a new rule
+     *
+     * @deprecated use {@link #charRange(char, char)} instead; will be removed
+     * in 1.1.
+     */
+    @Deprecated
+    @Cached
+    @DontLabel
+    public Rule CharRange(char cLow, char cHigh)
+    {
+        return cLow == cHigh ? Ch(cLow) : new CharRangeMatcher(cLow, cHigh);
+    }
+
+    /**
+     * Creates a new rule that matches any of the characters in the given string.
+     * <p>Note: This methods provides caching, which means that multiple invocations with the same
+     * argument will yield the same rule instance.</p>
+     *
+     * @param characters the characters
+     * @return a new rule
+     *
+     * @deprecated use {@link #anyOf(String)} instead; will be removed in 1.1.
+     */
+    @Deprecated
+    @DontLabel
+    public Rule AnyOf(String characters)
+    {
+        checkArgNotNull(characters, "characters");
+        return anyOf(characters.toCharArray());
+    }
+
+    /**
+     * Creates a new rule that matches any of the characters in the given char array.
+     * <p>Note: This methods provides caching, which means that multiple invocations with the same
+     * argument will yield the same rule instance.</p>
+     *
+     * @param characters the characters
+     * @return a new rule
+     *
+     * @deprecated use {@link #anyOf(char[])} instead; will be removed in 1.1.
+     */
+    @Deprecated
+    @DontLabel
+    public Rule AnyOf(char[] characters)
+    {
+        Preconditions.checkNotNull(characters, "characters");
+        Preconditions.checkArgument(characters.length > 0);
+        return characters.length == 1 ? Ch(characters[0])
+            : AnyOf(Characters.of(characters));
+    }
+
+    /**
+     * Creates a new rule that matches any of the given characters.
+     * <p>Note: This methods carries a {@link Cached} annotation, which means that multiple invocations with the same
+     * argument will yield the same rule instance.</p>
+     *
+     * @param characters the characters
+     * @return a new rule
+     *
+     * @deprecated use {@link #anyOf(Characters)} instead; will be removed in
+     * 1.1.
+     */
+    @Deprecated
+    @Cached
+    @DontLabel
+    public Rule AnyOf(Characters characters)
+    {
+        checkArgNotNull(characters, "characters");
+        if (!characters.isSubtractive() && characters.getChars().length == 1) {
+            return Ch(characters.getChars()[0]);
+        }
+        if (characters.equals(Characters.NONE))
+            return NOTHING;
+        return new AnyOfMatcher(characters);
+    }
+
+    /**
+     * Creates a new rule that matches all characters except the ones in the given string and EOI.
+     * <p>Note: This methods provides caching, which means that multiple invocations with the same
+     * argument will yield the same rule instance.</p>
+     *
+     * @param characters the characters
+     * @return a new rule
+     *
+     * @deprecated use {@link #noneOf(String)} instead; will be removed in 1.1.
+     */
+    @Deprecated
+    @DontLabel
+    public Rule NoneOf(String characters)
+    {
+        checkArgNotNull(characters, "characters");
+        return NoneOf(characters.toCharArray());
+    }
+
+    /**
+     * Creates a new rule that matches all characters except the ones in the given char array and EOI.
+     * <p>Note: This methods provides caching, which means that multiple invocations with the same
+     * argument will yield the same rule instance.</p>
+     *
+     * @param characters the characters
+     * @return a new rule
+     *
+     * @deprecated use {@link #noneOf(char[])} instead; will be removed in 1.1.
+     */
+    @Deprecated
+    @DontLabel
+    public Rule NoneOf(char[] characters)
+    {
+        checkArgNotNull(characters, "characters");
+        checkArgument(characters.length > 0);
+
+        // make sure to always exclude EOI as well
+        boolean containsEOI = false;
+        for (char c : characters)
+            if (c == Chars.EOI) {
+                containsEOI = true;
+                break;
+            }
+        if (!containsEOI) {
+            char[] withEOI = new char[characters.length + 1];
+            System.arraycopy(characters, 0, withEOI, 0, characters.length);
+            withEOI[characters.length] = Chars.EOI;
+            characters = withEOI;
+        }
+
+        return AnyOf(Characters.allBut(characters));
+    }
+
+    /**
+     * Explicitly creates a rule matching the given string. Normally you can just specify the string literal
+     * directly in you rule description. However, if you want to not go through {@link #fromStringLiteral(String)},
+     * e.g. because you redefined it, you can also use this wrapper.
+     * <p>Note: This methods provides caching, which means that multiple invocations with the same
+     * argument will yield the same rule instance.</p>
+     *
+     * @param string the String to match
+     * @return a new rule
+     *
+     * @deprecated use {@link #string(String)} instead; will be removed in 1.1.
+     */
+    @Deprecated
+    @DontLabel
+    public Rule String(String string)
+    {
+        checkArgNotNull(string, "string");
+        return String(string.toCharArray());
+    }
+
+    /**
+     * Explicitly creates a rule matching the given string. Normally you can just specify the string literal
+     * directly in you rule description. However, if you want to not go through {@link #fromStringLiteral(String)},
+     * e.g. because you redefined it, you can also use this wrapper.
+     * <p>Note: This methods carries a {@link Cached} annotation, which means that multiple invocations with the same
+     * argument will yield the same rule instance.</p>
+     *
+     * @param characters the characters of the string to match
+     * @return a new rule
+     *
+     * @deprecated use {@link #string(char...)} instead; will be removed in 1.1.
+     */
+    @Deprecated
+    @Cached
+    @SuppressSubnodes
+    @DontLabel
+    public Rule String(char... characters)
+    {
+        if (characters.length == 1)
+            return Ch(characters[0]); // optimize one-char strings
+        Rule[] matchers = new Rule[characters.length];
+        for (int i = 0; i < characters.length; i++) {
+            matchers[i] = Ch(characters[i]);
+        }
+        return new StringMatcher(matchers, characters);
+    }
+
+    /**
+     * Explicitly creates a rule matching the given string in a case-independent fashion.
+     * <p>Note: This methods carries a {@link Cached} annotation, which means that multiple invocations with the same
+     * argument will yield the same rule instance.</p>
+     *
+     * @param characters the characters of the string to match
+     * @return a new rule
+     *
+     * @deprecated use {@link #ignoreCase(char...)} instead; will be removed in
+     * 1.1.
+     */
+    @Deprecated
+    @Cached
+    @SuppressSubnodes
+    @DontLabel
+    public Rule IgnoreCase(char... characters)
+    {
+        if (characters.length == 1)
+            return IgnoreCase(characters[0]); // optimize one-char strings
+        Rule[] matchers = new Rule[characters.length];
+        for (int i = 0; i < characters.length; i++) {
+            matchers[i] = IgnoreCase(characters[i]);
+        }
+        return ((SequenceMatcher) Sequence(matchers))
+            .label('"' + String.valueOf(characters) + '"');
+    }
+
+    /**
+     * Explicitly creates a rule matching the given string in a case-independent fashion.
+     * <p>Note: This methods provides caching, which means that multiple invocations with the same
+     * argument will yield the same rule instance.</p>
+     *
+     * @param string the string to match
+     * @return a new rule
+     *
+     * @deprecated use {@link #ignoreCase(String)} instead; will be removed in
+     * 1.1.
+     */
+    @Deprecated
+    @DontLabel
+    public Rule IgnoreCase(String string)
+    {
+        checkArgNotNull(string, "string");
+        return IgnoreCase(string.toCharArray());
+    }
+
+    /**
+     * Creates a new rule that successively tries all of the given subrules and succeeds when the first one of
+     * its subrules matches. If all subrules fail this rule fails as well.
+     * <p>Note: This methods provides caching, which means that multiple invocations with the same
+     * arguments will yield the same rule instance.</p>
+     *
+     * @param rule the first subrule
+     * @param rule2 the second subrule
+     * @param moreRules the other subrules
+     * @return a new rule
+     *
+     * @deprecated use {@link #firstOf(Object, Object, Object...)} instead; will
+     * be removed in 1.1.
+     */
+    @Deprecated
+    @DontLabel
+    public Rule FirstOf(Object rule, Object rule2, Object... moreRules)
+    {
+        checkArgNotNull(moreRules, "moreRules");
+        return FirstOf(Utils.arrayOf(rule, rule2, moreRules));
+    }
+
+    /**
+     * Creates a new rule that successively tries all of the given subrules and succeeds when the first one of
+     * its subrules matches. If all subrules fail this rule fails as well.
+     * <p>Note: This methods carries a {@link Cached} annotation, which means that multiple invocations with the same
+     * argument will yield the same rule instance.</p>
+     *
+     * @param rules the subrules
+     * @return a new rule
+     *
+     * @deprecated use {@link #firstOf(Object[])} instead; will be removed in
+     * 1.1.
+     */
+    @Deprecated
+    @Cached
+    @DontLabel
+    public Rule FirstOf(Object[] rules)
+    {
+        checkArgNotNull(rules, "rules");
+        if (rules.length == 1) {
+            return toRule(rules[0]);
+        }
+        Rule[] convertedRules = toRules(rules);
+        char[][] chars = new char[rules.length][];
+        for (int i = 0, convertedRulesLength = convertedRules.length;
+             i < convertedRulesLength; i++) {
+            Object rule = convertedRules[i];
+            if (rule instanceof StringMatcher) {
+                chars[i] = ((StringMatcher) rule).characters;
+            } else {
+                return new FirstOfMatcher(convertedRules);
+            }
+        }
+        return new FirstOfStringsMatcher(convertedRules, chars);
+    }
+
+    /**
+     * Creates a new rule that tries repeated matches of its subrule and succeeds if the subrule matches at least once.
+     * If the subrule does not match at least once this rule fails.
+     * <p>Note: This methods carries a {@link Cached} annotation, which means that multiple invocations with the same
+     * argument will yield the same rule instance.</p>
+     *
+     * @param rule the subrule
+     * @return a new rule
+     *
+     * @deprecated use {@link #oneOrMore(Object)} instead; will be removed in
+     * 1.1.
+     */
+    @Deprecated
+    @Cached
+    @DontLabel
+    public Rule OneOrMore(Object rule)
+    {
+        return new OneOrMoreMatcher(toRule(rule));
+    }
+
+    /**
+     * Creates a new rule that tries repeated matches of a sequence of the given subrules and succeeds if the sequence
+     * matches at least once. If the sequence does not match at least once this rule fails.
+     * <p>Note: This methods provides caching, which means that multiple invocations with the same
+     * arguments will yield the same rule instance.</p>
+     *
+     * @param rule the first subrule
+     * @param rule2 the second subrule
+     * @param moreRules the other subrules
+     * @return a new rule
+     *
+     * @deprecated use {@link #oneOrMore(Object, Object, Object...)} instead;
+     * will be removed in 1.1.
+     */
+    @Deprecated
+    @DontLabel
+    public Rule OneOrMore(Object rule, Object rule2, Object... moreRules)
+    {
+        checkArgNotNull(moreRules, "moreRules");
+        return OneOrMore(Sequence(rule, rule2, moreRules));
+    }
+
+    /**
+     * Creates a new rule that tries a match on its subrule and always succeeds, independently of the matching
+     * success of its sub rule.
+     * <p>Note: This methods carries a {@link Cached} annotation, which means that multiple invocations with the same
+     * argument will yield the same rule instance.</p>
+     *
+     * @param rule the subrule
+     * @return a new rule
+     *
+     * @deprecated use {@link #oneOrMore(Object)} instead; will be removed in
+     * 1.1.
+     */
+    @Deprecated
+    @Cached
+    @DontLabel
+    public Rule Optional(Object rule)
+    {
+        return new OptionalMatcher(toRule(rule));
+    }
+
+    /**
+     * Creates a new rule that tries a match on the sequence of the given subrules and always succeeds, independently
+     * of the matching success of its sub sequence.
+     * <p>Note: This methods provides caching, which means that multiple invocations with the same
+     * arguments will yield the same rule instance.</p>
+     *
+     * @param rule the first subrule
+     * @param rule2 the second subrule
+     * @param moreRules the other subrules
+     * @return a new rule
+     *
+     * @deprecated use {@link #optional(Object, Object, Object...)} instead;
+     * will be removed in 1.1.
+     */
+    @Deprecated
+    @DontLabel
+    public Rule Optional(Object rule, Object rule2, Object... moreRules)
+    {
+        checkArgNotNull(moreRules, "moreRules");
+        return Optional(Sequence(rule, rule2, moreRules));
+    }
+
+    /**
+     * Creates a new rule that only succeeds if all of its subrule succeed, one after the other.
+     * <p>Note: This methods provides caching, which means that multiple invocations with the same
+     * arguments will yield the same rule instance.</p>
+     *
+     * @param rule the first subrule
+     * @param rule2 the second subrule
+     * @param moreRules the other subrules
+     * @return a new rule
+     *
+     * @deprecated use {@link #sequence(Object, Object, Object...)} instead;
+     * will be removed in 1.1.
+     */
+    @Deprecated
+    @DontLabel
+    public Rule Sequence(Object rule, Object rule2, Object... moreRules)
+    {
+        checkArgNotNull(moreRules, "moreRules");
+        return Sequence(Utils.arrayOf(rule, rule2, moreRules));
+    }
+
+    /**
+     * Creates a new rule that only succeeds if all of its subrule succeed, one after the other.
+     * <p>Note: This methods carries a {@link Cached} annotation, which means that multiple invocations with the same
+     * arguments will yield the same rule instance.</p>
+     *
+     * @param rules the sub rules
+     * @return a new rule
+     *
+     * @deprecated use {@link #sequence(Object[])} instead; will be removed in
+     * 1.1.
+     */
+    @Deprecated
+    @Cached
+    @DontLabel
+    public Rule Sequence(Object[] rules)
+    {
+        checkArgNotNull(rules, "rules");
+        return rules.length == 1 ? toRule(rules[0])
+            : new SequenceMatcher(toRules(rules));
+    }
+
+    /**
+     * <p>Creates a new rule that acts as a syntactic predicate, i.e. tests the given sub rule against the current
+     * input position without actually matching any characters. Succeeds if the sub rule succeeds and fails if the
+     * sub rule rails. Since this rule does not actually consume any input it will never create a parse tree node.</p>
+     * <p>Also it carries a {@link SuppressNode} annotation, which means all sub nodes will also never create a parse
+     * tree node. This can be important for actions contained in sub rules of this rule that otherwise expect the
+     * presence of certain parse tree structures in their context.
+     * Also see {@link org.parboiled.annotations.SkipActionsInPredicates}</p>
+     * <p>Note: This methods carries a {@link Cached} annotation, which means that multiple invocations with the same
+     * argument will yield the same rule instance.</p>
+     *
+     * @param rule the subrule
+     * @return a new rule
+     *
+     * @deprecated use {@link #test(Object)} instead; will be removed in 1.1.
+     */
+    @Deprecated
+    @Cached
+    @SuppressNode
+    @DontLabel
+    public Rule Test(Object rule)
+    {
+        Rule subMatcher = toRule(rule);
+        return new TestMatcher(subMatcher);
+    }
+
+    /**
+     * <p>Creates a new rule that acts as a syntactic predicate, i.e. tests the sequence of the given sub rule against
+     * the current input position without actually matching any characters. Succeeds if the sub sequence succeeds and
+     * fails if the sub sequence rails. Since this rule does not actually consume any input it will never create a
+     * parse tree node.</p>
+     * <p>Also it carries a {@link SuppressNode} annotation, which means all sub nodes will also never create a parse
+     * tree node. This can be important for actions contained in sub rules of this rule that otherwise expect the
+     * presence of certain parse tree structures in their context.
+     * Also see {@link org.parboiled.annotations.SkipActionsInPredicates}</p>
+     * <p>Note: This methods provides caching, which means that multiple invocations with the same
+     * arguments will yield the same rule instance.</p>
+     *
+     * @param rule the first subrule
+     * @param rule2 the second subrule
+     * @param moreRules the other subrules
+     * @return a new rule
+     *
+     * @deprecated use {@link #test(Object, Object, Object...)} instead; will be
+     * removed in 1.1.
+     */
+    @Deprecated
+    @DontLabel
+    public Rule Test(Object rule, Object rule2, Object... moreRules)
+    {
+        checkArgNotNull(moreRules, "moreRules");
+        return Test(Sequence(rule, rule2, moreRules));
+    }
+
+    /**
+     * <p>Creates a new rule that acts as an inverse syntactic predicate, i.e. tests the given sub rule against the
+     * current input position without actually matching any characters. Succeeds if the sub rule fails and fails if the
+     * sub rule succeeds. Since this rule does not actually consume any input it will never create a parse tree node.</p>
+     * <p>Also it carries a {@link SuppressNode} annotation, which means all sub nodes will also never create a parse
+     * tree node. This can be important for actions contained in sub rules of this rule that otherwise expect the
+     * presence of certain parse tree structures in their context.
+     * Also see {@link org.parboiled.annotations.SkipActionsInPredicates}</p>
+     * <p>Note: This methods carries a {@link Cached} annotation, which means that multiple invocations with the same
+     * argument will yield the same rule instance.</p>
+     *
+     * @param rule the subrule
+     * @return a new rule
+     *
+     * @deprecated use {@link #testNot(Object)} instead; will be removed in 1.1.
+     */
+    @Deprecated
+    @Cached
+    @SuppressNode
+    @DontLabel
+    public Rule TestNot(Object rule)
+    {
+        Rule subMatcher = toRule(rule);
+        return new TestNotMatcher(subMatcher);
+    }
+
+    /**
+     * <p>Creates a new rule that acts as an inverse syntactic predicate, i.e. tests the sequence of the given sub rules
+     * against the current input position without actually matching any characters. Succeeds if the sub sequence fails
+     * and fails if the sub sequence succeeds. Since this rule does not actually consume any input it will never create
+     * a parse tree node.</p>
+     * <p>Also it carries a {@link SuppressNode} annotation, which means all sub nodes will also never create a parse
+     * tree node. This can be important for actions contained in sub rules of this rule that otherwise expect the
+     * presence of certain parse tree structures in their context.
+     * Also see {@link org.parboiled.annotations.SkipActionsInPredicates}</p>
+     * <p>Note: This methods provides caching, which means that multiple invocations with the same
+     * arguments will yield the same rule instance.</p>
+     *
+     * @param rule the first subrule
+     * @param rule2 the second subrule
+     * @param moreRules the other subrules
+     * @return a new rule
+     *
+     * @deprecated use {@link #testNot(Object, Object, Object...)} instead; will
+     * be removed in 1.1.
+     */
+    @Deprecated
+    @DontLabel
+    public Rule TestNot(Object rule, Object rule2, Object... moreRules)
+    {
+        checkArgNotNull(moreRules, "moreRules");
+        return TestNot(Sequence(rule, rule2, moreRules));
+    }
+
+    /**
+     * Creates a new rule that tries repeated matches of its subrule.
+     * Succeeds always, even if the subrule doesn't match even once.
+     * <p>Note: This methods carries a {@link Cached} annotation, which means that multiple invocations with the same
+     * argument will yield the same rule instance.</p>
+     *
+     * @param rule the subrule
+     * @return a new rule
+     *
+     * @deprecated use {@link #zeroOrMore(Object)} instead; will be removed in
+     * 1.1.
+     */
+
+    @Deprecated
+    @Cached
+    @DontLabel
+    public Rule ZeroOrMore(Object rule)
+    {
+        return new ZeroOrMoreMatcher(toRule(rule));
+    }
+
+    /**
+     * Creates a new rule that tries repeated matches of the sequence of the given sub rules.
+     * Succeeds always, even if the sub sequence doesn't match even once.
+     * <p>Note: This methods provides caching, which means that multiple invocations with the same
+     * arguments will yield the same rule instance.</p>
+     *
+     * @param rule the first subrule
+     * @param rule2 the second subrule
+     * @param moreRules the other subrules
+     * @return a new rule
+     *
+     * @deprecated use {@link #zeroOrMore(Object, Object, Object...)} instead;
+     * will be removed in 1.1.
+     */
+    @Deprecated
+    @DontLabel
+    public Rule ZeroOrMore(Object rule, Object rule2, Object... moreRules)
+    {
+        checkArgNotNull(moreRules, "moreRules");
+        return ZeroOrMore(Sequence(rule, rule2, moreRules));
+    }
+
+    /**
+     * Creates a new rule that repeatedly matches a given sub rule a certain fixed number of times.
+     * <p>Note: This methods provides caching, which means that multiple invocations with the same
+     * arguments will yield the same rule instance.</p>
+     *
+     * @param repetitions The number of repetitions to match. Must be &gt;= 0.
+     * @param rule the sub rule to match repeatedly.
+     * @return a new rule
+     *
+     * @deprecated use {@link #nTimes(int, Object)} instead; will be removed in
+     * 1.1.
+     */
+    @Deprecated
+    @Cached
+    @DontLabel
+    public Rule NTimes(int repetitions, Object rule)
+    {
+        return NTimes(repetitions, rule, null);
     }
 
     /**
