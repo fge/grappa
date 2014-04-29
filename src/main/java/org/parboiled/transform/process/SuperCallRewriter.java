@@ -27,7 +27,6 @@ import org.parboiled.transform.RuleMethod;
 import static org.objectweb.asm.Opcodes.ARETURN;
 import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
 import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
-import static org.parboiled.common.Preconditions.checkState;
 
 /**
  * Replaces the method code with a simple call to the super method.
@@ -79,7 +78,9 @@ public class SuperCallRewriter implements RuleMethodProcessor {
         String superMethodName = method.name;
         do {
             clazz = clazz.getSuperclass();
-            checkState(clazz != null); // we should find the owner before hitting Object
+            Preconditions.checkState(clazz != null); // we should find the
+            // owner before
+            // hitting Object
             superMethodName = '$' + superMethodName;
         } while (!Type.getInternalName(clazz).equals(insn.owner));
         return superMethodName;

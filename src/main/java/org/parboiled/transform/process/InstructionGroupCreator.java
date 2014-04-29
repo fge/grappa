@@ -45,7 +45,6 @@ import static org.objectweb.asm.Opcodes.INVOKEINTERFACE;
 import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
 import static org.objectweb.asm.Opcodes.INVOKESTATIC;
 import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
-import static org.parboiled.common.Preconditions.checkState;
 import static org.parboiled.transform.AsmUtils.getClassConstructor;
 import static org.parboiled.transform.AsmUtils.getClassField;
 import static org.parboiled.transform.AsmUtils.getClassForInternalName;
@@ -106,7 +105,7 @@ public class InstructionGroupCreator implements RuleMethodProcessor  {
         node.setGroup(group);
         if (!node.isXLoad()) {
             if (node.isVarInitRoot()) {
-                checkState(node.getPredecessors().size() == 2);
+                Preconditions.checkState(node.getPredecessors().size() == 2);
                 markGroup(node.getPredecessors().get(1), group); // only color the second predecessor branch
             } else {
                 for (InstructionGraphNode pred : node.getPredecessors()) {
@@ -149,7 +148,7 @@ public class InstructionGroupCreator implements RuleMethodProcessor  {
         int sizeMinus1 = nodes.size() - 1;
 
         // verify all instruction except for the last one (which must be the root)
-        checkState(nodes.get(sizeMinus1) == group.getRoot());
+        Preconditions.checkState(nodes.get(sizeMinus1) == group.getRoot());
         for (int i = 0; i < sizeMinus1; i++) {
             InstructionGraphNode node = nodes.get(i);
             Checks.ensure(!node.isXStore(), "An ACTION or Var initializer in rule method '%s' " +

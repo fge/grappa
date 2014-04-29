@@ -19,8 +19,6 @@ package org.parboiled.support;
 import com.google.common.base.Preconditions;
 import org.parboiled.matchers.Matcher;
 
-import static org.parboiled.common.Preconditions.checkArgument;
-
 /**
  * Holds a snapshot of the current {@link Matcher} stack at a certain point during the parsing process.
  * Implemented as a specialized, immutable single-linked list of Element objects with the deepest stack Element
@@ -81,7 +79,7 @@ public class MatcherPath {
      * @return the element
      */
     public Element getElementAtLevel(int level) {
-        checkArgument(level >= 0);
+        Preconditions.checkArgument(level >= 0);
         if (level > element.level) return null;
         if (level < element.level) return parent.getElementAtLevel(level);
         return element;

@@ -31,7 +31,6 @@ import static org.objectweb.asm.Opcodes.ARETURN;
 import static org.objectweb.asm.Opcodes.DUP;
 import static org.objectweb.asm.Opcodes.IFNULL;
 import static org.objectweb.asm.Opcodes.INVOKEINTERFACE;
-import static org.parboiled.common.Preconditions.checkState;
 
 /**
  * Adds the required flag marking calls before the return instruction.
@@ -50,7 +49,9 @@ public class FlagMarkingGenerator implements RuleMethodProcessor {
     public void process(ParserClassNode classNode, RuleMethod method) throws Exception {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
-        checkState(!method.isSuperMethod()); // super methods have flag moved to the overriding method
+        Preconditions.checkState(!method.isSuperMethod()); // super methods
+        // have flag
+        // moved to the overriding method
         
         InsnList instructions = method.instructions;
 

@@ -25,7 +25,6 @@ import org.parboiled.transform.RuleMethod;
 
 import static org.objectweb.asm.Opcodes.ARETURN;
 import static org.objectweb.asm.Opcodes.GOTO;
-import static org.parboiled.common.Preconditions.checkState;
 
 /**
  * Replaces all "non-last" return instructions with goto instructions to the last return instruction.
@@ -43,7 +42,7 @@ public class ReturnInstructionUnifier implements RuleMethodProcessor {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
         if (method.getNumberOfReturns() == 1) return;
-        checkState(method.getNumberOfReturns() > 1);
+        Preconditions.checkState(method.getNumberOfReturns() > 1);
 
         AbstractInsnNode current = method.instructions.getLast();
 

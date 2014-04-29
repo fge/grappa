@@ -16,12 +16,11 @@
 
 package org.parboiled.buffers;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.Position;
 
 import java.util.Arrays;
-
-import static org.parboiled.common.Preconditions.checkArgument;
 
 /**
  * An InputBuffer wrapping another InputBuffer and providing for the ability to insert (and undo) characters at
@@ -108,7 +107,8 @@ public class MutableInputBuffer implements InputBuffer {
 
     public char undoCharInsertion(int index) {
         int j = Arrays.binarySearch(inserts, index);
-        checkArgument(j >= 0, "Cannot undo a non-existing insertion");
+        Preconditions.checkArgument(j >= 0, "Cannot undo a non-existing " +
+            "insertion");
         char removedChar = chars[j];
 
         char[] newChars = new char[chars.length - 1];
@@ -127,7 +127,7 @@ public class MutableInputBuffer implements InputBuffer {
     
     public void replaceInsertedChar(int index, char c) {
         int j = Arrays.binarySearch(inserts, index);
-        checkArgument(j >= 0, "Can only replace chars that were previously inserted");
+        Preconditions.checkArgument(j >= 0, "Can only replace chars that were previously inserted");
         chars[j] = c;
     }
 }

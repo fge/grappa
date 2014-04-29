@@ -43,7 +43,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.parboiled.common.Preconditions.checkArgument;
 import static org.parboiled.errors.ErrorUtils.printParseError;
 import static org.parboiled.matchers.MatcherUtils.unwrap;
 
@@ -307,12 +306,12 @@ public class MatcherContext<V> implements Context<V> {
     }
 
     public void setStartIndex(int startIndex) {
-        checkArgument(startIndex >= 0);
+        Preconditions.checkArgument(startIndex >= 0);
         this.startIndex = startIndex;
     }
 
     public void setCurrentIndex(int currentIndex) {
-        checkArgument(currentIndex >= 0);
+        Preconditions.checkArgument(currentIndex >= 0);
         this.currentIndex = currentIndex;
         currentChar = inputBuffer.charAt(currentIndex);
     }

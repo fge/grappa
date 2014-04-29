@@ -33,7 +33,6 @@ import static org.objectweb.asm.Opcodes.ARETURN;
 import static org.objectweb.asm.Opcodes.DUP;
 import static org.objectweb.asm.Opcodes.IFNULL;
 import static org.objectweb.asm.Opcodes.INVOKEINTERFACE;
-import static org.parboiled.common.Preconditions.checkState;
 
 /**
  * Adds automatic labelling code before the return instruction.
@@ -51,7 +50,9 @@ public class LabellingGenerator implements RuleMethodProcessor {
     public void process(ParserClassNode classNode, RuleMethod method) throws Exception {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
-        checkState(!method.isSuperMethod()); // super methods have flag moved to the overriding method
+        Preconditions.checkState(!method.isSuperMethod()); // super methods
+        // have flag
+        // moved to the overriding method
 
         InsnList instructions = method.instructions;
 
@@ -80,7 +81,8 @@ public class LabellingGenerator implements RuleMethodProcessor {
             for (Object annotationObj : method.visibleAnnotations) {
                 AnnotationNode annotation = (AnnotationNode) annotationObj;
                 if (annotation.desc.equals(Types.LABEL_DESC) && annotation.values != null) {
-                    checkState("value".equals(annotation.values.get(0)));
+                    Preconditions.checkState("value".equals(annotation.values
+                        .get(0)));
                     String labelValue = (String) annotation.values.get(1);
                     return labelValue.isEmpty() ? method.name : labelValue;
                 }

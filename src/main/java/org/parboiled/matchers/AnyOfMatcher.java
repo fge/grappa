@@ -21,8 +21,6 @@ import org.parboiled.MatcherContext;
 import org.parboiled.matchervisitors.MatcherVisitor;
 import org.parboiled.support.Characters;
 
-import static org.parboiled.common.Preconditions.checkArgument;
-
 /**
  * A {@link Matcher} matching a single character out of a given {@link org.parboiled.support.Characters} set.
  */
@@ -31,7 +29,7 @@ public class AnyOfMatcher extends AbstractMatcher {
 
     public AnyOfMatcher(Characters characters) {
         super(Preconditions.checkNotNull(characters, "characters").toString());
-        checkArgument(!characters.equals(Characters.NONE));
+        Preconditions.checkArgument(!characters.equals(Characters.NONE));
         this.characters = characters;
     }
 

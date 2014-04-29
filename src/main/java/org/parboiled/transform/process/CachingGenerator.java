@@ -65,7 +65,6 @@ import static org.objectweb.asm.Opcodes.NEW;
 import static org.objectweb.asm.Opcodes.POP;
 import static org.objectweb.asm.Opcodes.PUTFIELD;
 import static org.objectweb.asm.Opcodes.SWAP;
-import static org.parboiled.common.Preconditions.checkState;
 
 /**
  * Wraps the method code with caching and proxying constructs.
@@ -90,7 +89,9 @@ public class CachingGenerator implements RuleMethodProcessor
     public void process(ParserClassNode classNode, RuleMethod method) throws Exception {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
-        checkState(!method.isSuperMethod()); // super methods have flag moved to the overriding method
+        Preconditions.checkState(!method.isSuperMethod()); // super methods
+        // have flag
+        // moved to the overriding method
 
         this.classNode = classNode;
         this.method = method;

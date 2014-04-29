@@ -27,8 +27,6 @@ import org.parboiled.support.Position;
 
 import java.util.List;
 
-import static org.parboiled.common.Preconditions.checkArgument;
-
 /**
  * General utility methods regarding parse errors.
  */
@@ -149,7 +147,7 @@ public final class ErrorUtils {
     public static String printErrorMessage(String format, String errorMessage, int startIndex, int endIndex,
                                            InputBuffer inputBuffer) {
         Preconditions.checkNotNull(inputBuffer, "inputBuffer");
-        checkArgument(startIndex <= endIndex);
+        Preconditions.checkArgument(startIndex <= endIndex);
         Position pos = inputBuffer.getPosition(startIndex);
         StringBuilder sb = new StringBuilder(String.format(format, errorMessage, pos.line, pos.column));
         sb.append('\n');

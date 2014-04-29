@@ -18,8 +18,6 @@ package org.parboiled.trees;
 
 import com.google.common.base.Preconditions;
 
-import static org.parboiled.common.Preconditions.checkElementIndex;
-
 /**
  * General utility methods for operating on tree, i.e. graphs consisting of {@link TreeNode}s.
  */
@@ -59,7 +57,7 @@ public final class TreeUtils {
     public static <T extends MutableTreeNode<T>> void removeChild(T parent, T child) {
         Preconditions.checkNotNull(parent, "parent");
         int index = parent.getChildren().indexOf(child);
-        checkElementIndex(index, parent.getChildren().size());
+        Preconditions.checkElementIndex(index, parent.getChildren().size());
         parent.removeChild(index);
     }
 

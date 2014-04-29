@@ -20,7 +20,6 @@ import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.matchervisitors.MatcherVisitor;
 
-import static org.parboiled.common.Preconditions.checkArgument;
 import static org.parboiled.support.Chars.escape;
 
 /**
@@ -32,7 +31,7 @@ public class CharRangeMatcher extends AbstractMatcher {
 
     public CharRangeMatcher(char cLow, char cHigh) {
         super(escape(cLow) + ".." + escape(cHigh));
-        checkArgument(cLow < cHigh);
+        Preconditions.checkArgument(cLow < cHigh);
         this.cLow = cLow;
         this.cHigh = cHigh;
     }

@@ -44,7 +44,6 @@ import org.parboiled.support.ParsingResult;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.parboiled.common.Preconditions.checkState;
 import static org.parboiled.support.Chars.DEL_ERROR;
 import static org.parboiled.support.Chars.EOI;
 import static org.parboiled.support.Chars.INS_ERROR;
@@ -145,7 +144,9 @@ public class RecoveringParseRunner<V> extends AbstractParseRunner<V> {
 
             // locate first error
             performLocatingRun(inputBuffer);
-            checkState(errorIndex >= 0); // we failed before so we must fail again
+            Preconditions.checkState(errorIndex >= 0); // we failed before so
+            // we must fail
+            // again
 
             // in order to be able to apply fixes we need to wrap the input buffer with a mutability wrapper
             buffer = new MutableInputBuffer(inputBuffer);
@@ -161,7 +162,7 @@ public class RecoveringParseRunner<V> extends AbstractParseRunner<V> {
             // rerun once more with parse tree building enabled to create a parse tree for the fixed input
             if (!getRootMatcher().isNodeSuppressed()) {
                 performFinalRun();
-                checkState(lastParsingResult.matched);
+                Preconditions.checkState(lastParsingResult.matched);
             }
         }
         return lastParsingResult;
@@ -268,7 +269,9 @@ public class RecoveringParseRunner<V> extends AbstractParseRunner<V> {
         Character bestChar = '\u0000'; // non-null default
         for (MatcherPath failedMatcherPath : currentError.getFailedMatchers()) {
             Character starterChar = failedMatcherPath.element.matcher.accept(getStarterCharVisitor);
-            checkState(starterChar != null); // we should only have single character matchers
+            Preconditions.checkState(starterChar != null); // we should only
+            // have single
+            // character matchers
             if (starterChar == EOI) {
                 continue; // we should never conjure up an EOI character (that would be cheating :)
             }
@@ -441,7 +444,9 @@ public class RecoveringParseRunner<V> extends AbstractParseRunner<V> {
                     context.advanceIndex(1); // gobble RESYNC_START
                     while (context.getCurrentChar() != RESYNC_END) {
                         context.advanceIndex(1); // skip all characters up to the RESYNC_END
-                        checkState(context.getCurrentChar() != EOI); // we MUST find a RESYNC_END before EOI
+                        Preconditions.checkState(context.getCurrentChar() !=
+                            EOI); // we
+                        // MUST find a RESYNC_END before EOI
                     }
                     context.advanceIndex(1); // gobble RESYNC_END marker
                     break;
@@ -480,7 +485,7 @@ public class RecoveringParseRunner<V> extends AbstractParseRunner<V> {
                 if (!preError) {
                     context.setInErrorRecovery(true);
                     List<ActionMatcher> errorActions = child.accept(new CollectResyncActionsVisitor());
-                    checkState(errorActions != null);
+                    Preconditions.checkState(errorActions != null);
                     for (ActionMatcher errorAction : errorActions) {
                         // execute the error actions without looking at their boolean results !!!
                         errorAction.getSubContext(context).runMatcher();

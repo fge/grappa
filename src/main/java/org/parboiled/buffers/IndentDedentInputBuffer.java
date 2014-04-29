@@ -16,13 +16,12 @@
 
 package org.parboiled.buffers;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.common.IntArrayStack;
 import org.parboiled.errors.IllegalIndentationException;
 import org.parboiled.support.Chars;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.Position;
-
-import static org.parboiled.common.Preconditions.checkArgument;
 
 /**
  * Special, immutable InputBuffer implementation for indentation based grammars.
@@ -81,8 +80,8 @@ public class IndentDedentInputBuffer implements InputBuffer {
                                    boolean skipEmptyLines) {
         this.strict = strict;
         this.skipEmptyLines = skipEmptyLines;
-        checkArgument(tabStop > 0, "tabStop must be > 0");
-        checkArgument(lineCommentStart == null || lineCommentStart.indexOf('\n') == -1,
+        Preconditions.checkArgument(tabStop > 0, "tabStop must be > 0");
+        Preconditions.checkArgument(lineCommentStart == null || lineCommentStart.indexOf('\n') == -1,
                 "lineCommentStart must not contain newlines");
         origBuffer = new DefaultInputBuffer(input);
         BufferConverter converter = new BufferConverter(tabStop,

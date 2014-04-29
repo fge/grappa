@@ -18,8 +18,6 @@ package org.parboiled.support;
 
 import com.google.common.base.Preconditions;
 
-import static org.parboiled.common.Preconditions.checkArgument;
-
 /**
  * A simple immutable container for a range of indices into an underlying InputBuffer.
  */
@@ -38,8 +36,8 @@ public final class IndexRange {
     public final int end;
 
     public IndexRange(int start, int end) {
-        checkArgument(start >= 0, "start must be >= 0");
-        checkArgument(end >= start, "end must be >= start");
+        Preconditions.checkArgument(start >= 0, "start must be >= 0");
+        Preconditions.checkArgument(end >= start, "end must be >= start");
         this.start = start;
         this.end = end;
     }

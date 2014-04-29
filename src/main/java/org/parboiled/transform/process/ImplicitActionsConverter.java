@@ -34,7 +34,6 @@ import java.util.Set;
 import static org.objectweb.asm.Opcodes.AASTORE;
 import static org.objectweb.asm.Opcodes.ANEWARRAY;
 import static org.objectweb.asm.Opcodes.INVOKESTATIC;
-import static org.parboiled.common.Preconditions.checkState;
 import static org.parboiled.transform.AsmUtils.isBooleanValueOfZ;
 
 /**
@@ -109,7 +108,7 @@ public class ImplicitActionsConverter implements RuleMethodProcessor {
         // Doesthe result of the Boolean.valueOf(boolean) call correspond to an Object parameter ?
         Type[] argTypes = Type.getArgumentTypes(mi.desc);
         int argIndex = getArgumentIndex(dependent, node);
-        checkState(argIndex < argTypes.length);
+        Preconditions.checkState(argIndex < argTypes.length);
         return "java/lang/Object".equals(argTypes[argIndex].getInternalName());
     }
 
@@ -120,9 +119,13 @@ public class ImplicitActionsConverter implements RuleMethodProcessor {
 
         // Does this instruction store into an array of Object ?
         List<InstructionGraphNode> dependents = getDependents(dependent);
-        checkState(dependents.size() == 1); // an AASTORE instruction should have exactly one dependent
+        Preconditions.checkState(dependents.size() == 1); // an AASTORE
+        // instruction should
+        // have exactly one dependent
         AbstractInsnNode newArrayInsn = dependents.get(0).getInstruction();
-        checkState(newArrayInsn.getOpcode() == ANEWARRAY); // which should be a n ANEWARRAY instruction
+        Preconditions.checkState(newArrayInsn.getOpcode() == ANEWARRAY); //
+        // which should
+        // be a n ANEWARRAY instruction
         return "java/lang/Object".equals(((TypeInsnNode) newArrayInsn).desc);
     }
 

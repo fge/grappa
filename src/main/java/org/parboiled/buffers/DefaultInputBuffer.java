@@ -25,8 +25,6 @@ import org.parboiled.support.Position;
 
 import java.util.Arrays;
 
-import static org.parboiled.common.Preconditions.checkArgument;
-
 /**
  * Immutable default implementation of an InputBuffer.
  */
@@ -108,7 +106,8 @@ public class DefaultInputBuffer implements InputBuffer {
     @Override
     public String extractLine(int lineNumber) {
         buildNewlines();
-        checkArgument(0 < lineNumber && lineNumber <= newlines.length + 1);
+        Preconditions.checkArgument(0 < lineNumber
+            && lineNumber <= newlines.length + 1);
         int start = lineNumber > 1 ? newlines[lineNumber - 2] + 1 : 0;
         int end = lineNumber <= newlines.length ? newlines[lineNumber - 1] : length;
         if (charAt(end - 1) == '\r') end--;

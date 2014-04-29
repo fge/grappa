@@ -16,9 +16,9 @@
 
 package org.parboiled.support;
 
-import java.util.Iterator;
+import com.google.common.base.Preconditions;
 
-import static org.parboiled.common.Preconditions.checkArgument;
+import java.util.Iterator;
 
 /**
  * An implementation of a stack of value objects providing an efficient snapshot capability and a number of convenience
@@ -106,7 +106,8 @@ public class DefaultValueStack<V> implements ValueStack<V> {
 
     private static Element push(int down, Object value, Element head) {
         if (down == 0) return new Element(value, head);
-        checkArgument(head != null, "Cannot push beyond the bottom of the stack");
+        Preconditions.checkArgument(head != null,
+            "Cannot push beyond the bottom of the stack");
         if (down > 0) return new Element(head.value, push(down - 1, value, head.tail));
         throw new IllegalArgumentException("Argument 'down' must not be negative");
     }
@@ -138,7 +139,8 @@ public class DefaultValueStack<V> implements ValueStack<V> {
 
     @SuppressWarnings("unchecked")
     private Element pop(int down, Element head) {
-        checkArgument(head != null, "Cannot pop from beyond the bottom of the stack");
+        Preconditions.checkArgument(head != null, "Cannot pop from beyond the" +
+            " bottom of the stack");
         if (down == 0) {
             tempValue = (V) head.value;
             return head.tail;
@@ -160,7 +162,8 @@ public class DefaultValueStack<V> implements ValueStack<V> {
 
     @SuppressWarnings("ConstantConditions")
     private static Object peek(int down, Element head) {
-        checkArgument(head != null, "Cannot peek beyond the bottom of the stack");
+        Preconditions.checkArgument(head != null, "Cannot peek beyond the " +
+            "bottom of the stack");
         if (down == 0) return head.value;
         if (down > 0) return peek(down - 1, head.tail);
         throw new IllegalArgumentException("Argument 'down' must not be negative");
@@ -177,7 +180,8 @@ public class DefaultValueStack<V> implements ValueStack<V> {
     }
 
     private static Element poke(int down, Object value, Element head) {
-        checkArgument(head != null, "Cannot poke beyond the bottom of the stack");
+        Preconditions.checkArgument(head != null, "Cannot poke beyond the " +
+            "bottom of the stack");
         if (down == 0) return new Element(value, head.tail);
         if (down > 0) return new Element(head.value, poke(down - 1, value, head.tail));
         throw new IllegalArgumentException("Argument 'down' must not be negative");

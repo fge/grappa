@@ -22,6 +22,7 @@
 
 package org.parboiled.transform;
 
+import com.google.common.base.Preconditions;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.analysis.AnalyzerException;
@@ -32,8 +33,6 @@ import org.parboiled.support.Checks;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static org.parboiled.common.Preconditions.checkState;
 
 public class RuleMethodInterpreter extends BasicInterpreter {
 
@@ -91,10 +90,10 @@ public class RuleMethodInterpreter extends BasicInterpreter {
 
     @Override
     public void returnOperation(AbstractInsnNode insn, BasicValue value, BasicValue expected) throws AnalyzerException {
-        checkState(insn.getOpcode() == ARETURN);
-        checkState(unwrap(value).getType().equals(Types.RULE));
-        checkState(unwrap(expected).getType().equals(Types.RULE));
-        checkState(method.getReturnInstructionNode() == null);
+        Preconditions.checkState(insn.getOpcode() == ARETURN);
+        Preconditions.checkState(unwrap(value).getType().equals(Types.RULE));
+        Preconditions.checkState(unwrap(expected).getType().equals(Types.RULE));
+        Preconditions.checkState(method.getReturnInstructionNode() == null);
         method.setReturnInstructionNode(createNode(insn, null, value));
     }
 

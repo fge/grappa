@@ -42,7 +42,6 @@ import java.util.List;
 import static org.objectweb.asm.Opcodes.ARETURN;
 import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
 import static org.objectweb.asm.Opcodes.INVOKESTATIC;
-import static org.parboiled.common.Preconditions.checkState;
 import static org.parboiled.transform.AsmUtils.getClassForType;
 import static org.parboiled.transform.AsmUtils.isActionRoot;
 import static org.parboiled.transform.AsmUtils.isAssignableTo;
@@ -189,7 +188,7 @@ public class RuleMethod extends MethodNode {
     }
 
     public boolean isSuperMethod() {
-        checkState(!name.isEmpty());
+        Preconditions.checkState(!name.isEmpty());
         return name.charAt(0) == '$';
     }
 
