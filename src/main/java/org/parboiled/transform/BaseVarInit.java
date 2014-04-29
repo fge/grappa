@@ -23,9 +23,13 @@ import static org.parboiled.common.Preconditions.checkArgNotNull;
 /**
  * Base class of generated classes wrapping action var initializers.
  */
-public abstract class BaseVarInit extends BaseGroupClass implements Factory {
+public abstract class BaseVarInit<V>
+    extends BaseGroupClass
+    implements Factory<V>
+{
 
-    protected BaseVarInit(String name) {
+    protected BaseVarInit(String name)
+    {
         super(checkArgNotNull(name, "name"));
     }
 }

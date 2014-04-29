@@ -52,7 +52,8 @@ public class Parboiled {
         checkArgNotNull(parserClass, "parserClass");
         try {
             Class<?> extendedClass = ParserTransformer.transformParser(parserClass);
-            Constructor constructor = findConstructor(extendedClass, constructorArgs);
+            Constructor<?> constructor = findConstructor(extendedClass,
+                constructorArgs);
             return (P) constructor.newInstance(constructorArgs);
         } catch (Exception e) {
             throw new RuntimeException("Error creating extended parser class: " + e.getMessage(), e);

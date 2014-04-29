@@ -239,7 +239,7 @@ public class MatcherContext<V> implements Context<V> {
         checkActionContext();
         MatcherContext<V> prevContext = subContext;
         if (hasError) {
-            Node prevNode = prevContext.node;
+            Node<V> prevNode = prevContext.node;
             return prevNode != null ? ParseTreeUtils.getNodeText(prevNode,
                 inputBuffer) : "";
         }

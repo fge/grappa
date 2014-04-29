@@ -24,7 +24,10 @@ import java.util.List;
  *
  * @param <T> the actual implementation type of this ImmutableTreeNode
  */
-public class ImmutableTreeNode<T extends TreeNode<T>> extends ImmutableGraphNode<T> implements TreeNode<T> {
+public class ImmutableTreeNode<T extends TreeNode<T>>
+    extends ImmutableGraphNode<T>
+    implements TreeNode<T>
+{
 
     // we cannot make the parent field final since otherwise we can't create a tree hierarchy with parents linking to
     // their children and vice versa. So we design this for a bottom up tree construction strategy were children
@@ -44,6 +47,7 @@ public class ImmutableTreeNode<T extends TreeNode<T>> extends ImmutableGraphNode
         return parent;
     }
 
+    // TODO: make generic! Looks like a chore...
     @SuppressWarnings("unchecked")
     protected void acquireChildren() {
         List<T> children = getChildren();

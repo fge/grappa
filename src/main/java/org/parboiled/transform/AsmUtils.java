@@ -170,7 +170,8 @@ public class AsmUtils {
         return found;
     }
 
-    public static Constructor getClassConstructor(String classInternalName, String constructorDesc) {
+    public static Constructor<?> getClassConstructor(String classInternalName,
+    String constructorDesc) {
         checkArgNotNull(classInternalName, "classInternalName");
         checkArgNotNull(constructorDesc, "constructorDesc");
         Class<?> clazz = getClassForInternalName(classInternalName);

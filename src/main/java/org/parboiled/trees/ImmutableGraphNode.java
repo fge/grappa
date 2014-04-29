@@ -26,7 +26,9 @@ import java.util.List;
  *
  * @param <T> the actual implementation type of this ImmutableGraphNode
  */
-public class ImmutableGraphNode<T extends GraphNode<T>> implements GraphNode<T> {
+public class ImmutableGraphNode<T extends GraphNode<T>>
+    implements GraphNode<T>
+{
 
     private final List<T> children;
 

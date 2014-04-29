@@ -29,7 +29,7 @@ public final class Tuple2<A, B> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Tuple2)) return false;
-        Tuple2 tuple2 = (Tuple2) o;
+        Tuple2<?, ?> tuple2 = (Tuple2<?, ?>) o;
         return
                 (a != null ? a.equals(tuple2.a) : tuple2.a == null) &&
                 (b != null ? b.equals(tuple2.b) : tuple2.b == null);

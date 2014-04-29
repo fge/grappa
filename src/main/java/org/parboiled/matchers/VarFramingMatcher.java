@@ -30,22 +30,22 @@ import static org.parboiled.common.Preconditions.checkArgNotNull;
  */
 public class VarFramingMatcher implements Matcher {
     private final Matcher inner;
-    private final Var[] variables;
+    private final Var<?>[] variables;
 
-    public VarFramingMatcher(Rule inner, Var[] variables) {
+    public VarFramingMatcher(Rule inner, Var<?>[] variables) {
         this.inner = checkArgNotNull((Matcher)inner, "inner");
         this.variables = checkArgNotNull(variables, "variables");
     }
 
     @Override
     public <V> boolean match(MatcherContext<V> context) {
-        for (Var var : variables) {
+        for (Var<?> var : variables) {
             var.enterFrame();
         }
 
         boolean matched = inner.match(context);
 
-        for (Var var : variables) {
+        for (Var<?> var : variables) {
             var.exitFrame();
         }
 

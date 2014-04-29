@@ -1391,7 +1391,7 @@ public abstract class BaseParser<V>
      * @param expression the expression to turn into an Action
      * @return the Action wrapping the given expression
      */
-    public static Action ACTION(final boolean expression)
+    public static <T> Action<T> ACTION(final boolean expression)
     {
         throw new UnsupportedOperationException(
             "ACTION(...) calls can only be used in Rule creating parser methods");
@@ -1479,7 +1479,7 @@ public abstract class BaseParser<V>
         if (obj instanceof char[])
             return fromCharArray((char[]) obj);
         if (obj instanceof Action) {
-            final Action action = (Action) obj;
+            final Action<?> action = (Action<?>) obj;
             return new ActionMatcher(action);
         }
         Checks.ensure(!(obj instanceof Boolean), "Rule specification contains "

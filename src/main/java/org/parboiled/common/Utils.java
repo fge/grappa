@@ -22,6 +22,7 @@ import org.parboiled.errors.GrammarException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.GenericArrayType;
+import java.lang.reflect.GenericDeclaration;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -125,7 +126,7 @@ public final class Utils {
     @SuppressWarnings("unchecked")
     public static <T> T[] arrayOf(T firstElement, T... moreElements) {
         checkArgNotNull(moreElements, "moreElements");
-        Class elementType = moreElements.getClass().getComponentType();
+        Class<?> elementType = moreElements.getClass().getComponentType();
         T[] array = (T[]) Array.newInstance(elementType, moreElements.length + 1);
         array[0] = firstElement;
         System.arraycopy(moreElements, 0, array, 1, moreElements.length);
@@ -143,7 +144,7 @@ public final class Utils {
     @SuppressWarnings("unchecked")
     public static <T> T[] arrayOf(T firstElement, T secondElement, T... moreElements) {
         checkArgNotNull(moreElements, "moreElements");
-        Class elementType = moreElements.getClass().getComponentType();
+        Class<?> elementType = moreElements.getClass().getComponentType();
         T[] array = (T[]) Array.newInstance(elementType, moreElements.length + 2);
         array[0] = firstElement;
         array[1] = secondElement;
@@ -161,7 +162,7 @@ public final class Utils {
     @SuppressWarnings("unchecked")
     public static <T> T[] arrayOf(T[] firstElements, T lastElement) {
         checkArgNotNull(firstElements, "firstElements");
-        Class elementType = firstElements.getClass().getComponentType();
+        Class<?> elementType = firstElements.getClass().getComponentType();
         T[] array = (T[]) Array.newInstance(elementType, firstElements.length + 1);
         System.arraycopy(firstElements, 0, array, 0, firstElements.length);
         array[firstElements.length] = lastElement;
@@ -218,7 +219,7 @@ public final class Utils {
 
             if (type instanceof Class) {
                 // there is no useful information for us in raw types, so just keep going up the inheritance chain
-                clazz = (Class) type;
+                clazz = (Class<?>) type;
                 if (base.isInterface()) {
                     // if we are actually looking for the type parameters to an interface we also need to
                     // look at all the ones implemented by the given current one
@@ -226,7 +227,7 @@ public final class Utils {
                 }
             } else if (type instanceof ParameterizedType) {
                 ParameterizedType parameterizedType = (ParameterizedType) type;
-                clazz = (Class) parameterizedType.getRawType();
+                clazz = (Class<?>) parameterizedType.getRawType();
 
                 // for instances of ParameterizedType we extract and remember all type arguments
                 TypeVariable<?>[] typeParameters = clazz.getTypeParameters();
@@ -248,7 +249,7 @@ public final class Utils {
         // determine (if possible) the raw class for that type argument.
         Type[] actualTypeArguments;
         if (type instanceof Class) {
-            actualTypeArguments = ((Class) type).getTypeParameters();
+            actualTypeArguments = ((GenericDeclaration) type).getTypeParameters();
         } else {
             actualTypeArguments = ((ParameterizedType) type).getActualTypeArguments();
         }
@@ -293,9 +294,9 @@ public final class Utils {
      * @param args the arguments
      * @return the constructor
      */
-    public static Constructor findConstructor(Class<?> type, Object[] args) {
+    public static Constructor<?> findConstructor(Class<?> type, Object[] args) {
         outer:
-        for (Constructor constructor : type.getConstructors()) {
+        for (Constructor<?> constructor : type.getConstructors()) {
             Class<?>[] paramTypes = constructor.getParameterTypes();
             if (paramTypes.length != args.length) continue;
             for (int i = 0; i < args.length; i++) {

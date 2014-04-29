@@ -84,7 +84,8 @@ public class RuleMethodInterpreter extends BasicInterpreter {
 
     @Override
     @SuppressWarnings("unchecked")
-    public BasicValue naryOperation(AbstractInsnNode insn, List values) throws AnalyzerException {
+    public BasicValue naryOperation(AbstractInsnNode insn,
+        List<? extends BasicValue> values) throws AnalyzerException {
         return createNode(insn, super.naryOperation(insn, null), (BasicValue[]) values.toArray(new BasicValue[values.size()]));
     }
 
