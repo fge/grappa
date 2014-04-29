@@ -30,6 +30,7 @@ import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.matchers.TestMatcher;
 import org.parboiled.matchers.TestNotMatcher;
 import org.parboiled.parserunners.RecoveringParseRunner;
+import org.parboiled.parserunners.ReportingParseRunner;
 import org.parboiled.support.CharsEscaper;
 import org.parboiled.support.Checks;
 import org.parboiled.support.IndexRange;
@@ -103,7 +104,7 @@ public class MatcherContext<V> implements Context<V> {
      *                           matched at once, without relying on inner CharacterMatchers. Even though this can lead
      *                           to significant increases of parsing performance it does not play well with error
      *                           reporting and recovery, which relies on character level matches.
-     *                           Therefore the {@link org.parboiled.parserunners.ReportingParseRunner} and {@link org.parboiled.parserunners.RecoveringParseRunner}
+     *                           Therefore the {@link ReportingParseRunner} and {@link RecoveringParseRunner}
      *                           implementations only enable fast string matching during their basic first parsing run
      *                           and disable it once the input has proven to contain errors.</p>
      */

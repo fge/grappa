@@ -25,6 +25,7 @@ import org.parboiled.matchers.CharRangeMatcher;
 import org.parboiled.matchers.CustomMatcher;
 import org.parboiled.matchers.EmptyMatcher;
 import org.parboiled.matchers.FirstOfMatcher;
+import org.parboiled.matchers.Matcher;
 import org.parboiled.matchers.NothingMatcher;
 import org.parboiled.matchers.OneOrMoreMatcher;
 import org.parboiled.matchers.OptionalMatcher;
@@ -32,11 +33,12 @@ import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.matchers.TestMatcher;
 import org.parboiled.matchers.TestNotMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
+import org.parboiled.matchers.join.JoinMatcher;
 import org.parboiled.matchers.unicode.UnicodeCharMatcher;
 import org.parboiled.matchers.unicode.UnicodeRangeMatcher;
 
 /**
- * The interface to be implemented by all visitors of {@link org.parboiled.matchers.Matcher}s.
+ * The interface to be implemented by all visitors of {@link Matcher}s.
  *
  * @param <R> the return value of this visitor
  * @see <a href="http://en.wikipedia.org/wiki/Visitor_pattern">Visitor Pattern on Wikipedia</a>

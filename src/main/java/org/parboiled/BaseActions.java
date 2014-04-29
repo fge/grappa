@@ -17,6 +17,8 @@
 package org.parboiled;
 
 import com.google.common.base.Preconditions;
+import org.parboiled.buffers.InputBuffer;
+import org.parboiled.errors.GrammarException;
 import org.parboiled.support.Checks;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.Position;
@@ -152,7 +154,7 @@ public abstract class BaseActions<V> implements ContextAware<V> {
     }
 
     /**
-     * <p>Returns the current position in the underlying {@link org.parboiled.buffers.InputBuffer} as a
+     * <p>Returns the current position in the underlying {@link InputBuffer} as a
      * {@link Position} instance.</p>
      * 
      * @return the current position in the underlying inputbuffer
@@ -315,7 +317,7 @@ public abstract class BaseActions<V> implements ContextAware<V> {
      * Swaps the top two elements of the value stack.
      *
      * @return true
-     * @throws org.parboiled.errors.GrammarException
+     * @throws GrammarException
      *          if the stack does not contain at least two elements
      */
     public boolean swap() {
@@ -328,7 +330,7 @@ public abstract class BaseActions<V> implements ContextAware<V> {
      * Reverses the order of the top 3 value stack elements.
      *
      * @return true
-     * @throws org.parboiled.errors.GrammarException
+     * @throws GrammarException
      *          if the stack does not contain at least 3 elements
      */
     public boolean swap3() {
@@ -341,7 +343,7 @@ public abstract class BaseActions<V> implements ContextAware<V> {
      * Reverses the order of the top 4 value stack elements.
      *
      * @return true
-     * @throws org.parboiled.errors.GrammarException
+     * @throws GrammarException
      *          if the stack does not contain at least 4 elements
      */
     public boolean swap4() {
@@ -354,7 +356,7 @@ public abstract class BaseActions<V> implements ContextAware<V> {
      * Reverses the order of the top 5 value stack elements.
      *
      * @return true
-     * @throws org.parboiled.errors.GrammarException
+     * @throws GrammarException
      *          if the stack does not contain at least 5 elements
      */
     public boolean swap5() {
@@ -367,7 +369,7 @@ public abstract class BaseActions<V> implements ContextAware<V> {
      * Reverses the order of the top 6 value stack elements.
      *
      * @return true
-     * @throws org.parboiled.errors.GrammarException
+     * @throws GrammarException
      *          if the stack does not contain at least 6 elements
      */
     public boolean swap6() {

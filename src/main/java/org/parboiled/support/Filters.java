@@ -23,6 +23,7 @@ import org.parboiled.Node;
 import org.parboiled.Rule;
 import org.parboiled.common.Tuple2;
 import org.parboiled.matchers.Matcher;
+import org.parboiled.parserunners.TracingParseRunner;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -85,7 +86,7 @@ public class Filters {
     }
 
     /**
-     * A predicate usable as a filter (element) of a {@link org.parboiled.parserunners.TracingParseRunner}.
+     * A predicate usable as a filter (element) of a {@link TracingParseRunner}.
      * Enables printing of rule tracing log messages for all input in the given range of input lines.
      *
      * @param firstLine the number of the first input line to generate tracing message for
@@ -103,7 +104,7 @@ public class Filters {
     }
 
     /**
-     * A predicate usable as a filter (element) of a {@link org.parboiled.parserunners.TracingParseRunner}.
+     * A predicate usable as a filter (element) of a {@link TracingParseRunner}.
      * Enables printing of rule tracing log messages for all input in the given range of input lines.
      *
      * @param firstLine the number of the first input line to generate tracing message for
@@ -119,7 +120,7 @@ public class Filters {
     }
 
     /**
-     * A predicate usable as a filter (element) of a {@link org.parboiled.parserunners.TracingParseRunner}.
+     * A predicate usable as a filter (element) of a {@link TracingParseRunner}.
      * Enables printing of rule tracing log messages for all input in the given range of input lines.
      *
      * @param lastLine  the number of the last input line to generate tracing message for
@@ -135,7 +136,7 @@ public class Filters {
     }
 
     /**
-     * A predicate usable as a filter (element) of a {@link org.parboiled.parserunners.TracingParseRunner}.
+     * A predicate usable as a filter (element) of a {@link TracingParseRunner}.
      * Enables printing of rule tracing log messages for all given rules and their sub rules.
      *
      * @param rules the rules to generate tracing message for
@@ -153,7 +154,7 @@ public class Filters {
     }
 
     /**
-     * A predicate usable as a filter (element) of a {@link org.parboiled.parserunners.TracingParseRunner}.
+     * A predicate usable as a filter (element) of a {@link TracingParseRunner}.
      * Enables printing of rule tracing log messages for all given rules (without their sub rules).
      *
      * @param rules the rules to generate tracing message for
@@ -170,7 +171,7 @@ public class Filters {
     }
 
     /**
-     * A predicate usable as a filter (element) of a {@link org.parboiled.parserunners.TracingParseRunner}.
+     * A predicate usable as a filter (element) of a {@link TracingParseRunner}.
      * Enables printing of rule tracing log messages for all sub rules of the given rules.
      *
      * @param rules the rules whose sub rules to generate tracing message for
@@ -191,7 +192,7 @@ public class Filters {
     }
 
     /**
-     * A predicate usable as a filter (element) of a {@link org.parboiled.parserunners.TracingParseRunner}.
+     * A predicate usable as a filter (element) of a {@link TracingParseRunner}.
      * Enables printing of rule tracing log messages for all matched rules.
      *
      * @return a predicate
@@ -206,7 +207,7 @@ public class Filters {
     }
 
     /**
-     * A predicate usable as a filter (element) of a {@link org.parboiled.parserunners.TracingParseRunner}.
+     * A predicate usable as a filter (element) of a {@link TracingParseRunner}.
      * Enables printing of rule tracing log messages for all mismatched rules.
      *
      * @return a predicate

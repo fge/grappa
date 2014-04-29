@@ -36,7 +36,7 @@ import org.parboiled.support.Position;
  * buffer, since all line indentations and blank lines have been collapsed. However, the implementation will make sure
  * that {@link #getPosition(int)}, {@link #extract(int, int)}, etc. will work as expected and always return the
  * "correct" result from the underlying, original input buffer.</p>
- * <p>If the input contains illegal indentation the buffer throws an {@link org.parboiled.errors.IllegalIndentationException}
+ * <p>If the input contains illegal indentation the buffer throws an {@link IllegalIndentationException}
  * during construction</p>
  */
 public class IndentDedentInputBuffer implements InputBuffer {
@@ -56,7 +56,7 @@ public class IndentDedentInputBuffer implements InputBuffer {
      * @param lineCommentStart the string starting a line comment or null, if line comments are not defined
      * @param strict           signals whether the buffer should throw an {@link IllegalIndentationException} on
      * "semi-dedents", if false the buffer silently accepts these
-     * @throws org.parboiled.errors.IllegalIndentationException
+     * @throws IllegalIndentationException
      *          if the input contains illegal indentations and the strict flag is set
      */
     public IndentDedentInputBuffer(char[] input, int tabStop, String lineCommentStart, boolean strict) {
@@ -73,7 +73,7 @@ public class IndentDedentInputBuffer implements InputBuffer {
      * @param strict           signals whether the buffer should throw an {@link IllegalIndentationException} on
      * "semi-dedents", if false the buffer silently accepts these
      * @param skipEmptyLines   signals whether the buffer should swallow empty lines
-     * @throws org.parboiled.errors.IllegalIndentationException
+     * @throws IllegalIndentationException
      *          if the input contains illegal indentations and the strict flag is set
      */
     public IndentDedentInputBuffer(char[] input, int tabStop, String lineCommentStart, boolean strict,

@@ -26,6 +26,7 @@ import org.objectweb.asm.tree.LocalVariableNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
+import org.parboiled.support.Var;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
 
@@ -47,7 +48,7 @@ import static org.parboiled.transform.Types.VAR_FRAMING_MATCHER;
 
 /**
  * Inserts code for wrapping the created rule into a VarFramingMatcher if the method contains local variables
- * assignable to {@link org.parboiled.support.Var}.
+ * assignable to {@link Var}.
  */
 public class VarFramingGenerator implements RuleMethodProcessor {
 

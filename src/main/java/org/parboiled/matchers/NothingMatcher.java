@@ -21,7 +21,7 @@ import org.parboiled.MatcherContext;
 import org.parboiled.matchervisitors.MatcherVisitor;
 
 /**
- * A {@link org.parboiled.matchers.Matcher} that never matches anything.
+ * A {@link Matcher} that never matches anything.
  */
 public class NothingMatcher extends AbstractMatcher {
 

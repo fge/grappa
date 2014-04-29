@@ -1383,7 +1383,7 @@ public abstract class BaseParser<V>
      * <p>Also it carries a {@link SuppressNode} annotation, which means all sub nodes will also never create a parse
      * tree node. This can be important for actions contained in sub rules of this rule that otherwise expect the
      * presence of certain parse tree structures in their context.
-     * Also see {@link org.parboiled.annotations.SkipActionsInPredicates}</p>
+     * Also see {@link SkipActionsInPredicates}</p>
      * <p>Note: This methods carries a {@link Cached} annotation, which means that multiple invocations with the same
      * argument will yield the same rule instance.</p>
      *
@@ -1410,7 +1410,7 @@ public abstract class BaseParser<V>
      * <p>Also it carries a {@link SuppressNode} annotation, which means all sub nodes will also never create a parse
      * tree node. This can be important for actions contained in sub rules of this rule that otherwise expect the
      * presence of certain parse tree structures in their context.
-     * Also see {@link org.parboiled.annotations.SkipActionsInPredicates}</p>
+     * Also see {@link SkipActionsInPredicates}</p>
      * <p>Note: This methods provides caching, which means that multiple invocations with the same
      * arguments will yield the same rule instance.</p>
      *
@@ -1437,7 +1437,7 @@ public abstract class BaseParser<V>
      * <p>Also it carries a {@link SuppressNode} annotation, which means all sub nodes will also never create a parse
      * tree node. This can be important for actions contained in sub rules of this rule that otherwise expect the
      * presence of certain parse tree structures in their context.
-     * Also see {@link org.parboiled.annotations.SkipActionsInPredicates}</p>
+     * Also see {@link SkipActionsInPredicates}</p>
      * <p>Note: This methods carries a {@link Cached} annotation, which means that multiple invocations with the same
      * argument will yield the same rule instance.</p>
      *
@@ -1464,7 +1464,7 @@ public abstract class BaseParser<V>
      * <p>Also it carries a {@link SuppressNode} annotation, which means all sub nodes will also never create a parse
      * tree node. This can be important for actions contained in sub rules of this rule that otherwise expect the
      * presence of certain parse tree structures in their context.
-     * Also see {@link org.parboiled.annotations.SkipActionsInPredicates}</p>
+     * Also see {@link SkipActionsInPredicates}</p>
      * <p>Note: This methods provides caching, which means that multiple invocations with the same
      * arguments will yield the same rule instance.</p>
      *

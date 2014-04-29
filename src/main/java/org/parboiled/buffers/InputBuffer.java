@@ -16,6 +16,7 @@
 
 package org.parboiled.buffers;
 
+import org.parboiled.support.Chars;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.Position;
 
@@ -26,7 +27,7 @@ public interface InputBuffer {
 
     /**
      * Returns the character at the given index. If the index is invalid the method returns
-     * {@link org.parboiled.support.Chars#EOI}.
+     * {@link Chars#EOI}.
      *
      * @param index the index
      * @return the character at the given index or Chars.EOI.
@@ -62,7 +63,7 @@ public interface InputBuffer {
 
     /**
      * Returns the line and column number of the character with the given index encapsulated in a
-     * {@link org.parboiled.support.Position}
+     * {@link Position}
      * object. The very first character has the line number 1 and the column number 1.
      *
      * @param index the index of the character to get the line number of

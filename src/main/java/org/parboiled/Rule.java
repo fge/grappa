@@ -54,7 +54,7 @@ public interface Rule {
      * skipNode().
      * Note that, even though a rule marked as skipNode() does not create a parse tree node of its own and is
      * therefore "invisible" in the parse tree, the rule still exists as a regular rule in the rule tree and is
-     * accompanied by a "regular" rule {@link org.parboiled.Context} during rule matching.
+     * accompanied by a "regular" rule {@link Context} during rule matching.
      * Corresponds to the @SkipNode annotation.
      *
      * @return this Rule

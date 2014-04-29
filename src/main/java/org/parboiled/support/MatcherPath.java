@@ -17,6 +17,7 @@
 package org.parboiled.support;
 
 import com.google.common.base.Preconditions;
+import org.parboiled.Context;
 import org.parboiled.matchers.Matcher;
 
 /**
@@ -43,7 +44,7 @@ public class MatcherPath {
 
     /**
      * Constructs a new MatcherPath wrapping the given elements.
-     * Normally you don't construct a MatcherPath directly but rather call {@link org.parboiled.Context#getPath()} to
+     * Normally you don't construct a MatcherPath directly but rather call {@link Context#getPath()} to
      * get one.
      *
      * @param element the last element of this path

@@ -30,8 +30,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A {@link org.parboiled.parserunners.ParseRunner} implementation that creates an
- * {@link org.parboiled.errors.InvalidInputError} for the error at a known error location.
+ * A {@link ParseRunner} implementation that creates an
+ * {@link InvalidInputError} for the error at a known error location.
  * It never causes the parser to perform more than one parsing run and is rarely used directly.
  * Instead its functionality is relied upon by the {@link ReportingParseRunner} and {@link RecoveringParseRunner} classes.
  */

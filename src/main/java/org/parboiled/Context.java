@@ -19,6 +19,8 @@ package org.parboiled;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.errors.ParseError;
 import org.parboiled.matchers.Matcher;
+import org.parboiled.parserunners.RecoveringParseRunner;
+import org.parboiled.parserunners.ReportingParseRunner;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.MatcherPath;
 import org.parboiled.support.Position;
@@ -100,7 +102,7 @@ public interface Context<V> {
      * character rules. When fast string matching is enabled strings are matched at once, without relying on inner
      * CharacterMatchers. Even though this can lead to significant increases of parsing performance it does not play
      * well with error reporting and recovery, which relies on character level matches.
-     * Therefore the {@link org.parboiled.parserunners.ReportingParseRunner} and {@link org.parboiled.parserunners.RecoveringParseRunner} implementations only enable fast
+     * Therefore the {@link ReportingParseRunner} and {@link RecoveringParseRunner} implementations only enable fast
      * string matching during their basic first parsing run and disable it once the input has proven to contain errors.
      * </p>
      *
@@ -194,7 +196,7 @@ public interface Context<V> {
     int getMatchLength();
     
     /**
-     * <p>Returns the current position in the underlying {@link org.parboiled.buffers.InputBuffer} as a
+     * <p>Returns the current position in the underlying {@link InputBuffer} as a
      * {@link Position} instance.</p>
      * 
      * @return the current position in the underlying inputbuffer

@@ -18,6 +18,7 @@ package org.parboiled.support;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
+import org.parboiled.buffers.IndentDedentInputBuffer;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -93,12 +94,12 @@ public class Chars
     public static final char EOI = '\uFFFF';
 
     /**
-     * Special non-character used by the {@link org.parboiled.buffers.IndentDedentInputBuffer}.
+     * Special non-character used by the {@link IndentDedentInputBuffer}.
      */
     public static final char INDENT = '\uFDD0';
 
     /**
-     * Special non-character used by the {@link org.parboiled.buffers.IndentDedentInputBuffer}.
+     * Special non-character used by the {@link IndentDedentInputBuffer}.
      */
     public static final char DEDENT = '\uFDD1';
 

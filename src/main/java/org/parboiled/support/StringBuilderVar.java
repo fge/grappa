@@ -17,7 +17,7 @@
 package org.parboiled.support;
 
 /**
- * Simple specialization of a {@link org.parboiled.support.Var} for StringBuilders.
+ * Simple specialization of a {@link Var} for StringBuilders.
  * Provides a few convenience helper methods.
  */
 public class StringBuilderVar extends Var<StringBuilder> {

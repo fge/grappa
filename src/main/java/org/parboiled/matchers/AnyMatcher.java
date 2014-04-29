@@ -22,7 +22,7 @@ import org.parboiled.matchervisitors.MatcherVisitor;
 import org.parboiled.support.Chars;
 
 /**
- * A {@link org.parboiled.matchers.Matcher} matching any single character except EOI.
+ * A {@link Matcher} matching any single character except EOI.
  */
 public class AnyMatcher extends AbstractMatcher {
 

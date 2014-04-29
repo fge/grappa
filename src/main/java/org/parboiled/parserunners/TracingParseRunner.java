@@ -35,7 +35,7 @@ import org.parboiled.support.Position;
 import javax.annotation.Nonnull;
 
 /**
- * A {@link org.parboiled.parserunners.ParseRunner} implementation used for debugging purposes.
+ * A {@link ParseRunner} implementation used for debugging purposes.
  * It exhibits the same behavior as the {@link ReportingParseRunner} but collects debugging information as to which
  * rules did match and which didn't.
  */

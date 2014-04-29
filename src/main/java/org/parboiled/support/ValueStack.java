@@ -16,6 +16,8 @@
 
 package org.parboiled.support;
 
+import org.parboiled.errors.GrammarException;
+
 /**
  * A ValueStack is a stack implementation for parser values. The current state of the stack can be saved and restored
  * with the methods {@link #takeSnapshot()} and {@link #restoreSnapshot(Object)} ()}, whose implementations should be
@@ -153,7 +155,7 @@ public interface ValueStack<V> extends Iterable<V> {
     /**
      * Swaps the top two stack values.
      *
-     * @throws org.parboiled.errors.GrammarException
+     * @throws GrammarException
      *          if the stack does not contain at least two elements
      */
     void swap();
@@ -161,7 +163,7 @@ public interface ValueStack<V> extends Iterable<V> {
     /**
      * Reverses the order of the top 3 stack values.
      *
-     * @throws org.parboiled.errors.GrammarException
+     * @throws GrammarException
      *          if the stack does not contain at least 3 elements
      */
     void swap3();
@@ -169,7 +171,7 @@ public interface ValueStack<V> extends Iterable<V> {
     /**
      * Reverses the order of the top 4 stack values.
      *
-     * @throws org.parboiled.errors.GrammarException
+     * @throws GrammarException
      *          if the stack does not contain at least 4 elements
      */
     void swap4();
@@ -177,7 +179,7 @@ public interface ValueStack<V> extends Iterable<V> {
     /**
      * Reverses the order of the top 5 stack values.
      *
-     * @throws org.parboiled.errors.GrammarException
+     * @throws GrammarException
      *          if the stack does not contain at least 5 elements
      */
     void swap5();
@@ -185,7 +187,7 @@ public interface ValueStack<V> extends Iterable<V> {
     /**
      * Reverses the order of the top 5 stack values.
      *
-     * @throws org.parboiled.errors.GrammarException
+     * @throws GrammarException
      *          if the stack does not contain at least 5 elements
      */
     void swap6();

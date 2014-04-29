@@ -31,7 +31,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 /**
- * A {@link org.parboiled.matchers.Matcher} that not actually matches input but runs a given parser {@link Action}.
+ * A {@link Matcher} that not actually matches input but runs a given parser {@link Action}.
  */
 public class ActionMatcher extends AbstractMatcher {
     public final Action<?> action;

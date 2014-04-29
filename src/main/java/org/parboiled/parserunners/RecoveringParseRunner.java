@@ -38,6 +38,7 @@ import org.parboiled.matchervisitors.FollowMatchersVisitor;
 import org.parboiled.matchervisitors.GetStarterCharVisitor;
 import org.parboiled.matchervisitors.IsSingleCharMatcherVisitor;
 import org.parboiled.matchervisitors.IsStarterCharVisitor;
+import org.parboiled.support.Chars;
 import org.parboiled.support.MatcherPath;
 import org.parboiled.support.ParsingResult;
 
@@ -53,17 +54,17 @@ import static org.parboiled.support.Chars.RESYNC_EOI;
 import static org.parboiled.support.Chars.RESYNC_START;
 
 /**
- * A {@link org.parboiled.parserunners.ParseRunner} implementation that is able to recover from {@link org.parboiled.errors.InvalidInputError}s in the input and therefore
- * report more than just the first {@link org.parboiled.errors.InvalidInputError} if the input does not conform to the rule grammar.
+ * A {@link ParseRunner} implementation that is able to recover from {@link InvalidInputError}s in the input and therefore
+ * report more than just the first {@link InvalidInputError} if the input does not conform to the rule grammar.
  * Error recovery is done by attempting to either delete an error character, insert a potentially missing character
  * or do both at once (which is equivalent to a one char replace) whereby this implementation is able to determine
  * itself which of these options is the best strategy.
  * If the parse error cannot be overcome by either deleting, inserting or replacing one character a resynchronization
  * rule is determined and the parsing process resynchronized, so that parsing can still continue.
  * In this way the RecoveringParseRunner is able to completely parse all input texts (This ParseRunner never returns
- * an unmatched {@link org.parboiled.support.ParsingResult}).
- * If the input is error free this {@link org.parboiled.parserunners.ParseRunner} implementation will only perform one parsing run, with the same
- * speed as the {@link org.parboiled.parserunners.BasicParseRunner}. However, if there are {@link org.parboiled.errors.InvalidInputError}s in the input potentially
+ * an unmatched {@link ParsingResult}).
+ * If the input is error free this {@link ParseRunner} implementation will only perform one parsing run, with the same
+ * speed as the {@link BasicParseRunner}. However, if there are {@link InvalidInputError}s in the input potentially
  * many more runs are performed to properly report all errors and test the various recovery strategies.
  */
 public class RecoveringParseRunner<V> extends AbstractParseRunner<V> {
@@ -308,8 +309,8 @@ public class RecoveringParseRunner<V> extends AbstractParseRunner<V> {
     }
 
     /**
-     * A {@link org.parboiled.MatchHandler} implementation that recognizes the special
-     * {@link org.parboiled.support.Chars#RESYNC} character to overcome {@link InvalidInputError}s at the respective
+     * A {@link MatchHandler} implementation that recognizes the special
+     * {@link Chars#RESYNC} character to overcome {@link InvalidInputError}s at the respective
      * error indices.
      */
     private class Handler implements MatchHandler {
@@ -515,10 +516,13 @@ public class RecoveringParseRunner<V> extends AbstractParseRunner<V> {
     }
 
     /**
-     * This MatcherVisitor collects the minimal set of actions that has to run underneath a resyncronization sequence
-     * in order to maintain a consistent Value Stack state.
+     * This MatcherVisitor collects the minimal set of actions that has to run
+     * underneath a resynchronization sequence in order to maintain a consistent
+     * Value Stack state.
      */
-    private static class CollectResyncActionsVisitor extends DefaultMatcherVisitor<List<ActionMatcher>> {
+    private static class CollectResyncActionsVisitor
+        extends DefaultMatcherVisitor<List<ActionMatcher>>
+    {
         private ImmutableLinkedList<SequenceMatcher> path = ImmutableLinkedList.nil();
 
         @Override
@@ -540,6 +544,9 @@ public class RecoveringParseRunner<V> extends AbstractParseRunner<V> {
             return matcher.subMatcher.accept(this);
         }
 
+        /*
+         * The SequenceMatcher case is a weird one since it can contain itself!
+         */
         @Override
         public List<ActionMatcher> visit(SequenceMatcher matcher) {
             if (path.contains(matcher)) {

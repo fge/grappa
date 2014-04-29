@@ -22,7 +22,7 @@ import org.parboiled.matchervisitors.MatcherVisitor;
 import org.parboiled.support.Characters;
 
 /**
- * A {@link Matcher} matching a single character out of a given {@link org.parboiled.support.Characters} set.
+ * A {@link Matcher} matching a single character out of a given {@link Characters} set.
  */
 public class AnyOfMatcher extends AbstractMatcher {
     public final Characters characters;

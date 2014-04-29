@@ -58,7 +58,7 @@ public final class ParseTreeUtils {
 
     /**
      * Returns the node underneath the given parents that matches the given path.
-     * See {@link #findNodeByPath(org.parboiled.Node, String)} )} for a description of the path argument.
+     * See {@link #findNodeByPath(Node, String)} )} for a description of the path argument.
      * If the given collections of parents is null or empty or no node is found the method returns null.
      *
      * @param parents the parent Nodes to look through
