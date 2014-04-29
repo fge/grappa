@@ -16,12 +16,12 @@
 
 package org.parboiled.errors;
 
-import org.parboiled.support.CharsEscaper;
 import com.google.common.escape.Escaper;
 import org.parboiled.common.Formatter;
 import org.parboiled.matchers.AnyOfMatcher;
 import org.parboiled.matchers.Matcher;
 import org.parboiled.support.Chars;
+import org.parboiled.support.CharsEscaper;
 import org.parboiled.support.MatcherPath;
 
 import java.util.ArrayList;

@@ -16,12 +16,12 @@
 
 package org.parboiled.common;
 
-import org.parboiled.support.CharsEscaper;
 import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import org.parboiled.support.Characters;
 import org.parboiled.support.Chars;
+import org.parboiled.support.CharsEscaper;
 
 import java.util.Arrays;
 import java.util.Iterator;
