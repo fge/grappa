@@ -41,7 +41,7 @@ abstract class CustomDefaultLabelMatcher<T extends CustomDefaultLabelMatcher<T>>
         return super.getLabel() != null;
     }
 
-    @SuppressWarnings( {"unchecked"})
+    @SuppressWarnings("unchecked")
     public T defaultLabel(String defaultLabel) {
         this.defaultLabel = defaultLabel;
         return (T)this;

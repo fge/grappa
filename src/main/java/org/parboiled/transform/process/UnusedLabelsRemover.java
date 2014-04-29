@@ -33,7 +33,7 @@ public class UnusedLabelsRemover implements RuleMethodProcessor {
     }
 
     @Override
-    @SuppressWarnings({"SuspiciousMethodCalls"})
+    @SuppressWarnings("SuspiciousMethodCalls")
     public void process(ParserClassNode classNode, RuleMethod method) throws Exception {
         checkArgNotNull(classNode, "classNode");
         checkArgNotNull(method, "method");

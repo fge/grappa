@@ -35,7 +35,7 @@ public class MemoMismatchesMatcher implements Matcher {
     }
 
     @Override
-    @SuppressWarnings({"unchecked"})
+    @SuppressWarnings("unchecked")
     public <V> boolean match(MatcherContext<V> context) {
         if (context.hasMismatched()) {
             return false;

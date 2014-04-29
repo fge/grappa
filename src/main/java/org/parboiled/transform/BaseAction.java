@@ -29,7 +29,7 @@ import static org.parboiled.common.Preconditions.checkArgNotNull;
 /**
  * Base class of generated classes wrapping action expressions.
  */
-@SuppressWarnings({"UnusedDeclaration"})
+@SuppressWarnings("UnusedDeclaration")
 public abstract class BaseAction extends BaseGroupClass implements SkippableAction {
 
     private boolean skipInPredicates;

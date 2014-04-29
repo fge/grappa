@@ -73,7 +73,7 @@ public class SuperCallRewriter implements RuleMethodProcessor {
         method.setBodyRewritten();
     }
 
-    @SuppressWarnings({"ConstantConditions"})
+    @SuppressWarnings("ConstantConditions")
     private String getSuperMethodName(RuleMethod method, MethodInsnNode insn) {
         Class<?> clazz = method.getOwnerClass();
         String superMethodName = method.name;

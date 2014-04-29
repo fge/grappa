@@ -262,7 +262,7 @@ public class RecoveringParseRunner<V> extends AbstractParseRunner<V> {
         return nowErrorFree;
     }
 
-    @SuppressWarnings( {"ConstantConditions"})
+    @SuppressWarnings("ConstantConditions")
     private Character findBestSingleCharInsertion(int fixIndex) {
         GetStarterCharVisitor getStarterCharVisitor = new GetStarterCharVisitor();
         int bestNextErrorIndex = -1;
@@ -460,7 +460,7 @@ public class RecoveringParseRunner<V> extends AbstractParseRunner<V> {
             return true;
         }
 
-        @SuppressWarnings( {"ConstantConditions"})
+        @SuppressWarnings("ConstantConditions")
         private void rerunAndExecuteErrorActions(MatcherContext context) {
             // the context is for the resync action, which at this point has FAILED, i.e. ALL its sub actions haven't
             // had a chance to change the value stack, even the ones having run before the actual parse error matcher

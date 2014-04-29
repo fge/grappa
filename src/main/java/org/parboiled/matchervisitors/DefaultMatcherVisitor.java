@@ -141,7 +141,7 @@ public class DefaultMatcherVisitor<R> implements MatcherVisitor<R> {
      * @param matcher the matcher
      * @return the return value (null by default)
      */
-    @SuppressWarnings({"UnusedDeclaration"})
+    @SuppressWarnings("UnusedDeclaration")
     public R defaultValue(AbstractMatcher matcher) {
         return null;
     }

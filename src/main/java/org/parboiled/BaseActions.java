@@ -27,7 +27,7 @@ import static org.parboiled.common.Preconditions.checkArgNotNull;
  *
  * @param <V> the type of the parser values
  */
-@SuppressWarnings( {"UnusedDeclaration"})
+@SuppressWarnings("UnusedDeclaration")
 public abstract class BaseActions<V> implements ContextAware<V> {
 
     private Context<V> context;

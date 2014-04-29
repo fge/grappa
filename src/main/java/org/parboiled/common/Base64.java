@@ -73,7 +73,7 @@ package org.parboiled.common;
 
 import java.util.Arrays;
 
-@SuppressWarnings({"UnnecessaryParentheses"})
+@SuppressWarnings("UnnecessaryParentheses")
 public class Base64 {
 
     // -------- FIELDS -------------------------------------------------------------------------------------------------

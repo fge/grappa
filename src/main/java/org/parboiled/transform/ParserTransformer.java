@@ -44,7 +44,7 @@ public class ParserTransformer {
 
     private ParserTransformer() {}
 
-    @SuppressWarnings({"unchecked"})
+    @SuppressWarnings("unchecked")
     public static synchronized <T> Class<? extends T> transformParser(Class<T> parserClass) throws Exception {
         checkArgNotNull(parserClass, "parserClass");
         // first check whether we did not already create and load the extension of the given parser class
@@ -83,7 +83,7 @@ public class ParserTransformer {
         return classNode;
     }
 
-    @SuppressWarnings({"unchecked"})
+    @SuppressWarnings("unchecked")
     private static void runMethodTransformers(ParserClassNode classNode) throws Exception {
         List<RuleMethodProcessor> methodProcessors = createRuleMethodProcessors();
 

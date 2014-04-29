@@ -34,7 +34,7 @@ public class ArrayBuilder<T> {
         return array;
     }
 
-    @SuppressWarnings({"unchecked"})
+    @SuppressWarnings("unchecked")
     public ArrayBuilder<T> add(T... elements) {
         if (elements == null) return this;
         if (array == null) {
@@ -48,7 +48,7 @@ public class ArrayBuilder<T> {
         return this;
     }
 
-    @SuppressWarnings({"unchecked"})
+    @SuppressWarnings("unchecked")
     public ArrayBuilder<T> addNonNulls(T... elements) {
         if (elements == null) return this;
         if (array == null) {

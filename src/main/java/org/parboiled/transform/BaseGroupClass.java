@@ -18,7 +18,7 @@ package org.parboiled.transform;
 
 import static org.parboiled.common.Preconditions.checkArgNotNull;
 
-@SuppressWarnings({"UnusedDeclaration"})
+@SuppressWarnings("UnusedDeclaration")
 abstract class BaseGroupClass {
 
     public final String name;

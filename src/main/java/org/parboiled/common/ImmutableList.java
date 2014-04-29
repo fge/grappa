@@ -31,7 +31,7 @@ import static org.parboiled.common.Utils.arrayOf;
  *
  * @deprecated use {@link com.google.common.collect.ImmutableList} instead
  */
-@SuppressWarnings( {"unchecked"})
+@SuppressWarnings("unchecked")
 @Deprecated
 public abstract class ImmutableList<T> extends AbstractList<T> {
 

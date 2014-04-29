@@ -351,7 +351,7 @@ public class MatcherContext<V> implements Context<V> {
     	memoizedMismatches.add(MatcherPosition.at(matcher, currentIndex));
     }
 
-    @SuppressWarnings({"ConstantConditions"})
+    @SuppressWarnings("ConstantConditions")
     public void createNode() {
         if (!nodeSuppressed) {
             node = new NodeImpl<V>(matcher, getSubNodes(), startIndex, currentIndex,

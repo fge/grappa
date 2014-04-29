@@ -47,7 +47,7 @@ public class Parboiled {
      * @param constructorArgs optional arguments to the parser class constructor
      * @return the ready to use parser instance
      */
-    @SuppressWarnings({"unchecked"})
+    @SuppressWarnings("unchecked")
     public static <P extends BaseParser<V>, V> P createParser(Class<P> parserClass, Object... constructorArgs) {
         checkArgNotNull(parserClass, "parserClass");
         try {

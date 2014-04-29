@@ -34,7 +34,7 @@ public class FirstOfMatcher extends CustomDefaultLabelMatcher<FirstOfMatcher> {
     }
 
     @Override
-    @SuppressWarnings( {"ForLoopReplaceableByForEach"})
+    @SuppressWarnings("ForLoopReplaceableByForEach")
     public boolean match(MatcherContext context) {
         List<Matcher> children = getChildren();
         int size = children.size();

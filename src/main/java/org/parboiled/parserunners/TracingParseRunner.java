@@ -66,7 +66,7 @@ public class TracingParseRunner<V> extends ReportingParseRunner<V> implements Ma
      *               Predicate&lt;Tuple2&lt;Context&lt;?&gt;, Boolean&gt;&gt;.
      * @return this instance
      */
-    @SuppressWarnings( {"unchecked"})
+    @SuppressWarnings("unchecked")
     public TracingParseRunner<V> withFilter(Predicate<?> filter) {
         this.filter = (Predicate<Tuple2<Context<?>, Boolean>>) checkArgNotNull(filter, "filter");
         return this;
@@ -108,7 +108,7 @@ public class TracingParseRunner<V> extends ReportingParseRunner<V> implements Ma
     }
 
     @Override
-    @SuppressWarnings( {"unchecked"})
+    @SuppressWarnings("unchecked")
     public boolean match(MatcherContext<?> context) {
         Matcher matcher = context.getMatcher();
         boolean matched = matcher.match(context);

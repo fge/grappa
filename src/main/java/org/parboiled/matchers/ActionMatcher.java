@@ -85,7 +85,7 @@ public class ActionMatcher extends AbstractMatcher {
     }
 
     @Override
-    @SuppressWarnings({"unchecked"})
+    @SuppressWarnings("unchecked")
     public <V> boolean match(MatcherContext<V> context) {
         if (skipInPredicates && context.inPredicate()) return true;
 

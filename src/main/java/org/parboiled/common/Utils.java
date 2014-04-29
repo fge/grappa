@@ -122,7 +122,7 @@ public final class Utils {
      * @param moreElements more elements (optional)
      * @return a new array containing all arguments.
      */
-    @SuppressWarnings({"unchecked"})
+    @SuppressWarnings("unchecked")
     public static <T> T[] arrayOf(T firstElement, T... moreElements) {
         checkArgNotNull(moreElements, "moreElements");
         Class elementType = moreElements.getClass().getComponentType();
@@ -140,7 +140,7 @@ public final class Utils {
      * @param moreElements more elements (optional)
      * @return a new array containing all arguments.
      */
-    @SuppressWarnings({"unchecked"})
+    @SuppressWarnings("unchecked")
     public static <T> T[] arrayOf(T firstElement, T secondElement, T... moreElements) {
         checkArgNotNull(moreElements, "moreElements");
         Class elementType = moreElements.getClass().getComponentType();
@@ -158,7 +158,7 @@ public final class Utils {
      * @param lastElement   the element to append
      * @return a new array containing all arguments.
      */
-    @SuppressWarnings({"unchecked"})
+    @SuppressWarnings("unchecked")
     public static <T> T[] arrayOf(T[] firstElements, T lastElement) {
         checkArgNotNull(firstElements, "firstElements");
         Class elementType = firstElements.getClass().getComponentType();

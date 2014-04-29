@@ -52,7 +52,7 @@ class ConstructorGenerator {
         createNewInstanceMethod(classNode);
     }
 
-    @SuppressWarnings({"unchecked"})
+    @SuppressWarnings("unchecked")
     private void createConstuctor(ParserClassNode classNode, MethodNode constructor) {
         MethodNode newConstructor =
                 new MethodNode(ACC_PUBLIC, constructor.name, constructor.desc, constructor.signature,
@@ -68,7 +68,7 @@ class ConstructorGenerator {
         classNode.methods.add(newConstructor);
     }
 
-    @SuppressWarnings({"unchecked"})
+    @SuppressWarnings("unchecked")
     private void createNewInstanceMethod(ParserClassNode classNode) {
         MethodNode method = new MethodNode(ACC_PUBLIC, "newInstance", "()L" + Types.BASE_PARSER.getInternalName() + ';',
                 null, null);

@@ -28,7 +28,7 @@ import static org.parboiled.common.Preconditions.checkArgument;
  *
  * @param <V> the type of the value objects
  */
-@SuppressWarnings({"ConstantConditions"})
+@SuppressWarnings("ConstantConditions")
 public class DefaultValueStack<V> implements ValueStack<V> {
 
     protected static class Element {
@@ -153,12 +153,12 @@ public class DefaultValueStack<V> implements ValueStack<V> {
     }
 
     @Override
-    @SuppressWarnings({"unchecked"})
+    @SuppressWarnings("unchecked")
     public V peek(int down) {
         return (V) peek(down, head);
     }
 
-    @SuppressWarnings({"ConstantConditions"})
+    @SuppressWarnings("ConstantConditions")
     private static Object peek(int down, Element head) {
         checkArgument(head != null, "Cannot peek beyond the bottom of the stack");
         if (down == 0) return head.value;
@@ -249,7 +249,7 @@ public class DefaultValueStack<V> implements ValueStack<V> {
                 return next != null;
             }
             @Override
-            @SuppressWarnings({"unchecked"})
+            @SuppressWarnings("unchecked")
             public V next() {
                 V value = (V) next.value;
                 next = next.tail;

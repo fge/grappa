@@ -122,7 +122,7 @@ public class CachingGenerator implements RuleMethodProcessor
         // stack:
     }
 
-    @SuppressWarnings( {"unchecked"})
+    @SuppressWarnings("unchecked")
     private void generateGetFromCache() {
         Type[] paramTypes = Type.getArgumentTypes(method.desc);
         cacheFieldName = findUnusedCacheFieldName();
@@ -198,7 +198,7 @@ public class CachingGenerator implements RuleMethodProcessor
         // stack: <rule>
     }
 
-    @SuppressWarnings( {"unchecked"})
+    @SuppressWarnings("unchecked")
     private String findUnusedCacheFieldName() {
         String name = "cache$" + method.name;
         int i = 2;
