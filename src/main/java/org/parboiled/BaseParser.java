@@ -16,11 +16,17 @@
 
 package org.parboiled;
 
+import com.google.common.base.Preconditions;
+import com.google.common.base.Predicates;
+import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableList;
 import org.parboiled.annotations.Cached;
 import org.parboiled.annotations.DontExtend;
 import org.parboiled.annotations.DontLabel;
+import org.parboiled.annotations.SkipActionsInPredicates;
 import org.parboiled.annotations.SuppressNode;
 import org.parboiled.annotations.SuppressSubnodes;
+import org.parboiled.buffers.IndentDedentInputBuffer;
 import org.parboiled.common.Utils;
 import org.parboiled.errors.GrammarException;
 import org.parboiled.matchers.ActionMatcher;
@@ -39,13 +45,15 @@ import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.matchers.StringMatcher;
 import org.parboiled.matchers.TestMatcher;
 import org.parboiled.matchers.TestNotMatcher;
-import org.parboiled.matchers.unicode.UnicodeCharMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
+import org.parboiled.matchers.unicode.UnicodeCharMatcher;
 import org.parboiled.matchers.unicode.UnicodeRangeMatcher;
 import org.parboiled.support.Characters;
 import org.parboiled.support.Chars;
 import org.parboiled.support.Checks;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Arrays;
 
 import static org.parboiled.common.Preconditions.checkArgNotNull;
@@ -56,8 +64,10 @@ import static org.parboiled.common.Preconditions.checkArgument;
  *
  * @param <V> the type of the parser values
  */
-@SuppressWarnings( {"UnusedDeclaration"})
-public abstract class BaseParser<V> extends BaseActions<V> {
+@SuppressWarnings("unused")
+public abstract class BaseParser<V>
+    extends BaseActions<V>
+{
 
     /**
      * Matches the {@link Chars#EOI} (end of input) character.
@@ -65,12 +75,14 @@ public abstract class BaseParser<V> extends BaseActions<V> {
     public static final Rule EOI = new CharMatcher(Chars.EOI);
 
     /**
-     * Matches the special {@link Chars#INDENT} character produces by the org.parboiled.buffers.IndentDedentInputBuffer
+     * Matches the special {@link Chars#INDENT} character produced by an {@link
+     * IndentDedentInputBuffer}
      */
     public static final Rule INDENT = new CharMatcher(Chars.INDENT);
 
     /**
-     * Matches the special {@link Chars#DEDENT} character produces by the org.parboiled.buffers.IndentDedentInputBuffer
+     * Matches the special {@link Chars#DEDENT} character produced by an {@link
+     * IndentDedentInputBuffer}
      */
     public static final Rule DEDENT = new CharMatcher(Chars.DEDENT);
 
@@ -98,9 +110,24 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      * @param <P> the parser class
      * @return a new parser instance
      */
-    public <P extends BaseParser<V>> P newInstance() {
-        throw new UnsupportedOperationException(
-                "Illegal parser instance, you have to use Parboiled.createParser(...) to create your parser instance!");
+    public <P extends BaseParser<V>> P newInstance()
+    {
+        throw new UnsupportedOperationException("Illegal parser instance, " +
+            "you have to use Parboiled.createParser(...) " +
+            "to create your parser instance!");
+    }
+
+    /**
+     * Match one given character
+     *
+     * @param c the character to match
+     * @return a rule
+     */
+    @Cached
+    @DontLabel
+    public Rule ch(final char c)
+    {
+        return new CharMatcher(c);
     }
 
     /**
@@ -112,11 +139,29 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      *
      * @param c the char to match
      * @return a new rule
+     *
+     * @deprecated use {@link #ch(char)} instead; will be removed in 1.1
+     */
+    @Deprecated
+    @Cached
+    @DontLabel
+    public Rule Ch(char c)
+    {
+        return new CharMatcher(c);
+    }
+
+    /**
+     * Match a given character in a case-insensitive manner
+     *
+     * @param c the character to match
+     * @return a rule
      */
     @Cached
     @DontLabel
-    public Rule Ch(char c) {
-        return new CharMatcher(c);
+    public Rule ignoreCase(final char c)
+    {
+        return Character.isLowerCase(c) == Character.isUpperCase(c)
+            ? ch(c) : new CharIgnoreCaseMatcher(c);
     }
 
     /**
@@ -126,16 +171,46 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      *
      * @param c the char to match independently of its case
      * @return a new rule
+     *
+     * @deprecated use {@link #ignoreCase(char)} instead; will be removed in
+     * 1.1.
      */
+    @Deprecated
     @Cached
     @DontLabel
-    public Rule IgnoreCase(char c) {
+    public Rule IgnoreCase(char c)
+    {
         if (Character.isLowerCase(c) == Character.isUpperCase(c)) {
             return Ch(c);
         }
         return new CharIgnoreCaseMatcher(c);
     }
 
+    /**
+     * Match one Unicode character
+     *
+     * @param codePoint the code point
+     * @return a rule
+     */
+    @Cached
+    @DontLabel
+    public Rule unicodeChar(final int codePoint)
+    {
+        Preconditions.checkArgument(Character.isValidCodePoint(codePoint),
+            "invalid code point " + codePoint);
+        return UnicodeCharMatcher.forCodePoint(codePoint);
+    }
+
+    /**
+     * Match one Unicode character
+     *
+     * @param codePoint the code point
+     * @return a rule
+     *
+     * @deprecated use {@link #unicodeChar(int)} instead; will be removed in
+     * 1.1.
+     */
+    @Deprecated
     @Cached
     @DontLabel
     public Rule UnicodeChar(final int codePoint)
@@ -145,6 +220,46 @@ public abstract class BaseParser<V> extends BaseActions<V> {
         return UnicodeCharMatcher.forCodePoint(codePoint);
     }
 
+    /**
+     * Match a Unicode character range
+     *
+     * <p>Note that this method will delegate to "regular" character matchers if
+     * part of, or all of, the specified range is into the basic multilingual
+     * plane.</p>
+     *
+     * @param low the lower code point (inclusive)
+     * @param high the upper code point (inclusive)
+     * @return a rule
+     */
+    @Cached
+    @DontLabel
+    public Rule unicodeRange(final int low, final int high)
+    {
+        Preconditions.checkArgument(Character.isValidCodePoint(low),
+            "invalid code point " + low);
+        Preconditions.checkArgument(Character.isValidCodePoint(high),
+            "invalid code point " + high);
+        Preconditions.checkArgument(low <= high,
+            "invalid range: " + low + " > " + high);
+        return low == high ? UnicodeCharMatcher.forCodePoint(low)
+            : UnicodeRangeMatcher.forRange(low, high);
+    }
+
+    /**
+     * Match a Unicode character range
+     *
+     * <p>Note that this method will delegate to "regular" character matchers if
+     * part of, or all of, the specified range is into the basic multilingual
+     * plane.</p>
+     *
+     * @param low the lower code point (inclusive)
+     * @param high the upper code point (inclusive)
+     * @return a rule
+     *
+     * @deprecated use {@link #unicodeRange(int, int)} instead; will be removed
+     * in 1.1.
+     */
+    @Deprecated
     @Cached
     @DontLabel
     public Rule UnicodeRange(final int low, final int high)
@@ -159,20 +274,56 @@ public abstract class BaseParser<V> extends BaseActions<V> {
     }
 
     /**
+     * Match an inclusive range of {@code char}s
+     *
+     * @param cLow the start char of the range (inclusively)
+     * @param cHigh the end char of the range (inclusively)
+     * @return a rule
+     */
+    @Cached
+    @DontLabel
+    public Rule charRange(final char cLow, final char cHigh)
+    {
+        return cLow == cHigh ? ch(cLow) : new CharRangeMatcher(cLow, cHigh);
+    }
+
+    /**
      * Creates a rule matching a range of characters from cLow to cHigh (both inclusively).
      * <p>Note: This methods carries a {@link Cached} annotation, which means that multiple invocations with the same
      * arguments will yield the same rule instance.</p>
      *
-     * @param cLow  the start char of the range (inclusively)
+     * @param cLow the start char of the range (inclusively)
      * @param cHigh the end char of the range (inclusively)
      * @return a new rule
+     *
+     * @deprecated use {@link #charRange(char, char)} instead; will be removed
+     * in 1.1.
      */
+    @Deprecated
     @Cached
     @DontLabel
-    public Rule CharRange(char cLow, char cHigh) {
+    public Rule CharRange(char cLow, char cHigh)
+    {
         return cLow == cHigh ? Ch(cLow) : new CharRangeMatcher(cLow, cHigh);
     }
 
+    /**
+     * Match any of the characters in the given string
+     *
+     * <p>This method delegates to {@link #anyOf(Characters)}.</p>
+     *
+     * @param characters the characters
+     * @return a rule
+     *
+     * @see #anyOf(Characters)
+     */
+    @DontLabel
+    public Rule anyOf(@Nonnull final String characters)
+    {
+        Preconditions.checkNotNull(characters, "characters");
+        // TODO: see in this Characters class whether it is possible to wrap
+        return anyOf(characters.toCharArray());
+    }
     /**
      * Creates a new rule that matches any of the characters in the given string.
      * <p>Note: This methods provides caching, which means that multiple invocations with the same
@@ -180,11 +331,34 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      *
      * @param characters the characters
      * @return a new rule
+     *
+     * @deprecated use {@link #anyOf(String)} instead; will be removed in 1.1.
+     */
+    @Deprecated
+    @DontLabel
+    public Rule AnyOf(String characters)
+    {
+        checkArgNotNull(characters, "characters");
+        return anyOf(characters.toCharArray());
+    }
+
+    /**
+     * Match any character in the given {@code char} array
+     *
+     * <p>This method delegates to {@link #anyOf(Characters)}.</p>
+     *
+     * @param characters the characters
+     * @return a rule
+     *
+     * @see #anyOf(Characters)
      */
     @DontLabel
-    public Rule AnyOf(String characters) {
-        checkArgNotNull(characters, "characters");
-        return AnyOf(characters.toCharArray());
+    public Rule anyOf(@Nonnull final char[] characters)
+    {
+        Preconditions.checkNotNull(characters, "characters");
+        Preconditions.checkArgument(characters.length > 0);
+        return characters.length == 1 ? ch(characters[0])
+            : anyOf(Characters.of(characters));
     }
 
     /**
@@ -194,12 +368,38 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      *
      * @param characters the characters
      * @return a new rule
+     *
+     * @deprecated use {@link #anyOf(char[])} instead; will be removed in 1.1.
      */
+    @Deprecated
     @DontLabel
-    public Rule AnyOf(char[] characters) {
-        checkArgNotNull(characters, "characters");
-        checkArgument(characters.length > 0);
-        return characters.length == 1 ? Ch(characters[0]) : AnyOf(Characters.of(characters));
+    public Rule AnyOf(char[] characters)
+    {
+        Preconditions.checkNotNull(characters, "characters");
+        Preconditions.checkArgument(characters.length > 0);
+        return characters.length == 1 ? Ch(characters[0])
+            : AnyOf(Characters.of(characters));
+    }
+
+    /**
+     * Match any given character among a set of characters
+     *
+     * <p>Both {@link #anyOf(char[])} and {@link #anyOf(String)} ultimately
+     * delegate to this method, which caches its resuls.</p>
+     *
+     * @param characters the characters
+     * @return a new rule
+     */
+    @Cached
+    @DontLabel
+    public Rule anyOf(@Nonnull final Characters characters)
+    {
+        Preconditions.checkNotNull(characters, "characters");
+        if (!characters.isSubtractive() && characters.getChars().length == 1)
+            return ch(characters.getChars()[0]);
+        if (characters.equals(Characters.NONE))
+            return NOTHING;
+        return new AnyOfMatcher(characters);
     }
 
     /**
@@ -209,16 +409,35 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      *
      * @param characters the characters
      * @return a new rule
+     *
+     * @deprecated use {@link #anyOf(Characters)} instead; will be removed in
+     * 1.1.
      */
+    @Deprecated
     @Cached
     @DontLabel
-    public Rule AnyOf(Characters characters) {
+    public Rule AnyOf(Characters characters)
+    {
         checkArgNotNull(characters, "characters");
         if (!characters.isSubtractive() && characters.getChars().length == 1) {
             return Ch(characters.getChars()[0]);
         }
-        if (characters.equals(Characters.NONE)) return NOTHING;
+        if (characters.equals(Characters.NONE))
+            return NOTHING;
         return new AnyOfMatcher(characters);
+    }
+
+    /**
+     * Match any characters <em>except</em> the ones contained in the strings
+     *
+     * @param characters the characters
+     * @return a rule
+     */
+    @DontLabel
+    public Rule noneOf(@Nonnull final String characters)
+    {
+        Preconditions.checkNotNull(characters, "characters");
+        return noneOf(characters.toCharArray());
     }
 
     /**
@@ -228,11 +447,45 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      *
      * @param characters the characters
      * @return a new rule
+     *
+     * @deprecated use {@link #noneOf(String)} instead; will be removed in 1.1.
      */
+    @Deprecated
     @DontLabel
-    public Rule NoneOf(String characters) {
+    public Rule NoneOf(String characters)
+    {
         checkArgNotNull(characters, "characters");
         return NoneOf(characters.toCharArray());
+    }
+
+    /**
+     * Match all characters <em>except</em> the ones in the {@code char} array
+     * given as an argument
+     *
+     * @param characters the characters
+     * @return a new rule
+     */
+    @DontLabel
+    public Rule noneOf(@Nonnull char[] characters)
+    {
+        Preconditions.checkNotNull(characters, "characters");
+        Preconditions.checkArgument(characters.length > 0);
+
+        // make sure to always exclude EOI as well
+        boolean containsEOI = false;
+        for (final char c: characters)
+            if (c == Chars.EOI) {
+                containsEOI = true;
+                break;
+            }
+        if (!containsEOI) {
+            final char[] withEOI = new char[characters.length + 1];
+            System.arraycopy(characters, 0, withEOI, 0, characters.length);
+            withEOI[characters.length] = Chars.EOI;
+            characters = withEOI;
+        }
+
+        return anyOf(Characters.allBut(characters));
     }
 
     /**
@@ -242,15 +495,23 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      *
      * @param characters the characters
      * @return a new rule
+     *
+     * @deprecated use {@link #noneOf(char[])} instead; will be removed in 1.1.
      */
+    @Deprecated
     @DontLabel
-    public Rule NoneOf(char[] characters) {
+    public Rule NoneOf(char[] characters)
+    {
         checkArgNotNull(characters, "characters");
         checkArgument(characters.length > 0);
 
         // make sure to always exclude EOI as well
         boolean containsEOI = false;
-        for (char c : characters) if (c == Chars.EOI) { containsEOI = true; break; }
+        for (char c : characters)
+            if (c == Chars.EOI) {
+                containsEOI = true;
+                break;
+            }
         if (!containsEOI) {
             char[] withEOI = new char[characters.length + 1];
             System.arraycopy(characters, 0, withEOI, 0, characters.length);
@@ -262,6 +523,19 @@ public abstract class BaseParser<V> extends BaseActions<V> {
     }
 
     /**
+     * Match a string literal
+     *
+     * @param string the string to match
+     * @return a rule
+     */
+    @DontLabel
+    public Rule string(@Nonnull final String string)
+    {
+        Preconditions.checkNotNull(string, "string");
+        return string(string.toCharArray());
+    }
+
+    /**
      * Explicitly creates a rule matching the given string. Normally you can just specify the string literal
      * directly in you rule description. However, if you want to not go through {@link #fromStringLiteral(String)},
      * e.g. because you redefined it, you can also use this wrapper.
@@ -270,11 +544,34 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      *
      * @param string the String to match
      * @return a new rule
+     *
+     * @deprecated use {@link #string(String)} instead; will be removed in 1.1.
      */
+    @Deprecated
     @DontLabel
-    public Rule String(String string) {
+    public Rule String(String string)
+    {
         checkArgNotNull(string, "string");
         return String(string.toCharArray());
+    }
+
+    /**
+     * Match a given set of characters as a string literal
+     *
+     * @param characters the characters of the string to match
+     * @return a rule
+     */
+    @Cached
+    @SuppressSubnodes
+    @DontLabel
+    public Rule string(@Nonnull final char... characters)
+    {
+        if (characters.length == 1)
+            return ch(characters[0]); // optimize one-char strings
+        final Rule[] matchers = new Rule[characters.length];
+        for (int i = 0; i < characters.length; i++)
+            matchers[i] = ch(characters[i]);
+        return new StringMatcher(matchers, characters);
     }
 
     /**
@@ -286,17 +583,35 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      *
      * @param characters the characters of the string to match
      * @return a new rule
+     *
+     * @deprecated use {@link #string(char...)} instead; will be removed in 1.1.
      */
+    @Deprecated
     @Cached
     @SuppressSubnodes
     @DontLabel
-    public Rule String(char... characters) {
-        if (characters.length == 1) return Ch(characters[0]); // optimize one-char strings
+    public Rule String(char... characters)
+    {
+        if (characters.length == 1)
+            return Ch(characters[0]); // optimize one-char strings
         Rule[] matchers = new Rule[characters.length];
         for (int i = 0; i < characters.length; i++) {
             matchers[i] = Ch(characters[i]);
         }
         return new StringMatcher(matchers, characters);
+    }
+
+    /**
+     * Match a string literal in a case insensitive manner
+     *
+     * @param string the string to match
+     * @return a rule
+     */
+    @DontLabel
+    public Rule ignoreCase(@Nonnull final String string)
+    {
+        Preconditions.checkNotNull(string, "string");
+        return ignoreCase(string.toCharArray());
     }
 
     /**
@@ -306,11 +621,36 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      *
      * @param string the string to match
      * @return a new rule
+     *
+     * @deprecated use {@link #ignoreCase(String)} instead; will be removed in
+     * 1.1.
      */
+    @Deprecated
     @DontLabel
-    public Rule IgnoreCase(String string) {
+    public Rule IgnoreCase(String string)
+    {
         checkArgNotNull(string, "string");
         return IgnoreCase(string.toCharArray());
+    }
+
+    /**
+     * Match a sequence of characters as a string literal (case insensitive)
+     *
+     * @param characters the characters of the string to match
+     * @return a rule
+     */
+    @Cached
+    @SuppressSubnodes
+    @DontLabel
+    public Rule ignoreCase(@Nonnull final char... characters)
+    {
+        if (characters.length == 1)
+            return ignoreCase(characters[0]); // optimize one-char strings
+        final Rule[] matchers = new Rule[characters.length];
+        for (int i = 0; i < characters.length; i++)
+            matchers[i] = ignoreCase(characters[i]);
+        return new SequenceMatcher(matchers)
+            .label('"' + String.valueOf(characters) + '"');
     }
 
     /**
@@ -320,17 +660,44 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      *
      * @param characters the characters of the string to match
      * @return a new rule
+     *
+     * @deprecated use {@link #ignoreCase(char...)} instead; will be removed in
+     * 1.1.
      */
+    @Deprecated
     @Cached
     @SuppressSubnodes
     @DontLabel
-    public Rule IgnoreCase(char... characters) {
-        if (characters.length == 1) return IgnoreCase(characters[0]); // optimize one-char strings
+    public Rule IgnoreCase(char... characters)
+    {
+        if (characters.length == 1)
+            return IgnoreCase(characters[0]); // optimize one-char strings
         Rule[] matchers = new Rule[characters.length];
         for (int i = 0; i < characters.length; i++) {
             matchers[i] = IgnoreCase(characters[i]);
         }
-        return ((SequenceMatcher) Sequence(matchers)).label('"' + String.valueOf(characters) + '"');
+        return ((SequenceMatcher) Sequence(matchers))
+            .label('"' + String.valueOf(characters) + '"');
+    }
+
+    /**
+     * Match the first rule of a series of rules
+     *
+     * <p>When one rule matches, all others are ignored.</p>
+     *
+     * @param rule the first subrule
+     * @param rule2 the second subrule
+     * @param moreRules the other subrules
+     * @return a rule
+     */
+    @DontLabel
+    public Rule firstOf(@Nonnull final Object rule, @Nonnull final Object rule2,
+        @Nonnull final Object... moreRules)
+    {
+        Preconditions.checkNotNull(moreRules, "moreRules");
+        final Object[] rules = ImmutableList.builder().add(rule).add(rule2)
+            .add(moreRules).build().toArray();
+        return firstOf(rules);
     }
 
     /**
@@ -339,15 +706,50 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      * <p>Note: This methods provides caching, which means that multiple invocations with the same
      * arguments will yield the same rule instance.</p>
      *
-     * @param rule      the first subrule
-     * @param rule2     the second subrule
+     * @param rule the first subrule
+     * @param rule2 the second subrule
      * @param moreRules the other subrules
      * @return a new rule
+     *
+     * @deprecated use {@link #firstOf(Object, Object, Object...)} instead; will
+     * be removed in 1.1.
      */
+    @Deprecated
     @DontLabel
-    public Rule FirstOf(Object rule, Object rule2, Object... moreRules) {
+    public Rule FirstOf(Object rule, Object rule2, Object... moreRules)
+    {
         checkArgNotNull(moreRules, "moreRules");
         return FirstOf(Utils.arrayOf(rule, rule2, moreRules));
+    }
+
+    /**
+     * Match the first rule of a series of rules
+     *
+     * <p>When one rule matches, all others are ignored.</p>
+     *
+     * @param rules the subrules
+     * @return a rule
+     */
+    @Cached
+    @DontLabel
+    public Rule firstOf(@Nonnull final Object[] rules)
+    {
+        Preconditions.checkNotNull(rules, "rules");
+        if (rules.length == 1)
+            return toRule(rules[0]);
+
+        final Rule[] convertedRules = toRules(rules);
+        final int len = convertedRules.length;
+        final char[][] chars = new char[rules.length][];
+
+        Object rule;
+        for (int i = 0; i < len; i++) {
+            rule = convertedRules[i];
+            if (!(rule instanceof StringMatcher))
+                return new FirstOfMatcher(convertedRules);
+            chars[i] = ((StringMatcher) rule).characters;
+        }
+        return new FirstOfStringsMatcher(convertedRules, chars);
     }
 
     /**
@@ -358,17 +760,23 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      *
      * @param rules the subrules
      * @return a new rule
+     *
+     * @deprecated use {@link #firstOf(Object[])} instead; will be removed in
+     * 1.1.
      */
+    @Deprecated
     @Cached
     @DontLabel
-    public Rule FirstOf(Object[] rules) {
+    public Rule FirstOf(Object[] rules)
+    {
         checkArgNotNull(rules, "rules");
         if (rules.length == 1) {
             return toRule(rules[0]);
         }
         Rule[] convertedRules = toRules(rules);
         char[][] chars = new char[rules.length][];
-        for (int i = 0, convertedRulesLength = convertedRules.length; i < convertedRulesLength; i++) {
+        for (int i = 0, convertedRulesLength = convertedRules.length;
+             i < convertedRulesLength; i++) {
             Object rule = convertedRules[i];
             if (rule instanceof StringMatcher) {
                 chars[i] = ((StringMatcher) rule).characters;
@@ -380,6 +788,19 @@ public abstract class BaseParser<V> extends BaseActions<V> {
     }
 
     /**
+     * Try and match a rule repeatedly, at least once
+     *
+     * @param rule the subrule
+     * @return a rule
+     */
+    @Cached
+    @DontLabel
+    public Rule oneOrMore(@Nonnull final Object rule)
+    {
+        return new OneOrMoreMatcher(toRule(rule));
+    }
+
+    /**
      * Creates a new rule that tries repeated matches of its subrule and succeeds if the subrule matches at least once.
      * If the subrule does not match at least once this rule fails.
      * <p>Note: This methods carries a {@link Cached} annotation, which means that multiple invocations with the same
@@ -387,11 +808,32 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      *
      * @param rule the subrule
      * @return a new rule
+     *
+     * @deprecated use {@link #oneOrMore(Object)} instead; will be removed in
+     * 1.1.
      */
+    @Deprecated
     @Cached
     @DontLabel
-    public Rule OneOrMore(Object rule) {
+    public Rule OneOrMore(Object rule)
+    {
         return new OneOrMoreMatcher(toRule(rule));
+    }
+
+    /**
+     * Try and repeatedly match a set of rules, at least once
+     *
+     * @param rule the first subrule
+     * @param rule2 the second subrule
+     * @param moreRules the other subrules
+     * @return a rule
+     */
+    @DontLabel
+    public Rule oneOrMore(@Nonnull final Object rule,
+        @Nonnull final Object rule2, @Nonnull final Object... moreRules)
+    {
+        Preconditions.checkNotNull(moreRules, "moreRules");
+        return oneOrMore(Sequence(rule, rule2, moreRules));
     }
 
     /**
@@ -400,15 +842,36 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      * <p>Note: This methods provides caching, which means that multiple invocations with the same
      * arguments will yield the same rule instance.</p>
      *
-     * @param rule      the first subrule
-     * @param rule2     the second subrule
+     * @param rule the first subrule
+     * @param rule2 the second subrule
      * @param moreRules the other subrules
      * @return a new rule
+     *
+     * @deprecated use {@link #oneOrMore(Object, Object, Object...)} instead;
+     * will be removed in 1.1.
      */
+    @Deprecated
     @DontLabel
-    public Rule OneOrMore(Object rule, Object rule2, Object... moreRules) {
+    public Rule OneOrMore(Object rule, Object rule2, Object... moreRules)
+    {
         checkArgNotNull(moreRules, "moreRules");
         return OneOrMore(Sequence(rule, rule2, moreRules));
+    }
+
+    /**
+     * Try and match a rule zero or one time
+     *
+     * <p>This rule therefore always succeeds.</p>
+     *
+     * @param rule the subrule
+     * @return a rule
+     */
+    @Cached
+    @DontLabel
+    public Rule optional(@Nonnull final Object rule)
+    {
+        Preconditions.checkNotNull(rule);
+        return new OptionalMatcher(toRule(rule));
     }
 
     /**
@@ -419,11 +882,34 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      *
      * @param rule the subrule
      * @return a new rule
+     *
+     * @deprecated use {@link #oneOrMore(Object)} instead; will be removed in
+     * 1.1.
      */
+    @Deprecated
     @Cached
     @DontLabel
-    public Rule Optional(Object rule) {
+    public Rule Optional(Object rule)
+    {
         return new OptionalMatcher(toRule(rule));
+    }
+
+    /**
+     * Try and match a given set of rules once
+     *
+     * <p>This rule will therefore never fail.</p>
+     *
+     * @param rule the first subrule
+     * @param rule2 the second subrule
+     * @param moreRules the other subrules
+     * @return a rule
+     */
+    @DontLabel
+    public Rule optional(@Nonnull final Object rule,
+        @Nonnull final Object rule2, @Nonnull final Object... moreRules)
+    {
+        Preconditions.checkNotNull(moreRules, "moreRules");
+        return optional(Sequence(rule, rule2, moreRules));
     }
 
     /**
@@ -432,15 +918,38 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      * <p>Note: This methods provides caching, which means that multiple invocations with the same
      * arguments will yield the same rule instance.</p>
      *
-     * @param rule      the first subrule
-     * @param rule2     the second subrule
+     * @param rule the first subrule
+     * @param rule2 the second subrule
      * @param moreRules the other subrules
      * @return a new rule
+     *
+     * @deprecated use {@link #optional(Object, Object, Object...)} instead;
+     * will be removed in 1.1.
      */
+    @Deprecated
     @DontLabel
-    public Rule Optional(Object rule, Object rule2, Object... moreRules) {
+    public Rule Optional(Object rule, Object rule2, Object... moreRules)
+    {
         checkArgNotNull(moreRules, "moreRules");
         return Optional(Sequence(rule, rule2, moreRules));
+    }
+
+    /**
+     * Match a given set of rules, exactly once
+     *
+     * @param rule the first subrule
+     * @param rule2 the second subrule
+     * @param moreRules the other subrules
+     * @return a rule
+     */
+    @DontLabel
+    public Rule sequence(@Nonnull final Object rule,
+        @Nonnull final Object rule2, @Nonnull final Object... moreRules)
+    {
+        Preconditions.checkNotNull(moreRules, "moreRules");
+        final Object[] rules = ImmutableList.builder().add(rule).add(rule2)
+            .add(moreRules).build().toArray();
+        return sequence(rules);
     }
 
     /**
@@ -448,15 +957,35 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      * <p>Note: This methods provides caching, which means that multiple invocations with the same
      * arguments will yield the same rule instance.</p>
      *
-     * @param rule      the first subrule
-     * @param rule2     the second subrule
+     * @param rule the first subrule
+     * @param rule2 the second subrule
      * @param moreRules the other subrules
      * @return a new rule
+     *
+     * @deprecated use {@link #sequence(Object, Object, Object...)} instead;
+     * will be removed in 1.1.
      */
+    @Deprecated
     @DontLabel
-    public Rule Sequence(Object rule, Object rule2, Object... moreRules) {
+    public Rule Sequence(Object rule, Object rule2, Object... moreRules)
+    {
         checkArgNotNull(moreRules, "moreRules");
         return Sequence(Utils.arrayOf(rule, rule2, moreRules));
+    }
+
+    /**
+     * Match a given set of rules, exactly once
+     *
+     * @param rules the rules
+     * @return a rule
+     */
+    @Cached
+    @DontLabel
+    public Rule sequence(@Nonnull final Object[] rules)
+    {
+        Preconditions.checkNotNull(rules, "rules");
+        return rules.length == 1 ? toRule(rules[0])
+            : new SequenceMatcher(toRules(rules));
     }
 
     /**
@@ -466,12 +995,42 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      *
      * @param rules the sub rules
      * @return a new rule
+     *
+     * @deprecated use {@link #sequence(Object[])} instead; will be removed in
+     * 1.1.
      */
+    @Deprecated
     @Cached
     @DontLabel
-    public Rule Sequence(Object[] rules) {
+    public Rule Sequence(Object[] rules)
+    {
         checkArgNotNull(rules, "rules");
-        return rules.length == 1 ? toRule(rules[0]) : new SequenceMatcher(toRules(rules));
+        return rules.length == 1 ? toRule(rules[0])
+            : new SequenceMatcher(toRules(rules));
+    }
+
+    /**
+     * Test a rule, but do not consume any input (predicate)
+     *
+     * <p>Its success conditions are the same as the rule. Note that this rule
+     * will never consume any input, nor will it create a parse tree node.</p>
+     *
+     * <p>Note that the embedded rule can be arbitrarily complex, and this
+     * includes potential {@link Action}s which can act on the stack for
+     * instance; these <em>will</em> be executed here, unless you have chosen to
+     * annotate your rule, or parser class, with {@link
+     * SkipActionsInPredicates}.</p>
+     *
+     * @param rule the subrule
+     * @return a new rule
+     */
+    @Cached
+    @SuppressNode
+    @DontLabel
+    public Rule test(@Nonnull final Object rule)
+    {
+        final Rule subMatcher = toRule(rule);
+        return new TestMatcher(subMatcher);
     }
 
     /**
@@ -487,13 +1046,35 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      *
      * @param rule the subrule
      * @return a new rule
+     *
+     * @deprecated use {@link #test(Object)} instead; will be removed in 1.1.
      */
+    @Deprecated
     @Cached
     @SuppressNode
     @DontLabel
-    public Rule Test(Object rule) {
+    public Rule Test(Object rule)
+    {
         Rule subMatcher = toRule(rule);
         return new TestMatcher(subMatcher);
+    }
+
+    /**
+     * Test a set of rules, but do not consume any input
+     *
+     * @param rule the first subrule
+     * @param rule2 the second subrule
+     * @param moreRules the other subrules
+     * @return a new rule
+     *
+     * @see #test(Object)
+     */
+    @DontLabel
+    public Rule test(@Nonnull final Object rule, @Nonnull final Object rule2,
+        @Nonnull final Object... moreRules)
+    {
+        Preconditions.checkNotNull(moreRules, "moreRules");
+        return test(sequence(rule, rule2, moreRules));
     }
 
     /**
@@ -508,15 +1089,37 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      * <p>Note: This methods provides caching, which means that multiple invocations with the same
      * arguments will yield the same rule instance.</p>
      *
-     * @param rule      the first subrule
-     * @param rule2     the second subrule
+     * @param rule the first subrule
+     * @param rule2 the second subrule
      * @param moreRules the other subrules
      * @return a new rule
+     *
+     * @deprecated use {@link #test(Object, Object, Object...)} instead; will be
+     * removed in 1.1.
      */
+    @Deprecated
     @DontLabel
-    public Rule Test(Object rule, Object rule2, Object... moreRules) {
+    public Rule Test(Object rule, Object rule2, Object... moreRules)
+    {
         checkArgNotNull(moreRules, "moreRules");
         return Test(Sequence(rule, rule2, moreRules));
+    }
+
+    /**
+     * Test, without consuming an input, that a rule does not match
+     *
+     * <p>The same warnings given in the description of {@link #test(Object)}
+     * apply here.</p>
+     *
+     * @param rule the subrule
+     * @return a rule
+     */
+    @Cached
+    @SuppressNode
+    @DontLabel
+    public Rule testNot(@Nonnull final Object rule)
+    {
+        return new TestNotMatcher(toRule(rule));
     }
 
     /**
@@ -532,13 +1135,36 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      *
      * @param rule the subrule
      * @return a new rule
+     *
+     * @deprecated use {@link #testNot(Object)} instead; will be removed in 1.1.
      */
+    @Deprecated
     @Cached
     @SuppressNode
     @DontLabel
-    public Rule TestNot(Object rule) {
+    public Rule TestNot(Object rule)
+    {
         Rule subMatcher = toRule(rule);
         return new TestNotMatcher(subMatcher);
+    }
+
+    /**
+     * Test that a set of rules do not apply at this position
+     *
+     * @param rule the first subrule
+     * @param rule2 the second subrule
+     * @param moreRules the other subrules
+     * @return a new rule
+     *
+     * @see #test(Object)
+     * @see #testNot(Object)
+     */
+    @DontLabel
+    public Rule testNot(@Nonnull final Object rule, @Nonnull final Object rule2,
+        @Nonnull final Object... moreRules)
+    {
+        Preconditions.checkNotNull(moreRules, "moreRules");
+        return testNot(sequence(rule, rule2, moreRules));
     }
 
     /**
@@ -553,15 +1179,35 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      * <p>Note: This methods provides caching, which means that multiple invocations with the same
      * arguments will yield the same rule instance.</p>
      *
-     * @param rule      the first subrule
-     * @param rule2     the second subrule
+     * @param rule the first subrule
+     * @param rule2 the second subrule
      * @param moreRules the other subrules
      * @return a new rule
+     *
+     * @deprecated use {@link #testNot(Object, Object, Object...)} instead; will
+     * be removed in 1.1.
      */
+    @Deprecated
     @DontLabel
-    public Rule TestNot(Object rule, Object rule2, Object... moreRules) {
+    public Rule TestNot(Object rule, Object rule2, Object... moreRules)
+    {
         checkArgNotNull(moreRules, "moreRules");
         return TestNot(Sequence(rule, rule2, moreRules));
+    }
+
+    /**
+     * Try and match a rule zero or more times
+     *
+     * <p>The rule will therefore always succeed.</p>
+     *
+     * @param rule the subrule
+     * @return a rule
+     */
+    @Cached
+    @DontLabel
+    public Rule zeroOrMore(@Nonnull final Object rule)
+    {
+        return new ZeroOrMoreMatcher(toRule(rule));
     }
 
     /**
@@ -572,11 +1218,33 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      *
      * @param rule the subrule
      * @return a new rule
+     *
+     * @deprecated use {@link #zeroOrMore(Object)} instead; will be removed in
+     * 1.1.
      */
+
+    @Deprecated
     @Cached
     @DontLabel
-    public Rule ZeroOrMore(Object rule) {
+    public Rule ZeroOrMore(Object rule)
+    {
         return new ZeroOrMoreMatcher(toRule(rule));
+    }
+
+    /**
+     * Try and match a set of rules zero or more times
+     *
+     * @param rule the first subrule
+     * @param rule2 the second subrule
+     * @param moreRules the other subrules
+     * @return a rule
+     */
+    @DontLabel
+    public Rule zeroOrMore(@Nonnull final Object rule,
+        @Nonnull final Object rule2, @Nonnull final Object... moreRules)
+    {
+        Preconditions.checkNotNull(moreRules, "moreRules");
+        return zeroOrMore(sequence(rule, rule2, moreRules));
     }
 
     /**
@@ -585,15 +1253,34 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      * <p>Note: This methods provides caching, which means that multiple invocations with the same
      * arguments will yield the same rule instance.</p>
      *
-     * @param rule      the first subrule
-     * @param rule2     the second subrule
+     * @param rule the first subrule
+     * @param rule2 the second subrule
      * @param moreRules the other subrules
      * @return a new rule
+     *
+     * @deprecated use {@link #zeroOrMore(Object, Object, Object...)} instead;
+     * will be removed in 1.1.
      */
+    @Deprecated
     @DontLabel
-    public Rule ZeroOrMore(Object rule, Object rule2, Object... moreRules) {
+    public Rule ZeroOrMore(Object rule, Object rule2, Object... moreRules)
+    {
         checkArgNotNull(moreRules, "moreRules");
         return ZeroOrMore(Sequence(rule, rule2, moreRules));
+    }
+
+    /**
+     * Match a rule a fixed number of times
+     *
+     * @param repetitions The number of repetitions to match. Must be &gt;= 0.
+     * @param rule the sub rule to match repeatedly.
+     * @return a rule
+     */
+    @Cached
+    @DontLabel
+    public Rule nTimes(final int repetitions, @Nonnull final Object rule)
+    {
+        return nTimes(repetitions, rule, null);
     }
 
     /**
@@ -602,13 +1289,59 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      * arguments will yield the same rule instance.</p>
      *
      * @param repetitions The number of repetitions to match. Must be &gt;= 0.
-     * @param rule      the sub rule to match repeatedly.
+     * @param rule the sub rule to match repeatedly.
+     * @return a new rule
+     *
+     * @deprecated use {@link #nTimes(int, Object)} instead; will be removed in
+     * 1.1.
+     */
+    @Deprecated
+    @Cached
+    @DontLabel
+    public Rule NTimes(int repetitions, Object rule)
+    {
+        return NTimes(repetitions, rule, null);
+    }
+
+    /**
+     * Match a rule n times with a separator
+     *
+     * <p>That is, match:</p>
+     *
+     * <pre>
+     *     rule, separator, rule, separator, ...
+     * </pre>
+     *
+     * <p>If {@code separator} is null, this is equivalent to calling {@link
+     * #nTimes(int, Object)}.</p>
+     *
+     * @param repetitions The number of repetitions to match. Must be &gt;= 0.
+     * @param rule the sub rule to match repeatedly.
+     * @param separator the separator to match, see description
      * @return a new rule
      */
     @Cached
     @DontLabel
-    public Rule NTimes(int repetitions, Object rule) {
-        return NTimes(repetitions, rule, null);
+    public Rule nTimes(final int repetitions, @Nonnull final Object rule,
+        @Nullable final Object separator)
+    {
+        Preconditions.checkNotNull(rule, "rule");
+        Preconditions.checkArgument(repetitions >= 0,
+            "repetitions must be non-negative");
+        if (repetitions == 0)
+            return EMPTY;
+        if (repetitions == 1)
+            return toRule(rule);
+        final ImmutableList.Builder<Object> builder
+            = ImmutableList.builder().add(rule);
+        final int size = separator == null
+            ? repetitions - 1 : (repetitions - 1) * 2;
+        final FluentIterable<Object> iterable
+            = FluentIterable.from(Arrays.asList(separator, rule))
+            .filter(Predicates.notNull()).cycle().limit(size);
+        for (final Object o: iterable)
+            builder.add(toRule(o));
+        return sequence(builder.build().toArray());
     }
 
     /**
@@ -618,24 +1351,33 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      * arguments will yield the same rule instance.</p>
      *
      * @param repetitions The number of repetitions to match. Must be &gt;= 0.
-     * @param rule      the sub rule to match repeatedly.
+     * @param rule the sub rule to match repeatedly.
      * @param separator the separator to match, if null the individual sub rules will be matched without separator.
      * @return a new rule
+     *
+     * @deprecated use {@link #nTimes(int, Object, Object)} instead; will be
+     * removed in 1.1.
      */
+    @Deprecated
     @Cached
     @DontLabel
-    public Rule NTimes(int repetitions, Object rule, Object separator) {
+    public Rule NTimes(int repetitions, Object rule, Object separator)
+    {
         checkArgNotNull(rule, "rule");
         checkArgument(repetitions >= 0, "repetitions must be non-negative");
         switch (repetitions) {
-            case 0: return EMPTY;
-            case 1: return toRule(rule);
+            case 0:
+                return EMPTY;
+            case 1:
+                return toRule(rule);
             default:
-                Object[] rules = new Object[separator == null ? repetitions : repetitions * 2 - 1];
+                Object[] rules = new Object[separator == null ? repetitions
+                    : repetitions * 2 - 1];
                 if (separator != null) {
                     for (int i = 0; i < rules.length; i++)
                         rules[i] = i % 2 == 0 ? rule : separator;
-                } else Arrays.fill(rules, rule);
+                } else
+                    Arrays.fill(rules, rule);
                 return Sequence(rules);
         }
     }
@@ -649,8 +1391,10 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      * @param expression the expression to turn into an Action
      * @return the Action wrapping the given expression
      */
-    public static Action ACTION(boolean expression) {
-        throw new UnsupportedOperationException("ACTION(...) calls can only be used in Rule creating parser methods");
+    public static Action ACTION(final boolean expression)
+    {
+        throw new UnsupportedOperationException(
+            "ACTION(...) calls can only be used in Rule creating parser methods");
     }
 
     ///************************* HELPER METHODS ***************************///
@@ -664,8 +1408,9 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      * @return the rule
      */
     @DontExtend
-    protected Rule fromCharLiteral(char c) {
-        return Ch(c);
+    protected Rule fromCharLiteral(char c)
+    {
+        return ch(c);
     }
 
     /**
@@ -677,8 +1422,9 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      * @return the rule
      */
     @DontExtend
-    protected Rule fromStringLiteral(String string) {
-        checkArgNotNull(string, "string");
+    protected Rule fromStringLiteral(@Nonnull final String string)
+    {
+        Preconditions.checkNotNull(string, "string");
         return fromCharArray(string.toCharArray());
     }
 
@@ -691,9 +1437,10 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      * @return the rule
      */
     @DontExtend
-    protected Rule fromCharArray(char[] array) {
-        checkArgNotNull(array, "array");
-        return String(array);
+    protected Rule fromCharArray(@Nonnull final char[] array)
+    {
+        Preconditions.checkNotNull(array, "array");
+        return string(array);
     }
 
     /**
@@ -703,36 +1450,43 @@ public abstract class BaseParser<V> extends BaseActions<V> {
      * @return the rules corresponding to the given objects
      */
     @DontExtend
-    public Rule[] toRules(Object... objects) {
-        checkArgNotNull(objects, "objects");
-        Rule[] rules = new Rule[objects.length];
-        for (int i = 0; i < objects.length; i++) {
+    public Rule[] toRules(@Nonnull final Object... objects)
+    {
+        Preconditions.checkNotNull(objects, "objects");
+        final Rule[] rules = new Rule[objects.length];
+        for (int i = 0; i < objects.length; i++)
             rules[i] = toRule(objects[i]);
-        }
         return rules;
     }
 
     /**
      * Converts the given object to a rule.
-     * This method can be overriden to enable the use of custom objects directly in rule specifications.
+     * This method can be overriden to enable the use of custom objects directly
+     * in rule specifications.
      *
      * @param obj the object to convert
      * @return the rule corresponding to the given object
      */
     @DontExtend
-    public Rule toRule(Object obj) {
-        if (obj instanceof Rule) return (Rule) obj;
-        if (obj instanceof Character) return fromCharLiteral((Character) obj);
-        if (obj instanceof String) return fromStringLiteral((String) obj);
-        if (obj instanceof char[]) return fromCharArray((char[]) obj);
+    public Rule toRule(@Nonnull final Object obj)
+    {
+        if (obj instanceof Rule)
+            return (Rule) obj;
+        if (obj instanceof Character)
+            return fromCharLiteral((Character) obj);
+        if (obj instanceof String)
+            return fromStringLiteral((String) obj);
+        if (obj instanceof char[])
+            return fromCharArray((char[]) obj);
         if (obj instanceof Action) {
-            Action action = (Action) obj;
+            final Action action = (Action) obj;
             return new ActionMatcher(action);
         }
-        Checks.ensure(!(obj instanceof Boolean), "Rule specification contains an unwrapped Boolean value, " +
-                "if you were trying to specify a parser action wrap the expression with ACTION(...)");
+        Checks.ensure(!(obj instanceof Boolean), "Rule specification contains "
+            + "an unwrapped Boolean value, if you were trying to specify a "
+            + "parser action wrap the expression with ACTION(...)");
 
-        throw new GrammarException("'" + obj + "' cannot be automatically converted to a parser Rule");
+        throw new GrammarException("'" + obj + "' cannot be automatically "
+            + "converted to a parser Rule");
     }
-
 }
