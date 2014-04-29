@@ -679,6 +679,198 @@ public abstract class BaseParser<V>
     }
 
     /*
+     * UTILITY RULES
+     *
+     *  All rules defined by RFC 5234, appendix B, section 1
+     */
+
+    /**
+     * ALPHA as defined by RFC 5234, appendix B, section 1: ASCII letters
+     *
+     * <p>Therefore a-z, A-Z.</p>
+     *
+     * @return a rule
+     */
+    public Rule alpha()
+    {
+        return firstOf(charRange('a', 'z'), charRange('A', 'Z'));
+    }
+
+    /**
+     * BIT as defined by RFC 5234, appendix B, section 1: {@code 0} or {@code 1}
+     *
+     * @return a rule
+     */
+    public Rule bit()
+    {
+        return anyOf(Characters.of('0', '1'));
+    }
+
+    /**
+     * CHAR as defined by RFC 5234, appendix B, section 1: ASCII, except NUL
+     *
+     * <p>That is, 0x01 to 0x7f.</p>
+     *
+     * @return a rule
+     */
+    public Rule asciiChars()
+    {
+        return charRange((char) 0x01, (char) 0x7f);
+    }
+
+    /**
+     * CR as defined by RFC 5234, appendix B, section 1 ({@code \r})
+     *
+     * @return a rule
+     */
+    public Rule cr()
+    {
+        return ch('\r');
+    }
+
+    /**
+     * CRLF as defined by RFC 5234, appendix B, section 1 ({@code \r\n}
+     *
+     * @return a rule
+     */
+    public Rule crlf()
+    {
+        return string("\r\n");
+    }
+
+    /**
+     * CTL as defined by RFC 5234, appendix B, section 1: control characters
+     *
+     * <p>0x00-0x1f, plus 0x7f.</p>
+     *
+     * @return a rule
+     */
+    public Rule ctl()
+    {
+        return firstOf(charRange((char) 0x00, (char) 0x1f), ch((char) 0x7f));
+    }
+
+    /**
+     * DIGIT as defined by RFC 5234, appendix B, section 1 (0 to 9)
+     *
+     * @return a rule
+     */
+    public Rule digit()
+    {
+        return charRange('0', '9');
+    }
+
+    /**
+     * DQUOTE as defined by RFC 5234, appendix B, section 1 {@code "}
+     *
+     * @return a rule
+     */
+    public Rule dquote()
+    {
+        return ch('"');
+    }
+
+    /**
+     * Hexadecimal digits, case insensitive
+     *
+     * <p><b>Note:</b> RFC 5234 only defines {@code HEXDIG} for uppercase
+     * letters ({@code A} to {@code F}). Use {@link #hexDigitUpperCase()} for
+     * this definition. Use {@link #hexDigitLowerCase()} for lowercase letters
+     * only.</p>
+     *
+     * @return a rule
+     */
+    public Rule hexDigit()
+    {
+        return anyOf("ABCDEFabcdef012456789");
+    }
+
+    /**
+     * Hexadecimal digits, uppercase
+     *
+     * @return a rule
+     * @see #hexDigit()
+     */
+    public Rule hexDigitUpperCase()
+    {
+        return anyOf("ABCDEF012456789");
+    }
+
+    /**
+     * Hexadecimal digits, lowercase
+     *
+     * @return a rule
+     * @see #hexDigit()
+     */
+    public Rule hexDigitLowerCase()
+    {
+        return anyOf("abcdef0123456789");
+    }
+
+    /**
+     * HTAB as defined by RFC 5234, appendix B, section 1 ({@code \t})
+     *
+     * @return a rule
+     */
+    public Rule hTab()
+    {
+        return ch('\t');
+    }
+
+    /**
+     * LF as defined by RFC 5234, appendix B, section 1 ({@code \n})
+     *
+     * @return a rule
+     */
+    public Rule lf()
+    {
+        return ch('\n');
+    }
+
+    /**
+     * OCTET as defined by RFC 5234, appendix B, section 1 (0x00 to 0xff)
+     *
+     * @return a rule
+     */
+    public Rule octet()
+    {
+        return charRange((char) 0x00, (char) 0xff);
+    }
+
+    /**
+     * SP as defined by RFC 5234, appendix B, section 1 (one space, 0x20)
+     *
+     * @return a rule
+     */
+    public Rule sp()
+    {
+        return ch(' ');
+    }
+
+    /**
+     * VCHAR as defined by RFC 5234, appendix B, section 1: ASCII "visible"
+     *
+     * <p>Letters, {@code @}, etc etc. Note that this <strong>excludes</strong>
+     * whitespace characters!</p>
+     *
+     * @return a rule
+     */
+    public Rule vchar()
+    {
+        return charRange((char) 0x21, (char) 0x7e);
+    }
+
+    /**
+     * WSP as defined by RFC 5234, appendix B, section 1: space or tab
+     *
+     * @return a rule
+     */
+    public Rule wsp()
+    {
+        return anyOf(" \t");
+    }
+
+    /*
      * DEPRECATED RULES
      *
      * TODO: remove in 1.1
