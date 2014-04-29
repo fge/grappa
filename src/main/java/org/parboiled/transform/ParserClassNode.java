@@ -22,6 +22,7 @@
 
 package org.parboiled.transform;
 
+import com.google.common.base.Preconditions;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
@@ -31,8 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 public class ParserClassNode extends ClassNode {
 
@@ -45,7 +44,7 @@ public class ParserClassNode extends ClassNode {
 
     public ParserClassNode(Class<?> parentClass) {
         super(Opcodes.ASM4);
-        this.parentClass = checkArgNotNull(parentClass, "parentClass");
+        this.parentClass = Preconditions.checkNotNull(parentClass);
         parentType = Type.getType(parentClass);
     }
 

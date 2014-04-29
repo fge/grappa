@@ -16,12 +16,11 @@
 
 package org.parboiled.support;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.common.Factory;
 import org.parboiled.common.Reference;
 
 import java.util.LinkedList;
-
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * <p>This class provides a "local variable"-like construct for action expressions in parser rule methods.
@@ -38,7 +37,7 @@ import static org.parboiled.common.Preconditions.checkArgNotNull;
  */
 public class Var<T> extends Reference<T> {
 
-    private Factory<T> initialValueFactory;
+    private Factory<T> factory;
     private LinkedList<T> stack;
     private int level;
     private String name;
@@ -57,7 +56,7 @@ public class Var<T> extends Reference<T> {
      */
     public Var(final T value) {
         super(value);
-        initialValueFactory = new Factory<T>() {
+        factory = new Factory<T>() {
             @Override
             public T create() {
                 return value;
@@ -69,10 +68,10 @@ public class Var<T> extends Reference<T> {
      * Initializes a new Var. The given factory will be used to create the initial value for each "execution frame"
      * of the enclosing rule.
      *
-     * @param initialValueFactory the factory used to create the initial value for a rule execution frame
+     * @param factory the factory used to create the initial value for a rule execution frame
      */
-    public Var(Factory<T> initialValueFactory) {
-        this.initialValueFactory = checkArgNotNull(initialValueFactory, "initialValueFactory");
+    public Var(Factory<T> factory) {
+        this.factory = Preconditions.checkNotNull(factory);
     }
 
     /**
@@ -114,7 +113,7 @@ public class Var<T> extends Reference<T> {
             if (stack == null) stack = new LinkedList<T>();
             stack.add(get());
         }
-        return set(initialValueFactory.create());
+        return set(factory.create());
     }
 
     /**

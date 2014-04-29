@@ -16,11 +16,10 @@
 
 package org.parboiled.transform.process;
 
+import com.google.common.base.Preconditions;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
-
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * Removes all unused labels.
@@ -35,8 +34,8 @@ public class UnusedLabelsRemover implements RuleMethodProcessor {
     @Override
     @SuppressWarnings("SuspiciousMethodCalls")
     public void process(ParserClassNode classNode, RuleMethod method) throws Exception {
-        checkArgNotNull(classNode, "classNode");
-        checkArgNotNull(method, "method");
+        Preconditions.checkNotNull(classNode, "classNode");
+        Preconditions.checkNotNull(method, "method");
         AbstractInsnNode current = method.instructions.getFirst();
         while (current != null) {
             AbstractInsnNode next = current.getNext();

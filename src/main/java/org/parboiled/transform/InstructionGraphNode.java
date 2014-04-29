@@ -22,6 +22,7 @@
 
 package org.parboiled.transform;
 
+import com.google.common.base.Preconditions;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.analysis.BasicValue;
 import org.objectweb.asm.util.Printer;
@@ -34,7 +35,6 @@ import static org.objectweb.asm.Opcodes.IALOAD;
 import static org.objectweb.asm.Opcodes.IASTORE;
 import static org.objectweb.asm.Opcodes.ILOAD;
 import static org.objectweb.asm.Opcodes.ISTORE;
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * A node in the instruction dependency graph.
@@ -124,7 +124,7 @@ public class InstructionGraphNode extends BasicValue {
     }
 
     public void addPredecessors(Collection<BasicValue> preds) {
-        checkArgNotNull(preds, "preds");
+        Preconditions.checkNotNull(preds, "preds");
         for (BasicValue pred : preds) {
             if (pred instanceof InstructionGraphNode) {
                 addPredecessor(((InstructionGraphNode) pred));

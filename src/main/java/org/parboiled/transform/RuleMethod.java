@@ -22,6 +22,7 @@
 
 package org.parboiled.transform;
 
+import com.google.common.base.Preconditions;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
@@ -41,7 +42,6 @@ import java.util.List;
 import static org.objectweb.asm.Opcodes.ARETURN;
 import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
 import static org.objectweb.asm.Opcodes.INVOKESTATIC;
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 import static org.parboiled.common.Preconditions.checkState;
 import static org.parboiled.transform.AsmUtils.getClassForType;
 import static org.parboiled.transform.AsmUtils.isActionRoot;
@@ -324,7 +324,7 @@ public class RuleMethod extends MethodNode {
     }
 
     public void moveFlagsTo(RuleMethod overridingMethod) {
-        checkArgNotNull(overridingMethod, "overridingMethod");
+        Preconditions.checkNotNull(overridingMethod, "overridingMethod");
         overridingMethod.hasCachedAnnotation |= hasCachedAnnotation;
         overridingMethod.hasDontLabelAnnotation |= hasDontLabelAnnotation;
         overridingMethod.hasSuppressNodeAnnotation |= hasSuppressNodeAnnotation;

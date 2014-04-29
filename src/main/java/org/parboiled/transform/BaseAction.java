@@ -22,9 +22,8 @@
 
 package org.parboiled.transform;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.SkippableAction;
-
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * Base class of generated classes wrapping action expressions.
@@ -38,7 +37,7 @@ public abstract class BaseAction<V>
     private boolean skipInPredicates;
 
     protected BaseAction(String name) {
-        super(checkArgNotNull(name, "name"));
+        super(Preconditions.checkNotNull(name, "name"));
     }
 
     @Override

@@ -22,6 +22,7 @@
 
 package org.parboiled.transform.process;
 
+import com.google.common.base.Preconditions;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.FieldInsnNode;
@@ -41,7 +42,6 @@ import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
 import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
 import static org.objectweb.asm.Opcodes.NEW;
 import static org.objectweb.asm.Opcodes.PUTFIELD;
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 import static org.parboiled.transform.AsmUtils.getLoadingOpcode;
 
 /**
@@ -56,14 +56,14 @@ public class RuleMethodRewriter implements RuleMethodProcessor {
 
     @Override
     public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
-        checkArgNotNull(classNode, "classNode");
-        checkArgNotNull(method, "method");
+        Preconditions.checkNotNull(classNode, "classNode");
+        Preconditions.checkNotNull(method, "method");
         return method.containsExplicitActions() || method.containsVars();
     }
 
     @Override
     public void process(ParserClassNode classNode, RuleMethod method) throws Exception {
-        this.method = checkArgNotNull(method, "method");
+        this.method = Preconditions.checkNotNull(method, "method");
         actionNr = 0;
         varInitNr = 0;
 

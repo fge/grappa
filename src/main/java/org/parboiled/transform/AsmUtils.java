@@ -22,6 +22,7 @@
 
 package org.parboiled.transform;
 
+import com.google.common.base.Preconditions;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -42,12 +43,10 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.parboiled.common.Preconditions.checkArgNotNull;
-
 public class AsmUtils {
 
     public static ClassReader createClassReader(Class<?> clazz) throws IOException {
-        checkArgNotNull(clazz, "clazz");
+        Preconditions.checkNotNull(clazz, "clazz");
         String classFilename = clazz.getName().replace('.', '/') + ".class";
         InputStream inputStream = clazz.getClassLoader().getResourceAsStream(classFilename);
         if (inputStream == null) {
@@ -57,14 +56,14 @@ public class AsmUtils {
     }
 
     public static String getExtendedParserClassName(String parserClassName) {
-        checkArgNotNull(parserClassName, "parserClassName");
+        Preconditions.checkNotNull(parserClassName, "parserClassName");
         return parserClassName + "$$parboiled";
     }
 
     private static final Map<String, Class<?>> classForDesc = new HashMap<String, Class<?>>();
 
     public static synchronized Class<?> getClassForInternalName(String classDesc) {
-        checkArgNotNull(classDesc, "classDesc");
+        Preconditions.checkNotNull(classDesc, "classDesc");
         Class<?> clazz = classForDesc.get(classDesc);
         if (clazz == null) {
             if (classDesc.charAt(0) == '[') {
@@ -89,7 +88,7 @@ public class AsmUtils {
     }
 
     public static Class<?> getClassForType(Type type) {
-        checkArgNotNull(type, "type");
+        Preconditions.checkNotNull(type, "type");
         switch (type.getSort()) {
             case Type.BOOLEAN:
                 return boolean.class;
@@ -117,8 +116,8 @@ public class AsmUtils {
     }
 
     public static Field getClassField(String classInternalName, String fieldName) {
-        checkArgNotNull(classInternalName, "classInternalName");
-        checkArgNotNull(fieldName, "fieldName");
+        Preconditions.checkNotNull(classInternalName, "classInternalName");
+        Preconditions.checkNotNull(fieldName, "fieldName");
         Class<?> clazz = getClassForInternalName(classInternalName);
         Class<?> current = clazz;
         while (true) {
@@ -135,9 +134,9 @@ public class AsmUtils {
     }
 
     public static Method getClassMethod(String classInternalName, String methodName, String methodDesc) {
-        checkArgNotNull(classInternalName, "classInternalName");
-        checkArgNotNull(methodName, "methodName");
-        checkArgNotNull(methodDesc, "methodDesc");
+        Preconditions.checkNotNull(classInternalName, "classInternalName");
+        Preconditions.checkNotNull(methodName, "methodName");
+        Preconditions.checkNotNull(methodDesc, "methodDesc");
         Class<?> clazz = getClassForInternalName(classInternalName);
         Type[] types = Type.getArgumentTypes(methodDesc);
         Class<?>[] argTypes = new Class<?>[types.length];
@@ -172,8 +171,8 @@ public class AsmUtils {
 
     public static Constructor<?> getClassConstructor(String classInternalName,
     String constructorDesc) {
-        checkArgNotNull(classInternalName, "classInternalName");
-        checkArgNotNull(constructorDesc, "constructorDesc");
+        Preconditions.checkNotNull(classInternalName, "classInternalName");
+        Preconditions.checkNotNull(constructorDesc, "constructorDesc");
         Class<?> clazz = getClassForInternalName(classInternalName);
         Type[] types = Type.getArgumentTypes(constructorDesc);
         Class<?>[] argTypes = new Class<?>[types.length];
@@ -197,8 +196,8 @@ public class AsmUtils {
      * @return the class instance or null
      */
     public static Class<?> findLoadedClass(String className, ClassLoader classLoader) {
-        checkArgNotNull(className, "className");
-        checkArgNotNull(classLoader, "classLoader");
+        Preconditions.checkNotNull(className, "className");
+        Preconditions.checkNotNull(classLoader, "classLoader");
         try {
             Class<?> classLoaderBaseClass = Class.forName("java.lang.ClassLoader");
             Method findLoadedClassMethod = classLoaderBaseClass.getDeclaredMethod("findLoadedClass", String.class);
@@ -229,9 +228,9 @@ public class AsmUtils {
      * @return the class instance
      */
     public static Class<?> loadClass(String className, byte[] code, ClassLoader classLoader) {
-        checkArgNotNull(className, "className");
-        checkArgNotNull(code, "code");
-        checkArgNotNull(classLoader, "classLoader");
+        Preconditions.checkNotNull(className, "className");
+        Preconditions.checkNotNull(code, "code");
+        Preconditions.checkNotNull(classLoader, "classLoader");
         try {
             Class<?> classLoaderBaseClass = Class.forName("java.lang.ClassLoader");
             Method defineClassMethod = classLoaderBaseClass.getDeclaredMethod("defineClass",
@@ -250,7 +249,7 @@ public class AsmUtils {
     }
 
     public static InsnList createArgumentLoaders(String methodDescriptor) {
-        checkArgNotNull(methodDescriptor, "methodDescriptor");
+        Preconditions.checkNotNull(methodDescriptor, "methodDescriptor");
         InsnList instructions = new InsnList();
         Type[] types = Type.getArgumentTypes(methodDescriptor);
         for (int i = 0; i < types.length; i++) {
@@ -260,7 +259,7 @@ public class AsmUtils {
     }
 
     public static int getLoadingOpcode(Type argType) {
-        checkArgNotNull(argType, "argType");
+        Preconditions.checkNotNull(argType, "argType");
         switch (argType.getSort()) {
             case Type.BOOLEAN:
             case Type.BYTE:
@@ -290,56 +289,56 @@ public class AsmUtils {
      * @return true if the class with the given descriptor is assignable to the given type
      */
     public static boolean isAssignableTo(String classInternalName, Class<?> type) {
-        checkArgNotNull(classInternalName, "classInternalName");
-        checkArgNotNull(type, "type");
+        Preconditions.checkNotNull(classInternalName, "classInternalName");
+        Preconditions.checkNotNull(type, "type");
         return type.isAssignableFrom(getClassForInternalName(classInternalName));
     }
 
     public static boolean isBooleanValueOfZ(AbstractInsnNode insn) {
-        checkArgNotNull(insn, "insn");
+        Preconditions.checkNotNull(insn, "insn");
         if (insn.getOpcode() != Opcodes.INVOKESTATIC) return false;
         MethodInsnNode mi = (MethodInsnNode) insn;
         return isBooleanValueOfZ(mi.owner, mi.name, mi.desc);
     }
 
     public static boolean isBooleanValueOfZ(String methodOwner, String methodName, String methodDesc) {
-        checkArgNotNull(methodOwner, "methodOwner");
-        checkArgNotNull(methodName, "methodName");
-        checkArgNotNull(methodDesc, "methodDesc");
+        Preconditions.checkNotNull(methodOwner, "methodOwner");
+        Preconditions.checkNotNull(methodName, "methodName");
+        Preconditions.checkNotNull(methodDesc, "methodDesc");
         return "java/lang/Boolean".equals(methodOwner) && "valueOf".equals(methodName) &&
                 "(Z)Ljava/lang/Boolean;".equals(methodDesc);
     }
 
     public static boolean isActionRoot(AbstractInsnNode insn) {
-        checkArgNotNull(insn, "insn");
+        Preconditions.checkNotNull(insn, "insn");
         if (insn.getOpcode() != Opcodes.INVOKESTATIC) return false;
         MethodInsnNode mi = (MethodInsnNode) insn;
         return isActionRoot(mi.owner, mi.name);
     }
 
     public static boolean isActionRoot(String methodOwner, String methodName) {
-        checkArgNotNull(methodOwner, "methodOwner");
-        checkArgNotNull(methodName, "methodName");
+        Preconditions.checkNotNull(methodOwner, "methodOwner");
+        Preconditions.checkNotNull(methodName, "methodName");
         return "ACTION".equals(methodName) && isAssignableTo(methodOwner, BaseParser.class);
     }
 
     public static boolean isVarRoot(AbstractInsnNode insn) {
-        checkArgNotNull(insn, "insn");
+        Preconditions.checkNotNull(insn, "insn");
         if (insn.getOpcode() != Opcodes.INVOKESPECIAL) return false;
         MethodInsnNode mi = (MethodInsnNode) insn;
         return isVarRoot(mi.owner, mi.name, mi.desc);
     }
 
     public static boolean isVarRoot(String methodOwner, String methodName, String methodDesc) {
-        checkArgNotNull(methodOwner, "methodOwner");
-        checkArgNotNull(methodName, "methodName");
-        checkArgNotNull(methodDesc, "methodDesc");
+        Preconditions.checkNotNull(methodOwner, "methodOwner");
+        Preconditions.checkNotNull(methodName, "methodName");
+        Preconditions.checkNotNull(methodDesc, "methodDesc");
         return "<init>".equals(methodName) && "(Ljava/lang/Object;)V".equals(methodDesc) &&
                 isAssignableTo(methodOwner, Var.class);
     }
 
     public static boolean isCallOnContextAware(AbstractInsnNode insn) {
-        checkArgNotNull(insn, "insn");
+        Preconditions.checkNotNull(insn, "insn");
         if (insn.getOpcode() != Opcodes.INVOKEVIRTUAL && insn.getOpcode() != Opcodes.INVOKEINTERFACE) return false;
         MethodInsnNode mi = (MethodInsnNode) insn;
         return isAssignableTo(mi.owner, ContextAware.class);

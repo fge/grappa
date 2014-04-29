@@ -17,6 +17,7 @@
 package org.parboiled.transform;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Preconditions;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
@@ -36,7 +37,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.regex.Pattern;
 
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 import static org.testng.Assert.assertEquals;
 
 public class AsmTestUtils {
@@ -58,7 +58,7 @@ public class AsmTestUtils {
     }
 
     public static String getMethodInstructionList(MethodNode methodNode) {
-        checkArgNotNull(methodNode, "methodNode");
+        Preconditions.checkNotNull(methodNode, "methodNode");
         Printer printer = new NonMaxTextifier();
         TraceMethodVisitor traceMethodVisitor = new TraceMethodVisitor(printer);
         methodNode.accept(traceMethodVisitor);
@@ -78,7 +78,7 @@ public class AsmTestUtils {
     }
 
     public static void assertTraceDumpEquality(MethodNode method, String traceDump) throws Exception {
-        checkArgNotNull(method, "method");
+        Preconditions.checkNotNull(method, "method");
         Printer printer = new NonMaxTextifier();
         TraceMethodVisitor traceMethodVisitor = new TraceMethodVisitor(printer);
         // MethodAdapter checkMethodAdapter = new MethodAdapter(traceMethodVisitor);
@@ -93,7 +93,7 @@ public class AsmTestUtils {
     }
 
     public static void verifyIntegrity(String classInternalName, byte[] classCode) {
-        checkArgNotNull(classCode, "classCode");
+        Preconditions.checkNotNull(classCode, "classCode");
         ClassNode generatedClassNode = new ClassNode();
         ClassReader classReader = new ClassReader(classCode);
         classReader.accept(generatedClassNode, 0);

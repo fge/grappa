@@ -16,14 +16,13 @@
 
 package org.parboiled.trees;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import org.parboiled.common.Formatter;
 
 import java.util.Collection;
 import java.util.HashSet;
-
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * General utility methods for operating on directed graphs (consisting of {@link GraphNode}s).
@@ -86,7 +85,7 @@ public final class GraphUtils {
     public static <T extends GraphNode<T>, C extends Collection<T>> C collectAllNodes(T node, C collection) {
         // we don't recurse if the collecion already contains the node
         // this costs a bit of performance but prevents infinite recursion in the case of graph cycles
-        checkArgNotNull(collection, "collection");
+        Preconditions.checkNotNull(collection, "collection");
         if (node != null && !collection.contains(node)) {
             collection.add(node);
             for (T child : node.getChildren()) {
@@ -104,7 +103,7 @@ public final class GraphUtils {
      * @return a new string
      */
     public static <T extends GraphNode<T>> String printTree(T node, Formatter<T> formatter) {
-        checkArgNotNull(formatter, "formatter");
+        Preconditions.checkNotNull(formatter, "formatter");
         return printTree(node, formatter, Predicates.<T>alwaysTrue(), Predicates.<T>alwaysTrue());
     }
 
@@ -122,9 +121,9 @@ public final class GraphUtils {
     public static <T extends GraphNode<T>> String printTree(T node, Formatter<T> formatter,
                                                             Predicate<T> nodeFilter,
                                                             Predicate<T> subTreeFilter) {
-        checkArgNotNull(formatter, "formatter");
-        checkArgNotNull(nodeFilter, "nodeFilter");
-        checkArgNotNull(subTreeFilter, "subTreeFilter");
+        Preconditions.checkNotNull(formatter, "formatter");
+        Preconditions.checkNotNull(nodeFilter, "nodeFilter");
+        Preconditions.checkNotNull(subTreeFilter, "subTreeFilter");
         return node == null ? "" :
                 printTree(node, formatter, "", new StringBuilder(), nodeFilter, subTreeFilter).toString();
     }

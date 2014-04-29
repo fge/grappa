@@ -16,6 +16,7 @@
 
 package org.parboiled.transform.process;
 
+import com.google.common.base.Preconditions;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.LabelNode;
@@ -24,7 +25,6 @@ import org.parboiled.transform.RuleMethod;
 
 import static org.objectweb.asm.Opcodes.ARETURN;
 import static org.objectweb.asm.Opcodes.GOTO;
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 import static org.parboiled.common.Preconditions.checkState;
 
 /**
@@ -40,8 +40,8 @@ public class ReturnInstructionUnifier implements RuleMethodProcessor {
 
     @Override
     public void process(ParserClassNode classNode, RuleMethod method) throws Exception {
-        checkArgNotNull(classNode, "classNode");
-        checkArgNotNull(method, "method");
+        Preconditions.checkNotNull(classNode, "classNode");
+        Preconditions.checkNotNull(method, "method");
         if (method.getNumberOfReturns() == 1) return;
         checkState(method.getNumberOfReturns() > 1);
 

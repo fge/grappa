@@ -16,6 +16,7 @@
 
 package org.parboiled.transform.process;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import org.parboiled.transform.InstructionGraphNode;
 import org.parboiled.transform.RuleMethod;
@@ -25,7 +26,6 @@ import org.testng.annotations.Test;
 import java.util.List;
 import java.util.zip.CRC32;
 
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 import static org.parboiled.transform.AsmTestUtils.getMethodInstructionList;
 import static org.testng.Assert.assertEquals;
 
@@ -62,7 +62,7 @@ public class InstructionGroupCreatorTest extends TransformationTest {
     }
 
     private String generateDotSource(RuleMethod method) {
-        checkArgNotNull(method, "method");
+        Preconditions.checkNotNull(method, "method");
 
         // generate graph attributes
         StringBuilder sb = new StringBuilder()

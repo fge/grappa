@@ -22,6 +22,7 @@
 
 package org.parboiled.transform;
 
+import com.google.common.base.Preconditions;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
@@ -39,7 +40,6 @@ import static org.objectweb.asm.Opcodes.ACC_NATIVE;
 import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.V1_6;
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 import static org.parboiled.transform.AsmUtils.createClassReader;
 import static org.parboiled.transform.AsmUtils.getExtendedParserClassName;
 
@@ -60,7 +60,7 @@ public class ClassNodeInitializer extends ClassVisitor {
     }
 
     public void process(ParserClassNode classNode) throws IOException {
-        this.classNode = checkArgNotNull(classNode, "classNode");
+        this.classNode = Preconditions.checkNotNull(classNode, "classNode");
 
         // walk up the parser parent class chain
         ownerClass = classNode.getParentClass();

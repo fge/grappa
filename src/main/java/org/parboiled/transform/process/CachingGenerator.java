@@ -22,6 +22,7 @@
 
 package org.parboiled.transform.process;
 
+import com.google.common.base.Preconditions;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.FieldInsnNode;
@@ -64,7 +65,6 @@ import static org.objectweb.asm.Opcodes.NEW;
 import static org.objectweb.asm.Opcodes.POP;
 import static org.objectweb.asm.Opcodes.PUTFIELD;
 import static org.objectweb.asm.Opcodes.SWAP;
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 import static org.parboiled.common.Preconditions.checkState;
 
 /**
@@ -81,15 +81,15 @@ public class CachingGenerator implements RuleMethodProcessor
 
     @Override
     public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
-        checkArgNotNull(classNode, "classNode");
-        checkArgNotNull(method, "method");
+        Preconditions.checkNotNull(classNode, "classNode");
+        Preconditions.checkNotNull(method, "method");
         return method.hasCachedAnnotation();
     }
 
     @Override
     public void process(ParserClassNode classNode, RuleMethod method) throws Exception {
-        checkArgNotNull(classNode, "classNode");
-        checkArgNotNull(method, "method");
+        Preconditions.checkNotNull(classNode, "classNode");
+        Preconditions.checkNotNull(method, "method");
         checkState(!method.isSuperMethod()); // super methods have flag moved to the overriding method
 
         this.classNode = classNode;

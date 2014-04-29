@@ -16,6 +16,7 @@
 
 package org.parboiled.transform;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import org.objectweb.asm.ClassWriter;
 import org.parboiled.transform.process.BodyWithSuperCallReplacer;
@@ -35,7 +36,6 @@ import org.parboiled.transform.process.VarFramingGenerator;
 
 import java.util.List;
 
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 import static org.parboiled.transform.AsmUtils.findLoadedClass;
 import static org.parboiled.transform.AsmUtils.getExtendedParserClassName;
 import static org.parboiled.transform.AsmUtils.loadClass;
@@ -46,7 +46,7 @@ public class ParserTransformer {
 
     @SuppressWarnings("unchecked")
     public static synchronized <T> Class<? extends T> transformParser(Class<T> parserClass) throws Exception {
-        checkArgNotNull(parserClass, "parserClass");
+        Preconditions.checkNotNull(parserClass, "parserClass");
         // first check whether we did not already create and load the extension of the given parser class
         Class<?> extendedClass = findLoadedClass(
                 getExtendedParserClassName(parserClass.getName()), parserClass.getClassLoader()

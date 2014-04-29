@@ -16,6 +16,7 @@
 
 package org.parboiled.transform.process;
 
+import com.google.common.base.Preconditions;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
@@ -33,7 +34,6 @@ import java.util.Set;
 import static org.objectweb.asm.Opcodes.AASTORE;
 import static org.objectweb.asm.Opcodes.ANEWARRAY;
 import static org.objectweb.asm.Opcodes.INVOKESTATIC;
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 import static org.parboiled.common.Preconditions.checkState;
 import static org.parboiled.transform.AsmUtils.isBooleanValueOfZ;
 
@@ -47,14 +47,14 @@ public class ImplicitActionsConverter implements RuleMethodProcessor {
 
     @Override
     public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
-        checkArgNotNull(classNode, "classNode");
-        checkArgNotNull(method, "method");
+        Preconditions.checkNotNull(classNode, "classNode");
+        Preconditions.checkNotNull(method, "method");
         return method.containsImplicitActions();
     }
 
     @Override
     public void process(ParserClassNode classNode, RuleMethod method) throws Exception {
-        this.method = checkArgNotNull(method, "method");
+        this.method = Preconditions.checkNotNull(method, "method");
         covered.clear();
         walkNode(method.getReturnInstructionNode());
         method.setContainsImplicitActions(false);

@@ -16,6 +16,7 @@
 
 package org.parboiled.transform.process;
 
+import com.google.common.base.Preconditions;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
@@ -43,7 +44,6 @@ import static org.objectweb.asm.Opcodes.INVOKEINTERFACE;
 import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
 import static org.objectweb.asm.Opcodes.RETURN;
 import static org.objectweb.asm.Opcodes.V1_5;
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 import static org.parboiled.transform.AsmUtils.findLoadedClass;
 import static org.parboiled.transform.AsmUtils.loadClass;
 
@@ -61,8 +61,8 @@ public abstract class GroupClassGenerator implements RuleMethodProcessor {
 
     @Override
     public void process(ParserClassNode classNode, RuleMethod method) {
-        this.classNode = checkArgNotNull(classNode, "classNode");
-        this.method = checkArgNotNull(method, "method");
+        this.classNode = Preconditions.checkNotNull(classNode, "classNode");
+        this.method = Preconditions.checkNotNull(method, "method");
 
         for (InstructionGroup group : method.getGroups()) {
             if (appliesTo(group.getRoot())) {

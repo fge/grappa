@@ -22,6 +22,7 @@
 
 package org.parboiled.transform.process;
 
+import com.google.common.base.Preconditions;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.MethodInsnNode;
@@ -44,7 +45,6 @@ import static org.objectweb.asm.Opcodes.INVOKEINTERFACE;
 import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
 import static org.objectweb.asm.Opcodes.INVOKESTATIC;
 import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 import static org.parboiled.common.Preconditions.checkState;
 import static org.parboiled.transform.AsmUtils.getClassConstructor;
 import static org.parboiled.transform.AsmUtils.getClassField;
@@ -58,14 +58,14 @@ public class InstructionGroupCreator implements RuleMethodProcessor  {
 
     @Override
     public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
-        checkArgNotNull(classNode, "classNode");
-        checkArgNotNull(method, "method");
+        Preconditions.checkNotNull(classNode, "classNode");
+        Preconditions.checkNotNull(method, "method");
         return method.containsExplicitActions() || method.containsVars();
     }
 
     @Override
     public void process(ParserClassNode classNode, RuleMethod method) {
-        this.method = checkArgNotNull(method, "method");
+        this.method = Preconditions.checkNotNull(method, "method");
 
         // create groups
         createGroups();

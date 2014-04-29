@@ -16,9 +16,8 @@
 
 package org.parboiled.transform;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.common.Factory;
-
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * Base class of generated classes wrapping action var initializers.
@@ -30,6 +29,6 @@ public abstract class BaseVarInit<V>
 
     protected BaseVarInit(String name)
     {
-        super(checkArgNotNull(name, "name"));
+        super(Preconditions.checkNotNull(name, "name"));
     }
 }

@@ -16,6 +16,7 @@
 
 package org.parboiled.transform;
 
+import com.google.common.base.Preconditions;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
@@ -23,7 +24,6 @@ import org.parboiled.transform.process.GroupClassGenerator;
 
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.ARETURN;
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 import static org.parboiled.transform.Types.BASE_VAR_INIT;
 
 public class VarInitClassGenerator extends GroupClassGenerator
@@ -35,7 +35,7 @@ public class VarInitClassGenerator extends GroupClassGenerator
 
     @Override
     public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
-        checkArgNotNull(method, "method");
+        Preconditions.checkNotNull(method, "method");
         return method.containsVars();
     }
 

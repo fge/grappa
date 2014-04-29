@@ -16,13 +16,12 @@
 
 package org.parboiled.support;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.Node;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.errors.ParseError;
 
 import java.util.List;
-
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * A simple container encapsulating the result of a parsing run.
@@ -73,10 +72,10 @@ public class ParsingResult<V> {
                          InputBuffer inputBuffer) {
         this.matched = matched;
         this.parseTreeRoot = parseTreeRoot;
-        this.valueStack = checkArgNotNull(valueStack, "valueStack");
+        this.valueStack = Preconditions.checkNotNull(valueStack, "valueStack");
         this.resultValue = valueStack.isEmpty() ? null : valueStack.peek();
-        this.parseErrors = checkArgNotNull(parseErrors, "parseErrors");
-        this.inputBuffer = checkArgNotNull(inputBuffer, "inputBuffer");
+        this.parseErrors = Preconditions.checkNotNull(parseErrors, "parseErrors");
+        this.inputBuffer = Preconditions.checkNotNull(inputBuffer, "inputBuffer");
     }
 
     /**

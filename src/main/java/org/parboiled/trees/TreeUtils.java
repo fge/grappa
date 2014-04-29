@@ -16,7 +16,8 @@
 
 package org.parboiled.trees;
 
-import static org.parboiled.common.Preconditions.checkArgNotNull;
+import com.google.common.base.Preconditions;
+
 import static org.parboiled.common.Preconditions.checkElementIndex;
 
 /**
@@ -45,7 +46,7 @@ public final class TreeUtils {
      * @param child  the child node to add
      */
     public static <T extends MutableTreeNode<T>> void addChild(T parent, T child) {
-        checkArgNotNull(parent, "parent");
+        Preconditions.checkNotNull(parent, "parent");
         parent.addChild(parent.getChildren().size(), child);
     }
 
@@ -56,7 +57,7 @@ public final class TreeUtils {
      * @param child  the child node
      */
     public static <T extends MutableTreeNode<T>> void removeChild(T parent, T child) {
-        checkArgNotNull(parent, "parent");
+        Preconditions.checkNotNull(parent, "parent");
         int index = parent.getChildren().indexOf(child);
         checkElementIndex(index, parent.getChildren().size());
         parent.removeChild(index);
@@ -77,7 +78,7 @@ public final class TreeUtils {
      *         or the original root, if the right sub node is null
      */
     public static <N extends MutableBinaryTreeNode<N>> N toLeftAssociativity(N node) {
-        checkArgNotNull(node, "node");
+        Preconditions.checkNotNull(node, "node");
         N right = node.right();
         if (right == null) return node;
 
