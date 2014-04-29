@@ -16,6 +16,7 @@
 
 package org.parboiled.common;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import org.parboiled.errors.GrammarException;
 
@@ -33,8 +34,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * General utility methods.
@@ -125,7 +124,7 @@ public final class Utils {
      */
     @SuppressWarnings("unchecked")
     public static <T> T[] arrayOf(T firstElement, T... moreElements) {
-        checkArgNotNull(moreElements, "moreElements");
+        Preconditions.checkNotNull(moreElements, "moreElements");
         Class<?> elementType = moreElements.getClass().getComponentType();
         T[] array = (T[]) Array.newInstance(elementType, moreElements.length + 1);
         array[0] = firstElement;
@@ -143,7 +142,7 @@ public final class Utils {
      */
     @SuppressWarnings("unchecked")
     public static <T> T[] arrayOf(T firstElement, T secondElement, T... moreElements) {
-        checkArgNotNull(moreElements, "moreElements");
+        Preconditions.checkNotNull(moreElements, "moreElements");
         Class<?> elementType = moreElements.getClass().getComponentType();
         T[] array = (T[]) Array.newInstance(elementType, moreElements.length + 2);
         array[0] = firstElement;
@@ -161,7 +160,7 @@ public final class Utils {
      */
     @SuppressWarnings("unchecked")
     public static <T> T[] arrayOf(T[] firstElements, T lastElement) {
-        checkArgNotNull(firstElements, "firstElements");
+        Preconditions.checkNotNull(firstElements, "firstElements");
         Class<?> elementType = firstElements.getClass().getComponentType();
         T[] array = (T[]) Array.newInstance(elementType, firstElements.length + 1);
         System.arraycopy(firstElements, 0, array, 0, firstElements.length);
@@ -199,8 +198,8 @@ public final class Utils {
      * @return a list of the raw classes for the actual type arguments.
      */
     public static List<Class<?>> getTypeArguments(Class<?> base, Class<?> implementation) {
-        checkArgNotNull(base, "base");
-        checkArgNotNull(implementation, "implementation");
+        Preconditions.checkNotNull(base, "base");
+        Preconditions.checkNotNull(implementation, "implementation");
         Map<Type, Type> resolvedTypes = new HashMap<Type, Type>();
 
         // first we need to resolve all supertypes up to the required base class or interface

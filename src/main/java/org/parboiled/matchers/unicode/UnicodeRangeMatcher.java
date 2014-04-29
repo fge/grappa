@@ -1,6 +1,6 @@
 package org.parboiled.matchers.unicode;
 
-import org.parboiled.common.Preconditions;
+import com.google.common.base.Preconditions;
 import org.parboiled.matchers.CharRangeMatcher;
 import org.parboiled.matchers.CustomMatcher;
 import org.parboiled.matchervisitors.MatcherVisitor;
@@ -54,7 +54,7 @@ public abstract class UnicodeRangeMatcher
     @Override
     public <R> R accept(MatcherVisitor<R> visitor)
     {
-        Preconditions.checkArgNotNull(visitor, "visitor");
+        Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }
 }

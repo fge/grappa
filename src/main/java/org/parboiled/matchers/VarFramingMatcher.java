@@ -16,14 +16,13 @@
 
 package org.parboiled.matchers;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
 import org.parboiled.matchervisitors.MatcherVisitor;
 import org.parboiled.support.Var;
 
 import java.util.List;
-
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * Special wrapping matcher that manages the creation and destruction of execution frames for a number of action vars.
@@ -33,8 +32,8 @@ public class VarFramingMatcher implements Matcher {
     private final Var<?>[] variables;
 
     public VarFramingMatcher(Rule inner, Var<?>[] variables) {
-        this.inner = checkArgNotNull((Matcher)inner, "inner");
-        this.variables = checkArgNotNull(variables, "variables");
+        this.inner = Preconditions.checkNotNull((Matcher) inner, "inner");
+        this.variables = Preconditions.checkNotNull(variables, "variables");
     }
 
     @Override
@@ -121,7 +120,7 @@ public class VarFramingMatcher implements Matcher {
 
     @Override
     public <R> R accept(MatcherVisitor<R> visitor) {
-        checkArgNotNull(visitor, "visitor");
+        Preconditions.checkNotNull(visitor, "visitor");
         return inner.accept(visitor);
     }
 
@@ -134,7 +133,7 @@ public class VarFramingMatcher implements Matcher {
      * @param matcher the matcher to unwrap
      * @return the given instance if it is not a VarFramingMatcher, otherwise the innermost Matcher
      */
-    public static  Matcher unwrap(Matcher matcher) {
+    public static Matcher unwrap(Matcher matcher) {
         if (matcher instanceof VarFramingMatcher) {
             VarFramingMatcher varFramingMatcher = (VarFramingMatcher) matcher;
             return unwrap(varFramingMatcher.inner);

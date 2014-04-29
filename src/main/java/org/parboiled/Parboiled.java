@@ -16,11 +16,11 @@
 
 package org.parboiled;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.transform.ParserTransformer;
 
 import java.lang.reflect.Constructor;
 
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 import static org.parboiled.common.Utils.findConstructor;
 
 /**
@@ -49,7 +49,7 @@ public class Parboiled {
      */
     @SuppressWarnings("unchecked")
     public static <P extends BaseParser<V>, V> P createParser(Class<P> parserClass, Object... constructorArgs) {
-        checkArgNotNull(parserClass, "parserClass");
+        Preconditions.checkNotNull(parserClass, "parserClass");
         try {
             Class<?> extendedClass = ParserTransformer.transformParser(parserClass);
             Constructor<?> constructor = findConstructor(extendedClass,

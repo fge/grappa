@@ -16,11 +16,11 @@
 
 package org.parboiled.matchers;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.matchervisitors.MatcherVisitor;
 import org.parboiled.support.Characters;
 
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 import static org.parboiled.common.Preconditions.checkArgument;
 
 /**
@@ -30,7 +30,7 @@ public class AnyOfMatcher extends AbstractMatcher {
     public final Characters characters;
 
     public AnyOfMatcher(Characters characters) {
-        super(checkArgNotNull(characters, "characters").toString());
+        super(Preconditions.checkNotNull(characters, "characters").toString());
         checkArgument(!characters.equals(Characters.NONE));
         this.characters = characters;
     }
@@ -45,7 +45,7 @@ public class AnyOfMatcher extends AbstractMatcher {
 
     @Override
     public <R> R accept(MatcherVisitor<R> visitor) {
-        checkArgNotNull(visitor, "visitor");
+        Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }
 

@@ -16,13 +16,12 @@
 
 package org.parboiled.matchers;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
 import org.parboiled.matchervisitors.MatcherVisitor;
 
 import java.util.List;
-
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * A {@link Matcher} trying all of its submatchers in sequence and succeeding when the first submatcher succeeds.
@@ -30,7 +29,7 @@ import static org.parboiled.common.Preconditions.checkArgNotNull;
 public class FirstOfMatcher extends CustomDefaultLabelMatcher<FirstOfMatcher> {
 
     public FirstOfMatcher(Rule[] subRules) {
-        super(checkArgNotNull(subRules, "subRules"), "FirstOf");
+        super(Preconditions.checkNotNull(subRules, "subRules"), "FirstOf");
     }
 
     @Override
@@ -50,7 +49,7 @@ public class FirstOfMatcher extends CustomDefaultLabelMatcher<FirstOfMatcher> {
 
     @Override
     public <R> R accept(MatcherVisitor<R> visitor) {
-        checkArgNotNull(visitor, "visitor");
+        Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }
 }

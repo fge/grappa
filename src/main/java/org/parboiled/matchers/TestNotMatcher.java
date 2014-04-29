@@ -16,11 +16,10 @@
 
 package org.parboiled.matchers;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
 import org.parboiled.matchervisitors.MatcherVisitor;
-
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * A special {@link Matcher} not actually matching any input but rather trying its submatcher against the current input
@@ -30,7 +29,7 @@ public class TestNotMatcher extends CustomDefaultLabelMatcher<TestNotMatcher> {
     public final Matcher subMatcher;
 
     public TestNotMatcher(Rule subRule) {
-        super(checkArgNotNull(subRule, "subRule"), "TestNot");
+        super(Preconditions.checkNotNull(subRule, "subRule"), "TestNot");
         this.subMatcher = getChildren().get(0);
     }
 
@@ -51,7 +50,7 @@ public class TestNotMatcher extends CustomDefaultLabelMatcher<TestNotMatcher> {
 
     @Override
     public <R> R accept(MatcherVisitor<R> visitor) {
-        checkArgNotNull(visitor, "visitor");
+        Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }
 

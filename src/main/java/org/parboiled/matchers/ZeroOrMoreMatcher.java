@@ -16,6 +16,7 @@
 
 package org.parboiled.matchers;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
 import org.parboiled.errors.GrammarException;
@@ -36,7 +37,7 @@ public class ZeroOrMoreMatcher extends CustomDefaultLabelMatcher<ZeroOrMoreMatch
 
     @Override
     public <V> boolean match(MatcherContext<V> context) {
-        checkArgNotNull(context, "context");
+        Preconditions.checkNotNull(context, "context");
         int lastIndex = context.getCurrentIndex();
         while (subMatcher.getSubContext(context).runMatcher()) {
             int currentLocation = context.getCurrentIndex();
@@ -53,7 +54,7 @@ public class ZeroOrMoreMatcher extends CustomDefaultLabelMatcher<ZeroOrMoreMatch
 
     @Override
     public <R> R accept(MatcherVisitor<R> visitor) {
-        checkArgNotNull(visitor, "visitor");
+        Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }
 

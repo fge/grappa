@@ -16,11 +16,10 @@
 
 package org.parboiled.matchers;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
 import org.parboiled.matchervisitors.MatcherVisitor;
-
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * A {@link Matcher} that tries its submatcher once against the input and always succeeds.
@@ -29,7 +28,7 @@ public class OptionalMatcher extends CustomDefaultLabelMatcher<OptionalMatcher> 
     public final Matcher subMatcher;
 
     public OptionalMatcher(Rule subRule) {
-        super(checkArgNotNull(subRule, "subRule"), "Optional");
+        super(Preconditions.checkNotNull(subRule, "subRule"), "Optional");
         this.subMatcher = getChildren().get(0);
     }
 
@@ -42,7 +41,7 @@ public class OptionalMatcher extends CustomDefaultLabelMatcher<OptionalMatcher> 
 
     @Override
     public <R> R accept(MatcherVisitor<R> visitor) {
-        checkArgNotNull(visitor, "visitor");
+        Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }
 }

@@ -16,6 +16,7 @@
 
 package org.parboiled.errors;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.common.Formatter;
 import org.parboiled.matchers.Matcher;
@@ -55,7 +56,7 @@ public final class ErrorUtils {
         @Override public synchronized Throwable fillInStackTrace() { return this; }
     };
     private static Matcher findProperLabelMatcher0(MatcherPath path, int errorIndex) {
-        checkArgNotNull(path, "path");
+        Preconditions.checkNotNull(path, "path");
         Matcher found = path.parent != null ? findProperLabelMatcher0(path.parent, errorIndex) : null;
         if (found != null) return found;
         Matcher m = path.element.matcher;
@@ -71,7 +72,7 @@ public final class ErrorUtils {
      * @return the pretty print text
      */
     public static String printParseErrors(ParsingResult<?> parsingResult) {
-        checkArgNotNull(parsingResult, "parsingResult");
+        Preconditions.checkNotNull(parsingResult, "parsingResult");
         return printParseErrors(parsingResult.parseErrors);
     }
 
@@ -82,7 +83,7 @@ public final class ErrorUtils {
      * @return the pretty print text
      */
     public static String printParseErrors(List<ParseError> errors) {
-        checkArgNotNull(errors, "errors");
+        Preconditions.checkNotNull(errors, "errors");
         StringBuilder sb = new StringBuilder();
         for (ParseError error : errors) {
             if (sb.length() > 0) sb.append("---\n");
@@ -98,7 +99,7 @@ public final class ErrorUtils {
      * @return the pretty print text
      */
     public static String printParseError(ParseError error) {
-        checkArgNotNull(error, "error");
+        Preconditions.checkNotNull(error, "error");
         return printParseError(error, new DefaultInvalidInputErrorFormatter());
     }
 
@@ -110,8 +111,8 @@ public final class ErrorUtils {
      * @return the pretty print text
      */
     public static String printParseError(ParseError error, Formatter<InvalidInputError> formatter) {
-        checkArgNotNull(error, "error");
-        checkArgNotNull(formatter, "formatter");
+        Preconditions.checkNotNull(error, "error");
+        Preconditions.checkNotNull(formatter, "formatter");
         String message = error.getErrorMessage() != null ? error.getErrorMessage() :
                 error instanceof InvalidInputError ?
                         formatter.format((InvalidInputError) error) : error.getClass().getSimpleName();
@@ -131,7 +132,7 @@ public final class ErrorUtils {
      */
     public static String printErrorMessage(String format, String errorMessage, int errorIndex,
                                            InputBuffer inputBuffer) {
-        checkArgNotNull(inputBuffer, "inputBuffer");
+        Preconditions.checkNotNull(inputBuffer, "inputBuffer");
         return printErrorMessage(format, errorMessage, errorIndex, errorIndex + 1, inputBuffer);
     }
 

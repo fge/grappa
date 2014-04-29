@@ -16,6 +16,7 @@
 
 package org.parboiled.buffers;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.common.IntArrayStack;
 import org.parboiled.errors.ParserRuntimeException;
 import org.parboiled.support.Chars;
@@ -24,7 +25,6 @@ import org.parboiled.support.Position;
 
 import java.util.Arrays;
 
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 import static org.parboiled.common.Preconditions.checkArgument;
 
 /**
@@ -46,8 +46,7 @@ public class DefaultInputBuffer implements InputBuffer {
      * @param buffer the chars
      */
     public DefaultInputBuffer(char[] buffer) {
-        checkArgNotNull(buffer, "buffer");
-        this.buffer = buffer;
+        this.buffer = Preconditions.checkNotNull(buffer);
         this.length = buffer.length;
     }
 

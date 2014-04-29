@@ -16,13 +16,12 @@
 
 package org.parboiled.matchers;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
 import org.parboiled.common.Utils;
 import org.parboiled.trees.ImmutableGraphNode;
-
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * Abstract base class of most regular {@link Matcher}s.
@@ -39,11 +38,13 @@ public abstract class AbstractMatcher extends ImmutableGraphNode<Matcher> implem
     }
 
     public AbstractMatcher(Rule subRule, String label) {
-        this(new Rule[] {checkArgNotNull(subRule, "subRule")}, label);
+        this(new Rule[] { Preconditions.checkNotNull(subRule, "subRule")},
+            label);
     }
 
     public AbstractMatcher(Rule[] subRules, String label) {
-        super(ImmutableList.copyOf(toMatchers(checkArgNotNull(subRules, "subRules"))));
+        super(ImmutableList.copyOf(toMatchers(
+            Preconditions.checkNotNull(subRules))));
         this.label = label;
     }
 

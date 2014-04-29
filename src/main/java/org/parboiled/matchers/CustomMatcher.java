@@ -16,10 +16,9 @@
 
 package org.parboiled.matchers;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.Rule;
 import org.parboiled.matchervisitors.MatcherVisitor;
-
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * Base class of custom matcher implementations. If you want to implement custom matchers they have to be derived
@@ -36,11 +35,11 @@ public abstract class CustomMatcher extends AbstractMatcher {
     }
 
     protected CustomMatcher(Rule subRule, String label) {
-        super(checkArgNotNull(subRule, "subRule"), label);
+        super(Preconditions.checkNotNull(subRule, "subRule"), label);
     }
 
     protected CustomMatcher(Rule[] subRules, String label) {
-        super(checkArgNotNull(subRules, "subRules"), label);
+        super(Preconditions.checkNotNull(subRules, "subRules"), label);
     }
 
     /**
@@ -74,7 +73,7 @@ public abstract class CustomMatcher extends AbstractMatcher {
 
     @Override
     public <R> R accept(MatcherVisitor<R> visitor) {
-        checkArgNotNull(visitor, "visitor");
+        Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }
 }

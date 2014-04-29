@@ -16,12 +16,11 @@
 
 package org.parboiled.matchers;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
 import org.parboiled.errors.GrammarException;
 import org.parboiled.matchervisitors.MatcherVisitor;
-
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * A {@link Matcher} that repeatedly tries its submatcher against the input.
@@ -31,7 +30,7 @@ public class OneOrMoreMatcher extends CustomDefaultLabelMatcher<OneOrMoreMatcher
     public final Matcher subMatcher;
 
     public OneOrMoreMatcher(Rule subRule) {
-        super(checkArgNotNull(subRule, "subRule"), "OneOrMore");
+        super(Preconditions.checkNotNull(subRule, "subRule"), "OneOrMore");
         this.subMatcher = getChildren().get(0);
     }
 
@@ -57,7 +56,7 @@ public class OneOrMoreMatcher extends CustomDefaultLabelMatcher<OneOrMoreMatcher
 
     @Override
     public <R> R accept(MatcherVisitor<R> visitor) {
-        checkArgNotNull(visitor, "visitor");
+        Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }
 }

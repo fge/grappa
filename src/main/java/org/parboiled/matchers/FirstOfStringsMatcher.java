@@ -16,6 +16,7 @@
 
 package org.parboiled.matchers;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
 import org.parboiled.buffers.InputBuffer;
@@ -25,8 +26,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * A specialized FirstOfMatcher that handles FirstOf(string, string, ...) rules much faster that the regular
@@ -52,7 +51,7 @@ public class FirstOfStringsMatcher extends FirstOfMatcher {
     public final char[][] strings;
 
     public FirstOfStringsMatcher(Rule[] subRules, char[][] strings) {
-        super(checkArgNotNull(subRules, "subRules"));
+        super(Preconditions.checkNotNull(subRules, "subRules"));
         verify(strings);
         this.strings = strings;
         root = createRecord(0, strings);

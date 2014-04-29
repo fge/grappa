@@ -16,12 +16,11 @@
 
 package org.parboiled.errors;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.support.MatcherPath;
 
 import java.util.List;
-
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * A {@link ParseError} describing one or more input characters that are illegal with regard to the underlying
@@ -32,8 +31,9 @@ public class InvalidInputError extends BasicParseError {
 
     public InvalidInputError(InputBuffer inputBuffer, int startIndex,
                              List<MatcherPath> failedMatchers, String errorMessage) {
-        super(checkArgNotNull(inputBuffer, "inputBuffer"), startIndex, errorMessage);
-        this.failedMatchers = checkArgNotNull(failedMatchers, "failedMatchers");
+        super(Preconditions.checkNotNull(inputBuffer, "inputBuffer"),
+            startIndex, errorMessage);
+        this.failedMatchers = Preconditions.checkNotNull(failedMatchers);
     }
 
     /**

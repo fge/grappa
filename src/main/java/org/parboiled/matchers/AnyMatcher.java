@@ -16,11 +16,10 @@
 
 package org.parboiled.matchers;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.matchervisitors.MatcherVisitor;
 import org.parboiled.support.Chars;
-
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * A {@link org.parboiled.matchers.Matcher} matching any single character except EOI.
@@ -50,7 +49,7 @@ public class AnyMatcher extends AbstractMatcher {
 
     @Override
     public <R> R accept(MatcherVisitor<R> visitor) {
-        checkArgNotNull(visitor, "visitor");
+        Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }
 

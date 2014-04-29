@@ -55,8 +55,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static org.parboiled.common.Preconditions.checkArgNotNull;
-
 public class ParserStatistics
     implements MatcherVisitor<ParserStatistics>
 {
@@ -112,7 +110,7 @@ public class ParserStatistics
 
     public static ParserStatistics generateFor(final Rule rule)
     {
-        checkArgNotNull(rule, "rule");
+        Preconditions.checkNotNull(rule, "rule");
         final Matcher matcher = (Matcher) rule;
         return matcher.accept(new ParserStatistics(matcher));
     }
@@ -275,7 +273,8 @@ public class ParserStatistics
         final Class<? extends M> c)
     {
         final MatcherStats<?> stats = getMatcherStats(c, matcher.getClass());
-        checkArgNotNull(stats, c.getCanonicalName() + " not recorded??");
+        Preconditions.checkNotNull(stats,
+            c.getCanonicalName() + " not recorded??");
         if (stats.recordInstance(matcher)) {
             totalRules++;
             for (final Matcher child: matcher.getChildren()) {

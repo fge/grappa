@@ -16,11 +16,10 @@
 
 package org.parboiled;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.support.Checks;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.Position;
-
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * Convenience context aware base class defining a number of useful helper methods.
@@ -48,7 +47,7 @@ public abstract class BaseActions<V> implements ContextAware<V> {
      */
     @Override
     public void setContext(Context<V> context) {
-        this.context = checkArgNotNull(context, "context");
+        this.context = Preconditions.checkNotNull(context, "context");
     }
 
     /**

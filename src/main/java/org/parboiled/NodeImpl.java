@@ -16,12 +16,11 @@
 
 package org.parboiled;
 
-import org.parboiled.support.CharsEscaper;
+import com.google.common.base.Preconditions;
 import org.parboiled.common.ImmutableLinkedList;
 import org.parboiled.matchers.Matcher;
+import org.parboiled.support.CharsEscaper;
 import org.parboiled.trees.ImmutableTreeNode;
-
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * An immutable implementation of the Node interface.
@@ -37,7 +36,7 @@ class NodeImpl<V> extends ImmutableTreeNode<Node<V>> implements Node<V> {
     public NodeImpl(Matcher matcher, ImmutableLinkedList<Node<V>> children, int startIndex,
                     int endIndex, V value, boolean hasError) {
         super(children);
-        this.matcher = checkArgNotNull(matcher, "matcher");
+        this.matcher = Preconditions.checkNotNull(matcher, "matcher");
         this.startIndex = startIndex;
         this.endIndex = endIndex;
         this.value = value;

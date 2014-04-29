@@ -16,13 +16,12 @@
 
 package org.parboiled.matchers;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
 import org.parboiled.matchervisitors.MatcherVisitor;
 
 import java.util.List;
-
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * A {@link Matcher} that delegates all {@link Rule} and {@link Matcher} interface methods to another {@link Matcher}.
@@ -128,7 +127,7 @@ public class ProxyMatcher implements Matcher, Cloneable {
 
     @Override
     public <R> R accept(MatcherVisitor<R> visitor) {
-        checkArgNotNull(visitor, "visitor");
+        Preconditions.checkNotNull(visitor, "visitor");
         if (dirty) apply();
         return target.accept(visitor);
     }
@@ -237,7 +236,7 @@ public class ProxyMatcher implements Matcher, Cloneable {
      * @param target the Matcher to delegate to
      */
     public void arm(Matcher target) {
-        this.target = checkArgNotNull(target, "target");
+        this.target = Preconditions.checkNotNull(target, "target");
     }
 
     /**

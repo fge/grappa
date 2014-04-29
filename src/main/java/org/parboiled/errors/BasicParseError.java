@@ -16,9 +16,8 @@
 
 package org.parboiled.errors;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.buffers.InputBuffer;
-
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * A basic {@link ParseError} implementation for a one-char parse error with an optional error message.
@@ -31,7 +30,7 @@ public class BasicParseError implements ParseError {
     private int indexDelta;
 
     public BasicParseError(InputBuffer inputBuffer, int errorIndex, String errorMessage) {
-        this.inputBuffer = checkArgNotNull(inputBuffer, "inputBuffer");
+        this.inputBuffer = Preconditions.checkNotNull(inputBuffer);
         this.startIndex = errorIndex;
         this.endIndex = errorIndex + 1;
         this.errorMessage = errorMessage;

@@ -16,13 +16,12 @@
 
 package org.parboiled.matchers;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
 import org.parboiled.matchervisitors.MatcherVisitor;
 
 import java.util.List;
-
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * Special wrapping matcher that performs memoization of the last mismatch of the wrapped sub rule.
@@ -31,7 +30,7 @@ public class MemoMismatchesMatcher implements Matcher {
     private final Matcher inner;
 
     public MemoMismatchesMatcher(Rule inner) {
-        this.inner = checkArgNotNull((Matcher) inner, "inner");
+        this.inner = Preconditions.checkNotNull((Matcher) inner, "inner");
     }
 
     @Override
@@ -116,7 +115,7 @@ public class MemoMismatchesMatcher implements Matcher {
 
     @Override
     public <R> R accept(MatcherVisitor<R> visitor) {
-        checkArgNotNull(visitor, "visitor");
+        Preconditions.checkNotNull(visitor, "visitor");
         return inner.accept(visitor);
     }
 

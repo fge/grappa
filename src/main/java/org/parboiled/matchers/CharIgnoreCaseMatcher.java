@@ -16,10 +16,10 @@
 
 package org.parboiled.matchers;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.matchervisitors.MatcherVisitor;
 
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 import static org.parboiled.support.Chars.escape;
 
 /**
@@ -46,7 +46,7 @@ public class CharIgnoreCaseMatcher extends AbstractMatcher {
 
     @Override
     public <R> R accept(MatcherVisitor<R> visitor) {
-        checkArgNotNull(visitor, "visitor");
+        Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }
 

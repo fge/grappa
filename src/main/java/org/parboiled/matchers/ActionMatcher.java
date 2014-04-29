@@ -16,6 +16,7 @@
 
 package org.parboiled.matchers;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import org.parboiled.Action;
 import org.parboiled.ContextAware;
@@ -29,8 +30,6 @@ import org.parboiled.matchervisitors.MatcherVisitor;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import static org.parboiled.common.Preconditions.checkArgNotNull;
-
 /**
  * A {@link org.parboiled.matchers.Matcher} that not actually matches input but runs a given parser {@link Action}.
  */
@@ -40,7 +39,7 @@ public class ActionMatcher extends AbstractMatcher {
     public final boolean skipInPredicates;
 
     public ActionMatcher(Action<?> action) {
-        super(checkArgNotNull(action, "action").toString());
+        super(Preconditions.checkNotNull(action, "action").toString());
         this.action = action;
 
         skipInPredicates = action instanceof SkippableAction
@@ -127,7 +126,7 @@ public class ActionMatcher extends AbstractMatcher {
 
     @Override
     public <R> R accept(MatcherVisitor<R> visitor) {
-        checkArgNotNull(visitor, "visitor");
+        Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }
 

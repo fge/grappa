@@ -16,10 +16,9 @@
 
 package org.parboiled.errors;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.support.MatcherPath;
-
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * A {@link ParseError} wrapping an ActionException.
@@ -31,9 +30,10 @@ public class ActionError extends BasicParseError {
 
     public ActionError(InputBuffer inputBuffer, int errorIndex, String errorMessage,
                        MatcherPath errorPath, ActionException actionException) {
-        super(checkArgNotNull(inputBuffer, "inputBuffer"), errorIndex, errorMessage);
-        this.errorPath = checkArgNotNull(errorPath, "errorPath");
-        this.actionException = checkArgNotNull(actionException, "actionException");
+        super(Preconditions.checkNotNull(inputBuffer),
+            errorIndex, errorMessage);
+        this.errorPath = Preconditions.checkNotNull(errorPath);
+        this.actionException = Preconditions.checkNotNull(actionException);
     }
 
     /**

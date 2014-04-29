@@ -16,7 +16,7 @@
 
 package org.parboiled;
 
-import org.parboiled.support.CharsEscaper;
+import com.google.common.base.Preconditions;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.common.ImmutableLinkedList;
 import org.parboiled.errors.BasicParseError;
@@ -30,6 +30,7 @@ import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.matchers.TestMatcher;
 import org.parboiled.matchers.TestNotMatcher;
 import org.parboiled.parserunners.RecoveringParseRunner;
+import org.parboiled.support.CharsEscaper;
 import org.parboiled.support.Checks;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.MatcherPath;
@@ -42,7 +43,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 import static org.parboiled.common.Preconditions.checkArgument;
 import static org.parboiled.errors.ErrorUtils.printParseError;
 import static org.parboiled.matchers.MatcherUtils.unwrap;
@@ -110,13 +110,15 @@ public class MatcherContext<V> implements Context<V> {
      */
     public MatcherContext(InputBuffer inputBuffer, ValueStack<V> valueStack, List<ParseError> parseErrors,
                           MatchHandler matchHandler, Matcher matcher, boolean fastStringMatching) {
-        this(checkArgNotNull(inputBuffer, "inputBuffer"), checkArgNotNull(
-            valueStack, "valueStack"),
-                checkArgNotNull(parseErrors, "parseErrors"), checkArgNotNull(
-            matchHandler, "matchHandler"),
-                null, 0, fastStringMatching,  new HashSet<MatcherPosition>());
+
+        this(Preconditions.checkNotNull(inputBuffer, "inputBuffer"),
+            Preconditions.checkNotNull(valueStack, "valueStack"),
+            Preconditions.checkNotNull(parseErrors, "parseErrors"),
+            Preconditions.checkNotNull(matchHandler, "matchHandler"),
+            null, 0, fastStringMatching,  new HashSet<MatcherPosition>());
         this.currentChar = inputBuffer.charAt(0);
-        this.matcher = ProxyMatcher.unwrap(checkArgNotNull(matcher, "matcher"));
+        Preconditions.checkNotNull(matcher);
+        this.matcher = ProxyMatcher.unwrap(matcher);
         this.nodeSuppressed = matcher.isNodeSuppressed();
     }
 
