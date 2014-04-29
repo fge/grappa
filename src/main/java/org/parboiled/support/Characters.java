@@ -16,11 +16,9 @@
 
 package org.parboiled.support;
 
-import org.parboiled.common.StringUtils;
+import com.google.common.base.Preconditions;
 
 import java.util.Arrays;
-
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * An immutable, set-like aggregation of (relatively few) characters that allows for an inverted semantic
@@ -47,7 +45,7 @@ public class Characters {
 
     private Characters(boolean subtractive, char[] chars) {
         this.subtractive = subtractive;
-        this.chars = checkArgNotNull(chars, "chars");
+        this.chars = Preconditions.checkNotNull(chars, "chars");
     }
 
     /**
@@ -105,7 +103,7 @@ public class Characters {
      * @return a new Characters object
      */
     public Characters add(Characters other) {
-        checkArgNotNull(other, "other");
+        Preconditions.checkNotNull(other, "other");
         if (!subtractive && !other.subtractive) {
             return addToChars(other.chars);
         }
@@ -123,7 +121,7 @@ public class Characters {
      * @return a new Characters object
      */
     public Characters remove(Characters other) {
-        checkArgNotNull(other, "other");
+        Preconditions.checkNotNull(other, "other");
         if (!subtractive && !other.subtractive) {
             return removeFromChars(other.chars);
         }
@@ -210,8 +208,8 @@ public class Characters {
 
     // order independent Array.equals()
     private static boolean equivalent(char[] a, char[] b) {
-        checkArgNotNull(a, "a");
-        checkArgNotNull(b, "b");
+        Preconditions.checkNotNull(a, "a");
+        Preconditions.checkNotNull(b, "b");
         if (a == b) return true;
         int length = a.length;
         if (b.length != length) return false;

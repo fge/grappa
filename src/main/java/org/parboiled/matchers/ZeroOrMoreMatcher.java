@@ -22,8 +22,6 @@ import org.parboiled.Rule;
 import org.parboiled.errors.GrammarException;
 import org.parboiled.matchervisitors.MatcherVisitor;
 
-import static org.parboiled.common.Preconditions.checkArgNotNull;
-
 /**
  * A {@link Matcher} that repeatedly tries its submatcher against the input. Always succeeds.
  */
@@ -31,7 +29,7 @@ public class ZeroOrMoreMatcher extends CustomDefaultLabelMatcher<ZeroOrMoreMatch
     public final Matcher subMatcher;
 
     public ZeroOrMoreMatcher(Rule subRule) {
-        super(checkArgNotNull(subRule, "subRule"), "ZeroOrMore");
+        super(Preconditions.checkNotNull(subRule, "subRule"), "ZeroOrMore");
         this.subMatcher = getChildren().get(0);
     }
 

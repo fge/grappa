@@ -23,15 +23,13 @@ import org.parboiled.matchervisitors.MatcherVisitor;
 
 import java.util.List;
 
-import static org.parboiled.common.Preconditions.checkArgNotNull;
-
 /**
  * A {@link Matcher} that executes all of its submatchers in sequence and only succeeds if all submatchers succeed.
  */
 public class SequenceMatcher extends CustomDefaultLabelMatcher<SequenceMatcher> {
 
     public SequenceMatcher(Rule[] subRules) {
-        super(checkArgNotNull(subRules, "subRules"), "Sequence");
+        super(Preconditions.checkNotNull(subRules, "subRules"), "Sequence");
     }
 
     @Override

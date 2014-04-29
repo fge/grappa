@@ -16,6 +16,7 @@
 
 package org.parboiled.parserunners;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
@@ -23,8 +24,6 @@ import org.parboiled.buffers.InputBuffer;
 import org.parboiled.errors.BasicParseError;
 import org.parboiled.matchers.TestNotMatcher;
 import org.parboiled.support.ParsingResult;
-
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * A {@link ParseRunner} implementation that creates a simple {@link BasicParseError} for the first error found in the
@@ -59,7 +58,7 @@ public class ErrorLocatingParseRunner<V> extends AbstractParseRunner<V> implemen
 
     @Override
     public ParsingResult<V> run(InputBuffer inputBuffer) {
-        checkArgNotNull(inputBuffer, "inputBuffer");
+        Preconditions.checkNotNull(inputBuffer, "inputBuffer");
         resetValueStack();
         errorIndex = 0;
         

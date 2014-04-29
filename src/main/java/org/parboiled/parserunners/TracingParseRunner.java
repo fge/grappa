@@ -16,6 +16,7 @@
 
 package org.parboiled.parserunners;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import org.parboiled.Context;
@@ -31,7 +32,7 @@ import org.parboiled.support.MatcherPath;
 import org.parboiled.support.ParsingResult;
 import org.parboiled.support.Position;
 
-import static org.parboiled.common.Preconditions.checkArgNotNull;
+import javax.annotation.Nonnull;
 
 /**
  * A {@link org.parboiled.parserunners.ParseRunner} implementation used for debugging purposes.
@@ -56,25 +57,20 @@ public class TracingParseRunner<V> extends ReportingParseRunner<V> implements Ma
     /**
      * Attaches the given filter to this TracingParseRunner instance.
      * The given filter is used to select the matchers to print tracing statements for.
-     * NOTE: The given filter must be of type Predicate&lt;Tuple2&lt;Context&lt;?&gt;, Boolean&gt;&gt;. The reason this type is not
-     * directly specified in the constructors signature is that this would make predicate expressions using the
-     * {@link Predicates} operations and the predefined predicate constructors in {@link org.parboiled.support.Filters}
-     * much more cumbersome to write (due to Java limited type parameters inference logic you would have to explicitly
-     * state the type parameters in many places).
      *
      * @param filter the matcher filter selecting the matchers to print tracing statements for. Must be of type
      *               Predicate&lt;Tuple2&lt;Context&lt;?&gt;, Boolean&gt;&gt;.
      * @return this instance
      */
-    @SuppressWarnings("unchecked")
-    public TracingParseRunner<V> withFilter(Predicate<?> filter) {
-        this.filter = (Predicate<Tuple2<Context<?>, Boolean>>) checkArgNotNull(filter, "filter");
+    public TracingParseRunner<V> withFilter(
+        @Nonnull final Predicate<Tuple2<Context<?>, Boolean>> filter) {
+        this.filter = Preconditions.checkNotNull(filter, "filter");
         return this;
     }
 
     public Predicate<Tuple2<Context<?>, Boolean>> getFilter() {
         if (filter == null) {
-            withFilter(Predicates.alwaysTrue());
+            withFilter(Predicates.<Tuple2<Context<?>, Boolean>>alwaysTrue());
         }
         return filter;
     }

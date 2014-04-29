@@ -16,6 +16,7 @@
 
 package org.parboiled.matchervisitors;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.matchers.AbstractMatcher;
 import org.parboiled.matchers.FirstOfMatcher;
 import org.parboiled.matchers.Matcher;
@@ -29,8 +30,6 @@ import org.parboiled.matchers.ZeroOrMoreMatcher;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * A MatcherVisitor that executes a given {@link Action} against a whole matcher hierarchy in a depth-first manner.
@@ -46,7 +45,7 @@ public class DoWithMatcherVisitor extends DefaultMatcherVisitor<Void> {
     private final Set<Matcher> visited = new HashSet<Matcher>();
 
     public DoWithMatcherVisitor(Action action) {
-        this.action = checkArgNotNull(action, "action");
+        this.action = Preconditions.checkNotNull(action, "action");
     }
 
     @Override

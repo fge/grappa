@@ -16,11 +16,10 @@
 
 package org.parboiled.support;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.Node;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.common.Formatter;
-
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * A simple Formatter&lt;Node&gt; that provides String representation for parse
@@ -37,7 +36,7 @@ public class NodeFormatter<V> implements Formatter<Node<V>> {
      * @param inputBuffer the input buffer underlying the parse tree whose nodes are to be formatted.
      */
     public NodeFormatter(InputBuffer inputBuffer) {
-        this.inputBuffer = checkArgNotNull(inputBuffer, "inputBuffer");
+        this.inputBuffer = Preconditions.checkNotNull(inputBuffer);
     }
 
     @Override

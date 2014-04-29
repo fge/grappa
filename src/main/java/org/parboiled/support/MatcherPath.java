@@ -16,9 +16,9 @@
 
 package org.parboiled.support;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.matchers.Matcher;
 
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 import static org.parboiled.common.Preconditions.checkArgument;
 
 /**
@@ -52,7 +52,7 @@ public class MatcherPath {
      * @param parent  the parent path
      */
     public MatcherPath(Element element, MatcherPath parent) {
-        this.element = checkArgNotNull(element, "element");
+        this.element = Preconditions.checkNotNull(element, "element");
         this.parent = parent;
     }
 
@@ -70,7 +70,7 @@ public class MatcherPath {
      * @return true if this path is a prefix of the given other path
      */
     public boolean isPrefixOf(MatcherPath that) {
-        checkArgNotNull(that, "that");
+        Preconditions.checkNotNull(that, "that");
         return element.level <= that.element.level &&
                 (this == that || (that.parent != null && isPrefixOf(that.parent)));
     }
@@ -94,7 +94,7 @@ public class MatcherPath {
      * @return the common prefix or null
      */
     public MatcherPath commonPrefix(MatcherPath that) {
-        checkArgNotNull(that, "that");
+        Preconditions.checkNotNull(that, "that");
         if (element.level > that.element.level) return parent.commonPrefix(that);
         if (element.level < that.element.level) return commonPrefix(that.parent);
         if (this == that) return this;

@@ -16,13 +16,11 @@
 
 package org.parboiled.parserunners;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.Rule;
 import org.parboiled.buffers.InputBuffer;
-import org.parboiled.common.Preconditions;
 import org.parboiled.errors.InvalidInputError;
 import org.parboiled.support.ParsingResult;
-
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * A {@link ParseRunner} implementation that properly reports the first {@link InvalidInputError} if the input
@@ -44,8 +42,8 @@ public class ReportingParseRunner<V> extends AbstractParseRunner<V> {
      */
     @Deprecated
     public static <V> ParsingResult<V> run(Rule rule, String input) {
-        checkArgNotNull(rule, "rule");
-        checkArgNotNull(input, "input");
+        Preconditions.checkNotNull(rule, "rule");
+        Preconditions.checkNotNull(input, "input");
         return new ReportingParseRunner<V>(rule).run(input);
     }
 
@@ -60,7 +58,7 @@ public class ReportingParseRunner<V> extends AbstractParseRunner<V> {
 
     @Override
     public ParsingResult<V> run(InputBuffer inputBuffer) {
-        checkArgNotNull(inputBuffer, "inputBuffer");
+        Preconditions.checkNotNull(inputBuffer, "inputBuffer");
         resetValueStack();
 
         // first, run a basic match

@@ -27,7 +27,6 @@ import org.parboiled.support.Position;
 
 import java.util.List;
 
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 import static org.parboiled.common.Preconditions.checkArgument;
 
 /**
@@ -149,7 +148,7 @@ public final class ErrorUtils {
      */
     public static String printErrorMessage(String format, String errorMessage, int startIndex, int endIndex,
                                            InputBuffer inputBuffer) {
-        checkArgNotNull(inputBuffer, "inputBuffer");
+        Preconditions.checkNotNull(inputBuffer, "inputBuffer");
         checkArgument(startIndex <= endIndex);
         Position pos = inputBuffer.getPosition(startIndex);
         StringBuilder sb = new StringBuilder(String.format(format, errorMessage, pos.line, pos.column));

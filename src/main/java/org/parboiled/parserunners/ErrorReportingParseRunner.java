@@ -16,6 +16,7 @@
 
 package org.parboiled.parserunners;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
@@ -27,8 +28,6 @@ import org.parboiled.support.ParsingResult;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * A {@link org.parboiled.parserunners.ParseRunner} implementation that creates an
@@ -69,7 +68,7 @@ public class ErrorReportingParseRunner<V> extends AbstractParseRunner<V> impleme
 
     @Override
     public ParsingResult<V> run(InputBuffer inputBuffer) {
-        checkArgNotNull(inputBuffer, "inputBuffer");
+        Preconditions.checkNotNull(inputBuffer, "inputBuffer");
         resetValueStack();        
         failedMatchers.clear();
         seeking = errorIndex > 0;

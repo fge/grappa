@@ -16,6 +16,7 @@
 
 package org.parboiled.parserunners;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
@@ -33,7 +34,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 import static org.parboiled.common.Utils.humanize;
 
 /**
@@ -92,7 +92,7 @@ public class ProfilingParseRunner<V> extends AbstractParseRunner<V> implements M
 
     @Override
     public ParsingResult<V> run(InputBuffer inputBuffer) {
-        checkArgNotNull(inputBuffer, "inputBuffer");
+        Preconditions.checkNotNull(inputBuffer, "inputBuffer");
         resetValueStack();
         totalRuns++;
 
@@ -294,7 +294,7 @@ public class ProfilingParseRunner<V> extends AbstractParseRunner<V> implements M
         }
 
         public String printTopRules(int count, Predicate<RuleReport> filter) {
-            checkArgNotNull(filter, "filter");
+            Preconditions.checkNotNull(filter, "filter");
             StringBuilder sb = new StringBuilder();
             sb.append(
                     "Rule                           | Net-Time  |   Invocations   |     Matches     |   Mismatches    |   Time/Invoc.   | Match % |    Re-Invocs    |   Re-Matches    |   Re-Mismatch   |     Re-Invoc %    \n");

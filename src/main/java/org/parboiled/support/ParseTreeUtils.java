@@ -16,8 +16,10 @@
 
 package org.parboiled.support;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
+import com.google.common.base.Strings;
 import org.parboiled.Node;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.common.StringUtils;
@@ -51,7 +53,7 @@ public final class ParseTreeUtils {
      * @return the Node if found or null if not found
      */
     public static <V> Node<V> findNodeByPath(Node<V> parent, String path) {
-        checkArgNotNull(path, "path");
+        Preconditions.checkNotNull(path, "path");
         return parent != null && hasChildren(parent) ? findNodeByPath(parent.getChildren(), path) : null;
     }
 
@@ -65,7 +67,7 @@ public final class ParseTreeUtils {
      * @return the Node if found or null if not found
      */
     public static <V> Node<V> findNodeByPath(List<Node<V>> parents, String path) {
-        checkArgNotNull(path, "path");
+        Preconditions.checkNotNull(path, "path");
         if (parents != null && !parents.isEmpty()) {
             int separatorIndex = path.indexOf('/');
             String prefix = separatorIndex != -1 ? path.substring(0, separatorIndex) : path;
@@ -96,8 +98,8 @@ public final class ParseTreeUtils {
      * @return the same collection instance passed as a parameter
      */
     public static <V, C extends Collection<Node<V>>> C collectNodesByPath(Node<V> parent, String path, C collection) {
-        checkArgNotNull(path, "path");
-        checkArgNotNull(collection, "collection");
+        Preconditions.checkNotNull(path, "path");
+        Preconditions.checkNotNull(collection, "collection");
         return parent != null && hasChildren(parent) ?
                 collectNodesByPath(parent.getChildren(), path, collection) : collection;
     }
@@ -114,13 +116,13 @@ public final class ParseTreeUtils {
      */
     public static <V, C extends Collection<Node<V>>> C collectNodesByPath(List<Node<V>> parents, String path,
                                                                           C collection) {
-        checkArgNotNull(path, "path");
-        checkArgNotNull(collection, "collection");
+        Preconditions.checkNotNull(path, "path");
+        Preconditions.checkNotNull(collection, "collection");
         if (parents != null && !parents.isEmpty()) {
             int separatorIndex = path.indexOf('/');
             String prefix = separatorIndex != -1 ? path.substring(0, separatorIndex) : path;
             for (Node<V> child : parents) {
-                if (StringUtils.startsWith(child.getLabel(), prefix)) {
+                if (prefix.startsWith(Strings.nullToEmpty(child.getLabel()))) {
                     if (separatorIndex == -1) {
                         collection.add(child);
                     } else {

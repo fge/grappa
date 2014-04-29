@@ -16,7 +16,8 @@
 
 package org.parboiled.support;
 
-import static org.parboiled.common.Preconditions.checkArgNotNull;
+import com.google.common.base.Preconditions;
+
 import static org.parboiled.common.Preconditions.checkArgument;
 
 /**
@@ -66,7 +67,7 @@ public final class IndexRange {
      * @return true if there is at least one index that is contained in both ranges
      */
     public boolean overlapsWith(IndexRange other) {
-        checkArgNotNull(other, "other");
+        Preconditions.checkNotNull(other, "other");
         return end > other.start && other.end > start;
     }
 
@@ -77,7 +78,7 @@ public final class IndexRange {
      * @return true if this range immediated follows the given other one
      */
     public boolean isPrecededBy(IndexRange other) {
-        checkArgNotNull(other, "other");
+        Preconditions.checkNotNull(other, "other");
         return other.end == start;
     }
 
@@ -88,7 +89,7 @@ public final class IndexRange {
      * @return true if this range is immediated followed by the given other one
      */
     public boolean isFollowedBy(IndexRange other) {
-        checkArgNotNull(other, "other");
+        Preconditions.checkNotNull(other, "other");
         return end == other.start;
     }
 
@@ -99,7 +100,7 @@ public final class IndexRange {
      * @return true if this range immediated follows or precedes the given other one.
      */
     public boolean touches(IndexRange other) {
-        checkArgNotNull(other, "other");
+        Preconditions.checkNotNull(other, "other");
         return other.end == start || end == other.start;
     }
 
@@ -110,7 +111,7 @@ public final class IndexRange {
      * @return a new IndexRange instance
      */
     public IndexRange mergedWith(IndexRange other) {
-        checkArgNotNull(other, "other");
+        Preconditions.checkNotNull(other, "other");
         return new IndexRange(Math.min(start, other.start), Math.max(end, other.end));
     }
 

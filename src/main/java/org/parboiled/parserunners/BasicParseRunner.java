@@ -16,13 +16,12 @@
 
 package org.parboiled.parserunners;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.support.ParsingResult;
-
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 
 /**
  * The most basic of all {@link ParseRunner} implementations. It runs a rule against a given input text and builds a
@@ -45,8 +44,8 @@ public class BasicParseRunner<V> extends AbstractParseRunner<V> implements Match
      */
     @Deprecated
     public static <V> ParsingResult<V> run(Rule rule, String input) {
-        checkArgNotNull(rule, "rule");
-        checkArgNotNull(input, "input");
+        Preconditions.checkNotNull(rule, "rule");
+        Preconditions.checkNotNull(input, "input");
         return new BasicParseRunner<V>(rule).run(input);
     }
 
@@ -61,7 +60,7 @@ public class BasicParseRunner<V> extends AbstractParseRunner<V> implements Match
 
     @Override
     public ParsingResult<V> run(InputBuffer inputBuffer) {
-        checkArgNotNull(inputBuffer, "inputBuffer");
+        Preconditions.checkNotNull(inputBuffer, "inputBuffer");
         resetValueStack();
         
         MatcherContext<V> rootContext = createRootContext(inputBuffer, this, true);

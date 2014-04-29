@@ -16,6 +16,7 @@
 
 package org.parboiled.parserunners;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
@@ -31,8 +32,6 @@ import org.parboiled.support.ValueStack;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.parboiled.common.Preconditions.checkArgNotNull;
-
 public abstract class AbstractParseRunner<V> implements ParseRunner<V> {
     private final Matcher rootMatcher;
     private List<ParseError> parseErrors;
@@ -40,7 +39,7 @@ public abstract class AbstractParseRunner<V> implements ParseRunner<V> {
     private Object initialValueStackSnapshot;
 
     public AbstractParseRunner(Rule rule) {
-        this.rootMatcher = checkArgNotNull((Matcher) rule, "rule");
+        this.rootMatcher = Preconditions.checkNotNull((Matcher) rule, "rule");
     }
 
     public Matcher getRootMatcher() {
@@ -62,7 +61,7 @@ public abstract class AbstractParseRunner<V> implements ParseRunner<V> {
 
     @Override
     public ParseRunner<V>withValueStack(ValueStack<V> valueStack) {
-        this.valueStack = checkArgNotNull(valueStack, "valueStack");
+        this.valueStack = Preconditions.checkNotNull(valueStack, "valueStack");
         this.initialValueStackSnapshot = valueStack.takeSnapshot();
         return this;
     }
@@ -82,13 +81,13 @@ public abstract class AbstractParseRunner<V> implements ParseRunner<V> {
 
     @Override
     public ParsingResult<V> run(final CharSequence input) {
-        checkArgNotNull(input, "input");
+        Preconditions.checkNotNull(input, "input");
         return run(new CharSequenceInputBuffer(input));
     }
 
     @Override
     public ParsingResult<V> run(char[] input) {
-        checkArgNotNull(input, "input");
+        Preconditions.checkNotNull(input, "input");
         return run(new DefaultInputBuffer(input));
     }
 

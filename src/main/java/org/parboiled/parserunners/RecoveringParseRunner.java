@@ -16,6 +16,7 @@
 
 package org.parboiled.parserunners;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
@@ -23,7 +24,6 @@ import org.parboiled.Rule;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.buffers.MutableInputBuffer;
 import org.parboiled.common.ImmutableLinkedList;
-import org.parboiled.common.Preconditions;
 import org.parboiled.errors.InvalidInputError;
 import org.parboiled.matchers.AbstractMatcher;
 import org.parboiled.matchers.ActionMatcher;
@@ -44,7 +44,6 @@ import org.parboiled.support.ParsingResult;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.parboiled.common.Preconditions.checkArgNotNull;
 import static org.parboiled.common.Preconditions.checkState;
 import static org.parboiled.support.Chars.DEL_ERROR;
 import static org.parboiled.support.Chars.EOI;
@@ -102,8 +101,8 @@ public class RecoveringParseRunner<V> extends AbstractParseRunner<V> {
      */
     @Deprecated
     public static <V> ParsingResult<V> run(Rule rule, String input) {
-        checkArgNotNull(rule, "rule");
-        checkArgNotNull(input, "input");
+        Preconditions.checkNotNull(rule, "rule");
+        Preconditions.checkNotNull(input, "input");
         return new RecoveringParseRunner<V>(rule).run(input);
     }
 
@@ -130,7 +129,7 @@ public class RecoveringParseRunner<V> extends AbstractParseRunner<V> {
 
     @Override
     public ParsingResult<V> run(InputBuffer inputBuffer) {
-        checkArgNotNull(inputBuffer, "inputBuffer");
+        Preconditions.checkNotNull(inputBuffer, "inputBuffer");
         startTimeStamp = System.currentTimeMillis();
         resetValueStack();
 
