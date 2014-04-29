@@ -30,24 +30,24 @@ public class IndentDedentTest {
         public int dedents;
 
         public Rule File() {
-            return ZeroOrMore(Line());
+            return zeroOrMore(Line());
         }
 
         public Rule Line() {
-            return Sequence(
-                    ZeroOrMore(' '),
+            return sequence(
+                    zeroOrMore(' '),
                     countIndentOrDedent(match()),
-                    ZeroOrMore(LineChar()),
+                    zeroOrMore(LineChar()),
                     Newline()
             );
         }
 
         public Rule LineChar() {
-            return Sequence(TestNot(Newline()), ANY);
+            return sequence(testNot(Newline()), ANY);
         }
 
         public Rule Newline() {
-            return FirstOf("\r\n", '\r', '\n');
+            return firstOf("\r\n", '\r', '\n');
         }
 
         public boolean countIndentOrDedent(String lineStartWhiteSpace) {

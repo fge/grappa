@@ -29,15 +29,15 @@ public class EmptyErrorRecoveryTest extends TestNgParboiledTest<Object> {
     public static class Parser extends BaseParser<Object> {
 
         Rule Clause() {
-            return Sequence(Shout(), " cool", EOI);
+            return sequence(Shout(), " cool", EOI);
         }
         
         Rule Clause2() {
-            return Sequence(Shout(), EOI);
+            return sequence(Shout(), EOI);
         }
 
         Rule Shout() {
-            return FirstOf("Yes", "Yup");
+            return firstOf("Yes", "Yup");
         }
     }
 

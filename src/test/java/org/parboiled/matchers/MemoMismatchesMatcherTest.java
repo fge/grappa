@@ -30,12 +30,12 @@ public class MemoMismatchesMatcherTest extends TestNgParboiledTest<Object> {
     static class Parser extends BaseParser<Object> {
 
         public Rule Test1() {
-            return FirstOf(FirstChoice(), "XYZ");
+            return firstOf(FirstChoice(), "XYZ");
         }
 
         @MemoMismatches
         public Rule FirstChoice() {
-            return FirstOf("ABC", "CBA");
+            return firstOf("ABC", "CBA");
         }
     }
 

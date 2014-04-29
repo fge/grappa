@@ -56,7 +56,7 @@ public class ReturnInstructionUnifierTest extends TransformationTest {
                 "    INVOKESTATIC java/lang/Boolean.valueOf (Z)Ljava/lang/Boolean;\n" +
                 "    ICONST_0\n" +
                 "    ANEWARRAY java/lang/Object\n" +
-                "    INVOKEVIRTUAL org/parboiled/transform/TestParser.Sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lorg/parboiled/Rule;\n" +
+                "    INVOKEVIRTUAL org/parboiled/transform/TestParser.sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lorg/parboiled/Rule;\n" +
                 "    GOTO L2\n" +
                 "   L1\n" +
                 "    ACONST_NULL\n" +
@@ -76,7 +76,7 @@ public class ReturnInstructionUnifierTest extends TransformationTest {
                 "    INVOKESTATIC org/parboiled/transform/TestParser.ACTION (Z)Lorg/parboiled/Action;\n" +
                 "    ICONST_0\n" +
                 "    ANEWARRAY java/lang/Object\n" +
-                "    INVOKEVIRTUAL org/parboiled/transform/TestParser.Sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lorg/parboiled/Rule;\n" +
+                "    INVOKEVIRTUAL org/parboiled/transform/TestParser.sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lorg/parboiled/Rule;\n" +
                 "    GOTO L1\n" +
                 "   L0\n" +
                 "    GETSTATIC org/parboiled/transform/TestParser.EOI : Lorg/parboiled/Rule;\n" +
@@ -106,7 +106,7 @@ public class ReturnInstructionUnifierTest extends TransformationTest {
                 "    BIPUSH 98\n" +
                 "    INVOKESTATIC java/lang/Character.valueOf (C)Ljava/lang/Character;\n" +
                 "    AASTORE\n" +
-                "    INVOKEVIRTUAL org/parboiled/transform/TestParser.Sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lorg/parboiled/Rule;\n" +
+                "    INVOKEVIRTUAL org/parboiled/transform/TestParser.sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lorg/parboiled/Rule;\n" +
                 "    ARETURN\n");
     }
 

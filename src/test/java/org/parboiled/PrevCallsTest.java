@@ -32,7 +32,7 @@ public class PrevCallsTest extends TestNgParboiledTest<Integer> {
             Reference<Integer> a = new Reference<Integer>();
             Reference<Character> op = new Reference<Character>();
             Reference<Integer> b = new Reference<Integer>();
-            return Sequence(
+            return sequence(
                     Digits(), a.set(pop()),
                     Operator(), op.set(matchedChar()),
                     Digits(), b.set(pop()),
@@ -42,11 +42,11 @@ public class PrevCallsTest extends TestNgParboiledTest<Integer> {
         }
 
         public Rule Operator() {
-            return FirstOf('+', '-');
+            return firstOf('+', '-');
         }
 
         public Rule Digits() {
-            return Sequence(
+            return sequence(
                     Digits2(),
                     debug()
             );
@@ -57,8 +57,8 @@ public class PrevCallsTest extends TestNgParboiledTest<Integer> {
         }
 
         public Rule Digits2() {
-            return Sequence(
-                    OneOrMore(CharRange('0', '9')),
+            return sequence(
+                    oneOrMore(charRange('0', '9')),
                     push(Integer.parseInt(match()))
             );
         }

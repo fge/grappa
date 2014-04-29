@@ -42,21 +42,22 @@ public class LabelTest extends TestNgParboiledTest<Object> {
         }
 
         public Rule Operator() {
-            return FirstOf('+', '-');
+            return firstOf('+', '-');
         }
 
         @Label("NUmBER")
         public Rule Number() {
-            return OneOrMore(Digit());
+            return oneOrMore(Digit());
         }
 
         public Rule Digit() {
-            return CharRange('0', '9');
+            return charRange('0', '9');
         }
 
         @SuppressWarnings( {"InfiniteRecursion"})
         public Rule RecursiveLabel() {
-            return FirstOf('a', Sequence('b', RecursiveLabel().label("First"), RecursiveLabel().label("Second")));
+            return firstOf('a', sequence('b', RecursiveLabel().label("First"),
+                RecursiveLabel().label("Second")));
         }
 
     }

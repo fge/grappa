@@ -26,15 +26,15 @@ public class SimpleTest extends TestNgParboiledTest<Object> {
     static class Parser extends BaseParser<Object> {
 
         public Rule Clause() {
-            return Sequence(Digit(), Operator(), Digit(), AnyOf("abcd"), OneOrMore(NoneOf("abcd")), EOI);
+            return sequence(Digit(), Operator(), Digit(), anyOf("abcd"), oneOrMore(noneOf("abcd")), EOI);
         }
 
         public Rule Operator() {
-            return FirstOf(Ch('+'), '-');
+            return firstOf(ch('+'), '-');
         }
 
         public Rule Digit() {
-            return CharRange('0', '9');
+            return charRange('0', '9');
         }
 
     }

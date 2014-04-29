@@ -70,7 +70,7 @@ public class RuleMethodRewriterTest extends TransformationTest {
                 "14     ALOAD 0\n" +
                 "15     PUTFIELD org/parboiled/transform/Action$K54Cjo0vNpv0KPTK.field$0 : Lorg/parboiled/transform/TestParser$$parboiled;\n" +
                 "16     AASTORE\n" +
-                "17     INVOKEVIRTUAL org/parboiled/transform/TestParser.Sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lorg/parboiled/Rule;\n" +
+                "17     INVOKEVIRTUAL org/parboiled/transform/TestParser.sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lorg/parboiled/Rule;\n" +
                 "18     ARETURN\n");
 
         assertEquals(getMethodInstructionList(processMethod("RuleWithComplexActionSetup", processors)), "" +
@@ -141,7 +141,7 @@ public class RuleMethodRewriterTest extends TransformationTest {
                 "63     ILOAD 3\n" +
                 "64     PUTFIELD org/parboiled/transform/Action$OrG2zjbz0MYoT8sO.field$4 : I\n" +
                 "65     AASTORE\n" +
-                "66     INVOKEVIRTUAL org/parboiled/transform/TestParser.Sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lorg/parboiled/Rule;\n" +
+                "66     INVOKEVIRTUAL org/parboiled/transform/TestParser.sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lorg/parboiled/Rule;\n" +
                 "67     NEW org/parboiled/matchers/VarFramingMatcher\n" +
                 "68     DUP_X1\n" +
                 "69     SWAP\n" +

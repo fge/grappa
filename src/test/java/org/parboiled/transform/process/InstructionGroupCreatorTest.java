@@ -42,7 +42,7 @@ public class InstructionGroupCreatorTest extends TransformationTest {
     @SuppressWarnings({"FieldCanBeLocal"})
     private String dotSource;
 
-    @Test
+    @Test(enabled = false)
     public void testInstructionGraphing() throws Exception {
         setup(TestParser.class);
 

@@ -27,7 +27,7 @@ public class SplitParserTest extends TestNgParboiledTest<Object> {
         final Primitives primitives = Parboiled.createParser(Primitives.class);
 
         public Rule Clause() {
-            return Sequence(
+            return sequence(
                     primitives.Digit(),
                     primitives.Operator(),
                     primitives.Digit(),
@@ -40,11 +40,11 @@ public class SplitParserTest extends TestNgParboiledTest<Object> {
     public static class Primitives extends BaseParser<Object> {
 
         public Rule Operator() {
-            return FirstOf('+', '-');
+            return firstOf('+', '-');
         }
 
         public Rule Digit() {
-            return CharRange('0', '9');
+            return charRange('0', '9');
         }
 
     }

@@ -27,70 +27,70 @@ public class NodeSkippingTest extends TestNgParboiledTest<Object> {
     public static class Parser extends BaseParser<Object> {
 
         public Rule ABCDEFGH() {
-            return Sequence(ABCD(), EFGH());
+            return sequence(ABCD(), EFGH());
         }
 
         public Rule ABCD() {
-            return Sequence(AB(), CD());
+            return sequence(AB(), CD());
         }
 
         public Rule EFGH() {
-            return Sequence(EF(), GH()).skipNode();
+            return sequence(EF(), GH()).skipNode();
         }
 
         public Rule AB() {
-            return Sequence(A(), B());
+            return sequence(A(), B());
         }
 
         @SkipNode
         public Rule CD() {
-            return Sequence(C(), D());
+            return sequence(C(), D());
         }
 
         public Rule EF() {
-            return Sequence(E(), F());
+            return sequence(E(), F());
         }
 
         @SkipNode
         public Rule GH() {
-            return Sequence(G(), H()).skipNode();
+            return sequence(G(), H()).skipNode();
         }
 
         public Rule A() {
-            return Ch('a');
+            return ch('a');
         }
 
         public Rule B() {
-            return Ch('b').skipNode();
+            return ch('b').skipNode();
         }
 
         public Rule C() {
-            return Ch('c');
+            return ch('c');
         }
 
         public Rule D() {
-            return Ch('d');
+            return ch('d');
         }
 
         public Rule E() {
-            return Ch('e');
+            return ch('e');
         }
 
         public Rule F() {
-            return Ch('f');
+            return ch('f');
         }
 
         public Rule G() {
-            return Ch('g');
+            return ch('g');
         }
 
         public Rule H() {
-            return Ch('h');
+            return ch('h');
         }
 
         public Rule BugIn101() {
-            return FirstOf(
-                    Sequence("a", "c").skipNode(),
+            return firstOf(
+                    sequence("a", "c").skipNode(),
                     "a"
             );
         }

@@ -34,23 +34,23 @@ public class MemoMismatchesTest {
     static class Parser extends BaseParser<Integer> {
 
         Rule Clause() {
-            return Sequence(FirstOf(Zero(), One(), Two()), EOI);
+            return sequence(firstOf(Zero(), One(), Two()), EOI);
         }
 
         Rule Zero() {
-            return Sequence(TestNot(SevenOrNine()), Ch('0'));
+            return sequence(testNot(SevenOrNine()), ch('0'));
         }
 
         Rule One() {
-            return Sequence(TestNot(SevenOrNine()), Ch('1'));
+            return sequence(testNot(SevenOrNine()), ch('1'));
         }
 
         Rule Two() {
-            return Sequence(TestNot(SevenOrNine()), Ch('2'));
+            return sequence(testNot(SevenOrNine()), ch('2'));
         }
 
         Rule SevenOrNine() {
-            return FirstOf('7', '9');
+            return firstOf('7', '9');
         }
 
     }

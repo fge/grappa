@@ -25,9 +25,9 @@ public class RecursionTest extends TestNgParboiledTest<Object> {
     @BuildParseTree
     public static class Parser extends BaseParser<Object> {
 
-        @SuppressWarnings( {"InfiniteRecursion"})
+        @SuppressWarnings("infiniteRecursion")
         public Rule LotsOfAs() {
-            return Sequence(IgnoreCase('a'), Optional(LotsOfAs()));
+            return sequence(ignoreCase('a'), optional(LotsOfAs()));
         }
 
     }

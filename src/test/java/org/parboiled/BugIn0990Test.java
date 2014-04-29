@@ -23,11 +23,11 @@ public class BugIn0990Test extends TestNgParboiledTest<Integer> {
 
     public static class Parser extends BaseParser<Integer> {
         Rule ID() {
-            return Sequence('a', WhiteSpaceChar(), 'b');
+            return sequence('a', WhiteSpaceChar(), 'b');
         }
 
         Rule WhiteSpaceChar() {
-            return AnyOf(" \n\r\t\f");
+            return anyOf(" \n\r\t\f");
         }
     }
 

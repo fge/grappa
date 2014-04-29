@@ -30,15 +30,15 @@ public class FirstOfStringsMatcherTest extends TestNgParboiledTest<Object> {
     static class Parser extends BaseParser<Object> {
 
         public Rule Test1() {
-            return FirstOf("Abc", "Ab", "Bcd");
+            return firstOf("Abc", "Ab", "Bcd");
         }
 
         public Rule Test2() {
-            return FirstOf("Abc", "Abd", "Bcd");
+            return firstOf("Abc", "Abd", "Bcd");
         }
 
         public Rule Test3() {
-            return FirstOf("Ab", "Abc", "Bcd");
+            return firstOf("Ab", "Abc", "Bcd");
         }
     }
 

@@ -28,16 +28,16 @@ public class ActionVar2Test extends TestNgParboiledTest<Object> {
 
         Rule Clause() {
             Reference<Integer> count = new Reference<Integer>();
-            return Sequence(CharCount(count), Chars(count), '\n');
+            return sequence(CharCount(count), Chars(count), '\n');
         }
 
         Rule CharCount(Reference<Integer> count) {
-            return Sequence('{', OneOrMore(CharRange('0', '9')), count.set(Integer.parseInt(match())), '}');
+            return sequence('{', oneOrMore(charRange('0', '9')), count.set(Integer.parseInt(match())), '}');
         }
 
         Rule Chars(Reference<Integer> count) {
-            return Sequence(
-                    ZeroOrMore(count.get() > 0, ANY, count.set(count.get() - 1)),
+            return sequence(
+                    zeroOrMore(count.get() > 0, ANY, count.set(count.get() - 1)),
                     count.get() == 0
             );
         }

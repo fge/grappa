@@ -33,29 +33,21 @@ public class CachingTest {
     public static class CachingParser extends BaseParser<Object> {
 
         public Rule Rule1() {
-            return Sequence(
-                    FirstOf('+', '-'),
-                    Digit(),
-                    FirstOf('+', '-'),
-                    Digit()
-            );
+            return sequence(firstOf('+', '-'), Digit(), firstOf('+', '-'),
+                Digit());
         }
 
         public Rule Rule2() {
-            return Sequence(
-                    FirstOf_uncached('+', '-'),
-                    Digit(),
-                    FirstOf_uncached('+', '-'),
-                    Digit()
-            );
+            return sequence(firstOfUncached('+', '-'), Digit(),
+                firstOfUncached('+', '-'), Digit());
         }
 
         public Rule Digit() {
-            return CharRange('0', '9');
+            return charRange('0', '9');
         }
 
         @Label("FirstOf")
-        public Rule FirstOf_uncached(Object... rules) {
+        public Rule firstOfUncached(Object... rules) {
             return new FirstOfMatcher(toRules(rules));
         }
 

@@ -29,26 +29,26 @@ public class SimpleErrorRecoveryTest extends TestNgParboiledTest<Object> {
     public static class Parser extends BaseParser<Object> {
 
         Rule Clause() {
-            return Sequence(Subject(), Verb(), Object(), EOI);
+            return sequence(Subject(), Verb(), Object(), EOI);
         }
 
         Rule Subject() {
-            return Sequence(
+            return sequence(
                     Name(),
-                    ZeroOrMore(FirstOf(" and ", " or "), Name())
+                    zeroOrMore(firstOf(" and ", " or "), Name())
             );
         }
 
         Rule Name() {
-            return FirstOf("Alice", "Bob", "Charlie", "Doreen", "Emilio", "Ferdinand");
+            return firstOf("Alice", "Bob", "Charlie", "Doreen", "Emilio", "Ferdinand");
         }
 
         Rule Verb() {
-            return FirstOf(" has ", " have ", " digs ", " dig ", " loves ", " love ", " hates ");
+            return firstOf(" has ", " have ", " digs ", " dig ", " loves ", " love ", " hates ");
         }
 
         Rule Object() {
-            return FirstOf("cats", "dogs", "animals", "cars", "building");
+            return firstOf("cats", "dogs", "animals", "cars", "building");
         }
     }
 

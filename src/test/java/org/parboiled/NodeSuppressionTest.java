@@ -57,36 +57,36 @@ public class NodeSuppressionTest extends TestNgParboiledTest<Object> {
         }
 
         public Rule A() {
-            return Ch('a');
+            return ch('a');
         }
 
         @SuppressNode
         public Rule B() {
-            return Ch('b');
+            return ch('b');
         }
 
         public Rule C() {
-            return Ch('c');
+            return ch('c');
         }
 
         public Rule D() {
-            return Ch('d');
+            return ch('d');
         }
 
         public Rule E() {
-            return Ch('e').suppressSubnodes();
+            return ch('e').suppressSubnodes();
         }
 
         public Rule F() {
-            return Ch('f').suppressNode();
+            return ch('f').suppressNode();
         }
 
         public Rule G() {
-            return Ch('g');
+            return ch('g');
         }
 
         public Rule H() {
-            return Ch('h');
+            return ch('h');
         }
     }
 

@@ -22,7 +22,7 @@ public final class UnicodeCharMatcherTest
     {
         public Rule rule(final int codePoint)
         {
-            return UnicodeChar(codePoint);
+            return unicodeChar(codePoint);
         }
     }
 

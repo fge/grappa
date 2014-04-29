@@ -26,15 +26,15 @@ public class NTimesTest extends TestNgParboiledTest<Object> {
     static class Parser extends BaseParser<Object> {
 
         public Rule Clause() {
-            return NTimes(3, FourDigits(), Operator());
+            return nTimes(3, FourDigits(), Operator());
         }
 
         public Rule Operator() {
-            return FirstOf('+', '-');
+            return firstOf('+', '-');
         }
 
         public Rule FourDigits() {
-            return NTimes(4, CharRange('0', '9'));
+            return nTimes(4, charRange('0', '9'));
         }
 
     }

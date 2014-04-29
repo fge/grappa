@@ -28,24 +28,24 @@ public class InPredicateTest extends TestNgParboiledTest<Object> {
         public int count = 0;
 
         public Rule Number() {
-            return Sequence(OneOrMore(Digit()), EOI);
+            return sequence(oneOrMore(Digit()), EOI);
         }
 
         public Rule Digit() {
-            return Sequence(Test(FirstOf(Five(), Six(), Seven())), CharRange('0', '9'));
+            return sequence(test(firstOf(Five(), Six(), Seven())), charRange('0', '9'));
         }
 
         public Rule Five() {
-            return Sequence('5', inPredicate() || count1());
+            return sequence('5', inPredicate() || count1());
         }
 
         public Rule Six() {
-            return Sequence('6', count2());
+            return sequence('6', count2());
         }
 
         @SkipActionsInPredicates
         public Rule Seven() {
-            return Sequence('7', count2());
+            return sequence('7', count2());
         }
 
         // ********* ACTION *******
