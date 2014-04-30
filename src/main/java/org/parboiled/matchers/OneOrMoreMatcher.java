@@ -19,7 +19,6 @@ package org.parboiled.matchers;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
-import org.parboiled.errors.GrammarException;
 import org.parboiled.matchervisitors.MatcherVisitor;
 
 /**
@@ -40,15 +39,8 @@ public class OneOrMoreMatcher extends CustomDefaultLabelMatcher<OneOrMoreMatcher
         if (!matched) return false;
 
         // collect all further matches as well
-        int lastIndex = context.getCurrentIndex();
-        while (subMatcher.getSubContext(context).runMatcher()) {
-            int currentIndex = context.getCurrentIndex();
-            if (currentIndex == lastIndex) {
-                throw new GrammarException("The inner rule of OneOrMore rule '%s' must not allow empty matches",
-                        context.getPath());
-            }
-            lastIndex = currentIndex;
-        }
+        while (subMatcher.getSubContext(context).runMatcher())
+            ; // nothing
 
         context.createNode();
         return true;
