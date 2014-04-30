@@ -1,4 +1,4 @@
-### 1.0.0-beta.3 (not released yet)
+### 1.0.0-beta.3
 
 * Add missing match for '3' in hexDigit{,upperCase()}! Oops...
 
