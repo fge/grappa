@@ -5,11 +5,16 @@ import com.google.common.collect.Range;
 import org.parboiled.Rule;
 import org.parboiled.matchers.EmptyMatcher;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+
+import static com.google.common.collect.BoundType.CLOSED;
 
 @ParametersAreNonnullByDefault
 public final class JoiningRuleBuilder
 {
+    private static final Range<Integer> AT_LEAST_ZERO = Range.atLeast(0);
+
     private final Rule joined;
     private final Rule joining;
 
@@ -60,5 +65,35 @@ public final class JoiningRuleBuilder
             "illegal range specified: max must be greater than min");
         return max == min ? times(min)
             : new JoinMatcher(joined, joining, Range.closed(min, max));
+    }
+
+    public Rule range(@Nonnull final Range<Integer> range)
+    {
+        Preconditions.checkNotNull(range, "range must not be null");
+        /*
+         * We always intersect with that range...
+         */
+        final Range<Integer> realRange = AT_LEAST_ZERO.intersection(range);
+
+        /*
+         * Empty ranges not allowed (what are we supposed to do with that
+         * anyway?)
+         */
+        Preconditions.checkArgument(!realRange.isEmpty(),
+            "illegal range " + range + " : must not be empty");
+
+        /*
+         * Given that we intersect with AT_LEAST_ZERO, which has a lower bound,
+         * the range will always have a lower bound, which must be closed...
+         */
+        Preconditions.checkArgument(realRange.lowerBoundType() == CLOSED,
+            "illegal range " + range + ": not closed on the lower bound");
+        /*
+         * But maybe not an _upper_ bound; if it has we check that it is closed.
+         */
+        if (realRange.hasUpperBound())
+            Preconditions.checkArgument(realRange.upperBoundType() == CLOSED,
+                "illegal range " + range + ": not closed on the upper bound");
+        return new JoinMatcher(joined, joining, realRange);
     }
 }
