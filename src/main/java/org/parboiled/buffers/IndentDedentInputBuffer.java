@@ -25,132 +25,172 @@ import org.parboiled.support.Position;
 
 /**
  * Special, immutable InputBuffer implementation for indentation based grammars.
- * <p>This InputBuffer collapses all space and tab characters at the beginning of a text line into either nothing (if
- * the line has the same indentation level as the previous line), a special {@link Chars#INDENT} character (if the line
- * has a greater indentation level than the previous line) or one or more {@link Chars#DEDENT} characters (if the line
- * has a lower indentation level than the previous line).</p>
- * <p>Blank lines (lines containing nothing but whitespace) are removed from the input and the buffer can, optionally,
- * remove line comments (i.e. comments that start with a predefined character sequence and go to the end of the line).
- * </p>
- * <p>This means that the highest index of this InputBuffer is probably smaller than that of the original input text
- * buffer, since all line indentations and blank lines have been collapsed. However, the implementation will make sure
- * that {@link #getPosition(int)}, {@link #extract(int, int)}, etc. will work as expected and always return the
- * "correct" result from the underlying, original input buffer.</p>
- * <p>If the input contains illegal indentation the buffer throws an {@link IllegalIndentationException}
- * during construction</p>
+ *
+ * <p>This InputBuffer collapses all space and tab characters at the beginning
+ * of a text line into either nothing (if the line has the same indentation
+ * level as the previous line), a special {@link Chars#INDENT} character (if the
+ * line has a greater indentation level than the previous line) or one or more
+ * {@link Chars#DEDENT} characters (if the line has a lower indentation level
+ * than the previous line).</p>
+ *
+ * <p>Blank lines (lines containing nothing but whitespace) are removed from
+ * the input and the buffer can, optionally, remove line comments (i.e. comments
+ * that start with a predefined character sequence and go to the end of the
+ * line).</p>
+ *
+ * <p>This means that the highest index of this InputBuffer is probably smaller
+ * than that of the original input text buffer, since all line indentations and
+ * blank lines have been collapsed. However, the implementation will make sure
+ * that {@link #getPosition(int)}, {@link #extract(int, int)}, etc. will work as
+ * expected and always return the "correct" result from the underlying, original
+ * input buffer.</p>
+ *
+ * <p>If the input contains illegal indentation the buffer throws an {@link
+ * IllegalIndentationException} during construction.</p>
  */
-public class IndentDedentInputBuffer implements InputBuffer {
+public final class IndentDedentInputBuffer
+    implements InputBuffer
+{
     private final DefaultInputBuffer origBuffer;
     private final DefaultInputBuffer convBuffer;
 
-    private int[] indexMap; // maps convBuffer indices to origBuffer indices
+    private final int[] indexMap; // maps convBuffer indices to origBuffer indices
     private final boolean strict;
     private final boolean skipEmptyLines;
 
     /**
-     * Creates a new IndentDedentInputBuffer around the given char array. Note that for performance reasons the given
-     * char array is not defensively copied.
+     * Creates a new IndentDedentInputBuffer around the given char array. Note
+     * that for performance reasons the given char array is not defensively
+     * copied.
      *
-     * @param input            the input text.
-     * @param tabStop          the number of characters in a tab stop.
-     * @param lineCommentStart the string starting a line comment or null, if line comments are not defined
-     * @param strict           signals whether the buffer should throw an {@link IllegalIndentationException} on
-     * "semi-dedents", if false the buffer silently accepts these
-     * @throws IllegalIndentationException
-     *          if the input contains illegal indentations and the strict flag is set
+     * @param input the input text.
+     * @param tabStop the number of characters in a tab stop.
+     * @param lineCommentStart the string starting a line comment or null, if
+     * line comments are not defined
+     * @param strict signals whether the buffer should throw an {@link
+     * IllegalIndentationException} on "semi-dedents", if false the buffer
+     * silently accepts these
+     * @throws IllegalIndentationException if the input contains illegal
+     * indentations and the strict flag is set
      */
-    public IndentDedentInputBuffer(char[] input, int tabStop, String lineCommentStart, boolean strict) {
+    public IndentDedentInputBuffer(final char[] input, final int tabStop,
+        final String lineCommentStart, final boolean strict)
+    {
         this(input, tabStop, lineCommentStart, strict, true);
     }
 
     /**
-     * Creates a new IndentDedentInputBuffer around the given char array. Note that for performance reasons the given
-     * char array is not defensively copied.
+     * Creates a new IndentDedentInputBuffer around the given char array. Note
+     * that for performance reasons the given char array is not defensively
+     * copied.
      *
-     * @param input            the input text.
-     * @param tabStop          the number of characters in a tab stop.
-     * @param lineCommentStart the string starting a line comment or null, if line comments are not defined
-     * @param strict           signals whether the buffer should throw an {@link IllegalIndentationException} on
-     * "semi-dedents", if false the buffer silently accepts these
-     * @param skipEmptyLines   signals whether the buffer should swallow empty lines
-     * @throws IllegalIndentationException
-     *          if the input contains illegal indentations and the strict flag is set
+     * @param input the input text.
+     * @param tabStop the number of characters in a tab stop.
+     * @param lineCommentStart the string starting a line comment or null, if
+     * line comments are not defined
+     * @param strict signals whether the buffer should throw an {@link
+     * IllegalIndentationException} on "semi-dedents", if false the buffer
+     * silently accepts these
+     * @param skipEmptyLines signals whether the buffer should swallow empty
+     * lines
+     * @throws IllegalIndentationException if the input contains illegal
+     * indentations and the strict flag is set
      */
-    public IndentDedentInputBuffer(char[] input, int tabStop, String lineCommentStart, boolean strict,
-                                   boolean skipEmptyLines) {
+    public IndentDedentInputBuffer(final char[] input, final int tabStop,
+        final String lineCommentStart, final boolean strict, final boolean skipEmptyLines)
+    {
         this.strict = strict;
         this.skipEmptyLines = skipEmptyLines;
         Preconditions.checkArgument(tabStop > 0, "tabStop must be > 0");
-        Preconditions.checkArgument(lineCommentStart == null || lineCommentStart.indexOf('\n') == -1,
-                "lineCommentStart must not contain newlines");
+        Preconditions.checkArgument(lineCommentStart == null
+            || lineCommentStart.indexOf('\n') == -1,
+            "lineCommentStart must not contain newlines");
         origBuffer = new DefaultInputBuffer(input);
-        BufferConverter converter = new BufferConverter(tabStop,
-                lineCommentStart != null ? lineCommentStart.toCharArray() : null);
+        final BufferConverter converter = new BufferConverter(tabStop,
+            lineCommentStart != null ? lineCommentStart.toCharArray() : null);
         convBuffer = new DefaultInputBuffer(converter.builder.getChars());
         indexMap = converter.builder.getIndexMap();
     }
 
     @Override
-    public char charAt(int index) {
+    public char charAt(final int index)
+    {
         return convBuffer.charAt(index);
     }
 
     @Override
-    public boolean test(int index, char[] characters) {
+    public boolean test(final int index, final char[] characters)
+    {
         return convBuffer.test(index, characters);
     }
 
     @Override
-    public String extract(int start, int end) {
+    public String extract(final int start, final int end)
+    {
         return origBuffer.extract(map(start), map(end));
     }
 
     @Override
-    public String extract(IndexRange range) {
+    public String extract(final IndexRange range)
+    {
         return origBuffer.extract(map(range.start), map(range.end));
     }
 
     @Override
-    public Position getPosition(int index) {
+    public Position getPosition(final int index)
+    {
         return origBuffer.getPosition(map(index));
     }
 
     @Override
-    public int getOriginalIndex(int index) {
+    public int getOriginalIndex(final int index)
+    {
         return map(index);
     }
 
     @Override
-    public String extractLine(int lineNumber) {
+    public String extractLine(final int lineNumber)
+    {
         return origBuffer.extractLine(lineNumber);
     }
 
     @Override
-    public int getLineCount() {return origBuffer.getLineCount();}
+    public int getLineCount()
+    {
+        return origBuffer.getLineCount();
+    }
 
-    private int map(int convIndex) {
-        if (convIndex < 0) return indexMap[0];
-        if (convIndex < indexMap.length) return indexMap[convIndex];
-        if (indexMap.length == 0) return 1;
+    private int map(final int convIndex)
+    {
+        if (convIndex < 0)
+            return indexMap[0];
+        if (convIndex < indexMap.length)
+            return indexMap[convIndex];
+        if (indexMap.length == 0)
+            return 1;
         return indexMap[indexMap.length - 1] + 1;
     }
 
-    private class BufferConverter {
-        public final BufferBuilder builder = new BufferBuilder();
+    private final class BufferConverter
+    {
+        private final BufferBuilder builder = new BufferBuilder();
         private final int tabStop;
         private final char[] lineCommentStart;
         private final IntArrayStack previousLevels = new IntArrayStack();
         private int cursor = 0;
         private char currentChar;
 
-        public BufferConverter(int tabStop, char[] lineCommentStart) {
+        private BufferConverter(final int tabStop,
+            final char[] lineCommentStart)
+        {
             this.tabStop = tabStop;
             this.lineCommentStart = lineCommentStart;
             this.currentChar = origBuffer.charAt(0);
             build();
         }
 
-        private void build() {
+        private void build()
+        {
             previousLevels.push(0);
 
             // consume inital indent
@@ -158,7 +198,7 @@ public class IndentDedentInputBuffer implements InputBuffer {
 
             // transform all other input
             while (currentChar != Chars.EOI) {
-                int commentChars = skipLineComment();
+                final int commentChars = skipLineComment();
                 if (currentChar != '\n' && currentChar != Chars.EOI) {
                     builder.append(currentChar);
                     advance();
@@ -170,7 +210,7 @@ public class IndentDedentInputBuffer implements InputBuffer {
                 advance();
 
                 // consume line indent
-                int indent = skipIndent();
+                final int indent = skipIndent();
 
                 // generate INDENTS/DEDENTS
                 if (indent > currentLevel) {
@@ -178,12 +218,14 @@ public class IndentDedentInputBuffer implements InputBuffer {
                     currentLevel = indent;
                     builder.append(Chars.INDENT);
                 } else {
-                    while (indent < currentLevel && indent <= previousLevels.peek()) {
+                    while (indent < currentLevel && indent <= previousLevels
+                        .peek()) {
                         currentLevel = previousLevels.pop();
                         builder.append(Chars.DEDENT);
                     }
                     if (strict && indent < currentLevel) {
-                        throw new IllegalIndentationException(origBuffer, origBuffer.getPosition(cursor));
+                        throw new IllegalIndentationException(origBuffer,
+                            origBuffer.getPosition(cursor));
                     }
                 }
             }
@@ -198,9 +240,10 @@ public class IndentDedentInputBuffer implements InputBuffer {
             }
         }
 
-        private int skipIndent() {
+        private int skipIndent()
+        {
             int indent = 0;
-            loop:
+loop:
             while (true) {
                 switch (currentChar) {
                     case ' ':
@@ -208,11 +251,12 @@ public class IndentDedentInputBuffer implements InputBuffer {
                         advance();
                         continue;
                     case '\t':
-                        indent = ((indent / tabStop) + 1) * tabStop;
+                        indent = (indent / tabStop + 1) * tabStop;
                         advance();
                         continue;
                     case '\n':
-                        if (!skipEmptyLines) builder.appendNewline(0);
+                        if (!skipEmptyLines)
+                            builder.appendNewline(0);
                         indent = 0;
                         advance();
                         continue;
@@ -220,19 +264,23 @@ public class IndentDedentInputBuffer implements InputBuffer {
                         indent = 0;
                         break loop;
                     default:
-                        if (skipLineComment() == 0) break loop;
+                        if (skipLineComment() == 0)
+                            break loop;
                 }
             }
             return indent;
         }
 
-        private void advance() {
+        private void advance()
+        {
             currentChar = origBuffer.charAt(++cursor);
         }
 
-        private int skipLineComment() {
-            if (lineCommentStart != null && origBuffer.test(cursor, lineCommentStart)) {
-                int start = cursor;
+        private int skipLineComment()
+        {
+            if (lineCommentStart != null && origBuffer
+                .test(cursor, lineCommentStart)) {
+                final int start = cursor;
                 while (currentChar != '\n' && currentChar != Chars.EOI) {
                     advance();
                 }
@@ -241,28 +289,33 @@ public class IndentDedentInputBuffer implements InputBuffer {
             return 0;
         }
 
-        private class BufferBuilder {
+        private final class BufferBuilder
+        {
             private final StringBuilder sb = new StringBuilder();
-            private final IntArrayStack indexMap = new IntArrayStack();
+            private final IntArrayStack stack = new IntArrayStack();
 
-            private void append(char c) {
-                indexMap.push(cursor);
+            private void append(final char c)
+            {
+                stack.push(cursor);
                 sb.append(c);
             }
 
-            private void appendNewline(int commentChars) {
-                indexMap.push(cursor - commentChars);
+            private void appendNewline(final int commentChars)
+            {
+                stack.push(cursor - commentChars);
                 sb.append('\n');
             }
 
-            public char[] getChars() {
-                char[] buffer = new char[sb.length()];
+            private char[] getChars()
+            {
+                final char[] buffer = new char[sb.length()];
                 sb.getChars(0, sb.length(), buffer, 0);
                 return buffer;
             }
 
-            public int[] getIndexMap() {
-                return indexMap.toArray();
+            private int[] getIndexMap()
+            {
+                return stack.toArray();
             }
         }
     }

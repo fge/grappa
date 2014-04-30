@@ -6,6 +6,7 @@ import org.parboiled.support.Chars;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.Position;
 
+import javax.annotation.Nonnull;
 import javax.annotation.concurrent.GuardedBy;
 import javax.annotation.concurrent.Immutable;
 import java.util.Arrays;
@@ -36,9 +37,9 @@ public final class CharSequenceInputBuffer
     @GuardedBy("newlinesAreBuilt")
     private int[] newlines;
 
-    public CharSequenceInputBuffer(final CharSequence charSequence)
+    public CharSequenceInputBuffer(@Nonnull final CharSequence charSequence)
     {
-        this.charSequence = charSequence;
+        this.charSequence = Preconditions.checkNotNull(charSequence);
     }
 
     @Override
@@ -112,6 +113,7 @@ public final class CharSequenceInputBuffer
         return 0;
     }
 
+    // TODO: replace implementation with a List<Range>
     private void buildNewlines()
     {
         final IntArrayStack stack = new IntArrayStack();

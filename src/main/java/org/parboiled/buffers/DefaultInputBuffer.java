@@ -23,12 +23,16 @@ import org.parboiled.support.Chars;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.Position;
 
+import javax.annotation.concurrent.Immutable;
 import java.util.Arrays;
 
 /**
  * Immutable default implementation of an InputBuffer.
  */
-public class DefaultInputBuffer implements InputBuffer {
+@Immutable
+public final class DefaultInputBuffer
+    implements InputBuffer
+{
     private final int length;
     private final char[] buffer;
 
@@ -43,49 +47,62 @@ public class DefaultInputBuffer implements InputBuffer {
      *
      * @param buffer the chars
      */
-    public DefaultInputBuffer(char[] buffer) {
+    public DefaultInputBuffer(char[] buffer)
+    {
         this.buffer = Preconditions.checkNotNull(buffer);
         this.length = buffer.length;
     }
 
     @Override
-    public char charAt(int index) {
-        return 0 <= index && index < length ? buffer[index] :
-                index - length > 100000 ? throwParsingException() : Chars.EOI;
+    public char charAt(int index)
+    {
+        return 0 <= index && index < length ? buffer[index]
+            : index - length > 100000 ? throwParsingException() : Chars.EOI;
     }
 
-    private char throwParsingException() {
-        throw new ParserRuntimeException("Parser read more than 100K chars beyond EOI, " +
-                "verify that your grammar does not consume EOI indefinitely!");
+    private char throwParsingException()
+    {
+        throw new ParserRuntimeException(
+            "Parser read more than 100K chars beyond EOI, "
+                + "verify that your grammar does not consume EOI indefinitely!");
     }
 
     @Override
-    public boolean test(int index, char[] characters) {
+    public boolean test(int index, char[] characters)
+    {
         int len = characters.length;
         if (index < 0 || index > length - len) {
             return false;
         }
         for (int i = 0; i < len; i++) {
-            if (buffer[index + i] != characters[i]) return false;
+            if (buffer[index + i] != characters[i])
+                return false;
         }
         return true;
     }
 
     @Override
-    public String extract(int start, int end) {
-        if (start < 0) start = 0;
-        if (end >= length) end = length;
-        if (end <= start) return "";
+    public String extract(int start, int end)
+    {
+        if (start < 0)
+            start = 0;
+        if (end >= length)
+            end = length;
+        if (end <= start)
+            return "";
         return new String(buffer, start, end - start);
     }
 
     @Override
-    public String extract(IndexRange range) {
-        return new String(buffer, range.start, Math.min(range.end, length) - range.start);
+    public String extract(IndexRange range)
+    {
+        return new String(buffer, range.start,
+            Math.min(range.end, length) - range.start);
     }
 
     @Override
-    public Position getPosition(int index) {
+    public Position getPosition(int index)
+    {
         buildNewlines();
         int line = getLine0(newlines, index);
         int column = index - (line > 0 ? newlines[line - 1] : -1);
@@ -93,44 +110,49 @@ public class DefaultInputBuffer implements InputBuffer {
     }
 
     @Override
-    public int getOriginalIndex(int index) {
+    public int getOriginalIndex(int index)
+    {
         return index;
     }
 
     // returns the zero based input line number the character with the given index is found in
-    private static int getLine0(int[] newlines, int index) {
+    private static int getLine0(int[] newlines, int index)
+    {
         int j = Arrays.binarySearch(newlines, index);
         return j >= 0 ? j : -(j + 1);
     }
 
     @Override
-    public String extractLine(int lineNumber) {
+    public String extractLine(int lineNumber)
+    {
         buildNewlines();
-        Preconditions.checkArgument(0 < lineNumber
-            && lineNumber <= newlines.length + 1);
+        Preconditions
+            .checkArgument(0 < lineNumber && lineNumber <= newlines.length + 1);
         int start = lineNumber > 1 ? newlines[lineNumber - 2] + 1 : 0;
-        int end = lineNumber <= newlines.length ? newlines[lineNumber - 1] : length;
-        if (charAt(end - 1) == '\r') end--;
+        int end = lineNumber <= newlines.length ? newlines[lineNumber - 1]
+            : length;
+        if (charAt(end - 1) == '\r')
+            end--;
         return extract(start, end);
     }
 
     @Override
-    public int getLineCount() {
+    public int getLineCount()
+    {
         buildNewlines();
         return newlines.length + 1;
     }
 
-    private void buildNewlines() {
-        if (newlines == null) {
-            IntArrayStack newlines = new IntArrayStack();
-            for (int i = 0; i < length; i++) {
-                if (buffer[i] == '\n') {
-                    newlines.push(i);
-                }
-            }
-            this.newlines = new int[newlines.size()];
-            newlines.getElements(this.newlines, 0);
-        }
+    private void buildNewlines()
+    {
+        if (newlines != null)
+            return;
+        final IntArrayStack stack = new IntArrayStack();
+        for (int i = 0; i < length; i++)
+            if (buffer[i] == '\n')
+                stack.push(i);
+
+        newlines = new int[stack.size()];
+        stack.getElements(newlines, 0);
     }
 }
-

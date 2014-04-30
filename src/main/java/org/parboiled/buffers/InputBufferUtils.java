@@ -20,23 +20,31 @@ import static org.parboiled.support.Chars.DEDENT;
 import static org.parboiled.support.Chars.EOI;
 import static org.parboiled.support.Chars.INDENT;
 
-public final class InputBufferUtils {
+// TODO: put it into IndentDedentInputBuffer and remove
+public final class InputBufferUtils
+{
 
-    private InputBufferUtils() {}
+    private InputBufferUtils()
+    {
+    }
 
     /**
      * Collects the actual input text the input buffer provides into a String.
-     * This is especially useful for IndentDedentInputBuffers created by "transformIndents".
+     * This is especially useful for IndentDedentInputBuffers created by
+     * "transformIndents".
+     *
      * @param buf the input buffer to collect from
      * @return a string containing the content of the given input buffer
      */
-    public static String collectContent(InputBuffer buf) {
-        StringBuilder sb = new StringBuilder();
-        int ix = 0;
+    public static String collectContent(final InputBuffer buf)
+    {
+        final StringBuilder sb = new StringBuilder();
 
-        loop:
+        int ix = 0;
+        char c;
+loop:
         while (true) {
-            char c = buf.charAt(ix++);
+            c = buf.charAt(ix++);
             switch (c) {
                 case INDENT:
                     sb.append('\u00bb'); // right pointed double angle quotation mark

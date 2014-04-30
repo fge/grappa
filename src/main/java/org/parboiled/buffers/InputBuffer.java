@@ -23,11 +23,12 @@ import org.parboiled.support.Position;
 /**
  * Abstraction of a simple char[] buffer holding the input text to be parsed.
  */
-public interface InputBuffer {
+public interface InputBuffer
+{
 
     /**
-     * Returns the character at the given index. If the index is invalid the method returns
-     * {@link Chars#EOI}.
+     * Returns the character at the given index. If the index is invalid the
+     * method returns {@link Chars#EOI}.
      *
      * @param index the index
      * @return the character at the given index or Chars.EOI.
@@ -35,26 +36,29 @@ public interface InputBuffer {
     char charAt(int index);
 
     /**
-     * Determines whether the characters starting at the given index match the ones from the given array (in order).
+     * Determines whether the characters starting at the given index match the
+     * ones from the given array (in order).
      *
-     * @param index      the index into the input buffer where to start the comparison
+     * @param index the index into the input buffer where to start the comparison
      * @param characters the characters to test against the input buffer
      * @return true if matched
      */
     boolean test(int index, char[] characters);
 
     /**
-     * Constructs a new {@link String} from all character between the given indices.
-     * Invalid indices are automatically adjusted to their respective boundary.
+     * Constructs a new {@link String} from all character between the given
+     * indices. Invalid indices are automatically adjusted to their respective
+     * boundary.
      *
      * @param start the start index (inclusively)
-     * @param end   the end index (exclusively)
+     * @param end the end index (exclusively)
      * @return a new String (non-interned)
      */
     String extract(int start, int end);
-    
+
     /**
-     * Constructs a new {@link String} from all character covered by the given IndexRange.
+     * Constructs a new {@link String} from all character covered by the given
+     * IndexRange.
      *
      * @param range the IndexRange
      * @return a new String (non-interned)
@@ -62,9 +66,9 @@ public interface InputBuffer {
     String extract(IndexRange range);
 
     /**
-     * Returns the line and column number of the character with the given index encapsulated in a
-     * {@link Position}
-     * object. The very first character has the line number 1 and the column number 1.
+     * Returns the line and column number of the character with the given index
+     * encapsulated in a {@link Position} object. The very first character has
+     * the line number 1 and the column number 1.
      *
      * @param index the index of the character to get the line number of
      * @return the line number
@@ -72,19 +76,21 @@ public interface InputBuffer {
     Position getPosition(int index);
 
     /**
-     * Translates the given index from the scope of this InputBuffer to the scope of the original, underlying char
-     * array. The {@link DefaultInputBuffer} implementation simply returns the given index, but other implementations
-     * like the {@link IndentDedentInputBuffer} or the {@link MutableInputBuffer} need to "undo" all compressions and
-     * index shiftings performed internally in order to return the underlying index. 
-     * 
+     * Translates the given index from the scope of this InputBuffer to the
+     * scope of the original, underlying char array. The {@link
+     * DefaultInputBuffer} implementation simply returns the given index, but
+     * other implementations like {@link IndentDedentInputBuffer} or {@link
+     * MutableInputBuffer} need to "undo" all compressions and index shiftings
+     * performed internally in order to return the underlying index.
+     *
      * @param index the index relative to this InputBuffer
      * @return the index relative to the underlying string or char array
      */
     int getOriginalIndex(int index);
 
     /**
-     * Constructs a new {@link String} containing all characters with the given line number except for the trailing
-     * newline.
+     * Constructs a new {@link String} containing all characters with the given
+     * line number except for the trailing newline.
      *
      * @param lineNumber the line number to get
      * @return the string
