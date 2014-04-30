@@ -134,34 +134,34 @@ public final class InstructionGroupPreparer
     {
         final List<FieldNode> fields = group.getFields();
         for (final InstructionGraphNode node : group.getNodes()) {
-            if (node.isXLoad()) {
-                final VarInsnNode insn = (VarInsnNode) node.getInstruction();
+            if (!node.isXLoad())
+                continue;
 
-                // check whether we already have a field for the var with this index
-                int index;
-                for (index = 0; index < fields.size(); index++) {
-                    if (fields.get(index).access == insn.var)
-                        break;
-                }
+            final VarInsnNode insn = (VarInsnNode) node.getInstruction();
 
-                // if we don't, create a new field for the var
-                if (index == fields.size()) {
-                    /*
-                     * CAUTION, HACK!: for brevity we reuse the access field and
-                     * the value field of the FieldNode for keeping track of the
-                     * original var index as well as the FieldNodes Type
-                     * (respectively) so we need to make sure that we correct
-                     * for this when the field is actually written
-                     */
-                    final Type type = node.getResultValue().getType();
-                    fields.add(new FieldNode(insn.var, "field$" + index,
-                        type.getDescriptor(), null, type));
-                }
+            // check whether we already have a field for the var with this index
+            int index;
+            for (index = 0; index < fields.size(); index++)
+                if (fields.get(index).access == insn.var)
+                    break;
 
-                // normalize the instruction so instruction groups that are identical except for the variable
-                // indexes are still mapped to the same group class (name)
-                insn.var = index;
+            // if we don't, create a new field for the var
+            if (index == fields.size()) {
+                /*
+                 * CAUTION, HACK!: for brevity we reuse the access field and
+                 * the value field of the FieldNode for keeping track of the
+                 * original var index as well as the FieldNodes Type
+                 * (respectively) so we need to make sure that we correct
+                 * for this when the field is actually written
+                 */
+                final Type type = node.getResultValue().getType();
+                fields.add(new FieldNode(insn.var, "field$" + index,
+                    type.getDescriptor(), null, type));
             }
+
+            // normalize the instruction so instruction groups that are identical except for the variable
+            // indexes are still mapped to the same group class (name)
+            insn.var = index;
         }
     }
 
@@ -172,14 +172,15 @@ public final class InstructionGroupPreparer
         // generate an MD5 hash across the buffer, use only the first 96 bit
         final MD5Digester digester = new MD5Digester(classNode.name);
         group.getInstructions().accept(digester);
-        for (final FieldNode field : group.getFields())
+        for (final FieldNode field: group.getFields())
             digester.visitField(field);
         final byte[] hash = Arrays.copyOf(digester.getMD5Hash(), 12);
 
         // generate a name for the group based on the hash
-        String name = group.getRoot().isActionRoot() ? "Action$" : "VarInit$";
-        name += illGuidedTransform(BASE_ENCODING.encode(hash));
-        group.setName(name);
+        final StringBuilder sb = new StringBuilder();
+        sb.append(group.getRoot().isActionRoot() ? "Action$" : "VarInit$")
+            .append(illGuidedTransform(BASE_ENCODING.encode(hash)));
+        group.setName(sb.toString());
     }
 
     @Immutable
