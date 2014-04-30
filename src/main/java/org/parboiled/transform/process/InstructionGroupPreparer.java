@@ -44,11 +44,16 @@ import java.util.Map;
 
 import static org.objectweb.asm.Opcodes.ALOAD;
 
-public class InstructionGroupPreparer implements RuleMethodProcessor {
+public final class InstructionGroupPreparer
+    implements RuleMethodProcessor
+{
 
     private static final Map<Character, Character> TRANSFORM_MAP;
-    private static final BaseEncoding BASE_ENCODING
-        = BaseEncoding.base64().omitPadding();
+    /*
+     * Note: we have to go through the map above; BaseEncoding will rightly
+     * yell at you if you try and use a separator which is part of the alphabet.
+     */
+    private static final BaseEncoding BASE_ENCODING = BaseEncoding.base64();
 
     /*
      * TODO: rework that part
@@ -83,7 +88,6 @@ public class InstructionGroupPreparer implements RuleMethodProcessor {
         builder.put('9', 'z');
         builder.put('+', 'z');
         builder.put('/', 'z');
-        builder.put('=', 'z');
 
         TRANSFORM_MAP = builder.build();
     }
@@ -91,18 +95,21 @@ public class InstructionGroupPreparer implements RuleMethodProcessor {
     private RuleMethod method;
 
     @Override
-    public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
+    public boolean appliesTo(final ParserClassNode classNode,
+        final RuleMethod method)
+    {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
         return method.containsExplicitActions() || method.containsVars();
     }
 
     @Override
-    public void process(ParserClassNode classNode, RuleMethod method) {
+    public void process(final ParserClassNode classNode, final RuleMethod method)
+    {
         this.method = Preconditions.checkNotNull(method, "method");
 
         // prepare groups for later stages
-        for (InstructionGroup group : method.getGroups()) {
+        for (final InstructionGroup group : method.getGroups()) {
             extractInstructions(group);
             extractFields(group);
             name(group, classNode);
@@ -110,36 +117,44 @@ public class InstructionGroupPreparer implements RuleMethodProcessor {
     }
 
     // move all group instructions except for the root from the underlying method into the groups Insnlist
-    private void extractInstructions(InstructionGroup group) {
-        for (InstructionGraphNode node : group.getNodes()) {
-            if (node != group.getRoot()) {
-                AbstractInsnNode insn = node.getInstruction();
-                method.instructions.remove(insn);
-                group.getInstructions().add(insn);
-            }
+    private void extractInstructions(final InstructionGroup group)
+    {
+        for (final InstructionGraphNode node : group.getNodes()) {
+            if (node == group.getRoot())
+                continue;
+            final AbstractInsnNode insn = node.getInstruction();
+            method.instructions.remove(insn);
+            group.getInstructions().add(insn);
         }
     }
 
     // create FieldNodes for all xLoad instructions
-    private void extractFields(InstructionGroup group) {
-        List<FieldNode> fields = group.getFields();
-        for (InstructionGraphNode node : group.getNodes()) {
+    private static void extractFields(final InstructionGroup group)
+    {
+        final List<FieldNode> fields = group.getFields();
+        for (final InstructionGraphNode node : group.getNodes()) {
             if (node.isXLoad()) {
-                VarInsnNode insn = (VarInsnNode) node.getInstruction();
+                final VarInsnNode insn = (VarInsnNode) node.getInstruction();
 
                 // check whether we already have a field for the var with this index
                 int index;
                 for (index = 0; index < fields.size(); index++) {
-                    if (fields.get(index).access == insn.var) break;
+                    if (fields.get(index).access == insn.var)
+                        break;
                 }
 
                 // if we don't, create a new field for the var
                 if (index == fields.size()) {
-                    // CAUTION, HACK!: for brevity we reuse the access field and the value field of the FieldNode
-                    // for keeping track of the original var index as well as the FieldNodes Type (respectively)
-                    // so we need to make sure that we correct for this when the field is actually written
-                    Type type = node.getResultValue().getType();
-                    fields.add(new FieldNode(insn.var, "field$" + index, type.getDescriptor(), null, type));
+                    /*
+                     * CAUTION, HACK!: for brevity we reuse the access field and
+                     * the value field of the FieldNode for keeping track of the
+                     * original var index as well as the FieldNodes Type
+                     * (respectively) so we need to make sure that we correct
+                     * for this when the field is actually written
+                     */
+                    final Type type = node.getResultValue().getType();
+                    fields.add(new FieldNode(insn.var, "field$" + index,
+                        type.getDescriptor(), null, type));
                 }
 
                 // normalize the instruction so instruction groups that are identical except for the variable
@@ -150,13 +165,16 @@ public class InstructionGroupPreparer implements RuleMethodProcessor {
     }
 
     // set a group name base on the hash across all group instructions and fields
-    private synchronized void name(InstructionGroup group, ParserClassNode classNode) {
+    private synchronized void name(final InstructionGroup group,
+        final ParserClassNode classNode)
+    {
         // generate an MD5 hash across the buffer, use only the first 96 bit
-        MD5Digester digester = new MD5Digester(classNode.name);
+        final MD5Digester digester = new MD5Digester(classNode.name);
         group.getInstructions().accept(digester);
-        for (FieldNode field: group.getFields()) digester.visitField(field);
-        byte[] hash = digester.getMD5Hash();
-        byte[] hash96 = new byte[12];
+        for (final FieldNode field : group.getFields())
+            digester.visitField(field);
+        final byte[] hash = digester.getMD5Hash();
+        final byte[] hash96 = new byte[12];
         System.arraycopy(hash, 0, hash96, 0, 12);
 
         // generate a name for the group based on the hash
@@ -166,7 +184,7 @@ public class InstructionGroupPreparer implements RuleMethodProcessor {
     }
 
     @Immutable
-    private static class MD5Digester
+    private static final class MD5Digester
         extends MethodVisitor
     {
         private static final ByteBuffer BUFFER = ByteBuffer.allocate(4096);
@@ -183,7 +201,7 @@ public class InstructionGroupPreparer implements RuleMethodProcessor {
         private final List<Label> labels = new ArrayList<Label>();
         private final String parserClassName;
 
-        private MD5Digester(String parserClassName)
+        private MD5Digester(final String parserClassName)
         {
             super(Opcodes.ASM4);
             this.parserClassName = parserClassName;
@@ -191,20 +209,20 @@ public class InstructionGroupPreparer implements RuleMethodProcessor {
         }
 
         @Override
-        public void visitInsn(int opcode)
+        public void visitInsn(final int opcode)
         {
             update(opcode);
         }
 
         @Override
-        public void visitIntInsn(int opcode, int operand)
+        public void visitIntInsn(final int opcode, final int operand)
         {
             update(opcode);
             update(operand);
         }
 
         @Override
-        public void visitVarInsn(int opcode, int var)
+        public void visitVarInsn(final int opcode, final int var)
         {
             update(opcode);
             update(var);
@@ -215,15 +233,16 @@ public class InstructionGroupPreparer implements RuleMethodProcessor {
         }
 
         @Override
-        public void visitTypeInsn(int opcode, String type)
+        public void visitTypeInsn(final int opcode, final String type)
         {
             update(opcode);
             update(type);
         }
 
         @Override
-        public void visitFieldInsn(int opcode, String owner, String name,
-            String desc)
+        public void visitFieldInsn(
+            final int opcode, final String owner, final String name,
+            final String desc)
         {
             update(opcode);
             update(owner);
@@ -232,8 +251,9 @@ public class InstructionGroupPreparer implements RuleMethodProcessor {
         }
 
         @Override
-        public void visitMethodInsn(int opcode, String owner, String name,
-            String desc, boolean itf)
+        public void visitMethodInsn(
+            final int opcode, final String owner, final String name,
+            final String desc, final boolean itf)
         {
             update(opcode);
             update(owner);
@@ -242,20 +262,20 @@ public class InstructionGroupPreparer implements RuleMethodProcessor {
         }
 
         @Override
-        public void visitJumpInsn(int opcode, Label label)
+        public void visitJumpInsn(final int opcode, final Label label)
         {
             update(opcode);
             update(label);
         }
 
         @Override
-        public void visitLabel(Label label)
+        public void visitLabel(final Label label)
         {
             update(label);
         }
 
         @Override
-        public void visitLdcInsn(Object cst)
+        public void visitLdcInsn(final Object cst)
         {
             if (cst instanceof String) {
                 update((String) cst);
@@ -277,27 +297,28 @@ public class InstructionGroupPreparer implements RuleMethodProcessor {
         }
 
         @Override
-        public void visitIincInsn(int var, int increment)
+        public void visitIincInsn(final int var, final int increment)
         {
             update(var);
             update(increment);
         }
 
         @Override
-        public void visitTableSwitchInsn(int min, int max, Label dflt,
-            Label[] labels)
+        public void visitTableSwitchInsn(
+            final int min, final int max, final Label dflt,
+            final Label[] labels)
         {
             update(min);
             update(max);
             update(dflt);
-            for (Label label : labels) {
+            for (final Label label : labels) {
                 update(label);
             }
         }
 
         @Override
-        public void visitLookupSwitchInsn(Label dflt, int[] keys,
-            Label[] labels)
+        public void visitLookupSwitchInsn(final Label dflt, final int[] keys,
+            final Label[] labels)
         {
             update(dflt);
             for (int i = 0; i < keys.length; i++) {
@@ -307,15 +328,16 @@ public class InstructionGroupPreparer implements RuleMethodProcessor {
         }
 
         @Override
-        public void visitMultiANewArrayInsn(String desc, int dims)
+        public void visitMultiANewArrayInsn(final String desc, final int dims)
         {
             update(desc);
             update(dims);
         }
 
         @Override
-        public void visitTryCatchBlock(Label start, Label end, Label handler,
-            String type)
+        public void visitTryCatchBlock(
+            final Label start, final Label end, final Label handler,
+            final String type)
         {
             update(start);
             update(end);
@@ -323,20 +345,20 @@ public class InstructionGroupPreparer implements RuleMethodProcessor {
             update(type);
         }
 
-        public void visitField(FieldNode field)
+        public void visitField(final FieldNode field)
         {
             update(field.name);
             update(field.desc);
             update(field.signature);
         }
 
-        private void update(int i)
+        private void update(final int i)
         {
             ensureRemaining(4);
             BUFFER.putInt(i);
         }
 
-        private void update(String str)
+        private static void update(final String str)
         {
             if (Strings.isNullOrEmpty(str))
                 return;
@@ -345,7 +367,7 @@ public class InstructionGroupPreparer implements RuleMethodProcessor {
                 BUFFER.putChar(buf.get());
         }
 
-        private void update(Label label)
+        private void update(final Label label)
         {
             int index = labels.indexOf(label);
             if (index == -1) {
@@ -355,21 +377,20 @@ public class InstructionGroupPreparer implements RuleMethodProcessor {
             update(index);
         }
 
-        private void ensureRemaining(int bytes)
+        private void ensureRemaining(final int bytes)
         {
-            if (BUFFER.remaining() < bytes) {
+            if (BUFFER.remaining() < bytes)
                 digest();
-            }
         }
 
-        private void digest()
+        private static void digest()
         {
             BUFFER.flip();
             DIGEST.update(BUFFER);
             BUFFER.clear();
         }
 
-        public byte[] getMD5Hash()
+        private static byte[] getMD5Hash()
         {
             digest();
             return DIGEST.digest();
