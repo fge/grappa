@@ -1,6 +1,6 @@
 ![logo](misc/grappa-logo.png)
 
-\[Original image courtesy of [clipartbest.com](www.clipartbest.com/clipart-Kin5EMyiq)\]
+\[Original image courtesy of [clipartbest.com](http://www.clipartbest.com/clipart-Kin5EMyiq)\]
 
 ## What this is
 
@@ -33,9 +33,14 @@ like the [drink of the same name](http://www.istitutograppa.org/))
 
 ## Versions
 
-The current version is **1.0.0-beta.1**. The major new features compared to parboiled1 are:
+The current version is **1.0.0-beta.2**. See the [release notes](RELEASE-NOTES.md) for details.
 
-* Unicode support;
+The major new features compared to parboiled1 are:
+
+* more basic rules: all rules defined by [RFC 5234, Appendix B,
+  section1](https://tools.ietf.org/html/rfc5234#appendix-B.1) are not available by default (except
+  for `LWSP`);
+* Unicode support: rules for matching a single code point or a range of code points;
 * Java 8 compatibility;
 * `CharSequence` support for input buffers, which means you can use grappa on very large files using
   [largetext](https://github.com/fge/largetext);
@@ -75,27 +80,27 @@ more](https://github.com/parboiled1/parboiled/wiki):
 public class DoubleQuotedString
     extends BaseParser<Void>
 {
-    Rule Normal()
+    Rule normal()
     {
-        return NoneOf("\\\"");
+        return noneOf("\\\"");
     }
 
-    Rule Special()
+    Rule special()
     {
-        return String("\\\"");
+        return string("\\\"");
     }
 
-    Rule NSN()
+    Rule nsn() // normal* (special normal*)*
     {
-        return Sequence(
-            ZeroOrMore(Normal()),
-            ZeroOrMore(Special(), ZeroOrMore(Normal()))
+        return sequence(
+            zeroOrMore(normal()),
+            zeroOrMore(special(), zeroOrMore(normal()))
         );
     }
 
-    Rule DoubleQuotedString()
+    Rule mainRule()
     {
-        return Sequence('"', NSN(), '"', EOI);
+        return sequence('"', nsn(), '"', EOI);
     }
 }
 ```
