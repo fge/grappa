@@ -31,6 +31,7 @@ import org.parboiled.transform.InstructionGroup;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
 
+import javax.annotation.concurrent.Immutable;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.security.MessageDigest;
@@ -122,41 +123,47 @@ public class InstructionGroupPreparer implements RuleMethodProcessor {
         group.setName(name);
     }
 
-    private static class MD5Digester extends MethodVisitor {
-        private static MessageDigest digest;
-        private static ByteBuffer buffer;
+    @Immutable
+    private static class MD5Digester
+        extends MethodVisitor
+    {
+        private static final ByteBuffer BUFFER = ByteBuffer.allocate(4096);
+        private static final MessageDigest DIGEST;
+
+        static {
+            try {
+                DIGEST = MessageDigest.getInstance("MD5");
+            } catch (NoSuchAlgorithmException e) {
+                throw new ExceptionInInitializerError(e);
+            }
+        }
+
         private final List<Label> labels = new ArrayList<Label>();
         private final String parserClassName;
 
-        public MD5Digester(String parserClassName) {
+        private MD5Digester(String parserClassName)
+        {
             super(Opcodes.ASM4);
             this.parserClassName = parserClassName;
-            if (digest == null) {
-                try {
-                    digest = MessageDigest.getInstance("MD5");
-                } catch (NoSuchAlgorithmException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            if (buffer == null) {
-                buffer = ByteBuffer.allocateDirect(4096);
-            }
-            buffer.clear();
+            BUFFER.clear();
         }
 
         @Override
-        public void visitInsn(int opcode) {
+        public void visitInsn(int opcode)
+        {
             update(opcode);
         }
 
         @Override
-        public void visitIntInsn(int opcode, int operand) {
+        public void visitIntInsn(int opcode, int operand)
+        {
             update(opcode);
             update(operand);
         }
 
         @Override
-        public void visitVarInsn(int opcode, int var) {
+        public void visitVarInsn(int opcode, int var)
+        {
             update(opcode);
             update(var);
             if (opcode == ALOAD && var == 0) {
@@ -166,13 +173,16 @@ public class InstructionGroupPreparer implements RuleMethodProcessor {
         }
 
         @Override
-        public void visitTypeInsn(int opcode, String type) {
+        public void visitTypeInsn(int opcode, String type)
+        {
             update(opcode);
             update(type);
         }
 
         @Override
-        public void visitFieldInsn(int opcode, String owner, String name, String desc) {
+        public void visitFieldInsn(int opcode, String owner, String name,
+            String desc)
+        {
             update(opcode);
             update(owner);
             update(name);
@@ -181,7 +191,8 @@ public class InstructionGroupPreparer implements RuleMethodProcessor {
 
         @Override
         public void visitMethodInsn(int opcode, String owner, String name,
-            String desc, boolean itf) {
+            String desc, boolean itf)
+        {
             update(opcode);
             update(owner);
             update(name);
@@ -189,31 +200,34 @@ public class InstructionGroupPreparer implements RuleMethodProcessor {
         }
 
         @Override
-        public void visitJumpInsn(int opcode, Label label) {
+        public void visitJumpInsn(int opcode, Label label)
+        {
             update(opcode);
             update(label);
         }
 
         @Override
-        public void visitLabel(Label label) {
+        public void visitLabel(Label label)
+        {
             update(label);
         }
 
         @Override
-        public void visitLdcInsn(Object cst) {
+        public void visitLdcInsn(Object cst)
+        {
             if (cst instanceof String) {
                 update((String) cst);
             } else if (cst instanceof Integer) {
                 update((Integer) cst);
             } else if (cst instanceof Float) {
                 ensureRemaining(4);
-                buffer.putFloat((Float) cst);
+                BUFFER.putFloat((Float) cst);
             } else if (cst instanceof Long) {
                 ensureRemaining(8);
-                buffer.putLong((Long) cst);
+                BUFFER.putLong((Long) cst);
             } else if (cst instanceof Double) {
                 ensureRemaining(8);
-                buffer.putDouble((Double) cst);
+                BUFFER.putDouble((Double) cst);
             } else {
                 Preconditions.checkState(cst instanceof Type);
                 update(((Type) cst).getInternalName());
@@ -221,13 +235,16 @@ public class InstructionGroupPreparer implements RuleMethodProcessor {
         }
 
         @Override
-        public void visitIincInsn(int var, int increment) {
+        public void visitIincInsn(int var, int increment)
+        {
             update(var);
             update(increment);
         }
 
         @Override
-        public void visitTableSwitchInsn(int min, int max, Label dflt, Label[] labels) {
+        public void visitTableSwitchInsn(int min, int max, Label dflt,
+            Label[] labels)
+        {
             update(min);
             update(max);
             update(dflt);
@@ -237,7 +254,9 @@ public class InstructionGroupPreparer implements RuleMethodProcessor {
         }
 
         @Override
-        public void visitLookupSwitchInsn(Label dflt, int[] keys, Label[] labels) {
+        public void visitLookupSwitchInsn(Label dflt, int[] keys,
+            Label[] labels)
+        {
             update(dflt);
             for (int i = 0; i < keys.length; i++) {
                 update(keys[i]);
@@ -246,39 +265,46 @@ public class InstructionGroupPreparer implements RuleMethodProcessor {
         }
 
         @Override
-        public void visitMultiANewArrayInsn(String desc, int dims) {
+        public void visitMultiANewArrayInsn(String desc, int dims)
+        {
             update(desc);
             update(dims);
         }
 
         @Override
-        public void visitTryCatchBlock(Label start, Label end, Label handler, String type) {
+        public void visitTryCatchBlock(Label start, Label end, Label handler,
+            String type)
+        {
             update(start);
             update(end);
             update(handler);
             update(type);
         }
 
-        public void visitField(FieldNode field) {
+        public void visitField(FieldNode field)
+        {
             update(field.name);
             update(field.desc);
             update(field.signature);
         }
 
-        private void update(int i) {
+        private void update(int i)
+        {
             ensureRemaining(4);
-            buffer.putInt(i);
+            BUFFER.putInt(i);
         }
 
-        private void update(String str) {
+        private void update(String str)
+        {
             if (Strings.isNullOrEmpty(str))
                 return;
             final CharBuffer buf = CharBuffer.wrap(str);
             while (buf.hasRemaining())
-                buffer.putChar(buf.get());
+                BUFFER.putChar(buf.get());
         }
 
-        private void update(Label label) {
+        private void update(Label label)
+        {
             int index = labels.indexOf(label);
             if (index == -1) {
                 index = labels.size();
@@ -287,22 +313,24 @@ public class InstructionGroupPreparer implements RuleMethodProcessor {
             update(index);
         }
 
-        private void ensureRemaining(int bytes) {
-            if (buffer.remaining() < bytes) {
+        private void ensureRemaining(int bytes)
+        {
+            if (BUFFER.remaining() < bytes) {
                 digest();
             }
         }
 
-        private void digest() {
-            buffer.flip();
-            digest.update(buffer);
-            buffer.clear();
+        private void digest()
+        {
+            BUFFER.flip();
+            DIGEST.update(BUFFER);
+            BUFFER.clear();
         }
 
-        public byte[] getMD5Hash() {
+        public byte[] getMD5Hash()
+        {
             digest();
-            return digest.digest();
+            return DIGEST.digest();
         }
     }
-
 }
