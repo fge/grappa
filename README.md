@@ -33,7 +33,7 @@ like the [drink of the same name](http://www.istitutograppa.org/))
 
 ## Versions
 
-The current version is **1.0.0-beta.2**. See the [release notes](RELEASE-NOTES.md) for details.
+The current version is **1.0.0-beta.3**. See the [release notes](RELEASE-NOTES.md) for details.
 
 The major new features compared to parboiled1 are:
 
