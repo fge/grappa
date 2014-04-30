@@ -71,9 +71,16 @@
 
 package org.parboiled.common;
 
+import com.google.common.io.BaseEncoding;
+
 import java.util.Arrays;
 
-@SuppressWarnings("UnnecessaryParentheses")
+/**
+ * DO NOT USE!
+ *
+ * @deprecated use Guava's {@link BaseEncoding} instead. Will be removed in 1.1.
+ */
+@Deprecated
 public class Base64 {
 
     // -------- FIELDS -------------------------------------------------------------------------------------------------

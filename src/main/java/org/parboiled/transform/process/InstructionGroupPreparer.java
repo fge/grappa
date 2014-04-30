@@ -16,8 +16,11 @@
 
 package org.parboiled.transform.process;
 
+import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.io.BaseEncoding;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -25,7 +28,6 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.VarInsnNode;
-import org.parboiled.common.Base64;
 import org.parboiled.transform.InstructionGraphNode;
 import org.parboiled.transform.InstructionGroup;
 import org.parboiled.transform.ParserClassNode;
@@ -38,13 +40,53 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.objectweb.asm.Opcodes.ALOAD;
 
 public class InstructionGroupPreparer implements RuleMethodProcessor {
 
-    private static final Base64 CUSTOM_BASE64 =
-            new Base64("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxy0123456789zzzz");
+    private static final Map<Character, Character> TRANSFORM_MAP;
+    private static final BaseEncoding BASE_ENCODING
+        = BaseEncoding.base64().omitPadding();
+
+    /*
+     * TODO: rework that part
+     *
+     * The goal is to generate a suitable hash representable as a string
+     * containing valid characters for Java identifiers.
+     *
+     * The current process has two major problems:
+     *
+     * - it uses MD5 as a hash and this has is not that good;
+     * - it limits the output length to 96 bytes; probably to limit the length
+     *   of the generated identifier;
+     * - the MessageDigest instance is static (but final, now).
+     *
+     * Ideally a better hash should be used. But for this it is needed to get
+     * rid of the "toString()" tests of bytecode!
+     */
+    static {
+        final ImmutableMap.Builder<Character, Character> builder
+            = ImmutableMap.builder();
+
+        builder.put('z', '0');
+        builder.put('0', '1');
+        builder.put('1', '2');
+        builder.put('2', '3');
+        builder.put('3', '4');
+        builder.put('4', '5');
+        builder.put('5', '6');
+        builder.put('6', '7');
+        builder.put('7', '8');
+        builder.put('8', '9');
+        builder.put('9', 'z');
+        builder.put('+', 'z');
+        builder.put('/', 'z');
+        builder.put('=', 'z');
+
+        TRANSFORM_MAP = builder.build();
+    }
 
     private RuleMethod method;
 
@@ -119,7 +161,7 @@ public class InstructionGroupPreparer implements RuleMethodProcessor {
 
         // generate a name for the group based on the hash
         String name = group.getRoot().isActionRoot() ? "Action$" : "VarInit$";
-        name += CUSTOM_BASE64.encodeToString(hash96, false);
+        name += illGuidedTransform(BASE_ENCODING.encode(hash96));
         group.setName(name);
     }
 
@@ -332,5 +374,19 @@ public class InstructionGroupPreparer implements RuleMethodProcessor {
             digest();
             return DIGEST.digest();
         }
+    }
+
+    /*
+     * Name says it all.
+     */
+    private static String illGuidedTransform(final String input)
+    {
+        final char[] orig = input.toCharArray();
+        final CharBuffer buffer = CharBuffer.allocate(orig.length);
+
+        for (final char c: orig)
+            buffer.put(Optional.fromNullable(TRANSFORM_MAP.get(c)).or(c));
+
+        return new String(buffer.array());
     }
 }
