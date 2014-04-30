@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
 import org.parboiled.Rule;
 import org.parboiled.matchers.EmptyMatcher;
-import org.parboiled.matchers.Matcher;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -20,7 +19,7 @@ public final class JoiningRuleBuilder
         this.joining = joining;
     }
 
-    public Matcher min(final int nrMatches)
+    public Rule min(final int nrMatches)
     {
         Preconditions.checkArgument(nrMatches >= 0,
             "illegal repetition number specified: " + nrMatches
@@ -28,7 +27,7 @@ public final class JoiningRuleBuilder
         return new JoinMatcher(joined, joining, Range.atLeast(nrMatches));
     }
 
-    public Matcher max(final int nrMatches)
+    public Rule max(final int nrMatches)
     {
         Preconditions.checkArgument(nrMatches >= 0,
             "illegal repetition number specified: " + nrMatches
@@ -36,11 +35,11 @@ public final class JoiningRuleBuilder
         if (nrMatches == 0)
             return new EmptyMatcher();
         if (nrMatches == 1)
-            return (Matcher) joined;
+            return joined;
         return new JoinMatcher(joined, joining, Range.atMost(nrMatches));
     }
 
-    public Matcher times(final int nrMatches)
+    public Rule times(final int nrMatches)
     {
         Preconditions.checkArgument(nrMatches >= 0,
             "illegal repetition number specified: " + nrMatches
@@ -48,11 +47,11 @@ public final class JoiningRuleBuilder
         if (nrMatches == 0)
             return new EmptyMatcher();
         if (nrMatches == 1)
-            return (Matcher) joined;
+            return joined;
         return new JoinMatcher(joined, joining, Range.singleton(nrMatches));
     }
 
-    public Matcher times(final int min, final int max)
+    public Rule times(final int min, final int max)
     {
         Preconditions.checkArgument(min >= 0,
             "illegal repetition number specified: " + min
