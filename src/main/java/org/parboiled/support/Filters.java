@@ -75,12 +75,7 @@ public class Filters {
 
             @Override
             public boolean apply(Matcher node) {
-                node = unwrap(node);
-                if (visited.contains(node)) {
-                    return false;
-                }
-                visited.add(node);
-                return true;
+                return visited.add(unwrap(node));
             }
         };
     }

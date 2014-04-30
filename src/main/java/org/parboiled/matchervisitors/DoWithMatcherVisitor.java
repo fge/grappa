@@ -28,7 +28,6 @@ import org.parboiled.matchers.TestNotMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -50,13 +49,9 @@ public class DoWithMatcherVisitor extends DefaultMatcherVisitor<Void> {
 
     @Override
     public Void visit(FirstOfMatcher matcher) {
-        if (!visited.contains(matcher)) {
-            visited.add(matcher);
-            List<Matcher> children = matcher.getChildren();
-            for (int i = 0, childrenSize = children.size(); i < childrenSize; i++) {
-                Matcher sub = children.get(i);
-                sub.accept(this);
-            }
+        if (visited.add(matcher)) {
+            for (final Matcher m: matcher.getChildren())
+                m.accept(this);
             action.process(matcher);
         }
         return null;
@@ -64,13 +59,9 @@ public class DoWithMatcherVisitor extends DefaultMatcherVisitor<Void> {
 
     @Override
     public Void visit(SequenceMatcher matcher) {
-        if (!visited.contains(matcher)) {
-            visited.add(matcher);
-            List<Matcher> children = matcher.getChildren();
-            for (int i = 0, childrenSize = children.size(); i < childrenSize; i++) {
-                Matcher sub = children.get(i);
-                sub.accept(this);
-            }
+        if (visited.add(matcher)) {
+            for (final Matcher m: matcher.getChildren())
+                m.accept(this);
             action.process(matcher);
         }
         return null;
@@ -78,8 +69,7 @@ public class DoWithMatcherVisitor extends DefaultMatcherVisitor<Void> {
 
     @Override
     public Void visit(OneOrMoreMatcher matcher) {
-        if (!visited.contains(matcher)) {
-            visited.add(matcher);
+        if (visited.add(matcher)) {
             matcher.subMatcher.accept(this);
             action.process(matcher);
         }
@@ -88,8 +78,7 @@ public class DoWithMatcherVisitor extends DefaultMatcherVisitor<Void> {
 
     @Override
     public Void visit(OptionalMatcher matcher) {
-        if (!visited.contains(matcher)) {
-            visited.add(matcher);
+        if (visited.add(matcher)) {
             matcher.subMatcher.accept(this);
             action.process(matcher);
         }
@@ -98,8 +87,7 @@ public class DoWithMatcherVisitor extends DefaultMatcherVisitor<Void> {
 
     @Override
     public Void visit(TestMatcher matcher) {
-        if (!visited.contains(matcher)) {
-            visited.add(matcher);
+        if (visited.add(matcher)) {
             matcher.subMatcher.accept(this);
             action.process(matcher);
         }
@@ -108,8 +96,7 @@ public class DoWithMatcherVisitor extends DefaultMatcherVisitor<Void> {
 
     @Override
     public Void visit(TestNotMatcher matcher) {
-        if (!visited.contains(matcher)) {
-            visited.add(matcher);
+        if (visited.add(matcher)) {
             matcher.subMatcher.accept(this);
             action.process(matcher);
         }
@@ -118,8 +105,7 @@ public class DoWithMatcherVisitor extends DefaultMatcherVisitor<Void> {
 
     @Override
     public Void visit(ZeroOrMoreMatcher matcher) {
-        if (!visited.contains(matcher)) {
-            visited.add(matcher);
+        if (visited.add(matcher)) {
             matcher.subMatcher.accept(this);
             action.process(matcher);
         }
@@ -128,10 +114,8 @@ public class DoWithMatcherVisitor extends DefaultMatcherVisitor<Void> {
 
     @Override
     public Void defaultValue(AbstractMatcher matcher) {
-        if (!visited.contains(matcher)) {
-            visited.add(matcher);
+        if (visited.add(matcher))
             action.process(matcher);
-        }
         return null;
     }
 }
