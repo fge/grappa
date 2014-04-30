@@ -117,7 +117,8 @@ public final class InstructionGroupPreparer
         }
     }
 
-    // move all group instructions except for the root from the underlying method into the groups Insnlist
+    // move all group instructions except for the root from the underlying
+    // method into the groups Insnlist
     private void extractInstructions(final InstructionGroup group)
     {
         for (final InstructionGraphNode node : group.getNodes()) {
@@ -159,8 +160,9 @@ public final class InstructionGroupPreparer
                     type.getDescriptor(), null, type));
             }
 
-            // normalize the instruction so instruction groups that are identical except for the variable
-            // indexes are still mapped to the same group class (name)
+            // normalize the instruction so instruction groups that are
+            // identical except for the variable indices are still mapped to
+            // the same group class (name)
             insn.var = index;
         }
     }
