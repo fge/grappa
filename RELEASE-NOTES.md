@@ -1,3 +1,7 @@
+### 1.0.0-beta.3 (not released yet)
+
+* Add missing match for '3' in hexDigit{,upperCase()}! Oops...
+
 ### 1.0.0-beta.2
 
 * Deprecate a lot of classes, replace with Guava instead.
