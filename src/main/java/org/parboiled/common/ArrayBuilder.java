@@ -18,6 +18,14 @@ package org.parboiled.common;
 
 import java.lang.reflect.Array;
 
+/**
+ * DO NOT USE
+ *
+ * @param <T> element type
+ *
+ * @deprecated unused, will be removed in 1.1
+ */
+@Deprecated
 public class ArrayBuilder<T> {
 
     private T[] array;
