@@ -5,6 +5,8 @@
 * Rule methods are now lowercase; deprecate uppercase rules.
 * Add all rules defined by
   [RFC 5234, Appendix B, section 1](https://tools.ietf.org/html/rfc5234#appendix-B.1), except for `LWSP`.
+* Depend on asm-debug-all: asm is critical and we want to reliably debug into
+  it.
 
 ### 1.0.0-beta.1
 
