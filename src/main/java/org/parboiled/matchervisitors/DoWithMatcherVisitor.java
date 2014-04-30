@@ -31,26 +31,32 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * A MatcherVisitor that executes a given {@link Action} against a whole matcher hierarchy in a depth-first manner.
- * Potential cycles are detected and not rerun.
+ * A MatcherVisitor that executes a given {@link Action} against a whole matcher
+ * hierarchy in a depth-first manner. Potential cycles are detected and not
+ * rerun.
  */
-public class DoWithMatcherVisitor extends DefaultMatcherVisitor<Void> {
-
-    public interface Action {
+public final class DoWithMatcherVisitor
+    extends DefaultMatcherVisitor<Void>
+{
+    // TODO rename; unfortunately mixable with org.parboiled.Action<V>
+    public interface Action
+    {
         void process(Matcher matcher);
     }
 
     private final Action action;
     private final Set<Matcher> visited = new HashSet<Matcher>();
 
-    public DoWithMatcherVisitor(Action action) {
+    public DoWithMatcherVisitor(final Action action)
+    {
         this.action = Preconditions.checkNotNull(action, "action");
     }
 
     @Override
-    public Void visit(FirstOfMatcher matcher) {
+    public Void visit(final FirstOfMatcher matcher)
+    {
         if (visited.add(matcher)) {
-            for (final Matcher m: matcher.getChildren())
+            for (final Matcher m : matcher.getChildren())
                 m.accept(this);
             action.process(matcher);
         }
@@ -58,9 +64,10 @@ public class DoWithMatcherVisitor extends DefaultMatcherVisitor<Void> {
     }
 
     @Override
-    public Void visit(SequenceMatcher matcher) {
+    public Void visit(final SequenceMatcher matcher)
+    {
         if (visited.add(matcher)) {
-            for (final Matcher m: matcher.getChildren())
+            for (final Matcher m : matcher.getChildren())
                 m.accept(this);
             action.process(matcher);
         }
@@ -68,7 +75,8 @@ public class DoWithMatcherVisitor extends DefaultMatcherVisitor<Void> {
     }
 
     @Override
-    public Void visit(OneOrMoreMatcher matcher) {
+    public Void visit(final OneOrMoreMatcher matcher)
+    {
         if (visited.add(matcher)) {
             matcher.subMatcher.accept(this);
             action.process(matcher);
@@ -77,7 +85,8 @@ public class DoWithMatcherVisitor extends DefaultMatcherVisitor<Void> {
     }
 
     @Override
-    public Void visit(OptionalMatcher matcher) {
+    public Void visit(final OptionalMatcher matcher)
+    {
         if (visited.add(matcher)) {
             matcher.subMatcher.accept(this);
             action.process(matcher);
@@ -86,7 +95,8 @@ public class DoWithMatcherVisitor extends DefaultMatcherVisitor<Void> {
     }
 
     @Override
-    public Void visit(TestMatcher matcher) {
+    public Void visit(final TestMatcher matcher)
+    {
         if (visited.add(matcher)) {
             matcher.subMatcher.accept(this);
             action.process(matcher);
@@ -95,7 +105,8 @@ public class DoWithMatcherVisitor extends DefaultMatcherVisitor<Void> {
     }
 
     @Override
-    public Void visit(TestNotMatcher matcher) {
+    public Void visit(final TestNotMatcher matcher)
+    {
         if (visited.add(matcher)) {
             matcher.subMatcher.accept(this);
             action.process(matcher);
@@ -104,7 +115,8 @@ public class DoWithMatcherVisitor extends DefaultMatcherVisitor<Void> {
     }
 
     @Override
-    public Void visit(ZeroOrMoreMatcher matcher) {
+    public Void visit(final ZeroOrMoreMatcher matcher)
+    {
         if (visited.add(matcher)) {
             matcher.subMatcher.accept(this);
             action.process(matcher);
@@ -113,7 +125,8 @@ public class DoWithMatcherVisitor extends DefaultMatcherVisitor<Void> {
     }
 
     @Override
-    public Void defaultValue(AbstractMatcher matcher) {
+    public Void defaultValue(final AbstractMatcher matcher)
+    {
         if (visited.add(matcher))
             action.process(matcher);
         return null;

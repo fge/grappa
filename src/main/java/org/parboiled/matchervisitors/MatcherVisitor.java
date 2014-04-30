@@ -33,7 +33,6 @@ import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.matchers.TestMatcher;
 import org.parboiled.matchers.TestNotMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
-import org.parboiled.matchers.join.JoinMatcher;
 import org.parboiled.matchers.unicode.UnicodeCharMatcher;
 import org.parboiled.matchers.unicode.UnicodeRangeMatcher;
 
@@ -45,40 +44,54 @@ import org.parboiled.matchers.unicode.UnicodeRangeMatcher;
  */
 public interface MatcherVisitor<R> {
 
+    /*
+     * Actions
+     */
     R visit(ActionMatcher matcher);
 
-    R visit(AnyMatcher matcher);
+    /*
+     * Simple matchers
+     */
+    R visit(CharMatcher matcher);
 
     R visit(CharIgnoreCaseMatcher matcher);
 
-    R visit(CharMatcher matcher);
-
     R visit(UnicodeCharMatcher matcher);
-
-    R visit(UnicodeRangeMatcher matcher);
-
-    R visit(CustomMatcher matcher);
-
-    R visit(CharRangeMatcher matcher);
 
     R visit(AnyOfMatcher matcher);
 
+    R visit(CharRangeMatcher matcher);
+
+    R visit(UnicodeRangeMatcher matcher);
+
+    R visit(AnyMatcher matcher);
+
     R visit(EmptyMatcher matcher);
 
-    R visit(FirstOfMatcher matcher);
-
     R visit(NothingMatcher matcher);
+
+    /*
+     * "Composite" matchers
+     */
+    R visit(SequenceMatcher matcher);
+
+    R visit(ZeroOrMoreMatcher matcher);
 
     R visit(OneOrMoreMatcher matcher);
 
     R visit(OptionalMatcher matcher);
 
-    R visit(SequenceMatcher matcher);
+    R visit(FirstOfMatcher matcher);
 
+    /*
+     * Predicates
+     */
     R visit(TestMatcher matcher);
 
     R visit(TestNotMatcher matcher);
 
-    R visit(ZeroOrMoreMatcher matcher);
-
+    /*
+     * Custom
+     */
+    R visit(CustomMatcher matcher);
 }

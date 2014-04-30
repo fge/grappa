@@ -32,41 +32,47 @@ import java.util.Random;
  * Returns the first character a given matcher can start a match with.
  * For all complex matchers, i.e. the ones not always matching just one character, the visitor returns null.
  */
-public class GetStarterCharVisitor extends DefaultMatcherVisitor<Character> {
+public final class GetStarterCharVisitor
+    extends DefaultMatcherVisitor<Character>
+{
+    private static final Random RANDOM = new Random(System.currentTimeMillis());
 
     @Override
-    public Character visit(AnyMatcher matcher) {
+    public Character visit(AnyMatcher matcher)
+    {
         return 'X';
     }
 
     @Override
-    public Character visit(AnyOfMatcher matcher) {
-        Characters characters = matcher.characters;
-        if (!characters.isSubtractive()) {
+    public Character visit(AnyOfMatcher matcher)
+    {
+        final Characters characters = matcher.characters;
+        if (!characters.isSubtractive())
             return characters.getChars()[0];
-        }
 
         // for substractive sets we try to randomly choose a fitting character
-        Random random = new Random();
         char c;
         do {
-            c = (char) random.nextInt(Character.MAX_VALUE);
+            c = (char) RANDOM.nextInt(Character.MAX_VALUE);
         } while (!Character.isDefined(c) || !characters.contains(c));
         return c;
     }
 
     @Override
-    public Character visit(CharIgnoreCaseMatcher matcher) {
+    public Character visit(CharIgnoreCaseMatcher matcher)
+    {
         return matcher.charLow;
     }
 
     @Override
-    public Character visit(CharMatcher matcher) {
+    public Character visit(CharMatcher matcher)
+    {
         return matcher.character;
     }
 
     @Override
-    public Character visit(CharRangeMatcher matcher) {
+    public Character visit(CharRangeMatcher matcher)
+    {
         return matcher.cLow;
     }
 
@@ -83,7 +89,8 @@ public class GetStarterCharVisitor extends DefaultMatcherVisitor<Character> {
     }
 
     @Override
-    public Character visit(CustomMatcher matcher) {
+    public Character visit(CustomMatcher matcher)
+    {
         return matcher.getStarterChar();
     }
 }

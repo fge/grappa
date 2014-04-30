@@ -41,25 +41,30 @@ import org.parboiled.matchers.unicode.UnicodeRangeMatcher;
  *
  * @param <R> the return value of this visitor
  */
-public class DefaultMatcherVisitor<R> implements MatcherVisitor<R> {
-
+public abstract class DefaultMatcherVisitor<R>
+    implements MatcherVisitor<R>
+{
     @Override
-    public R visit(ActionMatcher matcher) {
+    public R visit(final ActionMatcher matcher)
+    {
         return defaultValue(matcher);
     }
 
     @Override
-    public R visit(AnyMatcher matcher) {
+    public R visit(final AnyMatcher matcher)
+    {
         return defaultValue(matcher);
     }
 
     @Override
-    public R visit(CharIgnoreCaseMatcher matcher) {
+    public R visit(final CharIgnoreCaseMatcher matcher)
+    {
         return defaultValue(matcher);
     }
 
     @Override
-    public R visit(CharMatcher matcher) {
+    public R visit(final CharMatcher matcher)
+    {
         return defaultValue(matcher);
     }
 
@@ -70,7 +75,8 @@ public class DefaultMatcherVisitor<R> implements MatcherVisitor<R> {
     }
 
     @Override
-    public R visit(CharRangeMatcher matcher) {
+    public R visit(final CharRangeMatcher matcher)
+    {
         return defaultValue(matcher);
     }
 
@@ -81,69 +87,80 @@ public class DefaultMatcherVisitor<R> implements MatcherVisitor<R> {
     }
 
     @Override
-    public R visit(AnyOfMatcher matcher) {
+    public R visit(final AnyOfMatcher matcher)
+    {
         return defaultValue(matcher);
     }
 
     @Override
-    public R visit(CustomMatcher matcher) {
+    public R visit(final CustomMatcher matcher)
+    {
         return defaultValue(matcher);
     }
 
     @Override
-    public R visit(EmptyMatcher matcher) {
+    public R visit(final EmptyMatcher matcher)
+    {
         return defaultValue(matcher);
     }
 
     @Override
-    public R visit(FirstOfMatcher matcher) {
+    public R visit(final FirstOfMatcher matcher)
+    {
         return defaultValue(matcher);
     }
 
     @Override
-    public R visit(NothingMatcher matcher) {
+    public R visit(final NothingMatcher matcher)
+    {
         return defaultValue(matcher);
     }
 
     @Override
-    public R visit(OneOrMoreMatcher matcher) {
+    public R visit(final OneOrMoreMatcher matcher)
+    {
         return defaultValue(matcher);
     }
 
     @Override
-    public R visit(OptionalMatcher matcher) {
+    public R visit(final OptionalMatcher matcher)
+    {
         return defaultValue(matcher);
     }
 
     @Override
-    public R visit(SequenceMatcher matcher) {
+    public R visit(final SequenceMatcher matcher)
+    {
         return defaultValue(matcher);
     }
 
     @Override
-    public R visit(TestMatcher matcher) {
+    public R visit(final TestMatcher matcher)
+    {
         return defaultValue(matcher);
     }
 
     @Override
-    public R visit(TestNotMatcher matcher) {
+    public R visit(final TestNotMatcher matcher)
+    {
         return defaultValue(matcher);
     }
 
     @Override
-    public R visit(ZeroOrMoreMatcher matcher) {
+    public R visit(final ZeroOrMoreMatcher matcher)
+    {
         return defaultValue(matcher);
     }
 
     /**
-     * Returns the default value for all visiting methods that have not been overridden.
+     * Returns the default value for all visiting methods that have not been
+     * overridden.
      *
      * @param matcher the matcher
      * @return the return value (null by default)
      */
-    @SuppressWarnings("UnusedDeclaration")
-    public R defaultValue(AbstractMatcher matcher) {
+    public R defaultValue(final AbstractMatcher matcher)
+    {
         return null;
     }
-
 }

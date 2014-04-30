@@ -36,27 +36,33 @@ import org.parboiled.matchers.unicode.UnicodeCharMatcher;
 import org.parboiled.matchers.unicode.UnicodeRangeMatcher;
 
 /**
- * A {@link MatcherVisitor} determining whether a matcher is a basic single character matcher.
+ * A {@link MatcherVisitor} determining whether a matcher is a basic single
+ * character matcher.
  */
-public class IsSingleCharMatcherVisitor implements MatcherVisitor<Boolean> {
-
+public final class IsSingleCharMatcherVisitor
+    implements MatcherVisitor<Boolean>
+{
     @Override
-    public Boolean visit(ActionMatcher matcher) {
+    public Boolean visit(final ActionMatcher matcher)
+    {
         return false;
     }
 
     @Override
-    public Boolean visit(AnyMatcher matcher) {
+    public Boolean visit(final AnyMatcher matcher)
+    {
         return true;
     }
 
     @Override
-    public Boolean visit(CharIgnoreCaseMatcher matcher) {
+    public Boolean visit(final CharIgnoreCaseMatcher matcher)
+    {
         return true;
     }
 
     @Override
-    public Boolean visit(CharMatcher matcher) {
+    public Boolean visit(final CharMatcher matcher)
+    {
         return true;
     }
 
@@ -67,7 +73,8 @@ public class IsSingleCharMatcherVisitor implements MatcherVisitor<Boolean> {
     }
 
     @Override
-    public Boolean visit(CharRangeMatcher matcher) {
+    public Boolean visit(final CharRangeMatcher matcher)
+    {
         return true;
     }
 
@@ -78,58 +85,68 @@ public class IsSingleCharMatcherVisitor implements MatcherVisitor<Boolean> {
     }
 
     @Override
-    public Boolean visit(AnyOfMatcher matcher) {
+    public Boolean visit(final AnyOfMatcher matcher)
+    {
         return true;
     }
 
     @Override
-    public Boolean visit(CustomMatcher matcher) {
+    public Boolean visit(final CustomMatcher matcher)
+    {
         return matcher.isSingleCharMatcher();
     }
 
     @Override
-    public Boolean visit(EmptyMatcher matcher) {
+    public Boolean visit(final EmptyMatcher matcher)
+    {
         return false;
     }
 
     @Override
-    public Boolean visit(FirstOfMatcher matcher) {
+    public Boolean visit(final FirstOfMatcher matcher)
+    {
         return false;
     }
 
     @Override
-    public Boolean visit(NothingMatcher matcher) {
+    public Boolean visit(final NothingMatcher matcher)
+    {
         return false;
     }
 
     @Override
-    public Boolean visit(OneOrMoreMatcher matcher) {
+    public Boolean visit(final OneOrMoreMatcher matcher)
+    {
         return false;
     }
 
     @Override
-    public Boolean visit(OptionalMatcher matcher) {
+    public Boolean visit(final OptionalMatcher matcher)
+    {
         return false;
     }
 
     @Override
-    public Boolean visit(SequenceMatcher matcher) {
+    public Boolean visit(final SequenceMatcher matcher)
+    {
         return false;
     }
 
     @Override
-    public Boolean visit(TestMatcher matcher) {
+    public Boolean visit(final TestMatcher matcher)
+    {
         return false;
     }
 
     @Override
-    public Boolean visit(TestNotMatcher matcher) {
+    public Boolean visit(final TestNotMatcher matcher)
+    {
         return false;
     }
 
     @Override
-    public Boolean visit(ZeroOrMoreMatcher matcher) {
+    public Boolean visit(final ZeroOrMoreMatcher matcher)
+    {
         return false;
     }
-
 }

@@ -40,32 +40,39 @@ import org.parboiled.support.Chars;
 /**
  * A {@link MatcherVisitor} determining whether a matcher can start a match with a given char.
  */
-public class IsStarterCharVisitor implements MatcherVisitor<Boolean> {
-
-    private final CanMatchEmptyVisitor canMatchEmptyVisitor = new CanMatchEmptyVisitor();
+public final class IsStarterCharVisitor
+    implements MatcherVisitor<Boolean>
+{
+    private final CanMatchEmptyVisitor canMatchEmptyVisitor
+        = new CanMatchEmptyVisitor();
     private final char starterChar;
 
-    public IsStarterCharVisitor(char starterChar) {
+    public IsStarterCharVisitor(final char starterChar)
+    {
         this.starterChar = starterChar;
     }
 
     @Override
-    public Boolean visit(ActionMatcher matcher) {
+    public Boolean visit(final ActionMatcher matcher)
+    {
         return false;
     }
 
     @Override
-    public Boolean visit(AnyMatcher matcher) {
+    public Boolean visit(final AnyMatcher matcher)
+    {
         return starterChar != Chars.EOI;
     }
 
     @Override
-    public Boolean visit(CharIgnoreCaseMatcher matcher) {
+    public Boolean visit(final CharIgnoreCaseMatcher matcher)
+    {
         return matcher.charLow == starterChar || matcher.charUp == starterChar;
     }
 
     @Override
-    public Boolean visit(CharMatcher matcher) {
+    public Boolean visit(final CharMatcher matcher)
+    {
         return matcher.character == starterChar;
     }
 
@@ -76,7 +83,8 @@ public class IsStarterCharVisitor implements MatcherVisitor<Boolean> {
     }
 
     @Override
-    public Boolean visit(CharRangeMatcher matcher) {
+    public Boolean visit(final CharRangeMatcher matcher)
+    {
         return matcher.cLow <= starterChar && starterChar <= matcher.cHigh;
     }
 
@@ -87,65 +95,77 @@ public class IsStarterCharVisitor implements MatcherVisitor<Boolean> {
     }
 
     @Override
-    public Boolean visit(AnyOfMatcher matcher) {
+    public Boolean visit(final AnyOfMatcher matcher)
+    {
         return matcher.characters.contains(starterChar);
     }
 
     @Override
-    public Boolean visit(CustomMatcher matcher) {
+    public Boolean visit(final CustomMatcher matcher)
+    {
         return matcher.isStarterChar(starterChar);
     }
 
     @Override
-    public Boolean visit(EmptyMatcher matcher) {
+    public Boolean visit(final EmptyMatcher matcher)
+    {
         return false;
     }
 
     @Override
-    public Boolean visit(FirstOfMatcher matcher) {
-        for (Matcher child : matcher.getChildren()) {
-            if (child.accept(this)) return true;
+    public Boolean visit(final FirstOfMatcher matcher)
+    {
+        for (final Matcher child: matcher.getChildren())
+            if (child.accept(this))
+                return true;
+        return false;
+    }
+
+    @Override
+    public Boolean visit(final NothingMatcher matcher)
+    {
+        return false;
+    }
+
+    @Override
+    public Boolean visit(final OneOrMoreMatcher matcher)
+    {
+        return matcher.subMatcher.accept(this);
+    }
+
+    @Override
+    public Boolean visit(final OptionalMatcher matcher)
+    {
+        return matcher.subMatcher.accept(this);
+    }
+
+    @Override
+    public Boolean visit(final SequenceMatcher matcher)
+    {
+        for (final Matcher child : matcher.getChildren()) {
+            if (child.accept(this))
+                return true;
+            if (!child.accept(canMatchEmptyVisitor))
+                break;
         }
         return false;
     }
 
     @Override
-    public Boolean visit(NothingMatcher matcher) {
+    public Boolean visit(final TestMatcher matcher)
+    {
+        return matcher.subMatcher.accept(this);
+    }
+
+    @Override
+    public Boolean visit(final TestNotMatcher matcher)
+    {
         return false;
     }
 
     @Override
-    public Boolean visit(OneOrMoreMatcher matcher) {
+    public Boolean visit(final ZeroOrMoreMatcher matcher)
+    {
         return matcher.subMatcher.accept(this);
     }
-
-    @Override
-    public Boolean visit(OptionalMatcher matcher) {
-        return matcher.subMatcher.accept(this);
-    }
-
-    @Override
-    public Boolean visit(SequenceMatcher matcher) {
-        for (Matcher child : matcher.getChildren()) {
-            if (child.accept(this)) return true;
-            if (!child.accept(canMatchEmptyVisitor)) break;
-        }
-        return false;
-    }
-
-    @Override
-    public Boolean visit(TestMatcher matcher) {
-        return matcher.subMatcher.accept(this);
-    }
-
-    @Override
-    public Boolean visit(TestNotMatcher matcher) {
-        return false;
-    }
-
-    @Override
-    public Boolean visit(ZeroOrMoreMatcher matcher) {
-        return matcher.subMatcher.accept(this);
-    }
-
 }

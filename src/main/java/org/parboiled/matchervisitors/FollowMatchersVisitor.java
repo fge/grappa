@@ -16,6 +16,7 @@
 
 package org.parboiled.matchervisitors;
 
+import com.google.common.collect.ImmutableList;
 import org.parboiled.MatcherContext;
 import org.parboiled.matchers.AbstractMatcher;
 import org.parboiled.matchers.Matcher;
@@ -27,51 +28,65 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Collects the matchers that can legally follow the given matcher according to the grammar into a given
- * list. The visitor returns true if the collected matchers are all possible followers, and false if other matchers
- * higher up the rule stack can also follow.
+ * Collects the matchers that can legally follow the given matcher according to
+ * the grammar into a given list. The visitor returns true if the collected
+ * matchers are all possible followers, and false if other matchers higher up
+ * the rule stack can also follow.
  */
-public class FollowMatchersVisitor extends DefaultMatcherVisitor<Boolean> {
+public final class FollowMatchersVisitor
+    extends DefaultMatcherVisitor<Boolean>
+{
 
-    private final CanMatchEmptyVisitor canMatchEmptyVisitor = new CanMatchEmptyVisitor();
+    private final CanMatchEmptyVisitor canMatchEmptyVisitor
+        = new CanMatchEmptyVisitor();
     private final List<Matcher> followMatchers = new ArrayList<Matcher>();
     private MatcherContext<?> context;
 
-    public List<Matcher> getFollowMatchers(MatcherContext<?> currentContext) {
+    public List<Matcher> getFollowMatchers(
+        final MatcherContext<?> currentContext)
+    {
         followMatchers.clear();
         context = currentContext.getParent();
         while (context != null) {
-            boolean complete = context.getMatcher().accept(this);
-            if (complete) return followMatchers;
+            if (context.getMatcher().accept(this))
+                break;
             context = context.getParent();
         }
-        return followMatchers;
+        return ImmutableList.copyOf(followMatchers);
     }
 
     @Override
-    public Boolean visit(OneOrMoreMatcher matcher) {
+    public Boolean visit(final OneOrMoreMatcher matcher)
+    {
         followMatchers.add(matcher.subMatcher);
         return false;
     }
 
     @Override
-    public Boolean visit(SequenceMatcher matcher) {
-        for (int i = context.getIntTag() + 1; i < matcher.getChildren().size(); i++) {
-            Matcher child = matcher.getChildren().get(i);
+    public Boolean visit(final SequenceMatcher matcher)
+    {
+        final int startTag = context.getIntTag() + 1;
+        final List<Matcher> children = matcher.getChildren();
+        Matcher child;
+        for (int i = startTag; i < children.size(); i++) {
+            child = children.get(i);
             followMatchers.add(child);
-            if (!child.accept(canMatchEmptyVisitor)) return true;
+            if (!child.accept(canMatchEmptyVisitor))
+                return true;
         }
         return false;
     }
 
     @Override
-    public Boolean visit(ZeroOrMoreMatcher matcher) {
+    public Boolean visit(final ZeroOrMoreMatcher matcher)
+    {
         followMatchers.add(matcher.subMatcher);
         return false;
     }
 
     @Override
-    public Boolean defaultValue(AbstractMatcher matcher) {
+    public Boolean defaultValue(final AbstractMatcher matcher)
+    {
         return false;
     }
 }
