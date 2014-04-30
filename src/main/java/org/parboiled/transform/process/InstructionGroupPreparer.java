@@ -39,6 +39,7 @@ import java.nio.CharBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -173,13 +174,11 @@ public final class InstructionGroupPreparer
         group.getInstructions().accept(digester);
         for (final FieldNode field : group.getFields())
             digester.visitField(field);
-        final byte[] hash = digester.getMD5Hash();
-        final byte[] hash96 = new byte[12];
-        System.arraycopy(hash, 0, hash96, 0, 12);
+        final byte[] hash = Arrays.copyOf(digester.getMD5Hash(), 12);
 
         // generate a name for the group based on the hash
         String name = group.getRoot().isActionRoot() ? "Action$" : "VarInit$";
-        name += illGuidedTransform(BASE_ENCODING.encode(hash96));
+        name += illGuidedTransform(BASE_ENCODING.encode(hash));
         group.setName(name);
     }
 
@@ -345,14 +344,14 @@ public final class InstructionGroupPreparer
             update(type);
         }
 
-        public void visitField(final FieldNode field)
+        private static void visitField(final FieldNode field)
         {
             update(field.name);
             update(field.desc);
             update(field.signature);
         }
 
-        private void update(final int i)
+        private static void update(final int i)
         {
             ensureRemaining(4);
             BUFFER.putInt(i);
@@ -377,7 +376,7 @@ public final class InstructionGroupPreparer
             update(index);
         }
 
-        private void ensureRemaining(final int bytes)
+        private static void ensureRemaining(final int bytes)
         {
             if (BUFFER.remaining() < bytes)
                 digest();
