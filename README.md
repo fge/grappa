@@ -73,7 +73,7 @@ dependencies {
 You can have a first taste by looking at the [examples
 package](https://github.com/parboiled1/parboiled-examples). Here is a very simple grammar to match
 double quoted strings and does nothing else (you can, of course, do [much
-more](https://github.com/parboiled1/parboiled/wiki):
+more](https://github.com/parboiled1/parboiled/wiki)):
 
 ```java
 @BuildParseTree
