@@ -1,14 +1,14 @@
 package org.parboiled.matchers.join;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.DiscreteDomain;
 import com.google.common.collect.Range;
 import org.parboiled.Rule;
 import org.parboiled.matchers.EmptyMatcher;
+import org.parboiled.matchers.OptionalMatcher;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-
-import static com.google.common.collect.BoundType.CLOSED;
 
 @ParametersAreNonnullByDefault
 public final class JoiningRuleBuilder
@@ -27,28 +27,28 @@ public final class JoiningRuleBuilder
     public Rule min(final int nrMatches)
     {
         Preconditions.checkArgument(nrMatches >= 0,
-            "illegal repetition number specified: " + nrMatches
-            + ", must be 0 minimum");
+            "illegal repetition number specified (" + nrMatches
+            + "), must be 0 or greater");
         return new JoinMatcher(joined, joining, Range.atLeast(nrMatches));
     }
 
     public Rule max(final int nrMatches)
     {
         Preconditions.checkArgument(nrMatches >= 0,
-            "illegal repetition number specified: " + nrMatches
-            + ", must be 0 minimum");
+            "illegal repetition number specified (" + nrMatches
+                + "), must be 0 or greater");
         if (nrMatches == 0)
             return new EmptyMatcher();
         if (nrMatches == 1)
-            return joined;
+            return new OptionalMatcher(joined);
         return new JoinMatcher(joined, joining, Range.atMost(nrMatches));
     }
 
     public Rule times(final int nrMatches)
     {
         Preconditions.checkArgument(nrMatches >= 0,
-            "illegal repetition number specified: " + nrMatches
-                + ", must be 0 minimum");
+            "illegal repetition number specified (" + nrMatches
+                + "), must be 0 or greater");
         if (nrMatches == 0)
             return new EmptyMatcher();
         if (nrMatches == 1)
@@ -59,10 +59,10 @@ public final class JoiningRuleBuilder
     public Rule times(final int min, final int max)
     {
         Preconditions.checkArgument(min >= 0,
-            "illegal repetition number specified: " + min
-            + ", must be 0 minimum");
-        Preconditions.checkArgument(max >= min,
-            "illegal range specified: max must be greater than min");
+            "illegal repetition number specified (" + min
+                + "), must be 0 or greater");
+        Preconditions.checkArgument(max >= min, "illegal range specified ("
+            + min + ", " + max + "): maximum must be greater than minimum");
         return max == min ? times(min)
             : new JoinMatcher(joined, joining, Range.closed(min, max));
     }
@@ -79,21 +79,34 @@ public final class JoiningRuleBuilder
          * Empty ranges not allowed (what are we supposed to do with that
          * anyway?)
          */
-        Preconditions.checkArgument(!realRange.isEmpty(),
-            "illegal range " + range + " : must not be empty");
+        Preconditions.checkArgument(!realRange.isEmpty(), "illegal range "
+            + range + ": should not be empty after intersection with "
+            + AT_LEAST_ZERO);
 
         /*
          * Given that we intersect with AT_LEAST_ZERO, which has a lower bound,
-         * the range will always have a lower bound, which must be closed...
+         * the range will always have a lower bound. We want a closed range
+         * internally, therefore change it if it is open.
          */
-        Preconditions.checkArgument(realRange.lowerBoundType() == CLOSED,
-            "illegal range " + range + ": not closed on the lower bound");
+        return new JoinMatcher(joined, joining, toClosedRange(realRange));
+    }
+
+    private static Range<Integer> toClosedRange(final Range<Integer> range)
+    {
         /*
-         * But maybe not an _upper_ bound; if it has we check that it is closed.
+         * The canonical form will always be the same: closed on the lower bound
+         * (if any; but here we are guaranteed that), open on the upper bound
+         * (if any).
+         *
+         * All we have to do is therefore to pick the canonical representation,
+         * pick the lower bound, and if it has an upper bound, pick it and
+         * substract 1.
          */
-        if (realRange.hasUpperBound())
-            Preconditions.checkArgument(realRange.upperBoundType() == CLOSED,
-                "illegal range " + range + ": not closed on the upper bound");
-        return new JoinMatcher(joined, joining, realRange);
+        final Range<Integer> canonical
+            = range.canonical(DiscreteDomain.integers());
+        final int lowerBound = canonical.lowerEndpoint();
+        return canonical.hasUpperBound()
+            ? Range.closed(lowerBound, canonical.upperEndpoint() - 1)
+            : Range.atLeast(lowerBound);
     }
 }
