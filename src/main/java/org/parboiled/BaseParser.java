@@ -782,7 +782,7 @@ public abstract class BaseParser<V>
      */
     public Rule hexDigit()
     {
-        return anyOf("ABCDEFabcdef012456789");
+        return anyOf("ABCDEFabcdef0123456789");
     }
 
     /**
@@ -793,7 +793,7 @@ public abstract class BaseParser<V>
      */
     public Rule hexDigitUpperCase()
     {
-        return anyOf("ABCDEF012456789");
+        return anyOf("ABCDEF0123456789");
     }
 
     /**
