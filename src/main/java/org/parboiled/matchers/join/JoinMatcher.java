@@ -12,19 +12,35 @@ public class JoinMatcher
 {
     private static final int JOINED_CHILD_INDEX = 0;
     private static final int JOINING_CHILD_INDEX = 1;
+
+    private final Matcher joined;
+    private final Matcher joining;
     private final Range<Integer> range;
+
+    private int nrCycles; // Number of cycles of last matches
 
     public JoinMatcher(final Rule joined, final Rule joining,
         final Range<Integer> range)
     {
         super(new Rule[] { joined, joining }, "Join");
+        this.joined = getChildren().get(JOINED_CHILD_INDEX);
+        this.joining = getChildren().get(JOINING_CHILD_INDEX);
         this.range = range;
     }
 
-    // TODO: make final?
-    public Matcher getJoiningRule()
+    public final Matcher getJoined()
     {
-        return getChildren().get(1);
+        return joined;
+    }
+
+    public final Matcher getJoining()
+    {
+        return joining;
+    }
+
+    public final Range<Integer> getRange()
+    {
+        return range;
     }
 
     /**
