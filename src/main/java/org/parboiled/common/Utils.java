@@ -229,9 +229,13 @@ public final class Utils {
      * @param base           the generic base class or interface
      * @param implementation the type (potentially) implementing the given base class or interface
      * @return a list of the raw classes for the actual type arguments.
+     *
+     * @deprecated unused; will be removed in 1.1.
      */
-    public static List<Class<?>> getTypeArguments(
-        final Class<?> base, final Class<?> implementation) {
+    @Deprecated
+    public static List<Class<?>> getTypeArguments(final Class<?> base,
+        final Class<?> implementation)
+    {
         Preconditions.checkNotNull(base, "base");
         Preconditions.checkNotNull(implementation, "implementation");
         final Map<Type, Type> resolvedTypes = new HashMap<Type, Type>();
@@ -259,39 +263,39 @@ public final class Utils {
                     toCheck.addAll(Arrays.asList(clazz.getGenericInterfaces()));
                 }
             } else if (type instanceof ParameterizedType) {
-                final ParameterizedType parameterizedType = (ParameterizedType) type;
+                final ParameterizedType parameterizedType
+                    = (ParameterizedType) type;
                 clazz = (Class<?>) parameterizedType.getRawType();
 
                 // for instances of ParameterizedType we extract and remember all type arguments
-                final TypeVariable<?>[] typeParameters = clazz.getTypeParameters();
-                final Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
+                final TypeVariable<?>[] typeVariables
+                    = clazz.getTypeParameters();
+                final Type[] actualTypeArguments
+                    = parameterizedType.getActualTypeArguments();
                 for (int i = 0; i < actualTypeArguments.length; i++) {
-                    resolvedTypes.put(typeParameters[i], actualTypeArguments[i]);
+                    resolvedTypes.put(typeVariables[i], actualTypeArguments[i]);
                 }
             } else {
                 return ImmutableList.of();
             }
 
             // we can stop if we have reached the sought for base type
-            if (base.equals(getClass(type))) break;
+            if (base.equals(getClass(type)))
+                break;
 
             toCheck.add(clazz.getGenericSuperclass());
         }
 
         // finally, for each actual type argument provided to baseClass,
         // determine (if possible) the raw class for that type argument.
-        final Type[] actualTypeArguments;
-        if (type instanceof Class) {
-            actualTypeArguments = ((GenericDeclaration) type).getTypeParameters();
-        } else {
-            actualTypeArguments = ((ParameterizedType) type).getActualTypeArguments();
-        }
+        final Type[] actualTypeArguments = type instanceof Class
+            ? ((GenericDeclaration) type).getTypeParameters()
+            : ((ParameterizedType) type).getActualTypeArguments();
         final List<Class<?>> typeArgumentsAsClasses = new ArrayList<Class<?>>();
         // resolve types by chasing down type variables.
         for (Type baseType : actualTypeArguments) {
-            while (resolvedTypes.containsKey(baseType)) {
+            while (resolvedTypes.containsKey(baseType))
                 baseType = resolvedTypes.get(baseType);
-            }
             typeArgumentsAsClasses.add(getClass(baseType));
         }
         return typeArgumentsAsClasses;
@@ -303,44 +307,61 @@ public final class Utils {
      *
      * @param type the type
      * @return the underlying class
+     *
+     * @deprecated unused; will be removed in 1.1.
      */
-
+    @Deprecated
     public static Class<?> getClass(final Type type) {
-        if (type instanceof Class) {
+        if (type instanceof Class)
             return (Class<?>) type;
-        } else if (type instanceof ParameterizedType) {
+
+        if (type instanceof ParameterizedType)
             return getClass(((ParameterizedType) type).getRawType());
-        } else if (type instanceof GenericArrayType) {
-            final Type componentType = ((GenericArrayType) type).getGenericComponentType();
-            final Class<?> componentClass = getClass(componentType);
-            if (componentClass != null) {
-                return Array.newInstance(componentClass, 0).getClass();
-            }
-        }
-        return null;
+
+        if (!(type instanceof GenericArrayType))
+            return null;
+
+        final Type componentType
+            = ((GenericArrayType) type).getGenericComponentType();
+
+        final Class<?> componentClass = getClass(componentType);
+        if (componentClass == null)
+            return null;
+
+        return Array.newInstance(componentClass, 0).getClass();
     }
 
     /**
      * Finds the constructor of the given class that is compatible with the given arguments.
      *
-     * @param type the class to find the constructor of
-     * @param args the arguments
+     * @param c the class to find the constructor of
+     * @param arguments the arguments
      * @return the constructor
      */
-    public static Constructor<?> findConstructor(
-        final Class<?> type, final Object[] args) {
+    public static Constructor<?> findConstructor(final Class<?> c,
+        final Object[] arguments)
+    {
+        Class<?>[] paramTypes;
+        Object argument;
+
         outer:
-        for (final Constructor<?> constructor : type.getConstructors()) {
-            final Class<?>[] paramTypes = constructor.getParameterTypes();
-            if (paramTypes.length != args.length) continue;
-            for (int i = 0; i < args.length; i++) {
-                final Object arg = args[i];
-                if (arg != null && !paramTypes[i].isAssignableFrom(arg.getClass())) continue outer;
-                if (arg == null && paramTypes[i].isPrimitive()) continue outer;
+        for (final Constructor<?> constructor: c.getConstructors()) {
+            paramTypes = constructor.getParameterTypes();
+            if (paramTypes.length != arguments.length)
+                continue;
+            for (int i = 0; i < arguments.length; i++) {
+                argument = arguments[i];
+                if (argument != null
+                    && !paramTypes[i].isAssignableFrom(argument.getClass()))
+                    continue outer;
+                if (argument == null && paramTypes[i].isPrimitive())
+                    continue outer;
             }
             return constructor;
         }
-        throw new GrammarException("No constructor found for %s and the given %s arguments", type, args.length);
+        throw new GrammarException(
+            "No constructor found for %s and the given %s arguments", c,
+            arguments.length);
     }
 
     /**
@@ -349,6 +370,7 @@ public final class Utils {
      * @param value the value to format
      * @return the string representation
      */
+    // TODO: replace!
     public static String humanize(final long value) {
         if (value < 0) {
             return '-' + humanize(-value);
