@@ -16,11 +16,11 @@
 
 package org.parboiled.matchers;
 
+import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
-import org.parboiled.common.Utils;
 import org.parboiled.trees.ImmutableGraphNode;
 
 /**
@@ -95,7 +95,7 @@ public abstract class AbstractMatcher extends ImmutableGraphNode<Matcher> implem
 
     @Override
     public AbstractMatcher label(final String label) {
-        if (Utils.equal(label, this.label)) return this;
+        if (Objects.equal(label, this.label)) return this;
         final AbstractMatcher clone = createClone();
         clone.label = label;
         return clone;

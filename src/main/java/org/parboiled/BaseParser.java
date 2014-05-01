@@ -444,7 +444,7 @@ public abstract class BaseParser<V>
         @Nonnull final Object rule2, @Nonnull final Object... moreRules)
     {
         Preconditions.checkNotNull(moreRules, "moreRules");
-        return oneOrMore(Sequence(rule, rule2, moreRules));
+        return oneOrMore(sequence(rule, rule2, moreRules));
     }
 
     /**

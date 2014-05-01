@@ -16,6 +16,7 @@
 
 package org.parboiled.common;
 
+import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import org.parboiled.errors.GrammarException;
@@ -40,17 +41,26 @@ import java.util.Queue;
  */
 public final class Utils {
 
+    @Deprecated
     public static final Character[] EMPTY_CHARACTER_OBJECT_ARRAY = new Character[0];
+    @Deprecated
     public static final Integer[] EMPTY_INTEGER_OBJECT_ARRAY = new Integer[0];
+    @Deprecated
     public static final Long[] EMPTY_LONG_OBJECT_ARRAY = new Long[0];
+    @Deprecated
     public static final Short[] EMPTY_SHORT_OBJECT_ARRAY = new Short[0];
+    @Deprecated
     public static final Byte[] EMPTY_BYTE_OBJECT_ARRAY = new Byte[0];
+    @Deprecated
     public static final Float[] EMPTY_FLOAT_OBJECT_ARRAY = new Float[0];
+    @Deprecated
     public static final Double[] EMPTY_DOUBLE_OBJECT_ARRAY = new Double[0];
+    @Deprecated
     public static final Boolean[] EMPTY_BOOLEAN_OBJECT_ARRAY = new Boolean[0];
 
     private Utils() {}
 
+    @Deprecated
     public static Character[] toObjectArray(final char[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_CHARACTER_OBJECT_ARRAY;
@@ -59,6 +69,7 @@ public final class Utils {
         return result;
     }
 
+    @Deprecated
     public static Integer[] toObjectArray(final int[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_INTEGER_OBJECT_ARRAY;
@@ -67,6 +78,7 @@ public final class Utils {
         return result;
     }
 
+    @Deprecated
     public static Long[] toObjectArray(final long[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_LONG_OBJECT_ARRAY;
@@ -75,6 +87,7 @@ public final class Utils {
         return result;
     }
 
+    @Deprecated
     public static Short[] toObjectArray(final short[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_SHORT_OBJECT_ARRAY;
@@ -83,6 +96,7 @@ public final class Utils {
         return result;
     }
 
+    @Deprecated
     public static Byte[] toObjectArray(final byte[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_BYTE_OBJECT_ARRAY;
@@ -91,6 +105,7 @@ public final class Utils {
         return result;
     }
 
+    @Deprecated
     public static Float[] toObjectArray(final float[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_FLOAT_OBJECT_ARRAY;
@@ -99,6 +114,7 @@ public final class Utils {
         return result;
     }
 
+    @Deprecated
     public static Double[] toObjectArray(final double[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_DOUBLE_OBJECT_ARRAY;
@@ -107,6 +123,7 @@ public final class Utils {
         return result;
     }
 
+    @Deprecated
     public static Boolean[] toObjectArray(final boolean[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_BOOLEAN_OBJECT_ARRAY;
@@ -121,7 +138,10 @@ public final class Utils {
      * @param firstElement the first element
      * @param moreElements more elements (optional)
      * @return a new array containing all arguments.
+     *
+     * @deprecated will be removed in 1.1.
      */
+    @Deprecated
     @SuppressWarnings("unchecked")
     public static <T> T[] arrayOf(final T firstElement, final T... moreElements) {
         Preconditions.checkNotNull(moreElements, "moreElements");
@@ -139,8 +159,11 @@ public final class Utils {
      * @param secondElement the second element
      * @param moreElements more elements (optional)
      * @return a new array containing all arguments.
+     *
+     * @deprecated will be removed in 1.1.
      */
     @SuppressWarnings("unchecked")
+    @Deprecated
     public static <T> T[] arrayOf(final T firstElement, final T secondElement, final T... moreElements) {
         Preconditions.checkNotNull(moreElements, "moreElements");
         final Class<?> elementType = moreElements.getClass().getComponentType();
@@ -157,8 +180,11 @@ public final class Utils {
      * @param firstElements the first elements
      * @param lastElement   the element to append
      * @return a new array containing all arguments.
+     *
+     * @deprecated will be removed in 1.1.
      */
     @SuppressWarnings("unchecked")
+    @Deprecated
     public static <T> T[] arrayOf(final T[] firstElements, final T lastElement) {
         Preconditions.checkNotNull(firstElements, "firstElements");
         final Class<?> elementType = firstElements.getClass().getComponentType();
@@ -173,7 +199,10 @@ public final class Utils {
      *
      * @param obj the object
      * @return the empty string of obj is null, otherwise obj.toString()
+     *
+     * @deprecated will be removed in 1.1
      */
+    @Deprecated
     public static String toString(final Object obj) {
         return obj == null ? "" : obj.toString();
     }
@@ -184,7 +213,11 @@ public final class Utils {
      * @param a the first object
      * @param b the second object
      * @return true if both are null or both are equal
+     *
+     * @deprecated use {@link Objects#equal(Object, Object)} instead; will be
+     * removed in 1.1.
      */
+    @Deprecated
     public static <T> boolean equal(final T a, final T b) {
         return a != null ? a.equals(b) : b == null;
     }
