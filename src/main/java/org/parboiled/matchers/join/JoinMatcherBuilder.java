@@ -30,7 +30,6 @@ public final class JoinMatcherBuilder
             "illegal repetition number specified (" + nrMatches
             + "), must be 0 or greater");
         return range(Range.atLeast(nrMatches));
-        //return new JoinMatcher(joined, joining, Range.atLeast(nrMatches));
     }
 
     public Rule max(final int nrMatches)
@@ -39,11 +38,6 @@ public final class JoinMatcherBuilder
             "illegal repetition number specified (" + nrMatches
                 + "), must be 0 or greater");
         return range(Range.atMost(nrMatches));
-//        if (nrMatches == 0)
-//            return new EmptyMatcher();
-//        if (nrMatches == 1)
-//            return new OptionalMatcher(joined);
-//        return new JoinMatcher(joined, joining, Range.atMost(nrMatches));
     }
 
     public Rule times(final int nrMatches)
@@ -52,11 +46,6 @@ public final class JoinMatcherBuilder
             "illegal repetition number specified (" + nrMatches
                 + "), must be 0 or greater");
         return range(Range.singleton(nrMatches));
-//        if (nrMatches == 0)
-//            return new EmptyMatcher();
-//        if (nrMatches == 1)
-//            return joined;
-//        return new JoinMatcher(joined, joining, Range.singleton(nrMatches));
     }
 
     public Rule times(final int min, final int max)
@@ -67,8 +56,6 @@ public final class JoinMatcherBuilder
         Preconditions.checkArgument(max >= min, "illegal range specified ("
             + min + ", " + max + "): maximum must be greater than minimum");
         return range(Range.closed(min, max));
-//        return max == min ? times(min)
-//            : new JoinMatcher(joined, joining, Range.closed(min, max));
     }
 
     public Rule range(@Nonnull final Range<Integer> range)
@@ -95,18 +82,41 @@ public final class JoinMatcherBuilder
         final Range<Integer> closedRange = toClosedRange(realRange);
 
         /*
-         * Deal with special cases
+         * We always have a lower bound
          */
-        if (closedRange.hasUpperBound()) {
-            final int upperEndpoint = closedRange.upperEndpoint();
-            if (upperEndpoint == 0)
-                return new EmptyMatcher();
-            if (upperEndpoint == 1)
-                return closedRange.lowerEndpoint() == 0
-                    ? new OptionalMatcher(joined)
-                    : joined;
-        }
-        return new JoinMatcher(joined, joining, closedRange);
+        final int lowerBound = closedRange.lowerEndpoint();
+
+        /*
+         * Handle the case where there is no upper bound
+         */
+        if (!closedRange.hasUpperBound())
+            return new BoundedDownJoinMatcher(joined, joining, lowerBound);
+
+        /*
+         * There is an upper bound. Handle the case where it is 0 or 1. Since
+         * the range is legal, we know that if it is 0, so is the lowerbound;
+         * and if it is one, the lower bound is either 0 or 1.
+         */
+        final int upperBound = closedRange.upperEndpoint();
+        if (upperBound == 0)
+            return new EmptyMatcher();
+        if (upperBound == 1)
+            return lowerBound == 0 ? new OptionalMatcher(joined) : joined;
+
+        /*
+         * So, upper bound is 2 or greater; return the appropriate matcher
+         * according to what the lower bound is.
+         *
+         * Also, if the lower and upper bounds are equal, return a matcher doing
+         * a fixed number of matches.
+         */
+        if (lowerBound == 0)
+            return new BoundedUpJoinMatcher(joined, joining, upperBound);
+
+        return lowerBound == upperBound
+            ? new ExactMatchesJoinMatcher(joined, joining, lowerBound)
+            : new BoundedBothJoinMatcher(joined, joining, lowerBound,
+                upperBound);
     }
 
     private static Range<Integer> toClosedRange(final Range<Integer> range)
