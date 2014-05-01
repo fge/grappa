@@ -24,7 +24,6 @@ import org.parboiled.matchers.OneOrMoreMatcher;
 import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,29 +35,28 @@ import java.util.List;
 public final class FollowMatchersVisitor
     extends DefaultMatcherVisitor<Boolean>
 {
-
     private final CanMatchEmptyVisitor canMatchEmptyVisitor
         = new CanMatchEmptyVisitor();
-    private final List<Matcher> followMatchers = new ArrayList<Matcher>();
+    private final ImmutableList.Builder<Matcher> builder
+        = ImmutableList.builder();
     private MatcherContext<?> context;
 
     public List<Matcher> getFollowMatchers(
         final MatcherContext<?> currentContext)
     {
-        followMatchers.clear();
         context = currentContext.getParent();
         while (context != null) {
             if (context.getMatcher().accept(this))
                 break;
             context = context.getParent();
         }
-        return ImmutableList.copyOf(followMatchers);
+        return builder.build();
     }
 
     @Override
     public Boolean visit(final OneOrMoreMatcher matcher)
     {
-        followMatchers.add(matcher.subMatcher);
+        builder.add(matcher.subMatcher);
         return false;
     }
 
@@ -70,7 +68,7 @@ public final class FollowMatchersVisitor
         Matcher child;
         for (int i = startTag; i < children.size(); i++) {
             child = children.get(i);
-            followMatchers.add(child);
+            builder.add(child);
             if (!child.accept(canMatchEmptyVisitor))
                 return true;
         }
@@ -80,7 +78,7 @@ public final class FollowMatchersVisitor
     @Override
     public Boolean visit(final ZeroOrMoreMatcher matcher)
     {
-        followMatchers.add(matcher.subMatcher);
+        builder.add(matcher.subMatcher);
         return false;
     }
 
