@@ -26,9 +26,10 @@ import static org.testng.Assert.fail;
 public final class JoinMatcherTest<V>
 {
     /*
-     * We need this one for the "special case" generation
+     * We need these for class detection...
      */
-    private static final Matcher SPECIAL = mock(Matcher.class);
+    private static final Matcher JOINED = mock(Matcher.class);
+    private static final Matcher JOINING = mock(Matcher.class);
 
     private BaseParser<V> parser;
     private Matcher joined;
@@ -90,7 +91,7 @@ public final class JoinMatcherTest<V>
     }
 
     @DataProvider
-    public Iterator<Object[]> getSpecialRanges()
+    public Iterator<Object[]> getRanges()
     {
         final List<Object[]> list = Lists.newArrayList();
 
@@ -102,21 +103,37 @@ public final class JoinMatcherTest<V>
         list.add(new Object[] { range, matcher });
 
         range = Range.singleton(1);
-        matcher = SPECIAL;
+        matcher = JOINED;
         list.add(new Object[] { range, matcher });
 
         range = Range.atMost(1);
-        matcher = new OptionalMatcher(SPECIAL);
+        matcher = new OptionalMatcher(JOINED);
+        list.add(new Object[] { range, matcher });
+
+        range = Range.atMost(2);
+        matcher = new BoundedUpJoinMatcher(JOINED, JOINING, 2);
+        list.add(new Object[] { range, matcher });
+
+        range = Range.atLeast(0);
+        matcher = new BoundedDownJoinMatcher(JOINED, JOINING, 1);
+        list.add(new Object[] { range, matcher });
+
+        range = Range.singleton(2);
+        matcher = new ExactMatchesJoinMatcher(JOINED, JOINING, 2);
+        list.add(new Object[] { range, matcher });
+
+        range = Range.closed(3, 6);
+        matcher = new BoundedBothJoinMatcher(JOINED, JOINING, 3, 6);
         list.add(new Object[] { range, matcher });
 
         return list.iterator();
     }
 
-    @Test(dataProvider = "getSpecialRanges")
-    public void specialRangesGenerateSpecialMatchers(final Range<Integer> range,
+    @Test(dataProvider = "getRanges")
+    public void generatedMatchersHaveCorrectClasses(final Range<Integer> range,
         final Matcher expected)
     {
-        final Rule rule = JoinMatcherBootstrap.create(parser, SPECIAL)
+        final Rule rule = JoinMatcherBootstrap.create(parser, JOINED)
             .using(joining).range(range);
         final Matcher actual = (Matcher) rule;
 
