@@ -44,7 +44,7 @@ public class MutableTreeNodeImpl<T extends MutableTreeNode<T>> implements Mutabl
     }
 
     @Override
-    public void addChild(int index, T child) {
+    public void addChild(final int index, final T child) {
         Preconditions.checkElementIndex(index, children.size() + 1);
 
         // detach new child from old parent
@@ -61,11 +61,11 @@ public class MutableTreeNodeImpl<T extends MutableTreeNode<T>> implements Mutabl
     }
 
     @Override
-    public void setChild(int index, T child) {
+    public void setChild(final int index, final T child) {
         Preconditions.checkElementIndex(index, children.size());
 
         // detach old child
-        T old = children.get(index);
+        final T old = children.get(index);
         if (old == child) return;
         setParent(old, null);
 
@@ -80,15 +80,15 @@ public class MutableTreeNodeImpl<T extends MutableTreeNode<T>> implements Mutabl
     }
 
     @Override
-    public T removeChild(int index) {
+    public T removeChild(final int index) {
         Preconditions.checkElementIndex(index, children.size());
-        T removed = children.remove(index);
+        final T removed = children.remove(index);
         setParent(removed, null);
         return removed;
     }
 
     @SuppressWarnings("unchecked")
-    private static <T extends MutableTreeNode<T>> void setParent(T node, MutableTreeNodeImpl<T> parent) {
+    private static <T extends MutableTreeNode<T>> void setParent(final T node, final MutableTreeNodeImpl<T> parent) {
         if (node != null) {
             ((MutableTreeNodeImpl) node).parent = parent;
         }

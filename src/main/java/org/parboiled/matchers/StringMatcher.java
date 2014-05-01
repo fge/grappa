@@ -27,7 +27,7 @@ import org.parboiled.Rule;
 public class StringMatcher extends SequenceMatcher {
     public final char[] characters;
 
-    public StringMatcher(Rule[] charMatchers, char[] characters) {
+    public StringMatcher(final Rule[] charMatchers, final char[] characters) {
         super(Preconditions.checkNotNull(charMatchers, "charMatchers"));
         this.characters = characters;
     }
@@ -43,7 +43,7 @@ public class StringMatcher extends SequenceMatcher {
     }
 
     @Override
-    public <V> boolean match(MatcherContext<V> context) {
+    public <V> boolean match(final MatcherContext<V> context) {
         if (!context.fastStringMatching()) {
             return super.match(context);
         }

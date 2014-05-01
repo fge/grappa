@@ -110,7 +110,7 @@ public class Base64 {
 
     // -------- CONSTRUCTORS -------------------------------------------------------------------------------------------
 
-    public Base64(String alphabet) {
+    public Base64(final String alphabet) {
         if (alphabet == null || alphabet.length() != 65) throw new IllegalArgumentException();
         CA = alphabet.substring(0, 64).toCharArray();
         IA = new int[256];
@@ -132,9 +132,9 @@ public class Base64 {
      * @return The decoded array of bytes. May be of length 0. Will be <code>null</code> if the legal characters
      *         (including '=') isn't divideable by 4.  (I.e. definitely corrupted).
      */
-    public final byte[] decode(char[] sArr) {
+    public final byte[] decode(final char[] sArr) {
         // Check special case
-        int sLen = sArr != null ? sArr.length : 0;
+        final int sLen = sArr != null ? sArr.length : 0;
         if (sLen == 0) {
             return new byte[0];
         }
@@ -163,15 +163,15 @@ public class Base64 {
             }
         }
 
-        int len = ((sLen - sepCnt) * 6 >> 3) - pad;
+        final int len = ((sLen - sepCnt) * 6 >> 3) - pad;
 
-        byte[] dArr = new byte[len];       // Preallocate byte[] of exact length
+        final byte[] dArr = new byte[len];       // Preallocate byte[] of exact length
 
         for (int s = 0, d = 0; d < len;) {
             // Assemble three bytes into an int from four "valid" characters.
             int i = 0;
             for (int j = 0; j < 4; j++) {   // j only increased if a valid char was found.
-                int c = IA[sArr[s++]];
+                final int c = IA[sArr[s++]];
                 if (c >= 0) {
                     i |= c << (18 - j * 6);
                 } else {
@@ -198,9 +198,9 @@ public class Base64 {
      * @return The decoded array of bytes. May be of length 0. Will be <code>null</code> if the legal characters
      *         (including '=') isn't divideable by 4. (I.e. definitely corrupted).
      */
-    public final byte[] decode(byte[] sArr) {
+    public final byte[] decode(final byte[] sArr) {
         // Check special case
-        int sLen = sArr.length;
+        final int sLen = sArr.length;
 
         // Count illegal characters (including '\r', '\n') to know what size the returned array will be,
         // so we don't have to reallocate & copy it later.
@@ -226,15 +226,15 @@ public class Base64 {
             }
         }
 
-        int len = ((sLen - sepCnt) * 6 >> 3) - pad;
+        final int len = ((sLen - sepCnt) * 6 >> 3) - pad;
 
-        byte[] dArr = new byte[len];       // Preallocate byte[] of exact length
+        final byte[] dArr = new byte[len];       // Preallocate byte[] of exact length
 
         for (int s = 0, d = 0; d < len;) {
             // Assemble three bytes into an int from four "valid" characters.
             int i = 0;
             for (int j = 0; j < 4; j++) {   // j only increased if a valid char was found.
-                int c = IA[sArr[s++] & 0xff];
+                final int c = IA[sArr[s++] & 0xff];
                 if (c >= 0) {
                     i |= c << (18 - j * 6);
                 } else {
@@ -265,9 +265,9 @@ public class Base64 {
      * @return The decoded array of bytes. May be of length 0. Will be <code>null</code> if the legal characters
      *         (including '=') isn't divideable by 4.  (I.e. definitely corrupted).
      */
-    public final byte[] decode(String str) {
+    public final byte[] decode(final String str) {
         // Check special case
-        int sLen = str != null ? str.length() : 0;
+        final int sLen = str != null ? str.length() : 0;
         if (sLen == 0) {
             return new byte[0];
         }
@@ -297,15 +297,15 @@ public class Base64 {
             }
         }
 
-        int len = ((sLen - sepCnt) * 6 >> 3) - pad;
+        final int len = ((sLen - sepCnt) * 6 >> 3) - pad;
 
-        byte[] dArr = new byte[len];       // Preallocate byte[] of exact length
+        final byte[] dArr = new byte[len];       // Preallocate byte[] of exact length
 
         for (int s = 0, d = 0; d < len;) {
             // Assemble three bytes into an int from four "valid" characters.
             int i = 0;
             for (int j = 0; j < 4; j++) {   // j only increased if a valid char was found.
-                int c = IA[str.charAt(s++)];
+                final int c = IA[str.charAt(s++)];
                 if (c >= 0) {
                     i |= c << (18 - j * 6);
                 } else {
@@ -335,9 +335,9 @@ public class Base64 {
      * @param sArr The source array. Length 0 will return an empty array. <code>null</code> will throw an exception.
      * @return The decoded array of bytes. May be of length 0.
      */
-    public final byte[] decodeFast(char[] sArr) {
+    public final byte[] decodeFast(final char[] sArr) {
         // Check special case
-        int sLen = sArr.length;
+        final int sLen = sArr.length;
         if (sLen == 0) {
             return new byte[0];
         }
@@ -355,18 +355,18 @@ public class Base64 {
         }
 
         // get the padding count (=) (0, 1 or 2)
-        int pad = sArr[eIx] == fillChar ? (sArr[eIx - 1] == fillChar ? 2 : 1) : 0;  // Count '=' at end.
-        int cCnt = eIx - sIx + 1;   // Content count including possible separators
-        int sepCnt = sLen > 76 ? (sArr[76] == '\r' ? cCnt / 78 : 0) << 1 : 0;
+        final int pad = sArr[eIx] == fillChar ? (sArr[eIx - 1] == fillChar ? 2 : 1) : 0;  // Count '=' at end.
+        final int cCnt = eIx - sIx + 1;   // Content count including possible separators
+        final int sepCnt = sLen > 76 ? (sArr[76] == '\r' ? cCnt / 78 : 0) << 1 : 0;
 
-        int len = ((cCnt - sepCnt) * 6 >> 3) - pad; // The number of decoded bytes
-        byte[] dArr = new byte[len];       // Preallocate byte[] of exact length
+        final int len = ((cCnt - sepCnt) * 6 >> 3) - pad; // The number of decoded bytes
+        final byte[] dArr = new byte[len];       // Preallocate byte[] of exact length
 
         // Decode all but the last 0 - 2 bytes.
         int d = 0;
         for (int cc = 0, eLen = (len / 3) * 3; d < eLen;) {
             // Assemble three bytes into an int from four "valid" characters.
-            int i = IA[sArr[sIx++]] << 18 | IA[sArr[sIx++]] << 12 | IA[sArr[sIx++]] << 6 | IA[sArr[sIx++]];
+            final int i = IA[sArr[sIx++]] << 18 | IA[sArr[sIx++]] << 12 | IA[sArr[sIx++]] << 6 | IA[sArr[sIx++]];
 
             // Add the bytes
             dArr[d++] = (byte) (i >> 16);
@@ -406,9 +406,9 @@ public class Base64 {
      * @param sArr The source array. Length 0 will return an empty array. <code>null</code> will throw an exception.
      * @return The decoded array of bytes. May be of length 0.
      */
-    public final byte[] decodeFast(byte[] sArr) {
+    public final byte[] decodeFast(final byte[] sArr) {
         // Check special case
-        int sLen = sArr.length;
+        final int sLen = sArr.length;
         if (sLen == 0) {
             return new byte[0];
         }
@@ -426,18 +426,18 @@ public class Base64 {
         }
 
         // get the padding count (=) (0, 1 or 2)
-        int pad = sArr[eIx] == fillChar ? (sArr[eIx - 1] == fillChar ? 2 : 1) : 0;  // Count '=' at end.
-        int cCnt = eIx - sIx + 1;   // Content count including possible separators
-        int sepCnt = sLen > 76 ? (sArr[76] == '\r' ? cCnt / 78 : 0) << 1 : 0;
+        final int pad = sArr[eIx] == fillChar ? (sArr[eIx - 1] == fillChar ? 2 : 1) : 0;  // Count '=' at end.
+        final int cCnt = eIx - sIx + 1;   // Content count including possible separators
+        final int sepCnt = sLen > 76 ? (sArr[76] == '\r' ? cCnt / 78 : 0) << 1 : 0;
 
-        int len = ((cCnt - sepCnt) * 6 >> 3) - pad; // The number of decoded bytes
-        byte[] dArr = new byte[len];       // Preallocate byte[] of exact length
+        final int len = ((cCnt - sepCnt) * 6 >> 3) - pad; // The number of decoded bytes
+        final byte[] dArr = new byte[len];       // Preallocate byte[] of exact length
 
         // Decode all but the last 0 - 2 bytes.
         int d = 0;
         for (int cc = 0, eLen = (len / 3) * 3; d < eLen;) {
             // Assemble three bytes into an int from four "valid" characters.
-            int i = IA[sArr[sIx++]] << 18 | IA[sArr[sIx++]] << 12 | IA[sArr[sIx++]] << 6 | IA[sArr[sIx++]];
+            final int i = IA[sArr[sIx++]] << 18 | IA[sArr[sIx++]] << 12 | IA[sArr[sIx++]] << 6 | IA[sArr[sIx++]];
 
             // Add the bytes
             dArr[d++] = (byte) (i >> 16);
@@ -477,9 +477,9 @@ public class Base64 {
      * @param s The source string. Length 0 will return an empty array. <code>null</code> will throw an exception.
      * @return The decoded array of bytes. May be of length 0.
      */
-    public final byte[] decodeFast(String s) {
+    public final byte[] decodeFast(final String s) {
         // Check special case
-        int sLen = s.length();
+        final int sLen = s.length();
         if (sLen == 0) {
             return new byte[0];
         }
@@ -497,18 +497,18 @@ public class Base64 {
         }
 
         // get the padding count (=) (0, 1 or 2)
-        int pad = s.charAt(eIx) == fillChar ? (s.charAt(eIx - 1) == fillChar ? 2 : 1) : 0;  // Count '=' at end.
-        int cCnt = eIx - sIx + 1;   // Content count including possible separators
-        int sepCnt = sLen > 76 ? (s.charAt(76) == '\r' ? cCnt / 78 : 0) << 1 : 0;
+        final int pad = s.charAt(eIx) == fillChar ? (s.charAt(eIx - 1) == fillChar ? 2 : 1) : 0;  // Count '=' at end.
+        final int cCnt = eIx - sIx + 1;   // Content count including possible separators
+        final int sepCnt = sLen > 76 ? (s.charAt(76) == '\r' ? cCnt / 78 : 0) << 1 : 0;
 
-        int len = ((cCnt - sepCnt) * 6 >> 3) - pad; // The number of decoded bytes
-        byte[] dArr = new byte[len];       // Preallocate byte[] of exact length
+        final int len = ((cCnt - sepCnt) * 6 >> 3) - pad; // The number of decoded bytes
+        final byte[] dArr = new byte[len];       // Preallocate byte[] of exact length
 
         // Decode all but the last 0 - 2 bytes.
         int d = 0;
         for (int cc = 0, eLen = (len / 3) * 3; d < eLen;) {
             // Assemble three bytes into an int from four "valid" characters.
-            int i = IA[s.charAt(sIx++)] << 18 | IA[s.charAt(sIx++)] << 12 | IA[s.charAt(sIx++)] << 6 | IA[s
+            final int i = IA[s.charAt(sIx++)] << 18 | IA[s.charAt(sIx++)] << 12 | IA[s.charAt(sIx++)] << 6 | IA[s
                     .charAt(sIx++)];
 
             // Add the bytes
@@ -551,22 +551,22 @@ public class Base64 {
      *                little faster.
      * @return A BASE64 encoded array. Never <code>null</code>.
      */
-    public final byte[] encodeToByte(byte[] sArr, boolean lineSep) {
+    public final byte[] encodeToByte(final byte[] sArr, final boolean lineSep) {
         // Check special case
-        int sLen = sArr != null ? sArr.length : 0;
+        final int sLen = sArr != null ? sArr.length : 0;
         if (sLen == 0) {
             return new byte[0];
         }
 
-        int eLen = (sLen / 3) * 3;                              // Length of even 24-bits.
-        int cCnt = ((sLen - 1) / 3 + 1) << 2;                   // Returned character count
-        int dLen = cCnt + (lineSep ? (cCnt - 1) / 76 << 1 : 0); // Length of returned array
-        byte[] dArr = new byte[dLen];
+        final int eLen = (sLen / 3) * 3;                              // Length of even 24-bits.
+        final int cCnt = ((sLen - 1) / 3 + 1) << 2;                   // Returned character count
+        final int dLen = cCnt + (lineSep ? (cCnt - 1) / 76 << 1 : 0); // Length of returned array
+        final byte[] dArr = new byte[dLen];
 
         // Encode even 24-bits
         for (int s = 0, d = 0, cc = 0; s < eLen;) {
             // Copy next three bytes into lower 24 bits of int, paying attension to sign.
-            int i = (sArr[s++] & 0xff) << 16 | (sArr[s++] & 0xff) << 8 | (sArr[s++] & 0xff);
+            final int i = (sArr[s++] & 0xff) << 16 | (sArr[s++] & 0xff) << 8 | (sArr[s++] & 0xff);
 
             // Encode the int into four chars
             dArr[d++] = (byte) CA[(i >>> 18) & 0x3f];
@@ -583,10 +583,10 @@ public class Base64 {
         }
 
         // Pad and encode last bits if source isn't an even 24 bits.
-        int left = sLen - eLen; // 0 - 2.
+        final int left = sLen - eLen; // 0 - 2.
         if (left > 0) {
             // Prepare the int
-            int i = ((sArr[eLen] & 0xff) << 10) | (left == 2 ? ((sArr[sLen - 1] & 0xff) << 2) : 0);
+            final int i = ((sArr[eLen] & 0xff) << 10) | (left == 2 ? ((sArr[sLen - 1] & 0xff) << 2) : 0);
 
             // Set last four chars
             dArr[dLen - 4] = (byte) CA[i >> 12];
@@ -610,7 +610,7 @@ public class Base64 {
      *                little faster.
      * @return A BASE64 encoded array. Never <code>null</code>.
      */
-    public final String encodeToString(byte[] sArr, boolean lineSep) {
+    public final String encodeToString(final byte[] sArr, final boolean lineSep) {
         // Reuse char[] since we can't create a String incrementally anyway and StringBuffer/Builder would be slower.
         return new String(encodeToChar(sArr, lineSep));
     }
@@ -628,22 +628,22 @@ public class Base64 {
      *                little faster.
      * @return A BASE64 encoded array. Never <code>null</code>.
      */
-    public final char[] encodeToChar(byte[] sArr, boolean lineSep) {
+    public final char[] encodeToChar(final byte[] sArr, final boolean lineSep) {
         // Check special case
-        int sLen = sArr != null ? sArr.length : 0;
+        final int sLen = sArr != null ? sArr.length : 0;
         if (sLen == 0) {
             return new char[0];
         }
 
-        int eLen = (sLen / 3) * 3;              // Length of even 24-bits.
-        int cCnt = ((sLen - 1) / 3 + 1) << 2;   // Returned character count
-        int dLen = cCnt + (lineSep ? (cCnt - 1) / 76 << 1 : 0); // Length of returned array
-        char[] dArr = new char[dLen];
+        final int eLen = (sLen / 3) * 3;              // Length of even 24-bits.
+        final int cCnt = ((sLen - 1) / 3 + 1) << 2;   // Returned character count
+        final int dLen = cCnt + (lineSep ? (cCnt - 1) / 76 << 1 : 0); // Length of returned array
+        final char[] dArr = new char[dLen];
 
         // Encode even 24-bits
         for (int s = 0, d = 0, cc = 0; s < eLen;) {
             // Copy next three bytes into lower 24 bits of int, paying attension to sign.
-            int i = (sArr[s++] & 0xff) << 16 | (sArr[s++] & 0xff) << 8 | (sArr[s++] & 0xff);
+            final int i = (sArr[s++] & 0xff) << 16 | (sArr[s++] & 0xff) << 8 | (sArr[s++] & 0xff);
 
             // Encode the int into four chars
             dArr[d++] = CA[(i >>> 18) & 0x3f];
@@ -660,10 +660,10 @@ public class Base64 {
         }
 
         // Pad and encode last bits if source isn't even 24 bits.
-        int left = sLen - eLen; // 0 - 2.
+        final int left = sLen - eLen; // 0 - 2.
         if (left > 0) {
             // Prepare the int
-            int i = ((sArr[eLen] & 0xff) << 10) | (left == 2 ? ((sArr[sLen - 1] & 0xff) << 2) : 0);
+            final int i = ((sArr[eLen] & 0xff) << 10) | (left == 2 ? ((sArr[sLen - 1] & 0xff) << 2) : 0);
 
             // Set last four chars
             dArr[dLen - 4] = CA[i >> 12];

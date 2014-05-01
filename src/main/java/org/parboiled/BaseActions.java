@@ -48,7 +48,7 @@ public abstract class BaseActions<V> implements ContextAware<V> {
      * @param context the context
      */
     @Override
-    public void setContext(Context<V> context) {
+    public void setContext(final Context<V> context) {
         this.context = Preconditions.checkNotNull(context, "context");
     }
 
@@ -95,9 +95,9 @@ public abstract class BaseActions<V> implements ContextAware<V> {
      * @param defaultString the default string to return if the matched input text is empty
      * @return the input text matched by the immediately preceding subrule or the default string
      */
-    public String matchOrDefault(String defaultString) {
+    public String matchOrDefault(final String defaultString) {
         check();
-        String match = context.getMatch();
+        final String match = context.getMatch();
         return match.isEmpty() ? defaultString : match;
     }
 
@@ -170,7 +170,7 @@ public abstract class BaseActions<V> implements ContextAware<V> {
      * @param value the value to push
      * @return true
      */
-    public boolean push(V value) {
+    public boolean push(final V value) {
         check();
         context.getValueStack().push(value);
         return true;
@@ -184,7 +184,7 @@ public abstract class BaseActions<V> implements ContextAware<V> {
      * @return true
      * @throws IllegalArgumentException if the stack does not contain enough elements to perform this operation
      */
-    public boolean push(int down, V value) {
+    public boolean push(final int down, final V value) {
         check();
         context.getValueStack().push(down, value);
         return true;
@@ -197,7 +197,7 @@ public abstract class BaseActions<V> implements ContextAware<V> {
      * @param moreValues the other values
      * @return true
      */
-    public boolean pushAll(V firstValue, V... moreValues) {
+    public boolean pushAll(final V firstValue, final V... moreValues) {
         check();
         context.getValueStack().pushAll(firstValue, moreValues);
         return true;
@@ -221,7 +221,7 @@ public abstract class BaseActions<V> implements ContextAware<V> {
      * @return the value
      * @throws IllegalArgumentException if the stack does not contain enough elements to perform this operation
      */
-    public V pop(int down) {
+    public V pop(final int down) {
         check();
         return context.getValueStack().pop(down);
     }
@@ -245,7 +245,7 @@ public abstract class BaseActions<V> implements ContextAware<V> {
      * @return true
      * @throws IllegalArgumentException if the stack does not contain enough elements to perform this operation
      */
-    public boolean drop(int down) {
+    public boolean drop(final int down) {
         check();
         context.getValueStack().pop(down);
         return true;
@@ -269,7 +269,7 @@ public abstract class BaseActions<V> implements ContextAware<V> {
      * @return the value
      * @throws IllegalArgumentException if the stack does not contain enough elements to perform this operation
      */
-    public V peek(int down) {
+    public V peek(final int down) {
         check();
         return context.getValueStack().peek(down);
     }
@@ -281,7 +281,7 @@ public abstract class BaseActions<V> implements ContextAware<V> {
      * @return true
      * @throws IllegalArgumentException if the stack is empty
      */
-    public boolean poke(V value) {
+    public boolean poke(final V value) {
         check();
         context.getValueStack().poke(value);
         return true;
@@ -295,7 +295,7 @@ public abstract class BaseActions<V> implements ContextAware<V> {
      * @return true
      * @throws IllegalArgumentException if the stack does not contain enough elements to perform this operation
      */
-    public boolean poke(int down, V value) {
+    public boolean poke(final int down, final V value) {
         check();
         context.getValueStack().poke(down, value);
         return true;

@@ -29,7 +29,7 @@ public class CharRangeMatcher extends AbstractMatcher {
     public final char cLow;
     public final char cHigh;
 
-    public CharRangeMatcher(char cLow, char cHigh) {
+    public CharRangeMatcher(final char cLow, final char cHigh) {
         super(escape(cLow) + ".." + escape(cHigh));
         Preconditions.checkArgument(cLow < cHigh);
         this.cLow = cLow;
@@ -37,8 +37,8 @@ public class CharRangeMatcher extends AbstractMatcher {
     }
 
     @Override
-    public <V> boolean match(MatcherContext<V> context) {
-        char c = context.getCurrentChar();
+    public <V> boolean match(final MatcherContext<V> context) {
+        final char c = context.getCurrentChar();
         if (c < cLow || c > cHigh) return false;
 
         context.advanceIndex(1);
@@ -47,7 +47,7 @@ public class CharRangeMatcher extends AbstractMatcher {
     }
 
     @Override
-    public <R> R accept(MatcherVisitor<R> visitor) {
+    public <R> R accept(final MatcherVisitor<R> visitor) {
         Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }

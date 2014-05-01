@@ -75,8 +75,8 @@ public class RuleMethod extends MethodNode {
     private boolean bodyRewritten;
     private boolean skipGeneration;
 
-    public RuleMethod(Class<?> ownerClass, int access, String name, String desc, String signature, String[] exceptions,
-                      boolean hasExplicitActionOnlyAnno, boolean hasDontLabelAnno, boolean hasSkipActionsInPredicates) {
+    public RuleMethod(final Class<?> ownerClass, final int access, final String name, final String desc, final String signature, final String[] exceptions,
+                      final boolean hasExplicitActionOnlyAnno, final boolean hasDontLabelAnno, final boolean hasSkipActionsInPredicates) {
         super(Opcodes.ASM4, access, name, desc, signature, exceptions);
         this.ownerClass = ownerClass;
         parameterCount = Type.getArgumentTypes(desc).length;
@@ -111,7 +111,7 @@ public class RuleMethod extends MethodNode {
         return containsImplicitActions;
     }
 
-    public void setContainsImplicitActions(boolean containsImplicitActions) {
+    public void setContainsImplicitActions(final boolean containsImplicitActions) {
         this.containsImplicitActions = containsImplicitActions;
     }
 
@@ -119,7 +119,7 @@ public class RuleMethod extends MethodNode {
         return containsExplicitActions;
     }
 
-    public void setContainsExplicitActions(boolean containsExplicitActions) {
+    public void setContainsExplicitActions(final boolean containsExplicitActions) {
         this.containsExplicitActions = containsExplicitActions;
     }
 
@@ -167,7 +167,7 @@ public class RuleMethod extends MethodNode {
         return returnInstructionNode;
     }
 
-    public void setReturnInstructionNode(InstructionGraphNode returnInstructionNode) {
+    public void setReturnInstructionNode(final InstructionGraphNode returnInstructionNode) {
         this.returnInstructionNode = returnInstructionNode;
     }
 
@@ -192,13 +192,14 @@ public class RuleMethod extends MethodNode {
         return name.charAt(0) == '$';
     }
 
-    public InstructionGraphNode setGraphNode(AbstractInsnNode insn, BasicValue resultValue, List<BasicValue> predecessors) {
+    public InstructionGraphNode setGraphNode(
+        final AbstractInsnNode insn, final BasicValue resultValue, final List<BasicValue> predecessors) {
         if (graphNodes == null) {
             // initialize with a list of null values
             graphNodes = new ArrayList<InstructionGraphNode>(
                     Arrays.asList(new InstructionGraphNode[instructions.size()]));
         }
-        int index = instructions.indexOf(insn);
+        final int index = instructions.indexOf(insn);
         InstructionGraphNode node = graphNodes.get(index);
         if (node == null) {
             node = new InstructionGraphNode(insn, resultValue);
@@ -209,7 +210,7 @@ public class RuleMethod extends MethodNode {
     }
 
     @Override
-    public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
+    public AnnotationVisitor visitAnnotation(final String desc, final boolean visible) {
         if (Types.EXPLICIT_ACTIONS_ONLY_DESC.equals(desc)) {
             hasExplicitActionOnlyAnnotation = true;
             return null; // we do not need to record this annotation
@@ -254,7 +255,8 @@ public class RuleMethod extends MethodNode {
     }
 
     @Override
-    public void visitMethodInsn(int opcode, String owner, String name, String desc) {
+    public void visitMethodInsn(
+        final int opcode, final String owner, final String name, final String desc) {
         switch (opcode) {
             case INVOKESTATIC:
                 if (!hasExplicitActionOnlyAnnotation && isBooleanValueOfZ(owner, name, desc)) {
@@ -278,38 +280,40 @@ public class RuleMethod extends MethodNode {
     }
 
     @Override
-    public void visitInsn(int opcode) {
+    public void visitInsn(final int opcode) {
         if (opcode == ARETURN) numberOfReturns++;
         super.visitInsn(opcode);
     }
 
     @Override
-    public void visitJumpInsn(int opcode, Label label) {
+    public void visitJumpInsn(final int opcode, final Label label) {
         usedLabels.add(getLabelNode(label));
         super.visitJumpInsn(opcode, label);
     }
 
     @Override
-    public void visitTableSwitchInsn(int min, int max, Label dflt, Label[] labels) {
+    public void visitTableSwitchInsn(final int min, final int max, final Label dflt, final Label[] labels) {
         usedLabels.add(getLabelNode(dflt));
-        for (Label label : labels) usedLabels.add(getLabelNode(label));
+        for (final Label label : labels) usedLabels.add(getLabelNode(label));
         super.visitTableSwitchInsn(min, max, dflt, labels);
     }
 
     @Override
-    public void visitLookupSwitchInsn(Label dflt, int[] keys, Label[] labels) {
+    public void visitLookupSwitchInsn(
+        final Label dflt, final int[] keys, final Label[] labels) {
         usedLabels.add(getLabelNode(dflt));
-        for (Label label : labels) usedLabels.add(getLabelNode(label));
+        for (final Label label : labels) usedLabels.add(getLabelNode(label));
         super.visitLookupSwitchInsn(dflt, keys, labels);
     }
 
     @Override
-    public void visitLineNumber(int line, Label start) {
+    public void visitLineNumber(final int line, final Label start) {
         // do not record line numbers
     }
 
     @Override
-    public void visitLocalVariable(String name, String desc, String signature, Label start, Label end, int index) {
+    public void visitLocalVariable(
+        final String name, final String desc, final String signature, final Label start, final Label end, final int index) {
         // only remember the local variables of Type org.parboiled.support.Var that are not parameters
         if (index > parameterCount && Var.class.isAssignableFrom(getClassForType(Type.getType(desc)))) {
             if (localVarVariables == null) localVarVariables = new ArrayList<LocalVariableNode>();
@@ -322,7 +326,7 @@ public class RuleMethod extends MethodNode {
         return name;
     }
 
-    public void moveFlagsTo(RuleMethod overridingMethod) {
+    public void moveFlagsTo(final RuleMethod overridingMethod) {
         Preconditions.checkNotNull(overridingMethod, "overridingMethod");
         overridingMethod.hasCachedAnnotation |= hasCachedAnnotation;
         overridingMethod.hasDontLabelAnnotation |= hasDontLabelAnnotation;

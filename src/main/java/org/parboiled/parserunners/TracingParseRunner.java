@@ -50,7 +50,7 @@ public class TracingParseRunner<V> extends ReportingParseRunner<V> implements Ma
      *
      * @param rule the parser rule
      */
-    public TracingParseRunner(Rule rule) {
+    public TracingParseRunner(final Rule rule) {
         super(rule);
     }
 
@@ -81,7 +81,7 @@ public class TracingParseRunner<V> extends ReportingParseRunner<V> implements Ma
      * @param log the log to use
      * @return this instance
      */
-    public TracingParseRunner<V> withLog(Sink<String> log) {
+    public TracingParseRunner<V> withLog(final Sink<String> log) {
         this.log = log;
         return this;
     }
@@ -94,20 +94,20 @@ public class TracingParseRunner<V> extends ReportingParseRunner<V> implements Ma
     }
 
     @Override
-    protected ParsingResult<V> runBasicMatch(InputBuffer inputBuffer) {
+    protected ParsingResult<V> runBasicMatch(final InputBuffer inputBuffer) {
         getLog().receive("Starting new parsing run\n");
         lastPath = null;
 
-        MatcherContext<V> rootContext = createRootContext(inputBuffer, this, true);
-        boolean matched = rootContext.runMatcher();
+        final MatcherContext<V> rootContext = createRootContext(inputBuffer, this, true);
+        final boolean matched = rootContext.runMatcher();
         return createParsingResult(matched, rootContext);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public boolean match(MatcherContext<?> context) {
-        Matcher matcher = context.getMatcher();
-        boolean matched = matcher.match(context);
+    public boolean match(final MatcherContext<?> context) {
+        final Matcher matcher = context.getMatcher();
+        final boolean matched = matcher.match(context);
         if (getFilter().apply(new Tuple2<Context<?>, Boolean>(context, matched))) {
             line++;
             print(context, matched); // set line-dependent breakpoint here
@@ -115,13 +115,13 @@ public class TracingParseRunner<V> extends ReportingParseRunner<V> implements Ma
         return matched;
     }
 
-    private void print(MatcherContext<?> context, boolean matched) {
-        Position pos = context.getInputBuffer().getPosition(context.getCurrentIndex());
-        MatcherPath path = context.getPath();
-        MatcherPath prefix = lastPath != null ? path.commonPrefix(lastPath) : null;
+    private void print(final MatcherContext<?> context, final boolean matched) {
+        final Position pos = context.getInputBuffer().getPosition(context.getCurrentIndex());
+        final MatcherPath path = context.getPath();
+        final MatcherPath prefix = lastPath != null ? path.commonPrefix(lastPath) : null;
         if (prefix != null && prefix.length() > 1) getLog().receive("..(" + (prefix.length() - 1) + ")../");
         getLog().receive(path.toString(prefix != null ? prefix.parent : null));
-        String line = context.getInputBuffer().extractLine(pos.line);
+        final String line = context.getInputBuffer().extractLine(pos.line);
         getLog().receive(", " + (matched ? "matched" : "failed") + ", cursor at " + pos.line + ':' + pos.column +
                 " after \"" + line.substring(0, Math.min(line.length(), pos.column - 1)) + "\"\n");
         lastPath = path;

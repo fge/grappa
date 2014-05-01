@@ -40,28 +40,28 @@ import static org.objectweb.asm.Opcodes.INVOKEINTERFACE;
 public class LabellingGenerator implements RuleMethodProcessor {
 
     @Override
-    public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
+    public boolean appliesTo(final ParserClassNode classNode, final RuleMethod method) {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
         return !method.hasDontLabelAnnotation();
     }
 
     @Override
-    public void process(ParserClassNode classNode, RuleMethod method) throws Exception {
+    public void process(final ParserClassNode classNode, final RuleMethod method) throws Exception {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
         Preconditions.checkState(!method.isSuperMethod()); // super methods
         // have flag
         // moved to the overriding method
 
-        InsnList instructions = method.instructions;
+        final InsnList instructions = method.instructions;
 
         AbstractInsnNode ret = instructions.getLast();
         while (ret.getOpcode() != ARETURN) {
             ret = ret.getPrevious();
         }
 
-        LabelNode isNullLabel = new LabelNode();
+        final LabelNode isNullLabel = new LabelNode();
         // stack: <rule>
         instructions.insertBefore(ret, new InsnNode(DUP));
         // stack: <rule> :: <rule>
@@ -76,14 +76,14 @@ public class LabellingGenerator implements RuleMethodProcessor {
         // stack: <rule>
     }
 
-    public String getLabelText(RuleMethod method) {
+    public String getLabelText(final RuleMethod method) {
         if (method.visibleAnnotations != null) {
-            for (Object annotationObj : method.visibleAnnotations) {
-                AnnotationNode annotation = (AnnotationNode) annotationObj;
+            for (final Object annotationObj : method.visibleAnnotations) {
+                final AnnotationNode annotation = (AnnotationNode) annotationObj;
                 if (annotation.desc.equals(Types.LABEL_DESC) && annotation.values != null) {
                     Preconditions.checkState("value".equals(annotation.values
                         .get(0)));
-                    String labelValue = (String) annotation.values.get(1);
+                    final String labelValue = (String) annotation.values.get(1);
                     return labelValue.isEmpty() ? method.name : labelValue;
                 }
             }

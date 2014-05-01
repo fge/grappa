@@ -42,7 +42,7 @@ public class ParserClassNode extends ClassNode {
     private byte[] classCode;
     private Class<?> extendedClass;
 
-    public ParserClassNode(Class<?> parentClass) {
+    public ParserClassNode(final Class<?> parentClass) {
         super(Opcodes.ASM4);
         this.parentClass = Preconditions.checkNotNull(parentClass);
         parentType = Type.getType(parentClass);
@@ -68,7 +68,7 @@ public class ParserClassNode extends ClassNode {
         return classCode;
     }
 
-    public void setClassCode(byte[] classCode) {
+    public void setClassCode(final byte[] classCode) {
         this.classCode = classCode;
     }
 
@@ -76,7 +76,7 @@ public class ParserClassNode extends ClassNode {
         return extendedClass;
     }
 
-    public void setExtendedClass(Class<?> extendedClass) {
+    public void setExtendedClass(final Class<?> extendedClass) {
         this.extendedClass = extendedClass;
     }
 }

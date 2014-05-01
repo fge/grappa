@@ -35,7 +35,7 @@ public class DefaultValueStack<V> implements ValueStack<V> {
         protected final Object value;
         protected final Element tail;
 
-        protected Element(Object value, Element tail) {
+        protected Element(final Object value, final Element tail) {
             this.value = value;
             this.tail = tail;
         }
@@ -55,7 +55,7 @@ public class DefaultValueStack<V> implements ValueStack<V> {
      *
      * @param values the initial stack values
      */
-    public DefaultValueStack(Iterable<V> values) {
+    public DefaultValueStack(final Iterable<V> values) {
         pushAll(values);
     }
 
@@ -86,7 +86,7 @@ public class DefaultValueStack<V> implements ValueStack<V> {
     }
 
     @Override
-    public void restoreSnapshot(Object snapshot) {
+    public void restoreSnapshot(final Object snapshot) {
         try {
             head = (Element) snapshot;
         } catch (ClassCastException e) {
@@ -95,16 +95,17 @@ public class DefaultValueStack<V> implements ValueStack<V> {
     }
 
     @Override
-    public void push(V value) {
+    public void push(final V value) {
         head = new Element(value, head);
     }
 
     @Override
-    public void push(int down, V value) {
+    public void push(final int down, final V value) {
         head = push(down, value, head);
     }
 
-    private static Element push(int down, Object value, Element head) {
+    private static Element push(
+        final int down, final Object value, final Element head) {
         if (down == 0) return new Element(value, head);
         Preconditions.checkArgument(head != null,
             "Cannot push beyond the bottom of the stack");
@@ -113,15 +114,15 @@ public class DefaultValueStack<V> implements ValueStack<V> {
     }
 
     @Override
-    public void pushAll(V firstValue, V... moreValues) {
+    public void pushAll(final V firstValue, final V... moreValues) {
         push(firstValue);
-        for (V value : moreValues) push(value);
+        for (final V value : moreValues) push(value);
     }
 
     @Override
-    public void pushAll(Iterable<V> values) {
+    public void pushAll(final Iterable<V> values) {
         head = null;
-        for (V value : values) push(value);
+        for (final V value : values) push(value);
     }
 
     @Override
@@ -130,15 +131,15 @@ public class DefaultValueStack<V> implements ValueStack<V> {
     }
 
     @Override
-    public V pop(int down) {
+    public V pop(final int down) {
         head = pop(down, head);
-        V result = tempValue;
+        final V result = tempValue;
         tempValue = null; // avoid memory leak
         return result;
     }
 
     @SuppressWarnings("unchecked")
-    private Element pop(int down, Element head) {
+    private Element pop(final int down, final Element head) {
         Preconditions.checkArgument(head != null, "Cannot pop from beyond the" +
             " bottom of the stack");
         if (down == 0) {
@@ -156,12 +157,12 @@ public class DefaultValueStack<V> implements ValueStack<V> {
 
     @Override
     @SuppressWarnings("unchecked")
-    public V peek(int down) {
+    public V peek(final int down) {
         return (V) peek(down, head);
     }
 
     @SuppressWarnings("ConstantConditions")
-    private static Object peek(int down, Element head) {
+    private static Object peek(final int down, final Element head) {
         Preconditions.checkArgument(head != null, "Cannot peek beyond the " +
             "bottom of the stack");
         if (down == 0) return head.value;
@@ -170,16 +171,17 @@ public class DefaultValueStack<V> implements ValueStack<V> {
     }
 
     @Override
-    public void poke(V value) {
+    public void poke(final V value) {
         poke(0, value);
     }
 
     @Override
-    public void poke(int down, V value) {
+    public void poke(final int down, final V value) {
         head = poke(down, value, head);
     }
 
-    private static Element poke(int down, Object value, Element head) {
+    private static Element poke(
+        final int down, final Object value, final Element head) {
         Preconditions.checkArgument(head != null, "Cannot poke beyond the " +
             "bottom of the stack");
         if (down == 0) return new Element(value, head.tail);
@@ -195,24 +197,24 @@ public class DefaultValueStack<V> implements ValueStack<V> {
     @Override
     public void swap() {
         Checks.ensure(isSizeGTE(2, head), "Swap not allowed on stack with less than two elements");
-        Element down1 = head.tail;
+        final Element down1 = head.tail;
         head = new Element(down1.value, new Element(head.value, down1.tail));
     }
 
     @Override
     public void swap3() {
         Checks.ensure(isSizeGTE(3, head), "Swap3 not allowed on stack with less than 3 elements");
-        Element down1 = head.tail;
-        Element down2 = down1.tail;
+        final Element down1 = head.tail;
+        final Element down2 = down1.tail;
         head = new Element(down2.value, new Element(down1.value, new Element(head.value, down2.tail)));
     }
 
     @Override
     public void swap4() {
         Checks.ensure(isSizeGTE(4, head), "Swap4 not allowed on stack with less than 4 elements");
-        Element down1 = head.tail;
-        Element down2 = down1.tail;
-        Element down3 = down2.tail;
+        final Element down1 = head.tail;
+        final Element down2 = down1.tail;
+        final Element down3 = down2.tail;
         head = new Element(down3.value, new Element(down2.value, new Element(down1.value, new Element(head.value,
                 down3.tail))));
     }
@@ -220,10 +222,10 @@ public class DefaultValueStack<V> implements ValueStack<V> {
     @Override
     public void swap5() {
         Checks.ensure(isSizeGTE(5, head), "Swap5 not allowed on stack with less than 5 elements");
-        Element down1 = head.tail;
-        Element down2 = down1.tail;
-        Element down3 = down2.tail;
-        Element down4 = down3.tail;
+        final Element down1 = head.tail;
+        final Element down2 = down1.tail;
+        final Element down3 = down2.tail;
+        final Element down4 = down3.tail;
         head = new Element(down4.value, new Element(down3.value, new Element(down2.value, new Element(down1.value,
                 new Element(head.value, down4.tail)))));
     }
@@ -231,16 +233,16 @@ public class DefaultValueStack<V> implements ValueStack<V> {
     @Override
     public void swap6() {
         Checks.ensure(isSizeGTE(6, head), "Swap6 not allowed on stack with less than 6 elements");
-        Element down1 = head.tail;
-        Element down2 = down1.tail;
-        Element down3 = down2.tail;
-        Element down4 = down3.tail;
-        Element down5 = down4.tail;
+        final Element down1 = head.tail;
+        final Element down2 = down1.tail;
+        final Element down3 = down2.tail;
+        final Element down4 = down3.tail;
+        final Element down5 = down4.tail;
         head = new Element(down5.value, new Element(down4.value, new Element(down3.value, new Element(down2.value,
                 new Element(down1.value, new Element(head.value, down5.tail))))));
     }
 
-    private static boolean isSizeGTE(int minSize, Element head) {
+    private static boolean isSizeGTE(final int minSize, final Element head) {
         return minSize == 1 ? head != null : isSizeGTE(minSize - 1, head.tail);
     }
 
@@ -255,7 +257,7 @@ public class DefaultValueStack<V> implements ValueStack<V> {
             @Override
             @SuppressWarnings("unchecked")
             public V next() {
-                V value = (V) next.value;
+                final V value = (V) next.value;
                 next = next.tail;
                 return value;
             }

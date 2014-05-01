@@ -36,7 +36,7 @@ public abstract class BaseAction<V>
 
     private boolean skipInPredicates;
 
-    protected BaseAction(String name) {
+    protected BaseAction(final String name) {
         super(Preconditions.checkNotNull(name, "name"));
     }
 

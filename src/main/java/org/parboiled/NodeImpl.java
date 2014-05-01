@@ -33,8 +33,8 @@ class NodeImpl<V> extends ImmutableTreeNode<Node<V>> implements Node<V> {
     private final V value;
     private final boolean hasError;
 
-    public NodeImpl(Matcher matcher, ImmutableLinkedList<Node<V>> children, int startIndex,
-                    int endIndex, V value, boolean hasError) {
+    public NodeImpl(final Matcher matcher, final ImmutableLinkedList<Node<V>> children, final int startIndex,
+                    final int endIndex, final V value, final boolean hasError) {
         super(children);
         this.matcher = Preconditions.checkNotNull(matcher, "matcher");
         this.startIndex = startIndex;
@@ -75,7 +75,7 @@ class NodeImpl<V> extends ImmutableTreeNode<Node<V>> implements Node<V> {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append('[');
         sb.append(getLabel());
         if (value != null) {

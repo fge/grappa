@@ -891,7 +891,7 @@ public abstract class BaseParser<V>
     @Deprecated
     @Cached
     @DontLabel
-    public Rule Ch(char c)
+    public Rule Ch(final char c)
     {
         return new CharMatcher(c);
     }
@@ -910,7 +910,7 @@ public abstract class BaseParser<V>
     @Deprecated
     @Cached
     @DontLabel
-    public Rule IgnoreCase(char c)
+    public Rule IgnoreCase(final char c)
     {
         if (Character.isLowerCase(c) == Character.isUpperCase(c)) {
             return Ch(c);
@@ -980,7 +980,7 @@ public abstract class BaseParser<V>
     @Deprecated
     @Cached
     @DontLabel
-    public Rule CharRange(char cLow, char cHigh)
+    public Rule CharRange(final char cLow, final char cHigh)
     {
         return cLow == cHigh ? Ch(cLow) : new CharRangeMatcher(cLow, cHigh);
     }
@@ -997,7 +997,7 @@ public abstract class BaseParser<V>
      */
     @Deprecated
     @DontLabel
-    public Rule AnyOf(String characters)
+    public Rule AnyOf(final String characters)
     {
         checkArgNotNull(characters, "characters");
         return anyOf(characters.toCharArray());
@@ -1015,7 +1015,7 @@ public abstract class BaseParser<V>
      */
     @Deprecated
     @DontLabel
-    public Rule AnyOf(char[] characters)
+    public Rule AnyOf(final char[] characters)
     {
         Preconditions.checkNotNull(characters, "characters");
         Preconditions.checkArgument(characters.length > 0);
@@ -1037,7 +1037,7 @@ public abstract class BaseParser<V>
     @Deprecated
     @Cached
     @DontLabel
-    public Rule AnyOf(Characters characters)
+    public Rule AnyOf(final Characters characters)
     {
         checkArgNotNull(characters, "characters");
         if (!characters.isSubtractive() && characters.getChars().length == 1) {
@@ -1060,7 +1060,7 @@ public abstract class BaseParser<V>
      */
     @Deprecated
     @DontLabel
-    public Rule NoneOf(String characters)
+    public Rule NoneOf(final String characters)
     {
         checkArgNotNull(characters, "characters");
         return NoneOf(characters.toCharArray());
@@ -1085,13 +1085,13 @@ public abstract class BaseParser<V>
 
         // make sure to always exclude EOI as well
         boolean containsEOI = false;
-        for (char c : characters)
+        for (final char c : characters)
             if (c == Chars.EOI) {
                 containsEOI = true;
                 break;
             }
         if (!containsEOI) {
-            char[] withEOI = new char[characters.length + 1];
+            final char[] withEOI = new char[characters.length + 1];
             System.arraycopy(characters, 0, withEOI, 0, characters.length);
             withEOI[characters.length] = Chars.EOI;
             characters = withEOI;
@@ -1114,7 +1114,7 @@ public abstract class BaseParser<V>
      */
     @Deprecated
     @DontLabel
-    public Rule String(String string)
+    public Rule String(final String string)
     {
         checkArgNotNull(string, "string");
         return String(string.toCharArray());
@@ -1136,11 +1136,11 @@ public abstract class BaseParser<V>
     @Cached
     @SuppressSubnodes
     @DontLabel
-    public Rule String(char... characters)
+    public Rule String(final char... characters)
     {
         if (characters.length == 1)
             return Ch(characters[0]); // optimize one-char strings
-        Rule[] matchers = new Rule[characters.length];
+        final Rule[] matchers = new Rule[characters.length];
         for (int i = 0; i < characters.length; i++) {
             matchers[i] = Ch(characters[i]);
         }
@@ -1162,11 +1162,11 @@ public abstract class BaseParser<V>
     @Cached
     @SuppressSubnodes
     @DontLabel
-    public Rule IgnoreCase(char... characters)
+    public Rule IgnoreCase(final char... characters)
     {
         if (characters.length == 1)
             return IgnoreCase(characters[0]); // optimize one-char strings
-        Rule[] matchers = new Rule[characters.length];
+        final Rule[] matchers = new Rule[characters.length];
         for (int i = 0; i < characters.length; i++) {
             matchers[i] = IgnoreCase(characters[i]);
         }
@@ -1187,7 +1187,7 @@ public abstract class BaseParser<V>
      */
     @Deprecated
     @DontLabel
-    public Rule IgnoreCase(String string)
+    public Rule IgnoreCase(final String string)
     {
         checkArgNotNull(string, "string");
         return IgnoreCase(string.toCharArray());
@@ -1209,7 +1209,7 @@ public abstract class BaseParser<V>
      */
     @Deprecated
     @DontLabel
-    public Rule FirstOf(Object rule, Object rule2, Object... moreRules)
+    public Rule FirstOf(final Object rule, final Object rule2, final Object... moreRules)
     {
         checkArgNotNull(moreRules, "moreRules");
         return FirstOf(Utils.arrayOf(rule, rule2, moreRules));
@@ -1230,17 +1230,17 @@ public abstract class BaseParser<V>
     @Deprecated
     @Cached
     @DontLabel
-    public Rule FirstOf(Object[] rules)
+    public Rule FirstOf(final Object[] rules)
     {
         checkArgNotNull(rules, "rules");
         if (rules.length == 1) {
             return toRule(rules[0]);
         }
-        Rule[] convertedRules = toRules(rules);
-        char[][] chars = new char[rules.length][];
+        final Rule[] convertedRules = toRules(rules);
+        final char[][] chars = new char[rules.length][];
         for (int i = 0, convertedRulesLength = convertedRules.length;
              i < convertedRulesLength; i++) {
-            Object rule = convertedRules[i];
+            final Object rule = convertedRules[i];
             if (rule instanceof StringMatcher) {
                 chars[i] = ((StringMatcher) rule).characters;
             } else {
@@ -1265,7 +1265,7 @@ public abstract class BaseParser<V>
     @Deprecated
     @Cached
     @DontLabel
-    public Rule OneOrMore(Object rule)
+    public Rule OneOrMore(final Object rule)
     {
         return new OneOrMoreMatcher(toRule(rule));
     }
@@ -1286,7 +1286,7 @@ public abstract class BaseParser<V>
      */
     @Deprecated
     @DontLabel
-    public Rule OneOrMore(Object rule, Object rule2, Object... moreRules)
+    public Rule OneOrMore(final Object rule, final Object rule2, final Object... moreRules)
     {
         checkArgNotNull(moreRules, "moreRules");
         return OneOrMore(Sequence(rule, rule2, moreRules));
@@ -1307,7 +1307,7 @@ public abstract class BaseParser<V>
     @Deprecated
     @Cached
     @DontLabel
-    public Rule Optional(Object rule)
+    public Rule Optional(final Object rule)
     {
         return new OptionalMatcher(toRule(rule));
     }
@@ -1328,7 +1328,7 @@ public abstract class BaseParser<V>
      */
     @Deprecated
     @DontLabel
-    public Rule Optional(Object rule, Object rule2, Object... moreRules)
+    public Rule Optional(final Object rule, final Object rule2, final Object... moreRules)
     {
         checkArgNotNull(moreRules, "moreRules");
         return Optional(Sequence(rule, rule2, moreRules));
@@ -1349,7 +1349,7 @@ public abstract class BaseParser<V>
      */
     @Deprecated
     @DontLabel
-    public Rule Sequence(Object rule, Object rule2, Object... moreRules)
+    public Rule Sequence(final Object rule, final Object rule2, final Object... moreRules)
     {
         checkArgNotNull(moreRules, "moreRules");
         return Sequence(Utils.arrayOf(rule, rule2, moreRules));
@@ -1369,7 +1369,7 @@ public abstract class BaseParser<V>
     @Deprecated
     @Cached
     @DontLabel
-    public Rule Sequence(Object[] rules)
+    public Rule Sequence(final Object[] rules)
     {
         checkArgNotNull(rules, "rules");
         return rules.length == 1 ? toRule(rules[0])
@@ -1396,9 +1396,9 @@ public abstract class BaseParser<V>
     @Cached
     @SuppressNode
     @DontLabel
-    public Rule Test(Object rule)
+    public Rule Test(final Object rule)
     {
-        Rule subMatcher = toRule(rule);
+        final Rule subMatcher = toRule(rule);
         return new TestMatcher(subMatcher);
     }
 
@@ -1424,7 +1424,7 @@ public abstract class BaseParser<V>
      */
     @Deprecated
     @DontLabel
-    public Rule Test(Object rule, Object rule2, Object... moreRules)
+    public Rule Test(final Object rule, final Object rule2, final Object... moreRules)
     {
         checkArgNotNull(moreRules, "moreRules");
         return Test(Sequence(rule, rule2, moreRules));
@@ -1450,9 +1450,9 @@ public abstract class BaseParser<V>
     @Cached
     @SuppressNode
     @DontLabel
-    public Rule TestNot(Object rule)
+    public Rule TestNot(final Object rule)
     {
-        Rule subMatcher = toRule(rule);
+        final Rule subMatcher = toRule(rule);
         return new TestNotMatcher(subMatcher);
     }
 
@@ -1478,7 +1478,7 @@ public abstract class BaseParser<V>
      */
     @Deprecated
     @DontLabel
-    public Rule TestNot(Object rule, Object rule2, Object... moreRules)
+    public Rule TestNot(final Object rule, final Object rule2, final Object... moreRules)
     {
         checkArgNotNull(moreRules, "moreRules");
         return TestNot(Sequence(rule, rule2, moreRules));
@@ -1500,7 +1500,7 @@ public abstract class BaseParser<V>
     @Deprecated
     @Cached
     @DontLabel
-    public Rule ZeroOrMore(Object rule)
+    public Rule ZeroOrMore(final Object rule)
     {
         return new ZeroOrMoreMatcher(toRule(rule));
     }
@@ -1521,7 +1521,7 @@ public abstract class BaseParser<V>
      */
     @Deprecated
     @DontLabel
-    public Rule ZeroOrMore(Object rule, Object rule2, Object... moreRules)
+    public Rule ZeroOrMore(final Object rule, final Object rule2, final Object... moreRules)
     {
         checkArgNotNull(moreRules, "moreRules");
         return ZeroOrMore(Sequence(rule, rule2, moreRules));
@@ -1542,7 +1542,7 @@ public abstract class BaseParser<V>
     @Deprecated
     @Cached
     @DontLabel
-    public Rule NTimes(int repetitions, Object rule)
+    public Rule NTimes(final int repetitions, final Object rule)
     {
         return NTimes(repetitions, rule, null);
     }
@@ -1564,7 +1564,7 @@ public abstract class BaseParser<V>
     @Deprecated
     @Cached
     @DontLabel
-    public Rule NTimes(int repetitions, Object rule, Object separator)
+    public Rule NTimes(final int repetitions, final Object rule, final Object separator)
     {
         checkArgNotNull(rule, "rule");
         checkArgument(repetitions >= 0, "repetitions must be non-negative");
@@ -1574,7 +1574,7 @@ public abstract class BaseParser<V>
             case 1:
                 return toRule(rule);
             default:
-                Object[] rules = new Object[separator == null ? repetitions
+                final Object[] rules = new Object[separator == null ? repetitions
                     : repetitions * 2 - 1];
                 if (separator != null) {
                     for (int i = 0; i < rules.length; i++)
@@ -1611,7 +1611,7 @@ public abstract class BaseParser<V>
      * @return the rule
      */
     @DontExtend
-    protected Rule fromCharLiteral(char c)
+    protected Rule fromCharLiteral(final char c)
     {
         return ch(c);
     }

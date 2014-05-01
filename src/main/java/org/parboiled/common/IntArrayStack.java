@@ -19,7 +19,7 @@ package org.parboiled.common;
 public class IntArrayStack {
 
     public static class UnderflowException extends RuntimeException {
-        public UnderflowException(String message) {
+        public UnderflowException(final String message) {
             super(message);
         }
     }
@@ -57,7 +57,7 @@ public class IntArrayStack {
      * @param destArray the array
      * @param destStartIndex the index to start copying into
      */
-    public void getElements(int[] destArray, int destStartIndex) {
+    public void getElements(final int[] destArray, final int destStartIndex) {
         System.arraycopy(array, 0, destArray, destStartIndex, size());
     }
 
@@ -65,7 +65,7 @@ public class IntArrayStack {
      * @return all elements in a new array.
      */
     public int[] toArray() {
-        int[] array = new int[size()];
+        final int[] array = new int[size()];
         getElements(array, 0);
         return array;
     }
@@ -108,7 +108,7 @@ public class IntArrayStack {
      *
      * @param x the item to add.
      */
-    public void push(int x) {
+    public void push(final int x) {
         if (top == array.length - 1) {
             expandCapacity();
         }
@@ -116,7 +116,7 @@ public class IntArrayStack {
     }
 
     private void expandCapacity() {
-        int[] newArray = new int[array.length * 2];
+        final int[] newArray = new int[array.length * 2];
         System.arraycopy(array, 0, newArray, 0, array.length);
         array = newArray;
     }

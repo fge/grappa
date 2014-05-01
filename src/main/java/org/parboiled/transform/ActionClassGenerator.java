@@ -28,18 +28,18 @@ import static org.objectweb.asm.Opcodes.IRETURN;
 public class ActionClassGenerator extends GroupClassGenerator
 {
 
-    public ActionClassGenerator(boolean forceCodeBuilding) {
+    public ActionClassGenerator(final boolean forceCodeBuilding) {
         super(forceCodeBuilding);
     }
 
     @Override
-    public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
+    public boolean appliesTo(final ParserClassNode classNode, final RuleMethod method) {
         Preconditions.checkNotNull(method, "method");
         return method.containsExplicitActions();
     }
 
     @Override
-    protected boolean appliesTo(InstructionGraphNode node) {
+    protected boolean appliesTo(final InstructionGraphNode node) {
         return node.isActionRoot();
     }
 
@@ -49,8 +49,9 @@ public class ActionClassGenerator extends GroupClassGenerator
     }
 
     @Override
-    protected void generateMethod(InstructionGroup group, ClassWriter cw) {
-        MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "run", '(' + Types.CONTEXT_DESC + ")Z", null, null);
+    protected void generateMethod(
+        final InstructionGroup group, final ClassWriter cw) {
+        final MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "run", '(' + Types.CONTEXT_DESC + ")Z", null, null);
 
         insertSetContextCalls(group, 1);
         convertXLoads(group);

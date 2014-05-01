@@ -30,13 +30,13 @@ public class EmptyMatcher extends AbstractMatcher {
     }
 
     @Override
-    public <V> boolean match(MatcherContext<V> context) {
+    public <V> boolean match(final MatcherContext<V> context) {
         context.createNode();
         return true;
     }
 
     @Override
-    public <R> R accept(MatcherVisitor<R> visitor) {
+    public <R> R accept(final MatcherVisitor<R> visitor) {
         Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }

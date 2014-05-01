@@ -56,28 +56,28 @@ public class InstructionGroupCreator implements RuleMethodProcessor  {
     private RuleMethod method;
 
     @Override
-    public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
+    public boolean appliesTo(final ParserClassNode classNode, final RuleMethod method) {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
         return method.containsExplicitActions() || method.containsVars();
     }
 
     @Override
-    public void process(ParserClassNode classNode, RuleMethod method) {
+    public void process(final ParserClassNode classNode, final RuleMethod method) {
         this.method = Preconditions.checkNotNull(method, "method");
 
         // create groups
         createGroups();
 
         // prepare groups for later stages
-        for (InstructionGroup group : method.getGroups()) {
+        for (final InstructionGroup group : method.getGroups()) {
             sort(group);
             markUngroupedEnclosedNodes(group);
             verify(group);
         }
 
         // check all non-group node for illegal accesses
-        for (InstructionGraphNode node : method.getGraphNodes()) {
+        for (final InstructionGraphNode node : method.getGraphNodes()) {
             if (node.getGroup() == null) {
                 verifyAccess(node);
             }
@@ -85,16 +85,17 @@ public class InstructionGroupCreator implements RuleMethodProcessor  {
     }
 
     private void createGroups() {
-        for (InstructionGraphNode node : method.getGraphNodes()) {
+        for (final InstructionGraphNode node : method.getGraphNodes()) {
             if (node.isActionRoot() || node.isVarInitRoot()) {
-                InstructionGroup group = new InstructionGroup(node);
+                final InstructionGroup group = new InstructionGroup(node);
                 markGroup(node, group);
                 method.getGroups().add(group);
             }
         }
     }
 
-    private void markGroup(InstructionGraphNode node, InstructionGroup group) {
+    private void markGroup(
+        final InstructionGraphNode node, final InstructionGroup group) {
         Checks.ensure(
                 node == group.getRoot() || (!node.isActionRoot() && !node.isVarInitRoot()),
                 "Method '%s' contains illegal nesting of ACTION and/or Var initializer constructs",
@@ -108,7 +109,7 @@ public class InstructionGroupCreator implements RuleMethodProcessor  {
                 Preconditions.checkState(node.getPredecessors().size() == 2);
                 markGroup(node.getPredecessors().get(1), group); // only color the second predecessor branch
             } else {
-                for (InstructionGraphNode pred : node.getPredecessors()) {
+                for (final InstructionGraphNode pred : node.getPredecessors()) {
                     markGroup(pred, group);
                 }
             }
@@ -116,11 +117,12 @@ public class InstructionGroupCreator implements RuleMethodProcessor  {
     }
 
     // sort the group instructions according to their method index
-    private void sort(InstructionGroup group) {
+    private void sort(final InstructionGroup group) {
         final InsnList instructions = method.instructions;
         Collections.sort(group.getNodes(), new Comparator<InstructionGraphNode>() {
             @Override
-            public int compare(InstructionGraphNode a, InstructionGraphNode b) {
+            public int compare(
+                final InstructionGraphNode a, final InstructionGraphNode b) {
                 return Integer.valueOf(instructions.indexOf(a.getInstruction()))
                         .compareTo(instructions.indexOf(b.getInstruction()));
             }
@@ -128,11 +130,11 @@ public class InstructionGroupCreator implements RuleMethodProcessor  {
     }
 
     // also capture all group nodes "hidden" behind xLoads
-    private void markUngroupedEnclosedNodes(InstructionGroup group) {
+    private void markUngroupedEnclosedNodes(final InstructionGroup group) {
         while_:
         while (true) {
             for (int i = getIndexOfFirstInsn(group), max = getIndexOfLastInsn(group); i < max; i++) {
-                InstructionGraphNode node = method.getGraphNodes().get(i);
+                final InstructionGraphNode node = method.getGraphNodes().get(i);
                 if (node.getGroup() == null) {
                     markGroup(node, group);
                     sort(group);
@@ -143,14 +145,14 @@ public class InstructionGroupCreator implements RuleMethodProcessor  {
         }
     }
 
-    private void verify(InstructionGroup group) {
-        List<InstructionGraphNode> nodes = group.getNodes();
-        int sizeMinus1 = nodes.size() - 1;
+    private void verify(final InstructionGroup group) {
+        final List<InstructionGraphNode> nodes = group.getNodes();
+        final int sizeMinus1 = nodes.size() - 1;
 
         // verify all instruction except for the last one (which must be the root)
         Preconditions.checkState(nodes.get(sizeMinus1) == group.getRoot());
         for (int i = 0; i < sizeMinus1; i++) {
-            InstructionGraphNode node = nodes.get(i);
+            final InstructionGraphNode node = nodes.get(i);
             Checks.ensure(!node.isXStore(), "An ACTION or Var initializer in rule method '%s' " +
                     "contains illegal writes to a local variable or parameter", method.name);
             verifyAccess(node);
@@ -160,11 +162,11 @@ public class InstructionGroupCreator implements RuleMethodProcessor  {
                 "Error during bytecode analysis of rule method '%s': Incontinuous group block", method.name);
     }
 
-    private void verifyAccess(InstructionGraphNode node) {
+    private void verifyAccess(final InstructionGraphNode node) {
         switch (node.getInstruction().getOpcode()) {
             case GETFIELD:
             case GETSTATIC:
-                FieldInsnNode field = (FieldInsnNode) node.getInstruction();
+                final FieldInsnNode field = (FieldInsnNode) node.getInstruction();
                 Checks.ensure(!isPrivateField(field.owner, field.name),
                         "Rule method '%s' contains an illegal access to private field '%s'.\n" +
                                 "Mark the field protected or package-private if you want to prevent public access!",
@@ -175,7 +177,7 @@ public class InstructionGroupCreator implements RuleMethodProcessor  {
             case INVOKESTATIC:
             case INVOKESPECIAL:
             case INVOKEINTERFACE:
-                MethodInsnNode calledMethod = (MethodInsnNode) node.getInstruction();
+                final MethodInsnNode calledMethod = (MethodInsnNode) node.getInstruction();
                 Checks.ensure(!isPrivate(calledMethod.owner, calledMethod.name, calledMethod.desc),
                         "Rule method '%s' contains an illegal call to private method '%s'.\nMark '%s' protected or " +
                                 "package-private if you want to prevent public access!",
@@ -184,17 +186,17 @@ public class InstructionGroupCreator implements RuleMethodProcessor  {
         }
     }
 
-    private int getIndexOfFirstInsn(InstructionGroup group) {
+    private int getIndexOfFirstInsn(final InstructionGroup group) {
         return method.instructions.indexOf(group.getNodes().get(0).getInstruction());
     }
 
-    private int getIndexOfLastInsn(InstructionGroup group) {
-        List<InstructionGraphNode> graphNodes = group.getNodes();
+    private int getIndexOfLastInsn(final InstructionGroup group) {
+        final List<InstructionGraphNode> graphNodes = group.getNodes();
         return method.instructions.indexOf(graphNodes.get(graphNodes.size() - 1).getInstruction());
     }
 
-    private boolean isPrivateField(String owner, String name) {
-        String key = owner + '#' + name;
+    private boolean isPrivateField(final String owner, final String name) {
+        final String key = owner + '#' + name;
         Integer modifiers = memberModifiers.get(key);
         if (modifiers == null) {
             modifiers = getClassField(owner, name).getModifiers();
@@ -203,12 +205,14 @@ public class InstructionGroupCreator implements RuleMethodProcessor  {
         return Modifier.isPrivate(modifiers);
     }
 
-    private boolean isPrivate(String owner, String name, String desc) {
+    private boolean isPrivate(
+        final String owner, final String name, final String desc) {
         return "<init>".equals(name) ? isPrivateInstantiation(owner, desc) : isPrivateMethod(owner, name, desc);
     }
 
-    private boolean isPrivateMethod(String owner, String name, String desc) {
-        String key = owner + '#' + name + '#' + desc;
+    private boolean isPrivateMethod(
+        final String owner, final String name, final String desc) {
+        final String key = owner + '#' + name + '#' + desc;
         Integer modifiers = memberModifiers.get(key);
         if (modifiers == null) {
             modifiers = getClassMethod(owner, name, desc).getModifiers();
@@ -217,7 +221,7 @@ public class InstructionGroupCreator implements RuleMethodProcessor  {
         return Modifier.isPrivate(modifiers);
     }
 
-    private boolean isPrivateInstantiation(String owner, String desc) {
+    private boolean isPrivateInstantiation(final String owner, final String desc) {
         // first check whether the class is private
         Integer modifiers = memberModifiers.get(owner);
         if (modifiers == null) {
@@ -227,7 +231,7 @@ public class InstructionGroupCreator implements RuleMethodProcessor  {
         if (Modifier.isPrivate(modifiers)) return true;
 
         // then check whether the selected constructor is private
-        String key = owner + "#<init>#" + desc;
+        final String key = owner + "#<init>#" + desc;
         modifiers = memberModifiers.get(key);
         if (modifiers == null) {
             modifiers = getClassConstructor(owner, desc).getModifiers();

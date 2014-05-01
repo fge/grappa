@@ -32,7 +32,7 @@ public class MatcherPath {
         public final int startIndex;
         public final int level;
 
-        public Element(Matcher matcher, int startIndex, int level) {
+        public Element(final Matcher matcher, final int startIndex, final int level) {
             this.matcher = matcher;
             this.startIndex = startIndex;
             this.level = level;
@@ -50,7 +50,7 @@ public class MatcherPath {
      * @param element the last element of this path
      * @param parent  the parent path
      */
-    public MatcherPath(Element element, MatcherPath parent) {
+    public MatcherPath(final Element element, final MatcherPath parent) {
         this.element = Preconditions.checkNotNull(element, "element");
         this.parent = parent;
     }
@@ -68,7 +68,7 @@ public class MatcherPath {
      * @param that the other path
      * @return true if this path is a prefix of the given other path
      */
-    public boolean isPrefixOf(MatcherPath that) {
+    public boolean isPrefixOf(final MatcherPath that) {
         Preconditions.checkNotNull(that, "that");
         return element.level <= that.element.level &&
                 (this == that || (that.parent != null && isPrefixOf(that.parent)));
@@ -79,7 +79,7 @@ public class MatcherPath {
      * @param level the level to get the element from
      * @return the element
      */
-    public Element getElementAtLevel(int level) {
+    public Element getElementAtLevel(final int level) {
         Preconditions.checkArgument(level >= 0);
         if (level > element.level) return null;
         if (level < element.level) return parent.getElementAtLevel(level);
@@ -92,7 +92,7 @@ public class MatcherPath {
      * @param that the other path
      * @return the common prefix or null
      */
-    public MatcherPath commonPrefix(MatcherPath that) {
+    public MatcherPath commonPrefix(final MatcherPath that) {
         Preconditions.checkNotNull(that, "that");
         if (element.level > that.element.level) return parent.commonPrefix(that);
         if (element.level < that.element.level) return commonPrefix(that.parent);
@@ -106,7 +106,7 @@ public class MatcherPath {
      * @param matcher the matcher
      * @return true if contained
      */
-    public boolean contains(Matcher matcher) {
+    public boolean contains(final Matcher matcher) {
         return element.matcher == matcher || (parent != null && parent.contains(matcher));
     }
 
@@ -115,11 +115,11 @@ public class MatcherPath {
         return toString(null);
     }
 
-    public String toString(MatcherPath skipPrefix) {
+    public String toString(final MatcherPath skipPrefix) {
         return print(new StringBuilder(), skipPrefix).toString();
     }
 
-    private StringBuilder print(StringBuilder sb, MatcherPath skipPrefix) {
+    private StringBuilder print(final StringBuilder sb, final MatcherPath skipPrefix) {
         return (parent == skipPrefix ? sb : parent.print(sb, skipPrefix).append('/')).append(element.matcher);
     }
 

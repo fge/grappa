@@ -28,17 +28,17 @@ import java.util.List;
  */
 public class FirstOfMatcher extends CustomDefaultLabelMatcher<FirstOfMatcher> {
 
-    public FirstOfMatcher(Rule[] subRules) {
+    public FirstOfMatcher(final Rule[] subRules) {
         super(Preconditions.checkNotNull(subRules, "subRules"), "FirstOf");
     }
 
     @Override
     @SuppressWarnings("ForLoopReplaceableByForEach")
-    public <V> boolean match(MatcherContext<V> context) {
-        List<Matcher> children = getChildren();
-        int size = children.size();
+    public <V> boolean match(final MatcherContext<V> context) {
+        final List<Matcher> children = getChildren();
+        final int size = children.size();
         for (int i = 0; i < size; i++) {
-            Matcher matcher = children.get(i);
+            final Matcher matcher = children.get(i);
             if (matcher.getSubContext(context).runMatcher()) {
                 context.createNode();
                 return true;
@@ -48,7 +48,7 @@ public class FirstOfMatcher extends CustomDefaultLabelMatcher<FirstOfMatcher> {
     }
 
     @Override
-    public <R> R accept(MatcherVisitor<R> visitor) {
+    public <R> R accept(final MatcherVisitor<R> visitor) {
         Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }

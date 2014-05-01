@@ -28,14 +28,14 @@ import org.parboiled.matchervisitors.MatcherVisitor;
 public class OneOrMoreMatcher extends CustomDefaultLabelMatcher<OneOrMoreMatcher> {
     public final Matcher subMatcher;
 
-    public OneOrMoreMatcher(Rule subRule) {
+    public OneOrMoreMatcher(final Rule subRule) {
         super(Preconditions.checkNotNull(subRule, "subRule"), "OneOrMore");
         this.subMatcher = getChildren().get(0);
     }
 
     @Override
-    public <V> boolean match(MatcherContext<V> context) {
-        boolean matched = subMatcher.getSubContext(context).runMatcher();
+    public <V> boolean match(final MatcherContext<V> context) {
+        final boolean matched = subMatcher.getSubContext(context).runMatcher();
         if (!matched) return false;
 
         // collect all further matches as well
@@ -47,7 +47,7 @@ public class OneOrMoreMatcher extends CustomDefaultLabelMatcher<OneOrMoreMatcher
     }
 
     @Override
-    public <R> R accept(MatcherVisitor<R> visitor) {
+    public <R> R accept(final MatcherVisitor<R> visitor) {
         Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }

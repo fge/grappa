@@ -28,15 +28,15 @@ import org.parboiled.matchervisitors.MatcherVisitor;
 public class TestNotMatcher extends CustomDefaultLabelMatcher<TestNotMatcher> {
     public final Matcher subMatcher;
 
-    public TestNotMatcher(Rule subRule) {
+    public TestNotMatcher(final Rule subRule) {
         super(Preconditions.checkNotNull(subRule, "subRule"), "TestNot");
         this.subMatcher = getChildren().get(0);
     }
 
     @Override
-    public <V> boolean match(MatcherContext<V> context) {
-        int lastIndex = context.getCurrentIndex();
-        Object valueStackSnapshot = context.getValueStack().takeSnapshot();
+    public <V> boolean match(final MatcherContext<V> context) {
+        final int lastIndex = context.getCurrentIndex();
+        final Object valueStackSnapshot = context.getValueStack().takeSnapshot();
 
         if (subMatcher.getSubContext(context).runMatcher()) return false;
 
@@ -49,7 +49,7 @@ public class TestNotMatcher extends CustomDefaultLabelMatcher<TestNotMatcher> {
     }
 
     @Override
-    public <R> R accept(MatcherVisitor<R> visitor) {
+    public <R> R accept(final MatcherVisitor<R> visitor) {
         Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }

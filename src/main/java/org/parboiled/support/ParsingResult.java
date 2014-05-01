@@ -68,8 +68,8 @@ public class ParsingResult<V> {
      * @param parseErrors   the list of parse errors
      * @param inputBuffer   the input buffer
      */
-    public ParsingResult(boolean matched, Node<V> parseTreeRoot, ValueStack<V> valueStack, List<ParseError> parseErrors,
-                         InputBuffer inputBuffer) {
+    public ParsingResult(final boolean matched, final Node<V> parseTreeRoot, final ValueStack<V> valueStack, final List<ParseError> parseErrors,
+                         final InputBuffer inputBuffer) {
         this.matched = matched;
         this.parseTreeRoot = parseTreeRoot;
         this.valueStack = Preconditions.checkNotNull(valueStack, "valueStack");

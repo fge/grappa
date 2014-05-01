@@ -39,12 +39,12 @@ public class RuleMethodInterpreter extends BasicInterpreter {
     private final RuleMethod method;
     private final List<Edge> additionalEdges = new ArrayList<Edge>();
 
-    public RuleMethodInterpreter(RuleMethod method) {
+    public RuleMethodInterpreter(final RuleMethod method) {
         this.method = method;
     }
 
     @Override
-    public BasicValue newValue(Type type) {
+    public BasicValue newValue(final Type type) {
         BasicValue basicValue = super.newValue(type);
         if (basicValue == BasicValue.REFERENCE_VALUE) {
             basicValue = new BasicValue(type); // record the exact type and not just "Ljava/lang/Object"
@@ -53,27 +53,31 @@ public class RuleMethodInterpreter extends BasicInterpreter {
     }
 
     @Override
-    public BasicValue newOperation(AbstractInsnNode insn) throws AnalyzerException {
+    public BasicValue newOperation(final AbstractInsnNode insn) throws AnalyzerException {
         return createNode(insn, super.newOperation(insn));
     }
 
     @Override
-    public BasicValue copyOperation(AbstractInsnNode insn, BasicValue value) throws AnalyzerException {
+    public BasicValue copyOperation(
+        final AbstractInsnNode insn, final BasicValue value) throws AnalyzerException {
         return createNode(insn, super.copyOperation(insn, value), value);
     }
 
     @Override
-    public BasicValue unaryOperation(AbstractInsnNode insn, BasicValue value) throws AnalyzerException {
+    public BasicValue unaryOperation(
+        final AbstractInsnNode insn, final BasicValue value) throws AnalyzerException {
         return createNode(insn, super.unaryOperation(insn, null), value);
     }
 
     @Override
-    public BasicValue binaryOperation(AbstractInsnNode insn, BasicValue value1, BasicValue value2) throws AnalyzerException {
+    public BasicValue binaryOperation(
+        final AbstractInsnNode insn, final BasicValue value1, final BasicValue value2) throws AnalyzerException {
         return createNode(insn, super.binaryOperation(insn, null, null), value1, value2);
     }
 
     @Override
-    public BasicValue ternaryOperation(AbstractInsnNode insn, BasicValue v1, BasicValue v2, BasicValue v3) throws AnalyzerException {
+    public BasicValue ternaryOperation(
+        final AbstractInsnNode insn, final BasicValue v1, final BasicValue v2, final BasicValue v3) throws AnalyzerException {
         // this method is only called for xASTORE instructions, parameter v1 is the value corresponding to the
         // NEWARRAY, ANEWARRAY or MULTIANEWARRAY instruction having created the array, we need to insert a special
         // dependency edge from the array creator to this xSTORE instruction
@@ -83,13 +87,13 @@ public class RuleMethodInterpreter extends BasicInterpreter {
 
     @Override
     @SuppressWarnings("unchecked")
-    public BasicValue naryOperation(AbstractInsnNode insn,
-        List<? extends BasicValue> values) throws AnalyzerException {
+    public BasicValue naryOperation(final AbstractInsnNode insn,
+        final List<? extends BasicValue> values) throws AnalyzerException {
         return createNode(insn, super.naryOperation(insn, null), (BasicValue[]) values.toArray(new BasicValue[values.size()]));
     }
 
     @Override
-    public void returnOperation(AbstractInsnNode insn, BasicValue value, BasicValue expected) throws AnalyzerException {
+    public void returnOperation(final AbstractInsnNode insn, final BasicValue value, final BasicValue expected) throws AnalyzerException {
         Preconditions.checkState(insn.getOpcode() == ARETURN);
         Preconditions.checkState(unwrap(value).getType().equals(Types.RULE));
         Preconditions.checkState(unwrap(expected).getType().equals(Types.RULE));
@@ -97,32 +101,33 @@ public class RuleMethodInterpreter extends BasicInterpreter {
         method.setReturnInstructionNode(createNode(insn, null, value));
     }
 
-    private InstructionGraphNode createNode(AbstractInsnNode insn, BasicValue resultValue, BasicValue... prevNodes) {
+    private InstructionGraphNode createNode(
+        final AbstractInsnNode insn, final BasicValue resultValue, final BasicValue... prevNodes) {
         return method.setGraphNode(insn, unwrap(resultValue), Arrays.asList(prevNodes));
     }
 
     @Override
-    public BasicValue merge(BasicValue v, BasicValue w) {
+    public BasicValue merge(final BasicValue v, final BasicValue w) {
         // we don't actually merge values but use the control flow detection to deal with conditionals
         return v;
     }
 
-    public void newControlFlowEdge(int instructionIndex, int successorIndex) {
-        AbstractInsnNode fromInsn = method.instructions.get(instructionIndex);
-        AbstractInsnNode toInsn = method.instructions.get(successorIndex);
+    public void newControlFlowEdge(final int instructionIndex, final int successorIndex) {
+        final AbstractInsnNode fromInsn = method.instructions.get(instructionIndex);
+        final AbstractInsnNode toInsn = method.instructions.get(successorIndex);
         if (fromInsn.getType() == AbstractInsnNode.LABEL || fromInsn.getType() == AbstractInsnNode.JUMP_INSN ||
                 toInsn.getType() == AbstractInsnNode.LABEL || toInsn.getType() == AbstractInsnNode.JUMP_INSN) {
             additionalEdges.add(new Edge(fromInsn, toInsn));
         }
     }
 
-    private AbstractInsnNode findArrayCreatorPredecessor(BasicValue value) {
-        String errorMessage = "Internal error during analysis of rule method '" + method.name +
+    private AbstractInsnNode findArrayCreatorPredecessor(final BasicValue value) {
+        final String errorMessage = "Internal error during analysis of rule method '" + method.name +
                 "', please report this error to info@parboiled.org! Thank you!";
         Checks.ensure(value instanceof InstructionGraphNode, errorMessage);
         InstructionGraphNode node = (InstructionGraphNode) value;
         while (true) {
-            int opcode = node.getInstruction().getOpcode();
+            final int opcode = node.getInstruction().getOpcode();
             if (opcode == ANEWARRAY || opcode == NEWARRAY || opcode == MULTIANEWARRAY) break;
             Checks.ensure(node.getPredecessors().size() == 1, errorMessage);
             node = node.getPredecessors().get(0);
@@ -132,7 +137,7 @@ public class RuleMethodInterpreter extends BasicInterpreter {
 
     public void finish() {
         // add all edges so far not included
-        for (Edge edge : additionalEdges) {
+        for (final Edge edge : additionalEdges) {
             InstructionGraphNode node = getGraphNode(edge.from);
             if (node == null) node = createNode(edge.from, null);
             InstructionGraphNode succ = getGraphNode(edge.to);
@@ -141,11 +146,11 @@ public class RuleMethodInterpreter extends BasicInterpreter {
         }
     }
 
-    private InstructionGraphNode getGraphNode(AbstractInsnNode insn) {
+    private InstructionGraphNode getGraphNode(final AbstractInsnNode insn) {
         return method.getGraphNodes().get(method.instructions.indexOf(insn));
     }
 
-    private BasicValue unwrap(BasicValue resultValue) {
+    private BasicValue unwrap(final BasicValue resultValue) {
         return (resultValue != null && resultValue instanceof InstructionGraphNode) ?
                 ((InstructionGraphNode) resultValue).getResultValue() : resultValue;
     }
@@ -154,7 +159,7 @@ public class RuleMethodInterpreter extends BasicInterpreter {
         public final AbstractInsnNode from;
         public final AbstractInsnNode to;
 
-        public Edge(AbstractInsnNode from, AbstractInsnNode to) {
+        public Edge(final AbstractInsnNode from, final AbstractInsnNode to) {
             this.from = from;
             this.to = to;
         }

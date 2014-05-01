@@ -31,12 +31,12 @@ public class ToStringFormatter<T> implements Formatter<T> {
         this("null");
     }
 
-    public ToStringFormatter(String nullString) {
+    public ToStringFormatter(final String nullString) {
         this.nullString = nullString;
     }
 
     @Override
-    public String format(T obj) {
+    public String format(final T obj) {
         return obj != null ? obj.toString() : nullString;
     }
 

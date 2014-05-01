@@ -20,7 +20,7 @@ public final class MatcherUtils {
     
     private MatcherUtils() {}
     
-    public static Matcher unwrap(Matcher matcher) {
+    public static Matcher unwrap(final Matcher matcher) {
         if (matcher instanceof ProxyMatcher) return unwrap(ProxyMatcher.unwrap(matcher));
         if (matcher instanceof VarFramingMatcher) return unwrap(VarFramingMatcher.unwrap(matcher));
         if (matcher instanceof MemoMismatchesMatcher) return unwrap(MemoMismatchesMatcher.unwrap(matcher));

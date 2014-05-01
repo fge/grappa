@@ -53,17 +53,17 @@ import static org.parboiled.transform.Types.VAR_FRAMING_MATCHER;
 public class VarFramingGenerator implements RuleMethodProcessor {
 
     @Override
-    public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
+    public boolean appliesTo(final ParserClassNode classNode, final RuleMethod method) {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
         return method.getLocalVarVariables() != null;
     }
 
     @Override
-    public void process(ParserClassNode classNode, RuleMethod method) throws Exception {
+    public void process(final ParserClassNode classNode, final RuleMethod method) throws Exception {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
-        InsnList instructions = method.instructions;
+        final InsnList instructions = method.instructions;
         
         AbstractInsnNode ret = instructions.getLast();
         while (ret.getOpcode() != ARETURN) {
@@ -86,8 +86,8 @@ public class VarFramingGenerator implements RuleMethodProcessor {
         method.setBodyRewritten();
     }
 
-    private void createVarFieldArray(RuleMethod method, InsnList instructions, AbstractInsnNode ret) {
-        int count = method.getLocalVarVariables().size();
+    private void createVarFieldArray(final RuleMethod method, final InsnList instructions, final AbstractInsnNode ret) {
+        final int count = method.getLocalVarVariables().size();
 
         // stack:
         instructions.insertBefore(ret, new IntInsnNode(BIPUSH, count));
@@ -95,7 +95,7 @@ public class VarFramingGenerator implements RuleMethodProcessor {
         instructions.insertBefore(ret, new TypeInsnNode(ANEWARRAY, VAR.getInternalName()));
         // stack: <array>
         for (int i = 0; i < count; i++) {
-            LocalVariableNode var = method.getLocalVarVariables().get(i);
+            final LocalVariableNode var = method.getLocalVarVariables().get(i);
             // stack: <array>
             instructions.insertBefore(ret, new InsnNode(DUP));
             // stack: <array> :: <array>

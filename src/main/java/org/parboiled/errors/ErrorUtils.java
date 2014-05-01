@@ -42,7 +42,7 @@ public final class ErrorUtils {
      * @param errorIndex the start index of the respective parse error
      * @return the matcher whose label is best for presentation in "expected" strings
      */
-    static Matcher findProperLabelMatcher(MatcherPath path, int errorIndex) {
+    static Matcher findProperLabelMatcher(final MatcherPath path, final int errorIndex) {
         try { return findProperLabelMatcher0(path, errorIndex); }
         catch(RuntimeException e) {
             if (e == UnderneathTestNot) return null; else throw e;
@@ -52,11 +52,12 @@ public final class ErrorUtils {
     private static RuntimeException UnderneathTestNot = new RuntimeException() {
         @Override public synchronized Throwable fillInStackTrace() { return this; }
     };
-    private static Matcher findProperLabelMatcher0(MatcherPath path, int errorIndex) {
+    private static Matcher findProperLabelMatcher0(
+        final MatcherPath path, final int errorIndex) {
         Preconditions.checkNotNull(path, "path");
-        Matcher found = path.parent != null ? findProperLabelMatcher0(path.parent, errorIndex) : null;
+        final Matcher found = path.parent != null ? findProperLabelMatcher0(path.parent, errorIndex) : null;
         if (found != null) return found;
-        Matcher m = path.element.matcher;
+        final Matcher m = path.element.matcher;
         if (m instanceof TestNotMatcher) throw UnderneathTestNot;
         if (path.element.startIndex == errorIndex && m.hasCustomLabel()) return m;
         return null;
@@ -68,7 +69,7 @@ public final class ErrorUtils {
      * @param parsingResult the parsing result
      * @return the pretty print text
      */
-    public static String printParseErrors(ParsingResult<?> parsingResult) {
+    public static String printParseErrors(final ParsingResult<?> parsingResult) {
         Preconditions.checkNotNull(parsingResult, "parsingResult");
         return printParseErrors(parsingResult.parseErrors);
     }
@@ -79,10 +80,10 @@ public final class ErrorUtils {
      * @param errors      the parse errors
      * @return the pretty print text
      */
-    public static String printParseErrors(List<ParseError> errors) {
+    public static String printParseErrors(final List<ParseError> errors) {
         Preconditions.checkNotNull(errors, "errors");
-        StringBuilder sb = new StringBuilder();
-        for (ParseError error : errors) {
+        final StringBuilder sb = new StringBuilder();
+        for (final ParseError error : errors) {
             if (sb.length() > 0) sb.append("---\n");
             sb.append(printParseError(error));
         }
@@ -95,7 +96,7 @@ public final class ErrorUtils {
      * @param error       the parse error
      * @return the pretty print text
      */
-    public static String printParseError(ParseError error) {
+    public static String printParseError(final ParseError error) {
         Preconditions.checkNotNull(error, "error");
         return printParseError(error, new DefaultInvalidInputErrorFormatter());
     }
@@ -107,10 +108,10 @@ public final class ErrorUtils {
      * @param formatter   the formatter for InvalidInputErrors
      * @return the pretty print text
      */
-    public static String printParseError(ParseError error, Formatter<InvalidInputError> formatter) {
+    public static String printParseError(final ParseError error, final Formatter<InvalidInputError> formatter) {
         Preconditions.checkNotNull(error, "error");
         Preconditions.checkNotNull(formatter, "formatter");
-        String message = error.getErrorMessage() != null ? error.getErrorMessage() :
+        final String message = error.getErrorMessage() != null ? error.getErrorMessage() :
                 error instanceof InvalidInputError ?
                         formatter.format((InvalidInputError) error) : error.getClass().getSimpleName();
         return printErrorMessage("%s (line %s, pos %s):", message,
@@ -127,8 +128,8 @@ public final class ErrorUtils {
      * @param inputBuffer  the underlying InputBuffer
      * @return the error message including the relevant line from the underlying input plus location indicator
      */
-    public static String printErrorMessage(String format, String errorMessage, int errorIndex,
-                                           InputBuffer inputBuffer) {
+    public static String printErrorMessage(final String format, final String errorMessage, final int errorIndex,
+                                           final InputBuffer inputBuffer) {
         Preconditions.checkNotNull(inputBuffer, "inputBuffer");
         return printErrorMessage(format, errorMessage, errorIndex, errorIndex + 1, inputBuffer);
     }
@@ -144,19 +145,19 @@ public final class ErrorUtils {
      * @param inputBuffer  the underlying InputBuffer
      * @return the error message including the relevant line from the underlying input plus location indicators
      */
-    public static String printErrorMessage(String format, String errorMessage, int startIndex, int endIndex,
-                                           InputBuffer inputBuffer) {
+    public static String printErrorMessage(final String format, final String errorMessage, final int startIndex, final int endIndex,
+                                           final InputBuffer inputBuffer) {
         Preconditions.checkNotNull(inputBuffer, "inputBuffer");
         Preconditions.checkArgument(startIndex <= endIndex);
-        Position pos = inputBuffer.getPosition(startIndex);
-        StringBuilder sb = new StringBuilder(String.format(format, errorMessage, pos.line, pos.column));
+        final Position pos = inputBuffer.getPosition(startIndex);
+        final StringBuilder sb = new StringBuilder(String.format(format, errorMessage, pos.line, pos.column));
         sb.append('\n');
 
-        String line = inputBuffer.extractLine(pos.line);
+        final String line = inputBuffer.extractLine(pos.line);
         sb.append(line);
         sb.append('\n');
 
-        int charCount = Math.max(Math.min(endIndex - startIndex,
+        final int charCount = Math.max(Math.min(endIndex - startIndex,
             line.length() - pos.column + 2), 1);
         for (int i = 0; i < pos.column - 1; i++) sb.append(' ');
         for (int i = 0; i < charCount; i++) sb.append('^');

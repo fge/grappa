@@ -31,20 +31,20 @@ public class VarFramingMatcher implements Matcher {
     private final Matcher inner;
     private final Var<?>[] variables;
 
-    public VarFramingMatcher(Rule inner, Var<?>[] variables) {
+    public VarFramingMatcher(final Rule inner, final Var<?>[] variables) {
         this.inner = Preconditions.checkNotNull((Matcher) inner, "inner");
         this.variables = Preconditions.checkNotNull(variables, "variables");
     }
 
     @Override
-    public <V> boolean match(MatcherContext<V> context) {
-        for (Var<?> var : variables) {
+    public <V> boolean match(final MatcherContext<V> context) {
+        for (final Var<?> var : variables) {
             var.enterFrame();
         }
 
-        boolean matched = inner.match(context);
+        final boolean matched = inner.match(context);
 
-        for (Var<?> var : variables) {
+        for (final Var<?> var : variables) {
             var.exitFrame();
         }
 
@@ -61,7 +61,7 @@ public class VarFramingMatcher implements Matcher {
     // Rule
 
     @Override
-    public Rule label(String label) {
+    public Rule label(final String label) {
         return new VarFramingMatcher(inner.label(label), variables);
     }
 
@@ -106,20 +106,20 @@ public class VarFramingMatcher implements Matcher {
     public boolean areMismatchesMemoed() { return inner.areMismatchesMemoed(); }
 
     @Override
-    public void setTag(Object tagObject) { inner.setTag(tagObject); }
+    public void setTag(final Object tagObject) { inner.setTag(tagObject); }
 
     @Override
     public Object getTag() { return inner.getTag(); }
     
     @Override
-    public <V> MatcherContext<V> getSubContext(MatcherContext<V> context) {
-        MatcherContext<V> subContext = inner.getSubContext(context);
+    public <V> MatcherContext<V> getSubContext(final MatcherContext<V> context) {
+        final MatcherContext<V> subContext = inner.getSubContext(context);
         subContext.setMatcher(this); // we need to inject ourselves here otherwise we get cut out
         return subContext;
     }
 
     @Override
-    public <R> R accept(MatcherVisitor<R> visitor) {
+    public <R> R accept(final MatcherVisitor<R> visitor) {
         Preconditions.checkNotNull(visitor, "visitor");
         return inner.accept(visitor);
     }
@@ -133,9 +133,9 @@ public class VarFramingMatcher implements Matcher {
      * @param matcher the matcher to unwrap
      * @return the given instance if it is not a VarFramingMatcher, otherwise the innermost Matcher
      */
-    public static Matcher unwrap(Matcher matcher) {
+    public static Matcher unwrap(final Matcher matcher) {
         if (matcher instanceof VarFramingMatcher) {
-            VarFramingMatcher varFramingMatcher = (VarFramingMatcher) matcher;
+            final VarFramingMatcher varFramingMatcher = (VarFramingMatcher) matcher;
             return unwrap(varFramingMatcher.inner);
         }
         return matcher;

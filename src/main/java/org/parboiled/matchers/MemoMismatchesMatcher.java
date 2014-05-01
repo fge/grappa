@@ -29,13 +29,13 @@ import java.util.List;
 public class MemoMismatchesMatcher implements Matcher {
     private final Matcher inner;
 
-    public MemoMismatchesMatcher(Rule inner) {
+    public MemoMismatchesMatcher(final Rule inner) {
         this.inner = Preconditions.checkNotNull((Matcher) inner, "inner");
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public <V> boolean match(MatcherContext<V> context) {
+    public <V> boolean match(final MatcherContext<V> context) {
         if (context.hasMismatched()) {
             return false;
         }
@@ -56,7 +56,7 @@ public class MemoMismatchesMatcher implements Matcher {
     // Rule
 
     @Override
-    public Rule label(String label) {
+    public Rule label(final String label) {
         return new MemoMismatchesMatcher(inner.label(label));
     }
 
@@ -101,20 +101,20 @@ public class MemoMismatchesMatcher implements Matcher {
     public boolean areMismatchesMemoed() { return true; }
 
     @Override
-    public void setTag(Object tagObject) { inner.setTag(tagObject); }
+    public void setTag(final Object tagObject) { inner.setTag(tagObject); }
 
     @Override
     public Object getTag() { return inner.getTag(); }
 
     @Override
-    public <V> MatcherContext<V> getSubContext(MatcherContext<V> context) {
-        MatcherContext<V> subContext = inner.getSubContext(context);
+    public <V> MatcherContext<V> getSubContext(final MatcherContext<V> context) {
+        final MatcherContext<V> subContext = inner.getSubContext(context);
         subContext.setMatcher(this); // we need to inject ourselves here otherwise we get cut out
         return subContext;
     }
 
     @Override
-    public <R> R accept(MatcherVisitor<R> visitor) {
+    public <R> R accept(final MatcherVisitor<R> visitor) {
         Preconditions.checkNotNull(visitor, "visitor");
         return inner.accept(visitor);
     }
@@ -128,9 +128,9 @@ public class MemoMismatchesMatcher implements Matcher {
      * @param matcher the matcher to unwrap
      * @return the given instance if it is not a MemoMismatchesMatcher, otherwise the innermost Matcher
      */
-    public static Matcher unwrap(Matcher matcher) {
+    public static Matcher unwrap(final Matcher matcher) {
         if (matcher instanceof MemoMismatchesMatcher) {
-            MemoMismatchesMatcher memoMismatchesMatcher = (MemoMismatchesMatcher) matcher;
+            final MemoMismatchesMatcher memoMismatchesMatcher = (MemoMismatchesMatcher) matcher;
             return unwrap(memoMismatchesMatcher.inner);
         }
         return matcher;

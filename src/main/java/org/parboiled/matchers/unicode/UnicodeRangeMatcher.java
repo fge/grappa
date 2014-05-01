@@ -52,7 +52,7 @@ public abstract class UnicodeRangeMatcher
     }
 
     @Override
-    public <R> R accept(MatcherVisitor<R> visitor)
+    public <R> R accept(final MatcherVisitor<R> visitor)
     {
         Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);

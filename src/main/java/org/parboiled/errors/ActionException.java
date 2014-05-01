@@ -25,19 +25,20 @@ public class ActionException extends RuntimeException {
     public ActionException() {
     }
 
-    public ActionException(String message) {
+    public ActionException(final String message) {
         super(message);
     }
 
-    public ActionException(String message, Throwable cause) {
+    public ActionException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
-    public ActionException(Throwable cause, String message, Object... messageArgs) {
+    public ActionException(
+        final Throwable cause, final String message, final Object... messageArgs) {
         super(String.format(message, messageArgs), cause);
     }
 
-    public ActionException(Throwable cause) {
+    public ActionException(final Throwable cause) {
         super(cause);
     }
 

@@ -29,15 +29,15 @@ public class CharIgnoreCaseMatcher extends AbstractMatcher {
     public final char charLow;
     public final char charUp;
 
-    public CharIgnoreCaseMatcher(char character) {
+    public CharIgnoreCaseMatcher(final char character) {
         super('\'' + escape(Character.toLowerCase(character)) + '/' + escape(Character.toUpperCase(character)) + '\'');
         this.charLow = Character.toLowerCase(character);
         this.charUp = Character.toUpperCase(character);
     }
 
     @Override
-    public <V> boolean match(MatcherContext<V> context) {
-        char c = context.getCurrentChar();
+    public <V> boolean match(final MatcherContext<V> context) {
+        final char c = context.getCurrentChar();
         if (c != charLow && c != charUp) return false;
         context.advanceIndex(1);
         context.createNode();
@@ -45,7 +45,7 @@ public class CharIgnoreCaseMatcher extends AbstractMatcher {
     }
 
     @Override
-    public <R> R accept(MatcherVisitor<R> visitor) {
+    public <R> R accept(final MatcherVisitor<R> visitor) {
         Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }

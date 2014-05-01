@@ -32,7 +32,7 @@ public class StringVar extends Var<String> {
      *
      * @param value the initial value
      */
-    public StringVar(String value) {
+    public StringVar(final String value) {
         super(value);
     }
 
@@ -52,7 +52,7 @@ public class StringVar extends Var<String> {
      * @param text the text to append
      * @return true
      */
-    public boolean append(String text) {
+    public boolean append(final String text) {
         return set(get() == null ? text : get().concat(text));
     }
 
@@ -63,7 +63,7 @@ public class StringVar extends Var<String> {
      * @param text the text to append
      * @return this instance
      */
-    public StringVar appended(String text) {
+    public StringVar appended(final String text) {
         append(text);
         return this;
     }
@@ -75,7 +75,7 @@ public class StringVar extends Var<String> {
      * @param c the char to append
      * @return true
      */
-    public boolean append(char c) {
+    public boolean append(final char c) {
         return set(get() == null ? String.valueOf(c) : get() + c);
     }
 
@@ -86,7 +86,7 @@ public class StringVar extends Var<String> {
      * @param c the char to append
      * @return this instance
      */
-    public StringVar appended(char c) {
+    public StringVar appended(final char c) {
         append(c);
         return this;
     }

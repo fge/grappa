@@ -42,27 +42,27 @@ public class ProxyMatcher implements Matcher, Cloneable {
         return target.getChildren();
     }
 
-    public void setLabel(String label) {
+    public void setLabel(final String label) {
         this.label = label;
         updateDirtyFlag();
     }
 
-    private void setNodeSuppressed(boolean nodeSuppressed) {
+    private void setNodeSuppressed(final boolean nodeSuppressed) {
         this.nodeSuppressed = nodeSuppressed;
         updateDirtyFlag();
     }
 
-    private void setSubnodesSuppressed(boolean subnodesSuppressed) {
+    private void setSubnodesSuppressed(final boolean subnodesSuppressed) {
         this.subnodesSuppressed = subnodesSuppressed;
         updateDirtyFlag();
     }
 
-    private void setNodeSkipped(boolean nodeSkipped) {
+    private void setNodeSkipped(final boolean nodeSkipped) {
         this.nodeSkipped = nodeSkipped;
         updateDirtyFlag();
     }
 
-    private void setMemoMismatches(boolean memoMismatches) {
+    private void setMemoMismatches(final boolean memoMismatches) {
         this.memoMismatches = memoMismatches;
         updateDirtyFlag();
     }
@@ -72,7 +72,7 @@ public class ProxyMatcher implements Matcher, Cloneable {
     }
 
     @Override
-    public <V> boolean match(MatcherContext<V> context) {
+    public <V> boolean match(final MatcherContext<V> context) {
         if (dirty) apply();
         return target.match(context);
     }
@@ -114,7 +114,7 @@ public class ProxyMatcher implements Matcher, Cloneable {
     }
 
     @Override
-    public void setTag(Object tagObject) {
+    public void setTag(final Object tagObject) {
         if (dirty) apply();
         target.setTag(tagObject);
     }
@@ -126,7 +126,7 @@ public class ProxyMatcher implements Matcher, Cloneable {
     }
 
     @Override
-    public <R> R accept(MatcherVisitor<R> visitor) {
+    public <R> R accept(final MatcherVisitor<R> visitor) {
         Preconditions.checkNotNull(visitor, "visitor");
         if (dirty) apply();
         return target.accept(visitor);
@@ -147,7 +147,7 @@ public class ProxyMatcher implements Matcher, Cloneable {
     }
 
     @Override
-    public Rule label(String label) {
+    public Rule label(final String label) {
         if (target == null) {
             // if we have no target yet we need to save the label and "apply" it later
             if (this.label == null) {
@@ -157,14 +157,14 @@ public class ProxyMatcher implements Matcher, Cloneable {
 
             // this proxy matcher is already waiting for its label application opportunity,
             // so we need to create another proxy level
-            ProxyMatcher anotherProxy = createClone();
+            final ProxyMatcher anotherProxy = createClone();
             anotherProxy.setLabel(label);
             anotherProxy.arm(this);
             return anotherProxy;
         }
 
         // we already have a target to which we can directly apply the label
-        Rule inner = unwrap(target);
+        final Rule inner = unwrap(target);
         target = (Matcher) inner.label(label); // since relabelling might change the instance we have to update it
         setLabel(null);
         return target;
@@ -179,7 +179,7 @@ public class ProxyMatcher implements Matcher, Cloneable {
         }
 
         // we already have a target to which we can directly apply the marker
-        Rule inner = unwrap(target);
+        final Rule inner = unwrap(target);
         target = (Matcher) inner.suppressNode(); // since this might change the instance we have to update it
         setNodeSuppressed(false);
         return target;
@@ -194,7 +194,7 @@ public class ProxyMatcher implements Matcher, Cloneable {
         }
 
         // we already have a target to which we can directly apply the marker
-        Rule inner = unwrap(target);
+        final Rule inner = unwrap(target);
         target = (Matcher) inner.suppressSubnodes(); // since this might change the instance we have to update it
         setSubnodesSuppressed(false);
         return target;
@@ -209,7 +209,7 @@ public class ProxyMatcher implements Matcher, Cloneable {
         }
 
         // we already have a target to which we can directly apply the marker
-        Rule inner = unwrap(target);
+        final Rule inner = unwrap(target);
         target = (Matcher) inner.skipNode(); // since this might change the instance we have to update it
         setNodeSkipped(false);
         return target;
@@ -224,7 +224,7 @@ public class ProxyMatcher implements Matcher, Cloneable {
         }
 
         // we already have a target to which we can directly apply the marker
-        Rule inner = unwrap(target);
+        final Rule inner = unwrap(target);
         target = (Matcher) inner.memoMismatches(); // since this might change the instance we have to update it
         setMemoMismatches(false);
         return target;
@@ -235,7 +235,7 @@ public class ProxyMatcher implements Matcher, Cloneable {
      *
      * @param target the Matcher to delegate to
      */
-    public void arm(Matcher target) {
+    public void arm(final Matcher target) {
         this.target = Preconditions.checkNotNull(target, "target");
     }
 
@@ -245,9 +245,9 @@ public class ProxyMatcher implements Matcher, Cloneable {
      * @param matcher the matcher to unwrap
      * @return the given instance if it is not a ProxyMatcher, otherwise the innermost non-proxy Matcher
      */
-    public static Matcher unwrap(Matcher matcher) {
+    public static Matcher unwrap(final Matcher matcher) {
         if (matcher instanceof ProxyMatcher) {
-            ProxyMatcher proxyMatcher = (ProxyMatcher) matcher;
+            final ProxyMatcher proxyMatcher = (ProxyMatcher) matcher;
             if (proxyMatcher.dirty) proxyMatcher.apply();
             return proxyMatcher.target == null ? proxyMatcher
                 : proxyMatcher.target;
@@ -256,7 +256,7 @@ public class ProxyMatcher implements Matcher, Cloneable {
     }
 
     @Override
-    public <V> MatcherContext<V> getSubContext(MatcherContext<V> context) {
+    public <V> MatcherContext<V> getSubContext(final MatcherContext<V> context) {
         if (dirty) apply();
         return target.getSubContext(context);
     }

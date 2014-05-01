@@ -24,23 +24,24 @@ public class GrammarException extends RuntimeException {
     public GrammarException() {
     }
 
-    public GrammarException(String message) {
+    public GrammarException(final String message) {
         super(message);
     }
 
-    public GrammarException(String message, Throwable cause) {
+    public GrammarException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
-    public GrammarException(String message, Object... messageArgs) {
+    public GrammarException(final String message, final Object... messageArgs) {
         super(String.format(message, messageArgs));
     }
 
-    public GrammarException(Throwable cause, String message, Object... messageArgs) {
+    public GrammarException(
+        final Throwable cause, final String message, final Object... messageArgs) {
         super(String.format(message, messageArgs), cause);
     }
 
-    public GrammarException(Throwable cause) {
+    public GrammarException(final Throwable cause) {
         super(cause);
     }
 

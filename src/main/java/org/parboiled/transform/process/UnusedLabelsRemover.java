@@ -27,18 +27,18 @@ import org.parboiled.transform.RuleMethod;
 public class UnusedLabelsRemover implements RuleMethodProcessor {
 
     @Override
-    public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
+    public boolean appliesTo(final ParserClassNode classNode, final RuleMethod method) {
         return true;
     }
 
     @Override
     @SuppressWarnings("SuspiciousMethodCalls")
-    public void process(ParserClassNode classNode, RuleMethod method) throws Exception {
+    public void process(final ParserClassNode classNode, final RuleMethod method) throws Exception {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
         AbstractInsnNode current = method.instructions.getFirst();
         while (current != null) {
-            AbstractInsnNode next = current.getNext();
+            final AbstractInsnNode next = current.getNext();
             if (current.getType() == AbstractInsnNode.LABEL && !method.getUsedLabels().contains(current)) {
                 method.instructions.remove(current);
             }

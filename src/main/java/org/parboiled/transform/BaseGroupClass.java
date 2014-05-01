@@ -23,7 +23,7 @@ abstract class BaseGroupClass {
 
     public final String name;
 
-    protected BaseGroupClass(String name) {
+    protected BaseGroupClass(final String name) {
         this.name = Preconditions.checkNotNull(name, "name");
     }
 

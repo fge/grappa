@@ -40,7 +40,7 @@ public class ErrorLocatingParseRunner<V> extends AbstractParseRunner<V> implemen
      *
      * @param rule the parser rule
      */
-    public ErrorLocatingParseRunner(Rule rule) {
+    public ErrorLocatingParseRunner(final Rule rule) {
         this(rule, null);
     }
     
@@ -51,20 +51,20 @@ public class ErrorLocatingParseRunner<V> extends AbstractParseRunner<V> implemen
      * @param rule the parser rule
      * @param inner another MatchHandler to delegate the actual match handling to, can be null
      */
-    public ErrorLocatingParseRunner(Rule rule, MatchHandler inner) {
+    public ErrorLocatingParseRunner(final Rule rule, final MatchHandler inner) {
         super(rule);
         this.inner = inner;
     }
 
     @Override
-    public ParsingResult<V> run(InputBuffer inputBuffer) {
+    public ParsingResult<V> run(final InputBuffer inputBuffer) {
         Preconditions.checkNotNull(inputBuffer, "inputBuffer");
         resetValueStack();
         errorIndex = 0;
         
         // run without fast string matching to properly get the error location
-        MatcherContext<V> rootContext = createRootContext(inputBuffer, this, false);
-        boolean matched = match(rootContext);
+        final MatcherContext<V> rootContext = createRootContext(inputBuffer, this, false);
+        final boolean matched = match(rootContext);
         if (!matched) {
             getParseErrors().add(new BasicParseError(inputBuffer, errorIndex, null));
         }
@@ -72,7 +72,7 @@ public class ErrorLocatingParseRunner<V> extends AbstractParseRunner<V> implemen
     }
 
     @Override
-    public boolean match(MatcherContext<?> context) {
+    public boolean match(final MatcherContext<?> context) {
         if (inner == null && context.getMatcher().match(context) || inner != null && inner.match(context)) {
             if (errorIndex < context.getCurrentIndex() && notTestNot(context)) {
                 errorIndex = context.getCurrentIndex();
@@ -82,7 +82,7 @@ public class ErrorLocatingParseRunner<V> extends AbstractParseRunner<V> implemen
         return false;
     }
 
-    private boolean notTestNot(MatcherContext<?> context) {
+    private boolean notTestNot(final MatcherContext<?> context) {
         return !(context.getMatcher() instanceof TestNotMatcher) &&
                 (context.getParent() == null || notTestNot(context.getParent()));
     }

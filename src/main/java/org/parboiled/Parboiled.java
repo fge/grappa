@@ -49,11 +49,11 @@ public class Parboiled {
      * @return the ready to use parser instance
      */
     @SuppressWarnings("unchecked")
-    public static <P extends BaseParser<V>, V> P createParser(Class<P> parserClass, Object... constructorArgs) {
+    public static <P extends BaseParser<V>, V> P createParser(final Class<P> parserClass, final Object... constructorArgs) {
         Preconditions.checkNotNull(parserClass, "parserClass");
         try {
-            Class<?> extendedClass = ParserTransformer.transformParser(parserClass);
-            Constructor<?> constructor = findConstructor(extendedClass,
+            final Class<?> extendedClass = ParserTransformer.transformParser(parserClass);
+            final Constructor<?> constructor = findConstructor(extendedClass,
                 constructorArgs);
             return (P) constructor.newInstance(constructorArgs);
         } catch (Exception e) {

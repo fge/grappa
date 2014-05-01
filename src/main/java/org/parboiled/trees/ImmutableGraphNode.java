@@ -36,7 +36,7 @@ public class ImmutableGraphNode<T extends GraphNode<T>>
         this(null);
     }
 
-    public ImmutableGraphNode(List<T> children) {
+    public ImmutableGraphNode(final List<T> children) {
         this.children = children ==
                 null ? ImmutableList.<T>of() :
                 children instanceof ImmutableList ? children :

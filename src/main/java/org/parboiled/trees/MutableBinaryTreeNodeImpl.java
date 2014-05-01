@@ -34,7 +34,7 @@ public class MutableBinaryTreeNodeImpl<T extends MutableBinaryTreeNode<T>> exten
         return getChildren().get(0);
     }
 
-    public void setLeft(T node) {
+    public void setLeft(final T node) {
         setChild(0, node);
     }
 
@@ -43,17 +43,17 @@ public class MutableBinaryTreeNodeImpl<T extends MutableBinaryTreeNode<T>> exten
         return getChildren().get(1);
     }
 
-    public void setRight(T node) {
+    public void setRight(final T node) {
         setChild(1, node);
     }
 
     @Override
-    public void addChild(int index, T child) {
+    public void addChild(final int index, final T child) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public T removeChild(int index) {
+    public T removeChild(final int index) {
         throw new UnsupportedOperationException();
     }
 

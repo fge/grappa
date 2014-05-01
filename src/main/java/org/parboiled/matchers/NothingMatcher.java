@@ -30,12 +30,12 @@ public class NothingMatcher extends AbstractMatcher {
     }
 
     @Override
-    public <V> boolean match(MatcherContext<V> context) {
+    public <V> boolean match(final MatcherContext<V> context) {
         return false;
     }
 
     @Override
-    public <R> R accept(MatcherVisitor<R> visitor) {
+    public <R> R accept(final MatcherVisitor<R> visitor) {
         Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }

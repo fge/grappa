@@ -47,14 +47,14 @@ public final class DefaultInputBuffer
      *
      * @param buffer the chars
      */
-    public DefaultInputBuffer(char[] buffer)
+    public DefaultInputBuffer(final char[] buffer)
     {
         this.buffer = Preconditions.checkNotNull(buffer);
         this.length = buffer.length;
     }
 
     @Override
-    public char charAt(int index)
+    public char charAt(final int index)
     {
         return 0 <= index && index < length ? buffer[index]
             : index - length > 100000 ? throwParsingException() : Chars.EOI;
@@ -68,9 +68,9 @@ public final class DefaultInputBuffer
     }
 
     @Override
-    public boolean test(int index, char[] characters)
+    public boolean test(final int index, final char[] characters)
     {
-        int len = characters.length;
+        final int len = characters.length;
         if (index < 0 || index > length - len) {
             return false;
         }
@@ -94,41 +94,41 @@ public final class DefaultInputBuffer
     }
 
     @Override
-    public String extract(IndexRange range)
+    public String extract(final IndexRange range)
     {
         return new String(buffer, range.start,
             Math.min(range.end, length) - range.start);
     }
 
     @Override
-    public Position getPosition(int index)
+    public Position getPosition(final int index)
     {
         buildNewlines();
-        int line = getLine0(newlines, index);
-        int column = index - (line > 0 ? newlines[line - 1] : -1);
+        final int line = getLine0(newlines, index);
+        final int column = index - (line > 0 ? newlines[line - 1] : -1);
         return new Position(line + 1, column);
     }
 
     @Override
-    public int getOriginalIndex(int index)
+    public int getOriginalIndex(final int index)
     {
         return index;
     }
 
     // returns the zero based input line number the character with the given index is found in
-    private static int getLine0(int[] newlines, int index)
+    private static int getLine0(final int[] newlines, final int index)
     {
-        int j = Arrays.binarySearch(newlines, index);
+        final int j = Arrays.binarySearch(newlines, index);
         return j >= 0 ? j : -(j + 1);
     }
 
     @Override
-    public String extractLine(int lineNumber)
+    public String extractLine(final int lineNumber)
     {
         buildNewlines();
         Preconditions
             .checkArgument(0 < lineNumber && lineNumber <= newlines.length + 1);
-        int start = lineNumber > 1 ? newlines[lineNumber - 2] + 1 : 0;
+        final int start = lineNumber > 1 ? newlines[lineNumber - 2] + 1 : 0;
         int end = lineNumber <= newlines.length ? newlines[lineNumber - 1]
             : length;
         if (charAt(end - 1) == '\r')

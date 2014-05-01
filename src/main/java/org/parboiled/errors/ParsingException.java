@@ -25,23 +25,24 @@ public class ParsingException extends RuntimeException {
     public ParsingException() {
     }
 
-    public ParsingException(String message) {
+    public ParsingException(final String message) {
         super(message);
     }
 
-    public ParsingException(String message, Throwable cause) {
+    public ParsingException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
-    public ParsingException(String message, Object... messageArgs) {
+    public ParsingException(final String message, final Object... messageArgs) {
         super(String.format(message, messageArgs));
     }
 
-    public ParsingException(Throwable cause, String message, Object... messageArgs) {
+    public ParsingException(
+        final Throwable cause, final String message, final Object... messageArgs) {
         super(String.format(message, messageArgs), cause);
     }
 
-    public ParsingException(Throwable cause) {
+    public ParsingException(final Throwable cause) {
         super(cause);
     }
 

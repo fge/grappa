@@ -20,7 +20,7 @@ public class StringBuilderSink implements Sink<String>{
     public final StringBuilder builder = new StringBuilder();
     
     @Override
-    public void receive(String value) {
+    public void receive(final String value) {
         builder.append(value);
     }
 

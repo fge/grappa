@@ -43,7 +43,7 @@ public class BasicParseRunner<V> extends AbstractParseRunner<V> implements Match
      * this static method. This method will be removed in one of the coming releases.
      */
     @Deprecated
-    public static <V> ParsingResult<V> run(Rule rule, String input) {
+    public static <V> ParsingResult<V> run(final Rule rule, final String input) {
         Preconditions.checkNotNull(rule, "rule");
         Preconditions.checkNotNull(input, "input");
         return new BasicParseRunner<V>(rule).run(input);
@@ -54,22 +54,22 @@ public class BasicParseRunner<V> extends AbstractParseRunner<V> implements Match
      *
      * @param rule the parser rule
      */
-    public BasicParseRunner(Rule rule) {
+    public BasicParseRunner(final Rule rule) {
         super(rule);
     }
 
     @Override
-    public ParsingResult<V> run(InputBuffer inputBuffer) {
+    public ParsingResult<V> run(final InputBuffer inputBuffer) {
         Preconditions.checkNotNull(inputBuffer, "inputBuffer");
         resetValueStack();
         
-        MatcherContext<V> rootContext = createRootContext(inputBuffer, this, true);
-        boolean matched = rootContext.runMatcher();
+        final MatcherContext<V> rootContext = createRootContext(inputBuffer, this, true);
+        final boolean matched = rootContext.runMatcher();
         return createParsingResult(matched, rootContext);
     }
 
     @Override
-    public boolean match(MatcherContext<?> context) {
+    public boolean match(final MatcherContext<?> context) {
         return context.getMatcher().match(context);
     }
 }

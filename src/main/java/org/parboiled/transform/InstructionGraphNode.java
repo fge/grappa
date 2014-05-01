@@ -51,7 +51,8 @@ public class InstructionGraphNode extends BasicValue {
     private final boolean isXStore;
     private InstructionGroup group;
 
-    public InstructionGraphNode(AbstractInsnNode instruction, BasicValue resultValue) {
+    public InstructionGraphNode(
+        final AbstractInsnNode instruction, final BasicValue resultValue) {
         super(null);
         this.instruction = instruction;
         this.resultValue = resultValue;
@@ -71,7 +72,7 @@ public class InstructionGraphNode extends BasicValue {
         return instruction;
     }
 
-    public void setInstruction(AbstractInsnNode instruction) {
+    public void setInstruction(final AbstractInsnNode instruction) {
         this.instruction = instruction;
     }
 
@@ -87,7 +88,7 @@ public class InstructionGraphNode extends BasicValue {
         return group;
     }
 
-    public void setGroup(InstructionGroup newGroup) {
+    public void setGroup(final InstructionGroup newGroup) {
         if (newGroup != group) {
             if (group != null) {
                 group.getNodes().remove(this);
@@ -123,23 +124,23 @@ public class InstructionGraphNode extends BasicValue {
         return isXStore;
     }
 
-    public void addPredecessors(Collection<BasicValue> preds) {
+    public void addPredecessors(final Collection<BasicValue> preds) {
         Preconditions.checkNotNull(preds, "preds");
-        for (BasicValue pred : preds) {
+        for (final BasicValue pred : preds) {
             if (pred instanceof InstructionGraphNode) {
                 addPredecessor(((InstructionGraphNode) pred));
             }
         }
     }
 
-    public void addPredecessor(InstructionGraphNode node) {
+    public void addPredecessor(final InstructionGraphNode node) {
         if (!predecessors.contains(node)) {
             predecessors.add(node);
         }
     }
 
     @Override
-    public boolean equals(Object value) {
+    public boolean equals(final Object value) {
         return value == this;
     }
 

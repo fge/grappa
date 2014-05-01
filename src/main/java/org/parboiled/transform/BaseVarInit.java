@@ -27,7 +27,7 @@ public abstract class BaseVarInit<V>
     implements Factory<V>
 {
 
-    protected BaseVarInit(String name)
+    protected BaseVarInit(final String name)
     {
         super(Preconditions.checkNotNull(name, "name"));
     }

@@ -34,17 +34,17 @@ import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
 public class SuperCallRewriter implements RuleMethodProcessor {
 
     @Override
-    public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
+    public boolean appliesTo(final ParserClassNode classNode, final RuleMethod method) {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
         return method.containsPotentialSuperCalls();
     }
 
     @Override
-    public void process(ParserClassNode classNode, RuleMethod method) throws Exception {
+    public void process(final ParserClassNode classNode, final RuleMethod method) throws Exception {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
-        InsnList instructions = method.instructions;
+        final InsnList instructions = method.instructions;
         AbstractInsnNode insn = instructions.getFirst();
         while (insn.getOpcode() != ARETURN) {
             if (insn.getOpcode() == INVOKESPECIAL) {
@@ -54,10 +54,10 @@ public class SuperCallRewriter implements RuleMethodProcessor {
         }
     }
 
-    private void process(ParserClassNode classNode, RuleMethod method, MethodInsnNode insn) {
+    private void process(final ParserClassNode classNode, final RuleMethod method, final MethodInsnNode insn) {
         if ("<init>".equals(insn.name)) return;
-        String superMethodName = getSuperMethodName(method, insn);
-        RuleMethod superMethod = classNode.getRuleMethods().get(superMethodName.concat(insn.desc));
+        final String superMethodName = getSuperMethodName(method, insn);
+        final RuleMethod superMethod = classNode.getRuleMethods().get(superMethodName.concat(insn.desc));
         if (superMethod == null) return;
         if (!superMethod.isBodyRewritten()) return;
 
@@ -73,7 +73,8 @@ public class SuperCallRewriter implements RuleMethodProcessor {
     }
 
     @SuppressWarnings("ConstantConditions")
-    private String getSuperMethodName(RuleMethod method, MethodInsnNode insn) {
+    private String getSuperMethodName(
+        final RuleMethod method, final MethodInsnNode insn) {
         Class<?> clazz = method.getOwnerClass();
         String superMethodName = method.name;
         do {

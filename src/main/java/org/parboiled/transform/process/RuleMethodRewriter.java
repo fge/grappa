@@ -55,24 +55,24 @@ public class RuleMethodRewriter implements RuleMethodProcessor {
     private int varInitNr;
 
     @Override
-    public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
+    public boolean appliesTo(final ParserClassNode classNode, final RuleMethod method) {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
         return method.containsExplicitActions() || method.containsVars();
     }
 
     @Override
-    public void process(ParserClassNode classNode, RuleMethod method) throws Exception {
+    public void process(final ParserClassNode classNode, final RuleMethod method) throws Exception {
         this.method = Preconditions.checkNotNull(method, "method");
         actionNr = 0;
         varInitNr = 0;
 
-        for (InstructionGroup group : method.getGroups()) {
+        for (final InstructionGroup group : method.getGroups()) {
             this.group = group;
             createNewGroupClassInstance();
             initializeFields();
 
-            InstructionGraphNode root = group.getRoot();
+            final InstructionGraphNode root = group.getRoot();
             if (root.isActionRoot()) {
                 removeGroupRootInstruction();
             } else { // if (root.isVarInitRoot())
@@ -84,8 +84,8 @@ public class RuleMethodRewriter implements RuleMethodProcessor {
     }
 
     private void createNewGroupClassInstance() {
-        String internalName = group.getGroupClassType().getInternalName();
-        InstructionGraphNode root = group.getRoot();
+        final String internalName = group.getGroupClassType().getInternalName();
+        final InstructionGraphNode root = group.getRoot();
         insert(new TypeInsnNode(NEW, internalName));
         insert(new InsnNode(DUP));
         insert(new LdcInsnNode(method.name +
@@ -99,8 +99,8 @@ public class RuleMethodRewriter implements RuleMethodProcessor {
     }
 
     private void initializeFields() {
-        String internalName = group.getGroupClassType().getInternalName();
-        for (FieldNode field : group.getFields()) {
+        final String internalName = group.getGroupClassType().getInternalName();
+        for (final FieldNode field : group.getFields()) {
             insert(new InsnNode(DUP));
             // the FieldNodes access and value members have been reused for the var index / Type respectively!
             insert(new VarInsnNode(getLoadingOpcode((Type) field.value), field.access));
@@ -108,7 +108,7 @@ public class RuleMethodRewriter implements RuleMethodProcessor {
         }
     }
 
-    private void insert(AbstractInsnNode insn) {
+    private void insert(final AbstractInsnNode insn) {
         method.instructions.insertBefore(group.getRoot().getInstruction(), insn);
     }
 

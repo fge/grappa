@@ -31,7 +31,7 @@ public class ImmutableBinaryTreeNode<T extends BinaryTreeNode<T>> extends Immuta
     private final T right;
 
     @SuppressWarnings("unchecked")
-    public ImmutableBinaryTreeNode(T left, T right) {
+    public ImmutableBinaryTreeNode(final T left, final T right) {
         super(left == null ?
                 right == null ? ImmutableList.<T>of() : ImmutableList.of(right) :
                 right == null ? ImmutableList.of(left) : ImmutableList.of(left, right));

@@ -37,7 +37,7 @@ public final class GraphUtils {
      * @param node a node
      * @return true if this node is not null and has at least one child node.
      */
-    public static boolean hasChildren(GraphNode<?> node) {
+    public static boolean hasChildren(final GraphNode<?> node) {
         return node != null && !node.getChildren().isEmpty();
     }
 
@@ -47,7 +47,7 @@ public final class GraphUtils {
      * @param node a node
      * @return the first child node of the given node or null if node is null or does not have any children
      */
-    public static <T extends GraphNode<T>> T getFirstChild(T node) {
+    public static <T extends GraphNode<T>> T getFirstChild(final T node) {
         return hasChildren(node) ? node.getChildren().get(0) : null;
     }
 
@@ -57,7 +57,7 @@ public final class GraphUtils {
      * @param node a node
      * @return the last child node of the given node or null if node is null or does not have any children
      */
-    public static <T extends GraphNode<T>> T getLastChild(T node) {
+    public static <T extends GraphNode<T>> T getLastChild(final T node) {
         return hasChildren(node) ? node.getChildren().get(
             node.getChildren().size() - 1) : null;
     }
@@ -69,7 +69,7 @@ public final class GraphUtils {
      * @param node the root node
      * @return the number of distinct nodes
      */
-    public static <T extends GraphNode<T>> int countAllDistinct(T node) {
+    public static <T extends GraphNode<T>> int countAllDistinct(final T node) {
         if (node == null) return 0;
         return collectAllNodes(node, new HashSet<T>()).size();
     }
@@ -82,13 +82,14 @@ public final class GraphUtils {
      * @param collection the collection to collect into
      * @return the same collection passed as a parameter
      */
-    public static <T extends GraphNode<T>, C extends Collection<T>> C collectAllNodes(T node, C collection) {
+    public static <T extends GraphNode<T>, C extends Collection<T>> C collectAllNodes(
+        final T node, final C collection) {
         // we don't recurse if the collecion already contains the node
         // this costs a bit of performance but prevents infinite recursion in the case of graph cycles
         Preconditions.checkNotNull(collection, "collection");
         if (node != null && !collection.contains(node)) {
             collection.add(node);
-            for (T child : node.getChildren()) {
+            for (final T child : node.getChildren()) {
                 collectAllNodes(child, collection);
             }
         }
@@ -102,7 +103,8 @@ public final class GraphUtils {
      * @param formatter the node formatter
      * @return a new string
      */
-    public static <T extends GraphNode<T>> String printTree(T node, Formatter<T> formatter) {
+    public static <T extends GraphNode<T>> String printTree(
+        final T node, final Formatter<T> formatter) {
         Preconditions.checkNotNull(formatter, "formatter");
         return printTree(node, formatter, Predicates.<T>alwaysTrue(), Predicates.<T>alwaysTrue());
     }
@@ -118,9 +120,10 @@ public final class GraphUtils {
      * @param subTreeFilter the predicate determining whether to descend into a given nodes subtree or not
      * @return a new string
      */
-    public static <T extends GraphNode<T>> String printTree(T node, Formatter<T> formatter,
-                                                            Predicate<T> nodeFilter,
-                                                            Predicate<T> subTreeFilter) {
+    public static <T extends GraphNode<T>> String printTree(
+        final T node, final Formatter<T> formatter,
+                                                            final Predicate<T> nodeFilter,
+                                                            final Predicate<T> subTreeFilter) {
         Preconditions.checkNotNull(formatter, "formatter");
         Preconditions.checkNotNull(nodeFilter, "nodeFilter");
         Preconditions.checkNotNull(subTreeFilter, "subTreeFilter");
@@ -130,19 +133,19 @@ public final class GraphUtils {
 
     // private recursion helper
 
-    private static <T extends GraphNode<T>> StringBuilder printTree(T node, Formatter<T> formatter,
-                                                                    String indent, StringBuilder sb,
-                                                                    Predicate<T> nodeFilter,
-                                                                    Predicate<T> subTreeFilter) {
+    private static <T extends GraphNode<T>> StringBuilder printTree(final T node, final Formatter<T> formatter,
+                                                                    String indent, final StringBuilder sb,
+                                                                    final Predicate<T> nodeFilter,
+                                                                    final Predicate<T> subTreeFilter) {
         if (nodeFilter.apply(node)) {
-            String line = formatter.format(node);
+            final String line = formatter.format(node);
             if (line != null) {
                 sb.append(indent).append(line).append("\n");
                 indent += "  ";
             }
         }
         if (subTreeFilter.apply(node)) {
-            for (T sub : node.getChildren()) {
+            for (final T sub : node.getChildren()) {
                 printTree(sub, formatter, indent, sb, nodeFilter, subTreeFilter);
             }
         }

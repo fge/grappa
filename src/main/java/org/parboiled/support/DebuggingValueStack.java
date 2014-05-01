@@ -32,15 +32,15 @@ public class DebuggingValueStack<V> extends DefaultValueStack<V> {
         this(new ConsoleSink());
     }
     
-    public DebuggingValueStack(Sink<String> log) {
+    public DebuggingValueStack(final Sink<String> log) {
         this.log = log;
     }
 
-    public DebuggingValueStack(Iterable<V> values) {
+    public DebuggingValueStack(final Iterable<V> values) {
         this(values, new ConsoleSink());
     }
     
-    public DebuggingValueStack(Iterable<V> values, Sink<String> log) {
+    public DebuggingValueStack(final Iterable<V> values, final Sink<String> log) {
         super(values);
         this.log = log;
     }
@@ -54,33 +54,33 @@ public class DebuggingValueStack<V> extends DefaultValueStack<V> {
     }
 
     @Override
-    public void restoreSnapshot(Object snapshot) {
+    public void restoreSnapshot(final Object snapshot) {
         if (head == null && snapshot == null || head != null && head.equals(snapshot)) return;
         super.restoreSnapshot(snapshot);
         log("restoreSnapshot");
     }
 
     @Override
-    public void push(V value) {
+    public void push(final V value) {
         super.push(value);
         log("push");
     }
 
     @Override
-    public void push(int down, V value) {
+    public void push(final int down, final V value) {
         super.push(down, value);
         log("push");
     }
 
     @Override
-    public V pop(int down) {
-        V v = super.pop(down);
+    public V pop(final int down) {
+        final V v = super.pop(down);
         log("pop");
         return v;
     }
 
     @Override
-    public void poke(int down, V value) {
+    public void poke(final int down, final V value) {
         super.poke(down, value);
         log("poke");
     }
@@ -115,12 +115,12 @@ public class DebuggingValueStack<V> extends DefaultValueStack<V> {
         log("swap6");
     }
 
-    protected void log(String action) {
+    protected void log(final String action) {
         log.receive(action);
         log.receive(Chars.repeat(' ', 15 - action.length()));
         log.receive(": ");
-        LinkedList<V> elements = new LinkedList<V>();
-        for (V v : this) elements.addFirst(v);
+        final LinkedList<V> elements = new LinkedList<V>();
+        for (final V v : this) elements.addFirst(v);
         log.receive(COMMA.join(elements));
         log.receive("\n");
     }

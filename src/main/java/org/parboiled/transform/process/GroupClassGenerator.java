@@ -55,16 +55,16 @@ public abstract class GroupClassGenerator implements RuleMethodProcessor {
     protected ParserClassNode classNode;
     protected RuleMethod method;
 
-    protected GroupClassGenerator(boolean forceCodeBuilding) {
+    protected GroupClassGenerator(final boolean forceCodeBuilding) {
         this.forceCodeBuilding = forceCodeBuilding;
     }
 
     @Override
-    public void process(ParserClassNode classNode, RuleMethod method) {
+    public void process(final ParserClassNode classNode, final RuleMethod method) {
         this.classNode = Preconditions.checkNotNull(classNode, "classNode");
         this.method = Preconditions.checkNotNull(method, "method");
 
-        for (InstructionGroup group : method.getGroups()) {
+        for (final InstructionGroup group : method.getGroups()) {
             if (appliesTo(group.getRoot())) {
                 loadGroupClass(group);
             }
@@ -73,16 +73,16 @@ public abstract class GroupClassGenerator implements RuleMethodProcessor {
 
     protected abstract boolean appliesTo(InstructionGraphNode group);
 
-    private void loadGroupClass(InstructionGroup group) {
+    private void loadGroupClass(final InstructionGroup group) {
         createGroupClassType(group);
-        String className = group.getGroupClassType().getClassName();
-        ClassLoader classLoader = classNode.getParentClass().getClassLoader();
+        final String className = group.getGroupClassType().getClassName();
+        final ClassLoader classLoader = classNode.getParentClass().getClassLoader();
 
-        Class<?> groupClass;
+        final Class<?> groupClass;
         synchronized (lock) {
             groupClass = findLoadedClass(className, classLoader);
             if (groupClass == null || forceCodeBuilding) {
-                byte[] groupClassCode = generateGroupClassCode(group);
+                final byte[] groupClassCode = generateGroupClassCode(group);
                 group.setGroupClassCode(groupClassCode);
                 if (groupClass == null) {
                     loadClass(className, groupClassCode, classLoader);
@@ -91,15 +91,15 @@ public abstract class GroupClassGenerator implements RuleMethodProcessor {
         }
     }
 
-    private void createGroupClassType(InstructionGroup group) {
-        String s = classNode.name;
-        int lastSlash = classNode.name.lastIndexOf('/');
-        String groupClassInternalName = (lastSlash >= 0 ? s.substring(0, lastSlash) : s)+ '/' + group.getName();
+    private void createGroupClassType(final InstructionGroup group) {
+        final String s = classNode.name;
+        final int lastSlash = classNode.name.lastIndexOf('/');
+        final String groupClassInternalName = (lastSlash >= 0 ? s.substring(0, lastSlash) : s)+ '/' + group.getName();
         group.setGroupClassType(Type.getObjectType(groupClassInternalName));
     }
 
-    protected byte[] generateGroupClassCode(InstructionGroup group) {
-        ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+    protected byte[] generateGroupClassCode(final InstructionGroup group) {
+        final ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
         generateClassBasics(group, classWriter);
         generateFields(group, classWriter);
         generateConstructor(classWriter);
@@ -107,7 +107,8 @@ public abstract class GroupClassGenerator implements RuleMethodProcessor {
         return classWriter.toByteArray();
     }
 
-    private void generateClassBasics(InstructionGroup group, ClassWriter cw) {
+    private void generateClassBasics(
+        final InstructionGroup group, final ClassWriter cw) {
         cw.visit(V1_5, ACC_PUBLIC + ACC_FINAL + ACC_SYNTHETIC, group.getGroupClassType().getInternalName(), null,
                 getBaseType().getInternalName(), null);
         cw.visitSource(classNode.sourceFile, null);
@@ -115,8 +116,8 @@ public abstract class GroupClassGenerator implements RuleMethodProcessor {
 
     protected abstract Type getBaseType();
 
-    private void generateFields(InstructionGroup group, ClassWriter cw) {
-        for (FieldNode field : group.getFields()) {
+    private void generateFields(final InstructionGroup group, final ClassWriter cw) {
+        for (final FieldNode field : group.getFields()) {
             // CAUTION: the FieldNode has illegal access flags and an illegal value field since these two members
             // are reused for other purposes, so we need to write out the field "manually" here rather than
             // just call "field.accept(cw)"
@@ -124,8 +125,8 @@ public abstract class GroupClassGenerator implements RuleMethodProcessor {
         }
     }
 
-    private void generateConstructor(ClassWriter cw) {
-        MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "<init>", "(Ljava/lang/String;)V", null, null);
+    private void generateConstructor(final ClassWriter cw) {
+        final MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "<init>", "(Ljava/lang/String;)V", null, null);
         mv.visitVarInsn(ALOAD, 0);
         mv.visitVarInsn(ALOAD, 1);
         mv.visitMethodInsn(INVOKESPECIAL, getBaseType().getInternalName(), "<init>", "(Ljava/lang/String;)V");
@@ -135,15 +136,15 @@ public abstract class GroupClassGenerator implements RuleMethodProcessor {
 
     protected abstract void generateMethod(InstructionGroup group, ClassWriter cw);
 
-    protected void insertSetContextCalls(InstructionGroup group, int localVarIx) {
-        InsnList instructions = group.getInstructions();
-        for (InstructionGraphNode node : group.getNodes()) {
+    protected void insertSetContextCalls(final InstructionGroup group, int localVarIx) {
+        final InsnList instructions = group.getInstructions();
+        for (final InstructionGraphNode node : group.getNodes()) {
             if (node.isCallOnContextAware()) {
-                AbstractInsnNode insn = node.getInstruction();
+                final AbstractInsnNode insn = node.getInstruction();
 
                 if (node.getPredecessors().size() > 1) {
                     // store the target of the call in a new local variable
-                    AbstractInsnNode loadTarget = node.getPredecessors().get(0).getInstruction();
+                    final AbstractInsnNode loadTarget = node.getPredecessors().get(0).getInstruction();
                     instructions.insert(loadTarget, new VarInsnNode(ASTORE, ++localVarIx));
                     instructions.insert(loadTarget, new InsnNode(DUP)); // the DUP is inserted BEFORE the ASTORE
 
@@ -161,13 +162,13 @@ public abstract class GroupClassGenerator implements RuleMethodProcessor {
         }
     }
 
-    protected void convertXLoads(InstructionGroup group) {
-        String owner = group.getGroupClassType().getInternalName();
-        for (InstructionGraphNode node : group.getNodes()) {
+    protected void convertXLoads(final InstructionGroup group) {
+        final String owner = group.getGroupClassType().getInternalName();
+        for (final InstructionGraphNode node : group.getNodes()) {
             if (!node.isXLoad()) continue;
 
-            VarInsnNode insn = (VarInsnNode) node.getInstruction();
-            FieldNode field = group.getFields().get(insn.var);
+            final VarInsnNode insn = (VarInsnNode) node.getInstruction();
+            final FieldNode field = group.getFields().get(insn.var);
 
             // insert the correct GETFIELD after the xLoad
             group.getInstructions().insert(insn, new FieldInsnNode(GETFIELD, owner, field.name, field.desc));

@@ -30,15 +30,15 @@ import org.parboiled.matchervisitors.MatcherVisitor;
  */
 public abstract class CustomMatcher extends AbstractMatcher {
 
-    protected CustomMatcher(String label) {
+    protected CustomMatcher(final String label) {
         super(label);
     }
 
-    protected CustomMatcher(Rule subRule, String label) {
+    protected CustomMatcher(final Rule subRule, final String label) {
         super(Preconditions.checkNotNull(subRule, "subRule"), label);
     }
 
-    protected CustomMatcher(Rule[] subRules, String label) {
+    protected CustomMatcher(final Rule[] subRules, final String label) {
         super(Preconditions.checkNotNull(subRules, "subRules"), label);
     }
 
@@ -72,7 +72,7 @@ public abstract class CustomMatcher extends AbstractMatcher {
     public abstract char getStarterChar();
 
     @Override
-    public <R> R accept(MatcherVisitor<R> visitor) {
+    public <R> R accept(final MatcherVisitor<R> visitor) {
         Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }

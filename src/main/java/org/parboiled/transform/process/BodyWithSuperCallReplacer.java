@@ -34,7 +34,7 @@ import static org.parboiled.transform.AsmUtils.createArgumentLoaders;
 public class BodyWithSuperCallReplacer implements RuleMethodProcessor {
 
     @Override
-    public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
+    public boolean appliesTo(final ParserClassNode classNode, final RuleMethod method) {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
         return !method.isBodyRewritten() && method.getOwnerClass() == classNode.getParentClass() &&
@@ -43,7 +43,7 @@ public class BodyWithSuperCallReplacer implements RuleMethodProcessor {
     }
 
     @Override
-    public void process(ParserClassNode classNode, RuleMethod method) throws Exception {
+    public void process(final ParserClassNode classNode, final RuleMethod method) throws Exception {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
         // replace all method code with a simple call to the super method

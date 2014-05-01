@@ -79,14 +79,14 @@ public class CachingGenerator implements RuleMethodProcessor
     private String cacheFieldName;
 
     @Override
-    public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
+    public boolean appliesTo(final ParserClassNode classNode, final RuleMethod method) {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
         return method.hasCachedAnnotation();
     }
 
     @Override
-    public void process(ParserClassNode classNode, RuleMethod method) throws Exception {
+    public void process(final ParserClassNode classNode, final RuleMethod method) throws Exception {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
         Preconditions.checkState(!method.isSuperMethod()); // super methods
@@ -112,7 +112,7 @@ public class CachingGenerator implements RuleMethodProcessor
         // stack: <cachedValue>
         insert(new InsnNode(DUP));
         // stack: <cachedValue> :: <cachedValue>
-        LabelNode cacheMissLabel = new LabelNode();
+        final LabelNode cacheMissLabel = new LabelNode();
         insert(new JumpInsnNode(IFNULL, cacheMissLabel));
         // stack: <cachedValue>
         insert(new InsnNode(ARETURN));
@@ -125,11 +125,11 @@ public class CachingGenerator implements RuleMethodProcessor
 
     @SuppressWarnings("unchecked")
     private void generateGetFromCache() {
-        Type[] paramTypes = Type.getArgumentTypes(method.desc);
+        final Type[] paramTypes = Type.getArgumentTypes(method.desc);
         cacheFieldName = findUnusedCacheFieldName();
 
         // if we have no parameters we use a simple Rule field as cache, otherwise a HashMap
-        String cacheFieldDesc = paramTypes.length == 0 ? Types.RULE_DESC : "Ljava/util/HashMap;";
+        final String cacheFieldDesc = paramTypes.length == 0 ? Types.RULE_DESC : "Ljava/util/HashMap;";
         classNode.fields.add(new FieldNode(ACC_PRIVATE, cacheFieldName, cacheFieldDesc, null, null));
 
         // stack:
@@ -145,7 +145,7 @@ public class CachingGenerator implements RuleMethodProcessor
         // stack: <hashMap>
         insert(new InsnNode(DUP));
         // stack: <hashMap> :: <hashMap>
-        LabelNode alreadyInitialized = new LabelNode();
+        final LabelNode alreadyInitialized = new LabelNode();
         insert(new JumpInsnNode(IFNONNULL, alreadyInitialized));
         // stack: <null>
         insert(new InsnNode(POP));
@@ -170,7 +170,7 @@ public class CachingGenerator implements RuleMethodProcessor
         if (paramTypes.length > 1 || paramTypes[0].getSort() == Type.ARRAY) {
             // generate: push new Arguments(new Object[] {<params>})
 
-            String arguments = Type.getInternalName(CacheArguments.class);
+            final String arguments = Type.getInternalName(CacheArguments.class);
             // stack: <hashMap>
             insert(new TypeInsnNode(NEW, arguments));
             // stack: <hashMap> :: <arguments>
@@ -209,14 +209,14 @@ public class CachingGenerator implements RuleMethodProcessor
         return name;
     }
 
-    public boolean hasField(String fieldName) {
-        for (Object field : classNode.fields) {
+    public boolean hasField(final String fieldName) {
+        for (final Object field : classNode.fields) {
             if (fieldName.equals(((FieldNode) field).name)) return true;
         }
         return false;
     }
 
-    private void generatePushNewParameterObjectArray(Type[] paramTypes) {
+    private void generatePushNewParameterObjectArray(final Type[] paramTypes) {
         // stack: ...
         insert(new IntInsnNode(BIPUSH, paramTypes.length));
         // stack: ... :: <length>
@@ -237,7 +237,7 @@ public class CachingGenerator implements RuleMethodProcessor
         // stack: ... :: <array>
     }
 
-    private void generatePushParameterAsObject(Type[] paramTypes, int parameterNr) {
+    private void generatePushParameterAsObject(final Type[] paramTypes, int parameterNr) {
         switch (paramTypes[parameterNr++].getSort()) {
             case Type.BOOLEAN:
                 insert(new VarInsnNode(ILOAD, parameterNr));
@@ -283,7 +283,7 @@ public class CachingGenerator implements RuleMethodProcessor
 
     // <cache> = new ProxyMatcher();
     private void generateStoreNewProxyMatcher() {
-        String proxyMatcherType = Types.PROXY_MATCHER.getInternalName();
+        final String proxyMatcherType = Types.PROXY_MATCHER.getInternalName();
 
         // stack:
         insert(new TypeInsnNode(NEW, proxyMatcherType));
@@ -304,7 +304,7 @@ public class CachingGenerator implements RuleMethodProcessor
 
     // <proxyMatcher>.arm(<rule>)
     private void generateArmProxyMatcher() {
-        String proxyMatcherType = Types.PROXY_MATCHER.getInternalName();
+        final String proxyMatcherType = Types.PROXY_MATCHER.getInternalName();
 
         // stack: <proxyMatcher> :: <rule>
         insert(new InsnNode(DUP_X1));
@@ -316,7 +316,7 @@ public class CachingGenerator implements RuleMethodProcessor
     }
 
     private void generateStoreInCache() {
-        Type[] paramTypes = Type.getArgumentTypes(method.desc);
+        final Type[] paramTypes = Type.getArgumentTypes(method.desc);
 
         // stack: <rule>
         insert(new InsnNode(DUP));
@@ -353,7 +353,7 @@ public class CachingGenerator implements RuleMethodProcessor
         // stack: <rule>
     }
 
-    private void insert(AbstractInsnNode instruction) {
+    private void insert(final AbstractInsnNode instruction) {
         instructions.insertBefore(current, instruction);
     }
 }

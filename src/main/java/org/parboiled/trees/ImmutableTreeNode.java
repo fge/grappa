@@ -37,7 +37,7 @@ public class ImmutableTreeNode<T extends TreeNode<T>>
     public ImmutableTreeNode() {
     }
 
-    public ImmutableTreeNode(List<T> children) {
+    public ImmutableTreeNode(final List<T> children) {
         super(children);
         acquireChildren();
     }
@@ -50,8 +50,8 @@ public class ImmutableTreeNode<T extends TreeNode<T>>
     // TODO: make generic! Looks like a chore...
     @SuppressWarnings("unchecked")
     protected void acquireChildren() {
-        List<T> children = getChildren();
-        int size = children.size();
+        final List<T> children = getChildren();
+        final int size = children.size();
         for (int i = 0; i < size; i++) {
             ((ImmutableTreeNode) children.get(i)).parent = this;
         }

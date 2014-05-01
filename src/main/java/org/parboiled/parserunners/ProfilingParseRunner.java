@@ -57,10 +57,10 @@ public class ProfilingParseRunner<V> extends AbstractParseRunner<V> implements M
 
     private final DoWithMatcherVisitor.Action updateStatsAction = new DoWithMatcherVisitor.Action() {
         @Override
-        public void process(Matcher matcher) {
-            RuleStats ruleStats = (RuleStats) matcher.getTag();
+        public void process(final Matcher matcher) {
+            final RuleStats ruleStats = (RuleStats) matcher.getTag();
             int rematches = 0, remismatches = 0;
-            for (Integer i : ruleStats.positionMatches.values()) {
+            for (final Integer i : ruleStats.positionMatches.values()) {
                 if (i > 0) {
                     rematches += i - 1;
                 } else if (i < 0) {
@@ -86,20 +86,20 @@ public class ProfilingParseRunner<V> extends AbstractParseRunner<V> implements M
      *
      * @param rule the parser rule
      */
-    public ProfilingParseRunner(Rule rule) {
+    public ProfilingParseRunner(final Rule rule) {
         super(rule);
     }
 
     @Override
-    public ParsingResult<V> run(InputBuffer inputBuffer) {
+    public ParsingResult<V> run(final InputBuffer inputBuffer) {
         Preconditions.checkNotNull(inputBuffer, "inputBuffer");
         resetValueStack();
         totalRuns++;
 
-        MatcherContext<V> rootContext = createRootContext(inputBuffer, this, true);
+        final MatcherContext<V> rootContext = createRootContext(inputBuffer, this, true);
         rootContext.getMatcher().accept(new DoWithMatcherVisitor(new DoWithMatcherVisitor.Action() {
             @Override
-            public void process(Matcher matcher) {
+            public void process(final Matcher matcher) {
                 RuleStats ruleStats = (RuleStats) matcher.getTag();
                 if (ruleStats == null) {
                     ruleStats = new RuleStats();
@@ -111,8 +111,8 @@ public class ProfilingParseRunner<V> extends AbstractParseRunner<V> implements M
         }));
 
         runMatches = 0;
-        long timeStamp = System.nanoTime() - timeCorrection;
-        boolean matched = rootContext.runMatcher();
+        final long timeStamp = System.nanoTime() - timeCorrection;
+        final boolean matched = rootContext.runMatcher();
         totalNanoTime += System.nanoTime() - timeCorrection - timeStamp;
 
         getRootMatcher().accept(new DoWithMatcherVisitor(updateStatsAction));
@@ -125,23 +125,23 @@ public class ProfilingParseRunner<V> extends AbstractParseRunner<V> implements M
     }
 
     @Override
-    public boolean match(MatcherContext<?> context) {
+    public boolean match(final MatcherContext<?> context) {
         long timeStamp = System.nanoTime();
-        Matcher matcher = context.getMatcher();
-        RuleStats ruleStats = ((RuleStats) matcher.getTag());
-        int pos = context.getCurrentIndex();
+        final Matcher matcher = context.getMatcher();
+        final RuleStats ruleStats = ((RuleStats) matcher.getTag());
+        final int pos = context.getCurrentIndex();
 
         int subMatches = -++runMatches;
-        int matchSubs = ruleStats.matchSubs;
-        int rematchSubs = ruleStats.rematchSubs;
-        int mismatchSubs = ruleStats.mismatchSubs;
-        int remismatchSubs = ruleStats.remismatchSubs;
+        final int matchSubs = ruleStats.matchSubs;
+        final int rematchSubs = ruleStats.rematchSubs;
+        final int mismatchSubs = ruleStats.mismatchSubs;
+        final int remismatchSubs = ruleStats.remismatchSubs;
 
         long time = System.nanoTime();
         timeCorrection += time - timeStamp;
         timeStamp = time - timeCorrection;
 
-        boolean matched = matcher.match(context);
+        final boolean matched = matcher.match(context);
 
         time = System.nanoTime();
         ruleStats.nanoTime += time - timeCorrection - timeStamp;
@@ -212,14 +212,14 @@ public class ProfilingParseRunner<V> extends AbstractParseRunner<V> implements M
 
         public static final Predicate<RuleReport> allRules = new Predicate<RuleReport>() {
             @Override
-            public boolean apply(RuleReport rep) {
+            public boolean apply(final RuleReport rep) {
                 return true;
             }
         };
 
         public static final Predicate<RuleReport> namedRules = new Predicate<RuleReport>() {
             @Override
-            public boolean apply(RuleReport rep) {
+            public boolean apply(final RuleReport rep) {
                 return rep.getMatcher().hasCustomLabel();
             }
         };
@@ -236,8 +236,8 @@ public class ProfilingParseRunner<V> extends AbstractParseRunner<V> implements M
         public final long totalNanoTime;
         public final List<RuleReport> ruleReports;
 
-        public Report(int totalRuns, int totalMatches, int totalMismatches, int rematches, int remismatches,
-                      long totalNanoTime, List<RuleReport> ruleReports) {
+        public Report(final int totalRuns, final int totalMatches, final int totalMismatches, final int rematches, final int remismatches,
+                      final long totalNanoTime, final List<RuleReport> ruleReports) {
             this.totalRuns = totalRuns;
             this.totalInvocations = totalMatches + totalMismatches;
             this.totalMatches = totalMatches;
@@ -252,7 +252,7 @@ public class ProfilingParseRunner<V> extends AbstractParseRunner<V> implements M
         }
 
         public String print() {
-            StringBuilder sb = new StringBuilder();
+            final StringBuilder sb = new StringBuilder();
             sb.append("Profiling Report\n");
             sb.append("----------------\n");
             sb.append(printBasics());
@@ -278,7 +278,7 @@ public class ProfilingParseRunner<V> extends AbstractParseRunner<V> implements M
         }
 
         public String printBasics() {
-            StringBuilder sb = new StringBuilder();
+            final StringBuilder sb = new StringBuilder();
             sb.append(String.format("Runs                     : %,15d\n", totalRuns));
             sb.append(String.format("Active rules             : %,15d\n", ruleReports.size()));
             sb.append(String.format("Total net rule time      : %,15.3f s\n", totalNanoTime / 1000000000.0));
@@ -293,15 +293,15 @@ public class ProfilingParseRunner<V> extends AbstractParseRunner<V> implements M
             return sb.toString();
         }
 
-        public String printTopRules(int count, Predicate<RuleReport> filter) {
+        public String printTopRules(int count, final Predicate<RuleReport> filter) {
             Preconditions.checkNotNull(filter, "filter");
-            StringBuilder sb = new StringBuilder();
+            final StringBuilder sb = new StringBuilder();
             sb.append(
                     "Rule                           | Net-Time  |   Invocations   |     Matches     |   Mismatches    |   Time/Invoc.   | Match % |    Re-Invocs    |   Re-Matches    |   Re-Mismatch   |     Re-Invoc %    \n");
             sb.append(
                     "-------------------------------|-----------|-----------------|-----------------|-----------------|-----------------|---------|-----------------|-----------------|-----------------|-------------------\n");
             for (int i = 0; i < Math.min(ruleReports.size(), count); i++) {
-                RuleReport rep = ruleReports.get(i);
+                final RuleReport rep = ruleReports.get(i);
                 if (!filter.apply(rep)) {
                     count++;
                     continue;
@@ -330,7 +330,7 @@ public class ProfilingParseRunner<V> extends AbstractParseRunner<V> implements M
         public Report sortByInvocations() {
             Collections.sort(ruleReports, new Comparator<RuleReport>() {
                 @Override
-                public int compare(RuleReport a, RuleReport b) {
+                public int compare(final RuleReport a, final RuleReport b) {
                     return intCompare(a.getInvocations(), b.getInvocations());
                 }
             });
@@ -341,7 +341,7 @@ public class ProfilingParseRunner<V> extends AbstractParseRunner<V> implements M
             Collections.sort(ruleReports, new Comparator<RuleReport>()
             {
                 @Override
-                public int compare(RuleReport a, RuleReport b)
+                public int compare(final RuleReport a, final RuleReport b)
                 {
                     return intCompare(a.getInvocationSubs(),
                         b.getInvocationSubs());
@@ -353,7 +353,7 @@ public class ProfilingParseRunner<V> extends AbstractParseRunner<V> implements M
         public Report sortByTime() {
             Collections.sort(ruleReports, new Comparator<RuleReport>() {
                 @Override
-                public int compare(RuleReport a, RuleReport b) {
+                public int compare(final RuleReport a, final RuleReport b) {
                     return longCompare(a.getNanoTime(), b.getNanoTime());
                 }
             });
@@ -363,7 +363,7 @@ public class ProfilingParseRunner<V> extends AbstractParseRunner<V> implements M
         public Report sortByTimePerInvocation() {
             Collections.sort(ruleReports, new Comparator<RuleReport>() {
                 @Override
-                public int compare(RuleReport a, RuleReport b) {
+                public int compare(final RuleReport a, final RuleReport b) {
                     return doubleCompare(
                         a.getNanoTime() / (double) a.getInvocations(),
                         b.getNanoTime() / (double) b.getInvocations());
@@ -375,7 +375,7 @@ public class ProfilingParseRunner<V> extends AbstractParseRunner<V> implements M
         public Report sortByMatches() {
             Collections.sort(ruleReports, new Comparator<RuleReport>() {
                 @Override
-                public int compare(RuleReport a, RuleReport b) {
+                public int compare(final RuleReport a, final RuleReport b) {
                     return intCompare(a.getMatches(), b.getMatches());
                 }
             });
@@ -385,7 +385,7 @@ public class ProfilingParseRunner<V> extends AbstractParseRunner<V> implements M
         public Report sortByMismatches() {
             Collections.sort(ruleReports, new Comparator<RuleReport>() {
                 @Override
-                public int compare(RuleReport a, RuleReport b) {
+                public int compare(final RuleReport a, final RuleReport b) {
                     return intCompare(a.getMismatches(), b.getMismatches());
                 }
             });
@@ -395,7 +395,7 @@ public class ProfilingParseRunner<V> extends AbstractParseRunner<V> implements M
         public Report sortByReinvocations() {
             Collections.sort(ruleReports, new Comparator<RuleReport>() {
                 @Override
-                public int compare(RuleReport a, RuleReport b) {
+                public int compare(final RuleReport a, final RuleReport b) {
                     return intCompare(a.getReinvocations(),
                         b.getReinvocations());
                 }
@@ -406,7 +406,7 @@ public class ProfilingParseRunner<V> extends AbstractParseRunner<V> implements M
         public Report sortByResubinvocations() {
             Collections.sort(ruleReports, new Comparator<RuleReport>() {
                 @Override
-                public int compare(RuleReport a, RuleReport b) {
+                public int compare(final RuleReport a, final RuleReport b) {
                     return doubleCompare(a.getReinvocationSubs(),
                         b.getReinvocationSubs());
                 }
@@ -417,7 +417,7 @@ public class ProfilingParseRunner<V> extends AbstractParseRunner<V> implements M
         public Report sortByRematches() {
             Collections.sort(ruleReports, new Comparator<RuleReport>() {
                 @Override
-                public int compare(RuleReport a, RuleReport b) {
+                public int compare(final RuleReport a, final RuleReport b) {
                     return intCompare(a.getRematches(), b.getRematches());
                 }
             });
@@ -427,7 +427,7 @@ public class ProfilingParseRunner<V> extends AbstractParseRunner<V> implements M
         public Report sortByRemismatches() {
             Collections.sort(ruleReports, new Comparator<RuleReport>() {
                 @Override
-                public int compare(RuleReport a, RuleReport b) {
+                public int compare(final RuleReport a, final RuleReport b) {
                     return intCompare(a.getRemismatches(), b.getRemismatches());
                 }
             });
@@ -437,7 +437,7 @@ public class ProfilingParseRunner<V> extends AbstractParseRunner<V> implements M
         public Report sortByResubmismatches() {
             Collections.sort(ruleReports, new Comparator<RuleReport>() {
                 @Override
-                public int compare(RuleReport a, RuleReport b) {
+                public int compare(final RuleReport a, final RuleReport b) {
                     return doubleCompare(a.getRemismatchSubs(),
                         b.getRemismatchSubs());
                 }
@@ -445,15 +445,15 @@ public class ProfilingParseRunner<V> extends AbstractParseRunner<V> implements M
             return this;
         }
 
-        private int intCompare(int a, int b) {
+        private int intCompare(final int a, final int b) {
             return a < b ? 1 : a > b ? -1 : 0;
         }
 
-        private int longCompare(long a, long b) {
+        private int longCompare(final long a, final long b) {
             return a < b ? 1 : a > b ? -1 : 0;
         }
 
-        private int doubleCompare(double a, double b) {
+        private int doubleCompare(final double a, final double b) {
             return a < b ? 1 : a > b ? -1 : 0;
         }
     }
@@ -470,7 +470,7 @@ public class ProfilingParseRunner<V> extends AbstractParseRunner<V> implements M
         private int remismatchSubs;
         private long nanoTime;
 
-        public RuleReport(Matcher matcher) {
+        public RuleReport(final Matcher matcher) {
             this.matcher = matcher;
         }
 
@@ -510,11 +510,11 @@ public class ProfilingParseRunner<V> extends AbstractParseRunner<V> implements M
 
         public long getNanoTime() { return nanoTime; }
 
-        public void update(int matchesDelta, int matchSubsDelta,
-                           int mismatchesDelta, int mismatchSubsDelta,
-                           int rematchesDelta, int rematchSubsDelta,
-                           int remismatchesDelta, int remismatchSubsDelta,
-                           long nanoTimeDelta) {
+        public void update(final int matchesDelta, final int matchSubsDelta,
+                           final int mismatchesDelta, final int mismatchSubsDelta,
+                           final int rematchesDelta, final int rematchSubsDelta,
+                           final int remismatchesDelta, final int remismatchSubsDelta,
+                           final long nanoTimeDelta) {
             matches += matchesDelta;
             matchSubs += matchSubsDelta;
             mismatches += mismatchesDelta;

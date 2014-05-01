@@ -29,7 +29,7 @@ public class BasicParseError implements ParseError {
     private int endIndex;
     private int indexDelta;
 
-    public BasicParseError(InputBuffer inputBuffer, int errorIndex, String errorMessage) {
+    public BasicParseError(final InputBuffer inputBuffer, final int errorIndex, final String errorMessage) {
         this.inputBuffer = Preconditions.checkNotNull(inputBuffer);
         this.startIndex = errorIndex;
         this.endIndex = errorIndex + 1;
@@ -51,7 +51,7 @@ public class BasicParseError implements ParseError {
         return endIndex + indexDelta;
     }
 
-    public void setEndIndex(int endIndex) {
+    public void setEndIndex(final int endIndex) {
         this.endIndex = endIndex - indexDelta;
     }
 
@@ -64,7 +64,7 @@ public class BasicParseError implements ParseError {
         return indexDelta;
     }
 
-    public void shiftIndexDeltaBy(int delta) {
+    public void shiftIndexDeltaBy(final int delta) {
         this.indexDelta += delta;
     }
 }

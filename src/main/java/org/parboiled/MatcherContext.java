@@ -108,8 +108,8 @@ public class MatcherContext<V> implements Context<V> {
      *                           implementations only enable fast string matching during their basic first parsing run
      *                           and disable it once the input has proven to contain errors.</p>
      */
-    public MatcherContext(InputBuffer inputBuffer, ValueStack<V> valueStack, List<ParseError> parseErrors,
-                          MatchHandler matchHandler, Matcher matcher, boolean fastStringMatching) {
+    public MatcherContext(final InputBuffer inputBuffer, final ValueStack<V> valueStack, final List<ParseError> parseErrors,
+                          final MatchHandler matchHandler, final Matcher matcher, final boolean fastStringMatching) {
 
         this(Preconditions.checkNotNull(inputBuffer, "inputBuffer"),
             Preconditions.checkNotNull(valueStack, "valueStack"),
@@ -122,9 +122,9 @@ public class MatcherContext<V> implements Context<V> {
         this.nodeSuppressed = matcher.isNodeSuppressed();
     }
 
-    private MatcherContext(InputBuffer inputBuffer, ValueStack<V> valueStack, List<ParseError> parseErrors,
-                           MatchHandler matchHandler, MatcherContext<V> parent, int level, boolean fastStringMatching,
-                           Set<MatcherPosition> memoizedMismatches) {
+    private MatcherContext(final InputBuffer inputBuffer, final ValueStack<V> valueStack, final List<ParseError> parseErrors,
+                           final MatchHandler matchHandler, final MatcherContext<V> parent, final int level, final boolean fastStringMatching,
+                           final Set<MatcherPosition> memoizedMismatches) {
         this.inputBuffer = inputBuffer;
         this.valueStack = valueStack;
         this.parseErrors = parseErrors;
@@ -204,7 +204,7 @@ public class MatcherContext<V> implements Context<V> {
     private static <V> ImmutableLinkedList<Node<V>> getSubNodes(ImmutableLinkedList<Node<V>> remaining,
                                                                 ImmutableLinkedList<Node<V>> tail) {
         while (!remaining.isEmpty()) {
-            Node<V> head = remaining.head();
+            final Node<V> head = remaining.head();
             if (head.getMatcher().isNodeSkipped()) {
                 tail = getSubNodes(((ImmutableLinkedList<Node<V>>)head.getChildren()), tail);
             } else {
@@ -239,9 +239,9 @@ public class MatcherContext<V> implements Context<V> {
     @Override
     public String getMatch() {
         checkActionContext();
-        MatcherContext<V> prevContext = subContext;
+        final MatcherContext<V> prevContext = subContext;
         if (hasError) {
-            Node<V> prevNode = prevContext.node;
+            final Node<V> prevNode = prevContext.node;
             return prevNode != null ? ParseTreeUtils.getNodeText(prevNode,
                 inputBuffer) : "";
         }
@@ -251,7 +251,7 @@ public class MatcherContext<V> implements Context<V> {
     @Override
     public char getFirstMatchChar() {
         checkActionContext();
-        int ix = subContext.startIndex;
+        final int ix = subContext.startIndex;
         if (subContext.currentIndex <= ix) {
             throw new GrammarException("getFirstMatchChar called but previous rule did not match anything");
         }
@@ -302,26 +302,26 @@ public class MatcherContext<V> implements Context<V> {
 
     //////////////////////////////// PUBLIC ////////////////////////////////////
 
-    public void setMatcher(Matcher matcher) {
+    public void setMatcher(final Matcher matcher) {
         this.matcher = matcher;
     }
 
-    public void setStartIndex(int startIndex) {
+    public void setStartIndex(final int startIndex) {
         Preconditions.checkArgument(startIndex >= 0);
         this.startIndex = startIndex;
     }
 
-    public void setCurrentIndex(int currentIndex) {
+    public void setCurrentIndex(final int currentIndex) {
         Preconditions.checkArgument(currentIndex >= 0);
         this.currentIndex = currentIndex;
         currentChar = inputBuffer.charAt(currentIndex);
     }
     
-    public void setInErrorRecovery(boolean flag) {
+    public void setInErrorRecovery(final boolean flag) {
         inErrorRecovery = flag;
     }
 
-    public void advanceIndex(int delta) {
+    public void advanceIndex(final int delta) {
         currentIndex += delta;
         currentChar = inputBuffer.charAt(currentIndex);
     }
@@ -334,7 +334,7 @@ public class MatcherContext<V> implements Context<V> {
         return intTag;
     }
 
-    public void setIntTag(int intTag) {
+    public void setIntTag(final int intTag) {
         this.intTag = intTag;
     }
 
@@ -375,8 +375,8 @@ public class MatcherContext<V> implements Context<V> {
         return subContext;
     }
 
-    public final MatcherContext<V> getSubContext(Matcher matcher) {
-        MatcherContext<V> sc = getBasicSubContext();
+    public final MatcherContext<V> getSubContext(final Matcher matcher) {
+        final MatcherContext<V> sc = getBasicSubContext();
         sc.matcher = matcher;
         sc.startIndex = sc.currentIndex = currentIndex;
         sc.currentChar = currentChar;

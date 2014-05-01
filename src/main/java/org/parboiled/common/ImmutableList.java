@@ -37,7 +37,7 @@ public abstract class ImmutableList<T> extends AbstractList<T> {
 
     private final static ImmutableList<?> EMPTY_LIST = new ImmutableList<Object>() {
         @Override
-        public Object get(int index) {
+        public Object get(final int index) {
             throw new IndexOutOfBoundsException("Empty list has no element with index " + index);
         }
 
@@ -47,7 +47,7 @@ public abstract class ImmutableList<T> extends AbstractList<T> {
         }
 
         @Override
-        public ImmutableList<Object> append(Object element) {
+        public ImmutableList<Object> append(final Object element) {
             return of(element);
         }
     };
@@ -55,12 +55,12 @@ public abstract class ImmutableList<T> extends AbstractList<T> {
     private static class SingleElementList<T> extends ImmutableList<T> {
         private final T element;
 
-        public SingleElementList(T element) {
+        public SingleElementList(final T element) {
             this.element = element;
         }
 
         @Override
-        public T get(int index) {
+        public T get(final int index) {
             checkElementIndex(index, 1);
             return element;
         }
@@ -71,7 +71,7 @@ public abstract class ImmutableList<T> extends AbstractList<T> {
         }
 
         @Override
-        public ImmutableList<T> append(T element) {
+        public ImmutableList<T> append(final T element) {
             return of(this.element, element);
         }
     }
@@ -80,13 +80,13 @@ public abstract class ImmutableList<T> extends AbstractList<T> {
         private final T element0;
         private final T element1;
 
-        private TwoElementList(T element0, T element1) {
+        private TwoElementList(final T element0, final T element1) {
             this.element0 = element0;
             this.element1 = element1;
         }
 
         @Override
-        public T get(int index) {
+        public T get(final int index) {
             checkElementIndex(index, 2);
             return index == 0 ? element0 : element1;
         }
@@ -97,7 +97,7 @@ public abstract class ImmutableList<T> extends AbstractList<T> {
         }
 
         @Override
-        public ImmutableList<T> append(T element) {
+        public ImmutableList<T> append(final T element) {
             return of(element0, element1, element);
         }
     }
@@ -105,12 +105,12 @@ public abstract class ImmutableList<T> extends AbstractList<T> {
     private static class RegularList extends ImmutableList<Object> {
         private final Object[] elements;
 
-        private RegularList(Object[] elements) {
+        private RegularList(final Object[] elements) {
             this.elements = elements;
         }
 
         @Override
-        public Object get(int index) {
+        public Object get(final int index) {
             return elements[index];
         }
 
@@ -120,8 +120,8 @@ public abstract class ImmutableList<T> extends AbstractList<T> {
         }
 
         @Override
-        public ImmutableList<Object> append(Object element) {
-            Object[] newElements = new Object[elements.length + 1];
+        public ImmutableList<Object> append(final Object element) {
+            final Object[] newElements = new Object[elements.length + 1];
             System.arraycopy(elements, 0, newElements, 0, elements.length);
             newElements[elements.length] = element;
             return new RegularList(newElements);
@@ -130,7 +130,7 @@ public abstract class ImmutableList<T> extends AbstractList<T> {
     
     public abstract ImmutableList<T> append(T element);
 
-    public static <T> ImmutableList<T> copyOf(List<T> other) {
+    public static <T> ImmutableList<T> copyOf(final List<T> other) {
         checkArgNotNull(other, "other");
         return (ImmutableList<T>) (other instanceof ImmutableList ? other : new RegularList(other.toArray()));
     }
@@ -139,42 +139,42 @@ public abstract class ImmutableList<T> extends AbstractList<T> {
         return (ImmutableList<T>) EMPTY_LIST;
     }
 
-    public static <T> ImmutableList<T> of(T a) {
+    public static <T> ImmutableList<T> of(final T a) {
         return new SingleElementList<T>(a);
     }
 
-    public static <T> ImmutableList<T> of(T a, T b) {
+    public static <T> ImmutableList<T> of(final T a, final T b) {
         return new TwoElementList<T>(a, b);
     }
 
-    public static <T> ImmutableList<T> of(T a, T b, T c) {
+    public static <T> ImmutableList<T> of(final T a, final T b, final T c) {
         return (ImmutableList<T>) new RegularList(new Object[] {a, b, c});
     }
 
-    public static <T> ImmutableList<T> of(T... elements) {
+    public static <T> ImmutableList<T> of(final T... elements) {
         checkArgNotNull(elements, "elements");
         return (ImmutableList<T>) new RegularList(elements.clone());
     }
 
-    public static <T> ImmutableList<T> of(T first, T[] more) {
+    public static <T> ImmutableList<T> of(final T first, final T[] more) {
         checkArgNotNull(more, "more");
         return (ImmutableList<T>) new RegularList(arrayOf(first, more.clone()));
     }
 
-    public static <T> ImmutableList<T> of(T[] first, T last) {
+    public static <T> ImmutableList<T> of(final T[] first, final T last) {
         checkArgNotNull(first, "first");
         return (ImmutableList<T>) new RegularList(arrayOf(first.clone(), last));
     }
 
-    public static <T> ImmutableList<T> of(T first, ImmutableList<T> more) {
+    public static <T> ImmutableList<T> of(final T first, final ImmutableList<T> more) {
         checkArgNotNull(more, "more");
         if (more instanceof SingleElementList) {
             return of(first, (T) ((SingleElementList) more).element);
         } else if (more instanceof TwoElementList) {
-            TwoElementList list = (TwoElementList) more;
+            final TwoElementList list = (TwoElementList) more;
             return (ImmutableList<T>) new RegularList(new Object[] {first, list.element0, list.element1});
         } else if (more instanceof RegularList) {
-            RegularList list = (RegularList) more;
+            final RegularList list = (RegularList) more;
             return (ImmutableList<T>) new RegularList(arrayOf(first, list.elements));
         } else {
             checkState(more == EMPTY_LIST);
@@ -182,15 +182,15 @@ public abstract class ImmutableList<T> extends AbstractList<T> {
         }
     }
 
-    public static <T> ImmutableList<T> of(ImmutableList<T> first, T last) {
+    public static <T> ImmutableList<T> of(final ImmutableList<T> first, final T last) {
         checkArgNotNull(first, "more");
         if (first instanceof SingleElementList) {
             return of((T) ((SingleElementList) first).element, last);
         } else if (first instanceof TwoElementList) {
-            TwoElementList list = (TwoElementList) first;
+            final TwoElementList list = (TwoElementList) first;
             return (ImmutableList<T>) new RegularList(new Object[] {list.element0, list.element1, last});
         } else if (first instanceof RegularList) {
-            RegularList list = (RegularList) first;
+            final RegularList list = (RegularList) first;
             return (ImmutableList<T>) new RegularList(arrayOf(list.elements, last));
         } else {
             checkState(first == EMPTY_LIST);

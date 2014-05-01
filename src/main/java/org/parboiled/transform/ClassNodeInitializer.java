@@ -59,7 +59,7 @@ public class ClassNodeInitializer extends ClassVisitor {
         super(Opcodes.ASM4);
     }
 
-    public void process(ParserClassNode classNode) throws IOException {
+    public void process(final ParserClassNode classNode) throws IOException {
         this.classNode = Preconditions.checkNotNull(classNode, "classNode");
 
         // walk up the parser parent class chain
@@ -69,15 +69,15 @@ public class ClassNodeInitializer extends ClassVisitor {
             hasDontLabelAnnotation = false;
             hasSkipActionsInPredicates = false;
 
-            ClassReader classReader = createClassReader(ownerClass);
+            final ClassReader classReader = createClassReader(ownerClass);
             classReader.accept(this, ClassReader.SKIP_FRAMES);
             ownerClass = ownerClass.getSuperclass();
         }
 
-        for (RuleMethod method : classNode.getRuleMethods().values()) {
+        for (final RuleMethod method : classNode.getRuleMethods().values()) {
             // move all flags from the super methods to their overriding methods
             if (method.isSuperMethod()) {
-                RuleMethod overridingMethod = classNode.getRuleMethods().get(method.name.substring(1) + method.desc);
+                final RuleMethod overridingMethod = classNode.getRuleMethods().get(method.name.substring(1) + method.desc);
                 method.moveFlagsTo(overridingMethod);
             } else {
                 if (!hasBuildParseTree) {
@@ -92,7 +92,7 @@ public class ClassNodeInitializer extends ClassVisitor {
     }
 
     @Override
-    public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
+    public void visit(final int version, final int access, final String name, final String signature, final String superName, final String[] interfaces) {
         if (ownerClass == classNode.getParentClass()) {
             Checks.ensure((access & ACC_PRIVATE) == 0, "Parser class '%s' must not be private", name);
             Checks.ensure((access & ACC_FINAL) == 0, "Parser class '%s' must not be final.", name);
@@ -108,7 +108,7 @@ public class ClassNodeInitializer extends ClassVisitor {
     }
 
     @Override
-    public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
+    public AnnotationVisitor visitAnnotation(final String desc, final boolean visible) {
         if (Types.EXPLICIT_ACTIONS_ONLY_DESC.equals(desc)) {
             hasExplicitActionOnlyAnnotation = true;
             return null;
@@ -131,19 +131,19 @@ public class ClassNodeInitializer extends ClassVisitor {
     }
 
     @Override
-    public void visitSource(String source, String debug) {
+    public void visitSource(final String source, final String debug) {
         classNode.visitSource(null, null);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
+    public MethodVisitor visitMethod(final int access, String name, final String desc, final String signature, final String[] exceptions) {
         if ("<init>".equals(name)) {
             // do not add constructors from super classes or private constructors
             if (ownerClass != classNode.getParentClass() || (access & ACC_PRIVATE) > 0) {
                 return null;
             }
-            MethodNode constructor = new MethodNode(access, name, desc, signature, exceptions);
+            final MethodNode constructor = new MethodNode(access, name, desc, signature, exceptions);
             classNode.getConstructors().add(constructor);
             return constructor; // return the newly created method in order to have it "filled" with the method code
         }
@@ -166,7 +166,7 @@ public class ClassNodeInitializer extends ClassVisitor {
             methodKey = name.concat(desc);
         }
 
-        RuleMethod method = new RuleMethod(ownerClass, access, name, desc, signature, exceptions,
+        final RuleMethod method = new RuleMethod(ownerClass, access, name, desc, signature, exceptions,
                 hasExplicitActionOnlyAnnotation, hasDontLabelAnnotation, hasSkipActionsInPredicates);
         classNode.getRuleMethods().put(methodKey, method);
         return method; // return the newly created method in order to have it "filled" with the actual method code

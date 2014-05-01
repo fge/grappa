@@ -31,7 +31,7 @@ public class AnyMatcher extends AbstractMatcher {
     }
 
     @Override
-    public <V> boolean match(MatcherContext<V> context) {
+    public <V> boolean match(final MatcherContext<V> context) {
         switch (context.getCurrentChar()) {
             case Chars.DEL_ERROR:
             case Chars.INS_ERROR:
@@ -48,7 +48,7 @@ public class AnyMatcher extends AbstractMatcher {
     }
 
     @Override
-    public <R> R accept(MatcherVisitor<R> visitor) {
+    public <R> R accept(final MatcherVisitor<R> visitor) {
         Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }

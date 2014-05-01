@@ -51,66 +51,66 @@ public final class Utils {
 
     private Utils() {}
 
-    public static Character[] toObjectArray(char[] array) {
+    public static Character[] toObjectArray(final char[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_CHARACTER_OBJECT_ARRAY;
-        Character[] result = new Character[array.length];
+        final Character[] result = new Character[array.length];
         for (int i = 0; i < array.length; i++) result[i] = array[i];
         return result;
     }
 
-    public static Integer[] toObjectArray(int[] array) {
+    public static Integer[] toObjectArray(final int[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_INTEGER_OBJECT_ARRAY;
-        Integer[] result = new Integer[array.length];
+        final Integer[] result = new Integer[array.length];
         for (int i = 0; i < array.length; i++) result[i] = array[i];
         return result;
     }
 
-    public static Long[] toObjectArray(long[] array) {
+    public static Long[] toObjectArray(final long[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_LONG_OBJECT_ARRAY;
-        Long[] result = new Long[array.length];
+        final Long[] result = new Long[array.length];
         for (int i = 0; i < array.length; i++) result[i] = array[i];
         return result;
     }
 
-    public static Short[] toObjectArray(short[] array) {
+    public static Short[] toObjectArray(final short[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_SHORT_OBJECT_ARRAY;
-        Short[] result = new Short[array.length];
+        final Short[] result = new Short[array.length];
         for (int i = 0; i < array.length; i++) result[i] = array[i];
         return result;
     }
 
-    public static Byte[] toObjectArray(byte[] array) {
+    public static Byte[] toObjectArray(final byte[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_BYTE_OBJECT_ARRAY;
-        Byte[] result = new Byte[array.length];
+        final Byte[] result = new Byte[array.length];
         for (int i = 0; i < array.length; i++) result[i] = array[i];
         return result;
     }
 
-    public static Float[] toObjectArray(float[] array) {
+    public static Float[] toObjectArray(final float[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_FLOAT_OBJECT_ARRAY;
-        Float[] result = new Float[array.length];
+        final Float[] result = new Float[array.length];
         for (int i = 0; i < array.length; i++) result[i] = array[i];
         return result;
     }
 
-    public static Double[] toObjectArray(double[] array) {
+    public static Double[] toObjectArray(final double[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_DOUBLE_OBJECT_ARRAY;
-        Double[] result = new Double[array.length];
+        final Double[] result = new Double[array.length];
         for (int i = 0; i < array.length; i++) result[i] = array[i];
         return result;
     }
 
-    public static Boolean[] toObjectArray(boolean[] array) {
+    public static Boolean[] toObjectArray(final boolean[] array) {
         if (array == null) return null;
         if (array.length == 0) return EMPTY_BOOLEAN_OBJECT_ARRAY;
-        Boolean[] result = new Boolean[array.length];
+        final Boolean[] result = new Boolean[array.length];
         for (int i = 0; i < array.length; i++) result[i] = array[i];
         return result;
     }
@@ -123,10 +123,10 @@ public final class Utils {
      * @return a new array containing all arguments.
      */
     @SuppressWarnings("unchecked")
-    public static <T> T[] arrayOf(T firstElement, T... moreElements) {
+    public static <T> T[] arrayOf(final T firstElement, final T... moreElements) {
         Preconditions.checkNotNull(moreElements, "moreElements");
-        Class<?> elementType = moreElements.getClass().getComponentType();
-        T[] array = (T[]) Array.newInstance(elementType, moreElements.length + 1);
+        final Class<?> elementType = moreElements.getClass().getComponentType();
+        final T[] array = (T[]) Array.newInstance(elementType, moreElements.length + 1);
         array[0] = firstElement;
         System.arraycopy(moreElements, 0, array, 1, moreElements.length);
         return array;
@@ -141,10 +141,10 @@ public final class Utils {
      * @return a new array containing all arguments.
      */
     @SuppressWarnings("unchecked")
-    public static <T> T[] arrayOf(T firstElement, T secondElement, T... moreElements) {
+    public static <T> T[] arrayOf(final T firstElement, final T secondElement, final T... moreElements) {
         Preconditions.checkNotNull(moreElements, "moreElements");
-        Class<?> elementType = moreElements.getClass().getComponentType();
-        T[] array = (T[]) Array.newInstance(elementType, moreElements.length + 2);
+        final Class<?> elementType = moreElements.getClass().getComponentType();
+        final T[] array = (T[]) Array.newInstance(elementType, moreElements.length + 2);
         array[0] = firstElement;
         array[1] = secondElement;
         System.arraycopy(moreElements, 0, array, 2, moreElements.length);
@@ -159,10 +159,10 @@ public final class Utils {
      * @return a new array containing all arguments.
      */
     @SuppressWarnings("unchecked")
-    public static <T> T[] arrayOf(T[] firstElements, T lastElement) {
+    public static <T> T[] arrayOf(final T[] firstElements, final T lastElement) {
         Preconditions.checkNotNull(firstElements, "firstElements");
-        Class<?> elementType = firstElements.getClass().getComponentType();
-        T[] array = (T[]) Array.newInstance(elementType, firstElements.length + 1);
+        final Class<?> elementType = firstElements.getClass().getComponentType();
+        final T[] array = (T[]) Array.newInstance(elementType, firstElements.length + 1);
         System.arraycopy(firstElements, 0, array, 0, firstElements.length);
         array[firstElements.length] = lastElement;
         return array;
@@ -174,7 +174,7 @@ public final class Utils {
      * @param obj the object
      * @return the empty string of obj is null, otherwise obj.toString()
      */
-    public static String toString(Object obj) {
+    public static String toString(final Object obj) {
         return obj == null ? "" : obj.toString();
     }
 
@@ -185,7 +185,7 @@ public final class Utils {
      * @param b the second object
      * @return true if both are null or both are equal
      */
-    public static <T> boolean equal(T a, T b) {
+    public static <T> boolean equal(final T a, final T b) {
         return a != null ? a.equals(b) : b == null;
     }
 
@@ -197,16 +197,17 @@ public final class Utils {
      * @param implementation the type (potentially) implementing the given base class or interface
      * @return a list of the raw classes for the actual type arguments.
      */
-    public static List<Class<?>> getTypeArguments(Class<?> base, Class<?> implementation) {
+    public static List<Class<?>> getTypeArguments(
+        final Class<?> base, final Class<?> implementation) {
         Preconditions.checkNotNull(base, "base");
         Preconditions.checkNotNull(implementation, "implementation");
-        Map<Type, Type> resolvedTypes = new HashMap<Type, Type>();
+        final Map<Type, Type> resolvedTypes = new HashMap<Type, Type>();
 
         // first we need to resolve all supertypes up to the required base class or interface
         // and find the right Type for it
         Type type;
 
-        Queue<Type> toCheck = new LinkedList<Type>();
+        final Queue<Type> toCheck = new LinkedList<Type>();
         toCheck.add(implementation);
         while (true) {
             // if we have checked everything and not found the base class we return an empty list
@@ -214,7 +215,7 @@ public final class Utils {
                 return ImmutableList.of();
 
             type = toCheck.remove();
-            Class<?> clazz;
+            final Class<?> clazz;
 
             if (type instanceof Class) {
                 // there is no useful information for us in raw types, so just keep going up the inheritance chain
@@ -225,12 +226,12 @@ public final class Utils {
                     toCheck.addAll(Arrays.asList(clazz.getGenericInterfaces()));
                 }
             } else if (type instanceof ParameterizedType) {
-                ParameterizedType parameterizedType = (ParameterizedType) type;
+                final ParameterizedType parameterizedType = (ParameterizedType) type;
                 clazz = (Class<?>) parameterizedType.getRawType();
 
                 // for instances of ParameterizedType we extract and remember all type arguments
-                TypeVariable<?>[] typeParameters = clazz.getTypeParameters();
-                Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
+                final TypeVariable<?>[] typeParameters = clazz.getTypeParameters();
+                final Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
                 for (int i = 0; i < actualTypeArguments.length; i++) {
                     resolvedTypes.put(typeParameters[i], actualTypeArguments[i]);
                 }
@@ -246,13 +247,13 @@ public final class Utils {
 
         // finally, for each actual type argument provided to baseClass,
         // determine (if possible) the raw class for that type argument.
-        Type[] actualTypeArguments;
+        final Type[] actualTypeArguments;
         if (type instanceof Class) {
             actualTypeArguments = ((GenericDeclaration) type).getTypeParameters();
         } else {
             actualTypeArguments = ((ParameterizedType) type).getActualTypeArguments();
         }
-        List<Class<?>> typeArgumentsAsClasses = new ArrayList<Class<?>>();
+        final List<Class<?>> typeArgumentsAsClasses = new ArrayList<Class<?>>();
         // resolve types by chasing down type variables.
         for (Type baseType : actualTypeArguments) {
             while (resolvedTypes.containsKey(baseType)) {
@@ -271,14 +272,14 @@ public final class Utils {
      * @return the underlying class
      */
 
-    public static Class<?> getClass(Type type) {
+    public static Class<?> getClass(final Type type) {
         if (type instanceof Class) {
             return (Class<?>) type;
         } else if (type instanceof ParameterizedType) {
             return getClass(((ParameterizedType) type).getRawType());
         } else if (type instanceof GenericArrayType) {
-            Type componentType = ((GenericArrayType) type).getGenericComponentType();
-            Class<?> componentClass = getClass(componentType);
+            final Type componentType = ((GenericArrayType) type).getGenericComponentType();
+            final Class<?> componentClass = getClass(componentType);
             if (componentClass != null) {
                 return Array.newInstance(componentClass, 0).getClass();
             }
@@ -293,13 +294,14 @@ public final class Utils {
      * @param args the arguments
      * @return the constructor
      */
-    public static Constructor<?> findConstructor(Class<?> type, Object[] args) {
+    public static Constructor<?> findConstructor(
+        final Class<?> type, final Object[] args) {
         outer:
-        for (Constructor<?> constructor : type.getConstructors()) {
-            Class<?>[] paramTypes = constructor.getParameterTypes();
+        for (final Constructor<?> constructor : type.getConstructors()) {
+            final Class<?>[] paramTypes = constructor.getParameterTypes();
             if (paramTypes.length != args.length) continue;
             for (int i = 0; i < args.length; i++) {
-                Object arg = args[i];
+                final Object arg = args[i];
                 if (arg != null && !paramTypes[i].isAssignableFrom(arg.getClass())) continue outer;
                 if (arg == null && paramTypes[i].isPrimitive()) continue outer;
             }
@@ -314,7 +316,7 @@ public final class Utils {
      * @param value the value to format
      * @return the string representation
      */
-    public static String humanize(long value) {
+    public static String humanize(final long value) {
         if (value < 0) {
             return '-' + humanize(-value);
         } else if (value > 1000000000000000000L) {

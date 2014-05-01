@@ -28,8 +28,8 @@ public class ActionError extends BasicParseError {
     private final MatcherPath errorPath;
     private final ActionException actionException;
 
-    public ActionError(InputBuffer inputBuffer, int errorIndex, String errorMessage,
-                       MatcherPath errorPath, ActionException actionException) {
+    public ActionError(final InputBuffer inputBuffer, final int errorIndex, final String errorMessage,
+                       final MatcherPath errorPath, final ActionException actionException) {
         super(Preconditions.checkNotNull(inputBuffer),
             errorIndex, errorMessage);
         this.errorPath = Preconditions.checkNotNull(errorPath);

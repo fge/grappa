@@ -23,16 +23,16 @@ public final class Position {
     public final int line;
     public final int column;
 
-    public Position(int line, int column) {
+    public Position(final int line, final int column) {
         this.line = line;
         this.column = column;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (!(o instanceof Position)) return false;
-        Position position = (Position) o;
+        final Position position = (Position) o;
         return column == position.column && line == position.line;
 
     }

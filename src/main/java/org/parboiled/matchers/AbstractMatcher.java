@@ -33,23 +33,23 @@ public abstract class AbstractMatcher extends ImmutableGraphNode<Matcher> implem
     private boolean nodeSkipped;
     private Object tag;
 
-    public AbstractMatcher(String label) {
+    public AbstractMatcher(final String label) {
         this(new Rule[0], label);
     }
 
-    public AbstractMatcher(Rule subRule, String label) {
+    public AbstractMatcher(final Rule subRule, final String label) {
         this(new Rule[] { Preconditions.checkNotNull(subRule, "subRule")},
             label);
     }
 
-    public AbstractMatcher(Rule[] subRules, String label) {
+    public AbstractMatcher(final Rule[] subRules, final String label) {
         super(ImmutableList.copyOf(toMatchers(
             Preconditions.checkNotNull(subRules))));
         this.label = label;
     }
 
-    private static Matcher[] toMatchers(Rule[] subRules) {
-        Matcher[] matchers = new Matcher[subRules.length];
+    private static Matcher[] toMatchers(final Rule[] subRules) {
+        final Matcher[] matchers = new Matcher[subRules.length];
         for (int i = 0; i < subRules.length; i++) {
             matchers[i] = (Matcher) subRules[i];
         }
@@ -94,9 +94,9 @@ public abstract class AbstractMatcher extends ImmutableGraphNode<Matcher> implem
     }
 
     @Override
-    public AbstractMatcher label(String label) {
+    public AbstractMatcher label(final String label) {
         if (Utils.equal(label, this.label)) return this;
-        AbstractMatcher clone = createClone();
+        final AbstractMatcher clone = createClone();
         clone.label = label;
         return clone;
     }
@@ -104,7 +104,7 @@ public abstract class AbstractMatcher extends ImmutableGraphNode<Matcher> implem
     @Override
     public Rule suppressNode() {
         if (nodeSuppressed) return this;
-        AbstractMatcher clone = createClone();
+        final AbstractMatcher clone = createClone();
         clone.nodeSuppressed = true;
         return clone;
     }
@@ -112,7 +112,7 @@ public abstract class AbstractMatcher extends ImmutableGraphNode<Matcher> implem
     @Override
     public Rule suppressSubnodes() {
         if (subnodesSuppressed) return this;
-        AbstractMatcher clone = createClone();
+        final AbstractMatcher clone = createClone();
         clone.subnodesSuppressed = true;
         return clone;
     }
@@ -120,7 +120,7 @@ public abstract class AbstractMatcher extends ImmutableGraphNode<Matcher> implem
     @Override
     public Rule skipNode() {
         if (nodeSkipped) return this;
-        AbstractMatcher clone = createClone();
+        final AbstractMatcher clone = createClone();
         clone.nodeSkipped = true;
         return clone;
     }
@@ -135,13 +135,13 @@ public abstract class AbstractMatcher extends ImmutableGraphNode<Matcher> implem
         return tag;
     }
     @Override
-    public void setTag(Object tagObject) {
+    public void setTag(final Object tagObject) {
         tag = tagObject;
     }
 
     // default implementation is to simply delegate to the context
     @Override
-    public <V> MatcherContext<V> getSubContext(MatcherContext<V> context) {
+    public <V> MatcherContext<V> getSubContext(final MatcherContext<V> context) {
         return context.getSubContext(this);
     }
 

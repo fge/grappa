@@ -28,17 +28,17 @@ import org.parboiled.matchervisitors.MatcherVisitor;
 public class ZeroOrMoreMatcher extends CustomDefaultLabelMatcher<ZeroOrMoreMatcher> {
     public final Matcher subMatcher;
 
-    public ZeroOrMoreMatcher(Rule subRule) {
+    public ZeroOrMoreMatcher(final Rule subRule) {
         super(Preconditions.checkNotNull(subRule, "subRule"), "ZeroOrMore");
         this.subMatcher = getChildren().get(0);
     }
 
     @Override
-    public <V> boolean match(MatcherContext<V> context) {
+    public <V> boolean match(final MatcherContext<V> context) {
         Preconditions.checkNotNull(context, "context");
         int lastIndex = context.getCurrentIndex();
         while (subMatcher.getSubContext(context).runMatcher()) {
-            int currentLocation = context.getCurrentIndex();
+            final int currentLocation = context.getCurrentIndex();
             if (currentLocation == lastIndex) {
                 throw new GrammarException("The inner rule of ZeroOrMore rule '%s' must not allow empty matches",
                         context.getPath());
@@ -51,7 +51,7 @@ public class ZeroOrMoreMatcher extends CustomDefaultLabelMatcher<ZeroOrMoreMatch
     }
 
     @Override
-    public <R> R accept(MatcherVisitor<R> visitor) {
+    public <R> R accept(final MatcherVisitor<R> visitor) {
         Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }

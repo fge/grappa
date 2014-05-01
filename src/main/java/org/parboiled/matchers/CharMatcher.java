@@ -29,12 +29,12 @@ import static org.parboiled.support.Chars.escape;
 public class CharMatcher extends AbstractMatcher {
     public final char character;
 
-    public CharMatcher(char character) {
+    public CharMatcher(final char character) {
         super(getLabel(character));
         this.character = character;
     }
 
-    private static String getLabel(char c) {
+    private static String getLabel(final char c) {
         switch (c) {
             case Chars.DEL_ERROR:
             case Chars.INS_ERROR:
@@ -52,7 +52,7 @@ public class CharMatcher extends AbstractMatcher {
     }
 
     @Override
-    public <V> boolean match(MatcherContext<V> context) {
+    public <V> boolean match(final MatcherContext<V> context) {
         if (context.getCurrentChar() != character) return false;
         context.advanceIndex(1);
         context.createNode();
@@ -60,7 +60,7 @@ public class CharMatcher extends AbstractMatcher {
     }
 
     @Override
-    public <R> R accept(MatcherVisitor<R> visitor) {
+    public <R> R accept(final MatcherVisitor<R> visitor) {
         Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }

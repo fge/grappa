@@ -32,7 +32,7 @@ public final class Checks {
      * @param errorMessageFormat the error message format
      * @param errorMessageArgs   the error message arguments
      */
-    public static void ensure(boolean condition, String errorMessageFormat, Object... errorMessageArgs) {
+    public static void ensure(final boolean condition, final String errorMessageFormat, final Object... errorMessageArgs) {
         if (!condition) {
             throw new GrammarException(errorMessageFormat, errorMessageArgs);
         }
@@ -44,7 +44,7 @@ public final class Checks {
      * @param condition    the condition
      * @param errorMessage the error message
      */
-    public static void ensure(boolean condition, String errorMessage) {
+    public static void ensure(final boolean condition, final String errorMessage) {
         if (!condition) {
             throw new GrammarException(errorMessage);
         }

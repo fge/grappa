@@ -29,8 +29,8 @@ import java.util.List;
 public class InvalidInputError extends BasicParseError {
     private final List<MatcherPath> failedMatchers;
 
-    public InvalidInputError(InputBuffer inputBuffer, int startIndex,
-                             List<MatcherPath> failedMatchers, String errorMessage) {
+    public InvalidInputError(final InputBuffer inputBuffer, final int startIndex,
+                             final List<MatcherPath> failedMatchers, final String errorMessage) {
         super(Preconditions.checkNotNull(inputBuffer, "inputBuffer"),
             startIndex, errorMessage);
         this.failedMatchers = Preconditions.checkNotNull(failedMatchers);

@@ -46,10 +46,10 @@ public final class StringUtils {
      * @deprecated use {@link CharsEscaper} instead
      */
     @Deprecated
-    public static String escape(String string) {
+    public static String escape(final String string) {
         if (string.isEmpty()) return "";
-        StringBuilder sb = new StringBuilder();
-        char[] chars = string.toCharArray();
+        final StringBuilder sb = new StringBuilder();
+        final char[] chars = string.toCharArray();
         for (int i = 0; i < chars.length; i++) {
             if (i == chars.length - 1 || chars[i] != '\r' || chars[i + 1] != '\n') {
                 sb.append(escape(chars[i]));
@@ -68,7 +68,7 @@ public final class StringUtils {
      * @deprecated use {@link Chars#escape(char)} instead
      */
     @Deprecated
-    public static String escape(char c) {
+    public static String escape(final char c) {
         switch (c) {
             case '\r':
                 return "\\r";
@@ -110,8 +110,8 @@ public final class StringUtils {
      *
      * @deprecated use {@link Chars#repeat(char, int)}
      */
-    public static String repeat(char c, int n) {
-        char[] array = new char[n];
+    public static String repeat(final char c, final int n) {
+        final char[] array = new char[n];
         Arrays.fill(array, c);
         return String.valueOf(array);
     }
@@ -136,7 +136,7 @@ public final class StringUtils {
      * @deprecated use a {@link Joiner} instead
      */
     @Deprecated
-    public static String join(Iterable iterable, String separator) {
+    public static String join(final Iterable iterable, final String separator) {
         return iterable == null ? null : join(iterable.iterator(), separator);
     }
     
@@ -154,20 +154,20 @@ public final class StringUtils {
      * @deprecated use a {@link Joiner} instead
      */
     @Deprecated
-    public static String join(Iterator iterator, String separator) {
+    public static String join(final Iterator iterator, final String separator) {
         // handle null, zero and one elements before building a buffer
         if (iterator == null) return null;
         if (!iterator.hasNext()) return "";
-        Object first = iterator.next();
+        final Object first = iterator.next();
         if (!iterator.hasNext()) return Utils.toString(first);
 
         // two or more elements
-        StringBuilder buf = new StringBuilder(256); // Java default is 16, probably too small
+        final StringBuilder buf = new StringBuilder(256); // Java default is 16, probably too small
         if (first != null) buf.append(first);
 
         while (iterator.hasNext()) {
             if (separator != null) buf.append(separator);
-            Object obj = iterator.next();
+            final Object obj = iterator.next();
             if (obj != null) buf.append(obj);
         }
         return buf.toString();
@@ -199,7 +199,7 @@ public final class StringUtils {
      * @deprecated use a {@link Joiner} instead
      */
     @Deprecated
-    public static String join(Object[] array, String separator) {
+    public static String join(final Object[] array, final String separator) {
         return array == null ? null : join(array, separator, 0, array.length);
     }
 
@@ -233,7 +233,7 @@ public final class StringUtils {
      * @deprecated use a {@link Joiner} instead
      */
     @Deprecated
-    public static String join(Object[] array, String separator, int startIndex, int endIndex) {
+    public static String join(final Object[] array, String separator, final int startIndex, final int endIndex) {
         if (array == null) return null;
         if (separator == null) separator = "";
 
@@ -242,7 +242,7 @@ public final class StringUtils {
         int bufSize = (endIndex - startIndex);
         if (bufSize <= 0) return "";
         bufSize *= ((array[startIndex] == null ? 16 : array[startIndex].toString().length()) + separator.length());
-        StringBuilder buf = new StringBuilder(bufSize);
+        final StringBuilder buf = new StringBuilder(bufSize);
 
         for (int i = startIndex; i < endIndex; i++) {
             if (i > startIndex) buf.append(separator);
@@ -273,7 +273,7 @@ public final class StringUtils {
      * Strings#isNullOrEmpty(String)}
      */
     @Deprecated
-    public static boolean isEmpty(String str) {
+    public static boolean isEmpty(final String str) {
         return str == null || str.length() == 0;
     }
 
@@ -295,7 +295,7 @@ public final class StringUtils {
      * (inverted) {@link Strings#isNullOrEmpty(String)}
      */
     @Deprecated
-    public static boolean isNotEmpty(String str) {
+    public static boolean isNotEmpty(final String str) {
         return !str.isEmpty();
     }
 
@@ -312,7 +312,7 @@ public final class StringUtils {
      * </pre>
      */
     @Deprecated
-    public static int length(String str) {
+    public static int length(final String str) {
         return str == null ? 0 : str.length();
     }
 
@@ -340,7 +340,7 @@ public final class StringUtils {
      * String#equalsIgnoreCase(String)}
      */
     @Deprecated
-    public static boolean equalsIgnoreCase(String str1, String str2) {
+    public static boolean equalsIgnoreCase(final String str1, final String str2) {
         return str1 == null ? str2 == null : str1.equalsIgnoreCase(str2);
     }
 
@@ -361,7 +361,7 @@ public final class StringUtils {
      * String#startsWith(String)}
      */
     @Deprecated
-    public static boolean startsWith(String string, String prefix) {
+    public static boolean startsWith(final String string, final String prefix) {
         return string != null && (prefix == null || string.startsWith(prefix));
     }
 
@@ -392,7 +392,7 @@ public final class StringUtils {
      * @deprecated and will not be replaced
      */
     @Deprecated
-    public static String substring(String str, int start) {
+    public static String substring(final String str, int start) {
         if (str == null) {
             return null;
         }
@@ -450,7 +450,7 @@ public final class StringUtils {
      * @deprecated and will not be replaced.
      */
     @Deprecated
-    public static String substring(String str, int start, int end) {
+    public static String substring(final String str, int start, int end) {
         if (str == null) {
             return null;
         }
@@ -509,7 +509,7 @@ public final class StringUtils {
      * @deprecated use {@link String#substring(int, int)}
      */
     @Deprecated
-    public static String left(String str, int len) {
+    public static String left(final String str, final int len) {
         if (str == null) {
             return null;
         }
@@ -545,7 +545,7 @@ public final class StringUtils {
      * @deprecated and will not be replaced
      */
     @Deprecated
-    public static String right(String str, int len) {
+    public static String right(final String str, final int len) {
         if (str == null) {
             return null;
         }
@@ -585,7 +585,7 @@ public final class StringUtils {
      * @deprecated use {@link String#substring(int, int)} instead
      */
     @Deprecated
-    public static String mid(String str, int pos, int len) {
+    public static String mid(final String str, int pos, final int len) {
         if (str == null) {
             return null;
         }

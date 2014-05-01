@@ -56,7 +56,7 @@ public class ImmutableLinkedList<T>
         }
 
         @Override
-        public ListIterator<Object> listIterator(int index)
+        public ListIterator<Object> listIterator(final int index)
         {
             return ImmutableList.of().listIterator();
         }
@@ -76,7 +76,7 @@ public class ImmutableLinkedList<T>
         return (ImmutableLinkedList<T>) NIL;
     }
 
-    public ImmutableLinkedList(T head, ImmutableLinkedList<T> tail)
+    public ImmutableLinkedList(final T head, final ImmutableLinkedList<T> tail)
     {
         elements = ImmutableList.<T>builder().add(head)
             .addAll(tail).build();
@@ -102,7 +102,7 @@ public class ImmutableLinkedList<T>
         return Iterables.getLast(elements);
     }
 
-    public ImmutableLinkedList<T> prepend(T object)
+    public ImmutableLinkedList<T> prepend(final T object)
     {
         return new ImmutableLinkedList<T>(object, this);
     }

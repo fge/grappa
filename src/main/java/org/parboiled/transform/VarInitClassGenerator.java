@@ -29,18 +29,18 @@ import static org.parboiled.transform.Types.BASE_VAR_INIT;
 public class VarInitClassGenerator extends GroupClassGenerator
 {
 
-    public VarInitClassGenerator(boolean forceCodeBuilding) {
+    public VarInitClassGenerator(final boolean forceCodeBuilding) {
         super(forceCodeBuilding);
     }
 
     @Override
-    public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
+    public boolean appliesTo(final ParserClassNode classNode, final RuleMethod method) {
         Preconditions.checkNotNull(method, "method");
         return method.containsVars();
     }
 
     @Override
-    protected boolean appliesTo(InstructionGraphNode node) {
+    protected boolean appliesTo(final InstructionGraphNode node) {
         return node.isVarInitRoot();
     }
 
@@ -50,8 +50,9 @@ public class VarInitClassGenerator extends GroupClassGenerator
     }
 
     @Override
-    protected void generateMethod(InstructionGroup group, ClassWriter cw) {
-        MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "create", "()Ljava/lang/Object;", null, null);
+    protected void generateMethod(
+        final InstructionGroup group, final ClassWriter cw) {
+        final MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "create", "()Ljava/lang/Object;", null, null);
         convertXLoads(group);
         group.getInstructions().accept(mv);
 

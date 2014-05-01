@@ -21,12 +21,12 @@ public class MatcherPosition {
     private final Matcher matcher;
     private final Integer index;
 
-    protected MatcherPosition(Matcher matcher, Integer index) {
+    protected MatcherPosition(final Matcher matcher, final Integer index) {
         this.matcher = matcher;
         this.index = index;
     }
 
-    public static MatcherPosition at(Matcher matcher, Integer index) {
+    public static MatcherPosition at(final Matcher matcher, final Integer index) {
         return new MatcherPosition(matcher, index);
     }
 
@@ -36,14 +36,14 @@ public class MatcherPosition {
     }
 
 	@Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (!(obj instanceof MatcherPosition)) {
             return false;
         }
         if (this == obj) {
             return true;
         }
-        MatcherPosition other = (MatcherPosition)obj;
+        final MatcherPosition other = (MatcherPosition)obj;
         return matcher == other.matcher && index == other.index;
     }
 }

@@ -48,7 +48,7 @@ public class ErrorReportingParseRunner<V> extends AbstractParseRunner<V> impleme
      * @param rule       the parser rule
      * @param errorIndex the index of the error to report
      */
-    public ErrorReportingParseRunner(Rule rule, int errorIndex) {
+    public ErrorReportingParseRunner(final Rule rule, final int errorIndex) {
         this(rule, errorIndex, null);
     }
 
@@ -60,22 +60,22 @@ public class ErrorReportingParseRunner<V> extends AbstractParseRunner<V> impleme
      * @param errorIndex the index of the error to report
      * @param inner      another MatchHandler to delegate the actual match handling to, can be null
      */
-    public ErrorReportingParseRunner(Rule rule, int errorIndex, MatchHandler inner) {
+    public ErrorReportingParseRunner(final Rule rule, final int errorIndex, final MatchHandler inner) {
         super(rule);
         this.errorIndex = errorIndex;
         this.inner = inner;
     }
 
     @Override
-    public ParsingResult<V> run(InputBuffer inputBuffer) {
+    public ParsingResult<V> run(final InputBuffer inputBuffer) {
         Preconditions.checkNotNull(inputBuffer, "inputBuffer");
         resetValueStack();        
         failedMatchers.clear();
         seeking = errorIndex > 0;
 
         // run without fast string matching to properly get to the error location
-        MatcherContext<V> rootContext = createRootContext(inputBuffer, this, false);
-        boolean matched = match(rootContext);
+        final MatcherContext<V> rootContext = createRootContext(inputBuffer, this, false);
+        final boolean matched = match(rootContext);
         if (!matched) {
             getParseErrors().add(new InvalidInputError(inputBuffer, errorIndex, failedMatchers, null));
         }
@@ -83,8 +83,8 @@ public class ErrorReportingParseRunner<V> extends AbstractParseRunner<V> impleme
     }
 
     @Override
-    public boolean match(MatcherContext<?> context) {
-        boolean matched = inner == null && context.getMatcher().match(context) || inner != null && inner.match(context);
+    public boolean match(final MatcherContext<?> context) {
+        final boolean matched = inner == null && context.getMatcher().match(context) || inner != null && inner.match(context);
         if (context.getCurrentIndex() == errorIndex) {
             if (matched && seeking) {
                 seeking = false;

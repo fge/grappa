@@ -28,18 +28,18 @@ import java.util.List;
  */
 public class SequenceMatcher extends CustomDefaultLabelMatcher<SequenceMatcher> {
 
-    public SequenceMatcher(Rule[] subRules) {
+    public SequenceMatcher(final Rule[] subRules) {
         super(Preconditions.checkNotNull(subRules, "subRules"), "Sequence");
     }
 
     @Override
-    public <V> boolean match(MatcherContext<V> context) {
-        Object valueStackSnapshot = context.getValueStack().takeSnapshot();
+    public <V> boolean match(final MatcherContext<V> context) {
+        final Object valueStackSnapshot = context.getValueStack().takeSnapshot();
 
-        List<Matcher> children = getChildren();
-        int size = children.size();
+        final List<Matcher> children = getChildren();
+        final int size = children.size();
         for (int i = 0; i < size; i++) {
-            Matcher matcher = children.get(i);
+            final Matcher matcher = children.get(i);
 
             // remember the current index in the context, so we can access it for building the current follower set
             context.setIntTag(i);
@@ -55,7 +55,7 @@ public class SequenceMatcher extends CustomDefaultLabelMatcher<SequenceMatcher> 
     }
 
     @Override
-    public <R> R accept(MatcherVisitor<R> visitor) {
+    public <R> R accept(final MatcherVisitor<R> visitor) {
         Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }

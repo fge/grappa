@@ -38,7 +38,7 @@ import static org.objectweb.asm.Opcodes.INVOKEINTERFACE;
 public class FlagMarkingGenerator implements RuleMethodProcessor {
 
     @Override
-    public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
+    public boolean appliesTo(final ParserClassNode classNode, final RuleMethod method) {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
         return method.hasSuppressNodeAnnotation() || method.hasSuppressSubnodesAnnotation() ||
@@ -46,14 +46,14 @@ public class FlagMarkingGenerator implements RuleMethodProcessor {
     }
 
     @Override
-    public void process(ParserClassNode classNode, RuleMethod method) throws Exception {
+    public void process(final ParserClassNode classNode, final RuleMethod method) throws Exception {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
         Preconditions.checkState(!method.isSuperMethod()); // super methods
         // have flag
         // moved to the overriding method
         
-        InsnList instructions = method.instructions;
+        final InsnList instructions = method.instructions;
 
         AbstractInsnNode ret = instructions.getLast();
         while (ret.getOpcode() != ARETURN) {
@@ -63,7 +63,7 @@ public class FlagMarkingGenerator implements RuleMethodProcessor {
         // stack: <rule>
         instructions.insertBefore(ret, new InsnNode(DUP));
         // stack: <rule> :: <rule>
-        LabelNode isNullLabel = new LabelNode();
+        final LabelNode isNullLabel = new LabelNode();
         instructions.insertBefore(ret, new JumpInsnNode(IFNULL, isNullLabel));
         // stack: <rule>
 
@@ -77,7 +77,8 @@ public class FlagMarkingGenerator implements RuleMethodProcessor {
         // stack: <rule>
     }
 
-    private void generateMarkerCall(InsnList instructions, AbstractInsnNode ret, String call) {
+    private void generateMarkerCall(
+        final InsnList instructions, final AbstractInsnNode ret, final String call) {
         instructions.insertBefore(ret, new MethodInsnNode(INVOKEINTERFACE, Types.RULE.getInternalName(), call,
                 "()" + Types.RULE.getDescriptor()));
     }

@@ -33,12 +33,12 @@ import static org.objectweb.asm.Opcodes.GOTO;
 public class ReturnInstructionUnifier implements RuleMethodProcessor {
 
     @Override
-    public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
+    public boolean appliesTo(final ParserClassNode classNode, final RuleMethod method) {
         return true;
     }
 
     @Override
-    public void process(ParserClassNode classNode, RuleMethod method) throws Exception {
+    public void process(final ParserClassNode classNode, final RuleMethod method) throws Exception {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
         if (method.getNumberOfReturns() == 1) return;
@@ -51,7 +51,7 @@ public class ReturnInstructionUnifier implements RuleMethodProcessor {
             current = current.getPrevious();
         }
 
-        LabelNode lastReturnLabel = new LabelNode();
+        final LabelNode lastReturnLabel = new LabelNode();
         method.instructions.insertBefore(current, lastReturnLabel);
 
         // iterate backwards up to first instructions
@@ -59,7 +59,7 @@ public class ReturnInstructionUnifier implements RuleMethodProcessor {
 
             // replace returns with gotos
             if (current.getOpcode() == ARETURN) {
-                JumpInsnNode gotoInstruction = new JumpInsnNode(GOTO, lastReturnLabel);
+                final JumpInsnNode gotoInstruction = new JumpInsnNode(GOTO, lastReturnLabel);
                 method.instructions.set(current, gotoInstruction);
                 current = gotoInstruction;
             }

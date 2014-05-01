@@ -27,20 +27,20 @@ import org.parboiled.matchervisitors.MatcherVisitor;
 public class OptionalMatcher extends CustomDefaultLabelMatcher<OptionalMatcher> {
     public final Matcher subMatcher;
 
-    public OptionalMatcher(Rule subRule) {
+    public OptionalMatcher(final Rule subRule) {
         super(Preconditions.checkNotNull(subRule, "subRule"), "Optional");
         this.subMatcher = getChildren().get(0);
     }
 
     @Override
-    public <V> boolean match(MatcherContext<V> context) {
+    public <V> boolean match(final MatcherContext<V> context) {
         subMatcher.getSubContext(context).runMatcher();
         context.createNode();
         return true;
     }
 
     @Override
-    public <R> R accept(MatcherVisitor<R> visitor) {
+    public <R> R accept(final MatcherVisitor<R> visitor) {
         Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }

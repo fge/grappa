@@ -109,7 +109,7 @@ public final class Filters
             @Override
             public boolean apply(final Tuple2<Context<?>, Boolean> input)
             {
-                int line = input.a.getInputBuffer()
+                final int line = input.a.getInputBuffer()
                     .getPosition(input.a.getCurrentIndex()).line;
                 return firstLine <= line && line <= lastLine;
             }

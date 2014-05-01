@@ -38,7 +38,7 @@ public abstract class AbstractParseRunner<V> implements ParseRunner<V> {
     private ValueStack<V> valueStack;
     private Object initialValueStackSnapshot;
 
-    public AbstractParseRunner(Rule rule) {
+    public AbstractParseRunner(final Rule rule) {
         this.rootMatcher = Preconditions.checkNotNull((Matcher) rule, "rule");
     }
 
@@ -47,7 +47,7 @@ public abstract class AbstractParseRunner<V> implements ParseRunner<V> {
     }
 
     @Override
-    public ParseRunner<V> withParseErrors(List<ParseError> parseErrors) {
+    public ParseRunner<V> withParseErrors(final List<ParseError> parseErrors) {
         this.parseErrors = parseErrors;
         return this;
     }
@@ -60,7 +60,7 @@ public abstract class AbstractParseRunner<V> implements ParseRunner<V> {
     }
 
     @Override
-    public ParseRunner<V>withValueStack(ValueStack<V> valueStack) {
+    public ParseRunner<V>withValueStack(final ValueStack<V> valueStack) {
         this.valueStack = Preconditions.checkNotNull(valueStack, "valueStack");
         this.initialValueStackSnapshot = valueStack.takeSnapshot();
         return this;
@@ -86,7 +86,7 @@ public abstract class AbstractParseRunner<V> implements ParseRunner<V> {
     }
 
     @Override
-    public ParsingResult<V> run(char[] input) {
+    public ParsingResult<V> run(final char[] input) {
         Preconditions.checkNotNull(input, "input");
         return run(new DefaultInputBuffer(input));
     }
@@ -95,13 +95,14 @@ public abstract class AbstractParseRunner<V> implements ParseRunner<V> {
         getValueStack().restoreSnapshot(initialValueStackSnapshot);
     }
 
-    protected MatcherContext<V> createRootContext(InputBuffer inputBuffer, MatchHandler matchHandler,
-                                                     boolean fastStringMatching) {
+    protected MatcherContext<V> createRootContext(final InputBuffer inputBuffer, final MatchHandler matchHandler,
+                                                     final boolean fastStringMatching) {
         return new MatcherContext<V>(inputBuffer, getValueStack(), getParseErrors(), matchHandler, rootMatcher,
                 fastStringMatching);
     }
     
-    protected ParsingResult<V> createParsingResult(boolean matched, MatcherContext<V> rootContext) {
+    protected ParsingResult<V> createParsingResult(
+        final boolean matched, final MatcherContext<V> rootContext) {
         return new ParsingResult<V>(matched, rootContext.getNode(), getValueStack(), getParseErrors(),
                 rootContext.getInputBuffer());
     }

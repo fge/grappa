@@ -41,7 +41,7 @@ public class ReportingParseRunner<V> extends AbstractParseRunner<V> {
      * this static method. This method will be removed in one of the coming releases.
      */
     @Deprecated
-    public static <V> ParsingResult<V> run(Rule rule, String input) {
+    public static <V> ParsingResult<V> run(final Rule rule, final String input) {
         Preconditions.checkNotNull(rule, "rule");
         Preconditions.checkNotNull(input, "input");
         return new ReportingParseRunner<V>(rule).run(input);
@@ -52,12 +52,12 @@ public class ReportingParseRunner<V> extends AbstractParseRunner<V> {
      *
      * @param rule the parser rule
      */
-    public ReportingParseRunner(Rule rule) {
+    public ReportingParseRunner(final Rule rule) {
         super(rule);
     }
 
     @Override
-    public ParsingResult<V> run(InputBuffer inputBuffer) {
+    public ParsingResult<V> run(final InputBuffer inputBuffer) {
         Preconditions.checkNotNull(inputBuffer, "inputBuffer");
         resetValueStack();
 
@@ -78,21 +78,21 @@ public class ReportingParseRunner<V> extends AbstractParseRunner<V> {
         return result;
     }
 
-    protected ParsingResult<V> runBasicMatch(InputBuffer inputBuffer) {
-        ParseRunner<V> basicRunner = new BasicParseRunner<V>(getRootMatcher())
+    protected ParsingResult<V> runBasicMatch(final InputBuffer inputBuffer) {
+        final ParseRunner<V> basicRunner = new BasicParseRunner<V>(getRootMatcher())
             .withParseErrors(getParseErrors())
             .withValueStack(getValueStack());
         return basicRunner.run(inputBuffer);
     }
 
-    protected ParsingResult<V> runLocatingMatch(InputBuffer inputBuffer) {
-        ParseRunner<V> locatingRunner = new ErrorLocatingParseRunner<V>(getRootMatcher())
+    protected ParsingResult<V> runLocatingMatch(final InputBuffer inputBuffer) {
+        final ParseRunner<V> locatingRunner = new ErrorLocatingParseRunner<V>(getRootMatcher())
                 .withValueStack(getValueStack());
         return locatingRunner.run(inputBuffer);
     }
 
-    protected ParsingResult<V> runReportingMatch(InputBuffer inputBuffer, int errorIndex) {
-        ParseRunner<V> reportingRunner = new ErrorReportingParseRunner<V>(getRootMatcher(), errorIndex)
+    protected ParsingResult<V> runReportingMatch(final InputBuffer inputBuffer, final int errorIndex) {
+        final ParseRunner<V> reportingRunner = new ErrorReportingParseRunner<V>(getRootMatcher(), errorIndex)
                 .withParseErrors(getParseErrors())
                 .withValueStack(getValueStack());
         return reportingRunner.run(inputBuffer);

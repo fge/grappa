@@ -36,7 +36,7 @@ public class Reference<T> {
      *
      * @param value the value object
      */
-    public Reference(T value) {
+    public Reference(final T value) {
         this.value = value;
     }
 
@@ -55,7 +55,7 @@ public class Reference<T> {
      * @param value the value
      * @return true
      */
-    public boolean set(T value) {
+    public boolean set(final T value) {
         this.value = value;
         return true;
     }
@@ -85,8 +85,8 @@ public class Reference<T> {
      * @param value the new value
      * @return the previous value
      */
-    public T getAndSet(T value) {
-        T t = this.value;
+    public T getAndSet(final T value) {
+        final T t = this.value;
         this.value = value;
         return t;
     }
@@ -97,7 +97,7 @@ public class Reference<T> {
      * @param value the new value
      * @return the new value
      */
-    public T setAndGet(T value) {
+    public T setAndGet(final T value) {
         return this.value = value;
     }
 

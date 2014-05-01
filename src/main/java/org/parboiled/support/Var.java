@@ -70,7 +70,7 @@ public class Var<T> extends Reference<T> {
      *
      * @param factory the factory used to create the initial value for a rule execution frame
      */
-    public Var(Factory<T> factory) {
+    public Var(final Factory<T> factory) {
         this.factory = Preconditions.checkNotNull(factory);
     }
 
@@ -88,7 +88,7 @@ public class Var<T> extends Reference<T> {
      *
      * @param name the name
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 

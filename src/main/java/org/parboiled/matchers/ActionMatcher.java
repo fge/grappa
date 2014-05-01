@@ -38,7 +38,7 @@ public class ActionMatcher extends AbstractMatcher {
     public final List<ContextAware<?>> contextAwares = Lists.newArrayList();
     public final boolean skipInPredicates;
 
-    public ActionMatcher(Action<?> action) {
+    public ActionMatcher(final Action<?> action) {
         super(Preconditions.checkNotNull(action, "action").toString());
         this.action = action;
 
@@ -55,11 +55,11 @@ public class ActionMatcher extends AbstractMatcher {
         // in order to make anonymous inner classes and other member classes work seamlessly
         // we collect the synthetic references to the outer parent classes and inform them of
         // the current parsing context if they implement ContextAware
-        for (Field field : action.getClass().getDeclaredFields()) {
+        for (final Field field : action.getClass().getDeclaredFields()) {
             if (field.isSynthetic() && ContextAware.class.isAssignableFrom(field.getType())) {
                 field.setAccessible(true);
                 try {
-                    ContextAware<?> contextAware = (ContextAware<?>) field.get
+                    final ContextAware<?> contextAware = (ContextAware<?>) field.get
                         (action);
                     if (contextAware != null) contextAwares.add(contextAware);
                 } catch (IllegalAccessException e) {
@@ -72,8 +72,8 @@ public class ActionMatcher extends AbstractMatcher {
     }
 
     @Override
-    public <V> MatcherContext<V> getSubContext(MatcherContext<V> context) {
-        MatcherContext<V> subContext = context.getBasicSubContext();
+    public <V> MatcherContext<V> getSubContext(final MatcherContext<V> context) {
+        final MatcherContext<V> subContext = context.getBasicSubContext();
         subContext.setMatcher(this);
         if (context.getCurrentIndex() > context.getStartIndex()) {
             // if we have already matched something we must be in a sequence at the second or later position
@@ -87,19 +87,19 @@ public class ActionMatcher extends AbstractMatcher {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <V> boolean match(MatcherContext<V> context) {
+    public <V> boolean match(final MatcherContext<V> context) {
         if (skipInPredicates && context.inPredicate()) return true;
 
         // actions need to run in the parent context
-        MatcherContext<V> parentContext = context.getParent();
+        final MatcherContext<V> parentContext = context.getParent();
         if (!contextAwares.isEmpty()) {
-            for (ContextAware<?> contextAware : contextAwares) {
+            for (final ContextAware<?> contextAware : contextAwares) {
                 ((ContextAware<V>) contextAware).setContext(parentContext);
             }
         }
 
         try {
-            Object valueStackSnapshot = context.getValueStack().takeSnapshot();
+            final Object valueStackSnapshot = context.getValueStack().takeSnapshot();
             if (!((Action<V>) action).run(parentContext)) {
                 // failing actions are not allowed to change the ValueStack
                 context.getValueStack().restoreSnapshot(valueStackSnapshot);
@@ -125,7 +125,7 @@ public class ActionMatcher extends AbstractMatcher {
     }
 
     @Override
-    public <R> R accept(MatcherVisitor<R> visitor) {
+    public <R> R accept(final MatcherVisitor<R> visitor) {
         Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }

@@ -37,13 +37,13 @@ public class DefaultInvalidInputErrorFormatter
     private static final Escaper ESCAPER = CharsEscaper.INSTANCE;
 
     @Override
-    public String format(InvalidInputError error) {
+    public String format(final InvalidInputError error) {
         if (error == null) return "";
 
-        int len = error.getEndIndex() - error.getStartIndex();
-        StringBuilder sb = new StringBuilder();
+        final int len = error.getEndIndex() - error.getStartIndex();
+        final StringBuilder sb = new StringBuilder();
         if (len > 0) {
-            char c = error.getInputBuffer().charAt(error.getStartIndex());
+            final char c = error.getInputBuffer().charAt(error.getStartIndex());
             if (c == Chars.EOI) {
                 sb.append("Unexpected end of input");
             } else {
@@ -55,28 +55,28 @@ public class DefaultInvalidInputErrorFormatter
         } else {
             sb.append("Invalid input");
         }
-        String expectedString = getExpectedString(error);
+        final String expectedString = getExpectedString(error);
         if (!expectedString.isEmpty()) {
             sb.append(", expected ").append(expectedString);
         }
         return sb.toString();
     }
 
-    public String getExpectedString(InvalidInputError error) {
+    public String getExpectedString(final InvalidInputError error) {
         // In non recovery-mode there is no complexity in the error and start indices since they are all stable.
         // However, in recovery-mode the RecoveringParseRunner inserts characters into the InputBuffer, which requires
         // for all indices taken before to be shifted. The RecoveringParseRunner does this by changing the indexDelta
         // of the parse runner. All users of the ParseError will then automatically see shifted start and end indices
         // matching the state of the underlying InputBuffer. However, since the failed MatcherPaths still carry the
         // "original" indices we need to unapply the IndexDelta in order to be able to compare with them.
-        int pathStartIndex = error.getStartIndex() - error.getIndexDelta();
+        final int pathStartIndex = error.getStartIndex() - error.getIndexDelta();
 
-        List<String> labelList = new ArrayList<String>();
-        for (MatcherPath path : error.getFailedMatchers()) {
-            Matcher labelMatcher = ErrorUtils.findProperLabelMatcher(path, pathStartIndex);
+        final List<String> labelList = new ArrayList<String>();
+        for (final MatcherPath path : error.getFailedMatchers()) {
+            final Matcher labelMatcher = ErrorUtils.findProperLabelMatcher(path, pathStartIndex);
             if (labelMatcher == null) continue;
-            String[] labels = getLabels(labelMatcher);
-            for (String label : labels) {
+            final String[] labels = getLabels(labelMatcher);
+            for (final String label : labels) {
                 if (label != null && !labelList.contains(label)) {
                     labelList.add(label);
                 }
@@ -92,11 +92,11 @@ public class DefaultInvalidInputErrorFormatter
      * @param matcher the matcher
      * @return the labels
      */
-    public String[] getLabels(Matcher matcher) {
+    public String[] getLabels(final Matcher matcher) {
         if ((matcher instanceof AnyOfMatcher) && ((AnyOfMatcher)matcher).characters.toString().equals(matcher.getLabel())) {
-            AnyOfMatcher cMatcher = (AnyOfMatcher) matcher;
+            final AnyOfMatcher cMatcher = (AnyOfMatcher) matcher;
             if (!cMatcher.characters.isSubtractive()) {
-                String[] labels = new String[cMatcher.characters.getChars().length];
+                final String[] labels = new String[cMatcher.characters.getChars().length];
                 for (int i = 0; i < labels.length; i++) {
                     labels[i] = '\'' + String.valueOf(cMatcher.characters.getChars()[i]) + '\'';
                 }
@@ -106,8 +106,8 @@ public class DefaultInvalidInputErrorFormatter
         return new String[] {matcher.getLabel()};
     }
 
-    public String join(List<String> labelList) {
-        StringBuilder sb = new StringBuilder();
+    public String join(final List<String> labelList) {
+        final StringBuilder sb = new StringBuilder();
         for (int i = 0; i < labelList.size(); i++) {
             if (i > 0) sb.append(i < labelList.size() - 1 ? ", " : " or ");
             sb.append(labelList.get(i));

@@ -35,7 +35,7 @@ public final class IndexRange {
      */
     public final int end;
 
-    public IndexRange(int start, int end) {
+    public IndexRange(final int start, final int end) {
         Preconditions.checkArgument(start >= 0, "start must be >= 0");
         Preconditions.checkArgument(end >= start, "end must be >= start");
         this.start = start;
@@ -64,7 +64,7 @@ public final class IndexRange {
      * @param other the other range
      * @return true if there is at least one index that is contained in both ranges
      */
-    public boolean overlapsWith(IndexRange other) {
+    public boolean overlapsWith(final IndexRange other) {
         Preconditions.checkNotNull(other, "other");
         return end > other.start && other.end > start;
     }
@@ -75,7 +75,7 @@ public final class IndexRange {
      * @param other the other range
      * @return true if this range immediated follows the given other one
      */
-    public boolean isPrecededBy(IndexRange other) {
+    public boolean isPrecededBy(final IndexRange other) {
         Preconditions.checkNotNull(other, "other");
         return other.end == start;
     }
@@ -86,7 +86,7 @@ public final class IndexRange {
      * @param other the other range
      * @return true if this range is immediated followed by the given other one
      */
-    public boolean isFollowedBy(IndexRange other) {
+    public boolean isFollowedBy(final IndexRange other) {
         Preconditions.checkNotNull(other, "other");
         return end == other.start;
     }
@@ -97,7 +97,7 @@ public final class IndexRange {
      * @param other the other range
      * @return true if this range immediated follows or precedes the given other one.
      */
-    public boolean touches(IndexRange other) {
+    public boolean touches(final IndexRange other) {
         Preconditions.checkNotNull(other, "other");
         return other.end == start || end == other.start;
     }
@@ -108,16 +108,16 @@ public final class IndexRange {
      * @param other the other range
      * @return a new IndexRange instance
      */
-    public IndexRange mergedWith(IndexRange other) {
+    public IndexRange mergedWith(final IndexRange other) {
         Preconditions.checkNotNull(other, "other");
         return new IndexRange(Math.min(start, other.start), Math.max(end, other.end));
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (!(o instanceof IndexRange)) return false;
-        IndexRange that = (IndexRange) o;
+        final IndexRange that = (IndexRange) o;
         return end == that.end && start == that.start;
     }
 

@@ -21,17 +21,17 @@ public final class Tuple3<A, B, C> {
     public final B b;
     public final C c;
 
-    public Tuple3(A a, B b, C c) {
+    public Tuple3(final A a, final B b, final C c) {
         this.a = a;
         this.b = b;
         this.c = c;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (!(o instanceof Tuple3)) return false;
-        Tuple3<?, ?, ?> tuple2 = (Tuple3<?, ?, ?>) o;
+        final Tuple3<?, ?, ?> tuple2 = (Tuple3<?, ?, ?>) o;
         return
                 (a != null ? a.equals(tuple2.a) : tuple2.a == null) &&
                 (b != null ? b.equals(tuple2.b) : tuple2.b == null) &&

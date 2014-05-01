@@ -45,10 +45,11 @@ public class ParserTransformer {
     private ParserTransformer() {}
 
     @SuppressWarnings("unchecked")
-    public static synchronized <T> Class<? extends T> transformParser(Class<T> parserClass) throws Exception {
+    public static synchronized <T> Class<? extends T> transformParser(
+        final Class<T> parserClass) throws Exception {
         Preconditions.checkNotNull(parserClass, "parserClass");
         // first check whether we did not already create and load the extension of the given parser class
-        Class<?> extendedClass = findLoadedClass(
+        final Class<?> extendedClass = findLoadedClass(
                 getExtendedParserClassName(parserClass.getName()), parserClass.getClassLoader()
         );
         return (Class<? extends T>)
@@ -74,8 +75,8 @@ public class ParserTransformer {
         return node.getClassCode();
     }
 
-    static ParserClassNode extendParserClass(Class<?> parserClass) throws Exception {
-        ParserClassNode classNode = new ParserClassNode(parserClass);
+    static ParserClassNode extendParserClass(final Class<?> parserClass) throws Exception {
+        final ParserClassNode classNode = new ParserClassNode(parserClass);
         new ClassNodeInitializer().process(classNode);
         runMethodTransformers(classNode);
         new ConstructorGenerator().process(classNode);
@@ -84,15 +85,15 @@ public class ParserTransformer {
     }
 
     @SuppressWarnings("unchecked")
-    private static void runMethodTransformers(ParserClassNode classNode) throws Exception {
-        List<RuleMethodProcessor> methodProcessors = createRuleMethodProcessors();
+    private static void runMethodTransformers(final ParserClassNode classNode) throws Exception {
+        final List<RuleMethodProcessor> methodProcessors = createRuleMethodProcessors();
 
         // iterate through all rule methods
         // since the ruleMethods map on the classnode is a treemap we get the methods sorted by name which puts
         // all super methods first (since they are prefixed with one or more '$')
-        for (RuleMethod ruleMethod : classNode.getRuleMethods().values()) {
+        for (final RuleMethod ruleMethod : classNode.getRuleMethods().values()) {
             if (!ruleMethod.hasDontExtend()) {
-                for (RuleMethodProcessor methodProcessor : methodProcessors) {
+                for (final RuleMethodProcessor methodProcessor : methodProcessors) {
                     if (methodProcessor.appliesTo(classNode, ruleMethod)) {
                         methodProcessor.process(classNode, ruleMethod);
                     }
@@ -100,7 +101,7 @@ public class ParserTransformer {
             }
         }
 
-        for (RuleMethod ruleMethod : classNode.getRuleMethods().values()) {
+        for (final RuleMethod ruleMethod : classNode.getRuleMethods().values()) {
             if (!ruleMethod.isGenerationSkipped()) {
                 classNode.methods.add(ruleMethod);
             }
@@ -128,8 +129,8 @@ public class ParserTransformer {
         );
     }
 
-    private static void defineExtendedParserClass(ParserClassNode classNode) {
-        ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+    private static void defineExtendedParserClass(final ParserClassNode classNode) {
+        final ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
         classNode.accept(classWriter);
         classNode.setClassCode(classWriter.toByteArray());
         classNode.setExtendedClass(loadClass(

@@ -27,7 +27,7 @@ public class IllegalIndentationException extends RuntimeException {
     public final InputBuffer buffer;
     public final Position position;
 
-    public IllegalIndentationException(InputBuffer buffer, Position position) {
+    public IllegalIndentationException(final InputBuffer buffer, final Position position) {
         this.buffer = buffer;
         this.position = position;
     }

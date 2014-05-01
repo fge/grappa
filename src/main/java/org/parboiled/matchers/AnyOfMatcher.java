@@ -27,14 +27,14 @@ import org.parboiled.support.Characters;
 public class AnyOfMatcher extends AbstractMatcher {
     public final Characters characters;
 
-    public AnyOfMatcher(Characters characters) {
+    public AnyOfMatcher(final Characters characters) {
         super(Preconditions.checkNotNull(characters, "characters").toString());
         Preconditions.checkArgument(!characters.equals(Characters.NONE));
         this.characters = characters;
     }
 
     @Override
-    public <V> boolean match(MatcherContext<V> context) {
+    public <V> boolean match(final MatcherContext<V> context) {
         if (!characters.contains(context.getCurrentChar())) return false;
         context.advanceIndex(1);
         context.createNode();
@@ -42,7 +42,7 @@ public class AnyOfMatcher extends AbstractMatcher {
     }
 
     @Override
-    public <R> R accept(MatcherVisitor<R> visitor) {
+    public <R> R accept(final MatcherVisitor<R> visitor) {
         Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }

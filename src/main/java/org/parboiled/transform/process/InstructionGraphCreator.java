@@ -34,25 +34,26 @@ import org.parboiled.transform.RuleMethodInterpreter;
 public class InstructionGraphCreator implements RuleMethodProcessor {
 
     @Override
-    public boolean appliesTo(ParserClassNode classNode, RuleMethod method) {
+    public boolean appliesTo(final ParserClassNode classNode, final RuleMethod method) {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
         return method.containsImplicitActions() || method.containsExplicitActions() || method.containsVars();
     }
 
     @Override
-    public void process(ParserClassNode classNode, RuleMethod method) throws Exception {
+    public void process(final ParserClassNode classNode, final RuleMethod method) throws Exception {
         Preconditions.checkNotNull(method, "method");
         final RuleMethodInterpreter interpreter = new RuleMethodInterpreter(method);
 
         new Analyzer(interpreter) {
             @Override
-            protected void newControlFlowEdge(int insn, int successor) {
+            protected void newControlFlowEdge(final int insn, final int successor) {
                 interpreter.newControlFlowEdge(insn, successor);
             }
 
             @Override
-            protected boolean newControlFlowExceptionEdge(int insn, int successor) {
+            protected boolean newControlFlowExceptionEdge(
+                final int insn, final int successor) {
                 interpreter.newControlFlowEdge(insn, successor);
                 return true;
             }

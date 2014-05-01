@@ -23,13 +23,13 @@ public abstract class CustomDefaultLabelMatcher<T extends CustomDefaultLabelMatc
 {
     private String defaultLabel;
 
-    protected CustomDefaultLabelMatcher(Rule subRule, String defaultLabel)
+    protected CustomDefaultLabelMatcher(final Rule subRule, final String defaultLabel)
     {
         super(subRule, null);
         this.defaultLabel = defaultLabel;
     }
 
-    protected CustomDefaultLabelMatcher(Rule[] subRules, String defaultLabel)
+    protected CustomDefaultLabelMatcher(final Rule[] subRules, final String defaultLabel)
     {
         super(subRules, null);
         this.defaultLabel = defaultLabel;
@@ -48,7 +48,7 @@ public abstract class CustomDefaultLabelMatcher<T extends CustomDefaultLabelMatc
     }
 
     @SuppressWarnings("unchecked")
-    public T defaultLabel(String defaultLabel)
+    public T defaultLabel(final String defaultLabel)
     {
         this.defaultLabel = defaultLabel;
         return (T) this;

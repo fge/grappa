@@ -84,7 +84,7 @@ public final class Predicates {
      * @param predicate the inner predicate
      * @return a predicate
      */
-    public static <T> Predicate<T> not(Predicate<T> predicate) {
+    public static <T> Predicate<T> not(final Predicate<T> predicate) {
         return new NotPredicate<T>(predicate);
     }
 
@@ -100,7 +100,7 @@ public final class Predicates {
      * @param components the components
      * @return a predicate
      */
-    public static <T> Predicate<T> and(Collection<? extends Predicate<? super T>> components) {
+    public static <T> Predicate<T> and(final Collection<? extends Predicate<? super T>> components) {
         return new AndPredicate<T>(components);
     }
 
@@ -116,7 +116,7 @@ public final class Predicates {
      * @param components the components
      * @return a predicate
      */
-    public static <T> Predicate<T> and(Predicate<? super T>... components) {
+    public static <T> Predicate<T> and(final Predicate<? super T>... components) {
         return new AndPredicate<T>(ImmutableList.copyOf(components));
     }
 
@@ -130,7 +130,8 @@ public final class Predicates {
      * @param second the second
      * @return a predicate
      */
-    public static <T> Predicate<T> and(Predicate<? super T> first, Predicate<? super T> second) {
+    public static <T> Predicate<T> and(
+        final Predicate<? super T> first, final Predicate<? super T> second) {
         return new AndPredicate<T>(
             ImmutableList.<Predicate<? super T>>of(first, second)
         );
@@ -148,7 +149,7 @@ public final class Predicates {
      * @param components the components
      * @return a predicate
      */
-    public static <T> Predicate<T> or(Collection<? extends Predicate<? super T>> components) {
+    public static <T> Predicate<T> or(final Collection<? extends Predicate<? super T>> components) {
         return new OrPredicate<T>(components);
     }
 
@@ -164,7 +165,7 @@ public final class Predicates {
      * @param components the components
      * @return a predicate
      */
-    public static <T> Predicate<T> or(Predicate<? super T>... components) {
+    public static <T> Predicate<T> or(final Predicate<? super T>... components) {
         return new OrPredicate<T>(
             ImmutableList.copyOf(components)
         );
@@ -180,7 +181,8 @@ public final class Predicates {
      * @param second the second
      * @return a predicate
      */
-    public static <T> Predicate<T> or(Predicate<? super T> first, Predicate<? super T> second) {
+    public static <T> Predicate<T> or(
+        final Predicate<? super T> first, final Predicate<? super T> second) {
         return new OrPredicate<T>(ImmutableList.<Predicate<? super T>>of(first, second));
     }
 
@@ -191,7 +193,7 @@ public final class Predicates {
      * @param target the target
      * @return a predicate
      */
-    public static <T> Predicate<T> equalTo(T target) {
+    public static <T> Predicate<T> equalTo(final T target) {
         return (target == null) ? Predicates.<T>isNull() : new IsEqualToPredicate<T>(target);
     }
 
@@ -204,7 +206,7 @@ public final class Predicates {
      * @param clazz the clazz
      * @return a predicate
      */
-    public static Predicate<Object> instanceOf(Class<?> clazz) {
+    public static Predicate<Object> instanceOf(final Class<?> clazz) {
         return new InstanceOfPredicate(clazz);
     }
 
@@ -222,7 +224,7 @@ public final class Predicates {
      * @param target the collection that may contain the function input
      * @return a predicate
      */
-    public static <T> Predicate<T> in(Collection<? extends T> target) {
+    public static <T> Predicate<T> in(final Collection<? extends T> target) {
         return new InPredicate<T>(target);
     }
 
@@ -230,7 +232,7 @@ public final class Predicates {
         private static final Predicate<Object> INSTANCE = new AlwaysTruePredicate();
 
         @Override
-        public boolean apply(Object o) {
+        public boolean apply(final Object o) {
             return true;
         }
 
@@ -245,7 +247,7 @@ public final class Predicates {
         private static final Predicate<Object> INSTANCE = new AlwaysFalsePredicate();
 
         @Override
-        public boolean apply(Object o) {
+        public boolean apply(final Object o) {
             return false;
         }
 
@@ -258,13 +260,13 @@ public final class Predicates {
     private static class NotPredicate<T> implements Predicate<T> {
         private final Predicate<T> predicate;
 
-        private NotPredicate(Predicate<T> predicate) {
+        private NotPredicate(final Predicate<T> predicate) {
             checkArgNotNull(predicate, "predicate");
             this.predicate = predicate;
         }
 
         @Override
-        public boolean apply(T t) {
+        public boolean apply(final T t) {
             return !predicate.apply(t);
         }
 
@@ -276,13 +278,13 @@ public final class Predicates {
     private static class AndPredicate<T> implements Predicate<T> {
         private final Collection<? extends Predicate<? super T>> components;
 
-        private AndPredicate(Collection<? extends Predicate<? super T>> components) {
+        private AndPredicate(final Collection<? extends Predicate<? super T>> components) {
             this.components = components;
         }
 
         @Override
-        public boolean apply(T t) {
-            for (Predicate<? super T> predicate : components) {
+        public boolean apply(final T t) {
+            for (final Predicate<? super T> predicate : components) {
                 if (!predicate.apply(t)) {
                     return false;
                 }
@@ -299,13 +301,13 @@ public final class Predicates {
     private static class OrPredicate<T> implements Predicate<T> {
         private final Collection<? extends Predicate<? super T>> components;
 
-        private OrPredicate(Collection<? extends Predicate<? super T>> components) {
+        private OrPredicate(final Collection<? extends Predicate<? super T>> components) {
             this.components = components;
         }
 
         @Override
-        public boolean apply(T t) {
-            for (Predicate<? super T> predicate : components) {
+        public boolean apply(final T t) {
+            for (final Predicate<? super T> predicate : components) {
                 if (predicate.apply(t)) {
                     return true;
                 }
@@ -322,12 +324,12 @@ public final class Predicates {
     private static class IsEqualToPredicate<T> implements Predicate<T> {
         private final T target;
 
-        private IsEqualToPredicate(T target) {
+        private IsEqualToPredicate(final T target) {
             this.target = target;
         }
 
         @Override
-        public boolean apply(T t) {
+        public boolean apply(final T t) {
             return target.equals(t);
         }
 
@@ -340,13 +342,13 @@ public final class Predicates {
     private static class InstanceOfPredicate implements Predicate<Object> {
         private final Class<?> clazz;
 
-        private InstanceOfPredicate(Class<?> clazz) {
+        private InstanceOfPredicate(final Class<?> clazz) {
             checkArgNotNull(clazz, "clazz");
             this.clazz = clazz;
         }
 
         @Override
-        public boolean apply(Object o) {
+        public boolean apply(final Object o) {
             return clazz.isInstance(o);
         }
 
@@ -360,7 +362,7 @@ public final class Predicates {
         private static final Predicate<Object> INSTANCE = new IsNullPredicate();
 
         @Override
-        public boolean apply(Object o) {
+        public boolean apply(final Object o) {
             return o == null;
         }
 
@@ -374,7 +376,7 @@ public final class Predicates {
         private static final Predicate<Object> INSTANCE = new NotNullPredicate();
 
         @Override
-        public boolean apply(Object o) {
+        public boolean apply(final Object o) {
             return o != null;
         }
 
@@ -387,13 +389,13 @@ public final class Predicates {
     private static class InPredicate<T> implements Predicate<T> {
         private final Collection<?> target;
 
-        private InPredicate(Collection<?> target) {
+        private InPredicate(final Collection<?> target) {
             checkArgNotNull(target, "target");
             this.target = target;
         }
 
         @Override
-        public boolean apply(T t) {
+        public boolean apply(final T t) {
             try {
                 return target.contains(t);
             } catch (NullPointerException e) {

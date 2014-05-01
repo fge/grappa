@@ -38,13 +38,13 @@ public final class GetStarterCharVisitor
     private static final Random RANDOM = new Random(System.currentTimeMillis());
 
     @Override
-    public Character visit(AnyMatcher matcher)
+    public Character visit(final AnyMatcher matcher)
     {
         return 'X';
     }
 
     @Override
-    public Character visit(AnyOfMatcher matcher)
+    public Character visit(final AnyOfMatcher matcher)
     {
         final Characters characters = matcher.characters;
         if (!characters.isSubtractive())
@@ -59,19 +59,19 @@ public final class GetStarterCharVisitor
     }
 
     @Override
-    public Character visit(CharIgnoreCaseMatcher matcher)
+    public Character visit(final CharIgnoreCaseMatcher matcher)
     {
         return matcher.charLow;
     }
 
     @Override
-    public Character visit(CharMatcher matcher)
+    public Character visit(final CharMatcher matcher)
     {
         return matcher.character;
     }
 
     @Override
-    public Character visit(CharRangeMatcher matcher)
+    public Character visit(final CharRangeMatcher matcher)
     {
         return matcher.cLow;
     }
@@ -89,7 +89,7 @@ public final class GetStarterCharVisitor
     }
 
     @Override
-    public Character visit(CustomMatcher matcher)
+    public Character visit(final CustomMatcher matcher)
     {
         return matcher.getStarterChar();
     }

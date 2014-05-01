@@ -35,15 +35,15 @@ public class NodeFormatter<V> implements Formatter<Node<V>> {
      *
      * @param inputBuffer the input buffer underlying the parse tree whose nodes are to be formatted.
      */
-    public NodeFormatter(InputBuffer inputBuffer) {
+    public NodeFormatter(final InputBuffer inputBuffer) {
         this.inputBuffer = Preconditions.checkNotNull(inputBuffer);
     }
 
     @Override
-    public String format(Node<V> node) {
-        String nodeLabel = node.toString();
+    public String format(final Node<V> node) {
+        final String nodeLabel = node.toString();
         final String text = ParseTreeUtils.getNodeText(node, inputBuffer);
-        String nodeText = CharsEscaper.INSTANCE.escape(text);
+        final String nodeText = CharsEscaper.INSTANCE.escape(text);
         return nodeText.isEmpty() ? nodeLabel
             : nodeLabel + " '" + nodeText + '\'';
     }
