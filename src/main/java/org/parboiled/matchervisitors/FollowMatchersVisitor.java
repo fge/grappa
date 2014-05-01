@@ -39,16 +39,12 @@ public final class FollowMatchersVisitor
         = new CanMatchEmptyVisitor();
     private final ImmutableList.Builder<Matcher> builder
         = ImmutableList.builder();
-    private final MatcherContext<?> initialContext;
+    private MatcherContext<?> context;
 
-    public FollowMatchersVisitor(final MatcherContext<?> context)
+    public List<Matcher> getFollowMatchers(
+        final MatcherContext<?> currentContext)
     {
-        initialContext = context.getParent();
-    }
-
-    public List<Matcher> getFollowMatchers()
-    {
-        MatcherContext<?> context = initialContext;
+        context = currentContext.getParent();
         while (context != null) {
             if (context.getMatcher().accept(this))
                 break;
@@ -67,7 +63,7 @@ public final class FollowMatchersVisitor
     @Override
     public Boolean visit(final SequenceMatcher matcher)
     {
-        final int startTag = initialContext.getIntTag() + 1;
+        final int startTag = context.getIntTag() + 1;
         final List<Matcher> children = matcher.getChildren();
         Matcher child;
         for (int i = startTag; i < children.size(); i++) {

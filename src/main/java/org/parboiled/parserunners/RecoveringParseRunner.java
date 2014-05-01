@@ -432,8 +432,7 @@ public class RecoveringParseRunner<V> extends AbstractParseRunner<V> {
                     // this RESYNC error is the last error, we establish the length of the bad sequence and
                     // change this RESYNC marker to a RESYNC_START / RESYNC_END block
                     context.advanceIndex(1); // gobble RESYNC marker
-                    final List<Matcher> followMatchers
-                        = new FollowMatchersVisitor(context).getFollowMatchers();
+                    final List<Matcher> followMatchers = new FollowMatchersVisitor().getFollowMatchers(context);
                     final int endIndex = gobbleIllegalCharacters(context, followMatchers);
                     currentError.setEndIndex(endIndex);
                     buffer.replaceInsertedChar(currentError.getStartIndex() - 1, RESYNC_START);
