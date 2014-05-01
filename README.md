@@ -13,6 +13,11 @@ Pure Java!
 License is Apache 2.0. See [here](https://github.com/parboiled1/project-info) for further
 information.
 
+This project has two dedicated Google groups:
+[grappa-users](http://groups.google.com/d/forum/grappa-users) and
+[grappa-devel](http://groups.google.com/d/forum/grappa-devel). They are also available to post by
+email.
+
 ## Motivation
 
 This is a fork of the original [parboiled](https://github.com/sirthias/parboiled). Its author,
