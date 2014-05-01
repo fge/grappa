@@ -33,6 +33,7 @@ import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.matchers.TestMatcher;
 import org.parboiled.matchers.TestNotMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
+import org.parboiled.matchers.join.JoinMatcher;
 import org.parboiled.matchers.unicode.UnicodeCharMatcher;
 import org.parboiled.matchers.unicode.UnicodeRangeMatcher;
 
@@ -73,6 +74,9 @@ public interface MatcherVisitor<R> {
     /*
      * "Composite" matchers
      */
+
+    R visit(JoinMatcher matcher);
+
     R visit(SequenceMatcher matcher);
 
     R visit(ZeroOrMoreMatcher matcher);

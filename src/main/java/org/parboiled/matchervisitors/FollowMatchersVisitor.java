@@ -23,6 +23,7 @@ import org.parboiled.matchers.Matcher;
 import org.parboiled.matchers.OneOrMoreMatcher;
 import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
+import org.parboiled.matchers.join.JoinMatcher;
 
 import java.util.List;
 
@@ -51,6 +52,14 @@ public final class FollowMatchersVisitor
             context = context.getParent();
         }
         return builder.build();
+    }
+
+    // TODO: try and understand :/
+    @Override
+    public Boolean visit(final JoinMatcher matcher)
+    {
+        builder.addAll(matcher.getMatchersAfterIndex(context.getIntTag()));
+        return false;
     }
 
     @Override

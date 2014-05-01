@@ -26,6 +26,7 @@ import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.matchers.TestMatcher;
 import org.parboiled.matchers.TestNotMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
+import org.parboiled.matchers.join.JoinMatcher;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -62,6 +63,18 @@ public final class DoWithMatcherVisitor
         }
         return null;
     }
+
+    @Override
+    public Void visit(final JoinMatcher matcher)
+    {
+        if (visited.add(matcher)) {
+            matcher.getJoined().accept(this);
+            matcher.getJoining().accept(this);
+            action.process(matcher);
+        }
+        return null;
+    }
+
 
     @Override
     public Void visit(final SequenceMatcher matcher)

@@ -32,6 +32,7 @@ import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.matchers.TestMatcher;
 import org.parboiled.matchers.TestNotMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
+import org.parboiled.matchers.join.JoinMatcher;
 import org.parboiled.matchers.unicode.UnicodeCharMatcher;
 import org.parboiled.matchers.unicode.UnicodeRangeMatcher;
 
@@ -98,6 +99,12 @@ public final class IsSingleCharMatcherVisitor
 
     @Override
     public Boolean visit(final EmptyMatcher matcher)
+    {
+        return false;
+    }
+
+    @Override
+    public Boolean visit(final JoinMatcher matcher)
     {
         return false;
     }

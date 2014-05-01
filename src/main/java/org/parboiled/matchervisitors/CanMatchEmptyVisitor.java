@@ -33,6 +33,7 @@ import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.matchers.TestMatcher;
 import org.parboiled.matchers.TestNotMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
+import org.parboiled.matchers.join.JoinMatcher;
 import org.parboiled.matchers.unicode.UnicodeCharMatcher;
 import org.parboiled.matchers.unicode.UnicodeRangeMatcher;
 import org.parboiled.support.Checks;
@@ -116,6 +117,16 @@ public final class CanMatchEmptyVisitor
     @Override
     public Boolean visit(final NothingMatcher matcher)
     {
+        return false;
+    }
+
+    @Override
+    public Boolean visit(final JoinMatcher matcher)
+    {
+        final Matcher joiningRule = matcher.getJoining();
+        Checks.ensure(!joiningRule.accept(this), "the joining rule of a " +
+            "JoinMatcher cannot accept empty matches (culprit rule: %s)",
+            joiningRule);
         return false;
     }
 

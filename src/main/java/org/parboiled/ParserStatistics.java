@@ -40,6 +40,7 @@ import org.parboiled.matchers.TestMatcher;
 import org.parboiled.matchers.TestNotMatcher;
 import org.parboiled.matchers.VarFramingMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
+import org.parboiled.matchers.join.JoinMatcher;
 import org.parboiled.matchers.unicode.UnicodeCharMatcher;
 import org.parboiled.matchers.unicode.UnicodeRangeMatcher;
 import org.parboiled.matchervisitors.MatcherVisitor;
@@ -81,6 +82,7 @@ public class ParserStatistics
         REGULAR_MATCHER_CLASSES.add(FirstOfMatcher.class);
         REGULAR_MATCHER_CLASSES.add(FirstOfStringsMatcher.class);
         REGULAR_MATCHER_CLASSES.add(NothingMatcher.class);
+        REGULAR_MATCHER_CLASSES.add(JoinMatcher.class);
         REGULAR_MATCHER_CLASSES.add(OneOrMoreMatcher.class);
         REGULAR_MATCHER_CLASSES.add(OptionalMatcher.class);
         REGULAR_MATCHER_CLASSES.add(SequenceMatcher.class);
@@ -226,6 +228,12 @@ public class ParserStatistics
     public ParserStatistics visit(final NothingMatcher matcher)
     {
         return doVisit(matcher, NothingMatcher.class);
+    }
+
+    @Override
+    public ParserStatistics visit(final JoinMatcher matcher)
+    {
+        return doVisit(matcher, JoinMatcher.class);
     }
 
     @Override

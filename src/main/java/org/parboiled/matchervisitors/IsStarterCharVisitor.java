@@ -33,6 +33,7 @@ import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.matchers.TestMatcher;
 import org.parboiled.matchers.TestNotMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
+import org.parboiled.matchers.join.JoinMatcher;
 import org.parboiled.matchers.unicode.UnicodeCharMatcher;
 import org.parboiled.matchers.unicode.UnicodeRangeMatcher;
 import org.parboiled.support.Chars;
@@ -125,6 +126,12 @@ public final class IsStarterCharVisitor
     public Boolean visit(final NothingMatcher matcher)
     {
         return false;
+    }
+
+    @Override
+    public Boolean visit(final JoinMatcher matcher)
+    {
+        return matcher.getJoined().accept(this);
     }
 
     @Override
