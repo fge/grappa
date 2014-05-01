@@ -11,14 +11,14 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
-public final class JoiningRuleBuilder
+public final class JoinMatcherBuilder
 {
     private static final Range<Integer> AT_LEAST_ZERO = Range.atLeast(0);
 
     private final Rule joined;
     private final Rule joining;
 
-    JoiningRuleBuilder(final Rule joined, final Rule joining)
+    JoinMatcherBuilder(final Rule joined, final Rule joining)
     {
         this.joined = joined;
         this.joining = joining;
@@ -29,7 +29,8 @@ public final class JoiningRuleBuilder
         Preconditions.checkArgument(nrMatches >= 0,
             "illegal repetition number specified (" + nrMatches
             + "), must be 0 or greater");
-        return new JoinMatcher(joined, joining, Range.atLeast(nrMatches));
+        return range(Range.atLeast(nrMatches));
+        //return new JoinMatcher(joined, joining, Range.atLeast(nrMatches));
     }
 
     public Rule max(final int nrMatches)
@@ -37,11 +38,12 @@ public final class JoiningRuleBuilder
         Preconditions.checkArgument(nrMatches >= 0,
             "illegal repetition number specified (" + nrMatches
                 + "), must be 0 or greater");
-        if (nrMatches == 0)
-            return new EmptyMatcher();
-        if (nrMatches == 1)
-            return new OptionalMatcher(joined);
-        return new JoinMatcher(joined, joining, Range.atMost(nrMatches));
+        return range(Range.atMost(nrMatches));
+//        if (nrMatches == 0)
+//            return new EmptyMatcher();
+//        if (nrMatches == 1)
+//            return new OptionalMatcher(joined);
+//        return new JoinMatcher(joined, joining, Range.atMost(nrMatches));
     }
 
     public Rule times(final int nrMatches)
@@ -49,11 +51,12 @@ public final class JoiningRuleBuilder
         Preconditions.checkArgument(nrMatches >= 0,
             "illegal repetition number specified (" + nrMatches
                 + "), must be 0 or greater");
-        if (nrMatches == 0)
-            return new EmptyMatcher();
-        if (nrMatches == 1)
-            return joined;
-        return new JoinMatcher(joined, joining, Range.singleton(nrMatches));
+        return range(Range.singleton(nrMatches));
+//        if (nrMatches == 0)
+//            return new EmptyMatcher();
+//        if (nrMatches == 1)
+//            return joined;
+//        return new JoinMatcher(joined, joining, Range.singleton(nrMatches));
     }
 
     public Rule times(final int min, final int max)
@@ -63,8 +66,9 @@ public final class JoiningRuleBuilder
                 + "), must be 0 or greater");
         Preconditions.checkArgument(max >= min, "illegal range specified ("
             + min + ", " + max + "): maximum must be greater than minimum");
-        return max == min ? times(min)
-            : new JoinMatcher(joined, joining, Range.closed(min, max));
+        return range(Range.closed(min, max));
+//        return max == min ? times(min)
+//            : new JoinMatcher(joined, joining, Range.closed(min, max));
     }
 
     public Rule range(@Nonnull final Range<Integer> range)
@@ -88,7 +92,21 @@ public final class JoiningRuleBuilder
          * the range will always have a lower bound. We want a closed range
          * internally, therefore change it if it is open.
          */
-        return new JoinMatcher(joined, joining, toClosedRange(realRange));
+        final Range<Integer> closedRange = toClosedRange(realRange);
+
+        /*
+         * Deal with special cases
+         */
+        if (closedRange.hasUpperBound()) {
+            final int upperEndpoint = closedRange.upperEndpoint();
+            if (upperEndpoint == 0)
+                return new EmptyMatcher();
+            if (upperEndpoint == 1)
+                return closedRange.lowerEndpoint() == 0
+                    ? new OptionalMatcher(joined)
+                    : joined;
+        }
+        return new JoinMatcher(joined, joining, closedRange);
     }
 
     private static Range<Integer> toClosedRange(final Range<Integer> range)
