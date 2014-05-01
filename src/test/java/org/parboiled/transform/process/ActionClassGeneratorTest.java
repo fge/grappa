@@ -58,7 +58,7 @@ public class ActionClassGeneratorTest extends TransformationTest {
 
         InstructionGroup group = method.getGroups().get(0);
         assertEquals(getClassDump(group.getGroupClassCode()), "" +
-                "// class version 49.0 (49)\n" +
+                "// class version 50.0 (50)\n" +
                 "// access flags 0x1011\n" +
                 "public final synthetic class org/parboiled/transform/VarInit$ojjPlnt06r72YBBm extends org/parboiled/transform/BaseVarInit  {\n" +
                 "\n" +
@@ -82,7 +82,7 @@ public class ActionClassGeneratorTest extends TransformationTest {
 
         group = method.getGroups().get(1);
         assertEquals(getClassDump(group.getGroupClassCode()), "" +
-                "// class version 49.0 (49)\n" +
+                "// class version 50.0 (50)\n" +
                 "// access flags 0x1011\n" +
                 "public final synthetic class org/parboiled/transform/Action$LmzJHalG7AngCUsX extends org/parboiled/transform/BaseAction  {\n" +
                 "\n" +
@@ -127,7 +127,7 @@ public class ActionClassGeneratorTest extends TransformationTest {
 
         group = method.getGroups().get(2);
         assertEquals(getClassDump(group.getGroupClassCode()), "" +
-                "// class version 49.0 (49)\n" +
+                "// class version 50.0 (50)\n" +
                 "// access flags 0x1011\n" +
                 "public final synthetic class org/parboiled/transform/Action$OrG2zjbz0MYoT8sO extends org/parboiled/transform/BaseAction  {\n" +
                 "\n" +

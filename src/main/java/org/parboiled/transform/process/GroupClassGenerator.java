@@ -19,6 +19,7 @@ package org.parboiled.transform.process;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.FieldInsnNode;
@@ -43,7 +44,6 @@ import static org.objectweb.asm.Opcodes.GETFIELD;
 import static org.objectweb.asm.Opcodes.INVOKEINTERFACE;
 import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
 import static org.objectweb.asm.Opcodes.RETURN;
-import static org.objectweb.asm.Opcodes.V1_5;
 import static org.parboiled.transform.AsmUtils.findLoadedClass;
 import static org.parboiled.transform.AsmUtils.loadClass;
 
@@ -109,7 +109,8 @@ public abstract class GroupClassGenerator implements RuleMethodProcessor {
 
     private void generateClassBasics(
         final InstructionGroup group, final ClassWriter cw) {
-        cw.visit(V1_5, ACC_PUBLIC + ACC_FINAL + ACC_SYNTHETIC, group.getGroupClassType().getInternalName(), null,
+        cw.visit(Opcodes.V1_6, ACC_PUBLIC + ACC_FINAL + ACC_SYNTHETIC,
+            group.getGroupClassType().getInternalName(), null,
                 getBaseType().getInternalName(), null);
         cw.visitSource(classNode.sourceFile, null);
     }
