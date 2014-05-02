@@ -54,15 +54,34 @@ public interface Types {
 
     String ACTION_DESC = Type.getType(Action.class).getDescriptor();
     String CONTEXT_DESC = Type.getType(Context.class).getDescriptor();
-    String DONT_LABEL_DESC = Type.getType(DontLabel.class).getDescriptor();
-    String EXPLICIT_ACTIONS_ONLY_DESC = Type.getType(ExplicitActionsOnly.class).getDescriptor();
     String LABEL_DESC = LABEL.getDescriptor();
-    String SKIP_ACTIONS_IN_PREDICATES_DESC = Type.getType(SkipActionsInPredicates.class).getDescriptor();
-    String BUILD_PARSE_TREE_DESC = Type.getType(BuildParseTree.class).getDescriptor();
     String MATCHER_DESC = MATCHER.getDescriptor();
     String RULE_DESC = RULE.getDescriptor();
     String VAR_DESC = VAR.getDescriptor();
 
+    /**
+     * @deprecated use {@link ParserAnnotation#DONT_LABEL} instead
+     */
+    @Deprecated
+    String DONT_LABEL_DESC = Type.getType(DontLabel.class).getDescriptor();
+    /**
+     * @deprecated use {@link ParserAnnotation#EXPLICIT_ACTIONS_ONLY} instead
+     */
+    @Deprecated
+    String EXPLICIT_ACTIONS_ONLY_DESC
+        = Type.getType(ExplicitActionsOnly.class).getDescriptor();
+    /**
+     * @deprecated use {@link ParserAnnotation#SKIP_ACTIONS_IN_PREDICATES}
+     * instead
+     */
+    @Deprecated
+    String SKIP_ACTIONS_IN_PREDICATES_DESC
+        = Type.getType(SkipActionsInPredicates.class).getDescriptor();
+    /**
+     * @deprecated use {@link ParserAnnotation#BUILD_PARSE_TREE} instead
+     */
+    @Deprecated
+    String BUILD_PARSE_TREE_DESC = Type.getType(BuildParseTree.class).getDescriptor();
     /**
      * @deprecated use {@link ParserAnnotation#CACHED} instead
      */
