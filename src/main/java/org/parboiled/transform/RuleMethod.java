@@ -294,6 +294,9 @@ public class RuleMethod
             hasDontLabelAnnotation = true;
             return null; // we do not need to record this annotation
         }
+        if (Types.DONT_EXTEND_DESC.equals(desc)) {
+            return null;
+        }
         return visible ? super.visitAnnotation(desc, true)
             : null; // only keep visible annotations
     }
