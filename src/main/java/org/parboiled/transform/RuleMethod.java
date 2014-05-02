@@ -35,10 +35,12 @@ import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.analysis.BasicValue;
 import org.parboiled.BaseParser;
 import org.parboiled.support.Var;
+import org.parboiled.transform.method.RuleAnnotation;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.objectweb.asm.Opcodes.ARETURN;
 import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
@@ -49,15 +51,22 @@ import static org.parboiled.transform.AsmUtils.isAssignableTo;
 import static org.parboiled.transform.AsmUtils.isBooleanValueOfZ;
 import static org.parboiled.transform.AsmUtils.isVarRoot;
 
-public class RuleMethod extends MethodNode {
+public class RuleMethod
+    extends MethodNode
+{
 
-    private final List<InstructionGroup> groups = new ArrayList<InstructionGroup>();
+    private final List<InstructionGroup> groups
+        = new ArrayList<InstructionGroup>();
     private final List<LabelNode> usedLabels = new ArrayList<LabelNode>();
+    private final Set<RuleAnnotation> ruleAnnotations = EnumSet
+        .noneOf(RuleAnnotation.class);
 
     private final Class<?> ownerClass;
     private final int parameterCount;
-    private boolean containsImplicitActions; // calls to Boolean.valueOf(boolean)
-    private boolean containsExplicitActions; // calls to BaseParser.ACTION(boolean)
+    private boolean containsImplicitActions;
+        // calls to Boolean.valueOf(boolean)
+    private boolean containsExplicitActions;
+        // calls to BaseParser.ACTION(boolean)
     private boolean containsVars; // calls to Var.<init>(T)
     private boolean containsPotentialSuperCalls;
     private boolean hasDontExtend;
@@ -76,119 +85,159 @@ public class RuleMethod extends MethodNode {
     private boolean bodyRewritten;
     private boolean skipGeneration;
 
-    public RuleMethod(final Class<?> ownerClass, final int access, final String name, final String desc, final String signature, final String[] exceptions,
-                      final boolean hasExplicitActionOnlyAnno, final boolean hasDontLabelAnno, final boolean hasSkipActionsInPredicates) {
+    public RuleMethod(final Class<?> ownerClass, final int access,
+        final String name, final String desc, final String signature,
+        final String[] exceptions, final boolean hasExplicitActionOnlyAnno,
+        final boolean hasDontLabelAnno,
+        final boolean hasSkipActionsInPredicates)
+    {
         super(Opcodes.ASM4, access, name, desc, signature, exceptions);
         this.ownerClass = ownerClass;
         parameterCount = Type.getArgumentTypes(desc).length;
         hasCachedAnnotation = parameterCount == 0;
+
+        if (hasDontLabelAnno)
+            ruleAnnotations.add(RuleAnnotation.DONT_LABEL);
+        if (hasExplicitActionOnlyAnno)
+            ruleAnnotations.add(RuleAnnotation.EXPLICIT_ACTIONS_ONLY);
+        if (hasSkipActionsInPredicates)
+            ruleAnnotations.add(RuleAnnotation.SKIP_ACTIONS_IN_PREDICATES);
         hasDontLabelAnnotation = hasDontLabelAnno;
         hasExplicitActionOnlyAnnotation = hasExplicitActionOnlyAnno;
         hasSkipActionsInPredicatesAnnotation = hasSkipActionsInPredicates;
         skipGeneration = isSuperMethod();
     }
 
-    public List<InstructionGroup> getGroups() {
+    public List<InstructionGroup> getGroups()
+    {
         return groups;
     }
 
-    public List<LabelNode> getUsedLabels() {
+    public List<LabelNode> getUsedLabels()
+    {
         return usedLabels;
     }
 
-    public Class<?> getOwnerClass() {
+    public Class<?> getOwnerClass()
+    {
         return ownerClass;
     }
 
-    public boolean hasDontExtend() {
+    public boolean hasDontExtend()
+    {
         return hasDontExtend;
     }
 
-    public int getParameterCount() {
+    public int getParameterCount()
+    {
         return parameterCount;
     }
 
-    public boolean containsImplicitActions() {
+    public boolean containsImplicitActions()
+    {
         return containsImplicitActions;
     }
 
-    public void setContainsImplicitActions(final boolean containsImplicitActions) {
+    public void setContainsImplicitActions(
+        final boolean containsImplicitActions)
+    {
         this.containsImplicitActions = containsImplicitActions;
     }
 
-    public boolean containsExplicitActions() {
+    public boolean containsExplicitActions()
+    {
         return containsExplicitActions;
     }
 
-    public void setContainsExplicitActions(final boolean containsExplicitActions) {
+    public void setContainsExplicitActions(
+        final boolean containsExplicitActions)
+    {
         this.containsExplicitActions = containsExplicitActions;
     }
 
-    public boolean containsVars() {
+    public boolean containsVars()
+    {
         return containsVars;
     }
 
-    public boolean containsPotentialSuperCalls() {
+    public boolean containsPotentialSuperCalls()
+    {
         return containsPotentialSuperCalls;
     }
 
-    public boolean hasCachedAnnotation() {
+    public boolean hasCachedAnnotation()
+    {
         return hasCachedAnnotation;
     }
 
-    public boolean hasDontLabelAnnotation() {
+    public boolean hasDontLabelAnnotation()
+    {
         return hasDontLabelAnnotation;
     }
 
-    public boolean hasSuppressNodeAnnotation() {
+    public boolean hasSuppressNodeAnnotation()
+    {
         return hasSuppressNodeAnnotation;
     }
 
-    public boolean hasSuppressSubnodesAnnotation() {
+    public boolean hasSuppressSubnodesAnnotation()
+    {
         return hasSuppressSubnodesAnnotation;
     }
 
-    public boolean hasSkipActionsInPredicatesAnnotation() {
+    public boolean hasSkipActionsInPredicatesAnnotation()
+    {
         return hasSkipActionsInPredicatesAnnotation;
     }
 
-    public boolean hasSkipNodeAnnotation() {
+    public boolean hasSkipNodeAnnotation()
+    {
         return hasSkipNodeAnnotation;
     }
 
-    public boolean hasMemoMismatchesAnnotation() {
+    public boolean hasMemoMismatchesAnnotation()
+    {
         return hasMemoMismatchesAnnotation;
     }
 
-    public int getNumberOfReturns() {
+    public int getNumberOfReturns()
+    {
         return numberOfReturns;
     }
 
-    public InstructionGraphNode getReturnInstructionNode() {
+    public InstructionGraphNode getReturnInstructionNode()
+    {
         return returnInstructionNode;
     }
 
-    public void setReturnInstructionNode(final InstructionGraphNode returnInstructionNode) {
+    public void setReturnInstructionNode(
+        final InstructionGraphNode returnInstructionNode)
+    {
         this.returnInstructionNode = returnInstructionNode;
     }
 
-    public List<InstructionGraphNode> getGraphNodes() {
+    public List<InstructionGraphNode> getGraphNodes()
+    {
         return graphNodes;
     }
 
-    public List<LocalVariableNode> getLocalVarVariables() {
+    public List<LocalVariableNode> getLocalVarVariables()
+    {
         return localVarVariables;
     }
 
-    public boolean isBodyRewritten() {
+    public boolean isBodyRewritten()
+    {
         return bodyRewritten;
     }
 
-    public void setBodyRewritten() {
+    public void setBodyRewritten()
+    {
         this.bodyRewritten = true;
     }
 
-    public boolean isSuperMethod() {
+    public boolean isSuperMethod()
+    {
         Preconditions.checkState(!name.isEmpty());
         return name.charAt(0) == '$';
     }
@@ -198,8 +247,8 @@ public class RuleMethod extends MethodNode {
     {
         if (graphNodes == null) {
             // initialize with a list of null values
-            graphNodes = Lists.newArrayList(
-                new InstructionGraphNode[instructions.size()]);
+            graphNodes = Lists
+                .newArrayList(new InstructionGraphNode[instructions.size()]);
         }
         final int index = instructions.indexOf(insn);
         InstructionGraphNode node = graphNodes.get(index);
@@ -212,7 +261,10 @@ public class RuleMethod extends MethodNode {
     }
 
     @Override
-    public AnnotationVisitor visitAnnotation(final String desc, final boolean visible) {
+    public AnnotationVisitor visitAnnotation(final String desc,
+        final boolean visible)
+    {
+        RuleAnnotation.recordDesc(ruleAnnotations, desc);
         if (Types.EXPLICIT_ACTIONS_ONLY_DESC.equals(desc)) {
             hasExplicitActionOnlyAnnotation = true;
             return null; // we do not need to record this annotation
@@ -253,15 +305,18 @@ public class RuleMethod extends MethodNode {
             hasDontExtend = true;
             return null; // we do not need to record this annotation
         }
-        return visible ? super.visitAnnotation(desc, true) : null; // only keep visible annotations
+        return visible ? super.visitAnnotation(desc, true)
+            : null; // only keep visible annotations
     }
 
     @Override
-    public void visitMethodInsn(
-        final int opcode, final String owner, final String name, final String desc) {
+    public void visitMethodInsn(final int opcode, final String owner,
+        final String name, final String desc)
+    {
         switch (opcode) {
             case INVOKESTATIC:
-                if (!hasExplicitActionOnlyAnnotation && isBooleanValueOfZ(owner, name, desc)) {
+                if (!hasExplicitActionOnlyAnnotation && isBooleanValueOfZ(owner,
+                    name, desc)) {
                     containsImplicitActions = true;
                 } else if (isActionRoot(owner, name)) {
                     containsExplicitActions = true;
@@ -282,60 +337,78 @@ public class RuleMethod extends MethodNode {
     }
 
     @Override
-    public void visitInsn(final int opcode) {
-        if (opcode == ARETURN) numberOfReturns++;
+    public void visitInsn(final int opcode)
+    {
+        if (opcode == ARETURN)
+            numberOfReturns++;
         super.visitInsn(opcode);
     }
 
     @Override
-    public void visitJumpInsn(final int opcode, final Label label) {
+    public void visitJumpInsn(final int opcode, final Label label)
+    {
         usedLabels.add(getLabelNode(label));
         super.visitJumpInsn(opcode, label);
     }
 
     @Override
-    public void visitTableSwitchInsn(final int min, final int max, final Label dflt, final Label[] labels) {
+    public void visitTableSwitchInsn(final int min, final int max,
+        final Label dflt, final Label[] labels)
+    {
         usedLabels.add(getLabelNode(dflt));
-        for (final Label label : labels) usedLabels.add(getLabelNode(label));
+        for (final Label label : labels)
+            usedLabels.add(getLabelNode(label));
         super.visitTableSwitchInsn(min, max, dflt, labels);
     }
 
     @Override
-    public void visitLookupSwitchInsn(
-        final Label dflt, final int[] keys, final Label[] labels) {
+    public void visitLookupSwitchInsn(final Label dflt, final int[] keys,
+        final Label[] labels)
+    {
         usedLabels.add(getLabelNode(dflt));
-        for (final Label label : labels) usedLabels.add(getLabelNode(label));
+        for (final Label label : labels)
+            usedLabels.add(getLabelNode(label));
         super.visitLookupSwitchInsn(dflt, keys, labels);
     }
 
     @Override
-    public void visitLineNumber(final int line, final Label start) {
+    public void visitLineNumber(final int line, final Label start)
+    {
         // do not record line numbers
     }
 
     @Override
-    public void visitLocalVariable(
-        final String name, final String desc, final String signature, final Label start, final Label end, final int index) {
+    public void visitLocalVariable(final String name, final String desc,
+        final String signature, final Label start, final Label end,
+        final int index)
+    {
         // only remember the local variables of Type org.parboiled.support.Var that are not parameters
-        if (index > parameterCount && Var.class.isAssignableFrom(getClassForType(Type.getType(desc)))) {
-            if (localVarVariables == null) localVarVariables = new ArrayList<LocalVariableNode>();
-            localVarVariables.add(new LocalVariableNode(name, desc, null, null, null, index));
+        if (index > parameterCount && Var.class
+            .isAssignableFrom(getClassForType(Type.getType(desc)))) {
+            if (localVarVariables == null)
+                localVarVariables = new ArrayList<LocalVariableNode>();
+            localVarVariables.add(
+                new LocalVariableNode(name, desc, null, null, null, index));
         }
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return name;
     }
 
-    public void moveFlagsTo(final RuleMethod overridingMethod) {
+    public void moveFlagsTo(final RuleMethod overridingMethod)
+    {
         Preconditions.checkNotNull(overridingMethod, "overridingMethod");
         overridingMethod.hasCachedAnnotation |= hasCachedAnnotation;
         overridingMethod.hasDontLabelAnnotation |= hasDontLabelAnnotation;
         overridingMethod.hasSuppressNodeAnnotation |= hasSuppressNodeAnnotation;
-        overridingMethod.hasSuppressSubnodesAnnotation |= hasSuppressSubnodesAnnotation;
+        overridingMethod.hasSuppressSubnodesAnnotation
+            |= hasSuppressSubnodesAnnotation;
         overridingMethod.hasSkipNodeAnnotation |= hasSkipNodeAnnotation;
-        overridingMethod.hasMemoMismatchesAnnotation |= hasMemoMismatchesAnnotation;
+        overridingMethod.hasMemoMismatchesAnnotation
+            |= hasMemoMismatchesAnnotation;
         hasCachedAnnotation = false;
         hasDontLabelAnnotation = true;
         hasSuppressNodeAnnotation = false;
@@ -344,16 +417,19 @@ public class RuleMethod extends MethodNode {
         hasMemoMismatchesAnnotation = false;
     }
 
-    public boolean isGenerationSkipped() {
+    public boolean isGenerationSkipped()
+    {
         return skipGeneration;
     }
 
-    public void dontSkipGeneration() {
+    public void dontSkipGeneration()
+    {
         skipGeneration = false;
     }
 
-    public void suppressNode() {
+    public void suppressNode()
+    {
         hasSuppressNodeAnnotation = true;
     }
-    
+
 }
