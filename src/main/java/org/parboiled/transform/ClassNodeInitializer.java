@@ -22,7 +22,9 @@
 
 package org.parboiled.transform;
 
+import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
+import com.google.common.io.Closer;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
@@ -34,6 +36,7 @@ import org.parboiled.support.Checks;
 import org.parboiled.transform.method.ParserAnnotation;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.EnumSet;
 import java.util.Set;
 
@@ -43,12 +46,8 @@ import static org.objectweb.asm.Opcodes.ACC_NATIVE;
 import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.V1_6;
-import static org.parboiled.transform.AsmUtils.createClassReader;
 import static org.parboiled.transform.AsmUtils.getExtendedParserClassName;
 import static org.parboiled.transform.method.ParserAnnotation.BUILD_PARSE_TREE;
-import static org.parboiled.transform.method.ParserAnnotation.DONT_LABEL;
-import static org.parboiled.transform.method.ParserAnnotation.EXPLICIT_ACTIONS_ONLY;
-import static org.parboiled.transform.method.ParserAnnotation.SKIP_ACTIONS_IN_PREDICATES;
 import static org.parboiled.transform.method.ParserAnnotation.clearClassFlags;
 import static org.parboiled.transform.method.ParserAnnotation.recordAnnotation;
 
@@ -76,11 +75,24 @@ public class ClassNodeInitializer
 
         // walk up the parser parent class chain
         ownerClass = classNode.getParentClass();
+        Closer closer;
+        ClassReader reader;
+        InputStream in;
         while (!Object.class.equals(ownerClass)) {
             clearClassFlags(annotations);
 
-            final ClassReader classReader = createClassReader(ownerClass);
-            classReader.accept(this, ClassReader.SKIP_FRAMES);
+            closer = Closer.create();
+            try {
+                in = getInputStream(ownerClass);
+                if (in == null)
+                    throw new IOException(ownerClass + " not found");
+                reader = new ClassReader(closer.register(in));
+                reader.accept(this, ClassReader.SKIP_FRAMES);
+            } finally {
+                closer.close();
+            }
+//            final ClassReader classReader = createClassReader(ownerClass);
+//            classReader.accept(this, ClassReader.SKIP_FRAMES);
             ownerClass = ownerClass.getSuperclass();
         }
 
@@ -188,5 +200,17 @@ public class ClassNodeInitializer
     public void visitEnd()
     {
         classNode.visitEnd();
+    }
+
+    private static InputStream getInputStream(final Class<?> c)
+    {
+        Preconditions.checkNotNull(c);
+        final String name = c.getName().replace('.', '/') + ".class";
+        final ClassLoader me = ClassNodeInitializer.class.getClassLoader();
+        final ClassLoader context
+            = Thread.currentThread().getContextClassLoader();
+
+        return Optional.fromNullable(me.getResourceAsStream(name))
+            .or(context.getResourceAsStream(name));
     }
 }
