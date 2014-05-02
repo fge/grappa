@@ -23,6 +23,7 @@ package org.parboiled.common;
  *
  * @deprecated use {@link com.google.common.base.Predicate} instead
  */
+@Deprecated
 public interface Predicate<T>
     extends com.google.common.base.Predicate<T>
 {

@@ -79,8 +79,9 @@ public class VarFramingGenerator implements RuleMethodProcessor {
         // stack: <VarFramingMatcher> :: <VarFramingMatcher> :: <Matcher>
         createVarFieldArray(method, instructions, ret);
         // stack: <VarFramingMatcher> :: <VarFramingMatcher> :: <Matcher> :: <VarFieldArray>
-        instructions.insertBefore(ret, new MethodInsnNode(INVOKESPECIAL, VAR_FRAMING_MATCHER.getInternalName(),
-                "<init>", '(' + RULE_DESC + '[' + VAR_DESC + ")V"));
+        instructions.insertBefore(ret, new MethodInsnNode(INVOKESPECIAL,
+            VAR_FRAMING_MATCHER.getInternalName(), "<init>",
+            '(' + RULE_DESC + '[' + VAR_DESC + ")V", false));
         // stack: <VarFramingMatcher>
 
         method.setBodyRewritten();
@@ -107,8 +108,9 @@ public class VarFramingGenerator implements RuleMethodProcessor {
             // stack: <array> :: <array> :: <index> :: <var> :: <var>
             instructions.insertBefore(ret, new LdcInsnNode(method.name + ':' + var.name));
             // stack: <array> :: <array> :: <index> :: <var> :: <var> :: <varName>
-            instructions.insertBefore(ret, new MethodInsnNode(INVOKEVIRTUAL, VAR.getInternalName(), "setName",
-                    "(Ljava/lang/String;)V"));
+            instructions.insertBefore(ret, new MethodInsnNode(INVOKEVIRTUAL,
+                VAR.getInternalName(), "setName", "(Ljava/lang/String;)V",
+                false));
             // stack: <array> :: <array> :: <index> :: <var>
             instructions.insertBefore(ret, new InsnNode(AASTORE));
             // stack: <array>

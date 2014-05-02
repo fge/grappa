@@ -16,6 +16,8 @@
 
 package org.parboiled.support;
 
+import com.google.common.base.Strings;
+
 /**
  * Simple specialization of a {@link Var} for Strings. Provides a few convenience helper methods.
  */
@@ -42,7 +44,7 @@ public class StringVar extends Var<String> {
      * @return true if the wrapped string is either null or empty
      */
     public boolean isEmpty() {
-        return get() == null || get().length() == 0;
+        return Strings.isNullOrEmpty(get());
     }
 
     /**

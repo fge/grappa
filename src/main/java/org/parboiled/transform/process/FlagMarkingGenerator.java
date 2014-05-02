@@ -79,8 +79,9 @@ public class FlagMarkingGenerator implements RuleMethodProcessor {
 
     private void generateMarkerCall(
         final InsnList instructions, final AbstractInsnNode ret, final String call) {
-        instructions.insertBefore(ret, new MethodInsnNode(INVOKEINTERFACE, Types.RULE.getInternalName(), call,
-                "()" + Types.RULE.getDescriptor()));
+        instructions.insertBefore(ret, new MethodInsnNode(INVOKEINTERFACE,
+            Types.RULE.getInternalName(), call,
+            "()" + Types.RULE.getDescriptor(), true));
     }
 
 }

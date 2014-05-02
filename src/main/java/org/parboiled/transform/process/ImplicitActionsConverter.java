@@ -153,8 +153,9 @@ public class ImplicitActionsConverter implements RuleMethodProcessor {
     }
 
     private MethodInsnNode createActionWrappingInsn() {
-        return new MethodInsnNode(INVOKESTATIC, Types.BASE_PARSER.getInternalName(), "ACTION",
-                "(Z)" + Types.ACTION_DESC);
+        return new MethodInsnNode(INVOKESTATIC,
+            Types.BASE_PARSER.getInternalName(), "ACTION",
+            "(Z)" + Types.ACTION_DESC, false);
     }
 
 }

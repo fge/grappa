@@ -265,7 +265,7 @@ public class RuleMethod
 
     @Override
     public void visitMethodInsn(final int opcode, final String owner,
-        final String name, final String desc)
+        final String name, final String desc, final boolean itf)
     {
         switch (opcode) {
             case INVOKESTATIC:
@@ -287,7 +287,7 @@ public class RuleMethod
                 }
                 break;
         }
-        super.visitMethodInsn(opcode, owner, name, desc);
+        super.visitMethodInsn(opcode, owner, name, desc, itf);
     }
 
     @Override

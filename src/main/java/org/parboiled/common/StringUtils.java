@@ -110,6 +110,7 @@ public final class StringUtils {
      *
      * @deprecated use {@link Chars#repeat(char, int)}
      */
+    @Deprecated
     public static String repeat(final char c, final int n) {
         final char[] array = new char[n];
         Arrays.fill(array, c);

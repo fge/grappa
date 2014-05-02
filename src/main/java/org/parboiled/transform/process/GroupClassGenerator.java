@@ -130,7 +130,8 @@ public abstract class GroupClassGenerator implements RuleMethodProcessor {
         final MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "<init>", "(Ljava/lang/String;)V", null, null);
         mv.visitVarInsn(ALOAD, 0);
         mv.visitVarInsn(ALOAD, 1);
-        mv.visitMethodInsn(INVOKESPECIAL, getBaseType().getInternalName(), "<init>", "(Ljava/lang/String;)V");
+        mv.visitMethodInsn(INVOKESPECIAL, getBaseType().getInternalName(),
+            "<init>", "(Ljava/lang/String;)V", false);
         mv.visitInsn(RETURN);
         mv.visitMaxs(0, 0); // trigger automatic computing
     }
@@ -157,8 +158,10 @@ public abstract class GroupClassGenerator implements RuleMethodProcessor {
                     instructions.insertBefore(insn, new InsnNode(DUP));
                 }
                 instructions.insertBefore(insn, new VarInsnNode(ALOAD, 1));
-                instructions.insertBefore(insn, new MethodInsnNode(INVOKEINTERFACE,
-                        Types.CONTEXT_AWARE.getInternalName(), "setContext", "(" + Types.CONTEXT_DESC + ")V"));
+                instructions.insertBefore(insn,
+                    new MethodInsnNode(INVOKEINTERFACE,
+                    Types.CONTEXT_AWARE.getInternalName(),
+                        "setContext", "(" + Types.CONTEXT_DESC + ")V", true));
             }
         }
     }
