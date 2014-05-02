@@ -23,7 +23,6 @@ import org.parboiled.matchers.Matcher;
 import org.parboiled.matchers.OneOrMoreMatcher;
 import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
-import org.parboiled.matchers.join.JoinMatcher;
 
 import java.util.List;
 
@@ -54,14 +53,6 @@ public final class FollowMatchersVisitor
         return builder.build();
     }
 
-    // TODO: try and understand :/
-    @Override
-    public Boolean visit(final JoinMatcher matcher)
-    {
-        builder.addAll(matcher.getMatchersAfterIndex(context.getIntTag()));
-        return false;
-    }
-
     @Override
     public Boolean visit(final OneOrMoreMatcher matcher)
     {
@@ -69,6 +60,16 @@ public final class FollowMatchersVisitor
         return false;
     }
 
+    /*
+     * TODO: check if this is correct
+     *
+     * The SequenceMatcher here will collect all of its matchers but "break out"
+     * as long as one cannot match empty.
+     *
+     * OK, fine, but a SequenceMatcher is limited, a JoinMatcher may not be. As
+     * a result, a JoinMatcher will always return false here! Even if it is
+     * bounded.
+     */
     @Override
     public Boolean visit(final SequenceMatcher matcher)
     {
