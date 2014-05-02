@@ -90,7 +90,7 @@ public enum ParserAnnotation
      * @param desc the descriptor
      * @return true if the descriptor is known
      */
-    public static boolean recordDesc(final Set<ParserAnnotation> set,
+    public static boolean recordAnnotation(final Set<ParserAnnotation> set,
         final String desc)
     {
         final ParserAnnotation annotation = REVERSE_MAP.get(desc);

@@ -253,7 +253,7 @@ public class RuleMethod
     public AnnotationVisitor visitAnnotation(final String desc,
         final boolean visible)
     {
-        final  boolean recorded = recordDesc(annotations, desc);
+        final  boolean recorded = recordAnnotation(annotations, desc);
         // FIXME...
         if (annotations.contains(DONT_SKIP_ACTIONS_IN_PREDICATES))
             annotations.remove(SKIP_ACTIONS_IN_PREDICATES);
