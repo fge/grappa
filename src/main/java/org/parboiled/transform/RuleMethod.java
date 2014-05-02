@@ -69,7 +69,6 @@ public class RuleMethod
         // calls to BaseParser.ACTION(boolean)
     private boolean containsVars; // calls to Var.<init>(T)
     private boolean containsPotentialSuperCalls;
-    private boolean hasSuppressNodeAnnotation;
     private boolean hasSuppressSubnodesAnnotation;
     private boolean hasSkipNodeAnnotation;
     private boolean hasMemoMismatchesAnnotation;
@@ -172,7 +171,7 @@ public class RuleMethod
 
     public boolean hasSuppressNodeAnnotation()
     {
-        return hasSuppressNodeAnnotation;
+        return ruleAnnotations.contains(SUPPRESS_NODE);
     }
 
     public boolean hasSuppressSubnodesAnnotation()
@@ -264,7 +263,6 @@ public class RuleMethod
             return null; // we do not need to record this annotation
         }
         if (Types.SUPPRESS_NODE_DESC.equals(desc)) {
-            hasSuppressNodeAnnotation = true;
             return null; // we do not need to record this annotation
         }
         if (Types.SUPPRESS_SUBNODES_DESC.equals(desc)) {
@@ -392,7 +390,6 @@ public class RuleMethod
 
         moveTo(ruleAnnotations, method.ruleAnnotations);
 
-        method.hasSuppressNodeAnnotation |= hasSuppressNodeAnnotation;
         method.hasSuppressSubnodesAnnotation
             |= hasSuppressSubnodesAnnotation;
         method.hasSkipNodeAnnotation |= hasSkipNodeAnnotation;
@@ -400,7 +397,6 @@ public class RuleMethod
             |= hasMemoMismatchesAnnotation;
 
 
-        hasSuppressNodeAnnotation = false;
         hasSuppressSubnodesAnnotation = false;
         hasSkipNodeAnnotation = false;
         hasMemoMismatchesAnnotation = false;
@@ -418,7 +414,7 @@ public class RuleMethod
 
     public void suppressNode()
     {
-        hasSuppressNodeAnnotation = true;
+        ruleAnnotations.add(SUPPRESS_NODE);
     }
 
 }
