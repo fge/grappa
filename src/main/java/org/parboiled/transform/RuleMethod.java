@@ -23,6 +23,7 @@
 package org.parboiled.transform;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
@@ -192,12 +193,13 @@ public class RuleMethod extends MethodNode {
         return name.charAt(0) == '$';
     }
 
-    public InstructionGraphNode setGraphNode(
-        final AbstractInsnNode insn, final BasicValue resultValue, final List<BasicValue> predecessors) {
+    public InstructionGraphNode setGraphNode(final AbstractInsnNode insn,
+        final BasicValue resultValue, final List<BasicValue> predecessors)
+    {
         if (graphNodes == null) {
             // initialize with a list of null values
-            graphNodes = new ArrayList<InstructionGraphNode>(
-                    Arrays.asList(new InstructionGraphNode[instructions.size()]));
+            graphNodes = Lists.newArrayList(
+                new InstructionGraphNode[instructions.size()]);
         }
         final int index = instructions.indexOf(insn);
         InstructionGraphNode node = graphNodes.get(index);
