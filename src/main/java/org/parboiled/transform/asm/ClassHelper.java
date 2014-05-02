@@ -8,6 +8,7 @@ import org.objectweb.asm.tree.MethodInsnNode;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Map;
 
 public final class ClassHelper
@@ -30,16 +31,17 @@ public final class ClassHelper
     }
 
     public MethodInsnNode methodCall(@Nonnull final String name,
-        @Nonnull final Type returnType, @Nonnull final Type... arguments)
+        @Nonnull final Type returnType, @Nonnull final Type... args)
     {
         Preconditions.checkNotNull(name);
         Preconditions.checkNotNull(returnType);
-        Preconditions.checkNotNull(arguments);
+        Preconditions.checkNotNull(args);
 
         final MethodDescriptor descriptor = methods.get(name);
         if (descriptor == null)
             throw new IllegalArgumentException("no method by name " + name
                 + " in class " + classType.getClassName());
+        descriptor.checkArguments(returnType, args);
 
         return new MethodInsnNode(methodOpcode, classType.getInternalName(),
             name, descriptor.toString(), isInterface);
@@ -48,18 +50,26 @@ public final class ClassHelper
     private static final class MethodDescriptor
     {
         private final Type returnType;
-        private final Type[] argumentTypes;
+        private final Type[] args;
 
         private MethodDescriptor(final Method method)
         {
             returnType = Type.getReturnType(method);
-            argumentTypes = Type.getArgumentTypes(method);
+            args = Type.getArgumentTypes(method);
+        }
+
+        private void checkArguments(final Type returnType, final Type... args)
+        {
+            Preconditions.checkArgument(this.returnType.equals(returnType),
+                "wrong return type specified");
+            Preconditions.checkArgument(Arrays.equals(this.args, args),
+                "wrong argument types specified");
         }
 
         @Override
         public String toString()
         {
-            return Type.getMethodDescriptor(returnType, argumentTypes);
+            return Type.getMethodDescriptor(returnType, args);
         }
     }
 }
