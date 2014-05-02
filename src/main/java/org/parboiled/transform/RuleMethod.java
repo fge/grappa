@@ -189,7 +189,7 @@ public class RuleMethod
 
     public boolean hasMemoMismatchesAnnotation()
     {
-        return hasMemoMismatchesAnnotation;
+        return ruleAnnotations.contains(MEMO_MISMATCHES);
     }
 
     public int getNumberOfReturns()
@@ -270,7 +270,6 @@ public class RuleMethod
             return null; // we do not need to record this annotation
         }
         if (Types.MEMO_MISMATCHES_DESC.equals(desc)) {
-            hasMemoMismatchesAnnotation = true;
             return null; // we do not need to record this annotation
         }
         if (Types.SKIP_ACTIONS_IN_PREDICATES_DESC.equals(desc)) {
@@ -383,14 +382,7 @@ public class RuleMethod
     public void moveFlagsTo(final RuleMethod method)
     {
         Preconditions.checkNotNull(method);
-
         moveTo(ruleAnnotations, method.ruleAnnotations);
-
-        method.hasMemoMismatchesAnnotation
-            |= hasMemoMismatchesAnnotation;
-
-
-        hasMemoMismatchesAnnotation = false;
     }
 
     public boolean isGenerationSkipped()
