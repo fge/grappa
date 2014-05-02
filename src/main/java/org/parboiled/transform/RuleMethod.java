@@ -69,7 +69,6 @@ public class RuleMethod
         // calls to BaseParser.ACTION(boolean)
     private boolean containsVars; // calls to Var.<init>(T)
     private boolean containsPotentialSuperCalls;
-    private boolean hasSuppressSubnodesAnnotation;
     private boolean hasSkipNodeAnnotation;
     private boolean hasMemoMismatchesAnnotation;
     private boolean hasSkipActionsInPredicatesAnnotation;
@@ -176,7 +175,7 @@ public class RuleMethod
 
     public boolean hasSuppressSubnodesAnnotation()
     {
-        return hasSuppressSubnodesAnnotation;
+        return ruleAnnotations.contains(SUPPRESS_SUBNODES);
     }
 
     public boolean hasSkipActionsInPredicatesAnnotation()
@@ -266,7 +265,6 @@ public class RuleMethod
             return null; // we do not need to record this annotation
         }
         if (Types.SUPPRESS_SUBNODES_DESC.equals(desc)) {
-            hasSuppressSubnodesAnnotation = true;
             return null; // we do not need to record this annotation
         }
         if (Types.SKIP_NODE_DESC.equals(desc)) {
@@ -390,14 +388,11 @@ public class RuleMethod
 
         moveTo(ruleAnnotations, method.ruleAnnotations);
 
-        method.hasSuppressSubnodesAnnotation
-            |= hasSuppressSubnodesAnnotation;
         method.hasSkipNodeAnnotation |= hasSkipNodeAnnotation;
         method.hasMemoMismatchesAnnotation
             |= hasMemoMismatchesAnnotation;
 
 
-        hasSuppressSubnodesAnnotation = false;
         hasSkipNodeAnnotation = false;
         hasMemoMismatchesAnnotation = false;
     }
