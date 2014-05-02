@@ -43,7 +43,7 @@ The current version is **1.0.0-beta.3**. See the [release notes](RELEASE-NOTES.m
 The major new features compared to parboiled1 are:
 
 * more basic rules: all rules defined by [RFC 5234, Appendix B,
-  section1](https://tools.ietf.org/html/rfc5234#appendix-B.1) are not available by default (except
+  section1](https://tools.ietf.org/html/rfc5234#appendix-B.1) are now available by default (except
   for `LWSP`);
 * Unicode support: rules for matching a single code point or a range of code points;
 * Java 8 compatibility;
