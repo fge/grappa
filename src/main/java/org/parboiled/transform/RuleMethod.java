@@ -77,7 +77,8 @@ public class RuleMethod
     private int numberOfReturns;
     private InstructionGraphNode returnInstructionNode;
     private List<InstructionGraphNode> graphNodes;
-    private List<LocalVariableNode> localVarVariables;
+    private final List<LocalVariableNode> localVarVariables
+        = Lists.newArrayList();
     private boolean bodyRewritten;
     private boolean skipGeneration;
 
@@ -337,13 +338,11 @@ public class RuleMethod
         final int index)
     {
         // only remember the local variables of Type org.parboiled.support.Var that are not parameters
-        if (index > parameterCount && Var.class
-            .isAssignableFrom(getClassForType(Type.getType(desc)))) {
-            if (localVarVariables == null)
-                localVarVariables = new ArrayList<LocalVariableNode>();
-            localVarVariables.add(
-                new LocalVariableNode(name, desc, null, null, null, index));
-        }
+        final Type type = Type.getType(desc);
+        if (index > parameterCount
+            && Var.class.isAssignableFrom(getClassForType(type)))
+            localVarVariables.add(new LocalVariableNode(name, desc, null, null,
+                null, index));
     }
 
     @Override

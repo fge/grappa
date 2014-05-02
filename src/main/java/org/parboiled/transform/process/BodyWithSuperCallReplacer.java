@@ -37,9 +37,11 @@ public class BodyWithSuperCallReplacer implements RuleMethodProcessor {
     public boolean appliesTo(final ParserClassNode classNode, final RuleMethod method) {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
-        return !method.isBodyRewritten() && method.getOwnerClass() == classNode.getParentClass() &&
-                method.getLocalVarVariables() == null;  // if we have local variables we need to create a VarFramingMatcher
-                                                        // which needs access to the local variables
+        return !method.isBodyRewritten()
+            && method.getOwnerClass() == classNode.getParentClass()
+            && method.getLocalVarVariables().isEmpty();
+            // if we have local variables we need to create a VarFramingMatcher
+            // which needs access to the local variables
     }
 
     @Override
