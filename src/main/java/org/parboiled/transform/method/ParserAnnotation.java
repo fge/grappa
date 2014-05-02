@@ -13,6 +13,8 @@ import org.parboiled.annotations.SkipActionsInPredicates;
 import org.parboiled.annotations.SkipNode;
 import org.parboiled.annotations.SuppressNode;
 import org.parboiled.annotations.SuppressSubnodes;
+import org.parboiled.transform.ClassNodeInitializer;
+import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
 
 import java.lang.annotation.Annotation;
@@ -62,6 +64,13 @@ public enum ParserAnnotation
      */
     private static final Set<ParserAnnotation> FLAGS_SET = EnumSet.of(
         DONT_LABEL
+    );
+
+    /**
+     * @see ClassNodeInitializer#process(ParserClassNode)
+     */
+    private static final Set<ParserAnnotation> CLASS_FLAGS_CLEAR = EnumSet.of(
+        EXPLICIT_ACTIONS_ONLY, DONT_LABEL, SKIP_ACTIONS_IN_PREDICATES
     );
 
     private static final Map<String, ParserAnnotation>
@@ -116,5 +125,10 @@ public enum ParserAnnotation
         to.addAll(transferred);
         from.addAll(FLAGS_SET);
         from.removeAll(FLAGS_CLEAR);
+    }
+
+    public static void clearClassFlags(final Set<ParserAnnotation> victim)
+    {
+        victim.removeAll(CLASS_FLAGS_CLEAR);
     }
 }

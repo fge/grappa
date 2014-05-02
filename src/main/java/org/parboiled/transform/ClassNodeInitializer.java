@@ -45,7 +45,12 @@ import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.V1_6;
 import static org.parboiled.transform.AsmUtils.createClassReader;
 import static org.parboiled.transform.AsmUtils.getExtendedParserClassName;
-import static org.parboiled.transform.method.ParserAnnotation.*;
+import static org.parboiled.transform.method.ParserAnnotation.BUILD_PARSE_TREE;
+import static org.parboiled.transform.method.ParserAnnotation.DONT_LABEL;
+import static org.parboiled.transform.method.ParserAnnotation.EXPLICIT_ACTIONS_ONLY;
+import static org.parboiled.transform.method.ParserAnnotation.SKIP_ACTIONS_IN_PREDICATES;
+import static org.parboiled.transform.method.ParserAnnotation.clearClassFlags;
+import static org.parboiled.transform.method.ParserAnnotation.recordAnnotation;
 
 /**
  * Initializes the basic ParserClassNode fields and collects all methods.
@@ -58,9 +63,6 @@ public class ClassNodeInitializer
     private Class<?> ownerClass;
     private final Set<ParserAnnotation> annotations
         = EnumSet.noneOf(ParserAnnotation.class);
-    private boolean hasExplicitActionOnlyAnnotation;
-    private boolean hasDontLabelAnnotation;
-    private boolean hasSkipActionsInPredicates;
 
     public ClassNodeInitializer()
     {
@@ -75,9 +77,7 @@ public class ClassNodeInitializer
         // walk up the parser parent class chain
         ownerClass = classNode.getParentClass();
         while (!Object.class.equals(ownerClass)) {
-            hasExplicitActionOnlyAnnotation = false;
-            hasDontLabelAnnotation = false;
-            hasSkipActionsInPredicates = false;
+            clearClassFlags(annotations);
 
             final ClassReader classReader = createClassReader(ownerClass);
             classReader.accept(this, ClassReader.SKIP_FRAMES);
@@ -121,26 +121,16 @@ public class ClassNodeInitializer
     public AnnotationVisitor visitAnnotation(final String desc,
         final boolean visible)
     {
-        recordAnnotation(annotations, desc);
-        if (Types.EXPLICIT_ACTIONS_ONLY_DESC.equals(desc)) {
-            hasExplicitActionOnlyAnnotation = true;
+        if (recordAnnotation(annotations, desc))
             return null;
-        }
-        if (Types.DONT_LABEL_DESC.equals(desc)) {
-            hasDontLabelAnnotation = true;
-            return null;
-        }
-        if (Types.SKIP_ACTIONS_IN_PREDICATES_DESC.equals(desc)) {
-            hasSkipActionsInPredicates = true;
-            return null;
-        }
-        if (Types.BUILD_PARSE_TREE_DESC.equals(desc)) {
-            return null;
-        }
 
         // only keep visible annotations on the parser class
-        return visible && ownerClass == classNode.getParentClass() ? classNode
-            .visitAnnotation(desc, true) : null;
+        if (!visible)
+            return null;
+
+        return ownerClass == classNode.getParentClass()
+            ? classNode.visitAnnotation(desc, true)
+            : null;
     }
 
     @Override
@@ -189,8 +179,9 @@ public class ClassNodeInitializer
         }
 
         final RuleMethod method = new RuleMethod(ownerClass, access, name, desc,
-            signature, exceptions, hasExplicitActionOnlyAnnotation,
-            hasDontLabelAnnotation, hasSkipActionsInPredicates);
+            signature, exceptions, annotations.contains(EXPLICIT_ACTIONS_ONLY),
+            annotations.contains(DONT_LABEL),
+            annotations.contains(SKIP_ACTIONS_IN_PREDICATES));
         classNode.getRuleMethods().put(methodKey, method);
         return method; // return the newly created method in order to have it "filled" with the actual method code
     }
