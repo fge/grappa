@@ -31,8 +31,11 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.MethodNode;
 import org.parboiled.support.Checks;
+import org.parboiled.transform.method.ParserAnnotation;
 
 import java.io.IOException;
+import java.util.EnumSet;
+import java.util.Set;
 
 import static org.objectweb.asm.Opcodes.ACC_ABSTRACT;
 import static org.objectweb.asm.Opcodes.ACC_FINAL;
@@ -42,6 +45,7 @@ import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.V1_6;
 import static org.parboiled.transform.AsmUtils.createClassReader;
 import static org.parboiled.transform.AsmUtils.getExtendedParserClassName;
+import static org.parboiled.transform.method.ParserAnnotation.*;
 
 /**
  * Initializes the basic ParserClassNode fields and collects all methods.
@@ -50,7 +54,8 @@ public class ClassNodeInitializer extends ClassVisitor {
 
     private ParserClassNode classNode;
     private Class<?> ownerClass;
-    private boolean hasBuildParseTree;
+    private final Set<ParserAnnotation> annotations
+        = EnumSet.noneOf(ParserAnnotation.class);
     private boolean hasExplicitActionOnlyAnnotation;
     private boolean hasDontLabelAnnotation;
     private boolean hasSkipActionsInPredicates;
@@ -80,7 +85,7 @@ public class ClassNodeInitializer extends ClassVisitor {
                 final RuleMethod overridingMethod = classNode.getRuleMethods().get(method.name.substring(1) + method.desc);
                 method.moveFlagsTo(overridingMethod);
             } else {
-                if (!hasBuildParseTree) {
+                if (!annotations.contains(BUILD_PARSE_TREE)) {
                     method.suppressNode();
                 } else {
                     // as soon as we see the first non-super method we can break since the methods are sorted so that
@@ -109,6 +114,7 @@ public class ClassNodeInitializer extends ClassVisitor {
 
     @Override
     public AnnotationVisitor visitAnnotation(final String desc, final boolean visible) {
+        recordAnnotation(annotations, desc);
         if (Types.EXPLICIT_ACTIONS_ONLY_DESC.equals(desc)) {
             hasExplicitActionOnlyAnnotation = true;
             return null;
@@ -122,7 +128,6 @@ public class ClassNodeInitializer extends ClassVisitor {
             return null;
         }
         if (Types.BUILD_PARSE_TREE_DESC.equals(desc)) {
-            hasBuildParseTree = true;
             return null;
         }
 
