@@ -69,7 +69,6 @@ public class RuleMethod
         // calls to BaseParser.ACTION(boolean)
     private boolean containsVars; // calls to Var.<init>(T)
     private boolean containsPotentialSuperCalls;
-    private boolean hasSkipNodeAnnotation;
     private boolean hasMemoMismatchesAnnotation;
     private boolean hasSkipActionsInPredicatesAnnotation;
     private int numberOfReturns;
@@ -185,7 +184,7 @@ public class RuleMethod
 
     public boolean hasSkipNodeAnnotation()
     {
-        return hasSkipNodeAnnotation;
+        return ruleAnnotations.contains(SKIP_NODE);
     }
 
     public boolean hasMemoMismatchesAnnotation()
@@ -268,7 +267,6 @@ public class RuleMethod
             return null; // we do not need to record this annotation
         }
         if (Types.SKIP_NODE_DESC.equals(desc)) {
-            hasSkipNodeAnnotation = true;
             return null; // we do not need to record this annotation
         }
         if (Types.MEMO_MISMATCHES_DESC.equals(desc)) {
@@ -388,12 +386,10 @@ public class RuleMethod
 
         moveTo(ruleAnnotations, method.ruleAnnotations);
 
-        method.hasSkipNodeAnnotation |= hasSkipNodeAnnotation;
         method.hasMemoMismatchesAnnotation
             |= hasMemoMismatchesAnnotation;
 
 
-        hasSkipNodeAnnotation = false;
         hasMemoMismatchesAnnotation = false;
     }
 
