@@ -28,11 +28,13 @@ import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
+import org.parboiled.Context;
 import org.parboiled.transform.InstructionGraphNode;
 import org.parboiled.transform.InstructionGroup;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
 import org.parboiled.transform.Types;
+import org.parboiled.transform.asm.MethodDescriptor;
 
 import static org.objectweb.asm.Opcodes.ACC_FINAL;
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
@@ -158,10 +160,18 @@ public abstract class GroupClassGenerator implements RuleMethodProcessor {
                     instructions.insertBefore(insn, new InsnNode(DUP));
                 }
                 instructions.insertBefore(insn, new VarInsnNode(ALOAD, 1));
-                instructions.insertBefore(insn,
-                    new MethodInsnNode(INVOKEINTERFACE,
-                    Types.CONTEXT_AWARE.getInternalName(),
-                        "setContext", "(" + Types.CONTEXT_DESC + ")V", true));
+                /*
+                 * FIXME: this is where MethodDescriptor can really help, but in
+                 * the meanwhile...
+                 */
+                final MethodDescriptor descriptor
+                    = MethodDescriptor.newBuilder()
+                    .addArgument(Context.class).build();
+                final MethodInsnNode insnNode
+                    = new MethodInsnNode(INVOKEINTERFACE,
+                    Types.CONTEXT_AWARE.getInternalName(), "setContext",
+                    descriptor.getSignature(), true);
+                instructions.insertBefore(insn, insnNode);
             }
         }
     }
