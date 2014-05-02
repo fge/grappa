@@ -35,10 +35,14 @@ import org.objectweb.asm.tree.LabelNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
+import org.parboiled.matchers.Matcher;
+import org.parboiled.matchers.ProxyMatcher;
 import org.parboiled.transform.CacheArguments;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
 import org.parboiled.transform.Types;
+import org.parboiled.transform.asm.AsmHelper;
+import org.parboiled.transform.asm.ClassHelper;
 
 import static org.objectweb.asm.Opcodes.AASTORE;
 import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
@@ -317,14 +321,16 @@ public class CachingGenerator implements RuleMethodProcessor
     // <proxyMatcher>.arm(<rule>)
     private void generateArmProxyMatcher() {
         final String proxyMatcherType = Types.PROXY_MATCHER.getInternalName();
+        final ClassHelper helper = AsmHelper.classHelper(ProxyMatcher.class);
 
         // stack: <proxyMatcher> :: <rule>
         insert(new InsnNode(DUP_X1));
         // stack: <rule> :: <proxyMatcher> :: <rule>
         insert(new TypeInsnNode(CHECKCAST, Types.MATCHER.getInternalName()));
         // stack: <rule> :: <proxyMatcher> :: <matcher>
-        insert(new MethodInsnNode(INVOKEVIRTUAL, proxyMatcherType, "arm",
-            '(' + Types.MATCHER_DESC + ")V", false));
+        insert(helper.voidMethodCall("arm", Matcher.class));
+//        insert(new MethodInsnNode(INVOKEVIRTUAL, proxyMatcherType, "arm",
+//            '(' + Types.MATCHER_DESC + ")V", false));
         // stack: <rule>
     }
 

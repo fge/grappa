@@ -31,10 +31,14 @@ import static org.parboiled.transform.AsmUtils.createArgumentLoaders;
 /**
  * Replaces the method code with a simple call to the super method.
  */
-public class BodyWithSuperCallReplacer implements RuleMethodProcessor {
-
+//TODO: final in 1.1
+public class BodyWithSuperCallReplacer
+    implements RuleMethodProcessor
+{
     @Override
-    public boolean appliesTo(final ParserClassNode classNode, final RuleMethod method) {
+    public boolean appliesTo(final ParserClassNode classNode,
+        final RuleMethod method)
+    {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
         return !method.isBodyRewritten()
@@ -45,7 +49,10 @@ public class BodyWithSuperCallReplacer implements RuleMethodProcessor {
     }
 
     @Override
-    public void process(final ParserClassNode classNode, final RuleMethod method) throws Exception {
+    public void process(final ParserClassNode classNode,
+        final RuleMethod method)
+        throws Exception
+    {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
         // replace all method code with a simple call to the super method
@@ -57,5 +64,4 @@ public class BodyWithSuperCallReplacer implements RuleMethodProcessor {
             method.desc, false));
         method.instructions.add(new InsnNode(ARETURN));
     }
-
 }

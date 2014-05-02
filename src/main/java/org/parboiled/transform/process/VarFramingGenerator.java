@@ -56,7 +56,7 @@ public class VarFramingGenerator implements RuleMethodProcessor {
     public boolean appliesTo(final ParserClassNode classNode, final RuleMethod method) {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
-        return method.getLocalVarVariables() != null;
+        return !method.getLocalVarVariables().isEmpty();
     }
 
     @Override
