@@ -13,7 +13,7 @@ import java.util.Map;
  * keys are instances of this class, and values are already generated rules.</p>
  *
  * <p>What this class basically does is generate a "digest" of rule
- * arguments (as an {@code Object[]}.</p>
+ * arguments (as an {@code Object[]}).</p>
  */
 public final class CacheArguments
 {

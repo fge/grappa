@@ -43,51 +43,70 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AsmUtils {
+public final class AsmUtils
+{
+    private AsmUtils()
+    {
+    }
 
-    public static ClassReader createClassReader(final Class<?> clazz) throws IOException {
-        Preconditions.checkNotNull(clazz, "clazz");
-        final String classFilename = clazz.getName().replace('.', '/') + ".class";
-        InputStream inputStream = clazz.getClassLoader().getResourceAsStream(classFilename);
+    public static ClassReader createClassReader(final Class<?> c)
+        throws IOException
+    {
+        Preconditions.checkNotNull(c);
+        final String classFilename = c.getName().replace('.', '/') + ".class";
+        InputStream inputStream = c.getClassLoader()
+            .getResourceAsStream(classFilename);
         if (inputStream == null) {
-            inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(classFilename);
+            inputStream = Thread.currentThread().getContextClassLoader()
+                .getResourceAsStream(classFilename);
         }
         return new ClassReader(inputStream);
     }
 
-    public static String getExtendedParserClassName(final String parserClassName) {
+    public static String getExtendedParserClassName(
+        final String parserClassName)
+    {
         Preconditions.checkNotNull(parserClassName, "parserClassName");
         return parserClassName + "$$parboiled";
     }
 
-    private static final Map<String, Class<?>> classForDesc = new HashMap<String, Class<?>>();
+    private static final Map<String, Class<?>> classForDesc
+        = new HashMap<String, Class<?>>();
 
-    public static synchronized Class<?> getClassForInternalName(final String classDesc) {
+    public static synchronized Class<?> getClassForInternalName(
+        final String classDesc)
+    {
         Preconditions.checkNotNull(classDesc, "classDesc");
         Class<?> clazz = classForDesc.get(classDesc);
-        if (clazz == null) {
-            if (classDesc.charAt(0) == '[') {
-                final Class<?> compType = getClassForType(Type.getType(classDesc.substring(1)));
-                clazz = Array.newInstance(compType, 0).getClass();
-            } else {
-                final String className = classDesc.replace('/', '.');
+        if (clazz != null)
+            return clazz;
+
+        if (classDesc.charAt(0) == '[') {
+            final Class<?> compType = getClassForType(
+                Type.getType(classDesc.substring(1)));
+            clazz = Array.newInstance(compType, 0).getClass();
+        } else {
+            final String className = classDesc.replace('/', '.');
+            try {
+                clazz = AsmUtils.class.getClassLoader().loadClass(className);
+            } catch (ClassNotFoundException e) {
+                // If class not found trying the context classLoader
                 try {
-                    clazz = AsmUtils.class.getClassLoader().loadClass(className);
-                } catch (ClassNotFoundException e) {
-                    // If class not found trying the context classLoader
-                    try {
-                        clazz = Thread.currentThread().getContextClassLoader().loadClass(className);
-                    } catch (ClassNotFoundException e2) {
-                        throw new RuntimeException("Error loading class '" + className + "' for rule method analysis", e2);
-                    }
+                    clazz = Thread.currentThread().getContextClassLoader()
+                        .loadClass(className);
+                } catch (ClassNotFoundException e2) {
+                    throw new RuntimeException(
+                        "Error loading class '" + className
+                            + "' for rule method analysis", e2);
                 }
             }
-            classForDesc.put(classDesc, clazz);
         }
+        classForDesc.put(classDesc, clazz);
         return clazz;
     }
 
-    public static Class<?> getClassForType(final Type type) {
+    public static Class<?> getClassForType(final Type type)
+    {
         Preconditions.checkNotNull(type, "type");
         switch (type.getSort()) {
             case Type.BOOLEAN:
@@ -115,8 +134,9 @@ public class AsmUtils {
         throw new IllegalStateException(); // should be unreachable
     }
 
-    public static Field getClassField(
-        final String classInternalName, final String fieldName) {
+    public static Field getClassField(final String classInternalName,
+        final String fieldName)
+    {
         Preconditions.checkNotNull(classInternalName, "classInternalName");
         Preconditions.checkNotNull(fieldName, "fieldName");
         final Class<?> clazz = getClassForInternalName(classInternalName);
@@ -128,14 +148,16 @@ public class AsmUtils {
                 current = current.getSuperclass();
                 if (Object.class.equals(current)) {
                     throw new RuntimeException(
-                            "Field '" + fieldName + "' not found in '" + clazz + "\' or any superclass", e);
+                        "Field '" + fieldName + "' not found in '" + clazz
+                            + "\' or any superclass", e);
                 }
             }
         }
     }
 
-    public static Method getClassMethod(
-        final String classInternalName, final String methodName, final String methodDesc) {
+    public static Method getClassMethod(final String classInternalName,
+        final String methodName, final String methodDesc)
+    {
         Preconditions.checkNotNull(classInternalName, "classInternalName");
         Preconditions.checkNotNull(methodName, "methodName");
         Preconditions.checkNotNull(methodDesc, "methodDesc");
@@ -147,13 +169,17 @@ public class AsmUtils {
         }
         final Method method = findMethod(clazz, methodName, argTypes);
         if (method == null) {
-            throw new RuntimeException("Method '" + methodName + "' with descriptor '" +
-                    methodDesc + "' not found in '" + clazz + "\' or any supertype");
+            throw new RuntimeException(
+                "Method '" + methodName + "' with descriptor '" +
+                    methodDesc + "' not found in '" + clazz
+                    + "\' or any supertype");
         }
         return method;
     }
 
-    private static Method findMethod(final Class<?> clazz, final String methodName, final Class<?>[] argTypes) {
+    private static Method findMethod(final Class<?> clazz,
+        final String methodName, final Class<?>[] argTypes)
+    {
         Method found = null;
         if (clazz != null) {
             try {
@@ -161,9 +187,12 @@ public class AsmUtils {
             } catch (NoSuchMethodException e) {
                 found = findMethod(clazz.getSuperclass(), methodName, argTypes);
                 if (found == null) {
-                    for (final Class<?> interfaceClass : clazz.getInterfaces()) {
-                        found = findMethod(interfaceClass, methodName, argTypes);
-                        if (found != null) break;
+                    for (final Class<?> interfaceClass : clazz
+                        .getInterfaces()) {
+                        found = findMethod(interfaceClass, methodName,
+                            argTypes);
+                        if (found != null)
+                            break;
                     }
                 }
             }
@@ -171,8 +200,9 @@ public class AsmUtils {
         return found;
     }
 
-    public static Constructor<?> getClassConstructor(final String classInternalName,
-    final String constructorDesc) {
+    public static Constructor<?> getClassConstructor(
+        final String classInternalName, final String constructorDesc)
+    {
         Preconditions.checkNotNull(classInternalName, "classInternalName");
         Preconditions.checkNotNull(constructorDesc, "constructorDesc");
         final Class<?> clazz = getClassForInternalName(classInternalName);
@@ -184,7 +214,9 @@ public class AsmUtils {
         try {
             return clazz.getDeclaredConstructor(argTypes);
         } catch (NoSuchMethodException e) {
-            throw new RuntimeException("Constructor with descriptor '" + constructorDesc + "' not found in '" +
+            throw new RuntimeException(
+                "Constructor with descriptor '" + constructorDesc
+                    + "' not found in '" +
                     clazz, e);
         }
     }
@@ -193,27 +225,32 @@ public class AsmUtils {
      * Returns the class with the given name if it has already been loaded by the given class loader.
      * Otherwise the method returns null.
      *
-     * @param className   the full name of the class to be loaded
+     * @param className the full name of the class to be loaded
      * @param classLoader the class loader to use
      * @return the class instance or null
      */
-    public static Class<?> findLoadedClass(
-        final String className, final ClassLoader classLoader) {
+    public static Class<?> findLoadedClass(final String className,
+        final ClassLoader classLoader)
+    {
         Preconditions.checkNotNull(className, "className");
         Preconditions.checkNotNull(classLoader, "classLoader");
         try {
-            final Class<?> classLoaderBaseClass = Class.forName("java.lang.ClassLoader");
-            final Method findLoadedClassMethod = classLoaderBaseClass.getDeclaredMethod("findLoadedClass", String.class);
+            final Class<?> classLoaderBaseClass = Class
+                .forName("java.lang.ClassLoader");
+            final Method findLoadedClassMethod = classLoaderBaseClass
+                .getDeclaredMethod("findLoadedClass", String.class);
 
             // protected method invocation
             findLoadedClassMethod.setAccessible(true);
             try {
-                return (Class<?>) findLoadedClassMethod.invoke(classLoader, className);
+                return (Class<?>) findLoadedClassMethod
+                    .invoke(classLoader, className);
             } finally {
                 findLoadedClassMethod.setAccessible(false);
             }
         } catch (Exception e) {
-            throw new RuntimeException("Could not determine whether class '" + className +
+            throw new RuntimeException(
+                "Could not determine whether class '" + className +
                     "' has already been loaded", e);
         }
     }
@@ -225,43 +262,52 @@ public class AsmUtils {
      * to access the protected "defineClass" method) we would likely still be able to load generated classes,
      * however, they would not have access to package-private classes and members of their super classes.
      *
-     * @param className   the full name of the class to be loaded
-     * @param code        the bytecode of the class to load
+     * @param className the full name of the class to be loaded
+     * @param code the bytecode of the class to load
      * @param classLoader the class loader to use
      * @return the class instance
      */
-    public static Class<?> loadClass(final String className, final byte[] code, final ClassLoader classLoader) {
+    public static Class<?> loadClass(final String className, final byte[] code,
+        final ClassLoader classLoader)
+    {
         Preconditions.checkNotNull(className, "className");
         Preconditions.checkNotNull(code, "code");
         Preconditions.checkNotNull(classLoader, "classLoader");
         try {
-            final Class<?> classLoaderBaseClass = Class.forName("java.lang.ClassLoader");
-            final Method defineClassMethod = classLoaderBaseClass.getDeclaredMethod("defineClass",
-                    String.class, byte[].class, int.class, int.class);
+            final Class<?> classLoaderBaseClass = Class
+                .forName("java.lang.ClassLoader");
+            final Method defineClassMethod = classLoaderBaseClass
+                .getDeclaredMethod("defineClass", String.class, byte[].class,
+                    int.class, int.class);
 
             // protected method invocation
             defineClassMethod.setAccessible(true);
             try {
-                return (Class<?>) defineClassMethod.invoke(classLoader, className, code, 0, code.length);
+                return (Class<?>) defineClassMethod
+                    .invoke(classLoader, className, code, 0, code.length);
             } finally {
                 defineClassMethod.setAccessible(false);
             }
         } catch (Exception e) {
-            throw new RuntimeException("Could not load class '" + className + '\'', e);
+            throw new RuntimeException(
+                "Could not load class '" + className + '\'', e);
         }
     }
 
-    public static InsnList createArgumentLoaders(final String methodDescriptor) {
+    public static InsnList createArgumentLoaders(final String methodDescriptor)
+    {
         Preconditions.checkNotNull(methodDescriptor, "methodDescriptor");
         final InsnList instructions = new InsnList();
         final Type[] types = Type.getArgumentTypes(methodDescriptor);
         for (int i = 0; i < types.length; i++) {
-            instructions.add(new VarInsnNode(getLoadingOpcode(types[i]), i + 1));
+            instructions
+                .add(new VarInsnNode(getLoadingOpcode(types[i]), i + 1));
         }
         return instructions;
     }
 
-    public static int getLoadingOpcode(final Type argType) {
+    public static int getLoadingOpcode(final Type argType)
+    {
         Preconditions.checkNotNull(argType, "argType");
         switch (argType.getSort()) {
             case Type.BOOLEAN:
@@ -288,65 +334,83 @@ public class AsmUtils {
      * Determines whether the class with the given descriptor is assignable to the given type.
      *
      * @param classInternalName the class descriptor
-     * @param type              the type
+     * @param type the type
      * @return true if the class with the given descriptor is assignable to the given type
      */
-    public static boolean isAssignableTo(
-        final String classInternalName, final Class<?> type) {
+    public static boolean isAssignableTo(final String classInternalName,
+        final Class<?> type)
+    {
         Preconditions.checkNotNull(classInternalName, "classInternalName");
         Preconditions.checkNotNull(type, "type");
-        return type.isAssignableFrom(getClassForInternalName(classInternalName));
+        return type
+            .isAssignableFrom(getClassForInternalName(classInternalName));
     }
 
-    public static boolean isBooleanValueOfZ(final AbstractInsnNode insn) {
+    public static boolean isBooleanValueOfZ(final AbstractInsnNode insn)
+    {
         Preconditions.checkNotNull(insn, "insn");
-        if (insn.getOpcode() != Opcodes.INVOKESTATIC) return false;
+        if (insn.getOpcode() != Opcodes.INVOKESTATIC)
+            return false;
         final MethodInsnNode mi = (MethodInsnNode) insn;
         return isBooleanValueOfZ(mi.owner, mi.name, mi.desc);
     }
 
-    public static boolean isBooleanValueOfZ(
-        final String methodOwner, final String methodName, final String methodDesc) {
+    public static boolean isBooleanValueOfZ(final String methodOwner,
+        final String methodName, final String methodDesc)
+    {
         Preconditions.checkNotNull(methodOwner, "methodOwner");
         Preconditions.checkNotNull(methodName, "methodName");
         Preconditions.checkNotNull(methodDesc, "methodDesc");
-        return "java/lang/Boolean".equals(methodOwner) && "valueOf".equals(methodName) &&
-                "(Z)Ljava/lang/Boolean;".equals(methodDesc);
+        return "java/lang/Boolean".equals(methodOwner) && "valueOf"
+            .equals(methodName) &&
+            "(Z)Ljava/lang/Boolean;".equals(methodDesc);
     }
 
-    public static boolean isActionRoot(final AbstractInsnNode insn) {
+    public static boolean isActionRoot(final AbstractInsnNode insn)
+    {
         Preconditions.checkNotNull(insn, "insn");
-        if (insn.getOpcode() != Opcodes.INVOKESTATIC) return false;
+        if (insn.getOpcode() != Opcodes.INVOKESTATIC)
+            return false;
         final MethodInsnNode mi = (MethodInsnNode) insn;
         return isActionRoot(mi.owner, mi.name);
     }
 
-    public static boolean isActionRoot(final String methodOwner, final String methodName) {
+    public static boolean isActionRoot(final String methodOwner,
+        final String methodName)
+    {
         Preconditions.checkNotNull(methodOwner, "methodOwner");
         Preconditions.checkNotNull(methodName, "methodName");
-        return "ACTION".equals(methodName) && isAssignableTo(methodOwner, BaseParser.class);
+        return "ACTION".equals(methodName) && isAssignableTo(methodOwner,
+            BaseParser.class);
     }
 
-    public static boolean isVarRoot(final AbstractInsnNode insn) {
+    public static boolean isVarRoot(final AbstractInsnNode insn)
+    {
         Preconditions.checkNotNull(insn, "insn");
-        if (insn.getOpcode() != Opcodes.INVOKESPECIAL) return false;
+        if (insn.getOpcode() != Opcodes.INVOKESPECIAL)
+            return false;
         final MethodInsnNode mi = (MethodInsnNode) insn;
         return isVarRoot(mi.owner, mi.name, mi.desc);
     }
 
-    public static boolean isVarRoot(final String methodOwner, final String methodName, final String methodDesc) {
+    public static boolean isVarRoot(final String methodOwner,
+        final String methodName, final String methodDesc)
+    {
         Preconditions.checkNotNull(methodOwner, "methodOwner");
         Preconditions.checkNotNull(methodName, "methodName");
         Preconditions.checkNotNull(methodDesc, "methodDesc");
-        return "<init>".equals(methodName) && "(Ljava/lang/Object;)V".equals(methodDesc) &&
-                isAssignableTo(methodOwner, Var.class);
+        return "<init>".equals(methodName) && "(Ljava/lang/Object;)V"
+            .equals(methodDesc) &&
+            isAssignableTo(methodOwner, Var.class);
     }
 
-    public static boolean isCallOnContextAware(final AbstractInsnNode insn) {
+    public static boolean isCallOnContextAware(final AbstractInsnNode insn)
+    {
         Preconditions.checkNotNull(insn, "insn");
-        if (insn.getOpcode() != Opcodes.INVOKEVIRTUAL && insn.getOpcode() != Opcodes.INVOKEINTERFACE) return false;
+        if (insn.getOpcode() != Opcodes.INVOKEVIRTUAL
+            && insn.getOpcode() != Opcodes.INVOKEINTERFACE)
+            return false;
         final MethodInsnNode mi = (MethodInsnNode) insn;
         return isAssignableTo(mi.owner, ContextAware.class);
     }
-
 }
