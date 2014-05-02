@@ -1,7 +1,8 @@
 package org.parboiled.transform.asm;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Maps;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.MethodInsnNode;
@@ -9,14 +10,14 @@ import org.objectweb.asm.tree.MethodInsnNode;
 import javax.annotation.Nonnull;
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.Map;
 
 public final class ClassHelper
 {
     private final Type classType;
     private final boolean isInterface;
     private final int methodOpcode;
-    private final Map<String, MethodDescriptor> methods = Maps.newHashMap();
+    private final ListMultimap<String, MethodDescriptor> methods
+        = ArrayListMultimap.create();
 
     ClassHelper(@Nonnull final Class<?> c)
     {
@@ -37,14 +38,22 @@ public final class ClassHelper
         Preconditions.checkNotNull(returnType);
         Preconditions.checkNotNull(args);
 
-        final MethodDescriptor descriptor = methods.get(name);
-        if (descriptor == null)
-            throw new IllegalArgumentException("no method by name " + name
-                + " in class " + classType.getClassName());
-        descriptor.checkArguments(returnType, args);
+        final MethodDescriptor descriptor = findMethod(name, returnType, args);
 
         return new MethodInsnNode(methodOpcode, classType.getInternalName(),
             name, descriptor.toString(), isInterface);
+    }
+
+    private MethodDescriptor findMethod(final String name,
+        final Type returnType, final Type... args)
+    {
+        for (final MethodDescriptor descriptor: methods.get(name))
+            if (returnType.equals(descriptor.returnType)
+                && Arrays.equals(args, descriptor.args))
+                return descriptor;
+        throw new IllegalArgumentException("no method with name " + name
+            + ", return type " + returnType + " and arguments "
+            + Arrays.toString(args) + " for class " + classType);
     }
 
     private static final class MethodDescriptor
@@ -56,14 +65,6 @@ public final class ClassHelper
         {
             returnType = Type.getReturnType(method);
             args = Type.getArgumentTypes(method);
-        }
-
-        private void checkArguments(final Type returnType, final Type... args)
-        {
-            Preconditions.checkArgument(this.returnType.equals(returnType),
-                "wrong return type specified");
-            Preconditions.checkArgument(Arrays.equals(this.args, args),
-                "wrong argument types specified");
         }
 
         @Override
