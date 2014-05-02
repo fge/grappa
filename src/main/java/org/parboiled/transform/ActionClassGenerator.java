@@ -20,6 +20,8 @@ import com.google.common.base.Preconditions;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
+import org.parboiled.Context;
+import org.parboiled.transform.asm.MethodDescriptor;
 import org.parboiled.transform.process.GroupClassGenerator;
 
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
@@ -51,7 +53,11 @@ public class ActionClassGenerator extends GroupClassGenerator
     @Override
     protected void generateMethod(
         final InstructionGroup group, final ClassWriter cw) {
-        final MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "run", '(' + Types.CONTEXT_DESC + ")Z", null, null);
+        final MethodDescriptor descriptor = MethodDescriptor.newBuilder()
+            .addArgument(Context.class).withReturnType(boolean.class)
+            .build();
+        final MethodVisitor mv = cw.visitMethod(ACC_PUBLIC,
+            "run", descriptor.getSignature(), null, null);
 
         insertSetContextCalls(group, 1);
         convertXLoads(group);
