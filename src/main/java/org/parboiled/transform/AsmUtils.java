@@ -23,6 +23,7 @@
 package org.parboiled.transform;
 
 import com.google.common.base.Preconditions;
+import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
@@ -33,6 +34,8 @@ import org.parboiled.BaseParser;
 import org.parboiled.ContextAware;
 import org.parboiled.support.Var;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -44,6 +47,30 @@ public final class AsmUtils
 {
     private AsmUtils()
     {
+    }
+
+    /**
+     * DO NOT USED
+     *
+     * @param c the class
+     * @return a class reader
+     * @throws IOException cannot obtain reader
+     *
+     * @deprecated unused; will be removed in 1.1.
+     */
+    @Deprecated
+    public static ClassReader createClassReader(final Class<?> c)
+        throws IOException
+    {
+        Preconditions.checkNotNull(c);
+        final String classFilename = c.getName().replace('.', '/') + ".class";
+        InputStream inputStream = c.getClassLoader()
+            .getResourceAsStream(classFilename);
+        if (inputStream == null) {
+            inputStream = Thread.currentThread().getContextClassLoader()
+                .getResourceAsStream(classFilename);
+        }
+        return new ClassReader(inputStream);
     }
 
     public static String getExtendedParserClassName(
