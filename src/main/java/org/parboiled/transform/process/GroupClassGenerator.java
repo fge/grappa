@@ -142,37 +142,43 @@ public abstract class GroupClassGenerator implements RuleMethodProcessor {
 
     protected void insertSetContextCalls(final InstructionGroup group, int localVarIx) {
         final InsnList instructions = group.getInstructions();
-        for (final InstructionGraphNode node : group.getNodes()) {
-            if (node.isCallOnContextAware()) {
-                final AbstractInsnNode insn = node.getInstruction();
+        for (final InstructionGraphNode node: group.getNodes()) {
+            if (!node.isCallOnContextAware())
+                continue;
 
-                if (node.getPredecessors().size() > 1) {
-                    // store the target of the call in a new local variable
-                    final AbstractInsnNode loadTarget = node.getPredecessors().get(0).getInstruction();
-                    instructions.insert(loadTarget, new VarInsnNode(ASTORE, ++localVarIx));
-                    instructions.insert(loadTarget, new InsnNode(DUP)); // the DUP is inserted BEFORE the ASTORE
+            final AbstractInsnNode insn = node.getInstruction();
 
-                    // immediately before the call get the target from the local var and set the context on it
-                    instructions.insertBefore(insn, new VarInsnNode(ALOAD, localVarIx));
-                } else {
-                    // if we have only one predecessor the call does not take any parameters and we can
-                    // skip the storing and loading of the invocation target
-                    instructions.insertBefore(insn, new InsnNode(DUP));
-                }
-                instructions.insertBefore(insn, new VarInsnNode(ALOAD, 1));
-                /*
-                 * FIXME: this is where MethodDescriptor can really help, but in
-                 * the meanwhile...
-                 */
-                final MethodDescriptor descriptor
-                    = MethodDescriptor.newBuilder()
-                    .addArgument(Context.class).build();
-                final MethodInsnNode insnNode
-                    = new MethodInsnNode(INVOKEINTERFACE,
-                    Types.CONTEXT_AWARE.getInternalName(), "setContext",
-                    descriptor.getSignature(), true);
-                instructions.insertBefore(insn, insnNode);
+            if (node.getPredecessors().size() > 1) {
+                // store the target of the call in a new local variable
+                final AbstractInsnNode loadTarget
+                    = node.getPredecessors().get(0).getInstruction();
+                instructions.insert(loadTarget,
+                    new VarInsnNode(ASTORE, ++localVarIx));
+                // the DUP is inserted BEFORE the ASTORE
+                instructions.insert(loadTarget, new InsnNode(DUP));
+
+                // immediately before the call get the target from the local var
+                // and set the context on it
+                instructions.insertBefore(insn,
+                    new VarInsnNode(ALOAD, localVarIx));
+            } else {
+                // if we have only one predecessor the call does not take any
+                // parameters and we can skip the storing and loading of the
+                // invocation target
+                instructions.insertBefore(insn, new InsnNode(DUP));
             }
+            instructions.insertBefore(insn, new VarInsnNode(ALOAD, 1));
+            /*
+             * FIXME: this is where MethodDescriptor can really help, but in
+             * the meanwhile...
+             */
+            final MethodDescriptor descriptor
+                = MethodDescriptor.newBuilder().addArgument(Context.class)
+                .build();
+            final MethodInsnNode insnNode = new MethodInsnNode(INVOKEINTERFACE,
+                Types.CONTEXT_AWARE.getInternalName(), "setContext",
+                descriptor.getSignature(), true);
+            instructions.insertBefore(insn, insnNode);
         }
     }
 
