@@ -50,11 +50,11 @@ import static org.parboiled.transform.AsmUtils.isActionRoot;
 import static org.parboiled.transform.AsmUtils.isAssignableTo;
 import static org.parboiled.transform.AsmUtils.isBooleanValueOfZ;
 import static org.parboiled.transform.AsmUtils.isVarRoot;
+import static org.parboiled.transform.method.RuleAnnotation.*;
 
 public class RuleMethod
     extends MethodNode
 {
-
     private final List<InstructionGroup> groups
         = new ArrayList<InstructionGroup>();
     private final List<LabelNode> usedLabels = new ArrayList<LabelNode>();
@@ -97,11 +97,11 @@ public class RuleMethod
         hasCachedAnnotation = parameterCount == 0;
 
         if (hasDontLabelAnno)
-            ruleAnnotations.add(RuleAnnotation.DONT_LABEL);
+            ruleAnnotations.add(DONT_LABEL);
         if (hasExplicitActionOnlyAnno)
-            ruleAnnotations.add(RuleAnnotation.EXPLICIT_ACTIONS_ONLY);
+            ruleAnnotations.add(EXPLICIT_ACTIONS_ONLY);
         if (hasSkipActionsInPredicates)
-            ruleAnnotations.add(RuleAnnotation.SKIP_ACTIONS_IN_PREDICATES);
+            ruleAnnotations.add(SKIP_ACTIONS_IN_PREDICATES);
         hasDontLabelAnnotation = hasDontLabelAnno;
         hasExplicitActionOnlyAnnotation = hasExplicitActionOnlyAnno;
         hasSkipActionsInPredicatesAnnotation = hasSkipActionsInPredicates;
@@ -264,7 +264,7 @@ public class RuleMethod
     public AnnotationVisitor visitAnnotation(final String desc,
         final boolean visible)
     {
-        RuleAnnotation.recordDesc(ruleAnnotations, desc);
+        recordDesc(ruleAnnotations, desc);
         if (Types.EXPLICIT_ACTIONS_ONLY_DESC.equals(desc)) {
             hasExplicitActionOnlyAnnotation = true;
             return null; // we do not need to record this annotation
@@ -315,8 +315,8 @@ public class RuleMethod
     {
         switch (opcode) {
             case INVOKESTATIC:
-                if (!hasExplicitActionOnlyAnnotation && isBooleanValueOfZ(owner,
-                    name, desc)) {
+                if (!ruleAnnotations.contains(EXPLICIT_ACTIONS_ONLY)
+                    && isBooleanValueOfZ(owner, name, desc)) {
                     containsImplicitActions = true;
                 } else if (isActionRoot(owner, name)) {
                     containsExplicitActions = true;
@@ -398,19 +398,24 @@ public class RuleMethod
         return name;
     }
 
-    public void moveFlagsTo(final RuleMethod overridingMethod)
+    public void moveFlagsTo(final RuleMethod method)
     {
-        Preconditions.checkNotNull(overridingMethod, "overridingMethod");
-        overridingMethod.hasCachedAnnotation |= hasCachedAnnotation;
-        overridingMethod.hasDontLabelAnnotation |= hasDontLabelAnnotation;
-        overridingMethod.hasSuppressNodeAnnotation |= hasSuppressNodeAnnotation;
-        overridingMethod.hasSuppressSubnodesAnnotation
+        Preconditions.checkNotNull(method);
+
+        moveTo(ruleAnnotations, method.ruleAnnotations);
+
+        method.hasCachedAnnotation |= hasCachedAnnotation;
+        method.hasDontLabelAnnotation |= hasDontLabelAnnotation;
+        method.hasSuppressNodeAnnotation |= hasSuppressNodeAnnotation;
+        method.hasSuppressSubnodesAnnotation
             |= hasSuppressSubnodesAnnotation;
-        overridingMethod.hasSkipNodeAnnotation |= hasSkipNodeAnnotation;
-        overridingMethod.hasMemoMismatchesAnnotation
+        method.hasSkipNodeAnnotation |= hasSkipNodeAnnotation;
+        method.hasMemoMismatchesAnnotation
             |= hasMemoMismatchesAnnotation;
-        hasCachedAnnotation = false;
+
         hasDontLabelAnnotation = true;
+
+        hasCachedAnnotation = false;
         hasSuppressNodeAnnotation = false;
         hasSuppressSubnodesAnnotation = false;
         hasSkipNodeAnnotation = false;
