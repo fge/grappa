@@ -69,8 +69,6 @@ public class RuleMethod
         // calls to BaseParser.ACTION(boolean)
     private boolean containsVars; // calls to Var.<init>(T)
     private boolean containsPotentialSuperCalls;
-    private boolean hasMemoMismatchesAnnotation;
-    private boolean hasSkipActionsInPredicatesAnnotation;
     private int numberOfReturns;
     private InstructionGraphNode returnInstructionNode;
     private List<InstructionGraphNode> graphNodes;
@@ -96,7 +94,6 @@ public class RuleMethod
             ruleAnnotations.add(EXPLICIT_ACTIONS_ONLY);
         if (hasSkipActionsInPredicates)
             ruleAnnotations.add(SKIP_ACTIONS_IN_PREDICATES);
-        hasSkipActionsInPredicatesAnnotation = hasSkipActionsInPredicates;
         skipGeneration = isSuperMethod();
     }
 
@@ -179,7 +176,7 @@ public class RuleMethod
 
     public boolean hasSkipActionsInPredicatesAnnotation()
     {
-        return hasSkipActionsInPredicatesAnnotation;
+        return ruleAnnotations.contains(SKIP_ACTIONS_IN_PREDICATES);
     }
 
     public boolean hasSkipNodeAnnotation()
@@ -256,38 +253,14 @@ public class RuleMethod
     public AnnotationVisitor visitAnnotation(final String desc,
         final boolean visible)
     {
-        recordDesc(ruleAnnotations, desc);
-        if (Types.EXPLICIT_ACTIONS_ONLY_DESC.equals(desc)) {
-            return null; // we do not need to record this annotation
-        }
-        if (Types.SUPPRESS_NODE_DESC.equals(desc)) {
-            return null; // we do not need to record this annotation
-        }
-        if (Types.SUPPRESS_SUBNODES_DESC.equals(desc)) {
-            return null; // we do not need to record this annotation
-        }
-        if (Types.SKIP_NODE_DESC.equals(desc)) {
-            return null; // we do not need to record this annotation
-        }
-        if (Types.MEMO_MISMATCHES_DESC.equals(desc)) {
-            return null; // we do not need to record this annotation
-        }
-        if (Types.SKIP_ACTIONS_IN_PREDICATES_DESC.equals(desc)) {
-            hasSkipActionsInPredicatesAnnotation = true;
-            return null; // we do not need to record this annotation
-        }
-        if (Types.DONT_SKIP_ACTIONS_IN_PREDICATES_DESC.equals(desc)) {
-            hasSkipActionsInPredicatesAnnotation = false;
-            return null; // we do not need to record this annotation
-        }
-        if (Types.DONT_LABEL_DESC.equals(desc)) {
-            return null; // we do not need to record this annotation
-        }
-        if (Types.DONT_EXTEND_DESC.equals(desc)) {
+        final  boolean recorded = recordDesc(ruleAnnotations, desc);
+        // FIXME...
+        if (ruleAnnotations.contains(DONT_SKIP_ACTIONS_IN_PREDICATES))
+            ruleAnnotations.remove(SKIP_ACTIONS_IN_PREDICATES);
+        if (recorded)
             return null;
-        }
-        return visible ? super.visitAnnotation(desc, true)
-            : null; // only keep visible annotations
+        // only keep visible annotations
+        return visible ? super.visitAnnotation(desc, true) : null;
     }
 
     @Override
