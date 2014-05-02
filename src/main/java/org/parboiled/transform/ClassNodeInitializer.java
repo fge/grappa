@@ -179,9 +179,7 @@ public class ClassNodeInitializer
         }
 
         final RuleMethod method = new RuleMethod(ownerClass, access, name, desc,
-            signature, exceptions, annotations.contains(EXPLICIT_ACTIONS_ONLY),
-            annotations.contains(DONT_LABEL),
-            annotations.contains(SKIP_ACTIONS_IN_PREDICATES));
+            signature, exceptions, annotations);
         classNode.getRuleMethods().put(methodKey, method);
         return method; // return the newly created method in order to have it "filled" with the actual method code
     }

@@ -55,6 +55,11 @@ import static org.parboiled.transform.method.ParserAnnotation.*;
 public class RuleMethod
     extends MethodNode
 {
+    private static final Set<ParserAnnotation> COPY_FROM_CLASS = EnumSet.of(
+        DONT_LABEL, EXPLICIT_ACTIONS_ONLY, SKIP_ACTIONS_IN_PREDICATES
+    );
+
+
     private final List<InstructionGroup> groups
         = new ArrayList<InstructionGroup>();
     private final List<LabelNode> usedLabels = new ArrayList<LabelNode>();
@@ -78,9 +83,7 @@ public class RuleMethod
 
     public RuleMethod(final Class<?> ownerClass, final int access,
         final String name, final String desc, final String signature,
-        final String[] exceptions, final boolean hasExplicitActionOnlyAnno,
-        final boolean hasDontLabelAnno,
-        final boolean hasSkipActionsInPredicates)
+        final String[] exceptions, final Set<ParserAnnotation> classAnnotations)
     {
         super(Opcodes.ASM4, access, name, desc, signature, exceptions);
         this.ownerClass = ownerClass;
@@ -88,12 +91,9 @@ public class RuleMethod
 
         if (parameterCount == 0)
             annotations.add(CACHED);
-        if (hasDontLabelAnno)
-            annotations.add(DONT_LABEL);
-        if (hasExplicitActionOnlyAnno)
-            annotations.add(EXPLICIT_ACTIONS_ONLY);
-        if (hasSkipActionsInPredicates)
-            annotations.add(SKIP_ACTIONS_IN_PREDICATES);
+        final Set<ParserAnnotation> set = EnumSet.copyOf(classAnnotations);
+        set.retainAll(COPY_FROM_CLASS);
+        annotations.addAll(set);
         skipGeneration = isSuperMethod();
     }
 
