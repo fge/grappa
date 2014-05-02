@@ -92,8 +92,9 @@ public class RuleMethod
         super(Opcodes.ASM4, access, name, desc, signature, exceptions);
         this.ownerClass = ownerClass;
         parameterCount = Type.getArgumentTypes(desc).length;
-        hasCachedAnnotation = parameterCount == 0;
 
+        if (parameterCount == 0)
+            ruleAnnotations.add(CACHED);
         if (hasDontLabelAnno)
             ruleAnnotations.add(DONT_LABEL);
         if (hasExplicitActionOnlyAnno)
@@ -164,7 +165,7 @@ public class RuleMethod
 
     public boolean hasCachedAnnotation()
     {
-        return hasCachedAnnotation;
+        return ruleAnnotations.contains(CACHED);
     }
 
     public boolean hasDontLabelAnnotation()
@@ -263,10 +264,6 @@ public class RuleMethod
     {
         recordDesc(ruleAnnotations, desc);
         if (Types.EXPLICIT_ACTIONS_ONLY_DESC.equals(desc)) {
-            return null; // we do not need to record this annotation
-        }
-        if (Types.CACHED_DESC.equals(desc)) {
-            hasCachedAnnotation = true;
             return null; // we do not need to record this annotation
         }
         if (Types.SUPPRESS_NODE_DESC.equals(desc)) {
@@ -396,7 +393,6 @@ public class RuleMethod
 
         moveTo(ruleAnnotations, method.ruleAnnotations);
 
-        method.hasCachedAnnotation |= hasCachedAnnotation;
         method.hasDontLabelAnnotation |= hasDontLabelAnnotation;
         method.hasSuppressNodeAnnotation |= hasSuppressNodeAnnotation;
         method.hasSuppressSubnodesAnnotation
@@ -407,7 +403,6 @@ public class RuleMethod
 
         hasDontLabelAnnotation = true;
 
-        hasCachedAnnotation = false;
         hasSuppressNodeAnnotation = false;
         hasSuppressSubnodesAnnotation = false;
         hasSkipNodeAnnotation = false;
