@@ -2,6 +2,7 @@ package org.parboiled.transform.method;
 
 import com.google.common.collect.ImmutableMap;
 import org.objectweb.asm.Type;
+import org.parboiled.annotations.BuildParseTree;
 import org.parboiled.annotations.Cached;
 import org.parboiled.annotations.DontExtend;
 import org.parboiled.annotations.DontLabel;
@@ -27,16 +28,17 @@ import java.util.Set;
  */
 public enum ParserAnnotation
 {
-    EXPLICIT_ACTIONS_ONLY(ExplicitActionsOnly.class),
+    BUILD_PARSE_TREE(BuildParseTree.class),
     CACHED(Cached.class),
-    SUPPRESS_NODE(SuppressNode.class),
-    SUPPRESS_SUBNODES(SuppressSubnodes.class),
-    SKIP_NODE(SkipNode.class),
+    EXPLICIT_ACTIONS_ONLY(ExplicitActionsOnly.class),
+    DONT_LABEL(DontLabel.class),
+    DONT_EXTEND(DontExtend.class),
+    DONT_SKIP_ACTIONS_IN_PREDICATES(DontSkipActionsInPredicates.class),
     MEMO_MISMATCHES(MemoMismatches.class),
     SKIP_ACTIONS_IN_PREDICATES(SkipActionsInPredicates.class),
-    DONT_SKIP_ACTIONS_IN_PREDICATES(DontSkipActionsInPredicates.class),
-    DONT_LABEL(DontLabel.class),
-    DONT_EXTEND(DontExtend.class)
+    SKIP_NODE(SkipNode.class),
+    SUPPRESS_NODE(SuppressNode.class),
+    SUPPRESS_SUBNODES(SuppressSubnodes.class),
     ;
 
     /**
