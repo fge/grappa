@@ -38,7 +38,7 @@ import org.parboiled.matchers.Matcher;
 import org.parboiled.matchers.ProxyMatcher;
 import org.parboiled.matchers.VarFramingMatcher;
 import org.parboiled.support.Var;
-import org.parboiled.transform.method.RuleAnnotation;
+import org.parboiled.transform.method.ParserAnnotation;
 
 public interface Types {
     Type BASE_ACTION = Type.getType(BaseAction.class);
@@ -64,38 +64,38 @@ public interface Types {
     String VAR_DESC = VAR.getDescriptor();
 
     /**
-     * @deprecated use {@link RuleAnnotation#CACHED} instead
+     * @deprecated use {@link ParserAnnotation#CACHED} instead
      */
     @Deprecated
     String CACHED_DESC = Type.getType(Cached.class).getDescriptor();
     /**
-     * @deprecated use {@link RuleAnnotation#DONT_EXTEND} instead
+     * @deprecated use {@link ParserAnnotation#DONT_EXTEND} instead
      */
     @Deprecated
     String DONT_EXTEND_DESC = Type.getType(DontExtend.class).getDescriptor();
     /**
-     * @deprecated use {@link RuleAnnotation#SUPPRESS_NODE} instead
+     * @deprecated use {@link ParserAnnotation#SUPPRESS_NODE} instead
      */
     @Deprecated
     String SUPPRESS_NODE_DESC = Type.getType(SuppressNode.class).getDescriptor();
     /**
-     * @deprecated use {@link RuleAnnotation#SUPPRESS_SUBNODES} instead
+     * @deprecated use {@link ParserAnnotation#SUPPRESS_SUBNODES} instead
      */
     @Deprecated
     String SUPPRESS_SUBNODES_DESC = Type.getType(SuppressSubnodes.class).getDescriptor();
     /**
-     * @deprecated use {@link RuleAnnotation#DONT_SKIP_ACTIONS_IN_PREDICATES}
+     * @deprecated use {@link ParserAnnotation#DONT_SKIP_ACTIONS_IN_PREDICATES}
      * instead
      */
     @Deprecated
     String DONT_SKIP_ACTIONS_IN_PREDICATES_DESC = Type.getType(DontSkipActionsInPredicates.class).getDescriptor();
     /**
-     * @deprecated use {@link RuleAnnotation#SKIP_NODE} instead
+     * @deprecated use {@link ParserAnnotation#SKIP_NODE} instead
      */
     @Deprecated
     String SKIP_NODE_DESC = Type.getType(SkipNode.class).getDescriptor();
     /**
-     * @deprecated use {@link RuleAnnotation#MEMO_MISMATCHES} instead
+     * @deprecated use {@link ParserAnnotation#MEMO_MISMATCHES} instead
      */
     @Deprecated
     String MEMO_MISMATCHES_DESC = Type.getType(MemoMismatches.class).getDescriptor();

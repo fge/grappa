@@ -35,7 +35,7 @@ import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.analysis.BasicValue;
 import org.parboiled.BaseParser;
 import org.parboiled.support.Var;
-import org.parboiled.transform.method.RuleAnnotation;
+import org.parboiled.transform.method.ParserAnnotation;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -50,7 +50,7 @@ import static org.parboiled.transform.AsmUtils.isActionRoot;
 import static org.parboiled.transform.AsmUtils.isAssignableTo;
 import static org.parboiled.transform.AsmUtils.isBooleanValueOfZ;
 import static org.parboiled.transform.AsmUtils.isVarRoot;
-import static org.parboiled.transform.method.RuleAnnotation.*;
+import static org.parboiled.transform.method.ParserAnnotation.*;
 
 public class RuleMethod
     extends MethodNode
@@ -58,8 +58,8 @@ public class RuleMethod
     private final List<InstructionGroup> groups
         = new ArrayList<InstructionGroup>();
     private final List<LabelNode> usedLabels = new ArrayList<LabelNode>();
-    private final Set<RuleAnnotation> ruleAnnotations = EnumSet
-        .noneOf(RuleAnnotation.class);
+    private final Set<ParserAnnotation> annotations
+        = EnumSet.noneOf(ParserAnnotation.class);
 
     private final Class<?> ownerClass;
     private final int parameterCount;
@@ -87,13 +87,13 @@ public class RuleMethod
         parameterCount = Type.getArgumentTypes(desc).length;
 
         if (parameterCount == 0)
-            ruleAnnotations.add(CACHED);
+            annotations.add(CACHED);
         if (hasDontLabelAnno)
-            ruleAnnotations.add(DONT_LABEL);
+            annotations.add(DONT_LABEL);
         if (hasExplicitActionOnlyAnno)
-            ruleAnnotations.add(EXPLICIT_ACTIONS_ONLY);
+            annotations.add(EXPLICIT_ACTIONS_ONLY);
         if (hasSkipActionsInPredicates)
-            ruleAnnotations.add(SKIP_ACTIONS_IN_PREDICATES);
+            annotations.add(SKIP_ACTIONS_IN_PREDICATES);
         skipGeneration = isSuperMethod();
     }
 
@@ -114,7 +114,7 @@ public class RuleMethod
 
     public boolean hasDontExtend()
     {
-        return ruleAnnotations.contains(DONT_EXTEND);
+        return annotations.contains(DONT_EXTEND);
     }
 
     public int getParameterCount()
@@ -156,37 +156,37 @@ public class RuleMethod
 
     public boolean hasCachedAnnotation()
     {
-        return ruleAnnotations.contains(CACHED);
+        return annotations.contains(CACHED);
     }
 
     public boolean hasDontLabelAnnotation()
     {
-        return ruleAnnotations.contains(DONT_LABEL);
+        return annotations.contains(DONT_LABEL);
     }
 
     public boolean hasSuppressNodeAnnotation()
     {
-        return ruleAnnotations.contains(SUPPRESS_NODE);
+        return annotations.contains(SUPPRESS_NODE);
     }
 
     public boolean hasSuppressSubnodesAnnotation()
     {
-        return ruleAnnotations.contains(SUPPRESS_SUBNODES);
+        return annotations.contains(SUPPRESS_SUBNODES);
     }
 
     public boolean hasSkipActionsInPredicatesAnnotation()
     {
-        return ruleAnnotations.contains(SKIP_ACTIONS_IN_PREDICATES);
+        return annotations.contains(SKIP_ACTIONS_IN_PREDICATES);
     }
 
     public boolean hasSkipNodeAnnotation()
     {
-        return ruleAnnotations.contains(SKIP_NODE);
+        return annotations.contains(SKIP_NODE);
     }
 
     public boolean hasMemoMismatchesAnnotation()
     {
-        return ruleAnnotations.contains(MEMO_MISMATCHES);
+        return annotations.contains(MEMO_MISMATCHES);
     }
 
     public int getNumberOfReturns()
@@ -253,10 +253,10 @@ public class RuleMethod
     public AnnotationVisitor visitAnnotation(final String desc,
         final boolean visible)
     {
-        final  boolean recorded = recordDesc(ruleAnnotations, desc);
+        final  boolean recorded = recordDesc(annotations, desc);
         // FIXME...
-        if (ruleAnnotations.contains(DONT_SKIP_ACTIONS_IN_PREDICATES))
-            ruleAnnotations.remove(SKIP_ACTIONS_IN_PREDICATES);
+        if (annotations.contains(DONT_SKIP_ACTIONS_IN_PREDICATES))
+            annotations.remove(SKIP_ACTIONS_IN_PREDICATES);
         if (recorded)
             return null;
         // only keep visible annotations
@@ -269,7 +269,7 @@ public class RuleMethod
     {
         switch (opcode) {
             case INVOKESTATIC:
-                if (!ruleAnnotations.contains(EXPLICIT_ACTIONS_ONLY)
+                if (!annotations.contains(EXPLICIT_ACTIONS_ONLY)
                     && isBooleanValueOfZ(owner, name, desc)) {
                     containsImplicitActions = true;
                 } else if (isActionRoot(owner, name)) {
@@ -355,7 +355,7 @@ public class RuleMethod
     public void moveFlagsTo(final RuleMethod method)
     {
         Preconditions.checkNotNull(method);
-        moveTo(ruleAnnotations, method.ruleAnnotations);
+        moveTo(annotations, method.annotations);
     }
 
     public boolean isGenerationSkipped()
@@ -370,7 +370,7 @@ public class RuleMethod
 
     public void suppressNode()
     {
-        ruleAnnotations.add(SUPPRESS_NODE);
+        annotations.add(SUPPRESS_NODE);
     }
 
 }

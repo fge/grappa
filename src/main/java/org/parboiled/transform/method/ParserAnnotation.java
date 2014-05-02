@@ -20,12 +20,12 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Enumeration associating rule method annotations to their ASM descriptor
+ * Enumeration associating parser or rule annotations to their ASM descriptor
  *
  * @see Type#getDescriptor()
  * @see org.parboiled.annotations
  */
-public enum RuleAnnotation
+public enum ParserAnnotation
 {
     EXPLICIT_ACTIONS_ONLY(ExplicitActionsOnly.class),
     CACHED(Cached.class),
@@ -42,7 +42,7 @@ public enum RuleAnnotation
     /**
      * @see RuleMethod#moveFlagsTo(RuleMethod)
      */
-    private static final Set<RuleAnnotation> FLAGS_COPY = EnumSet.of(
+    private static final Set<ParserAnnotation> FLAGS_COPY = EnumSet.of(
         CACHED, DONT_LABEL, SUPPRESS_NODE, SUPPRESS_SUBNODES,
         SKIP_NODE, MEMO_MISMATCHES
     );
@@ -50,7 +50,7 @@ public enum RuleAnnotation
     /**
      * @see RuleMethod#moveFlagsTo(RuleMethod)
      */
-    private static final Set<RuleAnnotation> FLAGS_CLEAR = EnumSet.of(
+    private static final Set<ParserAnnotation> FLAGS_CLEAR = EnumSet.of(
         CACHED, SUPPRESS_NODE, SUPPRESS_SUBNODES, SKIP_NODE,
         MEMO_MISMATCHES
     );
@@ -58,18 +58,18 @@ public enum RuleAnnotation
     /**
      * @see RuleMethod#moveFlagsTo(RuleMethod)
      */
-    private static final Set<RuleAnnotation> FLAGS_SET = EnumSet.of(
+    private static final Set<ParserAnnotation> FLAGS_SET = EnumSet.of(
         DONT_LABEL
     );
 
-    private static final Map<String, RuleAnnotation>
+    private static final Map<String, ParserAnnotation>
         REVERSE_MAP;
 
     static {
-        final ImmutableMap.Builder<String, RuleAnnotation> builder
+        final ImmutableMap.Builder<String, ParserAnnotation> builder
             = ImmutableMap.builder();
 
-        for (final RuleAnnotation entry: values())
+        for (final ParserAnnotation entry: values())
             builder.put(entry.descriptor, entry);
 
         REVERSE_MAP = builder.build();
@@ -78,7 +78,7 @@ public enum RuleAnnotation
 
     private final String descriptor;
 
-    RuleAnnotation(final Class<? extends Annotation> c)
+    ParserAnnotation(final Class<? extends Annotation> c)
     {
         descriptor = Type.getType(c).getDescriptor();
     }
@@ -90,10 +90,10 @@ public enum RuleAnnotation
      * @param desc the descriptor
      * @return true if the descriptor is known
      */
-    public static boolean recordDesc(final Set<RuleAnnotation> set,
+    public static boolean recordDesc(final Set<ParserAnnotation> set,
         final String desc)
     {
-        final RuleAnnotation annotation = REVERSE_MAP.get(desc);
+        final ParserAnnotation annotation = REVERSE_MAP.get(desc);
         if (annotation == null)
             return false;
         set.add(annotation);
@@ -106,10 +106,10 @@ public enum RuleAnnotation
      * @param from set to move flags from
      * @param  to set to move flags to
      */
-    public static void moveTo(final Set<RuleAnnotation> from,
-        final Set<RuleAnnotation> to)
+    public static void moveTo(final Set<ParserAnnotation> from,
+        final Set<ParserAnnotation> to)
     {
-        final Set<RuleAnnotation> transferred = EnumSet.copyOf(from);
+        final Set<ParserAnnotation> transferred = EnumSet.copyOf(from);
         transferred.retainAll(FLAGS_COPY);
         to.addAll(transferred);
         from.addAll(FLAGS_SET);
