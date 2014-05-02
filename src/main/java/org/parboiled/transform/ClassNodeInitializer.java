@@ -50,7 +50,9 @@ import static org.parboiled.transform.method.ParserAnnotation.*;
 /**
  * Initializes the basic ParserClassNode fields and collects all methods.
  */
-public class ClassNodeInitializer extends ClassVisitor {
+public class ClassNodeInitializer
+    extends ClassVisitor
+{
 
     private ParserClassNode classNode;
     private Class<?> ownerClass;
@@ -60,11 +62,14 @@ public class ClassNodeInitializer extends ClassVisitor {
     private boolean hasDontLabelAnnotation;
     private boolean hasSkipActionsInPredicates;
 
-    public ClassNodeInitializer() {
+    public ClassNodeInitializer()
+    {
         super(Opcodes.ASM4);
     }
 
-    public void process(final ParserClassNode classNode) throws IOException {
+    public void process(final ParserClassNode classNode)
+        throws IOException
+    {
         this.classNode = Preconditions.checkNotNull(classNode, "classNode");
 
         // walk up the parser parent class chain
@@ -79,10 +84,11 @@ public class ClassNodeInitializer extends ClassVisitor {
             ownerClass = ownerClass.getSuperclass();
         }
 
-        for (final RuleMethod method : classNode.getRuleMethods().values()) {
+        for (final RuleMethod method: classNode.getRuleMethods().values()) {
             // move all flags from the super methods to their overriding methods
             if (method.isSuperMethod()) {
-                final RuleMethod overridingMethod = classNode.getRuleMethods().get(method.name.substring(1) + method.desc);
+                final RuleMethod overridingMethod = classNode.getRuleMethods()
+                    .get(method.name.substring(1) + method.desc);
                 method.moveFlagsTo(overridingMethod);
             } else {
                 if (!annotations.contains(BUILD_PARSE_TREE)) {
@@ -97,23 +103,24 @@ public class ClassNodeInitializer extends ClassVisitor {
     }
 
     @Override
-    public void visit(final int version, final int access, final String name, final String signature, final String superName, final String[] interfaces) {
+    public void visit(final int version, final int access, final String name,
+        final String signature, final String superName,
+        final String[] interfaces)
+    {
         if (ownerClass == classNode.getParentClass()) {
-            Checks.ensure((access & ACC_PRIVATE) == 0, "Parser class '%s' must not be private", name);
-            Checks.ensure((access & ACC_FINAL) == 0, "Parser class '%s' must not be final.", name);
-            classNode.visit(
-                    V1_6,
-                    ACC_PUBLIC,
-                    getExtendedParserClassName(name),
-                    null,
-                    classNode.getParentType().getInternalName(),
-                    null
-            );
+            Checks.ensure((access & ACC_PRIVATE) == 0,
+                "Parser class '%s' must not be private", name);
+            Checks.ensure((access & ACC_FINAL) == 0,
+                "Parser class '%s' must not be final.", name);
+            classNode.visit(V1_6, ACC_PUBLIC, getExtendedParserClassName(name),
+                null, classNode.getParentType().getInternalName(), null);
         }
     }
 
     @Override
-    public AnnotationVisitor visitAnnotation(final String desc, final boolean visible) {
+    public AnnotationVisitor visitAnnotation(final String desc,
+        final boolean visible)
+    {
         recordAnnotation(annotations, desc);
         if (Types.EXPLICIT_ACTIONS_ONLY_DESC.equals(desc)) {
             hasExplicitActionOnlyAnnotation = true;
@@ -132,35 +139,45 @@ public class ClassNodeInitializer extends ClassVisitor {
         }
 
         // only keep visible annotations on the parser class
-        return visible && ownerClass == classNode.getParentClass() ? classNode.visitAnnotation(desc, true) : null;
+        return visible && ownerClass == classNode.getParentClass() ? classNode
+            .visitAnnotation(desc, true) : null;
     }
 
     @Override
-    public void visitSource(final String source, final String debug) {
+    public void visitSource(final String source, final String debug)
+    {
         classNode.visitSource(null, null);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public MethodVisitor visitMethod(final int access, String name, final String desc, final String signature, final String[] exceptions) {
+    public MethodVisitor visitMethod(final int access, String name,
+        final String desc, final String signature, final String[] exceptions)
+    {
         if ("<init>".equals(name)) {
             // do not add constructors from super classes or private constructors
-            if (ownerClass != classNode.getParentClass() || (access & ACC_PRIVATE) > 0) {
+            if (ownerClass != classNode.getParentClass()
+                || (access & ACC_PRIVATE) > 0) {
                 return null;
             }
-            final MethodNode constructor = new MethodNode(access, name, desc, signature, exceptions);
+            final MethodNode constructor = new MethodNode(access, name, desc,
+                signature, exceptions);
             classNode.getConstructors().add(constructor);
             return constructor; // return the newly created method in order to have it "filled" with the method code
         }
 
         // only add non-native, non-abstract methods returning Rules
-        if (!Type.getReturnType(desc).equals(Types.RULE) || (access & (ACC_NATIVE | ACC_ABSTRACT)) > 0) {
+        if (!Type.getReturnType(desc).equals(Types.RULE)
+            || (access & (ACC_NATIVE | ACC_ABSTRACT)) > 0) {
             return null;
         }
 
-        Checks.ensure((access & ACC_PRIVATE) == 0, "Rule method '%s'must not be private.\n" +
-                "Mark the method protected or package-private if you want to prevent public access!", name);
-        Checks.ensure((access & ACC_FINAL) == 0, "Rule method '%s' must not be final.", name);
+        Checks.ensure((access & ACC_PRIVATE) == 0,
+            "Rule method '%s'must not be private.\n"
+                + "Mark the method protected or package-private if you want to prevent public access!",
+            name);
+        Checks.ensure((access & ACC_FINAL) == 0,
+            "Rule method '%s' must not be final.", name);
 
         // check, whether we do not already have a method with that name and descriptor
         // if we do we add the method with a "$" prefix in order to have it processed and be able to reference it
@@ -171,14 +188,16 @@ public class ClassNodeInitializer extends ClassVisitor {
             methodKey = name.concat(desc);
         }
 
-        final RuleMethod method = new RuleMethod(ownerClass, access, name, desc, signature, exceptions,
-                hasExplicitActionOnlyAnnotation, hasDontLabelAnnotation, hasSkipActionsInPredicates);
+        final RuleMethod method = new RuleMethod(ownerClass, access, name, desc,
+            signature, exceptions, hasExplicitActionOnlyAnnotation,
+            hasDontLabelAnnotation, hasSkipActionsInPredicates);
         classNode.getRuleMethods().put(methodKey, method);
         return method; // return the newly created method in order to have it "filled" with the actual method code
     }
 
     @Override
-    public void visitEnd() {
+    public void visitEnd()
+    {
         classNode.visitEnd();
     }
 }
