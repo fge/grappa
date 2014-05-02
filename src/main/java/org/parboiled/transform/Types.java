@@ -38,34 +38,65 @@ import org.parboiled.matchers.Matcher;
 import org.parboiled.matchers.ProxyMatcher;
 import org.parboiled.matchers.VarFramingMatcher;
 import org.parboiled.support.Var;
+import org.parboiled.transform.method.RuleAnnotation;
 
 public interface Types {
-    static final Type BASE_ACTION = Type.getType(BaseAction.class);
-    static final Type BASE_VAR_INIT = Type.getType(BaseVarInit.class);
-    static final Type BASE_PARSER = Type.getType(BaseParser.class);
-    static final Type CONTEXT_AWARE = Type.getType(ContextAware.class);
-    static final Type LABEL = Type.getType(Label.class);
-    static final Type MATCHER = Type.getType(Matcher.class);
-    static final Type PROXY_MATCHER = Type.getType(ProxyMatcher.class);
-    static final Type RULE = Type.getType(Rule.class);
-    static final Type VAR = Type.getType(Var.class);
-    static final Type VAR_FRAMING_MATCHER = Type.getType(VarFramingMatcher.class);
+    Type BASE_ACTION = Type.getType(BaseAction.class);
+    Type BASE_VAR_INIT = Type.getType(BaseVarInit.class);
+    Type BASE_PARSER = Type.getType(BaseParser.class);
+    Type CONTEXT_AWARE = Type.getType(ContextAware.class);
+    Type LABEL = Type.getType(Label.class);
+    Type MATCHER = Type.getType(Matcher.class);
+    Type PROXY_MATCHER = Type.getType(ProxyMatcher.class);
+    Type RULE = Type.getType(Rule.class);
+    Type VAR = Type.getType(Var.class);
+    Type VAR_FRAMING_MATCHER = Type.getType(VarFramingMatcher.class);
 
-    static final String ACTION_DESC = Type.getType(Action.class).getDescriptor();
-    static final String CACHED_DESC = Type.getType(Cached.class).getDescriptor();
-    static final String CONTEXT_DESC = Type.getType(Context.class).getDescriptor();
-    static final String DONT_EXTEND_DESC = Type.getType(DontExtend.class).getDescriptor();
-    static final String DONT_LABEL_DESC = Type.getType(DontLabel.class).getDescriptor();
-    static final String EXPLICIT_ACTIONS_ONLY_DESC = Type.getType(ExplicitActionsOnly.class).getDescriptor();
-    static final String LABEL_DESC = LABEL.getDescriptor();
-    static final String SUPPRESS_NODE_DESC = Type.getType(SuppressNode.class).getDescriptor();
-    static final String SUPPRESS_SUBNODES_DESC = Type.getType(SuppressSubnodes.class).getDescriptor();
-    static final String SKIP_ACTIONS_IN_PREDICATES_DESC = Type.getType(SkipActionsInPredicates.class).getDescriptor();
-    static final String DONT_SKIP_ACTIONS_IN_PREDICATES_DESC = Type.getType(DontSkipActionsInPredicates.class).getDescriptor();
-    static final String BUILD_PARSE_TREE_DESC = Type.getType(BuildParseTree.class).getDescriptor();
-    static final String SKIP_NODE_DESC = Type.getType(SkipNode.class).getDescriptor();
-    static final String MEMO_MISMATCHES_DESC = Type.getType(MemoMismatches.class).getDescriptor();
-    static final String MATCHER_DESC = MATCHER.getDescriptor();
-    static final String RULE_DESC = RULE.getDescriptor();
-    static final String VAR_DESC = VAR.getDescriptor();
+    String ACTION_DESC = Type.getType(Action.class).getDescriptor();
+    String CONTEXT_DESC = Type.getType(Context.class).getDescriptor();
+    String DONT_LABEL_DESC = Type.getType(DontLabel.class).getDescriptor();
+    String EXPLICIT_ACTIONS_ONLY_DESC = Type.getType(ExplicitActionsOnly.class).getDescriptor();
+    String LABEL_DESC = LABEL.getDescriptor();
+    String SKIP_ACTIONS_IN_PREDICATES_DESC = Type.getType(SkipActionsInPredicates.class).getDescriptor();
+    String BUILD_PARSE_TREE_DESC = Type.getType(BuildParseTree.class).getDescriptor();
+    String MATCHER_DESC = MATCHER.getDescriptor();
+    String RULE_DESC = RULE.getDescriptor();
+    String VAR_DESC = VAR.getDescriptor();
+
+    /**
+     * @deprecated use {@link RuleAnnotation#CACHED} instead
+     */
+    @Deprecated
+    String CACHED_DESC = Type.getType(Cached.class).getDescriptor();
+    /**
+     * @deprecated use {@link RuleAnnotation#DONT_EXTEND} instead
+     */
+    @Deprecated
+    String DONT_EXTEND_DESC = Type.getType(DontExtend.class).getDescriptor();
+    /**
+     * @deprecated use {@link RuleAnnotation#SUPPRESS_NODE} instead
+     */
+    @Deprecated
+    String SUPPRESS_NODE_DESC = Type.getType(SuppressNode.class).getDescriptor();
+    /**
+     * @deprecated use {@link RuleAnnotation#SUPPRESS_SUBNODES} instead
+     */
+    @Deprecated
+    String SUPPRESS_SUBNODES_DESC = Type.getType(SuppressSubnodes.class).getDescriptor();
+    /**
+     * @deprecated use {@link RuleAnnotation#DONT_SKIP_ACTIONS_IN_PREDICATES}
+     * instead
+     */
+    @Deprecated
+    String DONT_SKIP_ACTIONS_IN_PREDICATES_DESC = Type.getType(DontSkipActionsInPredicates.class).getDescriptor();
+    /**
+     * @deprecated use {@link RuleAnnotation#SKIP_NODE} instead
+     */
+    @Deprecated
+    String SKIP_NODE_DESC = Type.getType(SkipNode.class).getDescriptor();
+    /**
+     * @deprecated use {@link RuleAnnotation#MEMO_MISMATCHES} instead
+     */
+    @Deprecated
+    String MEMO_MISMATCHES_DESC = Type.getType(MemoMismatches.class).getDescriptor();
 }
