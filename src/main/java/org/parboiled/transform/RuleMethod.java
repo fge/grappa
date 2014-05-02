@@ -69,8 +69,6 @@ public class RuleMethod
         // calls to BaseParser.ACTION(boolean)
     private boolean containsVars; // calls to Var.<init>(T)
     private boolean containsPotentialSuperCalls;
-    private boolean hasDontExtend;
-    private boolean hasExplicitActionOnlyAnnotation;
     private boolean hasCachedAnnotation;
     private boolean hasDontLabelAnnotation;
     private boolean hasSuppressNodeAnnotation;
@@ -103,7 +101,6 @@ public class RuleMethod
         if (hasSkipActionsInPredicates)
             ruleAnnotations.add(SKIP_ACTIONS_IN_PREDICATES);
         hasDontLabelAnnotation = hasDontLabelAnno;
-        hasExplicitActionOnlyAnnotation = hasExplicitActionOnlyAnno;
         hasSkipActionsInPredicatesAnnotation = hasSkipActionsInPredicates;
         skipGeneration = isSuperMethod();
     }
@@ -125,7 +122,7 @@ public class RuleMethod
 
     public boolean hasDontExtend()
     {
-        return hasDontExtend;
+        return ruleAnnotations.contains(DONT_EXTEND);
     }
 
     public int getParameterCount()
@@ -266,7 +263,6 @@ public class RuleMethod
     {
         recordDesc(ruleAnnotations, desc);
         if (Types.EXPLICIT_ACTIONS_ONLY_DESC.equals(desc)) {
-            hasExplicitActionOnlyAnnotation = true;
             return null; // we do not need to record this annotation
         }
         if (Types.CACHED_DESC.equals(desc)) {
@@ -299,10 +295,6 @@ public class RuleMethod
         }
         if (Types.DONT_LABEL_DESC.equals(desc)) {
             hasDontLabelAnnotation = true;
-            return null; // we do not need to record this annotation
-        }
-        if (Types.DONT_EXTEND_DESC.equals(desc)) {
-            hasDontExtend = true;
             return null; // we do not need to record this annotation
         }
         return visible ? super.visitAnnotation(desc, true)
