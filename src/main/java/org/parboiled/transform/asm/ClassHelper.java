@@ -66,13 +66,7 @@ public final class ClassHelper
     public MethodInsnNode voidMethodCall(@Nonnull final String name,
         @Nonnull final Class<?>... args)
     {
-        Preconditions.checkNotNull(args);
-
-        final Type[] typeArgs = new Type[args.length];
-        for (int i = 0; i < args.length; i++)
-            typeArgs[i] = Type.getType(args[i]);
-
-        return methodCall(name, Type.VOID_TYPE, typeArgs);
+        return methodCall(name, void.class, args);
     }
 
     private MethodDescriptor findMethod(final String name,
