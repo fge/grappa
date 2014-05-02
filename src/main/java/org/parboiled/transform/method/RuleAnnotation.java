@@ -12,8 +12,10 @@ import org.parboiled.annotations.SkipActionsInPredicates;
 import org.parboiled.annotations.SkipNode;
 import org.parboiled.annotations.SuppressNode;
 import org.parboiled.annotations.SuppressSubnodes;
+import org.parboiled.transform.RuleMethod;
 
 import java.lang.annotation.Annotation;
+import java.util.EnumSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -36,6 +38,29 @@ public enum RuleAnnotation
     DONT_LABEL(DontLabel.class),
     DONT_EXTEND(DontExtend.class)
     ;
+
+    /**
+     * @see RuleMethod#moveFlagsTo(RuleMethod)
+     */
+    private static final Set<RuleAnnotation> FLAGS_COPY = EnumSet.of(
+        CACHED, DONT_LABEL, SUPPRESS_NODE, SUPPRESS_SUBNODES,
+        SKIP_NODE, MEMO_MISMATCHES
+    );
+
+    /**
+     * @see RuleMethod#moveFlagsTo(RuleMethod)
+     */
+    private static final Set<RuleAnnotation> FLAGS_CLEAR = EnumSet.of(
+        CACHED, SUPPRESS_NODE, SUPPRESS_SUBNODES, SKIP_NODE,
+        MEMO_MISMATCHES
+    );
+
+    /**
+     * @see RuleMethod#moveFlagsTo(RuleMethod)
+     */
+    private static final Set<RuleAnnotation> FLAGS_SET = EnumSet.of(
+        DONT_LABEL
+    );
 
     private static final Map<String, RuleAnnotation>
         REVERSE_MAP;
@@ -73,5 +98,21 @@ public enum RuleAnnotation
             return false;
         set.add(annotation);
         return true;
+    }
+
+    /**
+     * @see RuleMethod#moveFlagsTo(RuleMethod)
+     *
+     * @param from set to move flags from
+     * @param  to set to move flags to
+     */
+    public static void moveTo(final Set<RuleAnnotation> from,
+        final Set<RuleAnnotation> to)
+    {
+        final Set<RuleAnnotation> transferred = EnumSet.copyOf(from);
+        transferred.retainAll(FLAGS_COPY);
+        to.addAll(transferred);
+        from.addAll(FLAGS_SET);
+        from.removeAll(FLAGS_CLEAR);
     }
 }
