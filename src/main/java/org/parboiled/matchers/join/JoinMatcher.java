@@ -1,12 +1,9 @@
 package org.parboiled.matchers.join;
 
-import com.google.common.collect.ImmutableList;
 import org.parboiled.Rule;
 import org.parboiled.matchers.CustomDefaultLabelMatcher;
 import org.parboiled.matchers.Matcher;
 import org.parboiled.matchervisitors.MatcherVisitor;
-
-import java.util.List;
 
 public abstract class JoinMatcher
     extends CustomDefaultLabelMatcher<JoinMatcher>
@@ -32,19 +29,6 @@ public abstract class JoinMatcher
     public final Matcher getJoining()
     {
         return joining;
-    }
-
-    /*
-     * Used by FollowMatchersVisitor. Should return the matchers which would
-     * have matched to have a complete match hadn't the match failed.
-     *
-     * Used only in RecoveringParseRunner.
-     *
-     * TODO: implement for all implementations, and make it abstract
-     */
-    public List<Matcher> getMatchersAfterIndex(final int index)
-    {
-        return ImmutableList.of();
     }
 
     /**
