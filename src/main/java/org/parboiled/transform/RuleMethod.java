@@ -69,8 +69,6 @@ public class RuleMethod
         // calls to BaseParser.ACTION(boolean)
     private boolean containsVars; // calls to Var.<init>(T)
     private boolean containsPotentialSuperCalls;
-    private boolean hasCachedAnnotation;
-    private boolean hasDontLabelAnnotation;
     private boolean hasSuppressNodeAnnotation;
     private boolean hasSuppressSubnodesAnnotation;
     private boolean hasSkipNodeAnnotation;
@@ -101,7 +99,6 @@ public class RuleMethod
             ruleAnnotations.add(EXPLICIT_ACTIONS_ONLY);
         if (hasSkipActionsInPredicates)
             ruleAnnotations.add(SKIP_ACTIONS_IN_PREDICATES);
-        hasDontLabelAnnotation = hasDontLabelAnno;
         hasSkipActionsInPredicatesAnnotation = hasSkipActionsInPredicates;
         skipGeneration = isSuperMethod();
     }
@@ -170,7 +167,7 @@ public class RuleMethod
 
     public boolean hasDontLabelAnnotation()
     {
-        return hasDontLabelAnnotation;
+        return ruleAnnotations.contains(DONT_LABEL);
     }
 
     public boolean hasSuppressNodeAnnotation()
@@ -291,7 +288,6 @@ public class RuleMethod
             return null; // we do not need to record this annotation
         }
         if (Types.DONT_LABEL_DESC.equals(desc)) {
-            hasDontLabelAnnotation = true;
             return null; // we do not need to record this annotation
         }
         if (Types.DONT_EXTEND_DESC.equals(desc)) {
@@ -396,7 +392,6 @@ public class RuleMethod
 
         moveTo(ruleAnnotations, method.ruleAnnotations);
 
-        method.hasDontLabelAnnotation |= hasDontLabelAnnotation;
         method.hasSuppressNodeAnnotation |= hasSuppressNodeAnnotation;
         method.hasSuppressSubnodesAnnotation
             |= hasSuppressSubnodesAnnotation;
@@ -404,7 +399,6 @@ public class RuleMethod
         method.hasMemoMismatchesAnnotation
             |= hasMemoMismatchesAnnotation;
 
-        hasDontLabelAnnotation = true;
 
         hasSuppressNodeAnnotation = false;
         hasSuppressSubnodesAnnotation = false;
