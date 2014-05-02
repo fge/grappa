@@ -36,13 +36,13 @@ import org.parboiled.transform.InstructionGraphNode;
 import org.parboiled.transform.InstructionGroup;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
+import org.parboiled.transform.asm.AsmHelper;
 
 import static org.objectweb.asm.Opcodes.DUP;
 import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
 import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
 import static org.objectweb.asm.Opcodes.NEW;
 import static org.objectweb.asm.Opcodes.PUTFIELD;
-import static org.parboiled.transform.AsmUtils.getLoadingOpcode;
 
 /**
  * Inserts action group class instantiation code at the groups respective placeholders.
@@ -105,7 +105,8 @@ public class RuleMethodRewriter implements RuleMethodProcessor {
         for (final FieldNode field : group.getFields()) {
             insert(new InsnNode(DUP));
             // the FieldNodes access and value members have been reused for the var index / Type respectively!
-            insert(new VarInsnNode(getLoadingOpcode((Type) field.value), field.access));
+            insert(new VarInsnNode(AsmHelper.loadingOpcodeFor((Type) field.value),
+                field.access));
             insert(new FieldInsnNode(PUTFIELD, internalName, field.name, field.desc));
         }
     }

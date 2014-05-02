@@ -33,6 +33,7 @@ import org.objectweb.asm.tree.VarInsnNode;
 import org.parboiled.BaseParser;
 import org.parboiled.ContextAware;
 import org.parboiled.support.Var;
+import org.parboiled.transform.asm.AsmHelper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -311,11 +312,22 @@ public final class AsmUtils
         final Type[] types = Type.getArgumentTypes(methodDescriptor);
         for (int i = 0; i < types.length; i++) {
             instructions
-                .add(new VarInsnNode(getLoadingOpcode(types[i]), i + 1));
+                .add(new VarInsnNode(AsmHelper.loadingOpcodeFor(types[i]),
+                    i + 1));
         }
         return instructions;
     }
 
+    /**
+     * DO NOT USE!
+     *
+     * @param argType type
+     * @return matching load opcode
+     *
+     * @deprecated use {@link AsmHelper#loadingOpcodeFor(Type)} instead; will
+     * be removed in 1.1.
+     */
+    @Deprecated
     public static int getLoadingOpcode(final Type argType)
     {
         Preconditions.checkNotNull(argType, "argType");
