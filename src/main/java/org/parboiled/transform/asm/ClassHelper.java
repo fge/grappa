@@ -44,6 +44,37 @@ public final class ClassHelper
             name, descriptor.toString(), isInterface);
     }
 
+    public MethodInsnNode voidMethodCall(@Nonnull final String name,
+        @Nonnull final Type... args)
+    {
+        return methodCall(name, Type.VOID_TYPE, args);
+    }
+
+    public MethodInsnNode methodCall(@Nonnull final String name,
+        @Nonnull final Class<?> returnType, @Nonnull final Class<?>... args)
+    {
+        Preconditions.checkNotNull(returnType);
+        Preconditions.checkNotNull(args);
+
+        final Type[] typeArgs = new Type[args.length];
+        for (int i = 0; i < args.length; i++)
+            typeArgs[i] = Type.getType(args[i]);
+
+        return methodCall(name, Type.getType(returnType), typeArgs);
+    }
+
+    public MethodInsnNode voidMethodCall(@Nonnull final String name,
+        @Nonnull final Class<?>... args)
+    {
+        Preconditions.checkNotNull(args);
+
+        final Type[] typeArgs = new Type[args.length];
+        for (int i = 0; i < args.length; i++)
+            typeArgs[i] = Type.getType(args[i]);
+
+        return methodCall(name, Type.VOID_TYPE, typeArgs);
+    }
+
     private MethodDescriptor findMethod(final String name,
         final Type returnType, final Type... args)
     {
