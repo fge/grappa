@@ -1,5 +1,6 @@
 package org.parboiled.matchers.join;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
 import org.parboiled.errors.GrammarException;
@@ -40,9 +41,10 @@ public abstract class JoinMatcher
      * @return the value returned by the given visitor
      */
     @Override
-    public <R> R accept(final MatcherVisitor<R> visitor)
+    public final <R> R accept(final MatcherVisitor<R> visitor)
     {
-        return null;
+        Preconditions.checkNotNull(visitor);
+        return visitor.visit(this);
     }
 
     protected final <V> boolean firstCycle(final MatcherContext<V> context,
