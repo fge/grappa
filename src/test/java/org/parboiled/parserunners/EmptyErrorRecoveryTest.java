@@ -45,27 +45,31 @@ public class EmptyErrorRecoveryTest extends TestNgParboiledTest<Object> {
     public void testSingleRecovery() {
         Parser parser = Parboiled.createParser(Parser.class);
         testWithRecovery(parser.Clause(), "Y cool")
-                .hasErrors("" +
-                        "Invalid input, expected 'e' or 'u' (line 1, pos 2):\n" +
-                        "Y cool\n" +
-                        " ^\n");
+            .hasErrors(
+                "Invalid input, expected one of: ['e', 'u'] (line 1, pos 2):\n"
+                +
+                "Y cool\n" +
+                " ^\n");
         
         testWithRecovery(parser.Clause(), "Y")
-                .hasErrors("" +
-                        "Unexpected end of input, expected 'e' or 'u' (line 1, pos 2):\n" +
-                        "Y\n" +
-                        " ^\n");
+            .hasErrors(
+                "Unexpected end of input, expected one of: ['e', 'u']" +
+                " (line 1, pos 2):\n" +
+                "Y\n" +
+                " ^\n");
         
         testWithRecovery(parser.Clause2(), "Y cool")
-                .hasErrors("" +
-                        "Invalid input ' ...', expected 'e' or 'u' (line 1, pos 2):\n" +
-                        "Y cool\n" +
-                        " ^^^^^\n");
+            .hasErrors(
+                "Invalid input ' ...', expected one of: ['e', 'u']" +
+                " (line 1, pos 2):\n" +
+                "Y cool\n" +
+                " ^^^^^\n");
         
         testWithRecovery(parser.Clause2(), "Y")
-                .hasErrors("" +
-                        "Unexpected end of input, expected 'e' or 'u' (line 1, pos 2):\n" +
-                        "Y\n" +
-                        " ^\n");
+            .hasErrors("" +
+                "Unexpected end of input, expected one of: ['e', 'u']" +
+                " (line 1, pos 2):\n" +
+                "Y\n" +
+                " ^\n");
     }
 }

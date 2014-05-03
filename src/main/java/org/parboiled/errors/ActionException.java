@@ -20,25 +20,32 @@ package org.parboiled.errors;
  * Exception that can be thrown by parser actions to signal that an error has occurred that is to be collected
  * in the ParseErrors for the parsing run. Throwing an ActionException does not stop the parsing process.
  */
-public class ActionException extends RuntimeException {
+public class ActionException
+    extends RuntimeException
+{
 
-    public ActionException() {
+    public ActionException()
+    {
     }
 
-    public ActionException(final String message) {
+    public ActionException(final String message)
+    {
         super(message);
     }
 
-    public ActionException(final String message, final Throwable cause) {
+    public ActionException(final String message, final Throwable cause)
+    {
         super(message, cause);
     }
 
-    public ActionException(
-        final Throwable cause, final String message, final Object... messageArgs) {
+    public ActionException(final Throwable cause, final String message,
+        final Object... messageArgs)
+    {
         super(String.format(message, messageArgs), cause);
     }
 
-    public ActionException(final Throwable cause) {
+    public ActionException(final Throwable cause)
+    {
         super(cause);
     }
 

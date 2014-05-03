@@ -43,8 +43,8 @@ public class ReportingParseRunnerTest {
         Rule rule = parser.Line1();
         ParsingResult result = new ReportingParseRunner(rule).run("Text;;Something");
         assertEquals(result.parseErrors.size(), 1);
-        assertEquals(printParseErrors(result), "" +
-                "Invalid input ';' (line 1, pos 6):\n" +
+        assertEquals(printParseErrors(result),
+            "Invalid input ';' (line 1, pos 6):\n" +
                 "Text;;Something\n" +
                 "     ^\n");
     }
@@ -56,9 +56,8 @@ public class ReportingParseRunnerTest {
         ParsingResult result = new ReportingParseRunner(rule).run("Text;");
         assertEquals(result.parseErrors.size(), 1);
         assertEquals(printParseErrors(result), "" +
-                "Unexpected end of input, expected ANY (line 1, pos 6):\n" +
-                "Text;\n" +
-                "     ^\n");
+            "Unexpected end of input, expected one of: [ANY]" +
+            " (line 1, pos 6):\nText;\n     ^\n");
     }
 
     @Test
@@ -67,9 +66,9 @@ public class ReportingParseRunnerTest {
         Rule rule = parser.Line2();
         ParsingResult result = new ReportingParseRunner(rule).run("ad");
         assertEquals(result.parseErrors.size(), 1);
-        assertEquals(printParseErrors(result), "" +
-                "Invalid input 'd', expected 'c' (line 1, pos 2):\n" +
-                "ad\n" +
-                " ^\n");
+        assertEquals(printParseErrors(result),
+            "Invalid input 'd', expected one of: ['c'] (line 1, pos 2):\n"
+            + "ad\n"
+            + " ^\n");
     }
 }

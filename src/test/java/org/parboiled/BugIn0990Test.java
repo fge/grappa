@@ -34,10 +34,8 @@ public class BugIn0990Test extends TestNgParboiledTest<Integer> {
     @Test
     public void test() {
         Parser parser = Parboiled.createParser(Parser.class);
-        test(parser.ID(), "ab")
-                .hasErrors("" +
-                        "Invalid input 'b', expected WhiteSpaceChar (line 1, pos 2):\n" +
-                        "ab\n" +
-                        " ^\n");
+        test(parser.ID(), "ab").hasErrors(
+            "Invalid input 'b', expected one of: [WhiteSpaceChar]" +
+            " (line 1, pos 2):\nab\n ^\n");
     }
 }

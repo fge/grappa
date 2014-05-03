@@ -16,10 +16,12 @@
 
 package org.parboiled.errors;
 
+import com.google.common.base.Joiner;
 import com.google.common.escape.Escaper;
 import org.parboiled.common.Formatter;
 import org.parboiled.matchers.AnyOfMatcher;
 import org.parboiled.matchers.Matcher;
+import org.parboiled.support.Characters;
 import org.parboiled.support.Chars;
 import org.parboiled.support.CharsEscaper;
 import org.parboiled.support.MatcherPath;
@@ -35,46 +37,58 @@ public class DefaultInvalidInputErrorFormatter
     implements Formatter<InvalidInputError>
 {
     private static final Escaper ESCAPER = CharsEscaper.INSTANCE;
+    private static final Joiner JOINER = Joiner.on(", ");
 
     @Override
-    public String format(final InvalidInputError error) {
-        if (error == null) return "";
+    public String format(final InvalidInputError object)
+    {
+        if (object == null)
+            return "";
 
-        final int len = error.getEndIndex() - error.getStartIndex();
+        final int len = object.getEndIndex() - object.getStartIndex();
         final StringBuilder sb = new StringBuilder();
         if (len > 0) {
-            final char c = error.getInputBuffer().charAt(error.getStartIndex());
+            final char c = object.getInputBuffer().charAt(object.getStartIndex());
             if (c == Chars.EOI) {
                 sb.append("Unexpected end of input");
             } else {
                 sb.append("Invalid input '")
-                        .append(ESCAPER.escape(String.valueOf(c)));
-                if (len > 1) sb.append("...");
+                    .append(ESCAPER.escape(String.valueOf(c)));
+                if (len > 1)
+                    sb.append("...");
                 sb.append('\'');
             }
         } else {
             sb.append("Invalid input");
         }
-        final String expectedString = getExpectedString(error);
+        final String expectedString = getExpectedString(object);
         if (!expectedString.isEmpty()) {
             sb.append(", expected ").append(expectedString);
         }
         return sb.toString();
     }
 
-    public String getExpectedString(final InvalidInputError error) {
-        // In non recovery-mode there is no complexity in the error and start indices since they are all stable.
-        // However, in recovery-mode the RecoveringParseRunner inserts characters into the InputBuffer, which requires
-        // for all indices taken before to be shifted. The RecoveringParseRunner does this by changing the indexDelta
-        // of the parse runner. All users of the ParseError will then automatically see shifted start and end indices
-        // matching the state of the underlying InputBuffer. However, since the failed MatcherPaths still carry the
-        // "original" indices we need to unapply the IndexDelta in order to be able to compare with them.
-        final int pathStartIndex = error.getStartIndex() - error.getIndexDelta();
+    public String getExpectedString(final InvalidInputError error)
+    {
+        // In non recovery-mode there is no complexity in the error and start
+        // indices since they are all stable. However, in recovery-mode the
+        // RecoveringParseRunner inserts characters into the InputBuffer, which
+        // requires for all indices taken before to be shifted. The
+        // RecoveringParseRunner does this by changing the indexDelta of the
+        // parse runner. All users of the ParseError will then automatically see
+        // shifted start and end indices matching the state of the underlying
+        // InputBuffer. However, since the failed MatcherPaths still carry the
+        // "original" indices we need to unapply the IndexDelta in order to be
+        // able to compare with them.
+        final int pathStartIndex = error.getStartIndex() - error
+            .getIndexDelta();
 
         final List<String> labelList = new ArrayList<String>();
         for (final MatcherPath path : error.getFailedMatchers()) {
-            final Matcher labelMatcher = ErrorUtils.findProperLabelMatcher(path, pathStartIndex);
-            if (labelMatcher == null) continue;
+            final Matcher labelMatcher = ErrorUtils
+                .findProperLabelMatcher(path, pathStartIndex);
+            if (labelMatcher == null)
+                continue;
             final String[] labels = getLabels(labelMatcher);
             for (final String label : labels) {
                 if (label != null && !labelList.contains(label)) {
@@ -86,32 +100,44 @@ public class DefaultInvalidInputErrorFormatter
     }
 
     /**
-     * Gets the labels corresponding to the given matcher, AnyOfMatchers are treated specially in that their
-     * label is constructed as a list of their contents
+     * Gets the labels corresponding to the given matcher, AnyOfMatchers are
+     * treated specially in that their label is constructed as a list of their
+     * contents
      *
      * @param matcher the matcher
      * @return the labels
      */
-    public String[] getLabels(final Matcher matcher) {
-        if ((matcher instanceof AnyOfMatcher) && ((AnyOfMatcher)matcher).characters.toString().equals(matcher.getLabel())) {
-            final AnyOfMatcher cMatcher = (AnyOfMatcher) matcher;
-            if (!cMatcher.characters.isSubtractive()) {
-                final String[] labels = new String[cMatcher.characters.getChars().length];
-                for (int i = 0; i < labels.length; i++) {
-                    labels[i] = '\'' + String.valueOf(cMatcher.characters.getChars()[i]) + '\'';
-                }
-                return labels;
-            }
-        }
-        return new String[] {matcher.getLabel()};
+    //TODO: make it so that this special treatment does not exist
+    public String[] getLabels(final Matcher matcher)
+    {
+        final String label = matcher.getLabel();
+        final String[] byDefault = { label };
+
+        if (!(matcher instanceof AnyOfMatcher))
+            return byDefault;
+
+        final AnyOfMatcher anyOfMatcher = (AnyOfMatcher) matcher;
+        final Characters characters = anyOfMatcher.characters;
+
+        if (!characters.toString().equals(label))
+            return byDefault;
+
+        if (characters.isSubtractive())
+            return byDefault;
+
+        final String[] labels = new String[characters.getChars().length];
+        for (int i = 0; i < labels.length; i++)
+            labels[i] = '\'' + String.valueOf(characters.getChars()[i]) + '\'';
+        return labels;
     }
 
-    public String join(final List<String> labelList) {
-        final StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < labelList.size(); i++) {
-            if (i > 0) sb.append(i < labelList.size() - 1 ? ", " : " or ");
-            sb.append(labelList.get(i));
-        }
+    public String join(final List<String> labelList)
+    {
+        if (labelList.isEmpty())
+            return "";
+        final StringBuilder sb = new StringBuilder("one of: [");
+        JOINER.appendTo(sb, labelList);
+        sb.append(']');
         return ESCAPER.escape(sb.toString());
     }
 

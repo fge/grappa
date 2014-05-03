@@ -22,14 +22,18 @@ import org.parboiled.buffers.InputBuffer;
 /**
  * A basic {@link ParseError} implementation for a one-char parse error with an optional error message.
  */
-public class BasicParseError implements ParseError {
+public class BasicParseError
+    implements ParseError
+{
     private final InputBuffer inputBuffer;
     private final int startIndex;
     private final String errorMessage;
     private int endIndex;
     private int indexDelta;
 
-    public BasicParseError(final InputBuffer inputBuffer, final int errorIndex, final String errorMessage) {
+    public BasicParseError(final InputBuffer inputBuffer, final int errorIndex,
+        final String errorMessage)
+    {
         this.inputBuffer = Preconditions.checkNotNull(inputBuffer);
         this.startIndex = errorIndex;
         this.endIndex = errorIndex + 1;
@@ -37,34 +41,41 @@ public class BasicParseError implements ParseError {
     }
 
     @Override
-    public InputBuffer getInputBuffer() {
+    public InputBuffer getInputBuffer()
+    {
         return inputBuffer;
     }
 
     @Override
-    public int getStartIndex() {
+    public int getStartIndex()
+    {
         return startIndex + indexDelta;
     }
 
     @Override
-    public int getEndIndex() {
+    public int getEndIndex()
+    {
         return endIndex + indexDelta;
     }
 
-    public void setEndIndex(final int endIndex) {
+    public void setEndIndex(final int endIndex)
+    {
         this.endIndex = endIndex - indexDelta;
     }
 
     @Override
-    public String getErrorMessage() {
+    public String getErrorMessage()
+    {
         return errorMessage;
     }
 
-    public int getIndexDelta() {
+    public int getIndexDelta()
+    {
         return indexDelta;
     }
 
-    public void shiftIndexDeltaBy(final int delta) {
+    public void shiftIndexDeltaBy(final int delta)
+    {
         this.indexDelta += delta;
     }
 }

@@ -55,45 +55,48 @@ public class SimpleErrorRecoveryTest extends TestNgParboiledTest<Object> {
     @Test
     public void testRecovery() {
         Parser parser = Parboiled.createParser(Parser.class);
-        testWithRecovery(parser.Clause(), "AaA")
-                .hasErrors("" +
-                        "Invalid input 'a...', expected 'l' (line 1, pos 2):\n" +
-                        "AaA\n" +
-                        " ^^\n" +
-                        "---\n" +
-                        "Unexpected end of input, expected \" and \", \" or \" or Verb (line 1, pos 4):\n" +
-                        "AaA\n" +
-                        "   ^\n");
+        testWithRecovery(parser.Clause(), "AaA").hasErrors(
+            "Invalid input 'a...', expected one of: ['l'] (line 1, pos 2):\n" +
+                "AaA\n" +
+                " ^^\n" +
+                "---\n" +
+                "Unexpected end of input, " +
+                "expected one of: [\" and \", \" or \", Verb] "
+                + "(line 1, pos 4):\n"
+                +
+                "AaA\n" +
+                "   ^\n"
+        );
 
-        testWithRecovery(parser.Clause(), "Alice has anximals")
-                .hasErrors("" +
-                        "Invalid input 'x', expected 'i' (line 1, pos 13):\n" +
-                        "Alice has anximals\n" +
-                        "            ^\n")
-                .hasParseTree("" +
-                        "[Clause]E 'Alice has animals'\n" +
-                        "  [Subject] 'Alice'\n" +
-                        "    [Name] 'Alice'\n" +
-                        "      [\"Alice\"] 'Alice'\n" +
-                        "    [ZeroOrMore]\n" +
-                        "  [Verb] ' has '\n" +
-                        "    [\" has \"] ' has '\n" +
-                        "  [Object]E 'animals'\n" +
-                        "    [\"animals\"]E 'animals'\n" +
-                        "  [EOI]\n");
+        testWithRecovery(parser.Clause(), "Alice has anximals").hasErrors(
+            "Invalid input 'x', expected one of: ['i'] (line 1, pos 13):\n" +
+            "Alice has anximals\n" +
+            "            ^\n"
+        ).hasParseTree(
+            "[Clause]E 'Alice has animals'\n" +
+            "  [Subject] 'Alice'\n" +
+            "    [Name] 'Alice'\n" +
+            "      [\"Alice\"] 'Alice'\n" +
+            "    [ZeroOrMore]\n" +
+            "  [Verb] ' has '\n" +
+            "    [\" has \"] ' has '\n" +
+            "  [Object]E 'animals'\n" +
+            "    [\"animals\"]E 'animals'\n" +
+            "  [EOI]\n");
 
         testWithRecovery(parser.Clause().suppressSubnodes(), "Alice has anximals")
-                .hasErrors("" +
-                        "Invalid input 'x', expected 'i' (line 1, pos 13):\n" +
-                        "Alice has anximals\n" +
-                        "            ^\n")
-                .hasParseTree("[Clause]E 'Alice has animals'\n");
+            .hasErrors(
+                "Invalid input 'x', expected one of: ['i'] (line 1, pos 13):\n"
+                + "Alice has anximals\n"
+                + "            ^\n"
+            ).hasParseTree("[Clause]E 'Alice has animals'\n");
 
         testWithRecovery(parser.Clause(), "Alice has anmals")
-                .hasErrors("" +
-                        "Invalid input 'm', expected 'i' (line 1, pos 13):\n" +
-                        "Alice has anmals\n" +
-                        "            ^\n")
+            .hasErrors("" +
+                "Invalid input 'm', expected one of: ['i'] (line 1, pos 13):\n"
+                +
+                "Alice has anmals\n" +
+                "            ^\n")
                 .hasParseTree("" +
                         "[Clause]E 'Alice has animals'\n" +
                         "  [Subject] 'Alice'\n" +
@@ -106,82 +109,89 @@ public class SimpleErrorRecoveryTest extends TestNgParboiledTest<Object> {
                         "    [\"animals\"]E 'animals'\n" +
                         "  [EOI]\n");
 
-        testWithRecovery(parser.Clause(), "Alixyce has animals")
-                .hasErrors("" +
-                        "Invalid input 'x...', expected 'c' (line 1, pos 4):\n" +
-                        "Alixyce has animals\n" +
-                        "   ^^^^\n")
-                .hasParseTree("" +
-                        "[Clause]E 'Ali has animals'\n" +
-                        "  [Subject]E 'Ali'\n" +
-                        "    [Name]E 'Ali'\n" +
-                        "      [\"Alice\"]E 'Ali'\n" +
-                        "    [ZeroOrMore]\n" +
-                        "  [Verb] ' has '\n" +
-                        "    [\" has \"] ' has '\n" +
-                        "  [Object] 'animals'\n" +
-                        "    [\"animals\"] 'animals'\n" +
-                        "  [EOI]\n");
+        testWithRecovery(parser.Clause(), "Alixyce has animals").hasErrors(
+            "Invalid input 'x...', expected one of: ['c'] (line 1, pos 4):\n"
+            + "Alixyce has animals\n"
+            + "   ^^^^\n"
+        ).hasParseTree(
+            "[Clause]E 'Ali has animals'\n" +
+            "  [Subject]E 'Ali'\n" +
+            "    [Name]E 'Ali'\n" +
+            "      [\"Alice\"]E 'Ali'\n" +
+            "    [ZeroOrMore]\n" +
+            "  [Verb] ' has '\n" +
+            "    [\" has \"] ' has '\n" +
+            "  [Object] 'animals'\n" +
+            "    [\"animals\"] 'animals'\n" +
+            "  [EOI]\n"
+        );
 
         testWithRecovery(parser.Clause(), "Alicexy has animals")
-                .hasErrors("" +
-                        "Invalid input 'x...', expected \" and \", \" or \" or Verb (line 1, pos 6):\n" +
-                        "Alicexy has animals\n" +
-                        "     ^^^^^^^^^^^^^^\n")
-                .hasParseTree("" +
-                        "[Clause]E 'Alice'\n" +
-                        "  [Subject] 'Alice'\n" +
-                        "    [Name] 'Alice'\n" +
-                        "      [\"Alice\"] 'Alice'\n" +
-                        "    [ZeroOrMore]\n");
+            .hasErrors(
+                "Invalid input 'x...'," +
+                " expected one of: [\" and \", \" or \", Verb]" +
+                " (line 1, pos 6):\n" +
+                "Alicexy has animals\n" +
+                "     ^^^^^^^^^^^^^^\n"
+            ).hasParseTree("" +
+                "[Clause]E 'Alice'\n" +
+                "  [Subject] 'Alice'\n" +
+                "    [Name] 'Alice'\n" +
+                "      [\"Alice\"] 'Alice'\n" +
+                "    [ZeroOrMore]\n"
+            );
 
         testWithRecovery(parser.Clause(), "Alize has animals")
-                .hasErrors("" +
-                        "Invalid input 'z', expected 'c' (line 1, pos 4):\n" +
-                        "Alize has animals\n" +
-                        "   ^\n")
-                .hasParseTree("" +
-                        "[Clause]E 'Alice has animals'\n" +
-                        "  [Subject]E 'Alice'\n" +
-                        "    [Name]E 'Alice'\n" +
-                        "      [\"Alice\"]E 'Alice'\n" +
-                        "    [ZeroOrMore]\n" +
-                        "  [Verb] ' has '\n" +
-                        "    [\" has \"] ' has '\n" +
-                        "  [Object] 'animals'\n" +
-                        "    [\"animals\"] 'animals'\n" +
-                        "  [EOI]\n");
+            .hasErrors(
+                "Invalid input 'z', expected one of: ['c'] (line 1, pos 4):\n" +
+                "Alize has animals\n" +
+                "   ^\n"
+            ).hasParseTree("" +
+                "[Clause]E 'Alice has animals'\n" +
+                "  [Subject]E 'Alice'\n" +
+                "    [Name]E 'Alice'\n" +
+                "      [\"Alice\"]E 'Alice'\n" +
+                "    [ZeroOrMore]\n" +
+                "  [Verb] ' has '\n" +
+                "    [\" has \"] ' has '\n" +
+                "  [Object] 'animals'\n" +
+                "    [\"animals\"] 'animals'\n" +
+                "  [EOI]\n"
+            );
 
         testWithRecovery(parser.Clause(), "Alice lofes animals")
-                .hasErrors("" +
-                        "Invalid input 'f', expected 'v' (line 1, pos 9):\n" +
-                        "Alice lofes animals\n" +
-                        "        ^\n")
-                .hasParseTree("" +
-                        "[Clause]E 'Alice loves animals'\n" +
-                        "  [Subject] 'Alice'\n" +
-                        "    [Name] 'Alice'\n" +
-                        "      [\"Alice\"] 'Alice'\n" +
-                        "    [ZeroOrMore]\n" +
-                        "  [Verb]E ' loves '\n" +
-                        "    [\" loves \"]E ' loves '\n" +
-                        "  [Object] 'animals'\n" +
-                        "    [\"animals\"] 'animals'\n" +
-                        "  [EOI]\n");
+            .hasErrors(
+                "Invalid input 'f', expected one of: ['v'] (line 1, pos 9):\n"
+                + "Alice lofes animals\n        ^\n")
+            .hasParseTree(
+                "[Clause]E 'Alice loves animals'\n" +
+                "  [Subject] 'Alice'\n" +
+                "    [Name] 'Alice'\n" +
+                "      [\"Alice\"] 'Alice'\n" +
+                "    [ZeroOrMore]\n" +
+                "  [Verb]E ' loves '\n" +
+                "    [\" loves \"]E ' loves '\n" +
+                "  [Object] 'animals'\n" +
+                "    [\"animals\"] 'animals'\n" +
+                "  [EOI]\n"
+            );
 
         testWithRecovery(parser.Clause(), "Alixce and Emlio lofe animals")
-                .hasErrors("" +
-                        "Invalid input 'x', expected 'c' (line 1, pos 4):\n" +
-                        "Alixce and Emlio lofe animals\n" +
-                        "   ^\n" +
-                        "---\n" +
-                        "Invalid input 'l', expected 'i' (line 1, pos 14):\n" +
-                        "Alixce and Emlio lofe animals\n" +
-                        "             ^\n" +
-                        "---\n" +
-                        "Invalid input 'f', expected 'v' (line 1, pos 20):\n" +
-                        "Alixce and Emlio lofe animals\n" +
-                        "                   ^\n")
+            .hasErrors("" +
+                "Invalid input 'x', expected one of: ['c'] (line 1, pos 4):\n"
+                +
+                "Alixce and Emlio lofe animals\n" +
+                "   ^\n" +
+                "---\n" +
+                "Invalid input 'l', expected one of: ['i'] (line 1, pos 14):\n"
+                +
+                "Alixce and Emlio lofe animals\n" +
+                "             ^\n" +
+                "---\n" +
+                "Invalid input 'f', expected one of: ['v'] (line 1, pos 20):\n"
+                +
+                "Alixce and Emlio lofe animals\n" +
+                "                   ^\n")
                 .hasParseTree("" +
                         "[Clause]E 'Alice and Emilio love animals'\n" +
                         "  [Subject]E 'Alice and Emilio'\n" +
@@ -200,10 +210,12 @@ public class SimpleErrorRecoveryTest extends TestNgParboiledTest<Object> {
                         "  [EOI]\n");
         
         testWithRecovery(parser.Clause(), "Alice has cars!!")
-                .hasErrors("" +
-                        "Invalid input '!...', expected EOI (line 1, pos 15):\n" +
-                        "Alice has cars!!\n" +
-                        "              ^^\n")
+            .hasErrors("" +
+                "Invalid input '!...', expected one of: [EOI] " +
+                "(line 1, pos 15):\n"
+                +
+                "Alice has cars!!\n" +
+                "              ^^\n")
                 .hasParseTree("" +
                         "[Clause]E 'Alice has cars'\n" +
                         "  [Subject] 'Alice'\n" +
