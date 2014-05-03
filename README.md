@@ -38,13 +38,12 @@ like the [drink of the same name](http://www.istitutograppa.org/))
 
 ## Versions
 
-The current version is **1.0.0-beta.3**. See the [release notes](RELEASE-NOTES.md) for details.
-
-The major new features compared to parboiled1 are:
+The current version is **1.0.0-beta.4**. The major new features compared to parboiled1 are:
 
 * more basic rules: all rules defined by [RFC 5234, Appendix B,
   section1](https://tools.ietf.org/html/rfc5234#appendix-B.1) are now available by default (except
   for `LWSP`);
+* a `join` rule (`join(someRule).using(otherRule).{times,max,min,range}(...)`);
 * Unicode support: rules for matching a single code point or a range of code points;
 * Java 8 compatibility;
 * `CharSequence` support for input buffers, which means you can use grappa on very large files using

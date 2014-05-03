@@ -1,7 +1,8 @@
-### 1.0.0-beta.4 (in progress)
+### 1.0.0-beta.4
 
 * New, experimental `join()` rule.
 * Lots of code cleanup; start transform code refactoring.
+* Also generate 1.6 bytecode for rule methods... Meh.
 
 ### 1.0.0-beta.3
 
