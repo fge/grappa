@@ -1,6 +1,8 @@
 /*
  * Copyright (C) 2009-2011 Mathias Doenitz
  *
+ * Heavy modifications by Francis Galiegue <fgaliegue@gmail.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -22,46 +24,11 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 import java.util.List;
-import java.util.ListIterator;
 
 // TODO: get rid of it
-public class ImmutableLinkedList<T>
+public final class ImmutableLinkedList<T>
     extends ForwardingList<T>
 {
-    private static final ImmutableLinkedList<Object> NIL
-        = new ImmutableLinkedList<Object>(ImmutableList.of())
-    {
-        @Override
-        public Object head()
-        {
-            throw new UnsupportedOperationException("head of empty list");
-        }
-
-        @Override
-        public ImmutableLinkedList<Object> tail()
-        {
-            throw new UnsupportedOperationException("tail of empty list");
-        }
-
-        @Override
-        public Object last()
-        {
-            throw new UnsupportedOperationException("last of empty list");
-        }
-
-        @Override
-        protected List<Object> delegate()
-        {
-            return ImmutableList.of();
-        }
-
-        @Override
-        public ListIterator<Object> listIterator(final int index)
-        {
-            return ImmutableList.of().listIterator();
-        }
-    };
-
     private final List<T> elements;
 
     @Override
@@ -70,16 +37,14 @@ public class ImmutableLinkedList<T>
         return elements;
     }
 
-    @SuppressWarnings("unchecked")
     public static <T> ImmutableLinkedList<T> nil()
     {
-        return (ImmutableLinkedList<T>) NIL;
+        return new ImmutableLinkedList<T>(ImmutableList.<T>of());
     }
 
-    public ImmutableLinkedList(final T head, final ImmutableLinkedList<T> tail)
+    private ImmutableLinkedList(final T head, final ImmutableLinkedList<T> tail)
     {
-        elements = ImmutableList.<T>builder().add(head)
-            .addAll(tail).build();
+        elements = ImmutableList.<T>builder().add(head).addAll(tail).build();
     }
 
     private ImmutableLinkedList(final List<T> elements)
