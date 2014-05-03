@@ -9,15 +9,15 @@ import org.parboiled.Rule;
 public final class BoundedBothJoinMatcher
     extends JoinMatcher
 {
-    private final int minMatches;
-    private final int maxMatches;
+    private final int minCycles;
+    private final int maxCycles;
 
     public BoundedBothJoinMatcher(final Rule joined, final Rule joining,
-        final int minMatches, final int maxMatches)
+        final int minCycles, final int maxCycles)
     {
         super(joined, joining);
-        this.minMatches = minMatches;
-        this.maxMatches = maxMatches;
+        this.minCycles = minCycles;
+        this.maxCycles = maxCycles;
     }
 
     /**
@@ -29,6 +29,54 @@ public final class BoundedBothJoinMatcher
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
-        return false;
+        /*
+         * We know that minCycles cannot be 0; if we don't match the first
+         * joined, this is a failure.
+         */
+        if  (!joined.getSubContext(context).runMatcher())
+            return false;
+
+        /*
+         * First cycle...
+         */
+        int beforeCycle;
+
+        beforeCycle = context.getCurrentIndex();
+
+        if (!firstCycle(context, beforeCycle)) {
+            context.setCurrentIndex(beforeCycle);
+            if (minCycles != 1)
+                return false;
+        }
+
+        /*
+         * We have completed at least two cycles
+         */
+
+        int nrCycles = 2;
+
+        /*
+         * Try and go up to the maximum number of cycles
+         */
+        while (nrCycles < maxCycles) {
+            beforeCycle = context.getCurrentIndex();
+            if (joining.getSubContext(context).runMatcher()
+                && joined.getSubContext(context).runMatcher()) {
+                nrCycles++;
+                continue;
+            }
+            context.setCurrentIndex(beforeCycle);
+            break;
+        }
+
+        /*
+         * Success if and only if the number of cycles completed is greater than
+         * or equal to the minimum required number of cycles
+         */
+        if (nrCycles < minCycles)
+            return false;
+
+        context.createNode();
+        return true;
     }
 }

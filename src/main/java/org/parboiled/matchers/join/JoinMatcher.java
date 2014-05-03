@@ -1,6 +1,8 @@
 package org.parboiled.matchers.join;
 
+import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
+import org.parboiled.errors.GrammarException;
 import org.parboiled.matchers.CustomDefaultLabelMatcher;
 import org.parboiled.matchers.Matcher;
 import org.parboiled.matchervisitors.MatcherVisitor;
@@ -41,5 +43,16 @@ public abstract class JoinMatcher
     public <R> R accept(final MatcherVisitor<R> visitor)
     {
         return null;
+    }
+
+    protected final <V> boolean firstCycle(final MatcherContext<V> context,
+        final int beforeCycle)
+    {
+        if (!joining.getSubContext(context).runMatcher())
+            return false;
+        if (context.getCurrentIndex() == beforeCycle)
+            throw new GrammarException("joining rule (%s) of a JoinMatcher" +
+                " cannot match an empty character sequence!", joining);
+        return joined.getSubContext(context).runMatcher();
     }
 }
