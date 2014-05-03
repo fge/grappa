@@ -16,9 +16,12 @@
 
 package org.parboiled.common;
 
-public class ConsoleSink implements Sink<String>{
+public class ConsoleSink
+    implements Sink<String>
+{
     @Override
-    public void receive(final String value) {
+    public void receive(final String value)
+    {
         System.out.print(value);
     }
 }

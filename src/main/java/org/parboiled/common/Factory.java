@@ -16,8 +16,7 @@
 
 package org.parboiled.common;
 
-public interface Factory<T> {
-
+public interface Factory<T>
+{
     T create();
-
 }

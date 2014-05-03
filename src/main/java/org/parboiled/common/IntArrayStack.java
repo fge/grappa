@@ -16,19 +16,14 @@
 
 package org.parboiled.common;
 
-public class IntArrayStack {
-
-    public static class UnderflowException extends RuntimeException {
-        public UnderflowException(final String message) {
-            super(message);
-        }
-    }
-
+public class IntArrayStack
+{
     private static final int INITIAL_CAPACITY = 16;
     private int[] array;
     private int top;
 
-    public IntArrayStack() {
+    public IntArrayStack()
+    {
         array = new int[INITIAL_CAPACITY];
         top = -1;
     }
@@ -38,7 +33,8 @@ public class IntArrayStack {
      *
      * @return true if empty, false otherwise.
      */
-    public boolean isEmpty() {
+    public boolean isEmpty()
+    {
         return top == -1;
     }
 
@@ -47,7 +43,8 @@ public class IntArrayStack {
      *
      * @return the number of element currently on the stack
      */
-    public int size() {
+    public int size()
+    {
         return top + 1;
     }
 
@@ -57,23 +54,26 @@ public class IntArrayStack {
      * @param destArray the array
      * @param destStartIndex the index to start copying into
      */
-    public void getElements(final int[] destArray, final int destStartIndex) {
+    public void getElements(final int[] destArray, final int destStartIndex)
+    {
         System.arraycopy(array, 0, destArray, destStartIndex, size());
     }
 
     /**
      * @return all elements in a new array.
      */
-    public int[] toArray() {
-        final int[] array = new int[size()];
-        getElements(array, 0);
-        return array;
+    public int[] toArray()
+    {
+        final int[] ret = new int[size()];
+        getElements(ret, 0);
+        return ret;
     }
 
     /**
      * Empties the stack.
      */
-    public void clear() {
+    public void clear()
+    {
         top = -1;
     }
 
@@ -81,12 +81,13 @@ public class IntArrayStack {
      * Returns the item at the top of the stack without removing it.
      *
      * @return the most recently inserted item in the stack.
+     *
      * @throws UnderflowException if the stack is empty.
      */
-    public int peek() {
-        if (isEmpty()) {
+    public int peek()
+    {
+        if (isEmpty())
             throw new UnderflowException("IntArrayStack peek");
-        }
         return array[top];
     }
 
@@ -94,12 +95,13 @@ public class IntArrayStack {
      * Removes the most recently inserted item from the stack.
      *
      * @return the top stack item
+     *
      * @throws UnderflowException if the stack is empty.
      */
-    public int pop() {
-        if (isEmpty()) {
+    public int pop()
+    {
+        if (isEmpty())
             throw new UnderflowException("IntArrayStack pop");
-        }
         return array[top--];
     }
 
@@ -108,16 +110,27 @@ public class IntArrayStack {
      *
      * @param x the item to add.
      */
-    public void push(final int x) {
+    public void push(final int x)
+    {
         if (top == array.length - 1) {
             expandCapacity();
         }
         array[++top] = x;
     }
 
-    private void expandCapacity() {
+    private void expandCapacity()
+    {
         final int[] newArray = new int[array.length * 2];
         System.arraycopy(array, 0, newArray, 0, array.length);
         array = newArray;
+    }
+
+    public static class UnderflowException
+        extends RuntimeException
+    {
+        public UnderflowException(final String message)
+        {
+            super(message);
+        }
     }
 }

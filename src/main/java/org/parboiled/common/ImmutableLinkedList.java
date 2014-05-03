@@ -72,6 +72,14 @@ public final class ImmutableLinkedList<T>
         return new ImmutableLinkedList<T>(object, this);
     }
 
+    /**
+     * UNUSED!
+     *
+     * @return a list with all elements reversed
+     *
+     * @deprecated Unused! Will be removed in 1.1
+     */
+    @Deprecated
     public ImmutableLinkedList<T> reverse()
     {
         return new ImmutableLinkedList<T>(Lists.reverse(elements));

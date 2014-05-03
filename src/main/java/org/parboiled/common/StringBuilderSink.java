@@ -16,16 +16,20 @@
 
 package org.parboiled.common;
 
-public class StringBuilderSink implements Sink<String>{
+public class StringBuilderSink
+    implements Sink<String>
+{
     public final StringBuilder builder = new StringBuilder();
-    
+
     @Override
-    public void receive(final String value) {
+    public void receive(final String value)
+    {
         builder.append(value);
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return builder.toString();
     }
 }

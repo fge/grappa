@@ -39,10 +39,12 @@ import java.util.Queue;
 /**
  * General utility methods.
  */
-public final class Utils {
+public final class Utils
+{
 
     @Deprecated
-    public static final Character[] EMPTY_CHARACTER_OBJECT_ARRAY = new Character[0];
+    public static final Character[] EMPTY_CHARACTER_OBJECT_ARRAY
+        = new Character[0];
     @Deprecated
     public static final Integer[] EMPTY_INTEGER_OBJECT_ARRAY = new Integer[0];
     @Deprecated
@@ -58,77 +60,111 @@ public final class Utils {
     @Deprecated
     public static final Boolean[] EMPTY_BOOLEAN_OBJECT_ARRAY = new Boolean[0];
 
-    private Utils() {}
+    private Utils()
+    {
+    }
 
     @Deprecated
-    public static Character[] toObjectArray(final char[] array) {
-        if (array == null) return null;
-        if (array.length == 0) return EMPTY_CHARACTER_OBJECT_ARRAY;
+    public static Character[] toObjectArray(final char[] array)
+    {
+        if (array == null)
+            return null;
+        if (array.length == 0)
+            return EMPTY_CHARACTER_OBJECT_ARRAY;
         final Character[] result = new Character[array.length];
-        for (int i = 0; i < array.length; i++) result[i] = array[i];
+        for (int i = 0; i < array.length; i++)
+            result[i] = array[i];
         return result;
     }
 
     @Deprecated
-    public static Integer[] toObjectArray(final int[] array) {
-        if (array == null) return null;
-        if (array.length == 0) return EMPTY_INTEGER_OBJECT_ARRAY;
+    public static Integer[] toObjectArray(final int[] array)
+    {
+        if (array == null)
+            return null;
+        if (array.length == 0)
+            return EMPTY_INTEGER_OBJECT_ARRAY;
         final Integer[] result = new Integer[array.length];
-        for (int i = 0; i < array.length; i++) result[i] = array[i];
+        for (int i = 0; i < array.length; i++)
+            result[i] = array[i];
         return result;
     }
 
     @Deprecated
-    public static Long[] toObjectArray(final long[] array) {
-        if (array == null) return null;
-        if (array.length == 0) return EMPTY_LONG_OBJECT_ARRAY;
+    public static Long[] toObjectArray(final long[] array)
+    {
+        if (array == null)
+            return null;
+        if (array.length == 0)
+            return EMPTY_LONG_OBJECT_ARRAY;
         final Long[] result = new Long[array.length];
-        for (int i = 0; i < array.length; i++) result[i] = array[i];
+        for (int i = 0; i < array.length; i++)
+            result[i] = array[i];
         return result;
     }
 
     @Deprecated
-    public static Short[] toObjectArray(final short[] array) {
-        if (array == null) return null;
-        if (array.length == 0) return EMPTY_SHORT_OBJECT_ARRAY;
+    public static Short[] toObjectArray(final short[] array)
+    {
+        if (array == null)
+            return null;
+        if (array.length == 0)
+            return EMPTY_SHORT_OBJECT_ARRAY;
         final Short[] result = new Short[array.length];
-        for (int i = 0; i < array.length; i++) result[i] = array[i];
+        for (int i = 0; i < array.length; i++)
+            result[i] = array[i];
         return result;
     }
 
     @Deprecated
-    public static Byte[] toObjectArray(final byte[] array) {
-        if (array == null) return null;
-        if (array.length == 0) return EMPTY_BYTE_OBJECT_ARRAY;
+    public static Byte[] toObjectArray(final byte[] array)
+    {
+        if (array == null)
+            return null;
+        if (array.length == 0)
+            return EMPTY_BYTE_OBJECT_ARRAY;
         final Byte[] result = new Byte[array.length];
-        for (int i = 0; i < array.length; i++) result[i] = array[i];
+        for (int i = 0; i < array.length; i++)
+            result[i] = array[i];
         return result;
     }
 
     @Deprecated
-    public static Float[] toObjectArray(final float[] array) {
-        if (array == null) return null;
-        if (array.length == 0) return EMPTY_FLOAT_OBJECT_ARRAY;
+    public static Float[] toObjectArray(final float[] array)
+    {
+        if (array == null)
+            return null;
+        if (array.length == 0)
+            return EMPTY_FLOAT_OBJECT_ARRAY;
         final Float[] result = new Float[array.length];
-        for (int i = 0; i < array.length; i++) result[i] = array[i];
+        for (int i = 0; i < array.length; i++)
+            result[i] = array[i];
         return result;
     }
 
     @Deprecated
-    public static Double[] toObjectArray(final double[] array) {
-        if (array == null) return null;
-        if (array.length == 0) return EMPTY_DOUBLE_OBJECT_ARRAY;
+    public static Double[] toObjectArray(final double[] array)
+    {
+        if (array == null)
+            return null;
+        if (array.length == 0)
+            return EMPTY_DOUBLE_OBJECT_ARRAY;
         final Double[] result = new Double[array.length];
-        for (int i = 0; i < array.length; i++) result[i] = array[i];
+        for (int i = 0; i < array.length; i++)
+            result[i] = array[i];
         return result;
     }
 
     @Deprecated
-    public static Boolean[] toObjectArray(final boolean[] array) {
-        if (array == null) return null;
-        if (array.length == 0) return EMPTY_BOOLEAN_OBJECT_ARRAY;
+    public static Boolean[] toObjectArray(final boolean[] array)
+    {
+        if (array == null)
+            return null;
+        if (array.length == 0)
+            return EMPTY_BOOLEAN_OBJECT_ARRAY;
         final Boolean[] result = new Boolean[array.length];
-        for (int i = 0; i < array.length; i++) result[i] = array[i];
+        for (int i = 0; i < array.length; i++)
+            result[i] = array[i];
         return result;
     }
 
@@ -143,10 +179,12 @@ public final class Utils {
      */
     @Deprecated
     @SuppressWarnings("unchecked")
-    public static <T> T[] arrayOf(final T firstElement, final T... moreElements) {
+    public static <T> T[] arrayOf(final T firstElement, final T... moreElements)
+    {
         Preconditions.checkNotNull(moreElements, "moreElements");
         final Class<?> elementType = moreElements.getClass().getComponentType();
-        final T[] array = (T[]) Array.newInstance(elementType, moreElements.length + 1);
+        final T[] array = (T[]) Array
+            .newInstance(elementType, moreElements.length + 1);
         array[0] = firstElement;
         System.arraycopy(moreElements, 0, array, 1, moreElements.length);
         return array;
@@ -164,10 +202,13 @@ public final class Utils {
      */
     @SuppressWarnings("unchecked")
     @Deprecated
-    public static <T> T[] arrayOf(final T firstElement, final T secondElement, final T... moreElements) {
+    public static <T> T[] arrayOf(final T firstElement, final T secondElement,
+        final T... moreElements)
+    {
         Preconditions.checkNotNull(moreElements, "moreElements");
         final Class<?> elementType = moreElements.getClass().getComponentType();
-        final T[] array = (T[]) Array.newInstance(elementType, moreElements.length + 2);
+        final T[] array = (T[]) Array
+            .newInstance(elementType, moreElements.length + 2);
         array[0] = firstElement;
         array[1] = secondElement;
         System.arraycopy(moreElements, 0, array, 2, moreElements.length);
@@ -178,17 +219,20 @@ public final class Utils {
      * Joins the given arguments into one array.
      *
      * @param firstElements the first elements
-     * @param lastElement   the element to append
+     * @param lastElement the element to append
      * @return a new array containing all arguments.
      *
      * @deprecated will be removed in 1.1.
      */
     @SuppressWarnings("unchecked")
     @Deprecated
-    public static <T> T[] arrayOf(final T[] firstElements, final T lastElement) {
+    public static <T> T[] arrayOf(final T[] firstElements, final T lastElement)
+    {
         Preconditions.checkNotNull(firstElements, "firstElements");
-        final Class<?> elementType = firstElements.getClass().getComponentType();
-        final T[] array = (T[]) Array.newInstance(elementType, firstElements.length + 1);
+        final Class<?> elementType = firstElements.getClass()
+            .getComponentType();
+        final T[] array = (T[]) Array
+            .newInstance(elementType, firstElements.length + 1);
         System.arraycopy(firstElements, 0, array, 0, firstElements.length);
         array[firstElements.length] = lastElement;
         return array;
@@ -203,7 +247,8 @@ public final class Utils {
      * @deprecated will be removed in 1.1
      */
     @Deprecated
-    public static String toString(final Object obj) {
+    public static String toString(final Object obj)
+    {
         return obj == null ? "" : obj.toString();
     }
 
@@ -218,7 +263,8 @@ public final class Utils {
      * removed in 1.1.
      */
     @Deprecated
-    public static <T> boolean equal(final T a, final T b) {
+    public static <T> boolean equal(final T a, final T b)
+    {
         return a != null ? a.equals(b) : b == null;
     }
 
@@ -226,7 +272,7 @@ public final class Utils {
      * Gets the actual type arguments that are used in a given implementation of a given generic base class or interface.
      * (Based on code copyright 2007 by Ian Robertson).
      *
-     * @param base           the generic base class or interface
+     * @param base the generic base class or interface
      * @param implementation the type (potentially) implementing the given base class or interface
      * @return a list of the raw classes for the actual type arguments.
      *
@@ -268,10 +314,10 @@ public final class Utils {
                 clazz = (Class<?>) parameterizedType.getRawType();
 
                 // for instances of ParameterizedType we extract and remember all type arguments
-                final TypeVariable<?>[] typeVariables
-                    = clazz.getTypeParameters();
-                final Type[] actualTypeArguments
-                    = parameterizedType.getActualTypeArguments();
+                final TypeVariable<?>[] typeVariables = clazz
+                    .getTypeParameters();
+                final Type[] actualTypeArguments = parameterizedType
+                    .getActualTypeArguments();
                 for (int i = 0; i < actualTypeArguments.length; i++) {
                     resolvedTypes.put(typeVariables[i], actualTypeArguments[i]);
                 }
@@ -311,7 +357,8 @@ public final class Utils {
      * @deprecated unused; will be removed in 1.1.
      */
     @Deprecated
-    public static Class<?> getClass(final Type type) {
+    public static Class<?> getClass(final Type type)
+    {
         if (type instanceof Class)
             return (Class<?>) type;
 
@@ -321,8 +368,8 @@ public final class Utils {
         if (!(type instanceof GenericArrayType))
             return null;
 
-        final Type componentType
-            = ((GenericArrayType) type).getGenericComponentType();
+        final Type componentType = ((GenericArrayType) type)
+            .getGenericComponentType();
 
         final Class<?> componentClass = getClass(componentType);
         if (componentClass == null)
@@ -344,15 +391,15 @@ public final class Utils {
         Class<?>[] paramTypes;
         Object argument;
 
-        outer:
-        for (final Constructor<?> constructor: c.getConstructors()) {
+outer:
+        for (final Constructor<?> constructor : c.getConstructors()) {
             paramTypes = constructor.getParameterTypes();
             if (paramTypes.length != arguments.length)
                 continue;
             for (int i = 0; i < arguments.length; i++) {
                 argument = arguments[i];
-                if (argument != null
-                    && !paramTypes[i].isAssignableFrom(argument.getClass()))
+                if (argument != null && !paramTypes[i]
+                    .isAssignableFrom(argument.getClass()))
                     continue outer;
                 if (argument == null && paramTypes[i].isPrimitive())
                     continue outer;
@@ -371,39 +418,59 @@ public final class Utils {
      * @return the string representation
      */
     // TODO: replace!
-    public static String humanize(final long value) {
+    public static String humanize(final long value)
+    {
         if (value < 0) {
             return '-' + humanize(-value);
         } else if (value > 1000000000000000000L) {
             return Double.toString(
-                    (value + 500000000000000L) / 1000000000000000L * 1000000000000000L / 1000000000000000000.0) + 'E';
+                (value + 500000000000000L) / 1000000000000000L
+                    * 1000000000000000L / 1000000000000000000.0) + 'E';
         } else if (value > 100000000000000000L) {
             return Double.toString(
-                    (value + 50000000000000L) / 100000000000000L * 100000000000000L / 1000000000000000.0) + 'P';
+                (value + 50000000000000L) / 100000000000000L * 100000000000000L
+                    / 1000000000000000.0) + 'P';
         } else if (value > 10000000000000000L) {
-            return Double
-                    .toString((value + 5000000000000L) / 10000000000000L * 10000000000000L / 1000000000000000.0) + 'P';
+            return Double.toString(
+                (value + 5000000000000L) / 10000000000000L * 10000000000000L
+                    / 1000000000000000.0) + 'P';
         } else if (value > 1000000000000000L) {
-            return Double
-                    .toString((value + 500000000000L) / 1000000000000L * 1000000000000L / 1000000000000000.0) + 'P';
+            return Double.toString(
+                (value + 500000000000L) / 1000000000000L * 1000000000000L
+                    / 1000000000000000.0) + 'P';
         } else if (value > 100000000000000L) {
-            return Double.toString((value + 50000000000L) / 100000000000L * 100000000000L / 1000000000000.0) + 'T';
+            return Double.toString(
+                (value + 50000000000L) / 100000000000L * 100000000000L
+                    / 1000000000000.0) + 'T';
         } else if (value > 10000000000000L) {
-            return Double.toString((value + 5000000000L) / 10000000000L * 10000000000L / 1000000000000.0) + 'T';
+            return Double.toString(
+                (value + 5000000000L) / 10000000000L * 10000000000L
+                    / 1000000000000.0) + 'T';
         } else if (value > 1000000000000L) {
-            return Double.toString((value + 500000000) / 1000000000 * 1000000000 / 1000000000000.0) + 'T';
+            return Double.toString(
+                (value + 500000000) / 1000000000 * 1000000000 / 1000000000000.0)
+                + 'T';
         } else if (value > 100000000000L) {
-            return Double.toString((value + 50000000) / 100000000 * 100000000 / 1000000000.0) + 'G';
+            return Double.toString(
+                (value + 50000000) / 100000000 * 100000000 / 1000000000.0)
+                + 'G';
         } else if (value > 10000000000L) {
-            return Double.toString((value + 5000000) / 10000000 * 10000000 / 1000000000.0) + 'G';
+            return Double.toString(
+                (value + 5000000) / 10000000 * 10000000 / 1000000000.0) + 'G';
         } else if (value > 1000000000) {
-            return Double.toString((value + 500000) / 1000000 * 1000000 / 1000000000.0) + 'G';
+            return Double
+                .toString((value + 500000) / 1000000 * 1000000 / 1000000000.0)
+                + 'G';
         } else if (value > 100000000) {
-            return Double.toString((value + 50000) / 100000 * 100000 / 1000000.0) + 'M';
+            return
+                Double.toString((value + 50000) / 100000 * 100000 / 1000000.0)
+                    + 'M';
         } else if (value > 10000000) {
-            return Double.toString((value + 5000) / 10000 * 10000 / 1000000.0) + 'M';
+            return Double.toString((value + 5000) / 10000 * 10000 / 1000000.0)
+                + 'M';
         } else if (value > 1000000) {
-            return Double.toString((value + 500) / 1000 * 1000 / 1000000.0) + 'M';
+            return Double.toString((value + 500) / 1000 * 1000 / 1000000.0)
+                + 'M';
         } else if (value > 100000) {
             return Double.toString((value + 50) / 100 * 100 / 1000.0) + 'K';
         } else if (value > 10000) {

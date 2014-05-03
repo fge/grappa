@@ -16,30 +16,35 @@
 
 package org.parboiled.common;
 
-public final class Tuple3<A, B, C> {
+public final class Tuple3<A, B, C>
+{
     public final A a;
     public final B b;
     public final C c;
 
-    public Tuple3(final A a, final B b, final C c) {
+    public Tuple3(final A a, final B b, final C c)
+    {
         this.a = a;
         this.b = b;
         this.c = c;
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Tuple3)) return false;
+    public boolean equals(final Object o)
+    {
+        if (this == o)
+            return true;
+        if (!(o instanceof Tuple3))
+            return false;
         final Tuple3<?, ?, ?> tuple2 = (Tuple3<?, ?, ?>) o;
-        return
-                (a != null ? a.equals(tuple2.a) : tuple2.a == null) &&
-                (b != null ? b.equals(tuple2.b) : tuple2.b == null) &&
-                (c != null ? c.equals(tuple2.c) : tuple2.c == null);
+        return (a != null ? a.equals(tuple2.a) : tuple2.a == null) &&
+            (b != null ? b.equals(tuple2.b) : tuple2.b == null) &&
+            (c != null ? c.equals(tuple2.c) : tuple2.c == null);
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int result = a != null ? a.hashCode() : 0;
         result = 31 * result + (b != null ? b.hashCode() : 0);
         result = 31 * result + (c != null ? c.hashCode() : 0);
@@ -47,7 +52,8 @@ public final class Tuple3<A, B, C> {
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "Tuple3{a=" + a + ", b=" + b + ", c=" + c + '}';
     }
 }

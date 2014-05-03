@@ -21,14 +21,15 @@ package org.parboiled.common;
  *
  * @param <T>
  */
-public class Reference<T> {
-
+public class Reference<T>
+{
     private T value;
 
     /**
      * Create a new Reference with a null value.
      */
-    public Reference() {
+    public Reference()
+    {
     }
 
     /**
@@ -36,7 +37,8 @@ public class Reference<T> {
      *
      * @param value the value object
      */
-    public Reference(final T value) {
+    public Reference(final T value)
+    {
         this.value = value;
     }
 
@@ -45,7 +47,8 @@ public class Reference<T> {
      *
      * @return true
      */
-    public boolean clear() {
+    public boolean clear()
+    {
         return set(null);
     }
 
@@ -55,7 +58,8 @@ public class Reference<T> {
      * @param value the value
      * @return true
      */
-    public boolean set(final T value) {
+    public boolean set(final T value)
+    {
         this.value = value;
         return true;
     }
@@ -65,7 +69,8 @@ public class Reference<T> {
      *
      * @return the target
      */
-    public T get() {
+    public T get()
+    {
         return value;
     }
 
@@ -75,7 +80,8 @@ public class Reference<T> {
      *
      * @return the target
      */
-    public T getAndClear() {
+    public T getAndClear()
+    {
         return getAndSet(null);
     }
 
@@ -85,33 +91,37 @@ public class Reference<T> {
      * @param value the new value
      * @return the previous value
      */
-    public T getAndSet(final T value) {
+    public T getAndSet(final T value)
+    {
         final T t = this.value;
         this.value = value;
         return t;
     }
-    
+
     /**
      * Replaces this references value with the given one.
      *
      * @param value the new value
      * @return the new value
      */
-    public T setAndGet(final T value) {
+    public T setAndGet(final T value)
+    {
         return this.value = value;
     }
 
     /**
      * @return true if this Reference holds a non-null value
      */
-    public boolean isSet() {
+    public boolean isSet()
+    {
         return value != null;
     }
 
     /**
      * @return true if this Reference holds a null value
      */
-    public boolean isNotSet() {
+    public boolean isNotSet()
+    {
         return value == null;
     }
 }

@@ -21,7 +21,8 @@ package org.parboiled.common;
  *
  * @param <T>
  */
-public interface Formatter<T> {
+public interface Formatter<T>
+{
 
     /**
      * Create a string representation for the given obejct.

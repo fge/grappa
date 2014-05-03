@@ -20,10 +20,15 @@ import static org.parboiled.support.Chars.DEDENT;
 import static org.parboiled.support.Chars.EOI;
 import static org.parboiled.support.Chars.INDENT;
 
-// TODO: put it into IndentDedentInputBuffer and remove
+/**
+ * UNUSED!
+ *
+ * @deprecated will be removed in 1.1
+ */
+// TODO: move to test
+@Deprecated
 public final class InputBufferUtils
 {
-
     private InputBufferUtils()
     {
     }
