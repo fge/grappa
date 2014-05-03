@@ -16,6 +16,8 @@
 
 package org.parboiled.matchers;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+import com.github.parboiled1.grappa.cleanup.WillBePrivate;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.matchervisitors.MatcherVisitor;
@@ -26,15 +28,22 @@ import static org.parboiled.support.Chars.escape;
 /**
  * A {@link Matcher} matching a single given character.
  */
-public class CharMatcher extends AbstractMatcher {
+@WillBeFinal(version = "1.1")
+public class CharMatcher
+    extends AbstractMatcher
+{
+    @WillBePrivate(version = "1.1")
     public final char character;
 
-    public CharMatcher(final char character) {
+    public CharMatcher(final char character)
+    {
         super(getLabel(character));
         this.character = character;
     }
 
-    private static String getLabel(final char c) {
+    // TODO: remove...
+    private static String getLabel(final char c)
+    {
         switch (c) {
             case Chars.DEL_ERROR:
             case Chars.INS_ERROR:
@@ -52,17 +61,19 @@ public class CharMatcher extends AbstractMatcher {
     }
 
     @Override
-    public <V> boolean match(final MatcherContext<V> context) {
-        if (context.getCurrentChar() != character) return false;
+    public <V> boolean match(final MatcherContext<V> context)
+    {
+        if (context.getCurrentChar() != character)
+            return false;
         context.advanceIndex(1);
         context.createNode();
         return true;
     }
 
     @Override
-    public <R> R accept(final MatcherVisitor<R> visitor) {
+    public <R> R accept(final MatcherVisitor<R> visitor)
+    {
         Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }
-
 }

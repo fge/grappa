@@ -16,6 +16,7 @@
 
 package org.parboiled.matchers;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.matchervisitors.MatcherVisitor;
@@ -23,19 +24,25 @@ import org.parboiled.matchervisitors.MatcherVisitor;
 /**
  * A {@link Matcher} that never matches anything.
  */
-public class NothingMatcher extends AbstractMatcher {
+@WillBeFinal(version = "1.1")
+public class NothingMatcher
+    extends AbstractMatcher
+{
 
-    public NothingMatcher() {
+    public NothingMatcher()
+    {
         super("NOTHING");
     }
 
     @Override
-    public <V> boolean match(final MatcherContext<V> context) {
+    public <V> boolean match(final MatcherContext<V> context)
+    {
         return false;
     }
 
     @Override
-    public <R> R accept(final MatcherVisitor<R> visitor) {
+    public <R> R accept(final MatcherVisitor<R> visitor)
+    {
         Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }

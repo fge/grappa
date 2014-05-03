@@ -16,6 +16,8 @@
 
 package org.parboiled.matchers;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+import com.github.parboiled1.grappa.cleanup.WillBePrivate;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
@@ -24,23 +26,30 @@ import org.parboiled.matchervisitors.MatcherVisitor;
 /**
  * A {@link Matcher} that tries its submatcher once against the input and always succeeds.
  */
-public class OptionalMatcher extends CustomDefaultLabelMatcher<OptionalMatcher> {
+@WillBeFinal(version = "1.1")
+public class OptionalMatcher
+    extends CustomDefaultLabelMatcher<OptionalMatcher>
+{
+    @WillBePrivate(version = "1.1")
     public final Matcher subMatcher;
 
-    public OptionalMatcher(final Rule subRule) {
+    public OptionalMatcher(final Rule subRule)
+    {
         super(Preconditions.checkNotNull(subRule, "subRule"), "Optional");
-        this.subMatcher = getChildren().get(0);
+        subMatcher = getChildren().get(0);
     }
 
     @Override
-    public <V> boolean match(final MatcherContext<V> context) {
+    public <V> boolean match(final MatcherContext<V> context)
+    {
         subMatcher.getSubContext(context).runMatcher();
         context.createNode();
         return true;
     }
 
     @Override
-    public <R> R accept(final MatcherVisitor<R> visitor) {
+    public <R> R accept(final MatcherVisitor<R> visitor)
+    {
         Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }

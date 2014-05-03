@@ -16,6 +16,8 @@
 
 package org.parboiled.matchers;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+import com.github.parboiled1.grappa.cleanup.WillBePrivate;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.matchervisitors.MatcherVisitor;
@@ -25,11 +27,17 @@ import static org.parboiled.support.Chars.escape;
 /**
  * A {@link Matcher} matching a single character out of a given range of characters.
  */
-public class CharRangeMatcher extends AbstractMatcher {
+@WillBeFinal(version = "1.1")
+public class CharRangeMatcher
+    extends AbstractMatcher
+{
+    @WillBePrivate(version = "1.1")
     public final char cLow;
+    @WillBePrivate(version = "1.1")
     public final char cHigh;
 
-    public CharRangeMatcher(final char cLow, final char cHigh) {
+    public CharRangeMatcher(final char cLow, final char cHigh)
+    {
         super(escape(cLow) + ".." + escape(cHigh));
         Preconditions.checkArgument(cLow < cHigh);
         this.cLow = cLow;
@@ -37,9 +45,11 @@ public class CharRangeMatcher extends AbstractMatcher {
     }
 
     @Override
-    public <V> boolean match(final MatcherContext<V> context) {
+    public <V> boolean match(final MatcherContext<V> context)
+    {
         final char c = context.getCurrentChar();
-        if (c < cLow || c > cHigh) return false;
+        if (c < cLow || c > cHigh)
+            return false;
 
         context.advanceIndex(1);
         context.createNode();
@@ -47,9 +57,9 @@ public class CharRangeMatcher extends AbstractMatcher {
     }
 
     @Override
-    public <R> R accept(final MatcherVisitor<R> visitor) {
+    public <R> R accept(final MatcherVisitor<R> visitor)
+    {
         Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }
-
 }

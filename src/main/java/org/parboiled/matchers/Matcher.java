@@ -26,10 +26,13 @@ import org.parboiled.trees.GraphNode;
  * rule type specific matching logic.
  * Since it extends the {@link GraphNode} interface it can have submatchers.
  */
-public interface Matcher extends Rule, GraphNode<Matcher> {
+public interface Matcher
+    extends Rule, GraphNode<Matcher>
+{
 
     /**
-     * @return the label of the matcher (which is identical to the label of the Rule this matcher matches)
+     * @return the label of the matcher (which is identical to the label of the
+     * Rule this matcher matches)
      */
     String getLabel();
 
@@ -59,7 +62,8 @@ public interface Matcher extends Rule, GraphNode<Matcher> {
     boolean areMismatchesMemoed();
 
     /**
-     * Creates a context for the matching of this matcher using the given parent context.
+     * Creates a context for the matching of this matcher using the given parent
+     * context.
      *
      * @param context the parent context
      * @return the context this matcher is to be run in
@@ -75,10 +79,12 @@ public interface Matcher extends Rule, GraphNode<Matcher> {
     <V> boolean match(MatcherContext<V> context);
 
     /**
-     * Associates an arbitrary object with this matcher. Used for example during profiling and packrat parsing.
-     * The matcher implementations themselves completely ignore the contents of this property. It purely serves as a
-     * performance optimization for ParseRunners and/or MatchHandlers and saves these from the need to use
-     * Map&lt;Matcher, XYZ&gt; structures for associating internal objects with matchers.
+     * Associates an arbitrary object with this matcher. Used for example during
+     * profiling and packrat parsing. The matcher implementations themselves
+     * completely ignore the contents of this property. It purely serves as a
+     * performance optimization for ParseRunners and/or MatchHandlers and saves
+     * these from the need to use Map&lt;Matcher, XYZ&gt; structures for
+     * associating internal objects with matchers.
      *
      * @param tagObject the tag object
      */

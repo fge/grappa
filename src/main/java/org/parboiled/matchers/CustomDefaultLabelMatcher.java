@@ -16,6 +16,8 @@
 
 package org.parboiled.matchers;
 
+import com.github.parboiled1.grappa.cleanup.DoNotUse;
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
 import org.parboiled.Rule;
 
 public abstract class CustomDefaultLabelMatcher<T extends CustomDefaultLabelMatcher<T>>
@@ -23,13 +25,15 @@ public abstract class CustomDefaultLabelMatcher<T extends CustomDefaultLabelMatc
 {
     private String defaultLabel;
 
-    protected CustomDefaultLabelMatcher(final Rule subRule, final String defaultLabel)
+    protected CustomDefaultLabelMatcher(final Rule subRule,
+        final String defaultLabel)
     {
         super(subRule, null);
         this.defaultLabel = defaultLabel;
     }
 
-    protected CustomDefaultLabelMatcher(final Rule[] subRules, final String defaultLabel)
+    protected CustomDefaultLabelMatcher(final Rule[] subRules,
+        final String defaultLabel)
     {
         super(subRules, null);
         this.defaultLabel = defaultLabel;
@@ -47,6 +51,9 @@ public abstract class CustomDefaultLabelMatcher<T extends CustomDefaultLabelMatc
         return super.getLabel() != null;
     }
 
+    @DoNotUse
+    @Deprecated
+    @WillBeRemoved(version = "1.1")
     @SuppressWarnings("unchecked")
     public T defaultLabel(final String defaultLabel)
     {

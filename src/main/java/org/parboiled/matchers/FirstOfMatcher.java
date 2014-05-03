@@ -16,39 +16,39 @@
 
 package org.parboiled.matchers;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
 import org.parboiled.matchervisitors.MatcherVisitor;
 
-import java.util.List;
-
 /**
  * A {@link Matcher} trying all of its submatchers in sequence and succeeding when the first submatcher succeeds.
  */
-public class FirstOfMatcher extends CustomDefaultLabelMatcher<FirstOfMatcher> {
-
-    public FirstOfMatcher(final Rule[] subRules) {
+@WillBeFinal(version = "1.1")
+public class FirstOfMatcher
+    extends CustomDefaultLabelMatcher<FirstOfMatcher>
+{
+    public FirstOfMatcher(final Rule[] subRules)
+    {
         super(Preconditions.checkNotNull(subRules, "subRules"), "FirstOf");
     }
 
     @Override
-    @SuppressWarnings("ForLoopReplaceableByForEach")
-    public <V> boolean match(final MatcherContext<V> context) {
-        final List<Matcher> children = getChildren();
-        final int size = children.size();
-        for (int i = 0; i < size; i++) {
-            final Matcher matcher = children.get(i);
-            if (matcher.getSubContext(context).runMatcher()) {
-                context.createNode();
-                return true;
-            }
+    public <V> boolean match(final MatcherContext<V> context)
+    {
+        for (final Matcher matcher: getChildren()) {
+            if (!matcher.getSubContext(context).runMatcher())
+                continue;
+            context.createNode();
+            return true;
         }
         return false;
     }
 
     @Override
-    public <R> R accept(final MatcherVisitor<R> visitor) {
+    public <R> R accept(final MatcherVisitor<R> visitor)
+    {
         Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }

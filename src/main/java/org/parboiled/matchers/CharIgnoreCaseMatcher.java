@@ -16,6 +16,8 @@
 
 package org.parboiled.matchers;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+import com.github.parboiled1.grappa.cleanup.WillBePrivate;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.matchervisitors.MatcherVisitor;
@@ -25,29 +27,39 @@ import static org.parboiled.support.Chars.escape;
 /**
  * A {@link Matcher} matching a single character case-independently.
  */
-public class CharIgnoreCaseMatcher extends AbstractMatcher {
+@WillBeFinal(version = "1.1")
+public class CharIgnoreCaseMatcher
+    extends AbstractMatcher
+{
+    @WillBePrivate(version = "1.1")
     public final char charLow;
+    @WillBePrivate(version = "1.1")
     public final char charUp;
 
-    public CharIgnoreCaseMatcher(final char character) {
-        super('\'' + escape(Character.toLowerCase(character)) + '/' + escape(Character.toUpperCase(character)) + '\'');
-        this.charLow = Character.toLowerCase(character);
-        this.charUp = Character.toUpperCase(character);
+    public CharIgnoreCaseMatcher(final char character)
+    {
+        super('\'' + escape(Character.toLowerCase(character))
+            + '/' + escape(Character.toUpperCase(character)) + '\''
+        );
+        charLow = Character.toLowerCase(character);
+        charUp = Character.toUpperCase(character);
     }
 
     @Override
-    public <V> boolean match(final MatcherContext<V> context) {
+    public <V> boolean match(final MatcherContext<V> context)
+    {
         final char c = context.getCurrentChar();
-        if (c != charLow && c != charUp) return false;
+        if (c != charLow && c != charUp)
+            return false;
         context.advanceIndex(1);
         context.createNode();
         return true;
     }
 
     @Override
-    public <R> R accept(final MatcherVisitor<R> visitor) {
+    public <R> R accept(final MatcherVisitor<R> visitor)
+    {
         Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }
-
 }

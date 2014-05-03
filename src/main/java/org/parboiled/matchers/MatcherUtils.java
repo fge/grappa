@@ -16,14 +16,22 @@
 
 package org.parboiled.matchers;
 
-public final class MatcherUtils {
-    
-    private MatcherUtils() {}
-    
-    public static Matcher unwrap(final Matcher matcher) {
-        if (matcher instanceof ProxyMatcher) return unwrap(ProxyMatcher.unwrap(matcher));
-        if (matcher instanceof VarFramingMatcher) return unwrap(VarFramingMatcher.unwrap(matcher));
-        if (matcher instanceof MemoMismatchesMatcher) return unwrap(MemoMismatchesMatcher.unwrap(matcher));
-        return matcher; 
+public final class MatcherUtils
+{
+
+    private MatcherUtils()
+    {
+    }
+
+    // TODO: UGLY, REMOVE! .wrap() should be a Rule/Matcher-level method
+    public static Matcher unwrap(final Matcher matcher)
+    {
+        if (matcher instanceof ProxyMatcher)
+            return unwrap(ProxyMatcher.unwrap(matcher));
+        if (matcher instanceof VarFramingMatcher)
+            return unwrap(VarFramingMatcher.unwrap(matcher));
+        if (matcher instanceof MemoMismatchesMatcher)
+            return unwrap(MemoMismatchesMatcher.unwrap(matcher));
+        return matcher;
     }
 }
