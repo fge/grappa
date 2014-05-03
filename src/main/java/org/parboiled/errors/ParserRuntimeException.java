@@ -19,28 +19,39 @@ package org.parboiled.errors;
 /**
  * Exception that is thrown for any problem during the parsing run that cannot be overcome automatically.
  */
-public class ParserRuntimeException extends RuntimeException {
+public class ParserRuntimeException
+    extends RuntimeException
+{
 
-    public ParserRuntimeException() {
+    public ParserRuntimeException()
+    {
     }
 
-    public ParserRuntimeException(final String message) {
+    public ParserRuntimeException(final String message)
+    {
         super(message);
     }
 
-    public ParserRuntimeException(final String message, final Throwable cause) {
+    public ParserRuntimeException(final String message, final Throwable cause)
+    {
         super(message, cause);
     }
 
-    public ParserRuntimeException(final String message, final Object... messageArgs) {
+    public ParserRuntimeException(final String message,
+        final Object... messageArgs)
+    {
         super(String.format(message, messageArgs));
     }
 
-    public ParserRuntimeException(final Throwable cause, final String message, final Object... messageArgs) {
-        super(messageArgs.length > 0 ? String.format(message, messageArgs) : message, cause);
+    public ParserRuntimeException(final Throwable cause, final String message,
+        final Object... messageArgs)
+    {
+        super(messageArgs.length > 0 ? String.format(message, messageArgs)
+            : message, cause);
     }
 
-    public ParserRuntimeException(final Throwable cause) {
+    public ParserRuntimeException(final Throwable cause)
+    {
         super(cause);
     }
 

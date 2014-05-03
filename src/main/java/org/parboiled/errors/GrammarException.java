@@ -19,29 +19,37 @@ package org.parboiled.errors;
 /**
  * Exception thrown by parboiled if a problem with the integrity of the grammar rules has been detected.
  */
-public class GrammarException extends RuntimeException {
+public class GrammarException
+    extends RuntimeException
+{
 
-    public GrammarException() {
+    public GrammarException()
+    {
     }
 
-    public GrammarException(final String message) {
+    public GrammarException(final String message)
+    {
         super(message);
     }
 
-    public GrammarException(final String message, final Throwable cause) {
+    public GrammarException(final String message, final Throwable cause)
+    {
         super(message, cause);
     }
 
-    public GrammarException(final String message, final Object... messageArgs) {
+    public GrammarException(final String message, final Object... messageArgs)
+    {
         super(String.format(message, messageArgs));
     }
 
-    public GrammarException(
-        final Throwable cause, final String message, final Object... messageArgs) {
+    public GrammarException(final Throwable cause, final String message,
+        final Object... messageArgs)
+    {
         super(String.format(message, messageArgs), cause);
     }
 
-    public GrammarException(final Throwable cause) {
+    public GrammarException(final Throwable cause)
+    {
         super(cause);
     }
 

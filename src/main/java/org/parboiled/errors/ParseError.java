@@ -21,7 +21,8 @@ import org.parboiled.buffers.InputBuffer;
 /**
  * Common interface of all parboiled parse error implementations.
  */
-public interface ParseError {
+public interface ParseError
+{
 
     /**
      * Gets the inputbuffer this error occurred in.
@@ -41,7 +42,7 @@ public interface ParseError {
      * Gets the end index of the parse error in the underlying input buffer.
      *
      * @return the end index of this error, i.e. the index of the character immediately following the last character
-     *         covered by this error
+     * covered by this error
      */
     int getEndIndex();
 

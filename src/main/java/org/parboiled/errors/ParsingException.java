@@ -20,29 +20,37 @@ package org.parboiled.errors;
  * Exception type not directly used by parboiled but included as a convenience base class for custom exceptions
  * (or to be used directly if no custom exception types are required).
  */
-public class ParsingException extends RuntimeException {
+public class ParsingException
+    extends RuntimeException
+{
 
-    public ParsingException() {
+    public ParsingException()
+    {
     }
 
-    public ParsingException(final String message) {
+    public ParsingException(final String message)
+    {
         super(message);
     }
 
-    public ParsingException(final String message, final Throwable cause) {
+    public ParsingException(final String message, final Throwable cause)
+    {
         super(message, cause);
     }
 
-    public ParsingException(final String message, final Object... messageArgs) {
+    public ParsingException(final String message, final Object... messageArgs)
+    {
         super(String.format(message, messageArgs));
     }
 
-    public ParsingException(
-        final Throwable cause, final String message, final Object... messageArgs) {
+    public ParsingException(final Throwable cause, final String message,
+        final Object... messageArgs)
+    {
         super(String.format(message, messageArgs), cause);
     }
 
-    public ParsingException(final Throwable cause) {
+    public ParsingException(final Throwable cause)
+    {
         super(cause);
     }
 

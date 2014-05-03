@@ -23,19 +23,24 @@ import org.parboiled.support.Position;
 /**
  * Exception thrown by the IndentDedentInputbuffer upon detection of an illegal indentation.
  */
-public class IllegalIndentationException extends RuntimeException {
+public class IllegalIndentationException
+    extends RuntimeException
+{
     public final InputBuffer buffer;
     public final Position position;
 
-    public IllegalIndentationException(final InputBuffer buffer, final Position position) {
+    public IllegalIndentationException(final InputBuffer buffer,
+        final Position position)
+    {
         this.buffer = buffer;
         this.position = position;
     }
 
     @Override
-    public String getMessage() {
+    public String getMessage()
+    {
         return "Illegal indentation in line " + position.line + ":\n" +
-                buffer.extractLine(position.line) + '\n' +
-                Chars.repeat('^', position.column - 1) + '\n';
+            buffer.extractLine(position.line) + '\n' +
+            Chars.repeat('^', position.column - 1) + '\n';
     }
 }
