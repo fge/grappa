@@ -16,9 +16,12 @@
 
 package org.parboiled.errors;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+
 /**
  * Exception thrown by parboiled if a problem with the integrity of the grammar rules has been detected.
  */
+@WillBeFinal(version = "1.1")
 public class GrammarException
     extends RuntimeException
 {

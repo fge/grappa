@@ -16,6 +16,8 @@
 
 package org.parboiled.errors;
 
+import com.github.parboiled1.grappa.cleanup.DoNotUse;
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
 import com.google.common.base.Preconditions;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.support.MatcherPath;
@@ -45,6 +47,9 @@ public class ActionError
      *
      * @return the MatcherPath
      */
+    @DoNotUse
+    @Deprecated
+    @WillBeRemoved(version = "1.1")
     public MatcherPath getErrorPath()
     {
         return errorPath;
@@ -55,6 +60,9 @@ public class ActionError
      *
      * @return the wrapped ActionException
      */
+    @DoNotUse
+    @Deprecated
+    @WillBeRemoved(version = "1.1")
     public ActionException getActionException()
     {
         return actionException;

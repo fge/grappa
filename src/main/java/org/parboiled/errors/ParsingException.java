@@ -16,14 +16,17 @@
 
 package org.parboiled.errors;
 
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+
 /**
  * Exception type not directly used by parboiled but included as a convenience base class for custom exceptions
  * (or to be used directly if no custom exception types are required).
  */
+@Deprecated
+@WillBeRemoved(version = "1.1")
 public class ParsingException
     extends RuntimeException
 {
-
     public ParsingException()
     {
     }
@@ -53,5 +56,4 @@ public class ParsingException
     {
         super(cause);
     }
-
 }

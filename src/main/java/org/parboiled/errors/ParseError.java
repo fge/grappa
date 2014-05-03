@@ -23,7 +23,6 @@ import org.parboiled.buffers.InputBuffer;
  */
 public interface ParseError
 {
-
     /**
      * Gets the inputbuffer this error occurred in.
      *
@@ -52,5 +51,4 @@ public interface ParseError
      * @return an optional error message.
      */
     String getErrorMessage();
-
 }

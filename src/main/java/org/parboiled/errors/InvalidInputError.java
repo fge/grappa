@@ -16,6 +16,7 @@
 
 package org.parboiled.errors;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.support.MatcherPath;
@@ -26,6 +27,7 @@ import java.util.List;
  * A {@link ParseError} describing one or more input characters that are illegal with regard to the underlying
  * language grammar.
  */
+@WillBeFinal(version = "1.1")
 public class InvalidInputError
     extends BasicParseError
 {

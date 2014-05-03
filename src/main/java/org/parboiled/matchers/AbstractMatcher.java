@@ -54,8 +54,10 @@ public abstract class AbstractMatcher
     @WillBeProtected(version = "1.1.0")
     public AbstractMatcher(final Rule[] subRules, final String label)
     {
-        super(ImmutableList
-            .copyOf(toMatchers(Preconditions.checkNotNull(subRules))));
+        super(ImmutableList.copyOf(
+                toMatchers(Preconditions.checkNotNull(subRules))
+            )
+        );
         this.label = label;
     }
 

@@ -16,6 +16,12 @@
 
 package org.parboiled.common;
 
+import com.github.parboiled1.grappa.cleanup.DoNotUse;
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+
+@Deprecated
+@DoNotUse
+@WillBeRemoved(version = "1.1")
 public final class Tuple3<A, B, C>
 {
     public final A a;

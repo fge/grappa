@@ -16,6 +16,12 @@
 
 package org.parboiled.common;
 
+import com.github.parboiled1.grappa.cleanup.DoNotUse;
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+
+@DoNotUse
+@Deprecated
+@WillBeRemoved(version = "1.1")
 public class StringBuilderSink
     implements Sink<String>
 {

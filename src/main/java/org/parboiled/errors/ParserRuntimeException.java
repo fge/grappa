@@ -16,13 +16,16 @@
 
 package org.parboiled.errors;
 
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+
 /**
  * Exception that is thrown for any problem during the parsing run that cannot be overcome automatically.
  */
 public class ParserRuntimeException
     extends RuntimeException
 {
-
+    @Deprecated
+    @WillBeRemoved(version = "1.1")
     public ParserRuntimeException()
     {
     }
@@ -32,11 +35,15 @@ public class ParserRuntimeException
         super(message);
     }
 
+    @Deprecated
+    @WillBeRemoved(version = "1.1")
     public ParserRuntimeException(final String message, final Throwable cause)
     {
         super(message, cause);
     }
 
+    @Deprecated
+    @WillBeRemoved(version = "1.1")
     public ParserRuntimeException(final String message,
         final Object... messageArgs)
     {
@@ -50,9 +57,10 @@ public class ParserRuntimeException
             : message, cause);
     }
 
+    @Deprecated
+    @WillBeRemoved(version = "1.1")
     public ParserRuntimeException(final Throwable cause)
     {
         super(cause);
     }
-
 }

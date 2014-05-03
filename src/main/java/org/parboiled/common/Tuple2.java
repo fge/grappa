@@ -16,9 +16,16 @@
 
 package org.parboiled.common;
 
+import com.github.parboiled1.grappa.cleanup.WillBePrivate;
+import com.google.common.base.Objects;
+
+import javax.annotation.Nullable;
+
 public final class Tuple2<A, B>
 {
+    @WillBePrivate(version = "1.1")
     public final A a;
+    @WillBePrivate(version = "1.1")
     public final B b;
 
     public Tuple2(final A a, final B b)
@@ -28,28 +35,26 @@ public final class Tuple2<A, B>
     }
 
     @Override
-    public boolean equals(final Object o)
+    public boolean equals(@Nullable final Object obj)
     {
-        if (this == o)
-            return true;
-        if (!(o instanceof Tuple2))
+        if (!(obj instanceof Tuple2))
             return false;
-        final Tuple2<?, ?> tuple2 = (Tuple2<?, ?>) o;
-        return (a != null ? a.equals(tuple2.a) : tuple2.a == null) && (b != null
-            ? b.equals(tuple2.b) : tuple2.b == null);
+        if (this == obj)
+            return true;
+        final Tuple2<?, ?> other = (Tuple2<?, ?>) obj;
+        return Objects.equal(a, other.a) && Objects.equal(b, other.b);
     }
 
     @Override
     public int hashCode()
     {
-        int result = a != null ? a.hashCode() : 0;
-        result = 31 * result + (b != null ? b.hashCode() : 0);
-        return result;
+        return Objects.hashCode(a, b);
     }
 
     @Override
     public String toString()
     {
-        return "Tuple2{a=" + a + ", b=" + b + '}';
+        return Objects.toStringHelper(getClass())
+            .add("a", a).add("b", b).toString();
     }
 }

@@ -16,10 +16,16 @@
 
 package org.parboiled.errors;
 
+import com.github.parboiled1.grappa.cleanup.DoNotUse;
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+
 /**
  * Exception that can be thrown by parser actions to signal that an error has occurred that is to be collected
  * in the ParseErrors for the parsing run. Throwing an ActionException does not stop the parsing process.
  */
+@Deprecated
+@DoNotUse
+@WillBeRemoved(version = "1.1")
 public class ActionException
     extends RuntimeException
 {
