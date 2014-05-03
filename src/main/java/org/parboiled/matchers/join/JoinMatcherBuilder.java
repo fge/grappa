@@ -1,16 +1,50 @@
 package org.parboiled.matchers.join;
 
+import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.BoundType;
 import com.google.common.collect.DiscreteDomain;
 import com.google.common.collect.Range;
+import org.parboiled.JoinParser;
 import org.parboiled.Rule;
+import org.parboiled.annotations.Cached;
 import org.parboiled.matchers.EmptyMatcher;
 import org.parboiled.matchers.OptionalMatcher;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+/**
+ * The final step to building a {@link JoinMatcher}
+ *
+ * <p>At this step of the build, we have both rules (the "joined" rule and the
+ * "joining" rule). The final information to feed to the matcher is the number
+ * of cycles.</p>
+ *
+ * <p>The number of cycles can be bounded on the lower end and on the upper end.
+ * The "true" building method is {@link #range(Range)}; all other methods
+ * ultimately call this one to generate the result.</p>
+ *
+ * <p>The real matcher generated depends on the number of cycles required (for
+ * the notation used here, see the javadoc for {@link Range}):</p>
+ *
+ * <ul>
+ *     <li>[0..0]: an {@link EmptyMatcher};</li>
+ *     <li>[0..1]: an {@link OptionalMatcher} with the joined rule as a
+ *     submatcher;</li>
+ *     <li>[1..1]: the "joined" rule itself;</li>
+ *     <li>[n..+∞) for whatever n: a {@link BoundedDownJoinMatcher};</li>
+ *     <li>[0..n] for n >= 2: a {@link BoundedUpJoinMatcher};</li>
+ *     <li>[n..n] for n >= 2: an {@link ExactMatchesJoinMatcher};</li>
+ *     <li>[n..m]: a {@link BoundedBothJoinMatcher}.</li>
+ * </ul>
+ *
+ * @see JoinMatcher
+ * @see JoinParser
+ * @see Range
+ */
 @ParametersAreNonnullByDefault
+@Beta
 public final class JoinMatcherBuilder
 {
     private static final Range<Integer> AT_LEAST_ZERO = Range.atLeast(0);
@@ -24,40 +58,105 @@ public final class JoinMatcherBuilder
         this.joining = joining;
     }
 
-    public Rule min(final int nrMatches)
+    /**
+     * Return a rule with a minimum number of cycles to run
+     *
+     * @param nrCycles the number of cycles
+     * @return a rule
+     * @throws IllegalArgumentException {@code nrCycles} is less than 0
+     *
+     * @see Range#atLeast(Comparable)
+     */
+    public Rule min(final int nrCycles)
     {
-        Preconditions.checkArgument(nrMatches >= 0,
-            "illegal repetition number specified (" + nrMatches
+        Preconditions.checkArgument(nrCycles >= 0,
+            "illegal repetition number specified (" + nrCycles
             + "), must be 0 or greater");
-        return range(Range.atLeast(nrMatches));
+        return range(Range.atLeast(nrCycles));
     }
 
-    public Rule max(final int nrMatches)
+    /**
+     * Return a rule with a maximum number of cycles to run
+     *
+     * @param nrCycles the number of cycles
+     * @return a rule
+     * @throws IllegalArgumentException {@code nrCycles} is less than 0
+     *
+     * @see Range#atMost(Comparable)
+     */
+    public Rule max(final int nrCycles)
     {
-        Preconditions.checkArgument(nrMatches >= 0,
-            "illegal repetition number specified (" + nrMatches
-                + "), must be 0 or greater");
-        return range(Range.atMost(nrMatches));
+        Preconditions.checkArgument(nrCycles >= 0,
+            "illegal repetition number specified (" + nrCycles
+            + "), must be 0 or greater");
+        return range(Range.atMost(nrCycles));
     }
 
-    public Rule times(final int nrMatches)
+    /**
+     * Return a rule with an exact number of cycles to run
+     *
+     * @param nrCycles the number of cycles
+     * @return a rule
+     * @throws IllegalArgumentException {@code nrCycles} is less than 0
+     *
+     * @see Range#singleton(Comparable)
+     */
+    public Rule times(final int nrCycles)
     {
-        Preconditions.checkArgument(nrMatches >= 0,
-            "illegal repetition number specified (" + nrMatches
+        Preconditions.checkArgument(nrCycles >= 0,
+            "illegal repetition number specified (" + nrCycles
                 + "), must be 0 or greater");
-        return range(Range.singleton(nrMatches));
+        return range(Range.singleton(nrCycles));
     }
 
-    public Rule times(final int min, final int max)
+    /**
+     * Return a rule with both lower and upper bounds on the number of cycles
+     *
+     * <p>Note that the range of cycles to run is closed on both ends (that is,
+     * the minimum and maximum number of cycles are inclusive).</p>
+     *
+     * <p>Note also that the rule <strong>will not</strong> fail if there are
+     * more than the maximum number of cycles; it will simply stop matching if
+     * this number of cycles is reached.</p>
+     *
+     * @param minCycles the minimum number of cycles
+     * @param maxCycles the maximum number of cycles
+     * @return a rule
+     * @throws IllegalArgumentException minimum number of cycles is negative; or
+     * maximum number of cycles is less than the minimum
+     *
+     * @see Range#closed(Comparable, Comparable)
+     */
+    public Rule times(final int minCycles, final int maxCycles)
     {
-        Preconditions.checkArgument(min >= 0,
-            "illegal repetition number specified (" + min
+        Preconditions.checkArgument(minCycles >= 0,
+            "illegal repetition number specified (" + minCycles
                 + "), must be 0 or greater");
-        Preconditions.checkArgument(max >= min, "illegal range specified ("
-            + min + ", " + max + "): maximum must be greater than minimum");
-        return range(Range.closed(min, max));
+        Preconditions.checkArgument(maxCycles >= minCycles,
+            "illegal range specified (" + minCycles + ", " + maxCycles
+            + "): maximum must be greater than minimum");
+        return range(Range.closed(minCycles, maxCycles));
     }
 
+    /**
+     * Generic method to build a {@link JoinMatcher}
+     *
+     * <p>You can use this method directly; note however that the range you will
+     * pass as an argument will be {@link Range#intersection(Range) intersected}
+     * with {@code Range.atLeast(0)}; if the result of the intersection is an
+     * {@link Range#isEmpty() empty range}, this is an error condition.</p>
+     *
+     * <p>Ranges which are {@link BoundType#OPEN open} on any end will be turned
+     * to closed range using {@link Range#canonical(DiscreteDomain)}.</p>
+     *
+     * @param range the range (must not be null)
+     * @return a rule
+     * @throws IllegalArgumentException see description
+     *
+     * @see Range#canonical(DiscreteDomain)
+     */
+    // TODO: check that it actually has an effect
+    @Cached
     public Rule range(@Nonnull final Range<Integer> range)
     {
         Preconditions.checkNotNull(range, "range must not be null");

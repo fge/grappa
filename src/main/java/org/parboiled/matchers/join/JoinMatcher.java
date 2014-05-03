@@ -1,13 +1,60 @@
 package org.parboiled.matchers.join;
 
+import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
+import org.parboiled.JoinParser;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
 import org.parboiled.errors.GrammarException;
 import org.parboiled.matchers.CustomDefaultLabelMatcher;
 import org.parboiled.matchers.Matcher;
+import org.parboiled.matchervisitors.CanMatchEmptyVisitor;
 import org.parboiled.matchervisitors.MatcherVisitor;
 
+/**
+ * A joining matcher
+ *
+ * <p>Such a matcher has two submatchers: a "joined" matcher and a "joining"
+ * matcher.</p>
+ *
+ * <p>This matcher will run cycles through both of these; the first will be a
+ * run of the "joined" matcher, subsequent cycles will be ("joining", "joined").
+ * </p>
+ *
+ * <p>Therefore:</p>
+ *
+ * <ul>
+ *     <li>one cycle is {@code joined};</li>
+ *     <li>two cycles is {@code joined, joining, joined};</li>
+ *     <li>etc etc.</li>
+ * </ul>
+ *
+ * <p>This matcher will correctly reset the index to the last successful
+ * match; for instance, if the match sequence is {@code joined, joining, joined,
+ * joining} and two cycles are enough, it will reset the index to before the
+ * last {@code joining} so that subsequent matchers can proceed from there.</p>
+ *
+ * <p>It is <strong>forbidden</strong> for the "joining" matcher to match an
+ * empty sequence. Unfortunately, due to current limitations, this can only
+ * be detected at runtime (but also by the {@link CanMatchEmptyVisitor} when
+ * used).</p>
+ *
+ * <p>This matcher is not built directly; its build is initiated by a {@link
+ * JoinMatcherBootstrap}. Using the {@code JoinParser} base parser mentioned
+ * above, here is how you would, for instance, build a rule where you want a
+ * sequence of three digits separated by dots:</p>
+ *
+ * <pre>
+ *     Rule threeDigitsExactly()
+ *     {
+ *         return join(digit()).using('.').times(3);
+ *     }
+ * </pre>
+ *
+ * @see JoinMatcherBootstrap
+ * @see JoinParser#join(Object)
+ */
+@Beta
 public abstract class JoinMatcher
     extends CustomDefaultLabelMatcher<JoinMatcher>
 {

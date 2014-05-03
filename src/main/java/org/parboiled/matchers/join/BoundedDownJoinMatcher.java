@@ -1,11 +1,13 @@
 package org.parboiled.matchers.join;
 
+import com.google.common.annotations.Beta;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
 
 /*
  * A joining matcher with a minimum number of matches to perform
  */
+@Beta
 public final class BoundedDownJoinMatcher
     extends JoinMatcher
 {

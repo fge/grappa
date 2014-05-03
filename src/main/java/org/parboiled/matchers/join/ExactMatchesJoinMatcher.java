@@ -1,5 +1,6 @@
 package org.parboiled.matchers.join;
 
+import com.google.common.annotations.Beta;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
 
@@ -7,6 +8,7 @@ import org.parboiled.Rule;
  * A matcher which must match exactly n times. Note that n is >= 2 (otherwise
  * the builder would have returned an empty matcher or the joined rule)
  */
+@Beta
 public final class ExactMatchesJoinMatcher
     extends JoinMatcher
 {
