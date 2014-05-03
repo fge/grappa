@@ -1,3 +1,8 @@
+### 1.0.0-beta.4 (in progress)
+
+* New, experimental `join()` rule.
+* Lots of code cleanup; start transform code refactoring.
+
 ### 1.0.0-beta.3
 
 * Add missing match for '3' in hexDigit{,upperCase()}! Oops...
