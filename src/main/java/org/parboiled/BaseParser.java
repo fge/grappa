@@ -478,7 +478,7 @@ public abstract class BaseParser<V>
         @Nonnull final Object rule2, @Nonnull final Object... moreRules)
     {
         Preconditions.checkNotNull(moreRules, "moreRules");
-        return optional(Sequence(rule, rule2, moreRules));
+        return optional(sequence(rule, rule2, moreRules));
     }
 
     /**
@@ -1000,7 +1000,7 @@ public abstract class BaseParser<V>
     public Rule AnyOf(final String characters)
     {
         checkArgNotNull(characters, "characters");
-        return anyOf(characters.toCharArray());
+        return AnyOf(characters.toCharArray());
     }
 
     /**
