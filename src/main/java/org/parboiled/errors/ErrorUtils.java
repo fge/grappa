@@ -66,8 +66,7 @@ public final class ErrorUtils
         } catch (RuntimeException e) {
             if (e == REMOVE_THAT_DAMNIT)
                 return null;
-            else
-                throw e;
+            throw e;
         }
     }
 
@@ -92,7 +91,7 @@ public final class ErrorUtils
             return found;
         final Matcher m = path.element.matcher;
         if (m instanceof TestNotMatcher)
-            throw REMOVE_THAT_DAMNIT;
+            throw REMOVE_THAT_DAMNIT; // TODO...
         if (path.element.startIndex == errorIndex && m.hasCustomLabel())
             return m;
         return null;
@@ -149,11 +148,12 @@ public final class ErrorUtils
     {
         Preconditions.checkNotNull(error, "error");
         Preconditions.checkNotNull(formatter, "formatter");
-        final String message = error.getErrorMessage() != null ? error
-            .getErrorMessage() : error instanceof InvalidInputError ? formatter
-            .format((InvalidInputError) error)
-            : error.getClass().getSimpleName();
-        return printErrorMessage("%s (line %s, pos %s):", message,
+        String msg = error.getErrorMessage();
+        if (msg == null)
+            msg = error instanceof InvalidInputError
+                ? formatter.format((InvalidInputError) error)
+                : error.getClass().getSimpleName();
+        return printErrorMessage("%s (line %s, pos %s):", msg,
             error.getStartIndex(), error.getEndIndex(), error.getInputBuffer());
     }
 
