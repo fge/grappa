@@ -16,6 +16,7 @@
 
 package org.parboiled.matchers;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.matchervisitors.MatcherVisitor;
@@ -24,14 +25,19 @@ import org.parboiled.support.Chars;
 /**
  * A {@link Matcher} matching any single character except EOI.
  */
-public class AnyMatcher extends AbstractMatcher {
+@WillBeFinal(version = "1.1")
+public class AnyMatcher
+    extends AbstractMatcher
+{
 
-    public AnyMatcher() {
+    public AnyMatcher()
+    {
         super("ANY");
     }
 
     @Override
-    public <V> boolean match(final MatcherContext<V> context) {
+    public <V> boolean match(final MatcherContext<V> context)
+    {
         switch (context.getCurrentChar()) {
             case Chars.DEL_ERROR:
             case Chars.INS_ERROR:
@@ -48,9 +54,9 @@ public class AnyMatcher extends AbstractMatcher {
     }
 
     @Override
-    public <R> R accept(final MatcherVisitor<R> visitor) {
+    public <R> R accept(final MatcherVisitor<R> visitor)
+    {
         Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }
-
 }
