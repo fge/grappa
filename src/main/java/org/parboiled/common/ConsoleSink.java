@@ -16,6 +16,9 @@
 
 package org.parboiled.common;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+
+@WillBeFinal(version = "1.1.0")
 public class ConsoleSink
     implements Sink<String>
 {

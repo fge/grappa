@@ -16,6 +16,9 @@
 
 package org.parboiled.common;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+
+@WillBeFinal(version = "1.1.0")
 public class IntArrayStack
 {
     private static final int INITIAL_CAPACITY = 16;
@@ -125,6 +128,7 @@ public class IntArrayStack
         array = newArray;
     }
 
+    @WillBeFinal(version = "1.1.0")
     public static class UnderflowException
         extends RuntimeException
     {

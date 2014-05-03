@@ -16,6 +16,10 @@
 
 package org.parboiled.common;
 
+import com.github.parboiled1.grappa.cleanup.DoNotUse;
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+
 /**
  * A simple container holding a reference to another object.
  *
@@ -47,6 +51,7 @@ public class Reference<T>
      *
      * @return true
      */
+    @WillBeFinal(version = "1.1.0")
     public boolean clear()
     {
         return set(null);
@@ -58,6 +63,7 @@ public class Reference<T>
      * @param value the value
      * @return true
      */
+    @WillBeFinal(version = "1.1.0")
     public boolean set(final T value)
     {
         this.value = value;
@@ -69,17 +75,25 @@ public class Reference<T>
      *
      * @return the target
      */
+    @WillBeFinal(version = "1.1.0")
     public T get()
     {
         return value;
     }
 
     /**
+     * DO NOT USE
+     *
      * Retrieves this references value field and clears it.
      * Equivalent to getAndSet(null).
      *
      * @return the target
+     *
+     * @deprecated not used!
      */
+    @DoNotUse
+    @Deprecated
+    @WillBeRemoved(version = "1.1")
     public T getAndClear()
     {
         return getAndSet(null);
@@ -91,6 +105,7 @@ public class Reference<T>
      * @param value the new value
      * @return the previous value
      */
+    @WillBeFinal(version = "1.1")
     public T getAndSet(final T value)
     {
         final T t = this.value;
@@ -104,6 +119,9 @@ public class Reference<T>
      * @param value the new value
      * @return the new value
      */
+    @DoNotUse
+    @Deprecated
+    @WillBeRemoved(version = "1.1")
     public T setAndGet(final T value)
     {
         return this.value = value;
@@ -112,6 +130,7 @@ public class Reference<T>
     /**
      * @return true if this Reference holds a non-null value
      */
+    @WillBeFinal(version = "1.1")
     public boolean isSet()
     {
         return value != null;
@@ -120,6 +139,9 @@ public class Reference<T>
     /**
      * @return true if this Reference holds a null value
      */
+    @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     public boolean isNotSet()
     {
         return value == null;

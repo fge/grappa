@@ -16,6 +16,8 @@
 
 package org.parboiled.matchers;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+import com.github.parboiled1.grappa.cleanup.WillBeProtected;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
@@ -26,131 +28,173 @@ import org.parboiled.trees.ImmutableGraphNode;
 /**
  * Abstract base class of most regular {@link Matcher}s.
  */
-public abstract class AbstractMatcher extends ImmutableGraphNode<Matcher> implements Matcher, Cloneable {
+public abstract class AbstractMatcher
+    extends ImmutableGraphNode<Matcher>
+    implements Matcher, Cloneable
+{
     private String label;
     private boolean nodeSuppressed;
     private boolean subnodesSuppressed;
     private boolean nodeSkipped;
     private Object tag;
 
-    public AbstractMatcher(final String label) {
+    @WillBeProtected(version = "1.1.0")
+    public AbstractMatcher(final String label)
+    {
         this(new Rule[0], label);
     }
 
-    public AbstractMatcher(final Rule subRule, final String label) {
-        this(new Rule[] { Preconditions.checkNotNull(subRule, "subRule")},
+    @WillBeProtected(version = "1.1.0")
+    public AbstractMatcher(final Rule subRule, final String label)
+    {
+        this(new Rule[]{ Preconditions.checkNotNull(subRule, "subRule") },
             label);
     }
 
-    public AbstractMatcher(final Rule[] subRules, final String label) {
-        super(ImmutableList.copyOf(toMatchers(
-            Preconditions.checkNotNull(subRules))));
+    @WillBeProtected(version = "1.1.0")
+    public AbstractMatcher(final Rule[] subRules, final String label)
+    {
+        super(ImmutableList
+            .copyOf(toMatchers(Preconditions.checkNotNull(subRules))));
         this.label = label;
     }
 
-    private static Matcher[] toMatchers(final Rule[] subRules) {
+    private static Matcher[] toMatchers(final Rule... subRules)
+    {
         final Matcher[] matchers = new Matcher[subRules.length];
-        for (int i = 0; i < subRules.length; i++) {
+        for (int i = 0; i < subRules.length; i++)
             matchers[i] = (Matcher) subRules[i];
-        }
         return matchers;
     }
 
     @Override
-    public boolean isNodeSuppressed() {
+    @WillBeFinal(version = "1.1.0")
+    public boolean isNodeSuppressed()
+    {
         return nodeSuppressed;
     }
 
     @Override
-    public boolean areSubnodesSuppressed() {
+    @WillBeFinal(version = "1.1.0")
+    public boolean areSubnodesSuppressed()
+    {
         return subnodesSuppressed;
     }
 
     @Override
-    public boolean isNodeSkipped() {
+    @WillBeFinal(version = "1.1.0")
+    public boolean isNodeSkipped()
+    {
         return nodeSkipped;
     }
 
     @Override
-    public boolean areMismatchesMemoed() {
+    @WillBeFinal(version = "1.1.0")
+    public boolean areMismatchesMemoed()
+    {
         return false;
     }
 
     @Override
-    public String getLabel() {
+    @WillBeFinal(version = "1.1.0")
+    public String getLabel()
+    {
         return label;
     }
 
     @Override
-    public boolean hasCustomLabel() {
+    public boolean hasCustomLabel()
+    {
         // this is the default implementation for single character matchers
         // complex matchers override with a custom implementation
         return true;
     }
 
     @Override
-    public String toString() {
+    @WillBeFinal(version = "1.1.0")
+    public String toString()
+    {
         return getLabel();
     }
 
     @Override
-    public AbstractMatcher label(final String label) {
-        if (Objects.equal(label, this.label)) return this;
+    @WillBeFinal(version = "1.1.0")
+    public AbstractMatcher label(final String label)
+    {
+        if (Objects.equal(label, this.label))
+            return this;
         final AbstractMatcher clone = createClone();
         clone.label = label;
         return clone;
     }
 
     @Override
-    public Rule suppressNode() {
-        if (nodeSuppressed) return this;
+    public Rule suppressNode()
+    {
+        if (nodeSuppressed)
+            return this;
         final AbstractMatcher clone = createClone();
         clone.nodeSuppressed = true;
         return clone;
     }
 
     @Override
-    public Rule suppressSubnodes() {
-        if (subnodesSuppressed) return this;
+    @WillBeFinal(version = "1.1.0")
+    public Rule suppressSubnodes()
+    {
+        if (subnodesSuppressed)
+            return this;
         final AbstractMatcher clone = createClone();
         clone.subnodesSuppressed = true;
         return clone;
     }
 
     @Override
-    public Rule skipNode() {
-        if (nodeSkipped) return this;
+    @WillBeFinal(version = "1.1.0")
+    public Rule skipNode()
+    {
+        if (nodeSkipped)
+            return this;
         final AbstractMatcher clone = createClone();
         clone.nodeSkipped = true;
         return clone;
     }
 
     @Override
-    public Rule memoMismatches() {
+    @WillBeFinal(version = "1.1.0")
+    public Rule memoMismatches()
+    {
         return new MemoMismatchesMatcher(this);
     }
 
     @Override
-    public Object getTag() {
+    @WillBeFinal(version = "1.1.0")
+    public Object getTag()
+    {
         return tag;
     }
+
     @Override
-    public void setTag(final Object tagObject) {
+    @WillBeFinal(version = "1.1.0")
+    public void setTag(final Object tagObject)
+    {
         tag = tagObject;
     }
 
     // default implementation is to simply delegate to the context
     @Override
-    public <V> MatcherContext<V> getSubContext(final MatcherContext<V> context) {
+    public <V> MatcherContext<V> getSubContext(final MatcherContext<V> context)
+    {
         return context.getSubContext(this);
     }
 
     // creates a shallow copy
-    private AbstractMatcher createClone() {
+    private AbstractMatcher createClone()
+    {
         try {
             return (AbstractMatcher) clone();
         } catch (CloneNotSupportedException e) {
-            throw new IllegalStateException();
+            throw new IllegalStateException(e);
         }
     }
 

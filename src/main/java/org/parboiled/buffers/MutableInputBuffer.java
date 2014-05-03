@@ -16,6 +16,7 @@
 
 package org.parboiled.buffers;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.Position;
@@ -30,6 +31,7 @@ import java.util.Arrays;
  * rather small number of insertions and will perform badly with a large number
  * of insertions.
  */
+@WillBeFinal(version = "1.1.0")
 public class MutableInputBuffer
     implements InputBuffer
 {
