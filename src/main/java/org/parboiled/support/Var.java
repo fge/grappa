@@ -19,12 +19,12 @@ package org.parboiled.support;
 import com.github.parboiled1.grappa.cleanup.DoNotUse;
 import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Queues;
 import org.parboiled.common.Factory;
 import org.parboiled.common.Reference;
 
 import javax.annotation.Nonnull;
 import java.util.Deque;
-import java.util.LinkedList;
 
 /**
  * <p>This class provides a "local variable"-like construct for action expressions in parser rule methods.
@@ -44,8 +44,7 @@ public class Var<T>
 {
 
     private final Factory<T> factory;
-    // TODO: can be null :(
-    private Deque<T> stack;
+    private final Deque<T> stack = Queues.newArrayDeque();
     private int level;
     private String name;
 
@@ -132,11 +131,8 @@ public class Var<T>
     @WillBeFinal(version = "1.1")
     public boolean enterFrame()
     {
-        if (level++ > 0) {
-            if (stack == null)
-                stack = new LinkedList<T>();
+        if (level++ > 0)
             stack.add(get());
-        }
         return set(factory.create());
     }
 
