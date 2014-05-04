@@ -17,16 +17,11 @@
 package org.parboiled.test;
 
 import com.github.parboiled1.grappa.assertions.ParsingResultAssert;
-import com.google.common.collect.Lists;
 import org.parboiled.Rule;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.parserunners.RecoveringParseRunner;
 import org.parboiled.parserunners.ReportingParseRunner;
 import org.parboiled.support.ParsingResult;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 import static org.parboiled.errors.ErrorUtils.printParseErrors;
 import static org.parboiled.support.ParseTreeUtils.printNodeTree;
@@ -66,14 +61,9 @@ public abstract class ParboiledTest<V> {
         }
 
         public TestResult<V> hasResult(V... expectedResults) {
-            assertEquals(toListReversed(result.valueStack), Arrays.asList(expectedResults));
+            // TODO: why are lists reversed? Seems unnatural
+            resultAssert.hasStack(expectedResults);
             return this;
-        }
-        
-        private <T> List<T> toListReversed(Iterable<T> iterable) {
-            final List<T> list = Lists.newArrayList(iterable);
-            Collections.reverse(list);
-            return list;
         }
     }
 
