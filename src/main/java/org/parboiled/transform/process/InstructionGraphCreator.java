@@ -22,38 +22,55 @@
 
 package org.parboiled.transform.process;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.tree.analysis.Analyzer;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
 import org.parboiled.transform.RuleMethodInterpreter;
 
+import javax.annotation.Nonnull;
+
 /**
  * Performs data/control flow analysis and constructs the instructions graph.
  */
-public class InstructionGraphCreator implements RuleMethodProcessor {
-
+@WillBeFinal(version = "1.1")
+public class InstructionGraphCreator
+    implements RuleMethodProcessor
+{
     @Override
-    public boolean appliesTo(final ParserClassNode classNode, final RuleMethod method) {
+    public boolean appliesTo(@Nonnull final ParserClassNode classNode,
+        @Nonnull final RuleMethod method)
+    {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
-        return method.containsImplicitActions() || method.containsExplicitActions() || method.containsVars();
+        return method.containsImplicitActions() || method
+            .containsExplicitActions() || method.containsVars();
     }
 
     @Override
-    public void process(final ParserClassNode classNode, final RuleMethod method) throws Exception {
+    public void process(@Nonnull final ParserClassNode classNode,
+        @Nonnull final RuleMethod method)
+        throws Exception
+    {
         Preconditions.checkNotNull(method, "method");
-        final RuleMethodInterpreter interpreter = new RuleMethodInterpreter(method);
+        final RuleMethodInterpreter interpreter = new RuleMethodInterpreter(
+            method);
 
-        new Analyzer(interpreter) {
+        // TODO: simplify!
+        new Analyzer(interpreter)
+        {
             @Override
-            protected void newControlFlowEdge(final int insn, final int successor) {
+            protected void newControlFlowEdge(final int insn,
+                final int successor)
+            {
                 interpreter.newControlFlowEdge(insn, successor);
             }
 
             @Override
-            protected boolean newControlFlowExceptionEdge(
-                final int insn, final int successor) {
+            protected boolean newControlFlowExceptionEdge(final int insn,
+                final int successor)
+            {
                 interpreter.newControlFlowEdge(insn, successor);
                 return true;
             }
@@ -61,5 +78,4 @@ public class InstructionGraphCreator implements RuleMethodProcessor {
 
         interpreter.finish();
     }
-
 }
