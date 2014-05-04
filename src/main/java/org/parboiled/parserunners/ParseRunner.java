@@ -16,6 +16,8 @@
 
 package org.parboiled.parserunners;
 
+import com.github.parboiled1.grappa.cleanup.DoNotUse;
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.errors.ParseError;
 import org.parboiled.support.ParsingResult;
@@ -25,14 +27,16 @@ import java.nio.CharBuffer;
 import java.util.List;
 
 /**
- * A ParseRunner performs the actual parsing run of a given parser rule on a given input text.
+ * A ParseRunner performs the actual parsing run of a given parser rule on a
+ * given input text.
  *
  * <p>Note: if you want to use a parser on a {@link String} input, use the
  * {@link #run(CharSequence)} method, since String implements
  * {@link CharSequence} (and so does {@link CharBuffer}; see also <a
  * href="https://github.com/fge/largetext">for large files</a>).</p>
  */
-public interface ParseRunner<V> {
+public interface ParseRunner<V>
+{
 
     /**
      * Initializes the parse runner with the given error list.
@@ -40,6 +44,7 @@ public interface ParseRunner<V> {
      * @param parseErrors the error list to start off with
      * @return this instance
      */
+    @DoNotUse
     ParseRunner<V> withParseErrors(List<ParseError> parseErrors);
 
     /**
@@ -52,7 +57,6 @@ public interface ParseRunner<V> {
 
     /**
      * DEPRECATED
-     *
      * <p>You should use {@link #run(CharSequence)} instead; {@link
      * AbstractParseRunner} delegates to this method.</p>
      *
@@ -62,6 +66,7 @@ public interface ParseRunner<V> {
      * @deprecated see description
      */
     @Deprecated
+    @WillBeRemoved(version = "1.1")
     ParsingResult<V> run(String input);
 
     /**
