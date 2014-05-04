@@ -22,6 +22,7 @@
 
 package org.parboiled.transform;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.io.Closer;
@@ -54,6 +55,7 @@ import static org.parboiled.transform.method.ParserAnnotation.recordAnnotation;
 /**
  * Initializes the basic ParserClassNode fields and collects all methods.
  */
+@WillBeFinal(version = "1.1")
 public class ClassNodeInitializer
     extends ClassVisitor
 {
@@ -91,8 +93,6 @@ public class ClassNodeInitializer
             } finally {
                 closer.close();
             }
-//            final ClassReader classReader = createClassReader(ownerClass);
-//            classReader.accept(this, ClassReader.SKIP_FRAMES);
             ownerClass = ownerClass.getSuperclass();
         }
 
@@ -103,13 +103,12 @@ public class ClassNodeInitializer
                     .get(method.name.substring(1) + method.desc);
                 method.moveFlagsTo(overridingMethod);
             } else {
-                if (!annotations.contains(BUILD_PARSE_TREE)) {
-                    method.suppressNode();
-                } else {
-                    // as soon as we see the first non-super method we can break since the methods are sorted so that
-                    // the super methods precede all others
+                if (annotations.contains(BUILD_PARSE_TREE))
+                    // as soon as we see the first non-super method we can break
+                    // since the methods are sorted so that the super methods
+                    // precede all others
                     break;
-                }
+                method.suppressNode();
             }
         }
     }
@@ -140,9 +139,8 @@ public class ClassNodeInitializer
         if (!visible)
             return null;
 
-        return ownerClass == classNode.getParentClass()
-            ? classNode.visitAnnotation(desc, true)
-            : null;
+        return ownerClass == classNode.getParentClass() ? classNode
+            .visitAnnotation(desc, true) : null;
     }
 
     @Override
@@ -177,7 +175,8 @@ public class ClassNodeInitializer
         Checks.ensure((access & ACC_PRIVATE) == 0,
             "Rule method '%s'must not be private.\n"
                 + "Mark the method protected or package-private if you want to prevent public access!",
-            name);
+            name
+        );
         Checks.ensure((access & ACC_FINAL) == 0,
             "Rule method '%s' must not be final.", name);
 
@@ -207,10 +206,10 @@ public class ClassNodeInitializer
         Preconditions.checkNotNull(c);
         final String name = c.getName().replace('.', '/') + ".class";
         final ClassLoader me = ClassNodeInitializer.class.getClassLoader();
-        final ClassLoader context
-            = Thread.currentThread().getContextClassLoader();
+        final ClassLoader context = Thread.currentThread()
+            .getContextClassLoader();
 
-        return Optional.fromNullable(me.getResourceAsStream(name))
-            .or(context.getResourceAsStream(name));
+        return Optional.fromNullable(me.getResourceAsStream(name)).or(
+            context.getResourceAsStream(name));
     }
 }

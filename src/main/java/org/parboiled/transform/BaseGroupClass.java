@@ -16,20 +16,29 @@
 
 package org.parboiled.transform;
 
+import com.github.parboiled1.grappa.cleanup.VisibleForDocumentation;
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+import com.github.parboiled1.grappa.cleanup.WillBePrivate;
 import com.google.common.base.Preconditions;
 
-@SuppressWarnings("UnusedDeclaration")
-abstract class BaseGroupClass {
+import javax.annotation.Nonnull;
 
+@VisibleForDocumentation
+public abstract class BaseGroupClass
+{
+    @WillBePrivate(version = "1.1")
     public final String name;
 
-    protected BaseGroupClass(final String name) {
+    protected BaseGroupClass(final String name)
+    {
         this.name = Preconditions.checkNotNull(name, "name");
     }
 
     @Override
-    public String toString() {
+    @Nonnull
+    @WillBeFinal(version = "1.1")
+    public String toString()
+    {
         return name;
     }
-
 }

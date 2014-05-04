@@ -16,6 +16,9 @@
 
 package org.parboiled.transform;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+import com.github.parboiled1.grappa.cleanup.WillBePrivate;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import org.objectweb.asm.ClassWriter;
@@ -40,20 +43,30 @@ import static org.parboiled.transform.AsmUtils.findLoadedClass;
 import static org.parboiled.transform.AsmUtils.getExtendedParserClassName;
 import static org.parboiled.transform.AsmUtils.loadClass;
 
-public class ParserTransformer {
+@WillBeFinal(version = "1.1")
+public class ParserTransformer
+{
+    private ParserTransformer()
+    {
+    }
 
-    private ParserTransformer() {}
-
-    @SuppressWarnings("unchecked")
+    // TODO: remove "synchronized" here
+    // TODO: move to Parboiled or the future Grappa class
     public static synchronized <T> Class<? extends T> transformParser(
-        final Class<T> parserClass) throws Exception {
+        final Class<T> parserClass)
+        throws Exception
+    {
         Preconditions.checkNotNull(parserClass, "parserClass");
-        // first check whether we did not already create and load the extension of the given parser class
-        final Class<?> extendedClass = findLoadedClass(
-                getExtendedParserClassName(parserClass.getName()), parserClass.getClassLoader()
-        );
-        return (Class<? extends T>)
-                (extendedClass != null ? extendedClass : extendParserClass(parserClass).getExtendedClass());
+        // first check whether we did not already create and load the extension
+        // of the given parser class
+        final String name
+            = getExtendedParserClassName(parserClass.getName());
+        final Class<?> extendedClass
+            = findLoadedClass(name,parserClass.getClassLoader());
+        final Class<?> ret = extendedClass != null
+            ? extendedClass
+            : extendParserClass(parserClass).getExtendedClass();
+        return (Class<? extends T>) ret;
     }
 
     /**
@@ -64,10 +77,11 @@ public class ParserTransformer {
      *
      * @param parserClass the parser class
      * @return a bytecode dump
-     * @throws Exception FIXME
      *
+     * @throws Exception FIXME
      * @see #extendParserClass(Class)
      */
+    // TODO: poor exception specification
     public static byte[] getByteCode(final Class<?> parserClass)
         throws Exception
     {
@@ -75,7 +89,10 @@ public class ParserTransformer {
         return node.getClassCode();
     }
 
-    static ParserClassNode extendParserClass(final Class<?> parserClass) throws Exception {
+    @VisibleForTesting
+    static ParserClassNode extendParserClass(final Class<?> parserClass)
+        throws Exception
+    {
         final ParserClassNode classNode = new ParserClassNode(parserClass);
         new ClassNodeInitializer().process(classNode);
         runMethodTransformers(classNode);
@@ -84,60 +101,63 @@ public class ParserTransformer {
         return classNode;
     }
 
-    @SuppressWarnings("unchecked")
-    private static void runMethodTransformers(final ParserClassNode classNode) throws Exception {
-        final List<RuleMethodProcessor> methodProcessors = createRuleMethodProcessors();
+    // TODO: poor exception handling again
+    private static void runMethodTransformers(final ParserClassNode classNode)
+        throws Exception
+    {
+        final List<RuleMethodProcessor> methodProcessors
+            = createRuleMethodProcessors();
 
+        // TODO: comment above may be right, but it's still dangerous
         // iterate through all rule methods
-        // since the ruleMethods map on the classnode is a treemap we get the methods sorted by name which puts
-        // all super methods first (since they are prefixed with one or more '$')
-        for (final RuleMethod ruleMethod : classNode.getRuleMethods().values()) {
-            if (!ruleMethod.hasDontExtend()) {
-                for (final RuleMethodProcessor methodProcessor : methodProcessors) {
-                    if (methodProcessor.appliesTo(classNode, ruleMethod)) {
-                        methodProcessor.process(classNode, ruleMethod);
-                    }
-                }
-            }
+        // since the ruleMethods map on the classnode is a treemap we get the
+        // methods sorted by name which puts all super methods first (since they
+        // are prefixed with one or more '$')
+        for (final RuleMethod ruleMethod: classNode.getRuleMethods().values()) {
+            if (ruleMethod.hasDontExtend())
+                continue;
+
+            for (final RuleMethodProcessor methodProcessor : methodProcessors)
+                if (methodProcessor.appliesTo(classNode, ruleMethod))
+                    methodProcessor.process(classNode, ruleMethod);
         }
 
-        for (final RuleMethod ruleMethod : classNode.getRuleMethods().values()) {
-            if (!ruleMethod.isGenerationSkipped()) {
+        for (final RuleMethod ruleMethod: classNode.getRuleMethods().values()) {
+            if (!ruleMethod.isGenerationSkipped())
                 classNode.methods.add(ruleMethod);
-            }
         }
     }
 
-    static List<RuleMethodProcessor> createRuleMethodProcessors() {
+    @WillBePrivate(version = "1.1")
+    static List<RuleMethodProcessor> createRuleMethodProcessors()
+    {
         return ImmutableList.of(
-                new UnusedLabelsRemover(),
-                new ReturnInstructionUnifier(),
-                new InstructionGraphCreator(),
-                new ImplicitActionsConverter(),
-                new InstructionGroupCreator(),
-                new InstructionGroupPreparer(),
-                new ActionClassGenerator(false),
-                new VarInitClassGenerator(false),
-
-                new RuleMethodRewriter(),
-                new SuperCallRewriter(),
-                new BodyWithSuperCallReplacer(),
-                new VarFramingGenerator(),
-                new LabellingGenerator(),
-                new FlagMarkingGenerator(),
-                new CachingGenerator()
+            new UnusedLabelsRemover(),
+            new ReturnInstructionUnifier(),
+            new InstructionGraphCreator(),
+            new ImplicitActionsConverter(),
+            new InstructionGroupCreator(),
+            new InstructionGroupPreparer(),
+            new ActionClassGenerator(false),
+            new VarInitClassGenerator(false),
+            new RuleMethodRewriter(),
+            new SuperCallRewriter(),
+            new BodyWithSuperCallReplacer(),
+            new VarFramingGenerator(),
+            new LabellingGenerator(),
+            new FlagMarkingGenerator(),
+            new CachingGenerator()
         );
     }
 
-    private static void defineExtendedParserClass(final ParserClassNode classNode) {
-        final ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-        classNode.accept(classWriter);
-        classNode.setClassCode(classWriter.toByteArray());
-        classNode.setExtendedClass(loadClass(
-                classNode.name.replace('/', '.'),
-                classNode.getClassCode(),
-                classNode.getParentClass().getClassLoader()
-        ));
+    private static void defineExtendedParserClass(final ParserClassNode node)
+    {
+        final ClassWriter classWriter
+            = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+        node.accept(classWriter);
+        node.setClassCode(classWriter.toByteArray());
+        final Class<?> extendedClass  = loadClass(node.name.replace('/', '.'),
+            node.getClassCode(), node.getParentClass().getClassLoader());
+        node.setExtendedClass(extendedClass);
     }
-
 }

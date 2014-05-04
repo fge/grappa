@@ -16,6 +16,7 @@
 
 package org.parboiled.transform;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.InsnList;
@@ -26,9 +27,12 @@ import java.util.List;
 /**
  * A group of instructions belonging to a ACTION or Var initializer
  */
-public class InstructionGroup {
+@WillBeFinal(version = "1.1")
+public class InstructionGroup
+{
 
-    private final List<InstructionGraphNode> nodes = new ArrayList<InstructionGraphNode>();
+    private final List<InstructionGraphNode> nodes
+        = new ArrayList<InstructionGraphNode>();
     private final InsnList instructions = new InsnList();
     private final InstructionGraphNode root;
     private final List<FieldNode> fields = new ArrayList<FieldNode>();
@@ -36,52 +40,64 @@ public class InstructionGroup {
     private Type groupClassType;
     private byte[] groupClassCode;
 
-    public InstructionGroup(final InstructionGraphNode root) {
+    public InstructionGroup(final InstructionGraphNode root)
+    {
         this.root = root;
     }
 
-    public List<InstructionGraphNode> getNodes() {
+    public List<InstructionGraphNode> getNodes()
+    {
         return nodes;
     }
 
-    public InsnList getInstructions() {
+    public InsnList getInstructions()
+    {
         return instructions;
     }
 
-    public InstructionGraphNode getRoot() {
+    public InstructionGraphNode getRoot()
+    {
         return root;
     }
 
-    public List<FieldNode> getFields() {
+    public List<FieldNode> getFields()
+    {
         return fields;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public void setName(final String name) {
+    public void setName(final String name)
+    {
         this.name = name;
     }
 
-    public Type getGroupClassType() {
+    public Type getGroupClassType()
+    {
         return groupClassType;
     }
 
-    public void setGroupClassType(final Type groupClassType) {
+    public void setGroupClassType(final Type groupClassType)
+    {
         this.groupClassType = groupClassType;
     }
 
-    public byte[] getGroupClassCode() {
+    public byte[] getGroupClassCode()
+    {
         return groupClassCode;
     }
 
-    public void setGroupClassCode(final byte[] groupClassCode) {
+    public void setGroupClassCode(final byte[] groupClassCode)
+    {
         this.groupClassCode = groupClassCode;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return name != null ? name : super.toString();
     }
 }

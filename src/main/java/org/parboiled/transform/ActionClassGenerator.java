@@ -16,6 +16,7 @@
 
 package org.parboiled.transform;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
@@ -24,40 +25,49 @@ import org.parboiled.Context;
 import org.parboiled.transform.asm.MethodDescriptor;
 import org.parboiled.transform.process.GroupClassGenerator;
 
+import javax.annotation.Nonnull;
+
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.IRETURN;
 
-public class ActionClassGenerator extends GroupClassGenerator
+@WillBeFinal(version = "1.1")
+// TODO: move to process/ subpackage
+public class ActionClassGenerator
+    extends GroupClassGenerator
 {
-
-    public ActionClassGenerator(final boolean forceCodeBuilding) {
+    public ActionClassGenerator(final boolean forceCodeBuilding)
+    {
         super(forceCodeBuilding);
     }
 
     @Override
-    public boolean appliesTo(final ParserClassNode classNode, final RuleMethod method) {
+    public boolean appliesTo(@Nonnull final ParserClassNode classNode,
+        @Nonnull final RuleMethod method)
+    {
         Preconditions.checkNotNull(method, "method");
         return method.containsExplicitActions();
     }
 
     @Override
-    protected boolean appliesTo(final InstructionGraphNode node) {
-        return node.isActionRoot();
+    protected boolean appliesTo(final InstructionGraphNode group)
+    {
+        return group.isActionRoot();
     }
 
     @Override
-    protected Type getBaseType() {
+    protected Type getBaseType()
+    {
         return Types.BASE_ACTION;
     }
 
     @Override
-    protected void generateMethod(
-        final InstructionGroup group, final ClassWriter cw) {
+    protected void generateMethod(final InstructionGroup group,
+        final ClassWriter cw)
+    {
         final MethodDescriptor descriptor = MethodDescriptor.newBuilder()
-            .addArgument(Context.class).withReturnType(boolean.class)
-            .build();
-        final MethodVisitor mv = cw.visitMethod(ACC_PUBLIC,
-            "run", descriptor.getSignature(), null, null);
+            .addArgument(Context.class).withReturnType(boolean.class).build();
+        final MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "run",
+            descriptor.getSignature(), null, null);
 
         insertSetContextCalls(group, 1);
         convertXLoads(group);
@@ -67,5 +77,4 @@ public class ActionClassGenerator extends GroupClassGenerator
         mv.visitInsn(IRETURN);
         mv.visitMaxs(0, 0); // trigger automatic computing
     }
-
 }

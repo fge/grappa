@@ -22,6 +22,7 @@
 
 package org.parboiled.transform;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -33,50 +34,63 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class ParserClassNode extends ClassNode {
+@WillBeFinal(version = "1.1")
+public class ParserClassNode
+    extends ClassNode
+{
 
     private final Class<?> parentClass;
     private final Type parentType;
     private final List<MethodNode> constructors = new ArrayList<MethodNode>();
-    private final Map<String, RuleMethod> ruleMethods = new TreeMap<String, RuleMethod>();
+    private final Map<String, RuleMethod> ruleMethods
+        = new TreeMap<String, RuleMethod>();
     private byte[] classCode;
     private Class<?> extendedClass;
 
-    public ParserClassNode(final Class<?> parentClass) {
+    public ParserClassNode(final Class<?> parentClass)
+    {
         super(Opcodes.ASM4);
         this.parentClass = Preconditions.checkNotNull(parentClass);
         parentType = Type.getType(parentClass);
     }
 
-    public Class<?> getParentClass() {
+    public Class<?> getParentClass()
+    {
         return parentClass;
     }
 
-    public Type getParentType() {
+    public Type getParentType()
+    {
         return parentType;
     }
 
-    public List<MethodNode> getConstructors() {
+    public List<MethodNode> getConstructors()
+    {
         return constructors;
     }
 
-    public Map<String, RuleMethod> getRuleMethods() {
+    public Map<String, RuleMethod> getRuleMethods()
+    {
         return ruleMethods;
     }
 
-    public byte[] getClassCode() {
+    public byte[] getClassCode()
+    {
         return classCode;
     }
 
-    public void setClassCode(final byte[] classCode) {
+    public void setClassCode(final byte[] classCode)
+    {
         this.classCode = classCode;
     }
 
-    public Class<?> getExtendedClass() {
+    public Class<?> getExtendedClass()
+    {
         return extendedClass;
     }
 
-    public void setExtendedClass(final Class<?> extendedClass) {
+    public void setExtendedClass(final Class<?> extendedClass)
+    {
         this.extendedClass = extendedClass;
     }
 }

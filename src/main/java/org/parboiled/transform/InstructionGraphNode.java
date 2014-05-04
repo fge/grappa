@@ -22,11 +22,13 @@
 
 package org.parboiled.transform;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.analysis.BasicValue;
 import org.objectweb.asm.util.Printer;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -39,11 +41,15 @@ import static org.objectweb.asm.Opcodes.ISTORE;
 /**
  * A node in the instruction dependency graph.
  */
-public class InstructionGraphNode extends BasicValue {
+@WillBeFinal(version = "1.1")
+public class InstructionGraphNode
+    extends BasicValue
+{
 
     private AbstractInsnNode instruction;
     private final BasicValue resultValue;
-    private final List<InstructionGraphNode> predecessors = new ArrayList<InstructionGraphNode>();
+    private final List<InstructionGraphNode> predecessors
+        = new ArrayList<InstructionGraphNode>();
     private boolean isActionRoot;
     private final boolean isVarInitRoot;
     private final boolean isCallOnContextAware;
@@ -51,107 +57,128 @@ public class InstructionGraphNode extends BasicValue {
     private final boolean isXStore;
     private InstructionGroup group;
 
-    public InstructionGraphNode(
-        final AbstractInsnNode instruction, final BasicValue resultValue) {
+    public InstructionGraphNode(final AbstractInsnNode instruction,
+        final BasicValue resultValue)
+    {
         super(null);
         this.instruction = instruction;
         this.resultValue = resultValue;
         this.isActionRoot = AsmUtils.isActionRoot(instruction);
         this.isVarInitRoot = AsmUtils.isVarRoot(instruction);
         this.isCallOnContextAware = AsmUtils.isCallOnContextAware(instruction);
-        this.isXLoad = ILOAD <= instruction.getOpcode() && instruction.getOpcode() < IALOAD;
-        this.isXStore = ISTORE <= instruction.getOpcode() && instruction.getOpcode() < IASTORE;
+        this.isXLoad = ILOAD <= instruction.getOpcode()
+            && instruction.getOpcode() < IALOAD;
+        this.isXStore = ISTORE <= instruction.getOpcode()
+            && instruction.getOpcode() < IASTORE;
     }
 
     @Override
-    public int getSize() {
+    public int getSize()
+    {
         return resultValue.getSize();
     }
 
-    public AbstractInsnNode getInstruction() {
+    public AbstractInsnNode getInstruction()
+    {
         return instruction;
     }
 
-    public void setInstruction(final AbstractInsnNode instruction) {
+    public void setInstruction(final AbstractInsnNode instruction)
+    {
         this.instruction = instruction;
     }
 
-    public BasicValue getResultValue() {
+    public BasicValue getResultValue()
+    {
         return resultValue;
     }
 
-    public List<InstructionGraphNode> getPredecessors() {
+    public List<InstructionGraphNode> getPredecessors()
+    {
         return predecessors;
     }
 
-    public InstructionGroup getGroup() {
+    public InstructionGroup getGroup()
+    {
         return group;
     }
 
-    public void setGroup(final InstructionGroup newGroup) {
-        if (newGroup != group) {
-            if (group != null) {
-                group.getNodes().remove(this);
-            }
-            group = newGroup;
-            if (group != null) {
-                group.getNodes().add(this);
-            }
-        }
+    public void setGroup(final InstructionGroup newGroup)
+    {
+        if (newGroup == group)
+            return;
+
+        if (group != null)
+            group.getNodes().remove(this);
+
+        group = newGroup;
+        if (group != null)
+            group.getNodes().add(this);
     }
 
-    public boolean isActionRoot() {
+    public boolean isActionRoot()
+    {
         return isActionRoot;
     }
 
-    public void setIsActionRoot() {
+    public void setIsActionRoot()
+    {
         isActionRoot = true;
     }
 
-    public boolean isVarInitRoot() {
+    public boolean isVarInitRoot()
+    {
         return isVarInitRoot;
     }
 
-    public boolean isCallOnContextAware() {
+    public boolean isCallOnContextAware()
+    {
         return isCallOnContextAware;
     }
 
-    public boolean isXLoad() {
+    public boolean isXLoad()
+    {
         return isXLoad;
     }
 
-    public boolean isXStore() {
+    public boolean isXStore()
+    {
         return isXStore;
     }
 
-    public void addPredecessors(final Collection<BasicValue> preds) {
+    public void addPredecessors(final Collection<BasicValue> preds)
+    {
         Preconditions.checkNotNull(preds, "preds");
-        for (final BasicValue pred : preds) {
-            if (pred instanceof InstructionGraphNode) {
+        for (final BasicValue pred : preds)
+            if (pred instanceof InstructionGraphNode)
                 addPredecessor(((InstructionGraphNode) pred));
-            }
-        }
     }
 
-    public void addPredecessor(final InstructionGraphNode node) {
-        if (!predecessors.contains(node)) {
+    public void addPredecessor(final InstructionGraphNode node)
+    {
+        if (!predecessors.contains(node))
             predecessors.add(node);
-        }
     }
 
     @Override
-    public boolean equals(final Object value) {
+    public boolean equals(@Nullable final Object value)
+    {
+        // TODO: what the...
         return value == this;
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
+        // TODO: what the...
         return System.identityHashCode(this);
     }
 
     @Override
-    public String toString() {
-        return instruction.getOpcode() != -1 ? Printer.OPCODES[instruction.getOpcode()] : super.toString();
+    public String toString()
+    {
+        return instruction.getOpcode() != -1
+            ? Printer.OPCODES[instruction.getOpcode()]
+            : super.toString();
     }
-
 }

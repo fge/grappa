@@ -26,7 +26,6 @@ public abstract class BaseVarInit<V>
     extends BaseGroupClass
     implements Factory<V>
 {
-
     protected BaseVarInit(final String name)
     {
         super(Preconditions.checkNotNull(name, "name"));

@@ -28,24 +28,25 @@ import org.parboiled.SkippableAction;
 /**
  * Base class of generated classes wrapping action expressions.
  */
-@SuppressWarnings("UnusedDeclaration")
 public abstract class BaseAction<V>
     extends BaseGroupClass
     implements SkippableAction<V>
 {
-
     private boolean skipInPredicates;
 
-    protected BaseAction(final String name) {
+    protected BaseAction(final String name)
+    {
         super(Preconditions.checkNotNull(name, "name"));
     }
 
     @Override
-    public boolean skipInPredicates() {
+    public boolean skipInPredicates()
+    {
         return skipInPredicates;
     }
 
-    public void setSkipInPredicates() {
+    public void setSkipInPredicates()
+    {
         this.skipInPredicates = true;
     }
 }
