@@ -33,6 +33,7 @@ import org.parboiled.transform.InstructionGroup;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
 
+import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -64,7 +65,7 @@ public final class InstructionGroupPreparer
      *
      * The current process has two major problems:
      *
-     * - it uses MD5 as a hash and this has is not that good;
+     * - it uses MD5 as a hash and this hash is not that good;
      * - it limits the output length to 96 bytes; probably to limit the length
      *   of the generated identifier;
      * - the MessageDigest instance is static (but final, now).
@@ -96,8 +97,8 @@ public final class InstructionGroupPreparer
     private RuleMethod method;
 
     @Override
-    public boolean appliesTo(final ParserClassNode classNode,
-        final RuleMethod method)
+    public boolean appliesTo(@Nonnull final ParserClassNode classNode,
+        @Nonnull final RuleMethod method)
     {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
@@ -105,12 +106,13 @@ public final class InstructionGroupPreparer
     }
 
     @Override
-    public void process(final ParserClassNode classNode, final RuleMethod method)
+    public void process(@Nonnull final ParserClassNode classNode,
+        @Nonnull final RuleMethod method)
     {
         this.method = Preconditions.checkNotNull(method, "method");
 
         // prepare groups for later stages
-        for (final InstructionGroup group : method.getGroups()) {
+        for (final InstructionGroup group: method.getGroups()) {
             extractInstructions(group);
             extractFields(group);
             name(group, classNode);
@@ -121,7 +123,7 @@ public final class InstructionGroupPreparer
     // method into the groups Insnlist
     private void extractInstructions(final InstructionGroup group)
     {
-        for (final InstructionGraphNode node : group.getNodes()) {
+        for (final InstructionGraphNode node: group.getNodes()) {
             if (node == group.getRoot())
                 continue;
             final AbstractInsnNode insn = node.getInstruction();
@@ -186,6 +188,7 @@ public final class InstructionGroupPreparer
     }
 
     @Immutable
+    // TODO... It sucks...
     private static final class MD5Digester
         extends MethodVisitor
     {
@@ -229,7 +232,8 @@ public final class InstructionGroupPreparer
             update(opcode);
             update(var);
             if (opcode == ALOAD && var == 0) {
-                // make sure the names of identical actions differ if they are defined in different parent classes
+                // make sure the names of identical actions differ if they are
+                // defined in different parent classes
                 update(parserClassName);
             }
         }

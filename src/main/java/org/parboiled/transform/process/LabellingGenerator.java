@@ -16,6 +16,7 @@
 
 package org.parboiled.transform.process;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.AnnotationNode;
@@ -29,6 +30,8 @@ import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
 import org.parboiled.transform.Types;
 
+import javax.annotation.Nonnull;
+
 import static org.objectweb.asm.Opcodes.ARETURN;
 import static org.objectweb.asm.Opcodes.DUP;
 import static org.objectweb.asm.Opcodes.IFNULL;
@@ -37,29 +40,36 @@ import static org.objectweb.asm.Opcodes.INVOKEINTERFACE;
 /**
  * Adds automatic labelling code before the return instruction.
  */
-public class LabellingGenerator implements RuleMethodProcessor {
+@WillBeFinal(version = "1.1")
+public class LabellingGenerator
+    implements RuleMethodProcessor
+{
 
     @Override
-    public boolean appliesTo(final ParserClassNode classNode, final RuleMethod method) {
+    public boolean appliesTo(@Nonnull final ParserClassNode classNode,
+        @Nonnull final RuleMethod method)
+    {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
         return !method.hasDontLabelAnnotation();
     }
 
     @Override
-    public void process(final ParserClassNode classNode, final RuleMethod method) throws Exception {
+    public void process(@Nonnull final ParserClassNode classNode,
+        @Nonnull final RuleMethod method)
+        throws Exception
+    {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
-        Preconditions.checkState(!method.isSuperMethod()); // super methods
-        // have flag
-        // moved to the overriding method
+        // super methods have flag moved to the overriding method
+        Preconditions.checkState(!method.isSuperMethod());
 
         final InsnList instructions = method.instructions;
 
         AbstractInsnNode ret = instructions.getLast();
-        while (ret.getOpcode() != ARETURN) {
+        while (ret.getOpcode() != ARETURN)
             ret = ret.getPrevious();
-        }
+
 
         final LabelNode isNullLabel = new LabelNode();
         // stack: <rule>
@@ -78,18 +88,20 @@ public class LabellingGenerator implements RuleMethodProcessor {
     }
 
     public String getLabelText(final RuleMethod method) {
-        if (method.visibleAnnotations != null) {
-            for (final Object annotationObj : method.visibleAnnotations) {
-                final AnnotationNode annotation = (AnnotationNode) annotationObj;
-                if (annotation.desc.equals(Types.LABEL_DESC) && annotation.values != null) {
-                    Preconditions.checkState("value".equals(annotation.values
-                        .get(0)));
-                    final String labelValue = (String) annotation.values.get(1);
-                    return labelValue.isEmpty() ? method.name : labelValue;
-                }
-            }
+        if (method.visibleAnnotations == null)
+            return method.name;
+
+        AnnotationNode annotation;
+        for (final Object annotationObj: method.visibleAnnotations) {
+            annotation = (AnnotationNode) annotationObj;
+            if (!annotation.desc.equals(Types.LABEL_DESC))
+                continue;
+            if (annotation.values == null)
+                continue;
+            Preconditions.checkState("value".equals(annotation.values.get(0)));
+            final String labelValue = (String) annotation.values.get(1);
+            return labelValue.isEmpty() ? method.name : labelValue;
         }
         return method.name;
     }
-
 }

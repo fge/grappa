@@ -139,11 +139,13 @@ public class InstructionGroupCreator
     // also capture all group nodes "hidden" behind xLoads
     private void markUngroupedEnclosedNodes(final InstructionGroup group)
     {
+        InstructionGraphNode node;
 while_:
+        // TODO: clean this... Not sure whether "max" depends on the loop
         while (true) {
             for (int i = getIndexOfFirstInsn(group), max = getIndexOfLastInsn(
                 group); i < max; i++) {
-                final InstructionGraphNode node = method.getGraphNodes().get(i);
+                node = method.getGraphNodes().get(i);
                 if (node.getGroup() == null) {
                     markGroup(node, group);
                     sort(group);
@@ -165,14 +167,15 @@ while_:
             final InstructionGraphNode node = nodes.get(i);
             Checks.ensure(!node.isXStore(),
                 "An ACTION or Var initializer in rule method '%s' "
-                    + "contains illegal writes to a local variable or parameter",
+                + "contains illegal writes to a local variable or parameter",
                 method.name);
             verifyAccess(node);
         }
 
         Checks.ensure(getIndexOfLastInsn(group) - getIndexOfFirstInsn(group)
             == sizeMinus1,
-            "Error during bytecode analysis of rule method '%s': Incontinuous group block",
+            "Error during bytecode analysis of rule method '%s': " +
+            "discontinuous group block",
             method.name);
     }
 
@@ -181,11 +184,12 @@ while_:
         switch (node.getInstruction().getOpcode()) {
             case GETFIELD:
             case GETSTATIC:
-                final FieldInsnNode field = (FieldInsnNode) node
-                    .getInstruction();
+                final FieldInsnNode field
+                    = (FieldInsnNode) node.getInstruction();
                 Checks.ensure(!isPrivateField(field.owner, field.name),
-                    "Rule method '%s' contains an illegal access to private field '%s'.\n"
-                        + "Mark the field protected or package-private if you want to prevent public access!",
+                    "Rule method '%s' contains an illegal access to private "
+                    + "field '%s'.\nMark the field protected or package-private"
+                    + " if you want to prevent public access!",
                     method.name, field.name
                 );
                 break;
@@ -197,9 +201,10 @@ while_:
                 final MethodInsnNode calledMethod = (MethodInsnNode) node
                     .getInstruction();
                 Checks.ensure(!isPrivate(calledMethod.owner, calledMethod.name,
-                        calledMethod.desc),
-                    "Rule method '%s' contains an illegal call to private method '%s'.\nMark '%s' protected or "
-                        + "package-private if you want to prevent public access!",
+                    calledMethod.desc),
+                    "Rule method '%s' contains an illegal call to private" +
+                    " method '%s'.\nMark '%s' protected or "
+                    + "package-private if you want to prevent public access!",
                     method.name, calledMethod.name, calledMethod.name
                 );
                 break;
