@@ -16,31 +16,40 @@
 
 package org.parboiled.support;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.parboiled.Node;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.common.Formatter;
+
+import javax.annotation.Nonnull;
 
 /**
  * A simple Formatter&lt;Node&gt; that provides String representation for parse
  * tree
  * nodes.
  */
-public class NodeFormatter<V> implements Formatter<Node<V>> {
+@WillBeFinal(version = "1.1")
+public class NodeFormatter<V>
+    implements Formatter<Node<V>>
+{
 
     private final InputBuffer inputBuffer;
 
     /**
      * Creates a new NodeFormatter.
      *
-     * @param inputBuffer the input buffer underlying the parse tree whose nodes are to be formatted.
+     * @param inputBuffer the input buffer underlying the parse tree whose nodes
+     * are to be formatted.
      */
-    public NodeFormatter(final InputBuffer inputBuffer) {
+    public NodeFormatter(@Nonnull final InputBuffer inputBuffer)
+    {
         this.inputBuffer = Preconditions.checkNotNull(inputBuffer);
     }
 
     @Override
-    public String format(final Node<V> node) {
+    public String format(final Node<V> node)
+    {
         final String nodeLabel = node.toString();
         final String text = ParseTreeUtils.getNodeText(node, inputBuffer);
         final String nodeText = CharsEscaper.INSTANCE.escape(text);

@@ -33,6 +33,9 @@ import static org.parboiled.trees.GraphUtils.hasChildren;
 
 public final class Filters
 {
+    private Filters()
+    {
+    }
 
     /**
      * A predicate for Node tree printing, suppresses printing of parse tree
@@ -95,10 +98,13 @@ public final class Filters
 
     /**
      * A predicate usable as a filter (element) of a {@link TracingParseRunner}.
-     * Enables printing of rule tracing log messages for all input in the given range of input lines.
+     * Enables printing of rule tracing log messages for all input in the given
+     * range of input lines.
      *
-     * @param firstLine the number of the first input line to generate tracing message for
-     * @param lastLine the number of the last input line to generate tracing message for
+     * @param firstLine the number of the first input line to generate tracing
+     * message for
+     * @param lastLine the number of the last input line to generate tracing
+     * message for
      * @return a predicate
      */
     public static Predicate<Tuple2<Context<?>, Boolean>> lines(

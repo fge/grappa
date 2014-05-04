@@ -22,8 +22,9 @@ import com.google.common.base.Predicates;
 import com.google.common.base.Strings;
 import org.parboiled.Node;
 import org.parboiled.buffers.InputBuffer;
-import org.parboiled.common.StringUtils;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
 
@@ -33,27 +34,38 @@ import static org.parboiled.trees.GraphUtils.printTree;
 /**
  * General utility methods for operating on parse trees.
  */
-public final class ParseTreeUtils {
+public final class ParseTreeUtils
+{
 
-    private ParseTreeUtils() {}
+    private ParseTreeUtils()
+    {
+    }
 
     /**
-     * <p>Returns the parse tree node underneath the given parent that matches the given path.</p>
-     * <p>The path is a '/' separated list of node label prefixes describing the ancestor chain of the node to look for
-     * relative to the given parent node. If there are several nodes that match the given path the method
-     * returns the first one unless the respective path segments has the special prefix "last:". In this case the
-     * last matching node is returned.
-     * <p><b>Example:</b> "per/last:so/fix" will return the first node, whose label starts with "fix" under the last
-     * node, whose label starts with "so" under the first node, whose label starts with "per".</p>
+     * <p>Returns the parse tree node underneath the given parent that matches
+     * the given path.</p>
+     * <p>The path is a '/' separated list of node label prefixes describing the
+     * ancestor chain of the node to look for relative to the given parent node.
+     * If there are several nodes that match the given path the method returns
+     * the first one unless the respective path segments has the special prefix
+     * "last:". In this case the last matching node is returned.
+     * <p><b>Example:</b> "per/last:so/fix" will return the first node, whose
+     * label starts with "fix" under the last node, whose label starts with "so"
+     * under the first node, whose label starts with "per".</p>
      * If parent is null or no node is found the method returns null.
      *
      * @param parent the parent Node
-     * @param path   the path to the Node being searched for
+     * @param path the path to the Node being searched for
      * @return the Node if found or null if not found
      */
-    public static <V> Node<V> findNodeByPath(final Node<V> parent, final String path) {
+    @Nullable // TODO: try and get rid of that null!
+    public static <V> Node<V> findNodeByPath(final Node<V> parent,
+        final String path)
+    {
         Preconditions.checkNotNull(path, "path");
-        return parent != null && hasChildren(parent) ? findNodeByPath(parent.getChildren(), path) : null;
+        return parent != null && hasChildren(parent)
+            ? findNodeByPath(parent.getChildren(), path)
+            : null;
     }
 
     /**
@@ -68,20 +80,27 @@ public final class ParseTreeUtils {
     public static <V> Node<V> findNodeByPath(
         final List<Node<V>> parents, final String path) {
         Preconditions.checkNotNull(path, "path");
-        if (parents != null && !parents.isEmpty()) {
-            final int separatorIndex = path.indexOf('/');
-            String prefix = separatorIndex != -1 ? path.substring(0, separatorIndex) : path;
-            int start = 0, step = 1;
-            if (prefix.startsWith("last:")) {
-                prefix = prefix.substring(5);
-                start = parents.size() - 1;
-                step = -1;
-            }
-            for (int i = start; 0 <= i && i < parents.size(); i += step) {
-                final Node<V> child = parents.get(i);
-                if (StringUtils.startsWith(child.getLabel(), prefix)) {
-                    return separatorIndex == -1 ? child : findNodeByPath(child, path.substring(separatorIndex + 1));
-                }
+        if (parents == null)
+            return null;
+        if (parents.isEmpty())
+            return null;
+        final int separatorIndex = path.indexOf('/');
+        String prefix = separatorIndex != -1
+            ? path.substring(0, separatorIndex)
+            : path;
+        int start = 0, step = 1;
+        if (prefix.startsWith("last:")) {
+            prefix = prefix.substring(5);
+            start = parents.size() - 1;
+            step = -1;
+        }
+        for (int i = start; 0 <= i && i < parents.size(); i += step) {
+            final Node<V> child = parents.get(i);
+            // TODO! null again!
+            if (Strings.nullToEmpty(child.getLabel()).startsWith(prefix)) {
+                return separatorIndex == -1
+                    ? child
+                    : findNodeByPath(child, path.substring(separatorIndex + 1));
             }
         }
         return null;
@@ -89,8 +108,8 @@ public final class ParseTreeUtils {
 
     /**
      * Collects all nodes underneath the given parent that match the given path.
-     * The path is a '/' separated list of node label prefixes describing the ancestor chain of the node to look for
-     * relative to the given parent node.
+     * The path is a '/' separated list of node label prefixes describing the
+     * ancestor chain of the node to look for relative to the given parent node.
      *
      * @param parent     the parent Node
      * @param path       the path to the Nodes being searched for
@@ -101,59 +120,74 @@ public final class ParseTreeUtils {
         final Node<V> parent, final String path, final C collection) {
         Preconditions.checkNotNull(path, "path");
         Preconditions.checkNotNull(collection, "collection");
-        return parent != null && hasChildren(parent) ?
-                collectNodesByPath(parent.getChildren(), path, collection) : collection;
+        return parent != null && hasChildren(parent)
+            ? collectNodesByPath(parent.getChildren(), path, collection)
+            : collection;
     }
 
     /**
      * Collects all nodes underneath the given parents that match the given path.
-     * The path is a '/' separated list of node label prefixes describing the ancestor chain of the node to look for
-     * relative to the given parent nodes.
+     * The path is a '/' separated list of node label prefixes describing the
+     * ancestor chain of the node to look for relative to the given parent
+     * nodes.
      *
      * @param parents    the parent Nodes to look through
      * @param path       the path to the Nodes being searched for
      * @param collection the collection to collect the found Nodes into
      * @return the same collection instance passed as a parameter
      */
+    @Nonnull
+    // TODO: nullable!
     public static <V, C extends Collection<Node<V>>> C collectNodesByPath(
-        final List<Node<V>> parents, final String path,
-                                                                          final C collection) {
+        @Nullable final List<Node<V>> parents, @Nonnull final String path,
+        @Nonnull final C collection)
+    {
         Preconditions.checkNotNull(path, "path");
         Preconditions.checkNotNull(collection, "collection");
-        if (parents != null && !parents.isEmpty()) {
-            final int separatorIndex = path.indexOf('/');
-            final String prefix = separatorIndex != -1 ? path.substring(0, separatorIndex) : path;
-            for (final Node<V> child : parents) {
-                if (prefix.startsWith(Strings.nullToEmpty(child.getLabel()))) {
-                    if (separatorIndex == -1) {
-                        collection.add(child);
-                    } else {
-                        collectNodesByPath(child, path.substring(separatorIndex + 1), collection);
-                    }
-                }
-            }
+        if (parents == null)
+            return collection;
+        if (parents.isEmpty())
+            return collection;
+        final int separatorIndex = path.indexOf('/');
+        final String prefix = separatorIndex != -1
+            ? path.substring(0, separatorIndex)
+            : path;
+        for (final Node<V> child: parents) {
+            if (!prefix.startsWith(Strings.nullToEmpty(child.getLabel())))
+                continue;
+
+            if (separatorIndex == -1)
+                collection.add(child);
+            else
+                collectNodesByPath(child, path.substring(separatorIndex + 1),
+                    collection);
+
         }
         return collection;
     }
 
     /**
-     * Returns the first node underneath the given parent for which the given predicate evaluates to true.
-     * If parent is null or no node is found the method returns null.
+     * Returns the first node underneath the given parent for which the given
+     * predicate evaluates to true. If parent is null or no node is found the
+     * method returns null.
      *
      * @param parent    the parent Node
      * @param predicate the predicate
      * @return the Node if found or null if not found
      */
-    public static <V> Node<V> findNode(final Node<V> parent, final Predicate<Node<V>> predicate) {
+    @Nullable // TODO! Null again!
+    public static <V> Node<V> findNode(@Nullable final Node<V> parent,
+        @Nonnull final Predicate<Node<V>> predicate)
+    {
         Preconditions.checkNotNull(predicate, "predicate");
-        if (parent != null) {
-            if (predicate.apply(parent)) return parent;
-            if (hasChildren(parent)) {
-                final Node<V> found = findNode(parent.getChildren(), predicate);
-                if (found != null) return found;
-            }
-        }
-        return null;
+        if (parent == null)
+            return null;
+        if (predicate.apply(parent))
+            return parent;
+        if (!hasChildren(parent))
+            return null;
+
+        return findNode(parent.getChildren(), predicate);
     }
 
     /**

@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 
 @Documented
 @Retention(RetentionPolicy.SOURCE)
-@Target({ ElementType.METHOD,  ElementType.FIELD })
+@Target({ ElementType.METHOD,  ElementType.FIELD, ElementType.TYPE })
 public @interface WillBePrivate
 {
     String version();

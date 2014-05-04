@@ -16,15 +16,20 @@
 
 package org.parboiled.support;
 
+import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
-/**
- * A simple immutable container for a range of indices into an underlying InputBuffer.
- */
-public final class IndexRange {
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
+/**
+ * A simple immutable container for a range of indices into an underlying
+ * InputBuffer.
+ */
+public final class IndexRange
+{
     public static final IndexRange EMPTY = new IndexRange(0, 0);
-    
+
     /**
      * The index of the first character in the range.
      */
@@ -35,7 +40,8 @@ public final class IndexRange {
      */
     public final int end;
 
-    public IndexRange(final int start, final int end) {
+    public IndexRange(final int start, final int end)
+    {
         Preconditions.checkArgument(start >= 0, "start must be >= 0");
         Preconditions.checkArgument(end >= start, "end must be >= start");
         this.start = start;
@@ -47,14 +53,16 @@ public final class IndexRange {
      *
      * @return true if the end matches the start of the range.
      */
-    public boolean isEmpty() {
+    public boolean isEmpty()
+    {
         return start == end;
     }
 
     /**
      * @return the number of characters covered by this range
      */
-    public int length() {
+    public int length()
+    {
         return end - start;
     }
 
@@ -64,7 +72,8 @@ public final class IndexRange {
      * @param other the other range
      * @return true if there is at least one index that is contained in both ranges
      */
-    public boolean overlapsWith(final IndexRange other) {
+    public boolean overlapsWith(final IndexRange other)
+    {
         Preconditions.checkNotNull(other, "other");
         return end > other.start && other.end > start;
     }
@@ -75,7 +84,8 @@ public final class IndexRange {
      * @param other the other range
      * @return true if this range immediated follows the given other one
      */
-    public boolean isPrecededBy(final IndexRange other) {
+    public boolean isPrecededBy(final IndexRange other)
+    {
         Preconditions.checkNotNull(other, "other");
         return other.end == start;
     }
@@ -86,7 +96,8 @@ public final class IndexRange {
      * @param other the other range
      * @return true if this range is immediated followed by the given other one
      */
-    public boolean isFollowedBy(final IndexRange other) {
+    public boolean isFollowedBy(final IndexRange other)
+    {
         Preconditions.checkNotNull(other, "other");
         return end == other.start;
     }
@@ -97,7 +108,8 @@ public final class IndexRange {
      * @param other the other range
      * @return true if this range immediated follows or precedes the given other one.
      */
-    public boolean touches(final IndexRange other) {
+    public boolean touches(final IndexRange other)
+    {
         Preconditions.checkNotNull(other, "other");
         return other.end == start || end == other.start;
     }
@@ -108,31 +120,37 @@ public final class IndexRange {
      * @param other the other range
      * @return a new IndexRange instance
      */
-    public IndexRange mergedWith(final IndexRange other) {
+    public IndexRange mergedWith(final IndexRange other)
+    {
         Preconditions.checkNotNull(other, "other");
-        return new IndexRange(Math.min(start, other.start), Math.max(end, other.end));
+        return new IndexRange(Math.min(start, other.start),
+            Math.max(end, other.end));
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (!(o instanceof IndexRange)) return false;
-        final IndexRange that = (IndexRange) o;
+    public boolean equals(@Nullable final Object obj)
+    {
+        if (this == obj)
+            return true;
+        if (!(obj instanceof IndexRange))
+            return false;
+        final IndexRange that = (IndexRange) obj;
         return end == that.end && start == that.start;
     }
 
     @Override
-    public int hashCode() {
-        int result = start;
-        result = 31 * result + end;
-        return result;
+    public int hashCode()
+    {
+        return start ^ end;
     }
 
+    @Nonnull
     @Override
-    public String toString() {
-        return "IndexRange{" +
-                "start=" + start +
-                ", end=" + end +
-                '}';
+    public String toString()
+    {
+        return Objects.toStringHelper(this)
+            .add("start", start)
+            .add("end", end)
+            .toString();
     }
 }

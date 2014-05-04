@@ -16,6 +16,7 @@
 
 package org.parboiled.support;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
 import org.parboiled.buffers.IndentDedentInputBuffer;
@@ -24,36 +25,9 @@ import java.util.Arrays;
 import java.util.Map;
 
 //TODO: make final
+@WillBeFinal(version = "1.1")
 public class Chars
 {
-    private Chars()
-    {
-    }
-
-    /**
-     * Return a map of characters to escape and their replacements
-     *
-     * @return an escape map (immutable)
-     *
-     * @see CharsEscaper
-     */
-    public static Map<Character, String> escapeMap()
-    {
-        return ESCAPE_MAP;
-    }
-
-    public static String escape(final char c)
-    {
-        return Optional.fromNullable(ESCAPE_MAP.get(c)).or(String.valueOf(c));
-    }
-
-    public static String repeat(final char c, final int n)
-    {
-        final char[] array = new char[n];
-        Arrays.fill(array, c);
-        return new String(array);
-    }
-
     /**
      * Special non-character used during error recovery. Signals that an illegal input character was skipped at this
      * input location.
@@ -120,5 +94,31 @@ public class Chars
         .put(EOI, "EOI")
         .build();
 
+    private Chars()
+    {
+    }
 
+    /**
+     * Return a map of characters to escape and their replacements
+     *
+     * @return an escape map (immutable)
+     *
+     * @see CharsEscaper
+     */
+    public static Map<Character, String> escapeMap()
+    {
+        return ESCAPE_MAP;
+    }
+
+    public static String escape(final char c)
+    {
+        return Optional.fromNullable(ESCAPE_MAP.get(c)).or(String.valueOf(c));
+    }
+
+    public static String repeat(final char c, final int n)
+    {
+        final char[] array = new char[n];
+        Arrays.fill(array, c);
+        return new String(array);
+    }
 }

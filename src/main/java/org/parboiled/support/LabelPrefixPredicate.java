@@ -16,8 +16,11 @@
 
 package org.parboiled.support;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.google.common.base.Predicate;
 import org.parboiled.Node;
+
+import javax.annotation.Nullable;
 
 /**
  * A simple Node predicate determining whether a Node matches a given label prefix.
@@ -25,16 +28,20 @@ import org.parboiled.Node;
  *
  * @param <V> the type of the value field of a parse tree node
  */
-public class LabelPrefixPredicate<V> implements Predicate<Node<V>>
+@WillBeFinal(version = "1.1")
+public class LabelPrefixPredicate<V>
+    implements Predicate<Node<V>>
 {
     private final String labelPrefix;
 
-    public LabelPrefixPredicate(final String labelPrefix) {
+    public LabelPrefixPredicate(final String labelPrefix)
+    {
         this.labelPrefix = labelPrefix;
     }
 
     @Override
-    public boolean apply(final Node<V> input) {
+    public boolean apply(@Nullable final Node<V> input)
+    {
         return input != null && input.getLabel().startsWith(labelPrefix);
     }
 }

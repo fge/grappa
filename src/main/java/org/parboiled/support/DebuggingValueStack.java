@@ -20,33 +20,41 @@ import com.google.common.base.Joiner;
 import org.parboiled.common.ConsoleSink;
 import org.parboiled.common.Sink;
 
+import java.util.Deque;
 import java.util.LinkedList;
 
-public class DebuggingValueStack<V> extends DefaultValueStack<V> {
-
+public class DebuggingValueStack<V>
+    extends DefaultValueStack<V>
+{
     private static final Joiner COMMA = Joiner.on(", ");
 
     public final Sink<String> log;
-    
-    public DebuggingValueStack() {
+
+    public DebuggingValueStack()
+    {
         this(new ConsoleSink());
     }
-    
-    public DebuggingValueStack(final Sink<String> log) {
+
+    public DebuggingValueStack(final Sink<String> log)
+    {
         this.log = log;
     }
 
-    public DebuggingValueStack(final Iterable<V> values) {
+    public DebuggingValueStack(final Iterable<V> values)
+    {
         this(values, new ConsoleSink());
     }
-    
-    public DebuggingValueStack(final Iterable<V> values, final Sink<String> log) {
+
+    public DebuggingValueStack(final Iterable<V> values, final Sink<String> log)
+    {
         super(values);
         this.log = log;
     }
 
     @Override
-    public void clear() {
+    public void clear()
+    {
+        // TODO: that NULL again! Get rid of it!
         if (head != null) {
             super.clear();
             log("clear");
@@ -54,73 +62,87 @@ public class DebuggingValueStack<V> extends DefaultValueStack<V> {
     }
 
     @Override
-    public void restoreSnapshot(final Object snapshot) {
-        if (head == null && snapshot == null || head != null && head.equals(snapshot)) return;
+    public void restoreSnapshot(final Object snapshot)
+    {
+        if (head == null && snapshot == null || head != null && head
+            .equals(snapshot))
+            return;
         super.restoreSnapshot(snapshot);
         log("restoreSnapshot");
     }
 
     @Override
-    public void push(final V value) {
+    public void push(final V value)
+    {
         super.push(value);
         log("push");
     }
 
     @Override
-    public void push(final int down, final V value) {
+    public void push(final int down, final V value)
+    {
         super.push(down, value);
         log("push");
     }
 
     @Override
-    public V pop(final int down) {
+    public V pop(final int down)
+    {
         final V v = super.pop(down);
         log("pop");
         return v;
     }
 
     @Override
-    public void poke(final int down, final V value) {
+    public void poke(final int down, final V value)
+    {
         super.poke(down, value);
         log("poke");
     }
 
     @Override
-    public void swap() {
+    public void swap()
+    {
         super.swap();
         log("swap");
     }
 
     @Override
-    public void swap3() {
+    public void swap3()
+    {
         super.swap3();
         log("swap3");
     }
 
     @Override
-    public void swap4() {
+    public void swap4()
+    {
         super.swap4();
         log("swap4");
     }
 
     @Override
-    public void swap5() {
+    public void swap5()
+    {
         super.swap5();
         log("swap5");
     }
 
     @Override
-    public void swap6() {
+    public void swap6()
+    {
         super.swap6();
         log("swap6");
     }
 
-    protected void log(final String action) {
+    protected void log(final String action)
+    {
         log.receive(action);
         log.receive(Chars.repeat(' ', 15 - action.length()));
         log.receive(": ");
-        final LinkedList<V> elements = new LinkedList<V>();
-        for (final V v : this) elements.addFirst(v);
+        final Deque<V> elements = new LinkedList<V>();
+        for (final V v: this)
+            elements.addFirst(v);
         log.receive(COMMA.join(elements));
         log.receive("\n");
     }
