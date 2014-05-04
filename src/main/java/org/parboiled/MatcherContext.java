@@ -356,7 +356,7 @@ public class MatcherContext<V> implements Context<V> {
     @SuppressWarnings("ConstantConditions")
     public void createNode() {
         if (!nodeSuppressed) {
-            node = new NodeImpl<V>(matcher, getSubNodes(), startIndex, currentIndex,
+            node = new DefaultParsingNode<V>(matcher, getSubNodes(), startIndex, currentIndex,
                     valueStack.isEmpty() ? null : valueStack.peek(), hasError);
             if (parent != null) {
                 parent.subNodes = parent.subNodes.prepend(node);

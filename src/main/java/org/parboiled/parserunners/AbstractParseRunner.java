@@ -16,6 +16,9 @@
 
 package org.parboiled.parserunners;
 
+import com.github.parboiled1.grappa.cleanup.ShouldBeReplaced;
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+import com.github.parboiled1.grappa.cleanup.WillBeProtected;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
@@ -29,81 +32,109 @@ import org.parboiled.support.DefaultValueStack;
 import org.parboiled.support.ParsingResult;
 import org.parboiled.support.ValueStack;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractParseRunner<V> implements ParseRunner<V> {
+public abstract class AbstractParseRunner<V>
+    implements ParseRunner<V>
+{
     private final Matcher rootMatcher;
+    // TODO: make final
     private List<ParseError> parseErrors;
     private ValueStack<V> valueStack;
     private Object initialValueStackSnapshot;
 
-    public AbstractParseRunner(final Rule rule) {
+    @WillBeProtected(version = "1.1")
+    public AbstractParseRunner(final Rule rule)
+    {
         this.rootMatcher = Preconditions.checkNotNull((Matcher) rule, "rule");
     }
 
-    public Matcher getRootMatcher() {
+    @WillBeFinal(version = "1.1")
+    public Matcher getRootMatcher()
+    {
         return rootMatcher;
     }
 
     @Override
-    public ParseRunner<V> withParseErrors(final List<ParseError> parseErrors) {
+    // TODO: for now, parseErrors is @Nullable here
+    @ShouldBeReplaced
+    @WillBeFinal(version = "1.1")
+    public ParseRunner<V> withParseErrors(final List<ParseError> parseErrors)
+    {
         this.parseErrors = parseErrors;
         return this;
     }
 
-    public List<ParseError> getParseErrors() {
-        if (parseErrors == null) {
+    public List<ParseError> getParseErrors()
+    {
+        if (parseErrors == null)
             withParseErrors(new ArrayList<ParseError>());
-        }
         return parseErrors;
     }
 
     @Override
-    public ParseRunner<V>withValueStack(final ValueStack<V> valueStack) {
+    @WillBeFinal(version = "1.1")
+    public ParseRunner<V> withValueStack(
+        @Nonnull final ValueStack<V> valueStack)
+    {
         this.valueStack = Preconditions.checkNotNull(valueStack, "valueStack");
         this.initialValueStackSnapshot = valueStack.takeSnapshot();
         return this;
     }
 
-    public ValueStack<V> getValueStack() {
-        if (valueStack == null) {
+    @ShouldBeReplaced
+    @WillBeFinal(version = "1.1")
+    public ValueStack<V> getValueStack()
+    {
+        if (valueStack == null)
             withValueStack(new DefaultValueStack<V>());
-        }
         return valueStack;
     }
 
     @Override
+    @WillBeFinal(version = "1.1")
     public ParsingResult<V> run(final String input)
     {
         return run((CharSequence) input);
     }
 
     @Override
-    public ParsingResult<V> run(final CharSequence input) {
+    @WillBeFinal(version = "1.1")
+    public ParsingResult<V> run(final CharSequence input)
+    {
         Preconditions.checkNotNull(input, "input");
         return run(new CharSequenceInputBuffer(input));
     }
 
     @Override
-    public ParsingResult<V> run(final char[] input) {
+    @WillBeFinal(version = "1.1")
+    public ParsingResult<V> run(final char[] input)
+    {
         Preconditions.checkNotNull(input, "input");
         return run(new DefaultInputBuffer(input));
     }
 
-    protected void resetValueStack() {
+    @WillBeFinal(version = "1.1")
+    protected void resetValueStack()
+    {
         getValueStack().restoreSnapshot(initialValueStackSnapshot);
     }
 
-    protected MatcherContext<V> createRootContext(final InputBuffer inputBuffer, final MatchHandler matchHandler,
-                                                     final boolean fastStringMatching) {
-        return new MatcherContext<V>(inputBuffer, getValueStack(), getParseErrors(), matchHandler, rootMatcher,
-                fastStringMatching);
+    @WillBeFinal(version = "1.1")
+    protected MatcherContext<V> createRootContext(final InputBuffer inputBuffer,
+        final MatchHandler matchHandler, final boolean fastStringMatching)
+    {
+        return new MatcherContext<V>(inputBuffer, getValueStack(),
+            getParseErrors(), matchHandler, rootMatcher, fastStringMatching);
     }
-    
-    protected ParsingResult<V> createParsingResult(
-        final boolean matched, final MatcherContext<V> rootContext) {
-        return new ParsingResult<V>(matched, rootContext.getNode(), getValueStack(), getParseErrors(),
-                rootContext.getInputBuffer());
+
+    @WillBeFinal(version = "1.1")
+    protected ParsingResult<V> createParsingResult(final boolean matched,
+        final MatcherContext<V> rootContext)
+    {
+        return new ParsingResult<V>(matched, rootContext.getNode(),
+            getValueStack(), getParseErrors(), rootContext.getInputBuffer());
     }
 }

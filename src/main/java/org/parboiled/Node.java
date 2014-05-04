@@ -22,8 +22,9 @@ import org.parboiled.trees.TreeNode;
 /**
  * Represents a node in the parse tree created during a parsing run.
  */
-public interface Node<V> extends TreeNode<Node<V>> {
-
+public interface Node<V>
+    extends TreeNode<Node<V>>
+{
     /**
      * Returns the matcher that created this node.
      *
@@ -32,7 +33,8 @@ public interface Node<V> extends TreeNode<Node<V>> {
     Matcher getMatcher();
 
     /**
-     * Returns the label of this node which is equal to the name of the rule that created this node
+     * Returns the label of this node which is equal to the name of the rule
+     * that created this node
      *
      * @return the label of this node
      */
@@ -46,8 +48,9 @@ public interface Node<V> extends TreeNode<Node<V>> {
     int getStartIndex();
 
     /**
-     * Returns the end index of this nodes text in the underlying input buffer, i.e. the index of the character
-     * immediately following the last character matched by this node.
+     * Returns the end index of this nodes text in the underlying input buffer,
+     * i.e. the index of the character immediately following the last character
+     * matched by this node.
      *
      * @return the end index
      */
@@ -61,7 +64,8 @@ public interface Node<V> extends TreeNode<Node<V>> {
     V getValue();
 
     /**
-     * @return true if there were parse errors in the input range covered by this node
+     * @return true if there were parse errors in the input range covered by
+     * this node
      */
     boolean hasError();
 }

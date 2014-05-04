@@ -50,15 +50,16 @@ public class OneOrMoreMatcher
 
         // collect all further matches as well
         // TODO: "optimize" first cyle away; also relevant for ZeroOrMoreMatcher
-        int lastIndex = context.getCurrentIndex();
+        int beforeMatch = context.getCurrentIndex();
+        int afterMatch;
         while (subMatcher.getSubContext(context).runMatcher()) {
-            int currentIndex = context.getCurrentIndex();
-            if (currentIndex == lastIndex) {
-                throw new GrammarException(
-                    "The inner rule of OneOrMore rule '%s' must not allow empty matches",
-                    context.getPath());
+            afterMatch = context.getCurrentIndex();
+            if (afterMatch != beforeMatch) {
+                beforeMatch = afterMatch;
+                continue;
             }
-            lastIndex = currentIndex;
+            throw new GrammarException("The inner rule of OneOrMore rule"
+                + " '%s' must not allow empty matches", context.getPath());
         }
 
         context.createNode();

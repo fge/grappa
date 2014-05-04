@@ -16,6 +16,7 @@
 
 package org.parboiled;
 
+import com.github.parboiled1.grappa.cleanup.VisibleForDocumentation;
 import com.google.common.base.Preconditions;
 import org.parboiled.common.ImmutableLinkedList;
 import org.parboiled.matchers.Matcher;
@@ -25,16 +26,21 @@ import org.parboiled.trees.ImmutableTreeNode;
 /**
  * An immutable implementation of the Node interface.
  */
-class NodeImpl<V> extends ImmutableTreeNode<Node<V>> implements Node<V> {
-
+@VisibleForDocumentation
+public final class DefaultParsingNode<V>
+    extends ImmutableTreeNode<Node<V>>
+    implements Node<V>
+{
     private final Matcher matcher;
     private final int startIndex;
     private final int endIndex;
     private final V value;
     private final boolean hasError;
 
-    public NodeImpl(final Matcher matcher, final ImmutableLinkedList<Node<V>> children, final int startIndex,
-                    final int endIndex, final V value, final boolean hasError) {
+    public DefaultParsingNode(final Matcher matcher,
+        final ImmutableLinkedList<Node<V>> children, final int startIndex,
+        final int endIndex, final V value, final boolean hasError)
+    {
         super(children);
         this.matcher = Preconditions.checkNotNull(matcher, "matcher");
         this.startIndex = startIndex;
@@ -44,37 +50,44 @@ class NodeImpl<V> extends ImmutableTreeNode<Node<V>> implements Node<V> {
     }
 
     @Override
-    public Matcher getMatcher() {
+    public Matcher getMatcher()
+    {
         return matcher;
     }
 
     @Override
-    public String getLabel() {
+    public String getLabel()
+    {
         return matcher.getLabel();
     }
 
     @Override
-    public int getStartIndex() {
+    public int getStartIndex()
+    {
         return startIndex;
     }
 
     @Override
-    public int getEndIndex() {
+    public int getEndIndex()
+    {
         return endIndex;
     }
 
     @Override
-    public V getValue() {
+    public V getValue()
+    {
         return value;
     }
 
     @Override
-    public boolean hasError() {
+    public boolean hasError()
+    {
         return hasError;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         final StringBuilder sb = new StringBuilder();
         sb.append('[');
         sb.append(getLabel());
@@ -82,8 +95,8 @@ class NodeImpl<V> extends ImmutableTreeNode<Node<V>> implements Node<V> {
             sb.append(", {").append(value).append('}');
         }
         sb.append(']');
-        if (hasError) sb.append('E'); 
+        if (hasError)
+            sb.append('E');
         return CharsEscaper.INSTANCE.escape(sb.toString());
     }
-
 }

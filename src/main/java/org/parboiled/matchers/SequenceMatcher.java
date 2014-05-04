@@ -55,11 +55,17 @@ public class SequenceMatcher
         for (int i = 0; i < size; i++) {
             final Matcher matcher = children.get(i);
 
-            // remember the current index in the context, so we can access it for building the current follower set
+            // remember the current index in the context, so we can access it
+            // for building the current follower set
             context.setIntTag(i);
 
             if (!matcher.getSubContext(context).runMatcher()) {
-                // rule failed, so invalidate all stack actions the rule might have done
+                // rule failed, so invalidate all stack actions the rule might
+                // have done
+                /*
+                 * TODO: only valid for this very matcher implementation; and
+                 * that sucks
+                 */
                 context.getValueStack().restoreSnapshot(valueStackSnapshot);
                 return false;
             }

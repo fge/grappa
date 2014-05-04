@@ -16,6 +16,7 @@
 
 package org.parboiled.parserunners;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
@@ -31,7 +32,11 @@ import org.parboiled.support.ParsingResult;
  * It never causes the parser to perform more than one parsing run and is rarely used directly.
  * Instead its functionality is relied upon by the {@link ReportingParseRunner} and {@link RecoveringParseRunner} classes.
  */
-public class ErrorLocatingParseRunner<V> extends AbstractParseRunner<V> implements MatchHandler {
+@WillBeFinal(version = "1.1")
+public class ErrorLocatingParseRunner<V>
+    extends AbstractParseRunner<V>
+    implements MatchHandler
+{
     private final MatchHandler inner;
     private int errorIndex;
 
@@ -40,10 +45,12 @@ public class ErrorLocatingParseRunner<V> extends AbstractParseRunner<V> implemen
      *
      * @param rule the parser rule
      */
-    public ErrorLocatingParseRunner(final Rule rule) {
+    // TODO: replace null with an appropriate, "dummy" handler
+    public ErrorLocatingParseRunner(final Rule rule)
+    {
         this(rule, null);
     }
-    
+
     /**
      * Creates a new ErrorLocatingParseRunner instance for the given rule.
      * The given MatchHandler is used as a delegate for the actual match handling.
@@ -51,39 +58,47 @@ public class ErrorLocatingParseRunner<V> extends AbstractParseRunner<V> implemen
      * @param rule the parser rule
      * @param inner another MatchHandler to delegate the actual match handling to, can be null
      */
-    public ErrorLocatingParseRunner(final Rule rule, final MatchHandler inner) {
+    public ErrorLocatingParseRunner(final Rule rule, final MatchHandler inner)
+    {
         super(rule);
         this.inner = inner;
     }
 
     @Override
-    public ParsingResult<V> run(final InputBuffer inputBuffer) {
+    public ParsingResult<V> run(final InputBuffer inputBuffer)
+    {
         Preconditions.checkNotNull(inputBuffer, "inputBuffer");
         resetValueStack();
         errorIndex = 0;
-        
+
         // run without fast string matching to properly get the error location
-        final MatcherContext<V> rootContext = createRootContext(inputBuffer, this, false);
+        final MatcherContext<V> rootContext
+            = createRootContext(inputBuffer, this, false);
         final boolean matched = match(rootContext);
-        if (!matched) {
-            getParseErrors().add(new BasicParseError(inputBuffer, errorIndex, null));
-        }
+        if (!matched)
+            getParseErrors()
+                .add(new BasicParseError(inputBuffer, errorIndex, null));
+
         return createParsingResult(matched, rootContext);
     }
 
     @Override
-    public boolean match(final MatcherContext<?> context) {
-        if (inner == null && context.getMatcher().match(context) || inner != null && inner.match(context)) {
-            if (errorIndex < context.getCurrentIndex() && notTestNot(context)) {
+    public boolean match(final MatcherContext<?> context)
+    {
+        if (inner == null && context.getMatcher().match(context)
+            || inner != null && inner.match(context)) {
+            if (errorIndex < context.getCurrentIndex() && notTestNot(context))
                 errorIndex = context.getCurrentIndex();
-            }
+
             return true;
         }
         return false;
     }
 
-    private boolean notTestNot(final MatcherContext<?> context) {
-        return !(context.getMatcher() instanceof TestNotMatcher) &&
-                (context.getParent() == null || notTestNot(context.getParent()));
+    private static boolean notTestNot(final MatcherContext<?> context)
+    {
+        if (context.getMatcher() instanceof TestNotMatcher)
+            return false;
+        return context.getParent() == null || notTestNot(context.getParent());
     }
 }
