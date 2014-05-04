@@ -21,12 +21,16 @@ import com.google.common.base.Strings;
 /**
  * Simple specialization of a {@link Var} for Strings. Provides a few convenience helper methods.
  */
-public class StringVar extends Var<String> {
+// TODO: value can be null, replace with empty string
+public class StringVar
+    extends Var<String>
+{
 
     /**
      * Initializes a new StringVar with a null initial value.
      */
-    public StringVar() {
+    public StringVar()
+    {
     }
 
     /**
@@ -34,7 +38,8 @@ public class StringVar extends Var<String> {
      *
      * @param value the initial value
      */
-    public StringVar(final String value) {
+    public StringVar(final String value)
+    {
         super(value);
     }
 
@@ -43,7 +48,8 @@ public class StringVar extends Var<String> {
      *
      * @return true if the wrapped string is either null or empty
      */
-    public boolean isEmpty() {
+    public boolean isEmpty()
+    {
         return Strings.isNullOrEmpty(get());
     }
 
@@ -54,7 +60,8 @@ public class StringVar extends Var<String> {
      * @param text the text to append
      * @return true
      */
-    public boolean append(final String text) {
+    public boolean append(final String text)
+    {
         return set(get() == null ? text : get().concat(text));
     }
 
@@ -65,7 +72,8 @@ public class StringVar extends Var<String> {
      * @param text the text to append
      * @return this instance
      */
-    public StringVar appended(final String text) {
+    public StringVar appended(final String text)
+    {
         append(text);
         return this;
     }
@@ -77,7 +85,8 @@ public class StringVar extends Var<String> {
      * @param c the char to append
      * @return true
      */
-    public boolean append(final char c) {
+    public boolean append(final char c)
+    {
         return set(get() == null ? String.valueOf(c) : get() + c);
     }
 
@@ -88,7 +97,8 @@ public class StringVar extends Var<String> {
      * @param c the char to append
      * @return this instance
      */
-    public StringVar appended(final char c) {
+    public StringVar appended(final char c)
+    {
         append(c);
         return this;
     }

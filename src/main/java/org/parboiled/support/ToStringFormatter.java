@@ -18,25 +18,31 @@ package org.parboiled.support;
 
 import org.parboiled.common.Formatter;
 
+import javax.annotation.Nullable;
+
 /**
  * A simple Formatter falling back to the objects toString() method.
  *
  * @param <T>
  */
-public class ToStringFormatter<T> implements Formatter<T> {
-
+public class ToStringFormatter<T>
+    implements Formatter<T>
+{
     private final String nullString;
 
-    public ToStringFormatter() {
+    public ToStringFormatter()
+    {
         this("null");
     }
 
-    public ToStringFormatter(final String nullString) {
+    public ToStringFormatter(final String nullString)
+    {
         this.nullString = nullString;
     }
 
     @Override
-    public String format(final T obj) {
+    public String format(@Nullable final T obj)
+    {
         return obj != null ? obj.toString() : nullString;
     }
 

@@ -16,72 +16,89 @@
 
 package org.parboiled.support;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+import com.github.parboiled1.grappa.cleanup.WillBePrivate;
 import com.google.common.base.Preconditions;
 import org.parboiled.Node;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.errors.ParseError;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
  * A simple container encapsulating the result of a parsing run.
  */
-public class ParsingResult<V> {
+@WillBeFinal(version = "1.1")
+public class ParsingResult<V>
+{
 
     /**
      * Indicates whether the input was successfully parsed.
      */
+    @WillBePrivate(version = "1.1")
     public final boolean matched;
 
     /**
      * The root node of the parse tree created by the parsing run. This field will only be non-null when
      * parse-tree-building has been enabled.
      */
+    @WillBePrivate(version = "1.1")
     public final Node<V> parseTreeRoot;
 
     /**
      * The top value of the value stack at the end of the parsing run or null, if the value stack is empty.
      */
+    @WillBePrivate(version = "1.1")
+    @Nullable // TODO: replace with Optional?
     public final V resultValue;
 
     /**
      * The ValueStack used during the parsing run containing all values not popped of the stack by the parser.
      */
+    @WillBePrivate(version = "1.1")
     public final ValueStack<V> valueStack;
 
     /**
      * The list of parse errors created during the parsing run.
      */
+    @WillBePrivate(version = "1.1")
     public final List<ParseError> parseErrors;
 
     /**
      * The underlying input buffer.
      */
+    @WillBePrivate(version = "1.1")
     public final InputBuffer inputBuffer;
 
     /**
      * Creates a new ParsingResult.
      *
-     * @param matched       true if the rule matched the input
+     * @param matched true if the rule matched the input
      * @param parseTreeRoot the parse tree root node
-     * @param valueStack    the value stack of the parsing run
-     * @param parseErrors   the list of parse errors
-     * @param inputBuffer   the input buffer
+     * @param valueStack the value stack of the parsing run
+     * @param parseErrors the list of parse errors
+     * @param inputBuffer the input buffer
      */
-    public ParsingResult(final boolean matched, final Node<V> parseTreeRoot, final ValueStack<V> valueStack, final List<ParseError> parseErrors,
-                         final InputBuffer inputBuffer) {
+    public ParsingResult(final boolean matched, final Node<V> parseTreeRoot,
+        @Nonnull final ValueStack<V> valueStack,
+        @Nonnull final List<ParseError> parseErrors,
+        @Nonnull final InputBuffer inputBuffer)
+    {
         this.matched = matched;
         this.parseTreeRoot = parseTreeRoot;
-        this.valueStack = Preconditions.checkNotNull(valueStack, "valueStack");
+        this.valueStack = Preconditions.checkNotNull(valueStack);
         this.resultValue = valueStack.isEmpty() ? null : valueStack.peek();
-        this.parseErrors = Preconditions.checkNotNull(parseErrors, "parseErrors");
-        this.inputBuffer = Preconditions.checkNotNull(inputBuffer, "inputBuffer");
+        this.parseErrors = Preconditions.checkNotNull(parseErrors);
+        this.inputBuffer = Preconditions.checkNotNull(inputBuffer);
     }
 
     /**
      * @return true if this parsing result contains parsing errors.
      */
-    public boolean hasErrors() {
+    public boolean hasErrors()
+    {
         return !parseErrors.isEmpty();
     }
 }

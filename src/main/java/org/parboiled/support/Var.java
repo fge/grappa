@@ -16,10 +16,14 @@
 
 package org.parboiled.support;
 
+import com.github.parboiled1.grappa.cleanup.DoNotUse;
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.parboiled.common.Factory;
 import org.parboiled.common.Reference;
 
+import javax.annotation.Nonnull;
+import java.util.Deque;
 import java.util.LinkedList;
 
 /**
@@ -35,17 +39,22 @@ import java.util.LinkedList;
  *
  * @param <T> the type wrapped by this Var
  */
-public class Var<T> extends Reference<T> {
+public class Var<T>
+    extends Reference<T>
+{
 
-    private Factory<T> factory;
-    private LinkedList<T> stack;
+    private final Factory<T> factory;
+    // TODO: can be null :(
+    private Deque<T> stack;
     private int level;
     private String name;
 
     /**
      * Initializes a new Var with a null initial value.
      */
-    public Var() {
+    // TODO: disallow
+    public Var()
+    {
         this((T) null);
     }
 
@@ -54,11 +63,14 @@ public class Var<T> extends Reference<T> {
      *
      * @param value the value
      */
-    public Var(final T value) {
+    public Var(final T value)
+    {
         super(value);
-        factory = new Factory<T>() {
+        factory = new Factory<T>()
+        {
             @Override
-            public T create() {
+            public T create()
+            {
                 return value;
             }
         };
@@ -70,7 +82,8 @@ public class Var<T> extends Reference<T> {
      *
      * @param factory the factory used to create the initial value for a rule execution frame
      */
-    public Var(final Factory<T> factory) {
+    public Var(@Nonnull final Factory<T> factory)
+    {
         this.factory = Preconditions.checkNotNull(factory);
     }
 
@@ -79,7 +92,9 @@ public class Var<T> extends Reference<T> {
      *
      * @return the name
      */
-    public String getName() {
+    @WillBeFinal(version = "1.1")
+    public String getName()
+    {
         return name;
     }
 
@@ -88,7 +103,9 @@ public class Var<T> extends Reference<T> {
      *
      * @param name the name
      */
-    public void setName(final String name) {
+    @WillBeFinal(version = "1.1")
+    public void setName(final String name)
+    {
         this.name = name;
     }
 
@@ -97,20 +114,27 @@ public class Var<T> extends Reference<T> {
      *
      * @return the current level
      */
-    public int getLevel() {
+    @WillBeFinal(version = "1.1")
+    public int getLevel()
+    {
         return level;
     }
 
     /**
      * Provides a new frame for the variable.
      * Potentially existing previous frames are saved.
-     * Normally you do not have to call this method manually as parboiled provides for automatic Var frame management.
+     * Normally you do not have to call this method manually as parboiled
+     * provides for automatic Var frame management.
      *
      * @return true
      */
-    public boolean enterFrame() {
+    @DoNotUse
+    @WillBeFinal(version = "1.1")
+    public boolean enterFrame()
+    {
         if (level++ > 0) {
-            if (stack == null) stack = new LinkedList<T>();
+            if (stack == null)
+                stack = new LinkedList<T>();
             stack.add(get());
         }
         return set(factory.create());
@@ -118,20 +142,23 @@ public class Var<T> extends Reference<T> {
 
     /**
      * Exits a frame previously entered with {@link #enterFrame()}.
-     * Normally you do not have to call this method manually as parboiled provides for automatic Var frame management.
+     * Normally you do not have to call this method manually as parboiled
+     * provides for automatic Var frame management.
      *
      * @return true
      */
-    public boolean exitFrame() {
-        if (--level > 0) {
+    @DoNotUse
+    @WillBeFinal(version = "1.1")
+    public boolean exitFrame()
+    {
+        if (--level > 0)
             set(stack.removeLast());
-        }
         return true;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return name != null ? name : super.toString();
     }
-
 }

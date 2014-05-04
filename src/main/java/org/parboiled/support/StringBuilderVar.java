@@ -20,12 +20,15 @@ package org.parboiled.support;
  * Simple specialization of a {@link Var} for StringBuilders.
  * Provides a few convenience helper methods.
  */
-public class StringBuilderVar extends Var<StringBuilder> {
-
+// TODO: value can be null, replace with empty StringBuilder
+public class StringBuilderVar
+    extends Var<StringBuilder>
+{
     /**
      * Initializes a new StringVar with a null initial value.
      */
-    public StringBuilderVar() {
+    public StringBuilderVar()
+    {
     }
 
     /**
@@ -33,7 +36,8 @@ public class StringBuilderVar extends Var<StringBuilder> {
      *
      * @param value the initial value
      */
-    public StringBuilderVar(final StringBuilder value) {
+    public StringBuilderVar(final StringBuilder value)
+    {
         super(value);
     }
 
@@ -42,22 +46,26 @@ public class StringBuilderVar extends Var<StringBuilder> {
      *
      * @return true if the wrapped string is either null or empty
      */
-    public boolean isEmpty() {
+    public boolean isEmpty()
+    {
         return get() == null || get().length() == 0;
     }
 
     /**
      * @return the String representation of the underlying StringBuilder.
      */
-    public String getString() {
+    public String getString()
+    {
         return get() == null ? "" : get().toString();
     }
-    
+
     /**
      * @return the char[] representation of the underlying StringBuilder.
      */
-    public char[] getChars() {
-        if (get() == null) return new char[0];
+    public char[] getChars()
+    {
+        if (get() == null)
+            return new char[0];
         final StringBuilder sb = get();
         final char[] buf = new char[sb.length()];
         sb.getChars(0, buf.length, buf, 0);
@@ -71,8 +79,10 @@ public class StringBuilderVar extends Var<StringBuilder> {
      * @param text the text to append
      * @return true
      */
-    public boolean append(final String text) {
-        if (get() == null) return set(new StringBuilder(text));
+    public boolean append(final String text)
+    {
+        if (get() == null)
+            return set(new StringBuilder(text));
         get().append(text);
         return true;
     }
@@ -84,11 +94,12 @@ public class StringBuilderVar extends Var<StringBuilder> {
      * @param text the text to append
      * @return this instance
      */
-    public StringBuilderVar appended(final String text) {
+    public StringBuilderVar appended(final String text)
+    {
         append(text);
         return this;
     }
-    
+
     /**
      * Appends the given char.
      * If this instance is currently uninitialized the given char is used for initialization.
@@ -96,8 +107,10 @@ public class StringBuilderVar extends Var<StringBuilder> {
      * @param c the char to append
      * @return true
      */
-    public boolean append(final char c) {
-        if (get() == null) return set(new StringBuilder().append(c));
+    public boolean append(final char c)
+    {
+        if (get() == null)
+            return set(new StringBuilder().append(c));
         get().append(c);
         return true;
     }
@@ -109,28 +122,35 @@ public class StringBuilderVar extends Var<StringBuilder> {
      * @param c the char to append
      * @return this instance
      */
-    public StringBuilderVar appended(final char c) {
+    public StringBuilderVar appended(final char c)
+    {
         append(c);
         return this;
     }
-    
+
     /**
      * Clears the contents of the wrapped StringBuilder.
-     * If the instance is currently unintialized this method does nothing. 
+     * If the instance is currently unintialized this method does nothing.
+     *
      * @return true
      */
-    public boolean clearContents() {
-        if (get() != null) get().setLength(0);
+    public boolean clearContents()
+    {
+        if (get() != null)
+            get().setLength(0);
         return true;
     }
-    
+
     /**
      * Clears the contents of the wrapped StringBuilder.
-     * If the instance is currently unintialized this method does nothing. 
+     * If the instance is currently unintialized this method does nothing.
+     *
      * @return this instance
      */
-    public StringBuilderVar contentsCleared() {
-        if (get() != null) get().setLength(0);
+    public StringBuilderVar contentsCleared()
+    {
+        if (get() != null)
+            get().setLength(0);
         return this;
     }
 }

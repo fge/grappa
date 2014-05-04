@@ -16,39 +16,49 @@
 
 package org.parboiled.support;
 
+import com.github.parboiled1.grappa.cleanup.WillBePrivate;
+import com.google.common.base.Objects;
+
 /**
  * Simple container class for a line/column position in the input text.
  */
-public final class Position {
+public final class Position
+{
+    @WillBePrivate(version = "1.1")
     public final int line;
+    @WillBePrivate(version = "1.1")
     public final int column;
 
-    public Position(final int line, final int column) {
+    public Position(final int line, final int column)
+    {
         this.line = line;
         this.column = column;
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Position)) return false;
-        final Position position = (Position) o;
+    public boolean equals(final Object obj)
+    {
+        if (this == obj)
+            return true;
+        if (!(obj instanceof Position))
+            return false;
+        final Position position = (Position) obj;
         return column == position.column && line == position.line;
 
     }
 
     @Override
-    public int hashCode() {
-        int result = line;
-        result = 31 * result + column;
-        return result;
+    public int hashCode()
+    {
+        return line ^ column;
     }
 
     @Override
-    public String toString() {
-        return "Position{" +
-                "line=" + line +
-                ", column=" + column +
-                '}';
+    public String toString()
+    {
+        return Objects.toStringHelper(this)
+            .add("line", line)
+            .add("column", column)
+            .toString();
     }
 }

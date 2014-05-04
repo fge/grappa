@@ -19,14 +19,19 @@ package org.parboiled.support;
 import org.parboiled.errors.GrammarException;
 
 /**
- * A ValueStack is a stack implementation for parser values. The current state of the stack can be saved and restored
- * with the methods {@link #takeSnapshot()} and {@link #restoreSnapshot(Object)} ()}, whose implementations should be
- * super efficient since they are being used extensively during a parsing run. A ValueStack also serves as an Iterable
- * over the current stack values (the values are being provided with the last value (on top of the stack) first).
+ * A ValueStack is a stack implementation for parser values. The current state
+ * of the stack can be saved and restored with the methods {@link
+ * #takeSnapshot()} and {@link #restoreSnapshot(Object)} ()}, whose
+ * implementations should be super efficient since they are being used
+ * extensively during a parsing run. A ValueStack also serves as an Iterable
+ * over the current stack values (the values are being provided with the last
+ * value (on top of the stack) first).
  *
  * @param <V> the type of the value objects
  */
-public interface ValueStack<V> extends Iterable<V> {
+public interface ValueStack<V>
+    extends Iterable<V>
+{
 
     /**
      * Determines whether the stack is empty.
@@ -49,17 +54,20 @@ public interface ValueStack<V> extends Iterable<V> {
 
     /**
      * Returns an object representing the current state of the stack.
-     * This cost of running this operation is negligible and independent from the size of the stack.
+     * This cost of running this operation is negligible and independent from
+     * the size of the stack.
      *
      * @return an object representing the current state of the stack
      */
     Object takeSnapshot();
 
     /**
-     * Restores the stack state as previously returned by {@link #takeSnapshot()}.
-     * This cost of running this operation is negligible and independent from the size of the stack.
+     * Restores the stack state as previously returned by {@link
+     * #takeSnapshot()}. This cost of running this operation is negligible and
+     * independent from the size of the stack.
      *
-     * @param snapshot a snapshot object previously returned by {@link #takeSnapshot()}
+     * @param snapshot a snapshot object previously returned by {@link
+     * #takeSnapshot()}
      */
     void restoreSnapshot(Object snapshot);
 
@@ -71,11 +79,14 @@ public interface ValueStack<V> extends Iterable<V> {
     void push(V value);
 
     /**
-     * Inserts the given value a given number of elements below the current top of the stack.
+     * Inserts the given value a given number of elements below the current top
+     * of the stack.
      *
-     * @param down  the number of elements to skip before inserting the value (0 being equivalent to push(value))
+     * @param down the number of elements to skip before inserting the value (0
+     * being equivalent to push(value))
      * @param value the value
-     * @throws IllegalArgumentException if the stack does not contain enough elements to perform this operation
+     * @throws IllegalArgumentException if the stack does not contain enough
+     * elements to perform this operation
      */
     void push(int down, V value);
 
@@ -98,6 +109,7 @@ public interface ValueStack<V> extends Iterable<V> {
      * Removes the value at the top of the stack and returns it.
      *
      * @return the current top value
+     *
      * @throws IllegalArgumentException if the stack is empty
      */
     V pop();
@@ -105,9 +117,12 @@ public interface ValueStack<V> extends Iterable<V> {
     /**
      * Removes the value the given number of elements below the top of the stack.
      *
-     * @param down the number of elements to skip before removing the value (0 being equivalent to pop())
+     * @param down the number of elements to skip before removing the value (0
+     * being equivalent to pop())
      * @return the value
-     * @throws IllegalArgumentException if the stack does not contain enough elements to perform this operation
+     *
+     * @throws IllegalArgumentException if the stack does not contain enough
+     * elements to perform this operation
      */
     V pop(int down);
 
@@ -115,21 +130,26 @@ public interface ValueStack<V> extends Iterable<V> {
      * Returns the value at the top of the stack without removing it.
      *
      * @return the current top value
+     *
      * @throws IllegalArgumentException if the stack is empty
      */
     V peek();
 
     /**
-     * Returns the value the given number of elements below the top of the stack without removing it.
+     * Returns the value the given number of elements below the top of the stack
+     * without removing it.
      *
      * @param down the number of elements to skip (0 being equivalent to peek())
      * @return the value
-     * @throws IllegalArgumentException if the stack does not contain enough elements to perform this operation
+     *
+     * @throws IllegalArgumentException if the stack does not contain enough
+     * elements to perform this operation
      */
     V peek(int down);
 
     /**
-     * Replaces the current top value with the given value. Equivalent to poke(0, value).
+     * Replaces the current top value with the given value. Equivalent to
+     * poke(0, value).
      *
      * @param value the value
      * @throws IllegalArgumentException if the stack is empty
@@ -137,11 +157,14 @@ public interface ValueStack<V> extends Iterable<V> {
     void poke(V value);
 
     /**
-     * Replaces the element the given number of elements below the current top of the stack.
+     * Replaces the element the given number of elements below the current top
+     * of the stack.
      *
-     * @param down  the number of elements to skip before replacing the value (0 being equivalent to poke(value))
+     * @param down the number of elements to skip before replacing the value (0
+     * being equivalent to poke(value))
      * @param value the value to replace with
-     * @throws IllegalArgumentException if the stack does not contain enough elements to perform this operation
+     * @throws IllegalArgumentException if the stack does not contain enough
+     * elements to perform this operation
      */
     void poke(int down, V value);
 
@@ -155,40 +178,40 @@ public interface ValueStack<V> extends Iterable<V> {
     /**
      * Swaps the top two stack values.
      *
-     * @throws GrammarException
-     *          if the stack does not contain at least two elements
+     * @throws GrammarException if the stack does not contain at least two
+     * elements
      */
     void swap();
 
     /**
      * Reverses the order of the top 3 stack values.
      *
-     * @throws GrammarException
-     *          if the stack does not contain at least 3 elements
+     * @throws GrammarException if the stack does not contain at least 3
+     * elements
      */
     void swap3();
 
     /**
      * Reverses the order of the top 4 stack values.
      *
-     * @throws GrammarException
-     *          if the stack does not contain at least 4 elements
+     * @throws GrammarException if the stack does not contain at least 4
+     * elements
      */
     void swap4();
 
     /**
      * Reverses the order of the top 5 stack values.
      *
-     * @throws GrammarException
-     *          if the stack does not contain at least 5 elements
+     * @throws GrammarException if the stack does not contain at least 5
+     * elements
      */
     void swap5();
 
     /**
-     * Reverses the order of the top 5 stack values.
+     * Reverses the order of the top 6 stack values.
      *
-     * @throws GrammarException
-     *          if the stack does not contain at least 5 elements
+     * @throws GrammarException if the stack does not contain at least 6
+     * elements
      */
     void swap6();
 
