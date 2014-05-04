@@ -30,6 +30,7 @@ import java.util.List;
 
 import static org.parboiled.errors.ErrorUtils.printParseErrors;
 import static org.parboiled.support.ParseTreeUtils.printNodeTree;
+import static org.testng.Assert.assertEquals;
 
 public abstract class ParboiledTest<V> {
 
@@ -87,8 +88,4 @@ public abstract class ParboiledTest<V> {
     public TestResult<V> testWithRecovery(Rule rule, String input) {
         return new TestResult<V>(new RecoveringParseRunner<V>(rule).run(input));
     }
-    
-    protected abstract void fail(String message);
-
-    protected abstract void assertEquals(Object actual, Object expected);
 }

@@ -16,6 +16,7 @@
 
 package org.parboiled;
 
+import com.github.parboiled1.grappa.assertions.StatsAssert;
 import org.parboiled.annotations.BuildParseTree;
 import org.parboiled.annotations.SuppressNode;
 import org.parboiled.matchers.CharMatcher;
@@ -26,11 +27,11 @@ import org.parboiled.matchers.ProxyMatcher;
 import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.matchers.VarFramingMatcher;
 import org.parboiled.support.Var;
-import org.parboiled.test.TestNgParboiledTest;
-import com.github.parboiled1.grappa.assertions.StatsAssert;
+import org.parboiled.test.ParboiledTest;
 import org.testng.annotations.Test;
 
-public class VarFramingTest extends TestNgParboiledTest<Integer> {
+public class VarFramingTest extends ParboiledTest<Integer>
+{
 
     @BuildParseTree
     static class Parser extends BaseParser<Integer> {

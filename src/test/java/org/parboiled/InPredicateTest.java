@@ -18,10 +18,13 @@ package org.parboiled;
 
 import org.parboiled.annotations.BuildParseTree;
 import org.parboiled.annotations.SkipActionsInPredicates;
-import org.parboiled.test.TestNgParboiledTest;
+import org.parboiled.test.ParboiledTest;
 import org.testng.annotations.Test;
 
-public class InPredicateTest extends TestNgParboiledTest<Object> {
+import static org.testng.Assert.assertEquals;
+
+public class InPredicateTest extends ParboiledTest<Object>
+{
 
     @BuildParseTree
     public static class Parser extends BaseParser<Object> {
@@ -82,5 +85,4 @@ public class InPredicateTest extends TestNgParboiledTest<Object> {
                         "  [EOI]\n");
         assertEquals(parser.count, 1);
     }
-
 }

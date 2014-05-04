@@ -20,13 +20,15 @@ import org.parboiled.annotations.BuildParseTree;
 import org.parboiled.annotations.Label;
 import org.parboiled.matchers.Matcher;
 import org.parboiled.support.ToStringFormatter;
-import org.parboiled.test.TestNgParboiledTest;
+import org.parboiled.test.ParboiledTest;
 import org.testng.annotations.Test;
 
 import static org.parboiled.trees.GraphUtils.countAllDistinct;
 import static org.parboiled.trees.GraphUtils.printTree;
+import static org.testng.Assert.assertEquals;
 
-public class LabelTest extends TestNgParboiledTest<Object> {
+public class LabelTest extends ParboiledTest<Object>
+{
 
     @BuildParseTree
     public static class LabellingParser extends BaseParser<Object> {

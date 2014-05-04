@@ -17,10 +17,11 @@
 package org.parboiled;
 
 import org.parboiled.annotations.BuildParseTree;
-import org.parboiled.test.TestNgParboiledTest;
+import org.parboiled.test.ParboiledTest;
 import org.testng.annotations.Test;
 
-public class ParserInheritanceTest extends TestNgParboiledTest<Object> {
+public class ParserInheritanceTest extends ParboiledTest<Object>
+{
 
     public static class Actions extends BaseActions<Object> {
         public boolean dummyAction() {

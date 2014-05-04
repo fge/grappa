@@ -18,10 +18,11 @@ package org.parboiled;
 
 import org.parboiled.annotations.BuildParseTree;
 import org.parboiled.annotations.SkipNode;
-import org.parboiled.test.TestNgParboiledTest;
+import org.parboiled.test.ParboiledTest;
 import org.testng.annotations.Test;
 
-public class NodeSkippingTest extends TestNgParboiledTest<Object> {
+public class NodeSkippingTest extends ParboiledTest<Object>
+{
 
     @BuildParseTree
     public static class Parser extends BaseParser<Object> {

@@ -21,10 +21,13 @@ import org.parboiled.Parboiled;
 import org.parboiled.Rule;
 import org.parboiled.annotations.BuildParseTree;
 import org.parboiled.errors.GrammarException;
-import org.parboiled.test.TestNgParboiledTest;
+import org.parboiled.test.ParboiledTest;
 import org.testng.annotations.Test;
 
-public class FirstOfStringsMatcherTest extends TestNgParboiledTest<Object> {
+import static org.testng.Assert.assertEquals;
+
+public class FirstOfStringsMatcherTest extends ParboiledTest<Object>
+{
 
     @BuildParseTree
     static class Parser extends BaseParser<Object> {

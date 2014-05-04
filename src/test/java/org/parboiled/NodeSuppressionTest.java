@@ -19,10 +19,11 @@ package org.parboiled;
 import org.parboiled.annotations.BuildParseTree;
 import org.parboiled.annotations.SuppressNode;
 import org.parboiled.annotations.SuppressSubnodes;
-import org.parboiled.test.TestNgParboiledTest;
+import org.parboiled.test.ParboiledTest;
 import org.testng.annotations.Test;
 
-public class NodeSuppressionTest extends TestNgParboiledTest<Object> {
+public class NodeSuppressionTest extends ParboiledTest<Object>
+{
 
     @BuildParseTree
     public static class Parser extends BaseParser<Object> {

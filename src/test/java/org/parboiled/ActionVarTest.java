@@ -19,13 +19,16 @@ package org.parboiled;
 import org.parboiled.annotations.BuildParseTree;
 import org.parboiled.matchers.Matcher;
 import org.parboiled.support.Var;
-import org.parboiled.test.TestNgParboiledTest;
+import org.parboiled.test.ParboiledTest;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActionVarTest extends TestNgParboiledTest<Integer> {
+import static org.testng.Assert.assertEquals;
+
+public class ActionVarTest extends ParboiledTest<Integer>
+{
 
     @BuildParseTree
     static class Parser extends BaseParser<Integer> {

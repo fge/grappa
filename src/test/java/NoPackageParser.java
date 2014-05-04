@@ -18,11 +18,11 @@ import org.parboiled.BaseParser;
 import org.parboiled.Parboiled;
 import org.parboiled.Rule;
 import org.parboiled.annotations.BuildParseTree;
-import org.parboiled.test.TestNgParboiledTest;
+import org.parboiled.test.ParboiledTest;
 import org.testng.annotations.Test;
 
 public class NoPackageParser
-    extends TestNgParboiledTest<Integer>
+    extends ParboiledTest<Integer>
 {
 
     @BuildParseTree

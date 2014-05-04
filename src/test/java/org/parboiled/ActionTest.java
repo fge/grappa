@@ -16,15 +16,18 @@
 
 package org.parboiled;
 
+import com.github.parboiled1.grappa.assertions.StatsAssert;
 import org.parboiled.annotations.BuildParseTree;
 import org.parboiled.annotations.Label;
 import org.parboiled.matchers.CharMatcher;
 import org.parboiled.matchers.SequenceMatcher;
-import org.parboiled.test.TestNgParboiledTest;
-import com.github.parboiled1.grappa.assertions.StatsAssert;
+import org.parboiled.test.ParboiledTest;
 import org.testng.annotations.Test;
 
-public class ActionTest extends TestNgParboiledTest<Integer> {
+import static org.testng.Assert.assertEquals;
+
+public class ActionTest extends ParboiledTest<Integer>
+{
 
     public static class Actions extends BaseActions<Integer> {
 

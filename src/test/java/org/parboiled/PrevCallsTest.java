@@ -19,10 +19,11 @@ package org.parboiled;
 import org.parboiled.annotations.BuildParseTree;
 import org.parboiled.annotations.SuppressSubnodes;
 import org.parboiled.common.Reference;
-import org.parboiled.test.TestNgParboiledTest;
+import org.parboiled.test.ParboiledTest;
 import org.testng.annotations.Test;
 
-public class PrevCallsTest extends TestNgParboiledTest<Integer> {
+public class PrevCallsTest extends ParboiledTest<Integer>
+{
 
     @BuildParseTree
     static class Parser extends BaseParser<Integer> {

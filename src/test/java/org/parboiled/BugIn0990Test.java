@@ -16,10 +16,11 @@
 
 package org.parboiled;
 
-import org.parboiled.test.TestNgParboiledTest;
+import org.parboiled.test.ParboiledTest;
 import org.testng.annotations.Test;
 
-public class BugIn0990Test extends TestNgParboiledTest<Integer> {
+public class BugIn0990Test extends ParboiledTest<Integer>
+{
 
     public static class Parser extends BaseParser<Integer> {
         Rule ID() {

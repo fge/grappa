@@ -19,10 +19,11 @@ package org.parboiled.parserunners;
 import org.parboiled.BaseParser;
 import org.parboiled.Parboiled;
 import org.parboiled.Rule;
-import org.parboiled.test.TestNgParboiledTest;
+import org.parboiled.test.ParboiledTest;
 import org.testng.annotations.Test;
 
-public class BugIn0990Test extends TestNgParboiledTest<Integer> {
+public class BugIn0990Test extends ParboiledTest<Integer>
+{
 
     static class Parser extends BaseParser<Integer> {
         Rule Clause() {
