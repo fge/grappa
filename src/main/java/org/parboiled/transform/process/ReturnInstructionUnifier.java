@@ -16,6 +16,7 @@
 
 package org.parboiled.transform.process;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
@@ -23,33 +24,43 @@ import org.objectweb.asm.tree.LabelNode;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
 
+import javax.annotation.Nonnull;
+
 import static org.objectweb.asm.Opcodes.ARETURN;
 import static org.objectweb.asm.Opcodes.GOTO;
 
 /**
- * Replaces all "non-last" return instructions with goto instructions to the last return instruction.
- * If a method contains only one return instruction the transformer does nothing.
+ * Replaces all "non-last" return instructions with goto instructions to the
+ * last return instruction. If a method contains only one return instruction
+ * the transformer does nothing.
  */
-public class ReturnInstructionUnifier implements RuleMethodProcessor {
-
+@WillBeFinal(version = "1.1")
+// TODO: remove?
+public class ReturnInstructionUnifier
+    implements RuleMethodProcessor
+{
     @Override
-    public boolean appliesTo(final ParserClassNode classNode, final RuleMethod method) {
-        return true;
+    public boolean appliesTo(@Nonnull final ParserClassNode classNode,
+        @Nonnull final RuleMethod method)
+    {
+        return method.getNumberOfReturns() > 1;
     }
 
     @Override
-    public void process(final ParserClassNode classNode, final RuleMethod method) throws Exception {
+    public void process(@Nonnull final ParserClassNode classNode,
+        @Nonnull final RuleMethod method)
+        throws Exception
+    {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
-        if (method.getNumberOfReturns() == 1) return;
         Preconditions.checkState(method.getNumberOfReturns() > 1);
 
         AbstractInsnNode current = method.instructions.getLast();
 
         // find last return
-        while (current.getOpcode() != ARETURN) {
+        while (current.getOpcode() != ARETURN)
             current = current.getPrevious();
-        }
+
 
         final LabelNode lastReturnLabel = new LabelNode();
         method.instructions.insertBefore(current, lastReturnLabel);
@@ -58,12 +69,13 @@ public class ReturnInstructionUnifier implements RuleMethodProcessor {
         while ((current = current.getPrevious()) != null) {
 
             // replace returns with gotos
-            if (current.getOpcode() == ARETURN) {
-                final JumpInsnNode gotoInstruction = new JumpInsnNode(GOTO, lastReturnLabel);
-                method.instructions.set(current, gotoInstruction);
-                current = gotoInstruction;
-            }
+            if (current.getOpcode() != ARETURN)
+                continue;
+
+            final JumpInsnNode gotoInstruction
+                = new JumpInsnNode(GOTO, lastReturnLabel);
+            method.instructions.set(current, gotoInstruction);
+            current = gotoInstruction;
         }
     }
-
 }

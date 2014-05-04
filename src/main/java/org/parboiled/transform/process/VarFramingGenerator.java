@@ -16,6 +16,7 @@
 
 package org.parboiled.transform.process;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.InsnList;
@@ -29,6 +30,8 @@ import org.objectweb.asm.tree.VarInsnNode;
 import org.parboiled.support.Var;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
+
+import javax.annotation.Nonnull;
 
 import static org.objectweb.asm.Opcodes.AASTORE;
 import static org.objectweb.asm.Opcodes.ALOAD;
@@ -47,31 +50,40 @@ import static org.parboiled.transform.Types.VAR_DESC;
 import static org.parboiled.transform.Types.VAR_FRAMING_MATCHER;
 
 /**
- * Inserts code for wrapping the created rule into a VarFramingMatcher if the method contains local variables
- * assignable to {@link Var}.
+ * Inserts code for wrapping the created rule into a VarFramingMatcher if the
+ * method contains local variables assignable to {@link Var}.
  */
-public class VarFramingGenerator implements RuleMethodProcessor {
+@WillBeFinal(version = "1.1")
+public class VarFramingGenerator
+    implements RuleMethodProcessor
+{
 
     @Override
-    public boolean appliesTo(final ParserClassNode classNode, final RuleMethod method) {
+    public boolean appliesTo(@Nonnull final ParserClassNode classNode,
+        @Nonnull final RuleMethod method)
+    {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
         return !method.getLocalVarVariables().isEmpty();
     }
 
     @Override
-    public void process(final ParserClassNode classNode, final RuleMethod method) throws Exception {
+    public void process(@Nonnull final ParserClassNode classNode,
+        @Nonnull final RuleMethod method)
+        throws Exception
+    {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
         final InsnList instructions = method.instructions;
-        
+
         AbstractInsnNode ret = instructions.getLast();
-        while (ret.getOpcode() != ARETURN) {
+        while (ret.getOpcode() != ARETURN)
             ret = ret.getPrevious();
-        }
+
 
         // stack: <Matcher>
-        instructions.insertBefore(ret, new TypeInsnNode(NEW, VAR_FRAMING_MATCHER.getInternalName()));
+        instructions.insertBefore(ret, new TypeInsnNode(NEW,
+            VAR_FRAMING_MATCHER.getInternalName()));
         // stack: <Matcher> :: <VarFramingMatcher>
         instructions.insertBefore(ret, new InsnNode(DUP_X1));
         // stack: <VarFramingMatcher> :: <Matcher> :: <VarFramingMatcher>
@@ -87,13 +99,16 @@ public class VarFramingGenerator implements RuleMethodProcessor {
         method.setBodyRewritten();
     }
 
-    private void createVarFieldArray(final RuleMethod method, final InsnList instructions, final AbstractInsnNode ret) {
+    private static void createVarFieldArray(final RuleMethod method,
+        final InsnList instructions, final AbstractInsnNode ret)
+    {
         final int count = method.getLocalVarVariables().size();
 
         // stack:
         instructions.insertBefore(ret, new IntInsnNode(BIPUSH, count));
         // stack: <length>
-        instructions.insertBefore(ret, new TypeInsnNode(ANEWARRAY, VAR.getInternalName()));
+        instructions.insertBefore(ret, new TypeInsnNode(ANEWARRAY,
+            VAR.getInternalName()));
         // stack: <array>
         for (int i = 0; i < count; i++) {
             final LocalVariableNode var = method.getLocalVarVariables().get(i);
@@ -106,7 +121,8 @@ public class VarFramingGenerator implements RuleMethodProcessor {
             // stack: <array> :: <array> :: <index> :: <var>
             instructions.insertBefore(ret, new InsnNode(DUP));
             // stack: <array> :: <array> :: <index> :: <var> :: <var>
-            instructions.insertBefore(ret, new LdcInsnNode(method.name + ':' + var.name));
+            instructions.insertBefore(ret, new LdcInsnNode(
+                method.name + ':' + var.name));
             // stack: <array> :: <array> :: <index> :: <var> :: <var> :: <varName>
             instructions.insertBefore(ret, new MethodInsnNode(INVOKEVIRTUAL,
                 VAR.getInternalName(), "setName", "(Ljava/lang/String;)V",
@@ -117,5 +133,4 @@ public class VarFramingGenerator implements RuleMethodProcessor {
         }
         // stack: <array>
     }
-
 }

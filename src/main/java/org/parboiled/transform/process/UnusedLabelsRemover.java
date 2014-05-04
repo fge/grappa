@@ -16,34 +16,44 @@
 
 package org.parboiled.transform.process;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
 
+import javax.annotation.Nonnull;
+
 /**
  * Removes all unused labels.
  */
-public class UnusedLabelsRemover implements RuleMethodProcessor {
+@WillBeFinal(version = "1.1")
+// TODO: is it really useful?
+public class UnusedLabelsRemover
+    implements RuleMethodProcessor
+{
 
     @Override
-    public boolean appliesTo(final ParserClassNode classNode, final RuleMethod method) {
+    public boolean appliesTo(@Nonnull final ParserClassNode classNode,
+        @Nonnull final RuleMethod method)
+    {
         return true;
     }
 
     @Override
-    @SuppressWarnings("SuspiciousMethodCalls")
-    public void process(final ParserClassNode classNode, final RuleMethod method) throws Exception {
+    public void process(@Nonnull final ParserClassNode classNode,
+        @Nonnull final RuleMethod method)
+        throws Exception
+    {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
         AbstractInsnNode current = method.instructions.getFirst();
         while (current != null) {
             final AbstractInsnNode next = current.getNext();
-            if (current.getType() == AbstractInsnNode.LABEL && !method.getUsedLabels().contains(current)) {
+            if (current.getType() == AbstractInsnNode.LABEL
+                && !method.getUsedLabels().contains(current))
                 method.instructions.remove(current);
-            }
             current = next;
         }
     }
-
 }

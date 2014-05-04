@@ -16,6 +16,7 @@
 
 package org.parboiled.transform.process;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
@@ -24,6 +25,8 @@ import org.objectweb.asm.tree.MethodInsnNode;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
 
+import javax.annotation.Nonnull;
+
 import static org.objectweb.asm.Opcodes.ARETURN;
 import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
 import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
@@ -31,40 +34,53 @@ import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
 /**
  * Replaces the method code with a simple call to the super method.
  */
-public class SuperCallRewriter implements RuleMethodProcessor {
-
+@WillBeFinal(version = "1.1")
+public class SuperCallRewriter
+    implements RuleMethodProcessor
+{
     @Override
-    public boolean appliesTo(final ParserClassNode classNode, final RuleMethod method) {
+    public boolean appliesTo(@Nonnull final ParserClassNode classNode,
+        @Nonnull final RuleMethod method)
+    {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
         return method.containsPotentialSuperCalls();
     }
 
     @Override
-    public void process(final ParserClassNode classNode, final RuleMethod method) throws Exception {
+    public void process(@Nonnull final ParserClassNode classNode,
+        @Nonnull final RuleMethod method)
+        throws Exception
+    {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
         final InsnList instructions = method.instructions;
         AbstractInsnNode insn = instructions.getFirst();
         while (insn.getOpcode() != ARETURN) {
-            if (insn.getOpcode() == INVOKESPECIAL) {
+            if (insn.getOpcode() == INVOKESPECIAL)
                 process(classNode, method, (MethodInsnNode) insn);
-            }
             insn = insn.getNext();
         }
     }
 
-    private void process(final ParserClassNode classNode, final RuleMethod method, final MethodInsnNode insn) {
-        if ("<init>".equals(insn.name)) return;
+    private void process(final ParserClassNode classNode,
+        final RuleMethod method, final MethodInsnNode insn)
+    {
+        if ("<init>".equals(insn.name))
+            return;
         final String superMethodName = getSuperMethodName(method, insn);
-        final RuleMethod superMethod = classNode.getRuleMethods().get(superMethodName.concat(insn.desc));
-        if (superMethod == null) return;
-        if (!superMethod.isBodyRewritten()) return;
+        final RuleMethod superMethod = classNode.getRuleMethods().get(
+            superMethodName.concat(insn.desc));
+        if (superMethod == null)
+            return;
+        if (!superMethod.isBodyRewritten())
+            return;
 
         // since the super method is rewritten we do need to generate it
         superMethod.dontSkipGeneration();
 
-        // we have a call to a super method that was rewritten, so we need to change the call to the generated method
+        // we have a call to a super method that was rewritten, so we need to
+        // change the call to the generated method
         insn.setOpcode(INVOKEVIRTUAL);
         insn.name = superMethodName;
         insn.owner = classNode.name;
@@ -72,19 +88,17 @@ public class SuperCallRewriter implements RuleMethodProcessor {
         method.setBodyRewritten();
     }
 
-    @SuppressWarnings("ConstantConditions")
-    private String getSuperMethodName(
-        final RuleMethod method, final MethodInsnNode insn) {
+    private static String getSuperMethodName(final RuleMethod method,
+        final MethodInsnNode insn)
+    {
         Class<?> clazz = method.getOwnerClass();
         String superMethodName = method.name;
         do {
             clazz = clazz.getSuperclass();
-            Preconditions.checkState(clazz != null); // we should find the
-            // owner before
-            // hitting Object
+            // we should find the owner before hitting Object
+            Preconditions.checkState(clazz != null);
             superMethodName = '$' + superMethodName;
         } while (!Type.getInternalName(clazz).equals(insn.owner));
         return superMethodName;
     }
-
 }
