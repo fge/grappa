@@ -16,6 +16,7 @@
 
 package org.parboiled.transform.process;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.InsnList;
@@ -27,6 +28,8 @@ import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
 import org.parboiled.transform.Types;
 
+import javax.annotation.Nonnull;
+
 import static org.objectweb.asm.Opcodes.ARETURN;
 import static org.objectweb.asm.Opcodes.DUP;
 import static org.objectweb.asm.Opcodes.IFNULL;
@@ -35,30 +38,38 @@ import static org.objectweb.asm.Opcodes.INVOKEINTERFACE;
 /**
  * Adds the required flag marking calls before the return instruction.
  */
-public class FlagMarkingGenerator implements RuleMethodProcessor {
-
+@WillBeFinal(version = "1.1")
+public class FlagMarkingGenerator
+    implements RuleMethodProcessor
+{
     @Override
-    public boolean appliesTo(final ParserClassNode classNode, final RuleMethod method) {
+    public boolean appliesTo(@Nonnull final ParserClassNode classNode,
+        @Nonnull final RuleMethod method)
+    {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
-        return method.hasSuppressNodeAnnotation() || method.hasSuppressSubnodesAnnotation() ||
-                method.hasSkipNodeAnnotation() || method.hasMemoMismatchesAnnotation();
+        return method.hasSuppressNodeAnnotation() || method
+            .hasSuppressSubnodesAnnotation() ||
+            method.hasSkipNodeAnnotation() || method
+            .hasMemoMismatchesAnnotation();
     }
 
     @Override
-    public void process(final ParserClassNode classNode, final RuleMethod method) throws Exception {
+    public void process(@Nonnull final ParserClassNode classNode,
+        @Nonnull final RuleMethod method)
+        throws Exception
+    {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
-        Preconditions.checkState(!method.isSuperMethod()); // super methods
-        // have flag
-        // moved to the overriding method
-        
+        // super methods have flag moved to the overriding method
+        Preconditions.checkState(!method.isSuperMethod());
+
         final InsnList instructions = method.instructions;
 
         AbstractInsnNode ret = instructions.getLast();
-        while (ret.getOpcode() != ARETURN) {
+        while (ret.getOpcode() != ARETURN)
             ret = ret.getPrevious();
-        }
+
 
         // stack: <rule>
         instructions.insertBefore(ret, new InsnNode(DUP));
@@ -67,21 +78,26 @@ public class FlagMarkingGenerator implements RuleMethodProcessor {
         instructions.insertBefore(ret, new JumpInsnNode(IFNULL, isNullLabel));
         // stack: <rule>
 
-        if (method.hasSuppressNodeAnnotation()) generateMarkerCall(instructions, ret, "suppressNode");
-        if (method.hasSuppressSubnodesAnnotation()) generateMarkerCall(instructions, ret, "suppressSubnodes");
-        if (method.hasSkipNodeAnnotation()) generateMarkerCall(instructions, ret, "skipNode");
-        if (method.hasMemoMismatchesAnnotation()) generateMarkerCall(instructions, ret, "memoMismatches");
-        
+        if (method.hasSuppressNodeAnnotation())
+            generateMarkerCall(instructions, ret, "suppressNode");
+        if (method.hasSuppressSubnodesAnnotation())
+            generateMarkerCall(instructions, ret, "suppressSubnodes");
+        if (method.hasSkipNodeAnnotation())
+            generateMarkerCall(instructions, ret, "skipNode");
+        if (method.hasMemoMismatchesAnnotation())
+            generateMarkerCall(instructions, ret, "memoMismatches");
+
         // stack: <rule>
         instructions.insertBefore(ret, isNullLabel);
         // stack: <rule>
     }
 
-    private void generateMarkerCall(
-        final InsnList instructions, final AbstractInsnNode ret, final String call) {
-        instructions.insertBefore(ret, new MethodInsnNode(INVOKEINTERFACE,
+    private static void generateMarkerCall(final InsnList instructions,
+        final AbstractInsnNode ret, final String call)
+    {
+        final MethodInsnNode insn = new MethodInsnNode(INVOKEINTERFACE,
             Types.RULE.getInternalName(), call,
-            "()" + Types.RULE.getDescriptor(), true));
+            "()" + Types.RULE.getDescriptor(), true);
+        instructions.insertBefore(ret, insn);
     }
-
 }

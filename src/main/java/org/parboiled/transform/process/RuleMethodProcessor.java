@@ -19,6 +19,8 @@ package org.parboiled.transform.process;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
 
+import javax.annotation.Nonnull;
+
 /**
  * An individual processor for altering a generated {@link RuleMethod}
  *
@@ -30,8 +32,11 @@ import org.parboiled.transform.RuleMethod;
 public interface RuleMethodProcessor
 {
 
-    boolean appliesTo(ParserClassNode classNode, RuleMethod method);
+    boolean appliesTo(@Nonnull ParserClassNode classNode,
+        @Nonnull RuleMethod method);
 
-    void process(ParserClassNode classNode, RuleMethod method)
+    // TODO: replace Exception with a better one (should it inherit Runtime)
+    void process(@Nonnull ParserClassNode classNode,
+        @Nonnull RuleMethod method)
         throws Exception;
 }

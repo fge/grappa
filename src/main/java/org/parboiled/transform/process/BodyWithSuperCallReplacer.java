@@ -16,12 +16,15 @@
 
 package org.parboiled.transform.process;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
+
+import javax.annotation.Nonnull;
 
 import static org.objectweb.asm.Opcodes.ALOAD;
 import static org.objectweb.asm.Opcodes.ARETURN;
@@ -32,12 +35,13 @@ import static org.parboiled.transform.AsmUtils.createArgumentLoaders;
  * Replaces the method code with a simple call to the super method.
  */
 //TODO: final in 1.1
+@WillBeFinal(version = "1.1")
 public class BodyWithSuperCallReplacer
     implements RuleMethodProcessor
 {
     @Override
-    public boolean appliesTo(final ParserClassNode classNode,
-        final RuleMethod method)
+    public boolean appliesTo(@Nonnull final ParserClassNode classNode,
+        @Nonnull final RuleMethod method)
     {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
@@ -49,8 +53,8 @@ public class BodyWithSuperCallReplacer
     }
 
     @Override
-    public void process(final ParserClassNode classNode,
-        final RuleMethod method)
+    public void process(@Nonnull final ParserClassNode classNode,
+        @Nonnull final RuleMethod method)
         throws Exception
     {
         Preconditions.checkNotNull(classNode, "classNode");

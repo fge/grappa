@@ -42,7 +42,6 @@ import java.util.Deque;
 public class Var<T>
     extends Reference<T>
 {
-
     private final Factory<T> factory;
     private final Deque<T> stack = Queues.newArrayDeque();
     private int level;
@@ -109,7 +108,8 @@ public class Var<T>
     }
 
     /**
-     * Returns the current frame level of this variable, the very first level corresponding to zero.
+     * Returns the current frame level of this variable, the very first level
+     * corresponding to zero.
      *
      * @return the current level
      */

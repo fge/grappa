@@ -22,6 +22,9 @@
 
 package org.parboiled.transform.process;
 
+import com.github.parboiled1.grappa.cleanup.DoNotUse;
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+import com.github.parboiled1.grappa.cleanup.WillBePrivate;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
@@ -43,6 +46,8 @@ import org.parboiled.transform.RuleMethod;
 import org.parboiled.transform.Types;
 import org.parboiled.transform.asm.AsmHelper;
 import org.parboiled.transform.asm.ClassHelper;
+
+import javax.annotation.Nonnull;
 
 import static org.objectweb.asm.Opcodes.AASTORE;
 import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
@@ -73,9 +78,10 @@ import static org.objectweb.asm.Opcodes.SWAP;
 /**
  * Wraps the method code with caching and proxying constructs.
  */
-public class CachingGenerator implements RuleMethodProcessor
+@WillBeFinal(version = "1.1")
+public class CachingGenerator
+    implements RuleMethodProcessor
 {
-
     private ParserClassNode classNode;
     private RuleMethod method;
     private InsnList instructions;
@@ -83,19 +89,23 @@ public class CachingGenerator implements RuleMethodProcessor
     private String cacheFieldName;
 
     @Override
-    public boolean appliesTo(final ParserClassNode classNode, final RuleMethod method) {
+    public boolean appliesTo(@Nonnull final ParserClassNode classNode,
+        @Nonnull final RuleMethod method)
+    {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
         return method.hasCachedAnnotation();
     }
 
     @Override
-    public void process(final ParserClassNode classNode, final RuleMethod method) throws Exception {
+    public void process(@Nonnull final ParserClassNode classNode,
+        @Nonnull final RuleMethod method)
+        throws Exception
+    {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
-        Preconditions.checkState(!method.isSuperMethod()); // super methods
-        // have flag
-        // moved to the overriding method
+        // super methods have flag moved to the overriding method
+        Preconditions.checkState(!method.isSuperMethod());
 
         this.classNode = classNode;
         this.method = method;
@@ -110,7 +120,8 @@ public class CachingGenerator implements RuleMethodProcessor
     }
 
     // if (<cache> != null) return <cache>;
-    private void generateCacheHitReturn() {
+    private void generateCacheHitReturn()
+    {
         // stack:
         generateGetFromCache();
         // stack: <cachedValue>
@@ -127,22 +138,31 @@ public class CachingGenerator implements RuleMethodProcessor
         // stack:
     }
 
-    @SuppressWarnings("unchecked")
-    private void generateGetFromCache() {
+    private void generateGetFromCache()
+    {
         final Type[] paramTypes = Type.getArgumentTypes(method.desc);
         cacheFieldName = findUnusedCacheFieldName();
 
-        // if we have no parameters we use a simple Rule field as cache, otherwise a HashMap
-        final String cacheFieldDesc = paramTypes.length == 0 ? Types.RULE_DESC : "Ljava/util/HashMap;";
-        classNode.fields.add(new FieldNode(ACC_PRIVATE, cacheFieldName, cacheFieldDesc, null, null));
+        // if we have no parameters we use a simple Rule field as cache,
+        // otherwise a HashMap
+        final String cacheFieldDesc = paramTypes.length == 0
+            ? Types.RULE_DESC
+            : "Ljava/util/HashMap;";
+        final FieldNode field = new FieldNode(ACC_PRIVATE, cacheFieldName,
+            cacheFieldDesc, null, null);
+        final FieldInsnNode insn = new FieldInsnNode(GETFIELD,
+            classNode.name, cacheFieldName, cacheFieldDesc);
+
+        classNode.fields.add(field);
 
         // stack:
         insert(new VarInsnNode(ALOAD, 0));
         // stack: <this>
-        insert(new FieldInsnNode(GETFIELD, classNode.name, cacheFieldName, cacheFieldDesc));
+        insert(insn);
         // stack: <cache>
 
-        if (paramTypes.length == 0) return; // if we have no parameters we are done
+        if (paramTypes.length == 0)
+            return; // if we have no parameters we are done
 
         // generate: if (<cache> == null) <cache> = new HashMap<Object, Rule>();
 
@@ -165,13 +185,16 @@ public class CachingGenerator implements RuleMethodProcessor
         insert(new MethodInsnNode(INVOKESPECIAL, "java/util/HashMap", "<init>",
             "()V", false));
         // stack: <hashMap> :: <this> :: <hashMap>
-        insert(new FieldInsnNode(PUTFIELD, classNode.name, cacheFieldName, cacheFieldDesc));
+        insert(new FieldInsnNode(PUTFIELD, classNode.name, cacheFieldName,
+            cacheFieldDesc));
         // stack: <hashMap>
         insert(alreadyInitialized);
         // stack: <hashMap>
 
-        // if we have more than one parameter or the parameter is an array we have to wrap with our Arguments class
-        // since we need to unroll all inner arrays and apply custom hashCode(...) and equals(...) implementations
+        // if we have more than one parameter or the parameter is an array we
+        // have to wrap with our Arguments class since we need to unroll all
+        // inner arrays and apply custom hashCode(...) and equals(...)
+        // implementations
         if (paramTypes.length > 1 || paramTypes[0].getSort() == Type.ARRAY) {
             // generate: push new Arguments(new Object[] {<params>})
 
@@ -206,24 +229,28 @@ public class CachingGenerator implements RuleMethodProcessor
         // stack: <rule>
     }
 
-    @SuppressWarnings("unchecked")
-    private String findUnusedCacheFieldName() {
+    private String findUnusedCacheFieldName()
+    {
         String name = "cache$" + method.name;
         int i = 2;
-        while (hasField(name)) {
+        while (hasField(name))
             name = "cache$" + method.name + i++;
-        }
         return name;
     }
 
-    public boolean hasField(final String fieldName) {
-        for (final Object field : classNode.fields) {
-            if (fieldName.equals(((FieldNode) field).name)) return true;
-        }
+    @DoNotUse
+    @WillBePrivate(version = "1.1")
+    public boolean hasField(final String fieldName)
+    {
+        for (final Object field : classNode.fields)
+            if (fieldName.equals(((FieldNode) field).name))
+                return true;
+
         return false;
     }
 
-    private void generatePushNewParameterObjectArray(final Type[] paramTypes) {
+    private void generatePushNewParameterObjectArray(final Type[] paramTypes)
+    {
         // stack: ...
         insert(new IntInsnNode(BIPUSH, paramTypes.length));
         // stack: ... :: <length>
@@ -244,7 +271,9 @@ public class CachingGenerator implements RuleMethodProcessor
         // stack: ... :: <array>
     }
 
-    private void generatePushParameterAsObject(final Type[] paramTypes, int parameterNr) {
+    private void generatePushParameterAsObject(final Type[] paramTypes,
+        int parameterNr)
+    {
         switch (paramTypes[parameterNr++].getSort()) {
             case Type.BOOLEAN:
                 insert(new VarInsnNode(ILOAD, parameterNr));
@@ -297,7 +326,8 @@ public class CachingGenerator implements RuleMethodProcessor
     }
 
     // <cache> = new ProxyMatcher();
-    private void generateStoreNewProxyMatcher() {
+    private void generateStoreNewProxyMatcher()
+    {
         final String proxyMatcherType = Types.PROXY_MATCHER.getInternalName();
 
         // stack:
@@ -305,21 +335,23 @@ public class CachingGenerator implements RuleMethodProcessor
         // stack: <proxyMatcher>
         insert(new InsnNode(DUP));
         // stack: <proxyMatcher> :: <proxyMatcher>
-        insert(new MethodInsnNode(INVOKESPECIAL, proxyMatcherType, "<init>",
-            "()V", false));
+        insert(
+            new MethodInsnNode(INVOKESPECIAL, proxyMatcherType, "<init>", "()V",
+                false));
         // stack: <proxyMatcher>
         generateStoreInCache();
         // stack: <proxyMatcher>
     }
 
-    private void seekToReturnInstruction() {
-        while (current.getOpcode() != ARETURN) {
+    private void seekToReturnInstruction()
+    {
+        while (current.getOpcode() != ARETURN)
             current = current.getNext();
-        }
     }
 
     // <proxyMatcher>.arm(<rule>)
-    private void generateArmProxyMatcher() {
+    private void generateArmProxyMatcher()
+    {
         final String proxyMatcherType = Types.PROXY_MATCHER.getInternalName();
         final ClassHelper helper = AsmHelper.classHelper(ProxyMatcher.class);
 
@@ -329,12 +361,11 @@ public class CachingGenerator implements RuleMethodProcessor
         insert(new TypeInsnNode(CHECKCAST, Types.MATCHER.getInternalName()));
         // stack: <rule> :: <proxyMatcher> :: <matcher>
         insert(helper.voidMethodCall("arm", Matcher.class));
-//        insert(new MethodInsnNode(INVOKEVIRTUAL, proxyMatcherType, "arm",
-//            '(' + Types.MATCHER_DESC + ")V", false));
         // stack: <rule>
     }
 
-    private void generateStoreInCache() {
+    private void generateStoreInCache()
+    {
         final Type[] paramTypes = Type.getArgumentTypes(method.desc);
 
         // stack: <rule>
@@ -347,7 +378,8 @@ public class CachingGenerator implements RuleMethodProcessor
             // stack: <rule> :: <rule> :: <this>
             insert(new InsnNode(SWAP));
             // stack: <rule> :: <this> :: <rule>
-            insert(new FieldInsnNode(PUTFIELD, classNode.name, cacheFieldName, Types.RULE_DESC));
+            insert(new FieldInsnNode(PUTFIELD, classNode.name, cacheFieldName,
+                Types.RULE_DESC));
             // stack: <rule>
             return;
         }
@@ -359,7 +391,8 @@ public class CachingGenerator implements RuleMethodProcessor
         // stack: <rule> :: <mapKey> :: <rule>
         insert(new VarInsnNode(ALOAD, 0));
         // stack: <rule> :: <mapKey> :: <rule> :: <this>
-        insert(new FieldInsnNode(GETFIELD, classNode.name, cacheFieldName, "Ljava/util/HashMap;"));
+        insert(new FieldInsnNode(GETFIELD, classNode.name, cacheFieldName,
+            "Ljava/util/HashMap;"));
         // stack: <rule> :: <mapKey> :: <rule> :: <hashMap>
         insert(new InsnNode(DUP_X2));
         // stack: <rule> :: <hashMap> :: <mapKey> :: <rule> :: <hashMap>
@@ -372,7 +405,8 @@ public class CachingGenerator implements RuleMethodProcessor
         // stack: <rule>
     }
 
-    private void insert(final AbstractInsnNode instruction) {
+    private void insert(final AbstractInsnNode instruction)
+    {
         instructions.insertBefore(current, instruction);
     }
 }

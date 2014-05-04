@@ -240,6 +240,7 @@ public final class AsmUtils
      * @param classLoader the class loader to use
      * @return the class instance or null
      */
+    // TODO: rework synchronization
     public static Class<?> findLoadedClass(final String className,
         final ClassLoader classLoader)
     {
