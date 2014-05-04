@@ -191,201 +191,253 @@ public final class ParseTreeUtils
     }
 
     /**
-     * Returns the first node underneath the given parents for which the given predicate evaluates to true.
-     * If parents is null or empty or no node is found the method returns null.
+     * Returns the first node underneath the given parents for which the given
+     * predicate evaluates to true. If parents is null or empty or no node is
+     * found the method returns null.
      *
      * @param parents   the parent Nodes to look through
      * @param predicate the predicate
      * @return the Node if found or null if not found
      */
-    public static <V> Node<V> findNode(
-        final List<Node<V>> parents, final Predicate<Node<V>> predicate) {
+    @Nullable // TODO! null again!
+    public static <V> Node<V> findNode(@Nullable final List<Node<V>> parents,
+        @Nonnull final Predicate<Node<V>> predicate)
+    {
         Preconditions.checkNotNull(predicate, "predicate");
-        if (parents != null && !parents.isEmpty()) {
-            for (final Node<V> child : parents) {
-                final Node<V> found = findNode(child, predicate);
-                if (found != null) return found;
-            }
+        if (parents == null)
+            return null;
+        if (parents.isEmpty())
+            return null;
+        for (final Node<V> child: parents) {
+            final Node<V> found = findNode(child, predicate);
+            if (found != null)
+                return found;
         }
         return null;
     }
 
     /**
-     * Returns the first node underneath the given parent for which matches the given label prefix.
-     * If parents is null or empty or no node is found the method returns null.
+     * Returns the first node underneath the given parent for which matches the
+     * given label prefix. If parents is null or empty or no node is found the
+     * method returns null.
      *
      * @param parent      the parent node
      * @param labelPrefix the label prefix to look for
      * @return the Node if found or null if not found
      */
-    public static <V> Node<V> findNodeByLabel(final Node<V> parent, final String labelPrefix) {
+    @Nullable // TODO! null again!
+    public static <V> Node<V> findNodeByLabel(@Nullable final Node<V> parent,
+        @Nonnull final String labelPrefix)
+    {
         return findNode(parent, new LabelPrefixPredicate<V>(labelPrefix));
     }
 
     /**
-     * Returns the first node underneath the given parents which matches the given label prefix.
-     * If parents is null or empty or no node is found the method returns null.
+     * Returns the first node underneath the given parents which matches the
+     * given label prefix. If parents is null or empty or no node is found the
+     * method returns null.
      *
      * @param parents     the parent Nodes to look through
      * @param labelPrefix the label prefix to look for
      * @return the Node if found or null if not found
      */
+    @Nullable // TODO! Null again!
     public static <V> Node<V> findNodeByLabel(
-        final List<Node<V>> parents, final String labelPrefix) {
+        @Nullable final List<Node<V>> parents,
+        @Nonnull final String labelPrefix)
+    {
         return findNode(parents, new LabelPrefixPredicate<V>(labelPrefix));
     }
 
     /**
-     * Returns the last node underneath the given parent for which the given predicate evaluates to true.
-     * If parent is null or no node is found the method returns null.
+     * Returns the last node underneath the given parent for which the given
+     * predicate evaluates to true. If parent is null or no node is found the
+     * method returns null.
      *
-     * @param parent    the parent Node
+     * @param parent the parent Node
      * @param predicate the predicate
      * @return the Node if found or null if not found
      */
-    public static <V> Node<V> findLastNode(final Node<V> parent, final Predicate<Node<V>> predicate) {
+    @Nullable // TODO! null again!
+    public static <V> Node<V> findLastNode(@Nullable final Node<V> parent,
+        @Nonnull final Predicate<Node<V>> predicate)
+    {
         Preconditions.checkNotNull(predicate, "predicate");
-        if (parent != null) {
-            if (predicate.apply(parent)) return parent;
-            if (hasChildren(parent)) {
-                final Node<V> found = findLastNode(parent.getChildren(), predicate);
-                if (found != null) return found;
-            }
-        }
-        return null;
+        if (parent == null)
+            return null;
+        if (predicate.apply(parent))
+            return parent;
+
+        if (!hasChildren(parent))
+            return null;
+
+        return findLastNode(parent.getChildren(), predicate);
     }
 
     /**
-     * Returns the last node underneath the given parents for which the given predicate evaluates to true.
-     * If parents is null or empty or no node is found the method returns null.
+     * Returns the last node underneath the given parents for which the given
+     * predicate evaluates to true. If parents is null or empty or no node is
+     * found the method returns null.
      *
-     * @param parents   the parent Nodes to look through
+     * @param parents the parent Nodes to look through
      * @param predicate the predicate
      * @return the Node if found or null if not found
      */
+    @Nullable // TODO! null again!
     public static <V> Node<V> findLastNode(
-        final List<Node<V>> parents, final Predicate<Node<V>> predicate) {
+        @Nullable final List<Node<V>> parents,
+        @Nonnull final Predicate<Node<V>> predicate) {
         Preconditions.checkNotNull(predicate, "predicate");
-        if (parents != null && !parents.isEmpty()) {
-            final int parentsSize = parents.size();
-            for (int i = parentsSize - 1; i >= 0; i--) {
-                final Node<V> found = findLastNode(parents.get(i), predicate);
-                if (found != null) return found;
-            }
+        if (parents == null)
+            return null;
+        if (parents.isEmpty())
+            return null;
+
+        final int parentsSize = parents.size();
+        Node<V> found;
+        for (int i = parentsSize - 1; i >= 0; i--) {
+            found = findLastNode(parents.get(i), predicate);
+            if (found != null)
+                return found;
         }
         return null;
     }
 
     /**
-     * Collects all nodes underneath the given parent for which the given predicate evaluates to true.
+     * Collects all nodes underneath the given parent for which the given
+     * predicate evaluates to true.
      *
      * @param parent     the parent Node
      * @param predicate  the predicate
      * @param collection the collection to collect the found Nodes into
      * @return the same collection instance passed as a parameter
      */
-    public static <V, C extends Collection<Node<V>>> C collectNodes(final Node<V> parent,
-                                                                    final Predicate<Node<V>> predicate,
-                                                                    final C collection) {
+    @Nonnull
+    // TODO: possible null parent!
+    public static <V, C extends Collection<Node<V>>> C collectNodes(
+        @Nullable final Node<V> parent,
+        @Nonnull final Predicate<Node<V>> predicate,
+        @Nonnull final C collection)
+    {
         Preconditions.checkNotNull(predicate, "predicate");
         Preconditions.checkNotNull(collection, "collection");
-        return parent != null && hasChildren(parent) ?
-                collectNodes(parent.getChildren(), predicate, collection) : collection;
+        if (parent == null)
+            return collection;
+        return hasChildren(parent)
+            ? collectNodes(parent.getChildren(), predicate, collection)
+            : collection;
     }
 
     /**
      * Returns the input text matched by the given node, with error correction.
      *
-     * @param node        the node
+     * @param node the node
      * @param inputBuffer the underlying inputBuffer
-     * @return null if node is null otherwise a string with the matched input text (which can be empty)
+     * @return a string with the matched input text (which can be empty)
      */
-    public static String getNodeText(final Node<?> node, final InputBuffer inputBuffer) {
+    @Nonnull
+    public static String getNodeText(@Nonnull final Node<?> node,
+        @Nonnull final InputBuffer inputBuffer) {
         Preconditions.checkNotNull(node, "node");
         Preconditions.checkNotNull(inputBuffer, "inputBuffer");
-        if (node.hasError()) {
-            // if the node has a parse error we cannot simply cut a string out of the underlying input buffer, since we
-            // would also include illegal characters, so we need to build it constructively
-            final StringBuilder sb = new StringBuilder();
-            for (int i = node.getStartIndex(); i < node.getEndIndex(); i++) {
-                final char c = inputBuffer.charAt(i);
-                switch (c) {
-                    case Chars.DEL_ERROR:
+        if (!node.hasError())
+            return inputBuffer.extract(node.getStartIndex(),
+                node.getEndIndex());
+
+        final StringBuilder sb = new StringBuilder();
+        for (int i = node.getStartIndex(); i < node.getEndIndex(); i++) {
+            final char c = inputBuffer.charAt(i);
+            switch (c) {
+                case Chars.DEL_ERROR:
+                    i++;
+                    break;
+                case Chars.INS_ERROR:
+                case Chars.EOI:
+                    break;
+                case Chars.RESYNC_START:
+                    i++;
+                    while (inputBuffer.charAt(i) != Chars.RESYNC_END)
                         i++;
-                        break;
-                    case Chars.INS_ERROR:
-                    case Chars.EOI:
-                        break;
-                    case Chars.RESYNC_START:
-                        i++;
-                        while (inputBuffer.charAt(i) != Chars.RESYNC_END) i++;
-                        break;
-                    case Chars.RESYNC_END:
-                    case Chars.RESYNC_EOI:
-                    case Chars.RESYNC:
-                        // we should only see proper RESYNC_START / RESYNC_END blocks
-                        throw new IllegalStateException();
-                    default:
-                        sb.append(c);
-                }
+                    break;
+                case Chars.RESYNC_END:
+                case Chars.RESYNC_EOI:
+                case Chars.RESYNC:
+                    // we should only see proper RESYNC_START / RESYNC_END blocks
+                    throw new IllegalStateException();
+                default:
+                    sb.append(c);
             }
-            return sb.toString();
-        }        
-        return inputBuffer.extract(node.getStartIndex(), node.getEndIndex());
+        }
+        return sb.toString();
     }
 
     /**
-     * Collects all nodes underneath the given parents for which the given predicate evaluates to true.
+     * Collects all nodes underneath the given parents for which the given
+     * predicate evaluates to true.
      *
-     * @param parents    the parent Nodes to look through
+     * @param parents the parent Nodes to look through
      * @param predicate  the predicate
      * @param collection the collection to collect the found Nodes into
      * @return the same collection instance passed as a parameter
      */
-    public static <V, C extends Collection<Node<V>>> C collectNodes(final List<Node<V>> parents,
-                                                                    final Predicate<Node<V>> predicate,
-                                                                    final C collection) {
+    @Nonnull
+    // TODO: possible null parents!
+    public static <V, C extends Collection<Node<V>>> C collectNodes(
+        @Nullable final List<Node<V>> parents,
+        @Nonnull final Predicate<Node<V>> predicate,
+        @Nonnull final C collection)
+    {
         Preconditions.checkNotNull(predicate, "predicate");
         Preconditions.checkNotNull(collection, "collection");
-        if (parents != null && !parents.isEmpty()) {
-            for (final Node<V> child : parents) {
-                if (predicate.apply(child)) {
-                    collection.add(child);
-                }
-                collectNodes(child, predicate, collection);
-            }
+        if (parents == null)
+            return collection;
+        if (parents.isEmpty())
+            return collection;
+        for (final Node<V> child: parents) {
+            if (predicate.apply(child))
+                collection.add(child);
+            collectNodes(child, predicate, collection);
         }
         return collection;
     }
 
     /**
-     * Creates a readable string represenation of the parse tree in the given {@link ParsingResult} object.
+     * Creates a readable string represenation of the parse tree in the given
+     * {@link ParsingResult} object.
      *
      * @param parsingResult the parsing result containing the parse tree
      * @return a new String
      */
-    public static <V> String printNodeTree(final ParsingResult<V> parsingResult) {
+    public static <V> String printNodeTree(final ParsingResult<V> parsingResult)
+    {
         Preconditions.checkNotNull(parsingResult, "parsingResult");
-        return printNodeTree(parsingResult, Predicates.<Node<V>>alwaysTrue(), Predicates.<Node<V>>alwaysTrue());
+        return printNodeTree(parsingResult, Predicates.<Node<V>>alwaysTrue(),
+            Predicates.<Node<V>>alwaysTrue());
     }
 
     /**
-     * Creates a readable string represenation of the parse tree in thee given {@link ParsingResult} object.
-     * The given filter predicate determines whether a particular node (incl. its subtree) is printed or not.
+     * Creates a readable string represenation of the parse tree in thee given
+     * {@link ParsingResult} object. The given filter predicate determines
+     * whether a particular node (incl. its subtree) is printed or not.
      *
      * @param parsingResult the parsing result containing the parse tree
-     * @param nodeFilter    the predicate selecting the nodes to print
-     * @param subTreeFilter the predicate determining whether to descend into a given nodes subtree or not
+     * @param nodeFilter the predicate selecting the nodes to print
+     * @param subTreeFilter the predicate determining whether to descend into a
+     * given nodes subtree or not
      * @return a new String
      */
-    public static <V> String printNodeTree(final ParsingResult<V> parsingResult, final Predicate<Node<V>> nodeFilter,
-                                           final Predicate<Node<V>> subTreeFilter) {
+    @Nonnull
+    public static <V> String printNodeTree(
+        @Nonnull final ParsingResult<V> parsingResult,
+        @Nonnull final Predicate<Node<V>> nodeFilter,
+        @Nonnull final Predicate<Node<V>> subTreeFilter)
+    {
         Preconditions.checkNotNull(parsingResult, "parsingResult");
         Preconditions.checkNotNull(nodeFilter, "nodeFilter");
         Preconditions.checkNotNull(subTreeFilter, "subTreeFilter");
-        return printTree(parsingResult.parseTreeRoot, new NodeFormatter<V>(parsingResult.inputBuffer), nodeFilter,
-                subTreeFilter);
+        return printTree(parsingResult.parseTreeRoot,
+            new NodeFormatter<V>(parsingResult.inputBuffer), nodeFilter,
+            subTreeFilter);
     }
-
 }
 
