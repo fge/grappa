@@ -16,6 +16,7 @@
 
 package org.parboiled.test;
 
+import com.github.parboiled1.grappa.assertions.ParsingResultAssert;
 import com.google.common.collect.Lists;
 import org.parboiled.Rule;
 import org.parboiled.buffers.InputBuffer;
@@ -34,19 +35,22 @@ public abstract class ParboiledTest<V> {
 
     public class TestResult<V> {
         public final ParsingResult<V> result;
+        private final ParsingResultAssert<V> resultAssert;
 
         public TestResult(ParsingResult<V> result) {
             this.result = result;
+            resultAssert = ParsingResultAssert.assertResult(result);
         }
 
         public TestResult<V> hasNoErrors() {
-            if (result.hasErrors()) {
-                fail("\n--- ParseErrors ---\n" +
-                        printParseErrors(result) +
-                        "\n--- ParseTree ---\n" +
-                        printNodeTree(result)
-                );
-            }
+            resultAssert.hasNoErrors();
+//            if (result.hasErrors()) {
+//                fail("\n--- ParseErrors ---\n" +
+//                        printParseErrors(result) +
+//                        "\n--- ParseTree ---\n" +
+//                        printNodeTree(result)
+//                );
+//            }
             return this;
         }
 
