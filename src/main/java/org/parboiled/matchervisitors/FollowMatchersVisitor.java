@@ -17,6 +17,7 @@
 package org.parboiled.matchervisitors;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import org.parboiled.MatcherContext;
 import org.parboiled.matchers.AbstractMatcher;
 import org.parboiled.matchers.Matcher;
@@ -75,9 +76,7 @@ public final class FollowMatchersVisitor
     {
         final int startTag = context.getIntTag() + 1;
         final List<Matcher> children = matcher.getChildren();
-        Matcher child;
-        for (int i = startTag; i < children.size(); i++) {
-            child = children.get(i);
+        for (final Matcher child: Iterables.skip(children, startTag)) {
             builder.add(child);
             if (!child.accept(canMatchEmptyVisitor))
                 return true;

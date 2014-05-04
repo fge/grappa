@@ -16,6 +16,7 @@
 
 package org.parboiled.matchervisitors;
 
+import com.github.parboiled1.grappa.cleanup.WillBePrivate;
 import org.parboiled.matchers.AbstractMatcher;
 import org.parboiled.matchers.ActionMatcher;
 import org.parboiled.matchers.AnyMatcher;
@@ -166,6 +167,7 @@ public abstract class DefaultMatcherVisitor<R>
      * @param matcher the matcher
      * @return the return value (null by default)
      */
+    @WillBePrivate(version = "1.1")
     public R defaultValue(final AbstractMatcher matcher)
     {
         return null;

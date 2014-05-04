@@ -44,7 +44,6 @@ import org.parboiled.support.Checks;
 public final class CanMatchEmptyVisitor
     implements MatcherVisitor<Boolean>
 {
-
     @Override
     public Boolean visit(final ActionMatcher matcher)
     {
@@ -149,10 +148,10 @@ public final class CanMatchEmptyVisitor
     @Override
     public Boolean visit(final SequenceMatcher matcher)
     {
-        for (final Matcher child : matcher.getChildren()) {
+        for (final Matcher child: matcher.getChildren())
             if (!child.accept(this))
                 return false;
-        }
+
         return true;
     }
 
