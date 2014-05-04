@@ -16,14 +16,21 @@
 
 package org.parboiled.trees;
 
+import com.github.parboiled1.grappa.cleanup.DoNotUse;
+import com.github.parboiled1.grappa.cleanup.Unused;
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
 import com.google.common.base.Preconditions;
+
+import javax.annotation.Nullable;
 
 /**
  * General utility methods for operating on tree, i.e. graphs consisting of {@link TreeNode}s.
  */
-public final class TreeUtils {
-
-    private TreeUtils() {}
+public final class TreeUtils
+{
+    private TreeUtils()
+    {
+    }
 
     /**
      * Returns the root of the tree the given node is part of.
@@ -31,9 +38,14 @@ public final class TreeUtils {
      * @param node the node to get the root of
      * @return the root or null if the given node is null
      */
-    public static <T extends TreeNode<T>> T getRoot(final T node) {
-        if (node == null) return null;
-        if (node.getParent() != null) return getRoot(node.getParent());
+    @Nullable
+    // TODO: null! again!
+    public static <T extends TreeNode<T>> T getRoot(@Nullable final T node)
+    {
+        if (node == null)
+            return null;
+        if (node.getParent() != null)
+            return getRoot(node.getParent());
         return node;
     }
 
@@ -41,9 +53,15 @@ public final class TreeUtils {
      * Adds a new child node to a given MutableTreeNode parent.
      *
      * @param parent the parent node
-     * @param child  the child node to add
+     * @param child the child node to add
      */
-    public static <T extends MutableTreeNode<T>> void addChild(final T parent, final T child) {
+    @Deprecated
+    @Unused
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
+    public static <T extends MutableTreeNode<T>> void addChild(final T parent,
+        final T child)
+    {
         Preconditions.checkNotNull(parent, "parent");
         parent.addChild(parent.getChildren().size(), child);
     }
@@ -52,9 +70,12 @@ public final class TreeUtils {
      * Removes the given child from the given parent node.
      *
      * @param parent the parent node
-     * @param child  the child node
+     * @param child the child node
      */
-    public static <T extends MutableTreeNode<T>> void removeChild(final T parent, final T child) {
+    // TODO: remove from there!
+    public static <T extends MutableTreeNode<T>> void removeChild(
+        final T parent, final T child)
+    {
         Preconditions.checkNotNull(parent, "parent");
         final int index = parent.getChildren().indexOf(child);
         Preconditions.checkElementIndex(index, parent.getChildren().size());
@@ -73,13 +94,19 @@ public final class TreeUtils {
      *
      * @param node the node to transform
      * @return the new root after the transformation, which is either the right sub node of the original root
-     *         or the original root, if the right sub node is null
+     * or the original root, if the right sub node is null
      */
+    @Unused
+    @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     public static <N extends MutableBinaryTreeNode<N>> N toLeftAssociativity(
-        final N node) {
+        final N node)
+    {
         Preconditions.checkNotNull(node, "node");
         final N right = node.right();
-        if (right == null) return node;
+        if (right == null)
+            return node;
 
         node.setRight(right.left());
         right.setLeft(node);

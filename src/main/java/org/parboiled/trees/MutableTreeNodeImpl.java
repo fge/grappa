@@ -16,8 +16,10 @@
 
 package org.parboiled.trees;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.google.common.base.Preconditions;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,29 +29,41 @@ import java.util.List;
  *
  * @param <T> the actual implementation type of this MutableTreeNodeImpl
  */
-public class MutableTreeNodeImpl<T extends MutableTreeNode<T>> implements MutableTreeNode<T> {
+public class MutableTreeNodeImpl<T extends MutableTreeNode<T>>
+    implements MutableTreeNode<T>
+{
 
     private final List<T> children = new ArrayList<T>();
+    // TODO: the fact that this exists absolutely sucks
     private final List<T> childrenView = Collections.unmodifiableList(children);
+
+    @Nullable
+    // TODO: null! again!
     private T parent;
 
     @Override
-    public T getParent() {
+    @WillBeFinal(version = "1.1")
+    public T getParent()
+    {
         return parent;
     }
 
     @Override
-    public List<T> getChildren() {
+    @WillBeFinal(version = "1.1")
+    public List<T> getChildren()
+    {
         return childrenView;
     }
 
     @Override
-    public void addChild(final int index, final T child) {
+    public void addChild(final int index, final T child)
+    {
         Preconditions.checkElementIndex(index, children.size() + 1);
 
         // detach new child from old parent
         if (child != null) {
-            if (child.getParent() == this) return;
+            if (child.getParent() == this)
+                return;
             if (child.getParent() != null) {
                 TreeUtils.removeChild(child.getParent(), child);
             }
@@ -61,12 +75,14 @@ public class MutableTreeNodeImpl<T extends MutableTreeNode<T>> implements Mutabl
     }
 
     @Override
-    public void setChild(final int index, final T child) {
+    public void setChild(final int index, final T child)
+    {
         Preconditions.checkElementIndex(index, children.size());
 
         // detach old child
         final T old = children.get(index);
-        if (old == child) return;
+        if (old == child)
+            return;
         setParent(old, null);
 
         // detach new child from old parent
@@ -80,18 +96,18 @@ public class MutableTreeNodeImpl<T extends MutableTreeNode<T>> implements Mutabl
     }
 
     @Override
-    public T removeChild(final int index) {
+    public T removeChild(final int index)
+    {
         Preconditions.checkElementIndex(index, children.size());
         final T removed = children.remove(index);
         setParent(removed, null);
         return removed;
     }
 
-    @SuppressWarnings("unchecked")
-    private static <T extends MutableTreeNode<T>> void setParent(final T node, final MutableTreeNodeImpl<T> parent) {
-        if (node != null) {
+    private static <T extends MutableTreeNode<T>> void setParent(final T node,
+        final MutableTreeNodeImpl<T> parent)
+    {
+        if (node != null)
             ((MutableTreeNodeImpl) node).parent = parent;
-        }
     }
-
 }

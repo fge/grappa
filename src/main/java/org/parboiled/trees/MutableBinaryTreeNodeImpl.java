@@ -16,11 +16,17 @@
 
 package org.parboiled.trees;
 
+import com.github.parboiled1.grappa.cleanup.DoNotUse;
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+
 /**
  * A simple {@link MutableBinaryTreeNode} implementation based on the {@link MutableTreeNodeImpl}.
  *
  * @param <T> the actual implementation type of this MutableBinaryTreeNodeImpl
  */
+@Deprecated
+@DoNotUse
+@WillBeRemoved(version = "1.1")
 public class MutableBinaryTreeNodeImpl<T extends MutableBinaryTreeNode<T>> extends MutableTreeNodeImpl<T>
         implements BinaryTreeNode<T> {
 

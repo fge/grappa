@@ -16,6 +16,10 @@
 
 package org.parboiled.trees;
 
+import com.github.parboiled1.grappa.cleanup.Unused;
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+
 import java.util.List;
 
 /**
@@ -24,6 +28,7 @@ import java.util.List;
  *
  * @param <T> the actual implementation type of this ImmutableTreeNode
  */
+// TODO: rename; this class IS NOT immutable
 public class ImmutableTreeNode<T extends TreeNode<T>>
     extends ImmutableGraphNode<T>
     implements TreeNode<T>
@@ -34,27 +39,33 @@ public class ImmutableTreeNode<T extends TreeNode<T>>
     // are created first and then "acquired" by their parents
     private T parent;
 
-    public ImmutableTreeNode() {
+    @Deprecated
+    @Unused
+    @WillBeRemoved(version = "1.1")
+    public ImmutableTreeNode()
+    {
     }
 
-    public ImmutableTreeNode(final List<T> children) {
+    public ImmutableTreeNode(final List<T> children)
+    {
         super(children);
+        // TODO: fix that! This absolutely sucks
         acquireChildren();
     }
 
     @Override
-    public T getParent() {
+    @WillBeFinal(version = "1.1")
+    public T getParent()
+    {
         return parent;
     }
 
+    @WillBeFinal(version = "1.1")
     // TODO: make generic! Looks like a chore...
-    @SuppressWarnings("unchecked")
-    protected void acquireChildren() {
+    protected void acquireChildren()
+    {
         final List<T> children = getChildren();
-        final int size = children.size();
-        for (int i = 0; i < size; i++) {
-            ((ImmutableTreeNode) children.get(i)).parent = this;
-        }
+        for (final T child : children)
+            ((ImmutableTreeNode) child).parent = this;
     }
-
 }

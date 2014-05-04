@@ -16,6 +16,8 @@
 
 package org.parboiled.common;
 
+import javax.annotation.Nullable;
+
 /**
  * The capability to transform an object of type T into a string representation.
  *
@@ -30,6 +32,7 @@ public interface Formatter<T>
      * @param object the object to format
      * @return a string describing the object
      */
+    @Nullable // TODO! null! Again!
     String format(T object);
 
 }

@@ -16,6 +16,8 @@
 
 package org.parboiled.transform;
 
+import com.github.parboiled1.grappa.cleanup.DoNotUse;
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
 import org.objectweb.asm.Type;
 import org.parboiled.Action;
 import org.parboiled.BaseParser;
@@ -40,7 +42,12 @@ import org.parboiled.matchers.VarFramingMatcher;
 import org.parboiled.support.Var;
 import org.parboiled.transform.method.ParserAnnotation;
 
-public interface Types {
+/**
+ * DON'T USE
+ */
+@DoNotUse
+public interface Types
+{
     Type BASE_ACTION = Type.getType(BaseAction.class);
     Type BASE_VAR_INIT = Type.getType(BaseVarInit.class);
     Type BASE_PARSER = Type.getType(BaseParser.class);
@@ -53,21 +60,29 @@ public interface Types {
     Type VAR_FRAMING_MATCHER = Type.getType(VarFramingMatcher.class);
 
     String ACTION_DESC = Type.getType(Action.class).getDescriptor();
-    String CONTEXT_DESC = Type.getType(Context.class).getDescriptor();
     String LABEL_DESC = LABEL.getDescriptor();
-    String MATCHER_DESC = MATCHER.getDescriptor();
     String RULE_DESC = RULE.getDescriptor();
     String VAR_DESC = VAR.getDescriptor();
+
+    @Deprecated
+    @WillBeRemoved(version = "1.1")
+    String CONTEXT_DESC = Type.getType(Context.class).getDescriptor();
+
+    @Deprecated
+    @WillBeRemoved(version = "1.1")
+    String MATCHER_DESC = MATCHER.getDescriptor();
 
     /**
      * @deprecated use {@link ParserAnnotation#DONT_LABEL} instead
      */
     @Deprecated
+    @WillBeRemoved(version = "1.1")
     String DONT_LABEL_DESC = Type.getType(DontLabel.class).getDescriptor();
     /**
      * @deprecated use {@link ParserAnnotation#EXPLICIT_ACTIONS_ONLY} instead
      */
     @Deprecated
+    @WillBeRemoved(version = "1.1")
     String EXPLICIT_ACTIONS_ONLY_DESC
         = Type.getType(ExplicitActionsOnly.class).getDescriptor();
     /**
@@ -75,47 +90,61 @@ public interface Types {
      * instead
      */
     @Deprecated
+    @WillBeRemoved(version = "1.1")
     String SKIP_ACTIONS_IN_PREDICATES_DESC
         = Type.getType(SkipActionsInPredicates.class).getDescriptor();
     /**
      * @deprecated use {@link ParserAnnotation#BUILD_PARSE_TREE} instead
      */
     @Deprecated
-    String BUILD_PARSE_TREE_DESC = Type.getType(BuildParseTree.class).getDescriptor();
+    @WillBeRemoved(version = "1.1")
+    String BUILD_PARSE_TREE_DESC
+        = Type.getType(BuildParseTree.class).getDescriptor();
     /**
      * @deprecated use {@link ParserAnnotation#CACHED} instead
      */
     @Deprecated
+    @WillBeRemoved(version = "1.1")
     String CACHED_DESC = Type.getType(Cached.class).getDescriptor();
     /**
      * @deprecated use {@link ParserAnnotation#DONT_EXTEND} instead
      */
     @Deprecated
+    @WillBeRemoved(version = "1.1")
     String DONT_EXTEND_DESC = Type.getType(DontExtend.class).getDescriptor();
     /**
      * @deprecated use {@link ParserAnnotation#SUPPRESS_NODE} instead
      */
     @Deprecated
-    String SUPPRESS_NODE_DESC = Type.getType(SuppressNode.class).getDescriptor();
+    @WillBeRemoved(version = "1.1")
+    String SUPPRESS_NODE_DESC
+        = Type.getType(SuppressNode.class).getDescriptor();
     /**
      * @deprecated use {@link ParserAnnotation#SUPPRESS_SUBNODES} instead
      */
     @Deprecated
-    String SUPPRESS_SUBNODES_DESC = Type.getType(SuppressSubnodes.class).getDescriptor();
+    @WillBeRemoved(version = "1.1")
+    String SUPPRESS_SUBNODES_DESC
+        = Type.getType(SuppressSubnodes.class).getDescriptor();
     /**
      * @deprecated use {@link ParserAnnotation#DONT_SKIP_ACTIONS_IN_PREDICATES}
      * instead
      */
     @Deprecated
-    String DONT_SKIP_ACTIONS_IN_PREDICATES_DESC = Type.getType(DontSkipActionsInPredicates.class).getDescriptor();
+    @WillBeRemoved(version = "1.1")
+    String DONT_SKIP_ACTIONS_IN_PREDICATES_DESC
+        = Type.getType(DontSkipActionsInPredicates.class).getDescriptor();
     /**
      * @deprecated use {@link ParserAnnotation#SKIP_NODE} instead
      */
     @Deprecated
+    @WillBeRemoved(version = "1.1")
     String SKIP_NODE_DESC = Type.getType(SkipNode.class).getDescriptor();
     /**
      * @deprecated use {@link ParserAnnotation#MEMO_MISMATCHES} instead
      */
     @Deprecated
-    String MEMO_MISMATCHES_DESC = Type.getType(MemoMismatches.class).getDescriptor();
+    @WillBeRemoved(version = "1.1")
+    String MEMO_MISMATCHES_DESC
+        = Type.getType(MemoMismatches.class).getDescriptor();
 }

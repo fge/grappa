@@ -16,19 +16,24 @@
 
 package org.parboiled.trees;
 
+import javax.annotation.Nullable;
+
 /**
  * A specialization of a {@link GraphNode} that contains a reference to its parent, thereby making the graph a tree
  * (since each node can now have only one parent node).
  *
  * @param <T> the actual implementation type of this TreeNode
  */
-public interface TreeNode<T extends TreeNode<T>> extends GraphNode<T> {
+public interface TreeNode<T extends TreeNode<T>>
+    extends GraphNode<T>
+{
 
     /**
      * Returns the parent node or null if this node is the root.
      *
      * @return the parent node
      */
+    // TODO: null! again!
+    @Nullable
     T getParent();
-
 }

@@ -17,6 +17,8 @@
 package org.parboiled.trees;
 
 
+import com.github.parboiled1.grappa.cleanup.DoNotUse;
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
 import com.google.common.collect.ImmutableList;
 
 /**
@@ -24,6 +26,9 @@ import com.google.common.collect.ImmutableList;
  *
  * @param <T> the actual implementation type of this ImmutableBinaryTreeNode
  */
+@Deprecated
+@DoNotUse
+@WillBeRemoved(version = "1.1")
 public class ImmutableBinaryTreeNode<T extends BinaryTreeNode<T>> extends ImmutableTreeNode<T>
         implements BinaryTreeNode<T> {
 

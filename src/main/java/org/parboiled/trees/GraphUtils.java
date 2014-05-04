@@ -16,20 +16,29 @@
 
 package org.parboiled.trees;
 
+import com.github.parboiled1.grappa.cleanup.DoNotUse;
+import com.github.parboiled1.grappa.cleanup.Unused;
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import org.parboiled.common.Formatter;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.HashSet;
 
 /**
- * General utility methods for operating on directed graphs (consisting of {@link GraphNode}s).
+ * General utility methods for operating on directed graphs (consisting of
+ * {@link GraphNode}s).
  */
-public final class GraphUtils {
-
-    private GraphUtils() {}
+public final class GraphUtils
+{
+    private GraphUtils()
+    {
+    }
 
     /**
      * Returns true if this node is not null and has at least one child node.
@@ -37,29 +46,49 @@ public final class GraphUtils {
      * @param node a node
      * @return true if this node is not null and has at least one child node.
      */
-    public static boolean hasChildren(final GraphNode<?> node) {
+    // TODO: null! Again!
+    public static boolean hasChildren(@Nullable final GraphNode<?> node)
+    {
         return node != null && !node.getChildren().isEmpty();
     }
 
     /**
-     * Returns the first child node of the given node or null if node is null or does not have any children.
+     * Returns the first child node of the given node or null if node is null or
+     * does not have any children.
      *
      * @param node a node
-     * @return the first child node of the given node or null if node is null or does not have any children
+     * @return the first child node of the given node or null if node is null or
+     * does not have any children
      */
-    public static <T extends GraphNode<T>> T getFirstChild(final T node) {
+    @Nullable
+    @Deprecated
+    @Unused
+    @WillBeRemoved(version = "1.1")
+    // TODO: null! again!
+    public static <T extends GraphNode<T>> T getFirstChild(
+        @Nullable final T node)
+    {
         return hasChildren(node) ? node.getChildren().get(0) : null;
     }
 
     /**
-     * Returns the last child node of the given node or null if node is null or does not have any children.
+     * Returns the last child node of the given node or null if node is null or
+     * does not have any children.
      *
      * @param node a node
      * @return the last child node of the given node or null if node is null or does not have any children
      */
-    public static <T extends GraphNode<T>> T getLastChild(final T node) {
-        return hasChildren(node) ? node.getChildren().get(
-            node.getChildren().size() - 1) : null;
+    @Nullable
+    @Deprecated
+    @Unused
+    @WillBeRemoved(version = "1.1")
+    // TODO: null! again!
+    public static <T extends GraphNode<T>> T getLastChild(
+        @Nullable final T node)
+    {
+        return hasChildren(node)
+            ? node.getChildren().get(node.getChildren().size() - 1)
+            : null;
     }
 
     /**
@@ -69,74 +98,98 @@ public final class GraphUtils {
      * @param node the root node
      * @return the number of distinct nodes
      */
-    public static <T extends GraphNode<T>> int countAllDistinct(final T node) {
-        if (node == null) return 0;
+    // TODO: null! Again!
+    public static <T extends GraphNode<T>> int countAllDistinct(
+        @Nullable final T node)
+    {
+        if (node == null)
+            return 0;
         return collectAllNodes(node, new HashSet<T>()).size();
     }
 
     /**
-     * Collects all nodes from the graph reachable from the given node in the given collection.
-     * This method can properly deal with cycles in the graph.
+     * Collects all nodes from the graph reachable from the given node in the
+     * given collection. This method can properly deal with cycles in the graph.
      *
-     * @param node       the root node
+     * @param node the root node
      * @param collection the collection to collect into
      * @return the same collection passed as a parameter
      */
-    public static <T extends GraphNode<T>, C extends Collection<T>> C collectAllNodes(
-        final T node, final C collection) {
+    @Nonnull
+    // TODO: null! again!
+    public static <T extends GraphNode<T>, C extends Collection<T>> C
+    collectAllNodes(@Nullable final T node, @Nonnull final C collection)
+    {
         // we don't recurse if the collecion already contains the node
-        // this costs a bit of performance but prevents infinite recursion in the case of graph cycles
-        Preconditions.checkNotNull(collection, "collection");
-        if (node != null && !collection.contains(node)) {
-            collection.add(node);
-            for (final T child : node.getChildren()) {
-                collectAllNodes(child, collection);
-            }
-        }
+        // this costs a bit of performance but prevents infinite recursion in
+        // the case of graph cycles
+        Preconditions.checkNotNull(collection);
+        if (node == null)
+            return collection;
+
+        if (collection.contains(node))
+            return collection;
+
+        collection.add(node);
+        for (final T child : node.getChildren())
+            collectAllNodes(child, collection);
+
         return collection;
     }
 
     /**
-     * Creates a string representation of the graph reachable from the given node using the given formatter.
+     * Creates a string representation of the graph reachable from the given
+     * node using the given formatter.
      *
-     * @param node      the root node
+     * @param node the root node
      * @param formatter the node formatter
      * @return a new string
      */
-    public static <T extends GraphNode<T>> String printTree(
-        final T node, final Formatter<T> formatter) {
+    @VisibleForTesting
+    @DoNotUse
+    public static <T extends GraphNode<T>> String printTree(final T node,
+        final Formatter<T> formatter)
+    {
         Preconditions.checkNotNull(formatter, "formatter");
-        return printTree(node, formatter, Predicates.<T>alwaysTrue(), Predicates.<T>alwaysTrue());
+        return printTree(node, formatter, Predicates.<T>alwaysTrue(),
+            Predicates.<T>alwaysTrue());
     }
 
     /**
-     * Creates a string representation of the graph reachable from the given node using the given formatter.
-     * The given filter predicated determines whether a particular node (and its subtree respectively) is to be
-     * printed or not.
+     * Creates a string representation of the graph reachable from the given
+     * node using the given formatter. The given predicate determines whether a
+     * particular node (and its subtree respectively) is to be printed or not.
      *
-     * @param node          the root node
-     * @param formatter     the node formatter
-     * @param nodeFilter    the predicate selecting the nodes to print
-     * @param subTreeFilter the predicate determining whether to descend into a given nodes subtree or not
+     * @param node the root node
+     * @param formatter the node formatter
+     * @param nodeFilter the predicate selecting the nodes to print
+     * @param subTreeFilter the predicate determining whether to descend into a
+     * given nodes subtree or not
      * @return a new string
      */
+    @Nonnull
+    // TODO: null! again!
     public static <T extends GraphNode<T>> String printTree(
-        final T node, final Formatter<T> formatter,
-                                                            final Predicate<T> nodeFilter,
-                                                            final Predicate<T> subTreeFilter) {
+        @Nullable final T node, @Nonnull final Formatter<T> formatter,
+        @Nonnull final Predicate<T> nodeFilter,
+        @Nonnull final Predicate<T> subTreeFilter)
+    {
         Preconditions.checkNotNull(formatter, "formatter");
         Preconditions.checkNotNull(nodeFilter, "nodeFilter");
         Preconditions.checkNotNull(subTreeFilter, "subTreeFilter");
-        return node == null ? "" :
-                printTree(node, formatter, "", new StringBuilder(), nodeFilter, subTreeFilter).toString();
+        if (node == null)
+            return "";
+        return printTree(node, formatter, "",
+            new StringBuilder(), nodeFilter, subTreeFilter).toString();
     }
 
     // private recursion helper
 
-    private static <T extends GraphNode<T>> StringBuilder printTree(final T node, final Formatter<T> formatter,
-                                                                    String indent, final StringBuilder sb,
-                                                                    final Predicate<T> nodeFilter,
-                                                                    final Predicate<T> subTreeFilter) {
+    private static <T extends GraphNode<T>> StringBuilder printTree(
+        final T node, final Formatter<T> formatter, String indent,
+        final StringBuilder sb, final Predicate<T> nodeFilter,
+        final Predicate<T> subTreeFilter)
+    {
         if (nodeFilter.apply(node)) {
             final String line = formatter.format(node);
             if (line != null) {
@@ -144,12 +197,12 @@ public final class GraphUtils {
                 indent += "  ";
             }
         }
-        if (subTreeFilter.apply(node)) {
-            for (final T sub : node.getChildren()) {
-                printTree(sub, formatter, indent, sb, nodeFilter, subTreeFilter);
-            }
-        }
+        if (!subTreeFilter.apply(node))
+            return sb;
+
+        for (final T sub : node.getChildren())
+            printTree(sub, formatter, indent, sb, nodeFilter, subTreeFilter);
+
         return sb;
     }
-
 }

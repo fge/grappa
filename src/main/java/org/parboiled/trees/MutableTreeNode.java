@@ -16,34 +16,49 @@
 
 package org.parboiled.trees;
 
+import com.github.parboiled1.grappa.cleanup.Unused;
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+
 /**
- * A {@link TreeNode} specialiation that allow for mutability of the tree structure.
- * The three defined methods are all expected to properly uphold the trees "linking back" contract, where children
- * have their parent fields point to the node actually holding them in their children list at all times.
- * The three defined methods are the basic ones required, other convenience methods (like a simple addChild(child)
- * without index) are defined as static methods of the {@link TreeUtils} class.
+ * A {@link TreeNode} specialiation that allow for mutability of the tree
+ * structure.
+ * The three defined methods are all expected to properly uphold the trees
+ * "linking back" contract, where children have their parent fields point to the
+ * node actually holding them in their children list at all times. The three
+ * defined methods are the basic ones required, other convenience methods (like
+ * a simple addChild(child) without index) are defined as static methods of the
+ * {@link TreeUtils} class.
  *
  * @param <T> the actual implementation type of this TreeNode
  */
-public interface MutableTreeNode<T extends MutableTreeNode<T>> extends TreeNode<T> {
-
+// TODO: see description; the fact that TreeUtils handles some operations suck
+public interface MutableTreeNode<T extends MutableTreeNode<T>>
+    extends TreeNode<T>
+{
     /**
-     * Adds the given child to this nodes children list and setting the childs parent field to this node.
-     * If the child is currently attached to another node it is first removed.
+     * Adds the given child to this nodes children list and setting the child's
+     * parent field to this node. If the child is currently attached to another
+     * node it is first removed.
      *
-     * @param index the index under which to insert this child into the children list
+     * @param index the index under which to insert this child into the children
+     * list
      * @param child the child node to add
      */
     void addChild(int index, T child);
 
     /**
-     * Sets the child node at the given index to the given node. The node previously existing at the given child index
-     * is first properly removed by setting its parent field to null. If the child is currently attached to another
-     * node it is first removed from its old parent.
+     * Sets the child node at the given index to the given node. The node
+     * previously existing at the given child index is first properly removed by
+     * setting its parent field to null. If the child is currently attached to
+     * another node it is first removed from its old parent.
      *
      * @param index the index under which to set this child into the children list
      * @param child the child node to set
      */
+    //TODO see description; parent set to null. Null. AGAIN!
+    @Deprecated
+    @Unused
+    @WillBeRemoved(version = "1.1")
     void setChild(int index, T child);
 
     /**
@@ -53,5 +68,4 @@ public interface MutableTreeNode<T extends MutableTreeNode<T>> extends TreeNode<
      * @return the removed child
      */
     T removeChild(int index);
-
 }

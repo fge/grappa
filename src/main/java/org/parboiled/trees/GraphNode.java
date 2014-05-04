@@ -24,7 +24,8 @@ import java.util.List;
  *
  * @param <T> the actual implementation type of this graph node
  */
-public interface GraphNode<T extends GraphNode<T>> {
+public interface GraphNode<T extends GraphNode<T>>
+{
 
     /**
      * Returns the sub nodes of this node.
@@ -32,5 +33,4 @@ public interface GraphNode<T extends GraphNode<T>> {
      * @return the sub nodes
      */
     List<T> getChildren();
-
 }

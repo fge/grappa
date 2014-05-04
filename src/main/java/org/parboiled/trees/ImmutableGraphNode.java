@@ -16,9 +16,11 @@
 
 package org.parboiled.trees;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.google.common.collect.ImmutableList;
 import org.parboiled.common.ImmutableLinkedList;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -26,26 +28,48 @@ import java.util.List;
  *
  * @param <T> the actual implementation type of this ImmutableGraphNode
  */
+// TODO: rename; this class IS NOT immutable.
 public class ImmutableGraphNode<T extends GraphNode<T>>
     implements GraphNode<T>
 {
-
+    /*
+     * TODO: cleanup that royal mess
+     *
+     * ImmutableLinkedList seems only to be used in a few special cases; this
+     * class unfortunately allows for both the aforementioned class (which is,
+     * frankly, also a mess) and regular lists.
+     *
+     * Find a way to separate.
+     */
     private final List<T> children;
 
-    public ImmutableGraphNode() {
+    public ImmutableGraphNode()
+    {
         this(null);
     }
 
-    public ImmutableGraphNode(final List<T> children) {
-        this.children = children ==
-                null ? ImmutableList.<T>of() :
-                children instanceof ImmutableList ? children :
-                children instanceof ImmutableLinkedList ? children :
-                ImmutableList.copyOf(children);
+    // TODO! Null! Again! I need a gun!
+    public ImmutableGraphNode(@Nullable final List<T> children)
+    {
+        if (children == null) {
+            this.children = ImmutableList.<T>of();
+            return;
+        }
+        /*
+         * ImmutableLinkedList has no such thing as a "safe copy constructor";
+         * ImmutableList (Guava's, that is) does; what is more, if the argument
+         * to .copyOf() is _also_ a (Guava...) ImmutableList, it won't even make
+         * a copy.
+         */
+        this.children = children instanceof ImmutableLinkedList
+            ? children
+            : ImmutableList.copyOf(children);
     }
 
     @Override
-    public List<T> getChildren() {
+    @WillBeFinal(version = "1.1")
+    public List<T> getChildren()
+    {
         return children;
     }
 }

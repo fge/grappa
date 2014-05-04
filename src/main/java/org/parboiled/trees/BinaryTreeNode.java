@@ -16,12 +16,20 @@
 
 package org.parboiled.trees;
 
+import com.github.parboiled1.grappa.cleanup.DoNotUse;
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+
 /**
  * A {@link TreeNode} specialization with only two child nodes, left and right.
  *
  * @param <T> the actual implementation type of this tree node
  */
-public interface BinaryTreeNode<T extends BinaryTreeNode<T>> extends TreeNode<T> {
+@Deprecated
+@DoNotUse
+@WillBeRemoved(version = "1.1")
+public interface BinaryTreeNode<T extends BinaryTreeNode<T>>
+    extends TreeNode<T>
+{
 
     /**
      * Returns the left sub node.
