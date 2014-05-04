@@ -16,6 +16,7 @@
 
 package org.parboiled.matchers;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
@@ -27,26 +28,30 @@ import java.util.List;
 /**
  * Special wrapping matcher that manages the creation and destruction of execution frames for a number of action vars.
  */
-public class VarFramingMatcher implements Matcher {
+// TODO: use delegation pattern
+@WillBeFinal(version = "1.1")
+public class VarFramingMatcher
+    implements Matcher
+{
     private final Matcher inner;
     private final Var<?>[] variables;
 
-    public VarFramingMatcher(final Rule inner, final Var<?>[] variables) {
+    public VarFramingMatcher(final Rule inner, final Var<?>[] variables)
+    {
         this.inner = Preconditions.checkNotNull((Matcher) inner, "inner");
         this.variables = Preconditions.checkNotNull(variables, "variables");
     }
 
     @Override
-    public <V> boolean match(final MatcherContext<V> context) {
-        for (final Var<?> var : variables) {
+    public <V> boolean match(final MatcherContext<V> context)
+    {
+        for (final Var<?> var: variables)
             var.enterFrame();
-        }
 
         final boolean matched = inner.match(context);
 
-        for (final Var<?> var : variables) {
+        for (final Var<?> var : variables)
             var.exitFrame();
-        }
 
         return matched;
     }
@@ -54,78 +59,114 @@ public class VarFramingMatcher implements Matcher {
     // GraphNode
 
     @Override
-    public List<Matcher> getChildren() {
+    public List<Matcher> getChildren()
+    {
         return inner.getChildren();
     }
 
     // Rule
 
     @Override
-    public Rule label(final String label) {
+    public Rule label(final String label)
+    {
         return new VarFramingMatcher(inner.label(label), variables);
     }
 
     @Override
-    public Rule suppressNode() {
+    public Rule suppressNode()
+    {
         return new VarFramingMatcher(inner.suppressNode(), variables);
     }
 
     @Override
-    public Rule suppressSubnodes() {
+    public Rule suppressSubnodes()
+    {
         return new VarFramingMatcher(inner.suppressSubnodes(), variables);
     }
 
     @Override
-    public Rule skipNode() {
+    public Rule skipNode()
+    {
         return new VarFramingMatcher(inner.skipNode(), variables);
     }
 
     @Override
-    public Rule memoMismatches() {
+    public Rule memoMismatches()
+    {
         return new VarFramingMatcher(inner.memoMismatches(), variables);
     }
 
     // Matcher
 
     @Override
-    public String getLabel() {return inner.getLabel();}
+    public String getLabel()
+    {
+        return inner.getLabel();
+    }
 
     @Override
-    public boolean hasCustomLabel() {return inner.hasCustomLabel();}
+    public boolean hasCustomLabel()
+    {
+        return inner.hasCustomLabel();
+    }
 
     @Override
-    public boolean isNodeSuppressed() {return inner.isNodeSuppressed();}
+    public boolean isNodeSuppressed()
+    {
+        return inner.isNodeSuppressed();
+    }
 
     @Override
-    public boolean areSubnodesSuppressed() {return inner.areSubnodesSuppressed();}
+    public boolean areSubnodesSuppressed()
+    {
+        return inner.areSubnodesSuppressed();
+    }
 
     @Override
-    public boolean isNodeSkipped() {return inner.isNodeSkipped();}
+    public boolean isNodeSkipped()
+    {
+        return inner.isNodeSkipped();
+    }
 
     @Override
-    public boolean areMismatchesMemoed() { return inner.areMismatchesMemoed(); }
+    public boolean areMismatchesMemoed()
+    {
+        return inner.areMismatchesMemoed();
+    }
 
     @Override
-    public void setTag(final Object tagObject) { inner.setTag(tagObject); }
+    public void setTag(final Object tagObject)
+    {
+        inner.setTag(tagObject);
+    }
 
     @Override
-    public Object getTag() { return inner.getTag(); }
-    
+    public Object getTag()
+    {
+        return inner.getTag();
+    }
+
     @Override
-    public <V> MatcherContext<V> getSubContext(final MatcherContext<V> context) {
+    public <V> MatcherContext<V> getSubContext(final MatcherContext<V> context)
+    {
         final MatcherContext<V> subContext = inner.getSubContext(context);
-        subContext.setMatcher(this); // we need to inject ourselves here otherwise we get cut out
+         // we need to inject ourselves here otherwise we get cut out
+        subContext.setMatcher(this);
         return subContext;
     }
 
     @Override
-    public <R> R accept(final MatcherVisitor<R> visitor) {
+    public <R> R accept(final MatcherVisitor<R> visitor)
+    {
         Preconditions.checkNotNull(visitor, "visitor");
         return inner.accept(visitor);
     }
 
     @Override
-    public String toString() { return inner.toString(); }
+    public String toString()
+    {
+        return inner.toString();
+    }
 
     /**
      * Retrieves the innermost Matcher that is not a VarFramingMatcher.
@@ -133,12 +174,10 @@ public class VarFramingMatcher implements Matcher {
      * @param matcher the matcher to unwrap
      * @return the given instance if it is not a VarFramingMatcher, otherwise the innermost Matcher
      */
-    public static Matcher unwrap(final Matcher matcher) {
-        if (matcher instanceof VarFramingMatcher) {
-            final VarFramingMatcher varFramingMatcher = (VarFramingMatcher) matcher;
-            return unwrap(varFramingMatcher.inner);
-        }
-        return matcher;
+    public static Matcher unwrap(final Matcher matcher)
+    {
+        if (!(matcher instanceof VarFramingMatcher))
+            return matcher;
+        return unwrap(((VarFramingMatcher) matcher).inner);
     }
-
 }

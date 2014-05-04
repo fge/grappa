@@ -16,6 +16,8 @@
 
 package org.parboiled.matchers;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+import com.github.parboiled1.grappa.cleanup.WillBePrivate;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
@@ -25,23 +27,30 @@ import org.parboiled.matchervisitors.MatcherVisitor;
 /**
  * A {@link Matcher} that repeatedly tries its submatcher against the input. Always succeeds.
  */
-public class ZeroOrMoreMatcher extends CustomDefaultLabelMatcher<ZeroOrMoreMatcher> {
+@WillBeFinal(version = "1.1")
+public class ZeroOrMoreMatcher
+    extends CustomDefaultLabelMatcher<ZeroOrMoreMatcher>
+{
+    @WillBePrivate(version = "1.1")
     public final Matcher subMatcher;
 
-    public ZeroOrMoreMatcher(final Rule subRule) {
+    public ZeroOrMoreMatcher(final Rule subRule)
+    {
         super(Preconditions.checkNotNull(subRule, "subRule"), "ZeroOrMore");
         this.subMatcher = getChildren().get(0);
     }
 
     @Override
-    public <V> boolean match(final MatcherContext<V> context) {
+    public <V> boolean match(final MatcherContext<V> context)
+    {
         Preconditions.checkNotNull(context, "context");
         int lastIndex = context.getCurrentIndex();
         while (subMatcher.getSubContext(context).runMatcher()) {
             final int currentLocation = context.getCurrentIndex();
             if (currentLocation == lastIndex) {
-                throw new GrammarException("The inner rule of ZeroOrMore rule '%s' must not allow empty matches",
-                        context.getPath());
+                throw new GrammarException(
+                    "The inner rule of ZeroOrMore rule '%s' must not allow empty matches",
+                    context.getPath());
             }
             lastIndex = currentLocation;
         }
@@ -51,9 +60,9 @@ public class ZeroOrMoreMatcher extends CustomDefaultLabelMatcher<ZeroOrMoreMatch
     }
 
     @Override
-    public <R> R accept(final MatcherVisitor<R> visitor) {
+    public <R> R accept(final MatcherVisitor<R> visitor)
+    {
         Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }
-
 }

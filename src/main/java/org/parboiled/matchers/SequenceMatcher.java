@@ -16,6 +16,7 @@
 
 package org.parboiled.matchers;
 
+import com.github.parboiled1.grappa.cleanup.ShouldBeReplaced;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
@@ -26,15 +27,28 @@ import java.util.List;
 /**
  * A {@link Matcher} that executes all of its submatchers in sequence and only succeeds if all submatchers succeed.
  */
-public class SequenceMatcher extends CustomDefaultLabelMatcher<SequenceMatcher> {
+/*
+ * TODO! Generalize, abstract away, something...
+ *
+ * The thing is, Actions can only occur within this class; this makes it
+ * impossible to .chainInto(someMatchConsumer) for instance, which is a royal
+ * pain.
+ */
+@ShouldBeReplaced
+public class SequenceMatcher
+    extends CustomDefaultLabelMatcher<SequenceMatcher>
+{
 
-    public SequenceMatcher(final Rule[] subRules) {
+    public SequenceMatcher(final Rule[] subRules)
+    {
         super(Preconditions.checkNotNull(subRules, "subRules"), "Sequence");
     }
 
     @Override
-    public <V> boolean match(final MatcherContext<V> context) {
-        final Object valueStackSnapshot = context.getValueStack().takeSnapshot();
+    public <V> boolean match(final MatcherContext<V> context)
+    {
+        final Object valueStackSnapshot = context.getValueStack()
+            .takeSnapshot();
 
         final List<Matcher> children = getChildren();
         final int size = children.size();
@@ -55,9 +69,9 @@ public class SequenceMatcher extends CustomDefaultLabelMatcher<SequenceMatcher> 
     }
 
     @Override
-    public <R> R accept(final MatcherVisitor<R> visitor) {
+    public <R> R accept(final MatcherVisitor<R> visitor)
+    {
         Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }
-
 }

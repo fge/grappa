@@ -16,6 +16,8 @@
 
 package org.parboiled.matchers;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+import com.github.parboiled1.grappa.cleanup.WillBePrivate;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
@@ -24,31 +26,42 @@ import org.parboiled.Rule;
  * A {@link SequenceMatcher} specialization for sequences of CharMatchers. Performs fast string matching if the
  * current context has it enabled.
  */
-public class StringMatcher extends SequenceMatcher {
+@WillBeFinal(version = "1.1")
+public class StringMatcher
+    extends SequenceMatcher
+{
+    @WillBePrivate(version = "1.1")
     public final char[] characters;
 
-    public StringMatcher(final Rule[] charMatchers, final char[] characters) {
+    public StringMatcher(final Rule[] charMatchers, final char[] characters)
+    {
         super(Preconditions.checkNotNull(charMatchers, "charMatchers"));
         this.characters = characters;
     }
 
     @Override
-    public String getLabel() {
-        return super.getLabel() != null ? super.getLabel() : '"' + String.valueOf(characters) + '"';
+    public String getLabel()
+    {
+        return super.getLabel() != null
+            ? super.getLabel()
+            : '"' + String.valueOf(characters) + '"';
     }
 
     @Override
-    public boolean hasCustomLabel() {
+    public boolean hasCustomLabel()
+    {
         return true;
     }
 
     @Override
-    public <V> boolean match(final MatcherContext<V> context) {
-        if (!context.fastStringMatching()) {
+    public <V> boolean match(final MatcherContext<V> context)
+    {
+        if (!context.fastStringMatching())
             return super.match(context);
-        }
 
-        if (!context.getInputBuffer().test(context.getCurrentIndex(), characters)) return false;
+        if (!context.getInputBuffer()
+            .test(context.getCurrentIndex(), characters))
+            return false;
         context.advanceIndex(characters.length);
         context.createNode();
         return true;

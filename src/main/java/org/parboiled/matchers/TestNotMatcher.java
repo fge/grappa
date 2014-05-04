@@ -16,6 +16,8 @@
 
 package org.parboiled.matchers;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+import com.github.parboiled1.grappa.cleanup.WillBePrivate;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
@@ -25,20 +27,28 @@ import org.parboiled.matchervisitors.MatcherVisitor;
  * A special {@link Matcher} not actually matching any input but rather trying its submatcher against the current input
  * position. Succeeds if the submatcher would fail.
  */
-public class TestNotMatcher extends CustomDefaultLabelMatcher<TestNotMatcher> {
+@WillBeFinal(version = "1.1")
+public class TestNotMatcher
+    extends CustomDefaultLabelMatcher<TestNotMatcher>
+{
+    @WillBePrivate(version = "1.1")
     public final Matcher subMatcher;
 
-    public TestNotMatcher(final Rule subRule) {
+    public TestNotMatcher(final Rule subRule)
+    {
         super(Preconditions.checkNotNull(subRule, "subRule"), "TestNot");
         this.subMatcher = getChildren().get(0);
     }
 
     @Override
-    public <V> boolean match(final MatcherContext<V> context) {
+    public <V> boolean match(final MatcherContext<V> context)
+    {
         final int lastIndex = context.getCurrentIndex();
-        final Object valueStackSnapshot = context.getValueStack().takeSnapshot();
+        final Object valueStackSnapshot
+            = context.getValueStack().takeSnapshot();
 
-        if (subMatcher.getSubContext(context).runMatcher()) return false;
+        if (subMatcher.getSubContext(context).runMatcher())
+            return false;
 
         // reset location, Test matchers never advance
         context.setCurrentIndex(lastIndex);
@@ -49,9 +59,9 @@ public class TestNotMatcher extends CustomDefaultLabelMatcher<TestNotMatcher> {
     }
 
     @Override
-    public <R> R accept(final MatcherVisitor<R> visitor) {
+    public <R> R accept(final MatcherVisitor<R> visitor)
+    {
         Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }
-
 }
