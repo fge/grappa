@@ -21,7 +21,7 @@ import org.parboiled.annotations.Label;
 import org.parboiled.matchers.CharMatcher;
 import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.test.TestNgParboiledTest;
-import org.parboiled.util.StatsAssert;
+import com.github.parboiled1.grappa.assertions.StatsAssert;
 import org.testng.annotations.Test;
 
 public class ActionTest extends TestNgParboiledTest<Integer> {

@@ -3,7 +3,7 @@ package org.parboiled.matchers.unicode;
 import org.parboiled.BaseParser;
 import org.parboiled.Parboiled;
 import org.parboiled.Rule;
-import org.parboiled.util.StatsAssert;
+import com.github.parboiled1.grappa.assertions.StatsAssert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 

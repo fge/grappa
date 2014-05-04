@@ -16,15 +16,13 @@
 
 package org.parboiled.test;
 
-import com.google.common.base.Predicate;
-import org.parboiled.Node;
+import com.google.common.collect.Lists;
 import org.parboiled.Rule;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.parserunners.RecoveringParseRunner;
 import org.parboiled.parserunners.ReportingParseRunner;
 import org.parboiled.support.ParsingResult;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -62,20 +60,13 @@ public abstract class ParboiledTest<V> {
             return this;
         }
 
-        public TestResult<V> hasParseTree(Predicate<Node<V>> nodeFilter, Predicate<Node<V>> subTreeFilter,
-                                          String expectedTree) {
-            assertEquals(printNodeTree(result, nodeFilter, subTreeFilter), expectedTree);
-            return this;
-        }
-
         public TestResult<V> hasResult(V... expectedResults) {
             assertEquals(toListReversed(result.valueStack), Arrays.asList(expectedResults));
             return this;
         }
         
         private <T> List<T> toListReversed(Iterable<T> iterable) {
-            List<T> list = new ArrayList<T>();
-            for (T t : iterable) list.add(t);
+            final List<T> list = Lists.newArrayList(iterable);
             Collections.reverse(list);
             return list;
         }
@@ -93,10 +84,6 @@ public abstract class ParboiledTest<V> {
         return new TestResult<V>(new RecoveringParseRunner<V>(rule).run(input));
     }
     
-    public TestResult<V> testWithRecovery(Rule rule, InputBuffer inputBuffer) {
-        return new TestResult<V>(new RecoveringParseRunner<V>(rule).run(inputBuffer));
-    }
-
     protected abstract void fail(String message);
 
     protected abstract void assertEquals(Object actual, Object expected);

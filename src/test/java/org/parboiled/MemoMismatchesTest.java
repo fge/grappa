@@ -23,7 +23,7 @@ import org.parboiled.matchers.MemoMismatchesMatcher;
 import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.matchers.TestNotMatcher;
 import org.parboiled.parserunners.ProfilingParseRunner;
-import org.parboiled.util.StatsAssert;
+import com.github.parboiled1.grappa.assertions.StatsAssert;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;

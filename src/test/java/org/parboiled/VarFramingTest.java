@@ -27,7 +27,7 @@ import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.matchers.VarFramingMatcher;
 import org.parboiled.support.Var;
 import org.parboiled.test.TestNgParboiledTest;
-import org.parboiled.util.StatsAssert;
+import com.github.parboiled1.grappa.assertions.StatsAssert;
 import org.testng.annotations.Test;
 
 public class VarFramingTest extends TestNgParboiledTest<Integer> {

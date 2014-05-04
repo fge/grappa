@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.parboiled.util.MatcherAssert.assertMatcher;
+import static com.github.parboiled1.grappa.assertions.MatcherAssert.assertMatcher;
 import static org.testng.Assert.fail;
 
 public final class JoinMatcherTest<V>

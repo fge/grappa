@@ -22,7 +22,7 @@ import org.parboiled.matchers.CharRangeMatcher;
 import org.parboiled.matchers.FirstOfMatcher;
 import org.parboiled.matchers.Matcher;
 import org.parboiled.matchers.SequenceMatcher;
-import org.parboiled.util.StatsAssert;
+import com.github.parboiled1.grappa.assertions.StatsAssert;
 import org.testng.annotations.Test;
 
 import static org.parboiled.trees.GraphUtils.countAllDistinct;
