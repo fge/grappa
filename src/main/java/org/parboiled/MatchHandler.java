@@ -17,11 +17,12 @@
 package org.parboiled;
 
 /**
- * A MatchHandler is responsible for actually running the match of a given {@link MatcherContext}.
- * Many times it wraps the actual call to the matcher with some custom logic, e.g. for error handling.
+ * A MatchHandler is responsible for actually running the match of a given
+ * {@link MatcherContext}. Many times it wraps the actual call to the matcher
+ * with some custom logic, e.g. for error handling.
  */
-public interface MatchHandler {
-
+public interface MatchHandler
+{
     /**
      * Runs the given MatcherContext.
      *

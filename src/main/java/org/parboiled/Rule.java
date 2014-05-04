@@ -16,11 +16,15 @@
 
 package org.parboiled;
 
+import org.parboiled.annotations.SkipNode;
+import org.parboiled.annotations.SuppressNode;
+import org.parboiled.annotations.SuppressSubnodes;
+
 /**
  * Describes the return values of parser rule production methods.
  */
-public interface Rule {
-
+public interface Rule
+{
     /**
      * Attaches a label to this Rule.
      * Corresponds to the @Label annotation.
@@ -31,41 +35,42 @@ public interface Rule {
     Rule label(String label);
 
     /**
-     * Instructs parboiled to not create a parse tree node for this rule <b>and all subrules</b>,
-     * which can significantly increase parsing performance.
-     * Corresponds to the @SuppressNode annotation.
+     * Instructs parboiled to not create a parse tree node for this rule
+     * <b>and all subrules</b>, which can significantly increase parsing
+     * performance. Corresponds to the {@link SuppressNode} annotation.
      *
      * @return this Rule
      */
     Rule suppressNode();
 
     /**
-     * Instructs parboiled to not create parse tree nodes for the subrules of this rule,
-     * which can significantly increase parsing performance.
-     * Corresponds to the @SuppressSubnodes annotation.
+     * Instructs parboiled to not create parse tree nodes for the subrules of
+     * this rule, which can significantly increase parsing performance.
+     * Corresponds to the {@link SuppressSubnodes} annotation.
      *
      * @return this Rule
      */
     Rule suppressSubnodes();
 
     /**
-     * Instructs parboiled to not create a parse tree node for this rule. The parse tree nodes of all subrules are
-     * directly attached to the parent of this rule (or more correctly: the first ancestor not having been marked
-     * skipNode().
-     * Note that, even though a rule marked as skipNode() does not create a parse tree node of its own and is
-     * therefore "invisible" in the parse tree, the rule still exists as a regular rule in the rule tree and is
-     * accompanied by a "regular" rule {@link Context} during rule matching.
-     * Corresponds to the @SkipNode annotation.
+     * Instructs parboiled to not create a parse tree node for this rule. The
+     * parse tree nodes of all subrules are directly attached to the parent of
+     * this rule (or more correctly: the first ancestor not having been marked
+     * skipNode()). Note that, even though a rule marked as skipNode() does not
+     * create a parse tree node of its own and is therefore "invisible" in the
+     * parse tree, the rule still exists as a regular rule in the rule tree and
+     * is accompanied by a "regular" rule {@link Context} during rule matching.
+     * Corresponds to the {@link SkipNode} annotation.
      *
      * @return this Rule
      */
     Rule skipNode();
 
     /**
-     * Enables memoization of rule mismatches for consecutive rule applications at the same input location.
+     * Enables memoization of rule mismatches for consecutive rule applications
+     * at the same input location.
      *
      * @return this rule
      */
     Rule memoMismatches();
-
 }

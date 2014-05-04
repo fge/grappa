@@ -16,6 +16,7 @@
 
 package org.parboiled;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.common.ImmutableLinkedList;
@@ -40,6 +41,7 @@ import org.parboiled.support.ParseTreeUtils;
 import org.parboiled.support.Position;
 import org.parboiled.support.ValueStack;
 
+import javax.annotation.Nonnull;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -49,26 +51,39 @@ import static org.parboiled.matchers.MatcherUtils.unwrap;
 
 /**
  * <p>The Context implementation orchestrating most of the matching process.</p>
+ *
  * <p>The parsing process works as following:</p>
- * <p>
- * After the rule tree (which is in fact a directed and potentially even cyclic graph of {@link Matcher} instances)
- * has been created a root MatcherContext is instantiated for the root rule (Matcher).
- * A subsequent call to {@link #runMatcher()} starts the parsing process.</p>
- * <p>The MatcherContext delegates to a given {@link MatchHandler} to call {@link Matcher#match(MatcherContext)},
- * passing itself to the Matcher which executes its logic, potentially calling sub matchers.
- * For each sub matcher the matcher creates/initializes a subcontext with {@link Matcher#getSubContext(MatcherContext)}
- * and then calls {@link #runMatcher()} on it.</p>
- * <p>This basically creates a stack of MatcherContexts, each corresponding to their rule matchers. The MatcherContext
- * instances serve as companion objects to the matchers, providing them with support for building the
- * parse tree nodes, keeping track of input locations and error recovery.</p>
- * <p>At each point during the parsing process the matchers and action expressions have access to the current
- * MatcherContext and all "open" parent MatcherContexts through the {@link #getParent()} chain.</p>
- * <p>For performance reasons subcontext instances are reused instead of being recreated. If a MatcherContext instance
- * returns null on a {@link #getMatcher()} call it has been retired (is invalid) and is waiting to be reinitialized
- * with a new Matcher by its parent</p>
+ *
+ * <p>After the rule tree (which is in fact a directed and potentially even
+ * cyclic graph of {@link Matcher} instances) has been created a root
+ * MatcherContext is instantiated for the root rule (Matcher). A subsequent call
+ * to {@link #runMatcher()} starts the parsing process.</p>
+ *
+ * <p>The MatcherContext delegates to a given {@link MatchHandler} to call
+ * {@link Matcher#match(MatcherContext)}, passing itself to the Matcher which
+ * executes its logic, potentially calling sub matchers. For each sub matcher
+ * the matcher creates/initializes a subcontext with {@link
+ * Matcher#getSubContext(MatcherContext)} and then calls {@link #runMatcher()}
+ * on it.</p>
+ *
+ * <p>This basically creates a stack of MatcherContexts, each corresponding to
+ * their rule matchers. The MatcherContext instances serve as companion objects
+ * to the matchers, providing them with support for building the parse tree
+ * nodes, keeping track of input locations and error recovery.</p>
+ *
+ * <p>At each point during the parsing process the matchers and action
+ * expressions have access to the current MatcherContext and all "open" parent
+ * MatcherContexts through the {@link #getParent()} chain.</p>
+ *
+ * <p>For performance reasons subcontext instances are reused instead of being
+ * recreated. If a MatcherContext instance returns null on a {@link
+ * #getMatcher()} call it has been retired (is invalid) and is waiting to be
+ * reinitialized with a new Matcher by its parent</p>
  */
-public class MatcherContext<V> implements Context<V> {
-
+@WillBeFinal(version = "1.1")
+public class MatcherContext<V>
+    implements Context<V>
+{
     private final InputBuffer inputBuffer;
     private final ValueStack<V> valueStack;
     private final List<ParseError> parseErrors;
@@ -84,6 +99,7 @@ public class MatcherContext<V> implements Context<V> {
     private char currentChar;
     private Matcher matcher;
     private Node<V> node;
+    // TODO! Replace!
     private ImmutableLinkedList<Node<V>> subNodes = ImmutableLinkedList.nil();
     private MatcherPath path;
     private int intTag;
@@ -94,37 +110,48 @@ public class MatcherContext<V> implements Context<V> {
     /**
      * Initializes a new root MatcherContext.
      *
-     * @param inputBuffer        the InputBuffer for the parsing run
-     * @param valueStack         the ValueStack instance to use for the parsing run
-     * @param parseErrors        the parse error list to create ParseError objects in
-     * @param matchHandler       the MatcherHandler to use for the parsing run
-     * @param matcher            the root matcher
-     * @param fastStringMatching <p>Fast string matching "short-circuits" the default practice of treating string rules
-     *                           as simple Sequence of character rules. When fast string matching is enabled strings are
-     *                           matched at once, without relying on inner CharacterMatchers. Even though this can lead
-     *                           to significant increases of parsing performance it does not play well with error
-     *                           reporting and recovery, which relies on character level matches.
-     *                           Therefore the {@link ReportingParseRunner} and {@link RecoveringParseRunner}
-     *                           implementations only enable fast string matching during their basic first parsing run
-     *                           and disable it once the input has proven to contain errors.</p>
+     * @param inputBuffer the InputBuffer for the parsing run
+     * @param valueStack the ValueStack instance to use for the parsing run
+     * @param parseErrors the parse error list to create ParseError objects in
+     * @param matchHandler the MatcherHandler to use for the parsing run
+     * @param matcher the root matcher
+     * @param fastStringMatching <p>Fast string matching "short-circuits" the
+     * default practice of treating string rules as simple Sequence of character
+     * rules. When fast string matching is enabled strings are matched at once,
+     * without relying on inner CharacterMatchers. Even though this can lead to
+     * significant increases of parsing performance it does not play well with
+     * error reporting and recovery, which relies on character level matches.
+     * Therefore the {@link ReportingParseRunner} and {@link
+     * RecoveringParseRunner} implementations only enable fast string matching
+     * during their basic first parsing run and disable it once the input has
+     * proven to contain errors.</p>
      */
-    public MatcherContext(final InputBuffer inputBuffer, final ValueStack<V> valueStack, final List<ParseError> parseErrors,
-                          final MatchHandler matchHandler, final Matcher matcher, final boolean fastStringMatching) {
+    public MatcherContext(@Nonnull final InputBuffer inputBuffer,
+        @Nonnull final ValueStack<V> valueStack,
+        @Nonnull final List<ParseError> parseErrors,
+        @Nonnull final MatchHandler matchHandler,
+        @Nonnull final Matcher matcher,
+        final boolean fastStringMatching)
+    {
 
         this(Preconditions.checkNotNull(inputBuffer, "inputBuffer"),
             Preconditions.checkNotNull(valueStack, "valueStack"),
             Preconditions.checkNotNull(parseErrors, "parseErrors"),
-            Preconditions.checkNotNull(matchHandler, "matchHandler"),
-            null, 0, fastStringMatching,  new HashSet<MatcherPosition>());
+            Preconditions.checkNotNull(matchHandler, "matchHandler"), null, 0,
+            fastStringMatching, new HashSet<MatcherPosition>());
         this.currentChar = inputBuffer.charAt(0);
         Preconditions.checkNotNull(matcher);
+        // TODO: what the...
         this.matcher = ProxyMatcher.unwrap(matcher);
         this.nodeSuppressed = matcher.isNodeSuppressed();
     }
 
-    private MatcherContext(final InputBuffer inputBuffer, final ValueStack<V> valueStack, final List<ParseError> parseErrors,
-                           final MatchHandler matchHandler, final MatcherContext<V> parent, final int level, final boolean fastStringMatching,
-                           final Set<MatcherPosition> memoizedMismatches) {
+    private MatcherContext(final InputBuffer inputBuffer,
+        final ValueStack<V> valueStack, final List<ParseError> parseErrors,
+        final MatchHandler matchHandler, final MatcherContext<V> parent,
+        final int level, final boolean fastStringMatching,
+        final Set<MatcherPosition> memoizedMismatches)
+    {
         this.inputBuffer = inputBuffer;
         this.valueStack = valueStack;
         this.parseErrors = parseErrors;
@@ -136,282 +163,348 @@ public class MatcherContext<V> implements Context<V> {
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return getPath().toString();
     }
 
     //////////////////////////////// CONTEXT INTERFACE ////////////////////////////////////
 
     @Override
-    public MatcherContext<V> getParent() {
+    public MatcherContext<V> getParent()
+    {
         return parent;
     }
 
     @Override
-    public InputBuffer getInputBuffer() {
+    public InputBuffer getInputBuffer()
+    {
         return inputBuffer;
     }
 
     @Override
-    public int getStartIndex() {
+    public int getStartIndex()
+    {
         return startIndex;
     }
 
     @Override
-    public Matcher getMatcher() {
+    public Matcher getMatcher()
+    {
         return matcher;
     }
 
     @Override
-    public char getCurrentChar() {
+    public char getCurrentChar()
+    {
         return currentChar;
     }
 
     @Override
-    public List<ParseError> getParseErrors() {
+    public List<ParseError> getParseErrors()
+    {
         return parseErrors;
     }
 
     @Override
-    public int getCurrentIndex() {
+    public int getCurrentIndex()
+    {
         return currentIndex;
     }
 
     @Override
-    public MatcherPath getPath() {
-        if (path == null) {
-            path = new MatcherPath(new MatcherPath.Element(matcher, startIndex, level),
-                    parent != null ? parent.getPath() : null);
-        }
+    public MatcherPath getPath()
+    {
+        if (path != null)
+            return path;
+
+        path = new MatcherPath(new MatcherPath.Element(matcher, startIndex,
+            level), parent != null ? parent.getPath() : null);
         return path;
     }
 
     @Override
-    public int getLevel() {
+    public int getLevel()
+    {
         return level;
     }
 
     @Override
-    public boolean fastStringMatching() {
+    public boolean fastStringMatching()
+    {
         return fastStringMatching;
     }
 
     @Override
-    public ImmutableLinkedList<Node<V>> getSubNodes() {
-        return matcher.isNodeSkipped() ? subNodes : getSubNodes(subNodes, ImmutableLinkedList.<Node<V>>nil());
+    public ImmutableLinkedList<Node<V>> getSubNodes()
+    {
+        return matcher.isNodeSkipped()
+            ? subNodes
+            : getSubNodes(subNodes, ImmutableLinkedList.<Node<V>>nil());
     }
 
-    private static <V> ImmutableLinkedList<Node<V>> getSubNodes(ImmutableLinkedList<Node<V>> remaining,
-                                                                ImmutableLinkedList<Node<V>> tail) {
+    // TODO: replace, remove, I don't know, but do something
+    private static <V> ImmutableLinkedList<Node<V>> getSubNodes(
+        ImmutableLinkedList<Node<V>> remaining,
+        ImmutableLinkedList<Node<V>> tail)
+    {
         while (!remaining.isEmpty()) {
             final Node<V> head = remaining.head();
-            if (head.getMatcher().isNodeSkipped()) {
-                tail = getSubNodes(((ImmutableLinkedList<Node<V>>)head.getChildren()), tail);
-            } else {
-                tail = tail.prepend(head);
-            }
+            tail = head.getMatcher().isNodeSkipped()
+                ? getSubNodes((ImmutableLinkedList<Node<V>>) head.getChildren(),
+                    tail)
+                : tail.prepend(head);
             remaining = remaining.tail();
         }
         return tail;
     }
 
     @Override
-    public boolean inPredicate() {
-        return matcher instanceof TestMatcher || matcher instanceof TestNotMatcher ||
-                parent != null && parent.inPredicate();
+    public boolean inPredicate()
+    {
+        if (matcher instanceof TestMatcher)
+            return true;
+
+        if (matcher instanceof TestNotMatcher)
+            return true;
+
+        if (parent == null)
+            return false;
+
+        return parent.inPredicate();
     }
 
     @Override
-    public boolean inErrorRecovery() {
+    public boolean inErrorRecovery()
+    {
         return inErrorRecovery;
     }
-    
+
     @Override
-    public boolean isNodeSuppressed() {
+    public boolean isNodeSuppressed()
+    {
         return nodeSuppressed;
     }
 
     @Override
-    public boolean hasError() {
+    public boolean hasError()
+    {
         return hasError;
     }
 
     @Override
-    public String getMatch() {
+    public String getMatch()
+    {
         checkActionContext();
         final MatcherContext<V> prevContext = subContext;
-        if (hasError) {
-            final Node<V> prevNode = prevContext.node;
-            return prevNode != null ? ParseTreeUtils.getNodeText(prevNode,
-                inputBuffer) : "";
-        }
-        return inputBuffer.extract(prevContext.startIndex, prevContext.currentIndex);
+        if (!hasError)
+            return inputBuffer.extract(prevContext.startIndex,
+                prevContext.currentIndex);
+
+        final Node<V> prevNode = prevContext.node;
+        return prevNode != null
+            ? ParseTreeUtils.getNodeText(prevNode, inputBuffer)
+            : "";
     }
 
     @Override
-    public char getFirstMatchChar() {
+    public char getFirstMatchChar()
+    {
         checkActionContext();
-        final int ix = subContext.startIndex;
-        if (subContext.currentIndex <= ix) {
-            throw new GrammarException("getFirstMatchChar called but previous rule did not match anything");
-        }
-        return inputBuffer.charAt(ix);
+        final int index = subContext.startIndex;
+        if (subContext.currentIndex > index)
+            return inputBuffer.charAt(index);
+
+        // TODO: figure out why it says that
+        throw new GrammarException("getFirstMatchChar called but previous rule" +
+            " did not match anything");
     }
 
     @Override
-    public int getMatchStartIndex() {
+    public int getMatchStartIndex()
+    {
         checkActionContext();
         return subContext.startIndex;
     }
 
     @Override
-    public int getMatchEndIndex() {
+    public int getMatchEndIndex()
+    {
         checkActionContext();
         return subContext.currentIndex;
     }
 
     @Override
-    public int getMatchLength() {
+    public int getMatchLength()
+    {
         checkActionContext();
         return subContext.currentIndex - subContext.getStartIndex();
     }
 
     @Override
-    public Position getPosition() {
+    public Position getPosition()
+    {
         return inputBuffer.getPosition(currentIndex);
     }
 
     @Override
-    public IndexRange getMatchRange() {
+    public IndexRange getMatchRange()
+    {
         checkActionContext();
         return new IndexRange(subContext.startIndex, subContext.currentIndex);
     }
 
-    private void checkActionContext() {
+    // TODO: pain point!
+    private void checkActionContext()
+    {
         // make sure all the constraints are met
-        Checks.ensure(unwrap(matcher) instanceof SequenceMatcher && intTag > 0 &&
-                subContext.matcher instanceof ActionMatcher,
-                "Illegal call to getMatch(), getMatchStartIndex(), getMatchEndIndex() or getMatchRange(), " +
-                        "only valid in Sequence rule actions that are not in first position");
+        final boolean condition = unwrap(matcher) instanceof SequenceMatcher
+            && intTag > 0
+            && subContext.matcher instanceof ActionMatcher;
+        Checks.ensure(condition,
+            "Illegal call to getMatch(), getMatchStartIndex()," +
+            " getMatchEndIndex() or getMatchRange(), only valid in Sequence" +
+            " rule actions that are not in first position"
+        );
     }
 
     @Override
-    public ValueStack<V> getValueStack() {
+    public ValueStack<V> getValueStack()
+    {
         return valueStack;
     }
 
     //////////////////////////////// PUBLIC ////////////////////////////////////
 
-    public void setMatcher(final Matcher matcher) {
+    public void setMatcher(final Matcher matcher)
+    {
         this.matcher = matcher;
     }
 
-    public void setStartIndex(final int startIndex) {
+    public void setStartIndex(final int startIndex)
+    {
         Preconditions.checkArgument(startIndex >= 0);
         this.startIndex = startIndex;
     }
 
-    public void setCurrentIndex(final int currentIndex) {
+    public void setCurrentIndex(final int currentIndex)
+    {
         Preconditions.checkArgument(currentIndex >= 0);
         this.currentIndex = currentIndex;
         currentChar = inputBuffer.charAt(currentIndex);
     }
-    
-    public void setInErrorRecovery(final boolean flag) {
+
+    public void setInErrorRecovery(final boolean flag)
+    {
         inErrorRecovery = flag;
     }
 
-    public void advanceIndex(final int delta) {
+    public void advanceIndex(final int delta)
+    {
         currentIndex += delta;
         currentChar = inputBuffer.charAt(currentIndex);
     }
 
-    public Node<V> getNode() {
+    public Node<V> getNode()
+    {
         return node;
     }
 
-    public int getIntTag() {
+    public int getIntTag()
+    {
         return intTag;
     }
 
-    public void setIntTag(final int intTag) {
+    public void setIntTag(final int intTag)
+    {
         this.intTag = intTag;
     }
 
-    public void markError() {
-        if (!hasError) {
-            hasError = true;
-            if (parent != null) parent.markError();
-        }
+    public void markError()
+    {
+        if (hasError)
+            return;
+
+        hasError = true;
+        if (parent != null)
+            parent.markError();
     }
 
-    public Boolean hasMismatched() {
-        return memoizedMismatches.contains(MatcherPosition.at(matcher, currentIndex));
+    public Boolean hasMismatched()
+    {
+        return memoizedMismatches.contains(MatcherPosition.at(matcher,
+            currentIndex));
     }
 
-    public void memoizeMismatch() {
-    	memoizedMismatches.add(MatcherPosition.at(matcher, currentIndex));
+    public void memoizeMismatch()
+    {
+        memoizedMismatches.add(MatcherPosition.at(matcher, currentIndex));
     }
 
-    @SuppressWarnings("ConstantConditions")
-    public void createNode() {
-        if (!nodeSuppressed) {
-            node = new DefaultParsingNode<V>(matcher, getSubNodes(), startIndex, currentIndex,
-                    valueStack.isEmpty() ? null : valueStack.peek(), hasError);
-            if (parent != null) {
-                parent.subNodes = parent.subNodes.prepend(node);
-            }
-        }
+    public void createNode()
+    {
+        if (nodeSuppressed)
+            return;
+
+        node = new DefaultParsingNode<V>(matcher, getSubNodes(), startIndex,
+            currentIndex, valueStack.isEmpty() ? null : valueStack.peek(),
+            hasError);
+        if (parent != null)
+            parent.subNodes = parent.subNodes.prepend(node);
     }
 
-    public final MatcherContext<V> getBasicSubContext() {
+    public final MatcherContext<V> getBasicSubContext()
+    {
         if (subContext == null) {
             // init new level
-            subContext = new MatcherContext<V>(inputBuffer, valueStack, parseErrors, matchHandler, this, level + 1,
-                        fastStringMatching, memoizedMismatches);
+            subContext = new MatcherContext<V>(inputBuffer, valueStack,
+                parseErrors, matchHandler, this, level + 1, fastStringMatching,
+                memoizedMismatches);
         } else {
-            subContext.path = null; // we always need to reset the MatcherPath, even for actions
+            // we always need to reset the MatcherPath, even for actions
+            subContext.path = null;
         }
         return subContext;
     }
 
-    public final MatcherContext<V> getSubContext(final Matcher matcher) {
+    public final MatcherContext<V> getSubContext(final Matcher matcher)
+    {
         final MatcherContext<V> sc = getBasicSubContext();
         sc.matcher = matcher;
         sc.startIndex = sc.currentIndex = currentIndex;
         sc.currentChar = currentChar;
         sc.node = null;
         sc.subNodes = ImmutableLinkedList.nil();
-        sc.nodeSuppressed = nodeSuppressed || this.matcher.areSubnodesSuppressed() || matcher.isNodeSuppressed();
+        sc.nodeSuppressed = nodeSuppressed || this.matcher
+            .areSubnodesSuppressed() || matcher.isNodeSuppressed();
         sc.hasError = false;
         return sc;
     }
 
-    public boolean runMatcher() {
+    public boolean runMatcher()
+    {
         try {
-            if (matchHandler.match(this)) {
-                if (parent != null) {
-                    parent.currentIndex = currentIndex;
-                    parent.currentChar = currentChar;
-                }
-                matcher = null; // "retire" this context
-                return true;
+            final boolean ret = matchHandler.match(this);
+            // Retire this context
+            // TODO: what does the above really mean?
+            matcher = null;
+            if (ret && parent != null) {
+                parent.currentIndex = currentIndex;
+                parent.currentChar = currentChar;
             }
-            matcher = null; // "retire" this context until is "activated" again by a getSubContext(...) on the parent
-            return false;
+            return ret;
         } catch (ParserRuntimeException e) {
             throw e; // don't wrap, just bubble up
         } catch (RecoveringParseRunner.TimeoutException e) {
             throw e; // don't wrap, just bubble up
-        } catch (Throwable e) {
+        } catch (Throwable e) { // TODO: Throwable? What the...
             final String msg = String.format(
                 "Error while parsing %s '%s' at input position\n%s",
-                    matcher instanceof ActionMatcher ? "action" : "rule",
-                    getPath(), e
-                );
-            throw new ParserRuntimeException(e, printParseError(
-                new  BasicParseError(inputBuffer, currentIndex,
-                    CharsEscaper.INSTANCE.escape(msg))));
+                matcher instanceof ActionMatcher ? "action" : "rule", getPath(),
+                e);
+            final BasicParseError error = new BasicParseError(inputBuffer,
+                currentIndex, CharsEscaper.INSTANCE.escape(msg));
+            throw new ParserRuntimeException(e, printParseError(error));
         }
     }
 }

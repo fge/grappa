@@ -16,6 +16,7 @@
 
 package org.parboiled;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import org.parboiled.matchers.ActionMatcher;
@@ -56,6 +57,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+@WillBeFinal(version = "1.1")
 public class ParserStatistics
     implements MatcherVisitor<ParserStatistics>
 {

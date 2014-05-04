@@ -16,16 +16,26 @@
 
 package org.parboiled;
 
+import org.parboiled.matchers.SequenceMatcher;
+
 /**
  * Interface that can be implemented by classes containing action methods.
- * If the class containing action methods implements this interface parboiled will use it to inform the
- * instance of the current context, immediately before an action call.
+ * If the class containing action methods implements this interface parboiled
+ * will use it to inform the instance of the current context, immediately before
+ * an action call.
+ *
+ * <p>Note that implementing this interface currently will not prevent you from
+ * suffering the limits of actions; that is, if you are not the second or more
+ * member of a {@link SequenceMatcher}, you won't get a context (it will be
+ * null in this case).</p>
  */
-public interface ContextAware<V> {
+public interface ContextAware<V>
+{
 
     /**
-     * Called immediately before any parser action method invocation. Informs the object containing the
-     * action about the context to be used for the coming action call.
+     * Called immediately before any parser action method invocation. Informs
+     * the object containing the action about the context to be used for the
+     * coming action call.
      *
      * @param context the context
      */

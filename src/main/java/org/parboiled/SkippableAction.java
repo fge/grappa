@@ -16,15 +16,25 @@
 
 package org.parboiled;
 
-/**
- * An action that can optionally be skipped when run underneath a predicate matcher.
- */
-public interface SkippableAction<V> extends Action<V> {
+import org.parboiled.matchers.TestMatcher;
+import org.parboiled.matchers.TestNotMatcher;
 
+/**
+ * An action that can optionally be skipped when run underneath a predicate
+ * matcher.
+ */
+// TODO: why? Why isn't this in Action?
+public interface SkippableAction<V>
+    extends Action<V>
+{
     /**
-     * Determines whether the execution of this action is to be skipped inside of predicate matchers.
+     * Determines whether the execution of this action is to be skipped in
+     * predicate matchers.
      *
      * @return true if this action is not to be run inside predicates
+     *
+     * @see TestMatcher
+     * @see TestNotMatcher
      */
     boolean skipInPredicates();
 

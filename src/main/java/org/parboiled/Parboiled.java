@@ -16,10 +16,13 @@
 
 package org.parboiled;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+import com.github.parboiled1.grappa.cleanup.WillBePrivate;
 import com.google.common.base.Preconditions;
 import org.parboiled.parserunners.ParseRunner;
 import org.parboiled.transform.ParserTransformer;
 
+import javax.annotation.Nonnull;
 import java.lang.reflect.Constructor;
 
 import static org.parboiled.common.Utils.findConstructor;
@@ -27,37 +30,51 @@ import static org.parboiled.common.Utils.findConstructor;
 /**
  * Main class providing the high-level entry point into the parboiled library.
  */
-public class Parboiled {
-
-    protected Parboiled() {}
+@WillBeFinal(version = "1.1")
+public class Parboiled
+{
+    @WillBePrivate(version = "1.1")
+    protected Parboiled()
+    {
+    }
 
     /**
-     * <p>Creates a parser object whose rule creation methods can then be used with one of the {@link ParseRunner} implementations.</p>
-     * <p>Since parboiled needs to extend your parser with certain extra logic (e.g. to prevent infinite recursions
-     * in recursive rule definitions) you cannot create your parser object yourself, but have to go through this method.
-     * Also your parser class has to be derived from {@link BaseParser}. If you want to use a non-default constructor
-     * you can provide its arguments to this method. Make sure your non-default constructor does not use primitive
-     * type parameters (like "int") but rather their boxed counterparts (like "Integer"), otherwise the constructor
-     * will not be found.</p>
-     * <p>Performing the rule analysis and extending the parser class is an expensive process (time-wise) and can
-     * take up to several hundred milliseconds for large grammars. However, this cost is only incurred once per
-     * parser class and class loader. Subsequent calls to this method are therefore fast once the initial extension
-     * has been performed.</p>
+     * <p>Creates a parser object whose rule creation methods can then be used
+     * with one of the {@link ParseRunner} implementations.</p>
+     * <p>Since parboiled needs to extend your parser with certain extra logic
+     * (e.g. to prevent infinite recursions in recursive rule definitions) you
+     * cannot create your parser object yourself, but have to go through this
+     * method. Also your parser class has to be derived from {@link BaseParser}.
+     * If you want to use a non-default constructor you can provide its
+     * arguments to this method. Make sure your non-default constructor does not
+     * use primitive type parameters (like "int") but rather their boxed
+     * counterparts (like "Integer"), otherwise the constructor will not be
+     * found.</p>
+     * <p>Performing the rule analysis and extending the parser class is an
+     * expensive process (time-wise) and can take up to several hundred
+     * milliseconds for large grammars. However, this cost is only incurred once
+     * per parser class and class loader. Subsequent calls to this method are
+     * therefore fast once the initial extension has been performed.</p>
      *
-     * @param parserClass     the type of the parser to create
+     * @param parserClass the type of the parser to create
      * @param constructorArgs optional arguments to the parser class constructor
      * @return the ready to use parser instance
      */
-    @SuppressWarnings("unchecked")
-    public static <P extends BaseParser<V>, V> P createParser(final Class<P> parserClass, final Object... constructorArgs) {
+    public static <P extends BaseParser<V>, V> P createParser(
+        @Nonnull final Class<P> parserClass, final Object... constructorArgs)
+    {
         Preconditions.checkNotNull(parserClass, "parserClass");
         try {
-            final Class<?> extendedClass = ParserTransformer.transformParser(parserClass);
-            final Constructor<?> constructor = findConstructor(extendedClass,
-                constructorArgs);
-            return (P) constructor.newInstance(constructorArgs);
-        } catch (Exception e) {
-            throw new RuntimeException("Error creating extended parser class: " + e.getMessage(), e);
+            final Class<?> extendedClass
+                = ParserTransformer.transformParser(parserClass);
+            final Constructor<?> constructor
+                = findConstructor(extendedClass, constructorArgs);
+            @SuppressWarnings("unchecked")
+            final P ret = (P) constructor.newInstance(constructorArgs);
+            return ret;
+        } catch (Exception e) { // TODO: catch better than Exception
+            throw new RuntimeException(
+                "Error creating extended parser class: " + e.getMessage(), e);
         }
     }
 
@@ -73,8 +90,8 @@ public class Parboiled {
      * @param <P> class of the parser
      * @param <V> see {@link BaseParser}
      * @return the byte code
-     * @throws RuntimeException byte code generation failure
      *
+     * @throws RuntimeException byte code generation failure
      * @see ParserTransformer#getByteCode(Class)
      */
     public static <P extends BaseParser<V>, V> byte[] getByteCode(
