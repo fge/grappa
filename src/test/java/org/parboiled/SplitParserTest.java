@@ -22,16 +22,22 @@ import org.testng.annotations.Test;
 
 public class SplitParserTest extends ParboiledTest<Object>
 {
-
+    /*
+     * This one is intersting... It basically means that parsers are
+     * "reentrant".
+     *
+     * Not that surprising since BaseParser implements ContextAware; but still,
+     * this is an interesting trick!
+     */
     @BuildParseTree
     public static class Parser extends BaseParser<Object> {
         final Primitives primitives = Parboiled.createParser(Primitives.class);
 
         public Rule Clause() {
             return sequence(
-                    primitives.Digit(),
+                    primitives.digit(),
                     primitives.Operator(),
-                    primitives.Digit(),
+                    primitives.digit(),
                     EOI
             );
         }
@@ -44,10 +50,6 @@ public class SplitParserTest extends ParboiledTest<Object>
             return firstOf('+', '-');
         }
 
-        public Rule Digit() {
-            return charRange('0', '9');
-        }
-
     }
 
     @Test
@@ -57,10 +59,10 @@ public class SplitParserTest extends ParboiledTest<Object>
                 .hasNoErrors()
                 .hasParseTree("" +
                         "[Clause] '1+5'\n" +
-                        "  [Digit] '1'\n" +
+                        "  [digit] '1'\n" +
                         "  [Operator] '+'\n" +
                         "    ['+'] '+'\n" +
-                        "  [Digit] '5'\n" +
+                        "  [digit] '5'\n" +
                         "  [EOI]\n");
     }
 
