@@ -16,6 +16,8 @@
 
 package org.parboiled;
 
+import org.parboiled.annotations.SuppressNode;
+import org.parboiled.annotations.SuppressSubnodes;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.errors.ParseError;
 import org.parboiled.matchers.Matcher;
@@ -26,15 +28,19 @@ import org.parboiled.support.MatcherPath;
 import org.parboiled.support.Position;
 import org.parboiled.support.ValueStack;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
- * A Context object is available to parser actions methods during their runtime and provides various support functionalities.
+ * A Context object is available to parser actions methods during their runtime
+ * and provides various support functionalities.
  */
-public interface Context<V> {
-
+public interface Context<V>
+{
     /**
-     * Returns the parent context, i.e. the context for the currently running parent matcher.
+     * Returns the parent context, i.e. the context for the currently running
+     * parent matcher.
      *
      * @return the parent context
      */
@@ -45,17 +51,21 @@ public interface Context<V> {
      *
      * @return the InputBuffer
      */
+    @Nonnull
     InputBuffer getInputBuffer();
 
     /**
-     * Returns the Matcher of this context or null, if this context is not valid anymore.
+     * Returns the Matcher of this context or null, if this context is not valid
+     * anymore.
      *
      * @return the matcher
      */
+    @Nullable
     Matcher getMatcher();
 
     /**
-     * Returns the index into the underlying input buffer where the matcher of this context started its match.
+     * Returns the index into the underlying input buffer where the matcher of
+     * this context started its match.
      *
      * @return the start index
      */
@@ -80,6 +90,8 @@ public interface Context<V> {
      *
      * @return the list of parse errors
      */
+    @Nonnull
+    // TODO: make that annotation above actually obeyed
     List<ParseError> getParseErrors();
 
     /**
@@ -87,6 +99,7 @@ public interface Context<V> {
      *
      * @return the path
      */
+    @Nonnull
     MatcherPath getPath();
 
     /**
@@ -97,46 +110,56 @@ public interface Context<V> {
     int getLevel();
 
     /**
-     * <p>Returns true if fast string matching is enabled for this parsing run.</p>
-     * <p>Fast string matching "short-circuits" the default practice of treating string rules as simple Sequence of
-     * character rules. When fast string matching is enabled strings are matched at once, without relying on inner
-     * CharacterMatchers. Even though this can lead to significant increases of parsing performance it does not play
-     * well with error reporting and recovery, which relies on character level matches.
-     * Therefore the {@link ReportingParseRunner} and {@link RecoveringParseRunner} implementations only enable fast
-     * string matching during their basic first parsing run and disable it once the input has proven to contain errors.
+     * <p>Returns true if fast string matching is enabled for this parsing run.
      * </p>
      *
-     * @return true if fast string matching is enabled during the current parsing run
+     * <p>Fast string matching "short-circuits" the default practice of treating
+     * string rules as simple sequence of character rules. When fast string
+     * matching is enabled strings are matched at once, without relying on inner
+     * CharMatchers. Even though this can lead to significant increases of
+     * parsing performance it does not play well with error reporting and
+     * recovery, which relies on character level matches. Therefore the {@link
+     * ReportingParseRunner} and {@link RecoveringParseRunner} implementations
+     * only enable fast string matching during their basic first parsing run and
+     * disable it once the input has proven to contain errors.</p>
+     *
+     * @return true if fast string matching is enabled during the current
+     * parsing run
      */
     boolean fastStringMatching();
 
     /**
-     * Returns the parse tree subnodes already created in the current context scope.
+     * Returns the parse tree subnodes already created in the current context
+     * scope.
      * Note that the returned list is immutable.
      *
      * @return the parse tree subnodes already created in the current context scope
      */
+    @Nonnull
     List<Node<V>> getSubNodes();
 
     /**
-     * Determines if the current rule is running somewhere underneath a Test/TestNot rule.
+     * Determines if the current rule is running somewhere underneath a
+     * Test/TestNot rule.
      *
      * @return true if the current context has a parent which corresponds to a Test/TestNot rule
      */
     boolean inPredicate();
-    
+
     /**
-     * Determines if the action calling this method is run during the resynchronization phase of an error recovery.
+     * Determines if the action calling this method is run during the
+     * resynchronization phase of an error recovery.
      *
-     * @return true if the action calling this method is run during the resynchronization phase of an error recovery
+     * @return true if the action calling this method is run during the
+     * resynchronization phase of an error recovery
      */
     boolean inErrorRecovery();
 
     /**
-     * Determines if the current context is for or below a rule marked @SuppressNode or below one
-     * marked @SuppressSubnodes.
+     * Determines if the current context is for or below a rule marked
+     * {@link SuppressNode} or below one marked {@link SuppressSubnodes}
      *
-     * @return true or false
+     * @return see description
      */
     boolean isNodeSuppressed();
 
@@ -148,8 +171,9 @@ public interface Context<V> {
     boolean hasError();
 
     /**
-     * <p>Returns the input text matched by the rule immediately preceding the action expression that is currently
-     * being evaluated. This call can only be used in actions that are part of a Sequence rule and are not at first
+     * <p>Returns the input text matched by the rule immediately preceding the
+     * action expression that is currently being evaluated. This call can only
+     * be used in actions that are part of a Sequence rule and are not at first
      * position in this Sequence.</p>
      *
      * @return the input text matched by the immediately preceding subcontext
@@ -157,61 +181,70 @@ public interface Context<V> {
     String getMatch();
 
     /**
-     * <p>Returns the first character of the input text matched by the rule immediately preceding the action
-     * expression that is currently being evaluated. This call can only be used in actions that are part of a Sequence
-     * rule and are not at first position in this Sequence.</p>
-     * <p>If the immediately preceding rule did not match anything this method throws a GrammarException. If you need
-     * to able to handle that case use the getMatch() method.</p>
+     * <p>Returns the first character of the input text matched by the rule
+     * immediately preceding the action expression that is currently being
+     * evaluated. This call can only be used in actions that are part of a
+     * Sequence rule and are not at first position in this Sequence.</p>
+     *
+     * <p>If the immediately preceding rule did not match anything this method
+     * throws a GrammarException. If you need to able to handle that case use
+     * the getMatch() method.</p>
      *
      * @return the input text matched by the immediately preceding subcontext
      */
     char getFirstMatchChar();
 
     /**
-     * <p>Returns the start index of the rule immediately preceding the action expression that is currently
-     * being evaluated. This call can only be used in actions that are part of a Sequence rule and are not at first
-     * position in this Sequence.</p>
+     * <p>Returns the start index of the rule immediately preceding the action
+     * expression that is currently being evaluated. This call can only be used
+     * in actions that are part of a Sequence rule and are not at first position
+     * in this Sequence.</p>
      *
-     * @return the start index of the context immediately preceding current action
+     * @return the start index of the context immediately preceding current
+     * action
      */
     int getMatchStartIndex();
 
     /**
-     * <p>Returns the end index of the rule immediately preceding the action expression that is currently
-     * being evaluated. This call can only be used in actions that are part of a Sequence rule and are not at first
-     * position in this Sequence.</p>
+     * <p>Returns the end index of the rule immediately preceding the action
+     * expression that is currently being evaluated. This call can only be used
+     * in actions that are part of a Sequence rule and are not at first position
+     * in this Sequence.</p>
      *
-     * @return the end index of the context immediately preceding current action, i.e. the index of the character
-     *         immediately following the last matched character
+     * @return the end index of the context immediately preceding current
+     * action, i.e. the index of the character immediately following the last
+     * matched character
      */
     int getMatchEndIndex();
 
     /**
-     * <p>Returns the number of characters matched by the rule immediately preceding the action expression that is
-     * currently being evaluated. This call can only be used in actions that are part of a Sequence rule and are not
-     * at first position in this Sequence.</p>
-     * 
+     * <p>Returns the number of characters matched by the rule immediately
+     * preceding the action expression that is currently being evaluated. This
+     * call can only be used in actions that are part of a Sequence rule and are
+     * not at first position in this Sequence.</p>
+     *
      * @return the number of characters matched
      */
     int getMatchLength();
-    
+
     /**
-     * <p>Returns the current position in the underlying {@link InputBuffer} as a
-     * {@link Position} instance.</p>
-     * 
+     * <p>Returns the current position in the underlying {@link InputBuffer} as
+     * a {@link Position} instance.</p>
+     *
      * @return the current position in the underlying inputbuffer
      */
     Position getPosition();
-    
+
     /**
-     * Creates a new {@link IndexRange} instance covering the input text matched by the rule immediately preceding the
-     * action expression that is currently being evaluated. This call can only be used in actions that are part of a
+     * Creates a new {@link IndexRange} instance covering the input text matched
+     * by the rule immediately preceding the action expression that is currently
+     * being evaluated. This call can only be used in actions that are part of a
      * Sequence rule and are not at first position in this Sequence.
-     *  
+     *
      * @return a new IndexRange instance
      */
     IndexRange getMatchRange();
-    
+
     /**
      * Returns the value stack instance used during this parsing run.
      *

@@ -16,7 +16,10 @@
 
 package org.parboiled;
 
+import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.google.common.base.Preconditions;
+import org.parboiled.annotations.SuppressNode;
+import org.parboiled.annotations.SuppressSubnodes;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.errors.GrammarException;
 import org.parboiled.support.Checks;
@@ -28,17 +31,20 @@ import org.parboiled.support.Position;
  *
  * @param <V> the type of the parser values
  */
-@SuppressWarnings("UnusedDeclaration")
-public abstract class BaseActions<V> implements ContextAware<V> {
-
+public abstract class BaseActions<V>
+    implements ContextAware<V>
+{
     private Context<V> context;
 
     /**
-     * The current context for use with action methods. Updated immediately before action calls.
+     * The current context for use with action methods. Updated immediately
+     * before action calls.
      *
      * @return the current context
      */
-    public Context<V> getContext() {
+    @WillBeFinal(version = "1.1")
+    public Context<V> getContext()
+    {
         return context;
     }
 
@@ -48,7 +54,9 @@ public abstract class BaseActions<V> implements ContextAware<V> {
      * @param context the context
      */
     @Override
-    public void setContext(final Context<V> context) {
+    @WillBeFinal(version = "1.1")
+    public void setContext(final Context<V> context)
+    {
         this.context = Preconditions.checkNotNull(context, "context");
     }
 
@@ -57,134 +65,164 @@ public abstract class BaseActions<V> implements ContextAware<V> {
      *
      * @return the current index
      */
-    public int currentIndex() {
+    @WillBeFinal(version = "1.1")
+    public int currentIndex()
+    {
         check();
         return context.getCurrentIndex();
     }
 
     /**
-     * <p>Returns the input text matched by the rule immediately preceding the action expression that is currently
-     * being evaluated. This call can only be used in actions that are part of a Sequence rule and are not at first
+     * <p>Returns the input text matched by the rule immediately preceding the
+     * action expression that is currently being evaluated. This call can only
+     * be used in actions that are part of a Sequence rule and are not at first
      * position in this Sequence.</p>
      *
      * @return the input text matched by the immediately preceding subrule
      */
-    public String match() {
+    public String match()
+    {
         check();
         return context.getMatch();
     }
-    
+
     /**
-     * Creates a new {@link IndexRange} instance covering the input text matched by the rule immediately preceding the
-     * action expression that is currently being evaluated. This call can only be used in actions that are part of a
+     * Creates a new {@link IndexRange} instance covering the input text matched
+     * by the rule immediately preceding the action expression that is currently
+     * being evaluated. This call can only be used in actions that are part of a
      * Sequence rule and are not at first position in this Sequence.
-     *  
+     *
      * @return a new IndexRange instance
      */
-    public IndexRange matchRange() {
+    public IndexRange matchRange()
+    {
         check();
         return context.getMatchRange();
     }
 
     /**
-     * <p>Returns the input text matched by the rule immediately preceding the action expression that is currently
-     * being evaluated. If the matched input text is empty the given default string is returned.
-     * This call can only be used in actions that are part of a Sequence rule and are not at first
+     * <p>Returns the input text matched by the rule immediately preceding the
+     * action expression that is currently being evaluated. If the matched input
+     * text is empty the given default string is returned. This call can only be
+     * used in actions that are part of a Sequence rule and are not at first
      * position in this Sequence.</p>
      *
-     * @param defaultString the default string to return if the matched input text is empty
-     * @return the input text matched by the immediately preceding subrule or the default string
+     * @param defaultString the default string to return if the matched input
+     * text is empty
+     * @return the input text matched by the immediately preceding subrule or
+     * the default string
      */
-    public String matchOrDefault(final String defaultString) {
+    public String matchOrDefault(final String defaultString)
+    {
         check();
         final String match = context.getMatch();
         return match.isEmpty() ? defaultString : match;
     }
 
     /**
-     * <p>Returns the first character of the input text matched by the rule immediately preceding the action
-     * expression that is currently being evaluated. This call can only be used in actions that are part of a Sequence
-     * rule and are not at first position in this Sequence.</p>
-     * <p>If the immediately preceding rule did not match anything this method throws a GrammarException. If you need
-     * to able to handle that case use the getMatch() method.</p>
+     * <p>Returns the first character of the input text matched by the rule
+     * immediately preceding the action expression that is currently being
+     * evaluated. This call can only be used in actions that are part of a
+     * Sequence rule and are not at first position in this Sequence.</p>
+     * <p>If the immediately preceding rule did not match anything this method
+     * throws a GrammarException. If you need to be able to handle that case use
+     * the getMatch() method.</p>
      *
-     * @return the first input char of the input text matched by the immediately preceding subrule or null,
-     *         if the previous rule matched nothing
+     * @return the first input char of the input text matched by the immediately
+     * preceding subrule or null, if the previous rule matched nothing
      */
-    public char matchedChar() {
+    // TODO: can't return null; check what _really_ happens.
+    public char matchedChar()
+    {
         check();
         return context.getFirstMatchChar();
     }
 
     /**
-     * <p>Returns the start index of the rule immediately preceding the action expression that is currently
-     * being evaluated. This call can only be used in actions that are part of a Sequence rule and are not at first
-     * position in this Sequence.</p>
+     * <p>Returns the start index of the rule immediately preceding the action
+     * expression that is currently being evaluated. This call can only be used
+     * in actions that are part of a Sequence rule and are not at first position
+     * in this Sequence.</p>
      *
-     * @return the start index of the context immediately preceding current action
+     * @return the start index of the context immediately preceding current
+     * action
      */
-    public int matchStart() {
+    public int matchStart()
+    {
         check();
         return context.getMatchStartIndex();
     }
 
     /**
-     * <p>Returns the end location of the rule immediately preceding the action expression that is currently
-     * being evaluated. This call can only be used in actions that are part of a Sequence rule and are not at first
-     * position in this Sequence.</p>
+     * <p>Returns the end location of the rule immediately preceding the action
+     * expression that is currently being evaluated. This call can only be used
+     * in actions that are part of a Sequence rule and are not at first position
+     * in this Sequence.</p>
      *
-     * @return the end index of the context immediately preceding current action, i.e. the index of the character
-     *         immediately following the last matched character
+     * @return the end index of the context immediately preceding current
+     * action, i.e. the index of the character immediately following the last
+     * matched character
      */
-    public int matchEnd() {
+    public int matchEnd()
+    {
         check();
         return context.getMatchEndIndex();
     }
-    
+
     /**
-     * <p>Returns the number of characters matched by the rule immediately preceding the action expression that is
-     * currently being evaluated. This call can only be used in actions that are part of a Sequence rule and are not
-     * at first position in this Sequence.</p>
-     * 
+     * <p>Returns the number of characters matched by the rule immediately
+     * preceding the action expression that is currently being evaluated. This
+     * call can only be used in actions that are part of a Sequence rule and are
+     * not at first position in this Sequence.</p>
+     *
      * @return the number of characters matched
      */
-    public int matchLength() {
+    public int matchLength()
+    {
         check();
         return context.getMatchLength();
     }
 
     /**
-     * <p>Returns the current position in the underlying {@link InputBuffer} as a
-     * {@link Position} instance.</p>
-     * 
+     * <p>Returns the current position in the underlying {@link InputBuffer} as
+     * a {@link Position} instance.</p>
+     *
      * @return the current position in the underlying inputbuffer
      */
-    public Position position() {
+    public Position position()
+    {
         check();
         return context.getPosition();
     }
 
     /**
-     * Pushes the given value onto the value stack. Equivalent to push(0, value).
+     * Pushes the given value onto the value stack. Equivalent to push(0,
+     * value).
      *
      * @param value the value to push
      * @return true
      */
-    public boolean push(final V value) {
+    public boolean push(final V value)
+    {
         check();
         context.getValueStack().push(value);
         return true;
     }
 
     /**
-     * Inserts the given value a given number of elements below the current top of the value stack.
+     * Inserts the given value a given number of elements below the current top
+     * of the value stack.
      *
-     * @param down  the number of elements to skip before inserting the value (0 being equivalent to push(value))
+     * @param down the number of elements to skip before inserting the value (0
+     * being equivalent to push(value))
      * @param value the value
      * @return true
-     * @throws IllegalArgumentException if the stack does not contain enough elements to perform this operation
+     *
+     * @throws IllegalArgumentException if the stack does not contain enough
+     * elements to perform this operation
      */
-    public boolean push(final int down, final V value) {
+    public boolean push(final int down, final V value)
+    {
         check();
         context.getValueStack().push(down, value);
         return true;
@@ -197,7 +235,8 @@ public abstract class BaseActions<V> implements ContextAware<V> {
      * @param moreValues the other values
      * @return true
      */
-    public boolean pushAll(final V firstValue, final V... moreValues) {
+    public boolean pushAll(final V firstValue, final V... moreValues)
+    {
         check();
         context.getValueStack().pushAll(firstValue, moreValues);
         return true;
@@ -207,21 +246,28 @@ public abstract class BaseActions<V> implements ContextAware<V> {
      * Removes the value at the top of the value stack and returns it.
      *
      * @return the current top value
+     *
      * @throws IllegalArgumentException if the stack is empty
      */
-    public V pop() {
+    public V pop()
+    {
         check();
         return context.getValueStack().pop();
     }
 
     /**
-     * Removes the value the given number of elements below the top of the value stack.
+     * Removes the value the given number of elements below the top of the value
+     * stack.
      *
-     * @param down the number of elements to skip before removing the value (0 being equivalent to pop())
+     * @param down the number of elements to skip before removing the value (0
+     * being equivalent to pop())
      * @return the value
-     * @throws IllegalArgumentException if the stack does not contain enough elements to perform this operation
+     *
+     * @throws IllegalArgumentException if the stack does not contain enough
+     * elements to perform this operation
      */
-    public V pop(final int down) {
+    public V pop(final int down)
+    {
         check();
         return context.getValueStack().pop(down);
     }
@@ -230,22 +276,29 @@ public abstract class BaseActions<V> implements ContextAware<V> {
      * Removes the value at the top of the value stack.
      *
      * @return true
+     *
      * @throws IllegalArgumentException if the stack is empty
      */
-    public boolean drop() {
+    public boolean drop()
+    {
         check();
         context.getValueStack().pop();
         return true;
     }
 
     /**
-     * Removes the value the given number of elements below the top of the value stack.
+     * Removes the value the given number of elements below the top of the value
+     * stack.
      *
-     * @param down the number of elements to skip before removing the value (0 being equivalent to drop())
+     * @param down the number of elements to skip before removing the value (0
+     * being equivalent to drop())
      * @return true
-     * @throws IllegalArgumentException if the stack does not contain enough elements to perform this operation
+     *
+     * @throws IllegalArgumentException if the stack does not contain enough
+     * elements to perform this operation
      */
-    public boolean drop(final int down) {
+    public boolean drop(final int down)
+    {
         check();
         context.getValueStack().pop(down);
         return true;
@@ -255,47 +308,61 @@ public abstract class BaseActions<V> implements ContextAware<V> {
      * Returns the value at the top of the value stack without removing it.
      *
      * @return the current top value
+     *
      * @throws IllegalArgumentException if the stack is empty
      */
-    public V peek() {
+    public V peek()
+    {
         check();
         return context.getValueStack().peek();
     }
 
     /**
-     * Returns the value the given number of elements below the top of the value stack without removing it.
+     * Returns the value the given number of elements below the top of the value
+     * stack without removing it.
      *
      * @param down the number of elements to skip (0 being equivalent to peek())
      * @return the value
-     * @throws IllegalArgumentException if the stack does not contain enough elements to perform this operation
+     *
+     * @throws IllegalArgumentException if the stack does not contain enough
+     * elements to perform this operation
      */
-    public V peek(final int down) {
+    public V peek(final int down)
+    {
         check();
         return context.getValueStack().peek(down);
     }
 
     /**
-     * Replaces the current top value of the value stack with the given value. Equivalent to poke(0, value).
+     * Replaces the current top value of the value stack with the given value.
+     * Equivalent to poke(0, value).
      *
      * @param value the value
      * @return true
+     *
      * @throws IllegalArgumentException if the stack is empty
      */
-    public boolean poke(final V value) {
+    public boolean poke(final V value)
+    {
         check();
         context.getValueStack().poke(value);
         return true;
     }
 
     /**
-     * Replaces the element the given number of elements below the current top of the value stack.
+     * Replaces the element the given number of elements below the current top
+     * of the value stack.
      *
-     * @param down  the number of elements to skip before replacing the value (0 being equivalent to poke(value))
+     * @param down the number of elements to skip before replacing the value (0
+     * being equivalent to poke(value))
      * @param value the value to replace with
      * @return true
-     * @throws IllegalArgumentException if the stack does not contain enough elements to perform this operation
+     *
+     * @throws IllegalArgumentException if the stack does not contain enough
+     * elements to perform this operation
      */
-    public boolean poke(final int down, final V value) {
+    public boolean poke(final int down, final V value)
+    {
         check();
         context.getValueStack().poke(down, value);
         return true;
@@ -305,9 +372,11 @@ public abstract class BaseActions<V> implements ContextAware<V> {
      * Duplicates the top value of the value stack. Equivalent to push(peek()).
      *
      * @return true
+     *
      * @throws IllegalArgumentException if the stack is empty
      */
-    public boolean dup() {
+    public boolean dup()
+    {
         check();
         context.getValueStack().dup();
         return true;
@@ -317,10 +386,12 @@ public abstract class BaseActions<V> implements ContextAware<V> {
      * Swaps the top two elements of the value stack.
      *
      * @return true
-     * @throws GrammarException
-     *          if the stack does not contain at least two elements
+     *
+     * @throws GrammarException if the stack does not contain at least two
+     * elements
      */
-    public boolean swap() {
+    public boolean swap()
+    {
         check();
         context.getValueStack().swap();
         return true;
@@ -330,10 +401,12 @@ public abstract class BaseActions<V> implements ContextAware<V> {
      * Reverses the order of the top 3 value stack elements.
      *
      * @return true
-     * @throws GrammarException
-     *          if the stack does not contain at least 3 elements
+     *
+     * @throws GrammarException if the stack does not contain at least 3
+     * elements
      */
-    public boolean swap3() {
+    public boolean swap3()
+    {
         check();
         context.getValueStack().swap3();
         return true;
@@ -343,10 +416,12 @@ public abstract class BaseActions<V> implements ContextAware<V> {
      * Reverses the order of the top 4 value stack elements.
      *
      * @return true
-     * @throws GrammarException
-     *          if the stack does not contain at least 4 elements
+     *
+     * @throws GrammarException if the stack does not contain at least 4
+     * elements
      */
-    public boolean swap4() {
+    public boolean swap4()
+    {
         check();
         context.getValueStack().swap4();
         return true;
@@ -356,10 +431,12 @@ public abstract class BaseActions<V> implements ContextAware<V> {
      * Reverses the order of the top 5 value stack elements.
      *
      * @return true
-     * @throws GrammarException
-     *          if the stack does not contain at least 5 elements
+     *
+     * @throws GrammarException if the stack does not contain at least 5
+     * elements
      */
-    public boolean swap5() {
+    public boolean swap5()
+    {
         check();
         context.getValueStack().swap5();
         return true;
@@ -369,10 +446,12 @@ public abstract class BaseActions<V> implements ContextAware<V> {
      * Reverses the order of the top 6 value stack elements.
      *
      * @return true
-     * @throws GrammarException
-     *          if the stack does not contain at least 6 elements
+     *
+     * @throws GrammarException if the stack does not contain at least 6
+     * elements
      */
-    public boolean swap6() {
+    public boolean swap6()
+    {
         check();
         context.getValueStack().swap6();
         return true;
@@ -383,14 +462,17 @@ public abstract class BaseActions<V> implements ContextAware<V> {
      *
      * @return the next input character about to be matched
      */
-    public Character currentChar() {
+    public Character currentChar()
+    {
         check();
         return context.getCurrentChar();
     }
 
     /**
-     * Returns true if the current rule is running somewhere underneath a Test/TestNot rule.
-     * Useful for example for making sure actions are not run inside of a predicate evaluation:
+     * Returns true if the current rule is running somewhere underneath a
+     * Test/TestNot rule.
+     * Useful for example for making sure actions are not run inside of a
+     * predicate evaluation:
      * <code>
      * return Sequence(
      * ...,
@@ -400,25 +482,29 @@ public abstract class BaseActions<V> implements ContextAware<V> {
      *
      * @return true if in a predicate
      */
-    public boolean inPredicate() {
+    public boolean inPredicate()
+    {
         check();
         return context.inPredicate();
     }
 
     /**
-     * Returns true if the current context is for or below a rule marked @SuppressNode or below one
-     * marked @SuppressSubnodes.
+     * Returns true if the current context is for or below a rule marked
+     * {@link SuppressNode} or below one marked {@link SuppressSubnodes}
      *
      * @return true or false
      */
-    public boolean nodeSuppressed() {
+    public boolean nodeSuppressed()
+    {
         check();
         return context.isNodeSuppressed();
     }
 
     /**
-     * Determines whether the current rule or a sub rule has recorded a parse error.
-     * Useful for example for making sure actions are not run on erroneous input:
+     * Determines whether the current rule or a sub rule has recorded a parse
+     * error.
+     * Useful for example for making sure actions are not run on erroneous
+     * input:
      * <code>
      * return Sequence(
      * ...,
@@ -426,16 +512,19 @@ public abstract class BaseActions<V> implements ContextAware<V> {
      * );
      * </code>
      *
-     * @return true if either the current rule or a sub rule has recorded a parse error
+     * @return true if either the current rule or a sub rule has recorded a
+     * parse error
      */
-    public boolean hasError() {
+    public boolean hasError()
+    {
         check();
         return context.hasError();
     }
 
-    private void check() {
+    // TODO: pain point here
+    private void check()
+    {
         Checks.ensure(context != null && context.getMatcher() != null,
-                "Illegal rule definition: Unwrapped action expression!");
+            "Illegal rule definition: Unwrapped action expression!");
     }
-
 }

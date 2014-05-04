@@ -16,24 +16,38 @@
 
 package org.parboiled;
 
-/**
- * Instances of classes implementing this interface can be used directly in a rule definition to define a parser action.
- * If the class also implements the {@link ContextAware} interface it will be used to inform the object of the
- * current parsing {@link Context} immediately before the invocation of the {@link #run} method.
- * Additionally, if the class implementing this interface is an inner class (anonymous or not) and its outer class(es)
- * implement(s) {@link ContextAware} its outer class(es) will also be informed object of the current parsing {@link Context}
- * immediately before the invocation of the actions {@link #run} method.
- * This allows simple anonymous action class implementations directly in the parser rule definitions, even when
- * they access context-sensitive methods defined in the BaseActions or BaseParser classes.
- */
-public interface Action<V> {
+import org.parboiled.matchers.SequenceMatcher;
 
+/**
+ * Instances of classes implementing this interface can be used directly in a
+ * rule definition to define a parser action.
+ * If the class also implements the {@link ContextAware} interface it will be
+ * used to inform the object of the current parsing {@link Context} immediately
+ * before the invocation of the {@link #run} method.
+ * Additionally, if the class implementing this interface is an inner class
+ * (anonymous or not) and its outer class(es) implement(s) {@link ContextAware}
+ * its outer class(es) will also be informed object of the current parsing
+ * {@link Context} immediately before the invocation of the action's {@link
+ * #run} method.
+ * This allows simple anonymous action class implementations directly in the
+ * parser rule definitions, even when they access context-sensitive methods
+ * defined in the BaseActions or BaseParser classes.
+ *
+ * <p><strong>NOTE! IMPORTANT!</strong> Right now there is a severe limitation
+ * that an {@code Action} instance, if it is to collect a value, must be the
+ * second or later rule of a {@link SequenceMatcher}. This limitation will be
+ * removed in the future.</p>
+ *
+ * @see BaseActions#match()
+ */
+public interface Action<V>
+{
     /**
      * Runs the parser action.
      *
      * @param context the current parsing context
-     * @return true if the parsing process is to proceed, false if the current rule is to fail
+     * @return true if the parsing process is to proceed, false if the current
+     * rule is to fail
      */
     boolean run(Context<V> context);
-
 }

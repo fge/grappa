@@ -16,6 +16,8 @@
 
 package org.parboiled;
 
+import com.github.parboiled1.grappa.cleanup.DoNotUse;
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicates;
 import com.google.common.collect.FluentIterable;
@@ -64,7 +66,6 @@ import static org.parboiled.common.Preconditions.checkArgument;
  *
  * @param <V> the type of the parser values
  */
-@SuppressWarnings("unused")
 public abstract class BaseParser<V>
     extends BaseActions<V>
 {
@@ -889,6 +890,8 @@ public abstract class BaseParser<V>
      * @deprecated use {@link #ch(char)} instead; will be removed in 1.1
      */
     @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     @Cached
     @DontLabel
     public Rule Ch(final char c)
@@ -908,6 +911,8 @@ public abstract class BaseParser<V>
      * 1.1.
      */
     @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     @Cached
     @DontLabel
     public Rule IgnoreCase(final char c)
@@ -928,6 +933,8 @@ public abstract class BaseParser<V>
      * 1.1.
      */
     @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     @Cached
     @DontLabel
     public Rule UnicodeChar(final int codePoint)
@@ -952,6 +959,8 @@ public abstract class BaseParser<V>
      * in 1.1.
      */
     @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     @Cached
     @DontLabel
     public Rule UnicodeRange(final int low, final int high)
@@ -978,6 +987,8 @@ public abstract class BaseParser<V>
      * in 1.1.
      */
     @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     @Cached
     @DontLabel
     public Rule CharRange(final char cLow, final char cHigh)
@@ -996,6 +1007,8 @@ public abstract class BaseParser<V>
      * @deprecated use {@link #anyOf(String)} instead; will be removed in 1.1.
      */
     @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     @DontLabel
     public Rule AnyOf(final String characters)
     {
@@ -1014,6 +1027,8 @@ public abstract class BaseParser<V>
      * @deprecated use {@link #anyOf(char[])} instead; will be removed in 1.1.
      */
     @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     @DontLabel
     public Rule AnyOf(final char[] characters)
     {
@@ -1035,6 +1050,8 @@ public abstract class BaseParser<V>
      * 1.1.
      */
     @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     @Cached
     @DontLabel
     public Rule AnyOf(final Characters characters)
@@ -1059,6 +1076,8 @@ public abstract class BaseParser<V>
      * @deprecated use {@link #noneOf(String)} instead; will be removed in 1.1.
      */
     @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     @DontLabel
     public Rule NoneOf(final String characters)
     {
@@ -1077,6 +1096,8 @@ public abstract class BaseParser<V>
      * @deprecated use {@link #noneOf(char[])} instead; will be removed in 1.1.
      */
     @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     @DontLabel
     public Rule NoneOf(char[] characters)
     {
@@ -1113,6 +1134,8 @@ public abstract class BaseParser<V>
      * @deprecated use {@link #string(String)} instead; will be removed in 1.1.
      */
     @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     @DontLabel
     public Rule String(final String string)
     {
@@ -1133,6 +1156,8 @@ public abstract class BaseParser<V>
      * @deprecated use {@link #string(char...)} instead; will be removed in 1.1.
      */
     @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     @Cached
     @SuppressSubnodes
     @DontLabel
@@ -1159,6 +1184,8 @@ public abstract class BaseParser<V>
      * 1.1.
      */
     @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     @Cached
     @SuppressSubnodes
     @DontLabel
@@ -1186,6 +1213,8 @@ public abstract class BaseParser<V>
      * 1.1.
      */
     @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     @DontLabel
     public Rule IgnoreCase(final String string)
     {
@@ -1208,6 +1237,8 @@ public abstract class BaseParser<V>
      * be removed in 1.1.
      */
     @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     @DontLabel
     public Rule FirstOf(final Object rule, final Object rule2, final Object... moreRules)
     {
@@ -1228,6 +1259,8 @@ public abstract class BaseParser<V>
      * 1.1.
      */
     @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     @Cached
     @DontLabel
     public Rule FirstOf(final Object[] rules)
@@ -1263,6 +1296,8 @@ public abstract class BaseParser<V>
      * 1.1.
      */
     @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     @Cached
     @DontLabel
     public Rule OneOrMore(final Object rule)
@@ -1285,6 +1320,8 @@ public abstract class BaseParser<V>
      * will be removed in 1.1.
      */
     @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     @DontLabel
     public Rule OneOrMore(final Object rule, final Object rule2, final Object... moreRules)
     {
@@ -1305,6 +1342,8 @@ public abstract class BaseParser<V>
      * 1.1.
      */
     @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     @Cached
     @DontLabel
     public Rule Optional(final Object rule)
@@ -1327,6 +1366,8 @@ public abstract class BaseParser<V>
      * will be removed in 1.1.
      */
     @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     @DontLabel
     public Rule Optional(final Object rule, final Object rule2, final Object... moreRules)
     {
@@ -1348,6 +1389,8 @@ public abstract class BaseParser<V>
      * will be removed in 1.1.
      */
     @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     @DontLabel
     public Rule Sequence(final Object rule, final Object rule2, final Object... moreRules)
     {
@@ -1367,6 +1410,8 @@ public abstract class BaseParser<V>
      * 1.1.
      */
     @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     @Cached
     @DontLabel
     public Rule Sequence(final Object[] rules)
@@ -1393,6 +1438,8 @@ public abstract class BaseParser<V>
      * @deprecated use {@link #test(Object)} instead; will be removed in 1.1.
      */
     @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     @Cached
     @SuppressNode
     @DontLabel
@@ -1422,7 +1469,10 @@ public abstract class BaseParser<V>
      * @deprecated use {@link #test(Object, Object, Object...)} instead; will be
      * removed in 1.1.
      */
+
     @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     @DontLabel
     public Rule Test(final Object rule, final Object rule2, final Object... moreRules)
     {
@@ -1446,7 +1496,10 @@ public abstract class BaseParser<V>
      *
      * @deprecated use {@link #testNot(Object)} instead; will be removed in 1.1.
      */
+
     @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     @Cached
     @SuppressNode
     @DontLabel
@@ -1476,7 +1529,10 @@ public abstract class BaseParser<V>
      * @deprecated use {@link #testNot(Object, Object, Object...)} instead; will
      * be removed in 1.1.
      */
+
     @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     @DontLabel
     public Rule TestNot(final Object rule, final Object rule2, final Object... moreRules)
     {
@@ -1498,6 +1554,8 @@ public abstract class BaseParser<V>
      */
 
     @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     @Cached
     @DontLabel
     public Rule ZeroOrMore(final Object rule)
@@ -1519,7 +1577,10 @@ public abstract class BaseParser<V>
      * @deprecated use {@link #zeroOrMore(Object, Object, Object...)} instead;
      * will be removed in 1.1.
      */
+
     @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     @DontLabel
     public Rule ZeroOrMore(final Object rule, final Object rule2, final Object... moreRules)
     {
@@ -1539,7 +1600,10 @@ public abstract class BaseParser<V>
      * @deprecated use {@link #nTimes(int, Object)} instead; will be removed in
      * 1.1.
      */
+
     @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     @Cached
     @DontLabel
     public Rule NTimes(final int repetitions, final Object rule)
@@ -1561,7 +1625,10 @@ public abstract class BaseParser<V>
      * @deprecated use {@link #nTimes(int, Object, Object)} instead; will be
      * removed in 1.1.
      */
+
     @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     @Cached
     @DontLabel
     public Rule NTimes(final int repetitions, final Object rule, final Object separator)
