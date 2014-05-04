@@ -19,7 +19,7 @@ public final class ParsingResultAssert<V>
         return new ParsingResultAssert<E>(actual);
     }
 
-    public ParsingResultAssert hasNoErrors()
+    public ParsingResultAssert<V> hasNoErrors()
     {
         assertThat(actual.hasErrors()).overridingErrorMessage(
             "parsing result should not have any errors!"
