@@ -49,7 +49,6 @@ public class SplitParserTest extends ParboiledTest<Object>
         public Rule Operator() {
             return firstOf('+', '-');
         }
-
     }
 
     @Test

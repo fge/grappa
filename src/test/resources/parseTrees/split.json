@@ -1,0 +1,27 @@
+{
+    "label": "clause",
+    "match": "1+5",
+    "children": [
+        {
+            "label": "digit",
+            "match": "1"
+        },
+        {
+            "label": "operator",
+            "match": "+",
+            "children": [
+                {
+                    "label": "'+'",
+                    "match": "+"
+                }
+            ]
+        },
+        {
+            "label": "digit",
+            "match": "5"
+        },
+        {
+            "label": "EOI"
+        }
+    ]
+}

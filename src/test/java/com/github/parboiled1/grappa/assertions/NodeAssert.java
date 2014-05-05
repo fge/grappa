@@ -4,6 +4,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import org.assertj.core.api.AbstractAssert;
 import org.parboiled.Node;
+import org.parboiled.buffers.InputBuffer;
 
 import javax.annotation.Nonnull;
 
@@ -19,12 +20,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 public final class NodeAssert<V>
     extends AbstractAssert<NodeAssert<V>, Node<V>>
 {
-    NodeAssert(final Node<V> actual)
+    private final InputBuffer buffer;
+
+    NodeAssert(final Node<V> actual, final InputBuffer buffer)
     {
         super(Preconditions.checkNotNull(actual), NodeAssert.class);
+        this.buffer = buffer;
     }
 
-    NodeAssert<V> hasLabel(@Nonnull final String label)
+    private NodeAssert<V> doHasLabel(@Nonnull final String label)
     {
         final String thisLabel = actual.getLabel();
         assertThat(thisLabel).overridingErrorMessage(
@@ -39,6 +43,23 @@ public final class NodeAssert<V>
 
     NodeAssert<V> hasLabel(@Nonnull final Optional<String> label)
     {
-        return label.isPresent() ? hasLabel(label.get()) : this;
+        return label.isPresent() ? doHasLabel(label.get()) : this;
+    }
+
+    private NodeAssert<V> doHasMatch(@Nonnull final String match)
+    {
+        final String actualMatch
+            = buffer.extract(actual.getStartIndex(), actual.getEndIndex());
+        assertThat(match).overridingErrorMessage(
+            "rule did not match what was expected!\n"
+            + "Expected: -->%s<--\nActual  : -->%s<--\n",
+            match, actualMatch
+        ).isEqualTo(actualMatch);
+        return this;
+    }
+
+    NodeAssert<V> hasMatch(@Nonnull final Optional<String> match)
+    {
+        return match.isPresent() ? doHasMatch(match.get()) : this;
     }
 }

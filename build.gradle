@@ -47,6 +47,8 @@ dependencies {
     };
     testCompile(group: "org.mockito", name: "mockito-core", version: "1.9.5");
     testCompile(group: "org.assertj", name: "assertj-core", version: "1.6.0");
+    testCompile(group: "com.fasterxml.jackson.core", name: "jackson-databind",
+        version: "2.3.3");
 }
 
 javadoc.options.links("http://docs.oracle.com/javase/6/docs/api/");
