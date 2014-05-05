@@ -21,7 +21,7 @@ public final class SplitParseTreeTest
             return sequence(
                 digit(),
                 primitives.operator(),
-                digit(),
+                primitives.digit(),
                 EOI
             );
         }
@@ -38,7 +38,6 @@ public final class SplitParseTreeTest
     static class Primitives
         extends BaseParser<Object>
     {
-
         public Rule operator()
         {
             return firstOf('+', '-');

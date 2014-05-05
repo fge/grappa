@@ -28,16 +28,16 @@ public final class NodeAssert<V>
         this.buffer = buffer;
     }
 
-    private NodeAssert<V> doHasLabel(@Nonnull final String label)
+    private NodeAssert<V> doHasLabel(@Nonnull final String expectedLabel)
     {
-        final String thisLabel = actual.getLabel();
-        assertThat(thisLabel).overridingErrorMessage(
+        final String actualLabel = actual.getLabel();
+        assertThat(actualLabel).overridingErrorMessage(
             "node's label is null! I didn't expect it to be"
         ).isNotNull();
-        assertThat(thisLabel).overridingErrorMessage(
+        assertThat(actualLabel).overridingErrorMessage(
             "node's label is not what was expected!\n"
-            + "Expected: '%s'\nActual  : '%s'\n", label, thisLabel
-        ).isEqualTo(label);
+            + "Expected: '%s'\nActual  : '%s'\n", expectedLabel, actualLabel
+        ).isEqualTo(expectedLabel);
         return this;
     }
 
@@ -46,15 +46,15 @@ public final class NodeAssert<V>
         return label.isPresent() ? doHasLabel(label.get()) : this;
     }
 
-    private NodeAssert<V> doHasMatch(@Nonnull final String match)
+    private NodeAssert<V> doHasMatch(@Nonnull final String expectedMatch)
     {
         final String actualMatch
             = buffer.extract(actual.getStartIndex(), actual.getEndIndex());
-        assertThat(match).overridingErrorMessage(
+        assertThat(actualMatch).overridingErrorMessage(
             "rule did not match what was expected!\n"
             + "Expected: -->%s<--\nActual  : -->%s<--\n",
-            match, actualMatch
-        ).isEqualTo(actualMatch);
+            expectedMatch, actualMatch
+        ).isEqualTo(expectedMatch);
         return this;
     }
 
