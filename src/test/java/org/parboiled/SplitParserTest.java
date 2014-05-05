@@ -55,7 +55,17 @@ public class SplitParserTest extends ParboiledTest<Object>
     @Test
     public void test() {
         Parser parser = Parboiled.createParser(Parser.class);
-        test(parser.Clause(), "1+5")
+//        final NodeDescriptor.Builder<Object> child
+//            = NodeDescriptor.newBuilder()
+//                .withLabel("digit");
+//        final NodeDescriptor.Builder<Object> parent
+//            = NodeDescriptor.newBuilder()
+//                .withLabel("Clause").withChildNode(child);
+//        final NodeDescriptor<Object> descriptor = parent.build();
+        final TestResult<Object> testResult = test(parser.Clause(), "1+5");
+        final Node<Object> parseTreeRoot = testResult.result.parseTreeRoot;
+//        descriptor.verify(Optional.of(parseTreeRoot));
+        testResult
                 .hasNoErrors()
                 .hasParseTree("" +
                         "[Clause] '1+5'\n" +

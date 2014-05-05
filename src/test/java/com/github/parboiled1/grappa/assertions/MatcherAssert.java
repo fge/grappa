@@ -35,7 +35,7 @@ public final class MatcherAssert
             c.getCanonicalName()
         ).isInstanceOf(Matcher.class);
         assertThat(actual.getChildren()).overridingErrorMessage(
-            "No such matcher in this matcher's childre: %s", rule
+            "No such matcher in this matcher's children: %s", rule
         ).contains((Matcher) rule);
         return this;
     }
