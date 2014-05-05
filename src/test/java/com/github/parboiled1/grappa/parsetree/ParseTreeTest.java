@@ -1,7 +1,7 @@
 package com.github.parboiled1.grappa.parsetree;
 
 import com.github.parboiled1.grappa.TestParser;
-import com.github.parboiled1.grappa.assertions.NodeDescriptor;
+import com.github.parboiled1.grappa.assertions.ParseTreeAssert;
 import com.google.common.base.Optional;
 import org.parboiled.Node;
 import org.parboiled.Parboiled;
@@ -16,7 +16,7 @@ import java.io.IOException;
 public abstract class ParseTreeTest
 {
     private final Node<Object> tree;
-    private final NodeDescriptor<Object> descriptor;
+    private final ParseTreeAssert<Object> descriptor;
 
     protected ParseTreeTest(final Class<? extends TestParser> c,
         final String resourceName, final String input)
@@ -27,7 +27,7 @@ public abstract class ParseTreeTest
             = new ReportingParseRunner<Object>(parser.mainRule());
         final ParsingResult<Object> result = runner.run(input);
         tree = result.parseTreeRoot;
-        descriptor = NodeDescriptor.read(resourceName, result.inputBuffer);
+        descriptor = ParseTreeAssert.read(resourceName, result.inputBuffer);
     }
 
     @Test
