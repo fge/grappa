@@ -34,14 +34,14 @@ public class ParserInheritanceTest extends ParboiledTest<Object>
         public Actions actions = new Actions();
 
         public Rule Abcd() {
-            return Sequence("ab", "cd", actions.dummyAction());
+            return sequence("ab", "cd", actions.dummyAction());
         }
 
     }
 
     public static class DerivedParser extends ParentParser {
         public Rule Abcds() {
-            return Sequence(OneOrMore(Abcd()), actions.dummyAction());
+            return sequence(oneOrMore(Abcd()), actions.dummyAction());
         }
     }
 

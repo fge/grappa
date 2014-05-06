@@ -30,7 +30,7 @@ public class BugIn0100Test extends ParboiledTest<Integer>
 
     public static class Parser extends BaseParser<B> {
         Rule ID() {
-            return Sequence('a', match().equals(peek().get()));
+            return sequence('a', match().equals(peek().get()));
         }
     }
 

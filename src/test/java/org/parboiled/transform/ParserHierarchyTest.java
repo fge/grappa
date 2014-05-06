@@ -33,7 +33,7 @@ public class ParserHierarchyTest {
             return EMPTY;
         }
         Rule B() {
-            return Sequence('B', dup());
+            return sequence('B', dup());
         }
         Rule C() {
             return ANY;
@@ -47,23 +47,23 @@ public class ParserHierarchyTest {
     @BuildParseTree
     static class Parser2 extends Parser1 {
         @Override Rule A() {
-            return Sequence(super.A(), 'A');
+            return sequence(super.A(), 'A');
         }
         @Override Rule C() {
-            return Sequence(super.C(), dup());
+            return sequence(super.C(), dup());
         }
     }
 
     static class Parser3 extends Parser2 {
         @Override Rule B() {
-            return Sequence(super.B(), 'B', dup());
+            return sequence(super.B(), 'B', dup());
         }
         @Override Rule C() {
-            return Sequence('C', super.C());
+            return sequence('C', super.C());
         }
         @SuppressWarnings( {"UnusedDeclaration"})
         Rule D() {
-            return Sequence(super.A(), super.B(), B(), dup());
+            return sequence(super.A(), super.B(), B(), dup());
         }
     }
 
@@ -105,7 +105,7 @@ public class ParserHierarchyTest {
                 "18     INVOKESTATIC java/lang/Character.valueOf (C)Ljava/lang/Character;\n" +
                 "19     ICONST_0\n" +
                 "20     ANEWARRAY java/lang/Object\n" +
-                "21     INVOKEVIRTUAL org/parboiled/transform/ParserHierarchyTest$Parser2.Sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lorg/parboiled/Rule;\n" +
+                "21     INVOKEVIRTUAL org/parboiled/transform/ParserHierarchyTest$Parser2.sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lorg/parboiled/Rule;\n" +
                 "22     DUP\n" +
                 "23     IFNULL L1\n" +
                 "24     LDC \"A\"\n" +
@@ -133,7 +133,7 @@ public class ParserHierarchyTest {
                 " 9     PUTFIELD org/parboiled/transform/Action$Px2Jp4FIYS9AjKV7.field$0 : Lorg/parboiled/transform/ParserHierarchyTest$Parser3$$parboiled;\n" +
                 "10     ICONST_0\n" +
                 "11     ANEWARRAY java/lang/Object\n" +
-                "12     INVOKEVIRTUAL org/parboiled/transform/ParserHierarchyTest$Parser1.Sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lorg/parboiled/Rule;\n" +
+                "12     INVOKEVIRTUAL org/parboiled/transform/ParserHierarchyTest$Parser1.sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lorg/parboiled/Rule;\n" +
                 "13     ARETURN\n");
         assertEquals(getMethodInstructionList(classNode.getRuleMethods().get("B()Lorg/parboiled/Rule;")), "" +
                 "Method 'B':\n" +
@@ -168,7 +168,7 @@ public class ParserHierarchyTest {
                 "28     ALOAD 0\n" +
                 "29     PUTFIELD org/parboiled/transform/Action$k4qTyX8Zgn8Lm8a0.field$0 : Lorg/parboiled/transform/ParserHierarchyTest$Parser3$$parboiled;\n" +
                 "30     AASTORE\n" +
-                "31     INVOKEVIRTUAL org/parboiled/transform/ParserHierarchyTest$Parser3.Sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lorg/parboiled/Rule;\n" +
+                "31     INVOKEVIRTUAL org/parboiled/transform/ParserHierarchyTest$Parser3.sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lorg/parboiled/Rule;\n" +
                 "32     DUP\n" +
                 "33     IFNULL L1\n" +
                 "34     LDC \"B\"\n" +
@@ -196,7 +196,7 @@ public class ParserHierarchyTest {
                 " 9     PUTFIELD org/parboiled/transform/Action$zJfzDznnLMaJTxvg.field$0 : Lorg/parboiled/transform/ParserHierarchyTest$Parser3$$parboiled;\n" +
                 "10     ICONST_0\n" +
                 "11     ANEWARRAY java/lang/Object\n" +
-                "12     INVOKEVIRTUAL org/parboiled/transform/ParserHierarchyTest$Parser2.Sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lorg/parboiled/Rule;\n" +
+                "12     INVOKEVIRTUAL org/parboiled/transform/ParserHierarchyTest$Parser2.sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lorg/parboiled/Rule;\n" +
                 "13     ARETURN\n");
         assertEquals(getMethodInstructionList(classNode.getRuleMethods().get("C()Lorg/parboiled/Rule;")), "" +
                 "Method 'C':\n" +
@@ -221,7 +221,7 @@ public class ParserHierarchyTest {
                 "18     INVOKEVIRTUAL org/parboiled/transform/ParserHierarchyTest$Parser3$$parboiled.$C ()Lorg/parboiled/Rule;\n" +
                 "19     ICONST_0\n" +
                 "20     ANEWARRAY java/lang/Object\n" +
-                "21     INVOKEVIRTUAL org/parboiled/transform/ParserHierarchyTest$Parser3.Sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lorg/parboiled/Rule;\n" +
+                "21     INVOKEVIRTUAL org/parboiled/transform/ParserHierarchyTest$Parser3.sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lorg/parboiled/Rule;\n" +
                 "22     DUP\n" +
                 "23     IFNULL L1\n" +
                 "24     LDC \"C\"\n" +

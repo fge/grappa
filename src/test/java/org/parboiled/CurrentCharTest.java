@@ -27,7 +27,7 @@ public class CurrentCharTest {
     public static class Parser extends BaseParser<Object> {
 
         public Rule Clause() {
-            return Sequence(currentChar() == 'a', ANY, EOI);
+            return sequence(currentChar() == 'a', ANY, EOI);
         }
 
     }

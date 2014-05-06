@@ -36,7 +36,7 @@ public class ActionVarTest extends ParboiledTest<Integer>
         @SuppressWarnings( {"InfiniteRecursion"})
         public Rule A() {
             Var<List<String>> list = new Var<List<String>>(new ArrayList<String>());
-            return Sequence('a', Optional(A(), list.get().add("Text"), push(list.get().size())));
+            return sequence('a', optional(A(), list.get().add("Text"), push(list.get().size())));
         }
 
     }

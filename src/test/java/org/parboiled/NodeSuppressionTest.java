@@ -29,32 +29,32 @@ public class NodeSuppressionTest extends ParboiledTest<Object>
     public static class Parser extends BaseParser<Object> {
 
         public Rule ABCDEFGH() {
-            return Sequence(ABCD(), EFGH());
+            return sequence(ABCD(), EFGH());
         }
 
         public Rule ABCD() {
-            return Sequence(AB(), CD());
+            return sequence(AB(), CD());
         }
 
         public Rule EFGH() {
-            return Sequence(EF(), GH());
+            return sequence(EF(), GH());
         }
 
         public Rule AB() {
-            return Sequence(A(), B());
+            return sequence(A(), B());
         }
 
         @SuppressSubnodes
         public Rule CD() {
-            return Sequence(C(), D());
+            return sequence(C(), D());
         }
 
         public Rule EF() {
-            return Sequence(E(), F());
+            return sequence(E(), F());
         }
 
         public Rule GH() {
-            return Sequence(G(), H()).suppressNode();
+            return sequence(G(), H()).suppressNode();
         }
 
         public Rule A() {

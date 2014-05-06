@@ -34,7 +34,7 @@ public class LabelTest extends ParboiledTest<Object>
     public static class LabellingParser extends BaseParser<Object> {
 
         public Rule AOpB() {
-            return Sequence(
+            return sequence(
                     Number().label("A"),
                     Operator().label("FirstOp"),
                     Number().label("B"),

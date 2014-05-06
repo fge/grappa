@@ -22,6 +22,7 @@ import org.testng.annotations.Test;
 import static org.parboiled.common.ImmutableLinkedList.nil;
 import static org.testng.Assert.assertEquals;
 
+@Test(enabled = false)
 public class ImmutableLinkedListTest
 {
     private static final Joiner COMMA = Joiner.on(',');

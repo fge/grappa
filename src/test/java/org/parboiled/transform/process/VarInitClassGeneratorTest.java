@@ -53,7 +53,7 @@ public class VarInitClassGeneratorTest extends TransformationTest {
         public Rule A() {
             Var<List<String>> list = new Var<List<String>>(new ArrayList<String>());
             Var<Integer> i = new Var<Integer>(26);
-            return Sequence('a', list.get().add(match()));
+            return sequence('a', list.get().add(match()));
         }
 
     }

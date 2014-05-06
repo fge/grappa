@@ -47,7 +47,7 @@ public class ErrorDetectionTest extends TransformationTest {
             private int privateInt = 5;
 
             public Rule RuleWithActionAccessingPrivateField() {
-                return Sequence('a', privateInt == 0);
+                return sequence('a', privateInt == 0);
             }
         }.getClass());
 
@@ -65,7 +65,7 @@ public class ErrorDetectionTest extends TransformationTest {
     public synchronized void testRuleWithActionAccessingPrivateMethod() throws Exception {
         setup(new BaseParser<Object>() {
             public Rule RuleWithActionAccessingPrivateMethod() {
-                return Sequence('a', privateAction());
+                return sequence('a', privateAction());
             }
 
             private boolean privateAction() {

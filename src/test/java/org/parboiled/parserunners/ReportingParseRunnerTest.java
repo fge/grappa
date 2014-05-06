@@ -29,11 +29,11 @@ public class ReportingParseRunnerTest {
 
     public static class Parser extends BaseParser<Object> {
         Rule Line1() {
-            return Sequence("Text;", OneOrMore(TestNot(';'), ANY), ';', EOI);
+            return sequence("Text;", oneOrMore(testNot(';'), ANY), ';', EOI);
         }
 
         Rule Line2() {
-            return Sequence('a', TestNot('b'), 'c', EOI);
+            return sequence('a', testNot('b'), 'c', EOI);
         }
     }
 

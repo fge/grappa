@@ -30,27 +30,27 @@ public class RecoveryErrorActionsTest extends ParboiledTest<Object>
     public static class Parser extends BaseParser<Object> {
 
         Rule Clause() {
-            return Sequence(Seq(), EOI);
+            return sequence(Seq(), EOI);
         }
 
         Rule Seq() {
-            return Sequence(A(), B(), C(), D());
+            return sequence(A(), B(), C(), D());
         }
 
         Rule A() {
-            return Sequence('a', push(match()));
+            return sequence('a', push(match()));
         }
 
         Rule B() {
-            return Sequence('b', push(match()));
+            return sequence('b', push(match()));
         }
 
         Rule C() {
-            return Sequence('c', push(1));
+            return sequence('c', push(1));
         }
 
         Rule D() {
-            return Sequence('d', push(2.0));
+            return sequence('d', push(2.0));
         }
     }
 

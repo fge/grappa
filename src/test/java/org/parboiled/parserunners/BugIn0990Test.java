@@ -27,11 +27,11 @@ public class BugIn0990Test extends ParboiledTest<Integer>
 
     static class Parser extends BaseParser<Integer> {
         Rule Clause() {
-            return Sequence(Id(), ZeroOrMore('.', Id()), ';');
+            return sequence(Id(), zeroOrMore('.', Id()), ';');
         }
 
         Rule Id() {
-            return OneOrMore(TestNot('.'), ANY);
+            return oneOrMore(testNot('.'), ANY);
         }
     }
 

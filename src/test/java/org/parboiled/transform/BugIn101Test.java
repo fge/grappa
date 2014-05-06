@@ -27,15 +27,15 @@ public class BugIn101Test {
     static class Parser extends BaseParser<Object> {
         Rule A() {
             Object a = new Object();
-            return Sequence("a", push(a));
+            return sequence("a", push(a));
         }
         Rule B() {
             String b = "b";
-            return Sequence("b", push(b));
+            return sequence("b", push(b));
         }
         Rule Switch(int i) {
             switch (i) {
-                case 0: return Sequence(EMPTY, push(1));
+                case 0: return sequence(EMPTY, push(1));
             }
             return null;
         }

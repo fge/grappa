@@ -44,7 +44,7 @@ public class ActionTest extends ParboiledTest<Integer>
         final Actions actions = new Actions();
 
         public Rule A() {
-            return Sequence(
+            return sequence(
                     'a',
                     push(42),
                     B(18),
@@ -54,7 +54,7 @@ public class ActionTest extends ParboiledTest<Integer>
 
         public Rule B(int i) {
             int j = i + 1;
-            return Sequence(
+            return sequence(
                     'b',
                     push(timesTwo(i + j)),
                     C(),
@@ -63,7 +63,7 @@ public class ActionTest extends ParboiledTest<Integer>
         }
 
         public Rule C() {
-            return Sequence(
+            return sequence(
                     'c',
                     push(pop()), // no effect
                     new Action() {
@@ -77,7 +77,7 @@ public class ActionTest extends ParboiledTest<Integer>
 
         @Label("Last")
         public Rule D(int i) {
-            return Sequence(
+            return sequence(
                     'd', dup(),
                     push(i),
                     actions.addOne()

@@ -41,10 +41,10 @@ public class VarFramingTest extends ParboiledTest<Integer>
         @SuppressWarnings( {"InfiniteRecursion"})
         public Rule Clause() {
             Var<Integer> a = new Var<Integer>(-1);
-            return Sequence(
+            return sequence(
                     Digits(), a.set(peek()),
                     SomeRule(a),
-                    Optional(
+                    optional(
                             '+',
                             Clause(), push(a.get())
                     )
@@ -53,8 +53,8 @@ public class VarFramingTest extends ParboiledTest<Integer>
 
         @SuppressNode
         public Rule Digits() {
-            return Sequence(
-                    OneOrMore(CharRange('0', '9')),
+            return sequence(
+                    oneOrMore(charRange('0', '9')),
                     push(Integer.parseInt(match()))
             );
         }
