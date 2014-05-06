@@ -17,8 +17,10 @@
 package org.parboiled;
 
 import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableSet;
 import org.parboiled.matchers.ActionMatcher;
 import org.parboiled.matchers.AnyMatcher;
 import org.parboiled.matchers.AnyOfMatcher;
@@ -52,7 +54,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -63,41 +64,66 @@ public class ParserStatistics
 {
     private static final Joiner NEWLINE = Joiner.on('\n');
     private static final Joiner COMMA = Joiner.on(", ");
-    /*
-     * Modify these maps if you add matcher classes!
+
+    /**
+     * Set of "regular" matcher classes
+     *
+     * <p>Do not use directly! However, if you intend to develop matchers and
+     * want them to show up in statistics, then you should add your matcher
+     * class into this set, or the set below.</p>
+     *
+     * <p>Note: this is a Guava's {@link ImmutableSet}, so it can be shared
+     * safely (and {@code Class} objects are final)</p>
      */
-    private static final Set<Class<? extends Matcher>> REGULAR_MATCHER_CLASSES;
-    private static final Set<Class<? extends Matcher>> SPECIAL_MATCHER_CLASSES;
+    @VisibleForTesting
+    public static final Set<Class<? extends Matcher>> REGULAR_MATCHER_CLASSES;
+
+    /**
+     * See {@link #REGULAR_MATCHER_CLASSES}
+     *
+     * <p>However you should not have to use this one.</p>
+     *
+     * <p>Note: this is a Guava's {@link ImmutableSet}, so it can be shared
+     * safely (and {@code Class} objects are final)</p>
+     */
+    @VisibleForTesting
+    public static final Set<Class<? extends Matcher>> SPECIAL_MATCHER_CLASSES;
 
     static {
-        REGULAR_MATCHER_CLASSES = new LinkedHashSet<Class<? extends Matcher>>();
+        ImmutableSet.Builder<Class<? extends Matcher>> builder;
 
-        REGULAR_MATCHER_CLASSES.add(AnyMatcher.class);
-        REGULAR_MATCHER_CLASSES.add(CharIgnoreCaseMatcher.class);
-        REGULAR_MATCHER_CLASSES.add(CharMatcher.class);
-        REGULAR_MATCHER_CLASSES.add(UnicodeCharMatcher.class);
-        REGULAR_MATCHER_CLASSES.add(CustomMatcher.class);
-        REGULAR_MATCHER_CLASSES.add(CharRangeMatcher.class);
-        REGULAR_MATCHER_CLASSES.add(UnicodeRangeMatcher.class);
-        REGULAR_MATCHER_CLASSES.add(AnyOfMatcher.class);
-        REGULAR_MATCHER_CLASSES.add(EmptyMatcher.class);
-        REGULAR_MATCHER_CLASSES.add(FirstOfMatcher.class);
-        REGULAR_MATCHER_CLASSES.add(FirstOfStringsMatcher.class);
-        REGULAR_MATCHER_CLASSES.add(NothingMatcher.class);
-        REGULAR_MATCHER_CLASSES.add(JoinMatcher.class);
-        REGULAR_MATCHER_CLASSES.add(OneOrMoreMatcher.class);
-        REGULAR_MATCHER_CLASSES.add(OptionalMatcher.class);
-        REGULAR_MATCHER_CLASSES.add(SequenceMatcher.class);
-        REGULAR_MATCHER_CLASSES.add(StringMatcher.class);
-        REGULAR_MATCHER_CLASSES.add(TestMatcher.class);
-        REGULAR_MATCHER_CLASSES.add(TestNotMatcher.class);
-        REGULAR_MATCHER_CLASSES.add(ZeroOrMoreMatcher.class);
+        builder = ImmutableSet.builder();
 
-        SPECIAL_MATCHER_CLASSES = new LinkedHashSet<Class<? extends Matcher>>();
+        builder.add(AnyMatcher.class);
+        builder.add(CharIgnoreCaseMatcher.class);
+        builder.add(CharMatcher.class);
+        builder.add(UnicodeCharMatcher.class);
+        builder.add(CustomMatcher.class);
+        builder.add(CharRangeMatcher.class);
+        builder.add(UnicodeRangeMatcher.class);
+        builder.add(AnyOfMatcher.class);
+        builder.add(EmptyMatcher.class);
+        builder.add(FirstOfMatcher.class);
+        builder.add(FirstOfStringsMatcher.class);
+        builder.add(NothingMatcher.class);
+        builder.add(JoinMatcher.class);
+        builder.add(OneOrMoreMatcher.class);
+        builder.add(OptionalMatcher.class);
+        builder.add(SequenceMatcher.class);
+        builder.add(StringMatcher.class);
+        builder.add(TestMatcher.class);
+        builder.add(TestNotMatcher.class);
+        builder.add(ZeroOrMoreMatcher.class);
 
-        SPECIAL_MATCHER_CLASSES.add(ProxyMatcher.class);
-        SPECIAL_MATCHER_CLASSES.add(VarFramingMatcher.class);
-        SPECIAL_MATCHER_CLASSES.add(MemoMismatchesMatcher.class);
+        REGULAR_MATCHER_CLASSES = builder.build();
+
+        builder = ImmutableSet.builder();
+
+        builder.add(ProxyMatcher.class);
+        builder.add(VarFramingMatcher.class);
+        builder.add(MemoMismatchesMatcher.class);
+
+        SPECIAL_MATCHER_CLASSES = builder.build();
     }
 
     private final Matcher root;
@@ -380,6 +406,7 @@ public class ParserStatistics
         return actionNames;
     }
 
+    @VisibleForTesting
     public static final class MatcherStats<T extends Matcher>
     {
         private final String name;

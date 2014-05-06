@@ -2,9 +2,9 @@ package com.github.parboiled1.grappa.assertions;
 
 import com.google.common.base.Joiner;
 import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.SoftAssertions;
 import org.parboiled.Action;
 import org.parboiled.ParserStatistics;
-import org.parboiled.Rule;
 import org.parboiled.matchers.Matcher;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -15,12 +15,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.parboiled.ParserStatistics.MatcherStats;
 
 @ParametersAreNonnullByDefault
-public final class StatsAssert
-    extends AbstractAssert<StatsAssert, ParserStatistics>
+public final class ParserStatisticsAssert
+    extends AbstractAssert<ParserStatisticsAssert, ParserStatistics>
 {
     private static final Joiner NEWLINE = Joiner.on('\n');
 
@@ -33,14 +32,9 @@ public final class StatsAssert
     private boolean actionsCounted = false;
     private boolean actionClassesCounted = false;
 
-    public static StatsAssert assertStatsForRule(final Rule rule)
+    ParserStatisticsAssert(final ParserStatistics actual)
     {
-        return new StatsAssert(ParserStatistics.generateFor(rule));
-    }
-
-    private StatsAssert(final ParserStatistics actual)
-    {
-        super(actual, StatsAssert.class);
+        super(actual, ParserStatisticsAssert.class);
         regularMatcherStats  = new HashMap<Class<?>, MatcherStats<?>>(
             actual.getRegularMatcherStats());
         specialMatcherStats = new HashMap<Class<?>, MatcherStats<?>>(
@@ -50,62 +44,46 @@ public final class StatsAssert
         totalRules = actual.getTotalRules();
     }
 
-    public StatsAssert hasCountedTotal(final int expected)
+    void hasTotalRules(final SoftAssertions soft, final int expectedCount)
     {
-        assertThat(totalRules).overridingErrorMessage(
-            "number of recorded rules is incorrect: expected %d but got %d",
-            expected, totalRules
-        ).isEqualTo(expected);
-        return this;
+        soft.assertThat(expectedCount).isEqualTo(totalRules);
     }
 
-    public StatsAssert hasCounted(final int expected,
-        final Class<? extends Matcher> matcherClass)
+    void hasCounted(final SoftAssertions soft,
+        final Class<? extends Matcher> c, final int expectedCount)
     {
-        MatcherStats<?> stats = regularMatcherStats.remove(matcherClass);
+        MatcherStats<?> stats = regularMatcherStats.remove(c);
         if (stats == null)
-            stats = specialMatcherStats.remove(matcherClass);
+            stats = specialMatcherStats.remove(c);
 
-        assertThat(stats)
-            .overridingErrorMessage(matcherClass + " not found in stats??")
-            .isNotNull();
-
-        final int count = stats.getInstanceCount();
-        assertThat(count).overridingErrorMessage(
-            "recorded invocation count for class %s differ from expectations! "
-            + "Wanted %d, got %d", matcherClass.getSimpleName(), count, expected
-        ).isEqualTo(expected);
-        return this;
+        final int actualCount = stats.getInstanceCount();
+        soft.assertThat(expectedCount).isEqualTo(actualCount);
     }
 
-    public StatsAssert hasCountedActions(final int expected)
+    void hasCountedActions(final SoftAssertions soft, final int expectedCount)
     {
-        final int size = actions.size();
-        assertThat(size).overridingErrorMessage(
-            "recored number of actions is incorrect! Expected %d but got %d",
-            expected, size
-        ).isEqualTo(expected);
+        final int actualCount = actions.size();
+        soft.assertThat(actualCount).isEqualTo(expectedCount);
         actionsCounted = true;
-        return this;
     }
 
-    public StatsAssert hasCountedActionClasses(final int expected)
+    void hasCountedActionClasses(final SoftAssertions soft,
+        final int expectedCount)
     {
-        final int size = actionClasses.size();
-        assertThat(size).overridingErrorMessage(
-            "recorded count of action classes is incorrect! Is %d, expected %d",
-            size, expected
-        ).isEqualTo(expected);
+        final int actualCount = actionClasses.size();
+        soft.assertThat(actualCount).isEqualTo(expectedCount);
         actionClassesCounted = true;
-        return this;
     }
 
-    public StatsAssert hasCountedNothingElse()
+    void hasCountedNothingElse(final SoftAssertions soft)
     {
-        return noMatchersLeft().noActionsLeft().noActionClassesLeft();
+        noMatchersLeft(soft);
+        noActionsLeft(soft);
+        noActionClassesLeft(soft);
     }
 
-    private StatsAssert noMatchersLeft()
+    // TODO: filter if count == 0?
+    private void noMatchersLeft(final SoftAssertions soft)
     {
         final List<String> mishaps = new ArrayList<String>();
         final String fmt = "matcher class %s: recorded %d instances";
@@ -128,21 +106,21 @@ public final class StatsAssert
                     count));
         }
 
-        assertThat(mishaps).overridingErrorMessage(
+        soft.assertThat(mishaps).overridingErrorMessage(
             "Unwanted matcher counts! List follows\n\n%s\n",
             NEWLINE.join(mishaps)
         ).isEmpty();
-
-        return this;
     }
 
-    private StatsAssert noActionsLeft()
+    private void noActionsLeft(final SoftAssertions soft)
     {
-        return actionsCounted ? this : hasCountedActions(0);
+        if (!actionsCounted)
+            hasCountedActions(soft, 0);
     }
 
-    private StatsAssert noActionClassesLeft()
+    private void noActionClassesLeft(final SoftAssertions soft)
     {
-        return actionClassesCounted ? this : hasCountedActionClasses(0);
+        if (!actionClassesCounted)
+            hasCountedActionClasses(soft, 0);
     }
 }

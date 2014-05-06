@@ -16,10 +16,13 @@
 
 package org.parboiled;
 
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
 import org.parboiled.annotations.BuildParseTree;
 import org.parboiled.test.ParboiledTest;
 import org.testng.annotations.Test;
 
+@WillBeRemoved(version = "1.1")
+@Test(enabled = false)
 public class SplitParserTest extends ParboiledTest<Object>
 {
     /*

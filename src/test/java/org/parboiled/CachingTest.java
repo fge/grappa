@@ -22,7 +22,7 @@ import org.parboiled.matchers.CharRangeMatcher;
 import org.parboiled.matchers.FirstOfMatcher;
 import org.parboiled.matchers.Matcher;
 import org.parboiled.matchers.SequenceMatcher;
-import com.github.parboiled1.grappa.assertions.StatsAssert;
+import com.github.parboiled1.grappa.assertions.OldStatsAssert;
 import org.testng.annotations.Test;
 
 import static org.parboiled.trees.GraphUtils.countAllDistinct;
@@ -63,7 +63,7 @@ public class CachingTest {
         assertEquals(countAllDistinct(matcher1), 5);
         assertEquals(countAllDistinct(matcher2), 6);
 
-        StatsAssert.assertStatsForRule(parser.Rule1())
+        OldStatsAssert.assertStatsForRule(parser.Rule1())
             .hasCountedTotal(5)
             .hasCounted(2, CharMatcher.class)
             .hasCounted(1, CharRangeMatcher.class)
@@ -71,7 +71,7 @@ public class CachingTest {
             .hasCounted(1, SequenceMatcher.class)
             .hasCountedNothingElse();
 
-        StatsAssert.assertStatsForRule(parser.Rule2())
+        OldStatsAssert.assertStatsForRule(parser.Rule2())
             .hasCountedTotal(6)
             .hasCounted(2, CharMatcher.class)
             .hasCounted(1, CharRangeMatcher.class)

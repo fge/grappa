@@ -16,7 +16,7 @@
 
 package org.parboiled;
 
-import com.github.parboiled1.grappa.assertions.StatsAssert;
+import com.github.parboiled1.grappa.assertions.OldStatsAssert;
 import org.parboiled.annotations.BuildParseTree;
 import org.parboiled.annotations.SuppressNode;
 import org.parboiled.matchers.CharMatcher;
@@ -70,7 +70,7 @@ public class VarFramingTest extends ParboiledTest<Integer>
         Parser parser = Parboiled.createParser(Parser.class);
         Rule rule = parser.Clause();
 
-        StatsAssert.assertStatsForRule(rule)
+        OldStatsAssert.assertStatsForRule(rule)
             .hasCountedTotal(11)
             .hasCounted(1, CharMatcher.class)
             .hasCounted(1, CharRangeMatcher.class)

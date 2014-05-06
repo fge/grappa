@@ -16,7 +16,7 @@
 
 package org.parboiled;
 
-import com.github.parboiled1.grappa.assertions.StatsAssert;
+import com.github.parboiled1.grappa.assertions.OldStatsAssert;
 import org.parboiled.annotations.BuildParseTree;
 import org.parboiled.annotations.Label;
 import org.parboiled.matchers.CharMatcher;
@@ -111,7 +111,7 @@ public class ActionTest extends ParboiledTest<Integer>
                         "      [Last, {2}] 'd'\n" +
                         "        ['d', {74}] 'd'\n");
 
-        StatsAssert.assertStatsForRule(parser.A())
+        OldStatsAssert.assertStatsForRule(parser.A())
             .hasCountedTotal(17).hasCountedActions(9)
             .hasCounted(4, CharMatcher.class)
             .hasCounted(4, SequenceMatcher.class)

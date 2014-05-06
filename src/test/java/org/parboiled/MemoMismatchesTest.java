@@ -23,7 +23,7 @@ import org.parboiled.matchers.MemoMismatchesMatcher;
 import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.matchers.TestNotMatcher;
 import org.parboiled.parserunners.ProfilingParseRunner;
-import com.github.parboiled1.grappa.assertions.StatsAssert;
+import com.github.parboiled1.grappa.assertions.OldStatsAssert;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
@@ -67,7 +67,7 @@ public class MemoMismatchesTest {
     public void test1() {
         Parser parser = Parboiled.createParser(Parser.class);
 
-        StatsAssert.assertStatsForRule(parser.Clause()).hasCountedTotal(13)
+        OldStatsAssert.assertStatsForRule(parser.Clause()).hasCountedTotal(13)
             .hasCounted(6, CharMatcher.class)
             .hasCounted(2, FirstOfMatcher.class)
             .hasCounted(4, SequenceMatcher.class)
@@ -94,7 +94,7 @@ public class MemoMismatchesTest {
     public void test2() {
         MemoParser parser = Parboiled.createParser(MemoParser.class);
 
-        StatsAssert.assertStatsForRule(parser.Clause()).hasCountedTotal(13)
+        OldStatsAssert.assertStatsForRule(parser.Clause()).hasCountedTotal(13)
             .hasCounted(6, CharMatcher.class)
             .hasCounted(2, FirstOfMatcher.class)
             .hasCounted(4, SequenceMatcher.class)

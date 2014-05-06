@@ -3,7 +3,7 @@ package org.parboiled.matchers.unicode;
 import org.parboiled.BaseParser;
 import org.parboiled.Parboiled;
 import org.parboiled.Rule;
-import com.github.parboiled1.grappa.assertions.StatsAssert;
+import com.github.parboiled1.grappa.assertions.OldStatsAssert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -33,7 +33,7 @@ public final class UnicodeCharMatcherTest
             = Parboiled.createParser(TestGrammar.class);
 
         final Rule rule = testGrammar.rule(PILE_OF_POO);
-        StatsAssert.assertStatsForRule(rule)
+        OldStatsAssert.assertStatsForRule(rule)
             .hasCounted(1, UnicodeCharMatcher.class)
             .hasCountedNothingElse();
     }
@@ -44,7 +44,7 @@ public final class UnicodeCharMatcherTest
         final TestGrammar testGrammar
             = Parboiled.createParser(TestGrammar.class);
 
-        StatsAssert.assertStatsForRule(testGrammar.rule('a'))
+        OldStatsAssert.assertStatsForRule(testGrammar.rule('a'))
             .hasCounted(1, UnicodeCharMatcher.class)
             .hasCountedNothingElse();
     }
