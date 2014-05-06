@@ -10,21 +10,21 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public final class ParsingResultAssert<V>
-    extends AbstractAssert<ParsingResultAssert<V>, ParsingResult<V>>
+public final class OldParsingResultAssert<V>
+    extends AbstractAssert<OldParsingResultAssert<V>, ParsingResult<V>>
 {
-    private ParsingResultAssert(final ParsingResult<V> actual)
+    private OldParsingResultAssert(final ParsingResult<V> actual)
     {
-        super(actual, ParsingResultAssert.class);
+        super(actual, OldParsingResultAssert.class);
     }
 
-    public static <E> ParsingResultAssert<E> assertResult(
+    public static <E> OldParsingResultAssert<E> assertResult(
         final ParsingResult<E> actual)
     {
-        return new ParsingResultAssert<E>(actual);
+        return new OldParsingResultAssert<E>(actual);
     }
 
-    public ParsingResultAssert<V> hasNoErrors()
+    public OldParsingResultAssert<V> hasNoErrors()
     {
         assertThat(actual.hasErrors()).overridingErrorMessage(
             "parsing result should not have any errors!"
@@ -32,7 +32,7 @@ public final class ParsingResultAssert<V>
         return this;
     }
 
-    public ParsingResultAssert<V> hasStack(@Nonnull final V... values)
+    public OldParsingResultAssert<V> hasStack(@Nonnull final V... values)
     {
         final List<V> list = Lists.newArrayList(values);
         Collections.reverse(list);

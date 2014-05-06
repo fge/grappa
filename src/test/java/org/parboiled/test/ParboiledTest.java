@@ -16,7 +16,7 @@
 
 package org.parboiled.test;
 
-import com.github.parboiled1.grappa.assertions.ParsingResultAssert;
+import com.github.parboiled1.grappa.assertions.OldParsingResultAssert;
 import org.parboiled.Rule;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.parserunners.RecoveringParseRunner;
@@ -31,11 +31,11 @@ public abstract class ParboiledTest<V> {
 
     public class TestResult<V> {
         public final ParsingResult<V> result;
-        private final ParsingResultAssert<V> resultAssert;
+        private final OldParsingResultAssert<V> resultAssert;
 
         public TestResult(ParsingResult<V> result) {
             this.result = result;
-            resultAssert = ParsingResultAssert.assertResult(result);
+            resultAssert = OldParsingResultAssert.assertResult(result);
         }
 
         public TestResult<V> hasNoErrors() {

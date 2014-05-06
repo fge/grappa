@@ -1,12 +1,11 @@
-package com.github.parboiled1.grappa.parsetree;
+package com.github.parboiled1.grappa.parseresult;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.parboiled1.grappa.TestParser;
-import com.github.parboiled1.grappa.assertions.ParseTreeData;
+import com.github.parboiled1.grappa.assertions.ParsingResultVerifier;
 import com.google.common.io.Closer;
 import org.assertj.core.api.SoftAssertions;
-import org.parboiled.Node;
 import org.parboiled.Parboiled;
 import org.parboiled.parserunners.ParseRunner;
 import org.parboiled.parserunners.ReportingParseRunner;
@@ -17,38 +16,36 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @Test
-public abstract class ParseTreeTest
+public abstract class ParsingResultTest
 {
-    private static final String RESOURCE_PREFIX = "/parseTrees/";
+    private static final String RESOURCE_PREFIX = "/parseResults/";
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
-    private final TypeReference<ParseTreeData<Object>> typeRef
-        = new TypeReference<ParseTreeData<Object>>() {};
+    private final TypeReference<ParsingResultVerifier<Object>> typeRef
+        = new TypeReference<ParsingResultVerifier<Object>>() {};
 
-    private final Node<Object> tree;
-    private final ParseTreeData<Object> data;
+    private final ParsingResult<Object> result;
+    private final ParsingResultVerifier<Object> data;
 
-    protected ParseTreeTest(final Class<? extends TestParser> c,
+    protected ParsingResultTest(final Class<? extends TestParser> c,
         final String resourceName, final String input)
         throws IOException
     {
         final TestParser parser = Parboiled.createParser(c);
         final ParseRunner<Object> runner
             = new ReportingParseRunner<Object>(parser.mainRule());
-        final ParsingResult<Object> result = runner.run(input);
-        tree = result.parseTreeRoot;
+        result = runner.run(input);
 
         final String path = RESOURCE_PREFIX + resourceName;
         final Closer closer = Closer.create();
         final InputStream in;
 
         try {
-            in = closer.register(ParseTreeTest.class
+            in = closer.register(ParsingResultTest.class
                 .getResourceAsStream(path));
             if (in == null)
                 throw new IOException("resource " + path + " not found");
             data = MAPPER.readValue(in, typeRef);
-            data.setBuffer(result.inputBuffer);
         } finally {
             closer.close();
         }
@@ -58,7 +55,7 @@ public abstract class ParseTreeTest
     public final void treeIsWhatIsExpected()
     {
         final SoftAssertions soft = new SoftAssertions();
-        data.verify(soft, tree);
+        data.verify(soft, result);
         soft.assertAll();
     }
 }

@@ -1,4 +1,4 @@
-package com.github.parboiled1.grappa.parsetree;
+package com.github.parboiled1.grappa.parseresult;
 
 import com.github.parboiled1.grappa.TestParser;
 import org.parboiled.BaseParser;
@@ -9,8 +9,8 @@ import org.parboiled.annotations.DontLabel;
 
 import java.io.IOException;
 
-public final class SplitParseTreeTest
-    extends ParseTreeTest
+public final class SplitParsingResultTest
+    extends ParsingResultTest
 {
     static class SplitParser
         extends TestParser
@@ -44,7 +44,7 @@ public final class SplitParseTreeTest
         }
     }
 
-    public SplitParseTreeTest()
+    public SplitParsingResultTest()
         throws IOException
     {
         super(SplitParser.class, "split.json", "1+5");
