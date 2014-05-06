@@ -10,6 +10,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.io.Closer;
+import org.assertj.core.api.SoftAssertions;
 import org.parboiled.Node;
 import org.parboiled.buffers.InputBuffer;
 
@@ -19,16 +20,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.testng.Assert.fail;
-
 public abstract class ParseTreeAssert<V>
 {
     private static final ObjectMapper MAPPER = new ObjectMapper()
         .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
     private static final String RESOURCE_PREFIX = "/parseTrees/";
 
-    public abstract void verify(@Nonnull final Optional<Node<V>> node);
+    public abstract void verify(@Nonnull final SoftAssertions soft,
+        @Nonnull final Optional<Node<V>> node);
 
     public static final class Builder<V>
     {
@@ -91,18 +90,23 @@ public abstract class ParseTreeAssert<V>
         }
 
         @Override
-        public void verify(final Optional<Node<E>> node)
+        public void verify(@Nonnull final SoftAssertions soft,
+            @Nonnull final Optional<Node<E>> node)
         {
-            assertThat(node.isPresent()).overridingErrorMessage(
-                "expected to have a node, but I didn't!"
-            ).isTrue();
+            if (!node.isPresent()) {
+                soft.assertThat(true).overridingErrorMessage(
+                    "expected to have a node, but I didn't!"
+                ).isFalse();
+                return;
+            }
             final NodeAssert<E> nodeAssert
                 = new NodeAssert<E>(node.get(), buffer);
-            nodeAssert.hasLabel(label).hasMatch(match);
-            verifyChildren(node.get());
+            nodeAssert.hasLabel(soft, label).hasMatch(soft, match);
+            verifyChildren(soft, node.get());
         }
 
-        private void verifyChildren(final Node<E> node)
+        private void verifyChildren(final SoftAssertions soft,
+            final Node<E> node)
         {
             final List<Node<E>> nodeChildren = node.getChildren();
             final int size = Math.max(children.size(), nodeChildren.size());
@@ -114,7 +118,7 @@ public abstract class ParseTreeAssert<V>
                     i, null)).or(new NoNode<E>(i));
                 childNode = Optional.fromNullable(Iterables.get(nodeChildren, i,
                     null));
-                childDescriptor.verify(childNode);
+                childDescriptor.verify(soft, childNode);
             }
         }
     }
@@ -130,9 +134,12 @@ public abstract class ParseTreeAssert<V>
         }
 
         @Override
-        public void verify(@Nonnull final Optional<Node<E>> node)
+        public void verify(@Nonnull final SoftAssertions soft,
+            @Nonnull final Optional<Node<E>> node)
         {
-            fail("did not expect a node at index " + index);
+            soft.assertThat(true).overridingErrorMessage(
+               "did not expect a node at index " + index
+            ).isFalse();
         }
     }
 

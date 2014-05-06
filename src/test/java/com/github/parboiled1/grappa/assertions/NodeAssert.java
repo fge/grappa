@@ -3,12 +3,11 @@ package com.github.parboiled1.grappa.assertions;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.SoftAssertions;
 import org.parboiled.Node;
 import org.parboiled.buffers.InputBuffer;
 
 import javax.annotation.Nonnull;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * A parse tree dump has such a node at its root
@@ -28,29 +27,34 @@ public final class NodeAssert<V>
         this.buffer = buffer;
     }
 
-    private NodeAssert<V> doHasLabel(@Nonnull final String expectedLabel)
+    private NodeAssert<V> doHasLabel(final SoftAssertions soft,
+        final String expectedLabel)
     {
         final String actualLabel = actual.getLabel();
-        assertThat(actualLabel).overridingErrorMessage(
+        soft.assertThat(actualLabel).overridingErrorMessage(
             "node's label is null! I didn't expect it to be"
         ).isNotNull();
-        assertThat(actualLabel).overridingErrorMessage(
+        soft.assertThat(actualLabel).overridingErrorMessage(
             "node's label is not what was expected!\n"
             + "Expected: '%s'\nActual  : '%s'\n", expectedLabel, actualLabel
         ).isEqualTo(expectedLabel);
         return this;
     }
 
-    NodeAssert<V> hasLabel(@Nonnull final Optional<String> label)
+    NodeAssert<V> hasLabel(@Nonnull final SoftAssertions soft,
+        @Nonnull final Optional<String> label)
     {
-        return label.isPresent() ? doHasLabel(label.get()) : this;
+        Preconditions.checkNotNull(soft);
+        Preconditions.checkNotNull(label);
+        return label.isPresent() ? doHasLabel(soft, label.get()) : this;
     }
 
-    private NodeAssert<V> doHasMatch(@Nonnull final String expectedMatch)
+    private NodeAssert<V> doHasMatch(final SoftAssertions soft,
+        final String expectedMatch)
     {
         final String actualMatch
             = buffer.extract(actual.getStartIndex(), actual.getEndIndex());
-        assertThat(actualMatch).overridingErrorMessage(
+        soft.assertThat(actualMatch).overridingErrorMessage(
             "rule did not match what was expected!\n"
             + "Expected: -->%s<--\nActual  : -->%s<--\n",
             expectedMatch, actualMatch
@@ -58,8 +62,9 @@ public final class NodeAssert<V>
         return this;
     }
 
-    NodeAssert<V> hasMatch(@Nonnull final Optional<String> match)
+    NodeAssert<V> hasMatch(@Nonnull final SoftAssertions soft,
+        @Nonnull final Optional<String> match)
     {
-        return match.isPresent() ? doHasMatch(match.get()) : this;
+        return match.isPresent() ? doHasMatch(soft, match.get()) : this;
     }
 }

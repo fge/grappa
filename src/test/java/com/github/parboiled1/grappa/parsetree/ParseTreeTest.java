@@ -3,6 +3,7 @@ package com.github.parboiled1.grappa.parsetree;
 import com.github.parboiled1.grappa.TestParser;
 import com.github.parboiled1.grappa.assertions.ParseTreeAssert;
 import com.google.common.base.Optional;
+import org.assertj.core.api.SoftAssertions;
 import org.parboiled.Node;
 import org.parboiled.Parboiled;
 import org.parboiled.parserunners.ParseRunner;
@@ -33,6 +34,8 @@ public abstract class ParseTreeTest
     @Test
     public final void treeIsWhatIsExpected()
     {
-        descriptor.verify(Optional.of(tree));
+        final SoftAssertions soft = new SoftAssertions();
+        descriptor.verify(soft, Optional.of(tree));
+        soft.assertAll();
     }
 }
