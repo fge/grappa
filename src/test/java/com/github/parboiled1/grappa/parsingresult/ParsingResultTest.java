@@ -1,4 +1,4 @@
-package com.github.parboiled1.grappa.parseresult;
+package com.github.parboiled1.grappa.parsingresult;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,24 +16,24 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @Test
-public abstract class ParsingResultTest
+public abstract class ParsingResultTest<P extends TestParser<V>, V>
 {
     private static final String RESOURCE_PREFIX = "/parseResults/";
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
-    private final TypeReference<ParsingResultVerifier<Object>> typeRef
-        = new TypeReference<ParsingResultVerifier<Object>>() {};
+    private final TypeReference<ParsingResultVerifier<V>> typeRef
+        = new TypeReference<ParsingResultVerifier<V>>() {};
 
-    private final ParsingResult<Object> result;
-    private final ParsingResultVerifier<Object> data;
+    private final ParsingResult<V> result;
+    private final ParsingResultVerifier<V> data;
 
-    protected ParsingResultTest(final Class<? extends TestParser> c,
+    protected ParsingResultTest(final Class<P> c,
         final String resourceName, final String input)
         throws IOException
     {
-        final TestParser parser = Parboiled.createParser(c);
-        final ParseRunner<Object> runner
-            = new ReportingParseRunner<Object>(parser.mainRule());
+        final TestParser<V> parser = Parboiled.createParser(c);
+        final ParseRunner<V> runner
+            = new ReportingParseRunner<V>(parser.mainRule());
         result = runner.run(input);
 
         final String path = RESOURCE_PREFIX + resourceName;

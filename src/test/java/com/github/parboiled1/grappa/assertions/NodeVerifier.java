@@ -10,14 +10,15 @@ import org.parboiled.buffers.InputBuffer;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public final class ParseTreeData<V>
+public final class NodeVerifier<V>
     implements Verifier<Node<V>>
 {
     @JsonIgnore
     private InputBuffer buffer;
     private String label;
     private String match;
-    private final List<ParseTreeData<V>> children = Lists.newArrayList();
+    private V value;
+    private final List<NodeVerifier<V>> children = Lists.newArrayList();
 
     void setLabel(final String label)
     {
@@ -29,12 +30,17 @@ public final class ParseTreeData<V>
         this.match = match;
     }
 
-    void setChildren(final List<ParseTreeData<V>> children)
+    void setChildren(final List<NodeVerifier<V>> children)
     {
         this.children.addAll(children);
     }
 
-    public ParseTreeData<V> setBuffer(final InputBuffer buffer)
+    void setValue(final V value)
+    {
+        this.value = value;
+    }
+
+    public NodeVerifier<V> setBuffer(final InputBuffer buffer)
     {
         this.buffer = buffer;
         return this;

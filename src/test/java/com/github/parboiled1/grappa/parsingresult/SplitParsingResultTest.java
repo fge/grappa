@@ -1,4 +1,4 @@
-package com.github.parboiled1.grappa.parseresult;
+package com.github.parboiled1.grappa.parsingresult;
 
 import com.github.parboiled1.grappa.TestParser;
 import org.parboiled.BaseParser;
@@ -10,10 +10,10 @@ import org.parboiled.annotations.DontLabel;
 import java.io.IOException;
 
 public final class SplitParsingResultTest
-    extends ParsingResultTest
+    extends ParsingResultTest<SplitParsingResultTest.SplitParser, Object>
 {
     static class SplitParser
-        extends TestParser
+        extends TestParser<Object>
     {
         final Primitives primitives = Parboiled.createParser(Primitives.class);
 

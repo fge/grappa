@@ -13,7 +13,7 @@ public final class ParsingResultVerifier<V>
 {
     private CharSequenceInputBuffer buffer;
     private boolean hasMatch;
-    private ParseTreeData<V> parseTree;
+    private NodeVerifier<V> parseTree;
     private final List<ParseErrorVerifier<?>> errors = Lists.newArrayList();
 
     void setBuffer(final String buffer)
@@ -26,7 +26,7 @@ public final class ParsingResultVerifier<V>
         this.hasMatch = hasMatch;
     }
 
-    void setParseTree(final ParseTreeData<V> parseTree)
+    void setParseTree(final NodeVerifier<V> parseTree)
     {
         this.parseTree = parseTree;
     }

@@ -5,8 +5,8 @@ import org.parboiled.Rule;
 import org.parboiled.annotations.BuildParseTree;
 
 @BuildParseTree
-public abstract class TestParser
-    extends BaseParser<Object>
+public abstract class TestParser<V>
+    extends BaseParser<V>
 {
     public abstract Rule mainRule();
 }

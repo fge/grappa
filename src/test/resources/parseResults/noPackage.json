@@ -1,0 +1,15 @@
+{
+    "buffer": "a",
+    "hasMatch": true,
+    "parseTree": {
+        "label": "mainRule",
+        "match": "a",
+        "value": 42,
+        "children": [
+            {
+                "label": "'a'",
+                "match": "a"
+            }
+        ]
+    }
+}
