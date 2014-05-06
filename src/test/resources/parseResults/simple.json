@@ -1,0 +1,45 @@
+{
+    "buffer": "1+5bx",
+    "hasMatch": true,
+    "parseTree": {
+        "label": "mainRule",
+        "match": "1+5bx",
+        "children": [
+            {
+                "label": "digit",
+                "match": "1"
+            },
+            {
+                "label": "operator",
+                "match": "+",
+                "children": [
+                    {
+                        "label": "'+'",
+                        "match": "+"
+                    }
+                ]
+            },
+            {
+                "label": "digit",
+                "match": "5"
+            },
+            {
+                "label": "[abcd]",
+                "match": "b"
+            },
+            {
+                "label": "OneOrMore",
+                "match": "x",
+                "children": [
+                    {
+                        "label": "![abcdEOI]",
+                        "match": "x"
+                    }
+                ]
+            },
+            {
+                "label": "EOI"
+            }
+        ]
+    }
+}
