@@ -20,7 +20,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static com.github.parboiled1.grappa.assertions.MatcherAssert.assertMatcher;
 import static org.testng.Assert.fail;
 
 public final class JoinMatcherTest<V>
@@ -138,7 +137,7 @@ public final class JoinMatcherTest<V>
         final Matcher actual = (Matcher) rule;
 
         final Class<? extends Matcher> expectedClass = expected.getClass();
-        assertMatcher(actual).overridingErrorMessage(
+        assertThat(actual).overridingErrorMessage(
             "Wrong class! Expected %s, got %s",
             expectedClass.getCanonicalName(),
             actual.getClass().getCanonicalName()

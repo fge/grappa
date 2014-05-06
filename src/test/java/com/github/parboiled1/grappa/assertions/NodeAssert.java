@@ -1,13 +1,9 @@
 package com.github.parboiled1.grappa.assertions;
 
-import com.google.common.base.Optional;
-import com.google.common.base.Preconditions;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.SoftAssertions;
 import org.parboiled.Node;
 import org.parboiled.buffers.InputBuffer;
-
-import javax.annotation.Nonnull;
 
 /**
  * A parse tree dump has such a node at its root
@@ -16,18 +12,18 @@ import javax.annotation.Nonnull;
  *
  * @param <V> values produced by this node tree
  */
-public final class NodeAssert<V>
+final class NodeAssert<V>
     extends AbstractAssert<NodeAssert<V>, Node<V>>
 {
     private final InputBuffer buffer;
 
     NodeAssert(final Node<V> actual, final InputBuffer buffer)
     {
-        super(Preconditions.checkNotNull(actual), NodeAssert.class);
+        super(actual, NodeAssert.class);
         this.buffer = buffer;
     }
 
-    private NodeAssert<V> doHasLabel(final SoftAssertions soft,
+    void hasLabel(final SoftAssertions soft,
         final String expectedLabel)
     {
         final String actualLabel = actual.getLabel();
@@ -38,18 +34,9 @@ public final class NodeAssert<V>
             "node's label is not what was expected!\n"
             + "Expected: '%s'\nActual  : '%s'\n", expectedLabel, actualLabel
         ).isEqualTo(expectedLabel);
-        return this;
     }
 
-    NodeAssert<V> hasLabel(@Nonnull final SoftAssertions soft,
-        @Nonnull final Optional<String> label)
-    {
-        Preconditions.checkNotNull(soft);
-        Preconditions.checkNotNull(label);
-        return label.isPresent() ? doHasLabel(soft, label.get()) : this;
-    }
-
-    private NodeAssert<V> doHasMatch(final SoftAssertions soft,
+    void hasMatch(final SoftAssertions soft,
         final String expectedMatch)
     {
         final String actualMatch
@@ -59,12 +46,5 @@ public final class NodeAssert<V>
             + "Expected: -->%s<--\nActual  : -->%s<--\n",
             expectedMatch, actualMatch
         ).isEqualTo(expectedMatch);
-        return this;
-    }
-
-    NodeAssert<V> hasMatch(@Nonnull final SoftAssertions soft,
-        @Nonnull final Optional<String> match)
-    {
-        return match.isPresent() ? doHasMatch(soft, match.get()) : this;
     }
 }
