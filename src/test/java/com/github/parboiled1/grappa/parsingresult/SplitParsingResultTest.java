@@ -47,6 +47,6 @@ public final class SplitParsingResultTest
     public SplitParsingResultTest()
         throws IOException
     {
-        super(SplitParser.class, "split.json", "1+5");
+        super(SplitParser.class, "split.json");
     }
 }

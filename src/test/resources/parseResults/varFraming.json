@@ -1,0 +1,69 @@
+{
+    "buffer": "1+2+3",
+    "hasMatch": true,
+    "parseTree": {
+        "label": "mainRule",
+        "value": 1,
+        "match": "1+2+3",
+        "children": [
+            {
+                "label": "Optional",
+                "value": 1,
+                "match": "+2+3",
+                "children": [
+                    {
+                        "label": "Sequence",
+                        "match": "+2+3",
+                        "value": 1,
+                        "children": [
+                            {
+                                "label":"'+'",
+                                "value": 1,
+                                "match": "+"
+                            },
+                            {
+                                "label": "mainRule",
+                                "value": 1,
+                                "match": "2+3",
+                                "children": [
+                                    {
+                                        "label": "Optional",
+                                        "value": 2,
+                                        "match": "+3",
+                                        "children": [
+                                            {
+                                                "label": "Sequence",
+                                                "match": "+3",
+                                                "value": 2,
+                                                "children": [
+                                                    {
+                                                        "label":"'+'",
+                                                        "value": 2,
+                                                        "match": "+"
+                                                    },
+                                                    {
+                                                        "label": "mainRule",
+                                                        "value": 3,
+                                                        "match": "3",
+                                                        "children": [
+                                                            {
+                                                                "label": "Optional",
+                                                                "value": 3
+                                                            }
+
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -3,6 +3,7 @@ package com.github.parboiled1.grappa.assertions;
 import com.google.common.collect.Lists;
 import org.assertj.core.api.SoftAssertions;
 import org.parboiled.buffers.CharSequenceInputBuffer;
+import org.parboiled.buffers.InputBuffer;
 import org.parboiled.support.ParsingResult;
 
 import javax.annotation.Nonnull;
@@ -19,6 +20,11 @@ public final class ParsingResultVerifier<V>
     void setBuffer(final String buffer)
     {
         this.buffer = new CharSequenceInputBuffer(buffer);
+    }
+
+    public InputBuffer getBuffer()
+    {
+        return buffer;
     }
 
     void setHasMatch(final boolean hasMatch)

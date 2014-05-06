@@ -5,8 +5,8 @@ import org.parboiled.annotations.BuildParseTree;
 
 import java.io.IOException;
 
-public final class NoPackageParsingResult
-    extends ParsingResultTest<NoPackageParsingResult.Parser, Integer>
+public final class NoPackageParsingResultTest
+    extends ParsingResultTest<NoPackageParsingResultTest.Parser, Integer>
 {
     @BuildParseTree
     public static class Parser
@@ -19,9 +19,9 @@ public final class NoPackageParsingResult
         }
     }
 
-    public NoPackageParsingResult()
+    public NoPackageParsingResultTest()
         throws IOException
     {
-        super(Parser.class, "noPackage.json", "a");
+        super(Parser.class, "noPackage.json");
     }
 }

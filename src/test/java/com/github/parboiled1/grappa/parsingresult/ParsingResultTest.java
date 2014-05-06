@@ -28,14 +28,9 @@ public abstract class ParsingResultTest<P extends TestParser<V>, V>
     private final ParsingResultVerifier<V> data;
 
     protected ParsingResultTest(final Class<P> c,
-        final String resourceName, final String input)
+        final String resourceName)
         throws IOException
     {
-        final TestParser<V> parser = Parboiled.createParser(c);
-        final ParseRunner<V> runner
-            = new ReportingParseRunner<V>(parser.mainRule());
-        result = runner.run(input);
-
         final String path = RESOURCE_PREFIX + resourceName;
         final Closer closer = Closer.create();
         final InputStream in;
@@ -49,6 +44,11 @@ public abstract class ParsingResultTest<P extends TestParser<V>, V>
         } finally {
             closer.close();
         }
+
+        final TestParser<V> parser = Parboiled.createParser(c);
+        final ParseRunner<V> runner
+            = new ReportingParseRunner<V>(parser.mainRule());
+        result = runner.run(data.getBuffer());
     }
 
     @Test
