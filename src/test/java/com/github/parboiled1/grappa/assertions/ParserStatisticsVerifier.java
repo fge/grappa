@@ -103,7 +103,7 @@ public final class ParserStatisticsVerifier
             specialStats.entrySet())
             statisticsAssert.hasCounted(soft, entry.getKey(), entry.getValue());
         statisticsAssert.hasCountedActionClasses(soft, actionClassesCount);
-        statisticsAssert.hasCountedActionClasses(soft, actionCount);
+        statisticsAssert.hasCountedActions(soft, actionCount);
         statisticsAssert.hasCountedNothingElse(soft);
     }
 }
