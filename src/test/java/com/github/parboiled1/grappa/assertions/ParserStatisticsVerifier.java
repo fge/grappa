@@ -42,6 +42,8 @@ public final class ParserStatisticsVerifier
     @JsonIgnore
     private final Map<Class<? extends Matcher>, Integer> specialStats
         = Maps.newHashMap();
+    private int actionClassesCount;
+    private int actionCount;
 
     ParserStatisticsVerifier()
     {
@@ -59,6 +61,16 @@ public final class ParserStatisticsVerifier
     void setTotalRules(final int totalRules)
     {
         this.totalRules = totalRules;
+    }
+
+    public void setActionCount(final int actionCount)
+    {
+        this.actionCount = actionCount;
+    }
+
+    public void setActionClassesCount(final int actionClassesCount)
+    {
+        this.actionClassesCount = actionClassesCount;
     }
 
     @JsonAnySetter
@@ -90,6 +102,8 @@ public final class ParserStatisticsVerifier
         for (final Map.Entry<Class<? extends Matcher>, Integer> entry:
             specialStats.entrySet())
             statisticsAssert.hasCounted(soft, entry.getKey(), entry.getValue());
+        statisticsAssert.hasCountedActionClasses(soft, actionClassesCount);
+        statisticsAssert.hasCountedActionClasses(soft, actionCount);
         statisticsAssert.hasCountedNothingElse(soft);
     }
 }

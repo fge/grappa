@@ -1,6 +1,7 @@
 package com.github.parboiled1.grappa.parsingresult;
 
-import com.github.parboiled1.grappa.TestParser;
+import com.github.parboiled1.grappa.testparsers.TestParser;
+import com.github.parboiled1.grappa.testparsers.VarFramingParser;
 import org.parboiled.Rule;
 import org.parboiled.annotations.SuppressNode;
 import org.parboiled.support.Var;
@@ -8,7 +9,7 @@ import org.parboiled.support.Var;
 import java.io.IOException;
 
 public final class VarFramingParsingResultTest
-    extends ParsingResultTest<VarFramingParsingResultTest.Parser, Integer>
+    extends ParsingResultTest<VarFramingParser, Integer>
 {
     static class Parser
         extends TestParser<Integer>
@@ -46,6 +47,6 @@ public final class VarFramingParsingResultTest
     public VarFramingParsingResultTest()
         throws IOException
     {
-        super(Parser.class, "varFraming.json");
+        super(VarFramingParser.class, "varFraming.json");
     }
 }

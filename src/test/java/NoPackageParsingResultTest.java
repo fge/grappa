@@ -1,4 +1,4 @@
-import com.github.parboiled1.grappa.TestParser;
+import com.github.parboiled1.grappa.testparsers.TestParser;
 import com.github.parboiled1.grappa.parsingresult.ParsingResultTest;
 import org.parboiled.Rule;
 import org.parboiled.annotations.BuildParseTree;

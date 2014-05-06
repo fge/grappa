@@ -1,0 +1,12 @@
+{
+    "totalRules": 11,
+    "CharMatcher": 1,
+    "CharRangeMatcher": 1,
+    "OneOrMoreMatcher": 1,
+    "OptionalMatcher": 1,
+    "SequenceMatcher": 3,
+    "ProxyMatcher": 1,
+    "VarFramingMatcher": 1,
+    "actionClassesCount": 4,
+    "actionCount": 4
+}

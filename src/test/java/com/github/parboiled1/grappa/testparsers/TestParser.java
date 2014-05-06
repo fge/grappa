@@ -1,4 +1,4 @@
-package com.github.parboiled1.grappa;
+package com.github.parboiled1.grappa.testparsers;
 
 import org.parboiled.BaseParser;
 import org.parboiled.Rule;
