@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-public abstract class ParseTreeAssert<V>
+public abstract class ParseTreeVerifier<V>
 {
     private static final ObjectMapper MAPPER = new ObjectMapper()
         .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
@@ -61,7 +61,7 @@ public abstract class ParseTreeAssert<V>
             return this;
         }
 
-        public ParseTreeAssert<V> build(final InputBuffer buffer)
+        public ParseTreeVerifier<V> build(final InputBuffer buffer)
         {
             return new WithNode<V>(this, buffer);
         }
@@ -69,19 +69,19 @@ public abstract class ParseTreeAssert<V>
 
     @ParametersAreNonnullByDefault
     private static final class WithNode<E>
-        extends ParseTreeAssert<E>
+        extends ParseTreeVerifier<E>
     {
         private final InputBuffer buffer;
         private final Optional<String> label;
         private final Optional<String> match;
-        private final List<ParseTreeAssert<E>> children;
+        private final List<ParseTreeVerifier<E>> children;
 
         private WithNode(final Builder<E> builder,
             final InputBuffer buffer)
         {
             label = Optional.fromNullable(builder.label);
             match = Optional.fromNullable(builder.match);
-            final ImmutableList.Builder<ParseTreeAssert<E>> listBuilder
+            final ImmutableList.Builder<ParseTreeVerifier<E>> listBuilder
                 = ImmutableList.builder();
             for (final Builder<E> element: builder.children)
                 listBuilder.add(element.build(buffer));
@@ -110,7 +110,7 @@ public abstract class ParseTreeAssert<V>
         {
             final List<Node<E>> nodeChildren = node.getChildren();
             final int size = Math.max(children.size(), nodeChildren.size());
-            ParseTreeAssert<E> childDescriptor;
+            ParseTreeVerifier<E> childDescriptor;
             Optional<Node<E>> childNode;
 
             for (int i = 0; i < size; i++) {
@@ -124,7 +124,7 @@ public abstract class ParseTreeAssert<V>
     }
 
     private static final class NoNode<E>
-        extends ParseTreeAssert<E>
+        extends ParseTreeVerifier<E>
     {
         private final int index;
 
@@ -143,7 +143,7 @@ public abstract class ParseTreeAssert<V>
         }
     }
 
-    public static <E> ParseTreeAssert<E> read(final String resourceName,
+    public static <E> ParseTreeVerifier<E> read(final String resourceName,
         final InputBuffer buffer)
         throws IOException
     {
@@ -156,7 +156,7 @@ public abstract class ParseTreeAssert<V>
         final Builder<E> builder;
 
         try {
-            in = closer.register(ParseTreeAssert.class
+            in = closer.register(ParseTreeVerifier.class
                 .getResourceAsStream(path));
             if (in == null)
                 throw new IOException("resource " + path + " not found");

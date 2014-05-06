@@ -41,7 +41,7 @@ public final class ParsingResultAssert<V>
         assertThat(stack).overridingErrorMessage(
             "stack does not have the expected values!\nExpected: %s\n"
             + "Actual  : %s", list, stack
-        ).isEqualTo(list);
+        ).containsExactlyElementsOf(list);
         return this;
     }
 }
