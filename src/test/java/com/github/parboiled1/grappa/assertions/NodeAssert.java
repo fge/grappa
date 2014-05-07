@@ -5,6 +5,8 @@ import org.assertj.core.api.SoftAssertions;
 import org.parboiled.Node;
 import org.parboiled.buffers.InputBuffer;
 
+import javax.annotation.Nullable;
+
 /**
  * A parse tree dump has such a node at its root
  *
@@ -46,5 +48,15 @@ final class NodeAssert<V>
             + "Expected: -->%s<--\nActual  : -->%s<--\n",
             expectedMatch, actualMatch
         ).isEqualTo(expectedMatch);
+    }
+
+    void hasValue(final SoftAssertions soft, @Nullable final V expectedValue)
+    {
+        final V actualValue = actual.getValue();
+        soft.assertThat(actualValue).as("expected a value").isNotNull();
+        if (actualValue != null)
+            soft.assertThat(actualValue).as("node value check")
+                .isEqualTo(expectedValue);
+
     }
 }

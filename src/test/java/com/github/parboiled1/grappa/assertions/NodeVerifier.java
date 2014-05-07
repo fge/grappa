@@ -61,6 +61,8 @@ public final class NodeVerifier<V>
             nodeAssert.hasLabel(soft, label);
         if (match != null)
             nodeAssert.hasMatch(soft, match);
+        if (value != null)
+            nodeAssert.hasValue(soft, value);
         final List<Node<V>> nodeChildren = toVerify.getChildren();
         soft.assertThat(nodeChildren).as("same number of children nodes")
             .hasSameSizeAs(children);

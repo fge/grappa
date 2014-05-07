@@ -1,0 +1,18 @@
+{
+    "buffer": "abcd",
+    "hasMatch": true,
+    "parseTree": {
+        "label": "abcd",
+        "match": "abcd",
+        "children": [
+            {
+                "label": "\"ab\"",
+                "match": "ab"
+            },
+            {
+                "label": "\"cd\"",
+                "match": "cd"
+            }
+        ]
+    }
+}
