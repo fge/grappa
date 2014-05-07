@@ -1,0 +1,50 @@
+{
+    "buffer": "AaA",
+    "hasMatch": true,
+    "parseTree": {
+        "label": "lotsofAs",
+        "match": "AaA",
+        "children": [
+            {
+                "label": "a/A",
+                "match": "A"
+            },
+            {
+                "label": "Optional",
+                "match": "aA",
+                "children": [
+                    {
+                        "label": "lotsOfAs",
+                        "match": "aA",
+                        "children": [
+                            {
+                                "label": "a/A",
+                                "match": "a"
+                            },
+                            {
+                                "label": "Optional",
+                                "match": "A",
+                                "children": [
+                                    {
+                                        "label": "lotsOfAs",
+                                        "match": "A",
+                                        "children": [
+                                            {
+                                                "label": "a/A",
+                                                "match": "A"
+                                            },
+                                            {
+                                                "label": "Optional",
+                                                "match": ""
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}
