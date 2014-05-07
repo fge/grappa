@@ -1,0 +1,44 @@
+{
+    "buffer": "abcdabcd",
+    "hasMatch": true,
+    "parseTree": {
+        "label": "mainRule",
+        "match": "abcdabcd",
+        "children": [
+            {
+                "label": "OneOrMore",
+                "match": "abcdabcd",
+                "children": [
+                    {
+                        "label": "abcd",
+                        "match": "abcd",
+                        "children": [
+                            {
+                                "label": "\"ab\"",
+                                "match": "ab"
+                            },
+                            {
+                                "label": "\"cd\"",
+                                "match": "cd"
+                            }
+                        ]
+                    },
+                    {
+                        "label": "abcd",
+                        "match": "abcd",
+                        "children": [
+                            {
+                                "label": "\"ab\"",
+                                "match": "ab"
+                            },
+                            {
+                                "label": "\"cd\"",
+                                "match": "cd"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}
