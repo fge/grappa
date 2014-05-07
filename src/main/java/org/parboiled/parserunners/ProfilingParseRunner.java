@@ -16,6 +16,7 @@
 
 package org.parboiled.parserunners;
 
+import com.github.parboiled1.grappa.cleanup.Unused;
 import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.github.parboiled1.grappa.cleanup.WillBePrivate;
 import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
@@ -241,8 +242,11 @@ public class ProfilingParseRunner<V>
     public static class Report
     {
         @WillBeRemoved(version = "1.1")
+        @Unused
         private static final DecimalFormat fmt = new DecimalFormat("0.###");
 
+        @WillBeRemoved(version = "1.1")
+        @Unused
         public static final Predicate<RuleReport> allRules
             = new Predicate<RuleReport>()
         {

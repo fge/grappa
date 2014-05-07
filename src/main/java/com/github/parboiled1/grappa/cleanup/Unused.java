@@ -8,7 +8,8 @@ import java.lang.annotation.Target;
 
 @Documented
 @Retention(RetentionPolicy.SOURCE)
-@Target({ ElementType.METHOD, ElementType.TYPE, ElementType.CONSTRUCTOR })
+@Target({ ElementType.METHOD, ElementType.TYPE, ElementType.CONSTRUCTOR,
+    ElementType.FIELD })
 public @interface Unused
 {
 }
