@@ -14,7 +14,7 @@
                 "match": "aA",
                 "children": [
                     {
-                        "label": "lotsOfAs",
+                        "label": "mainRule",
                         "match": "aA",
                         "children": [
                             {
@@ -26,7 +26,7 @@
                                 "match": "A",
                                 "children": [
                                     {
-                                        "label": "lotsOfAs",
+                                        "label": "mainRule",
                                         "match": "A",
                                         "children": [
                                             {

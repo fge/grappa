@@ -46,7 +46,8 @@ public final class ParserStatisticsAssert
 
     void hasTotalRules(final SoftAssertions soft, final int expectedCount)
     {
-        soft.assertThat(expectedCount).isEqualTo(totalRules);
+        soft.assertThat(expectedCount).as("total rule count")
+            .isEqualTo(totalRules);
     }
 
     void hasCounted(final SoftAssertions soft,
@@ -57,13 +58,16 @@ public final class ParserStatisticsAssert
             stats = specialMatcherStats.remove(c);
 
         final int actualCount = stats.getInstanceCount();
-        soft.assertThat(expectedCount).isEqualTo(actualCount);
+        soft.assertThat(expectedCount).as(
+            "number of recorded matchers for class " + c.getSimpleName()
+        ).isEqualTo(actualCount);
     }
 
     void hasCountedActions(final SoftAssertions soft, final int expectedCount)
     {
         final int actualCount = actions.size();
-        soft.assertThat(actualCount).isEqualTo(expectedCount);
+        soft.assertThat(actualCount).as("number of recorded actions")
+            .isEqualTo(expectedCount);
         actionsCounted = true;
     }
 
@@ -71,7 +75,8 @@ public final class ParserStatisticsAssert
         final int expectedCount)
     {
         final int actualCount = actionClasses.size();
-        soft.assertThat(actualCount).isEqualTo(expectedCount);
+        soft.assertThat(actualCount).as("number of recorded actions")
+            .isEqualTo(expectedCount);
         actionClassesCounted = true;
     }
 
@@ -106,10 +111,11 @@ public final class ParserStatisticsAssert
                     count));
         }
 
-        soft.assertThat(mishaps).overridingErrorMessage(
-            "Unwanted matcher counts! List follows\n\n%s\n",
-            NEWLINE.join(mishaps)
-        ).isEmpty();
+        soft.assertThat(mishaps).as("no matchers lefft in stats")
+            .overridingErrorMessage(
+                "Unwanted matcher counts! List follows\n\n%s\n",
+                NEWLINE.join(mishaps)
+            ).isEmpty();
     }
 
     private void noActionsLeft(final SoftAssertions soft)

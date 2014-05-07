@@ -46,9 +46,11 @@ public final class ParsingResultVerifier<V>
     public void verify(@Nonnull final SoftAssertions soft,
         @Nonnull final ParsingResult<V> toVerify)
     {
-        soft.assertThat(toVerify.matched).isEqualTo(hasMatch);
+        soft.assertThat(toVerify.matched).as("rule matches/does not match")
+            .isEqualTo(hasMatch);
         parseTree.setBuffer(buffer).verify(soft, toVerify.parseTreeRoot);
-        soft.assertThat(toVerify.parseErrors.size()).isEqualTo(errors.size());
+        soft.assertThat(toVerify.parseErrors.size())
+            .as("number of recorded errors").isEqualTo(errors.size());
         final int size = Math.min(toVerify.parseErrors.size(),
             errors.size());
         for (int index = 0; index < size; index++)

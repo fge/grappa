@@ -8,6 +8,7 @@ import org.parboiled.Node;
 import org.parboiled.buffers.InputBuffer;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 public final class NodeVerifier<V>
@@ -48,17 +49,21 @@ public final class NodeVerifier<V>
 
     @Override
     public void verify(@Nonnull final SoftAssertions soft,
-        @Nonnull final Node<V> toVerify)
+        @Nullable final Node<V> toVerify)
     {
         Preconditions.checkNotNull(soft);
-        Preconditions.checkNotNull(toVerify);
+        if (toVerify == null) {
+            soft.assertThat(toVerify).as("parse tree is not null").isNotNull();
+            return;
+        }
         final NodeAssert<V> nodeAssert = new NodeAssert<V>(toVerify, buffer);
         if (label != null)
             nodeAssert.hasLabel(soft, label);
         if (match != null)
             nodeAssert.hasMatch(soft, match);
         final List<Node<V>> nodeChildren = toVerify.getChildren();
-        soft.assertThat(nodeChildren).hasSameSizeAs(children);
+        soft.assertThat(nodeChildren).as("same number of children nodes")
+            .hasSameSizeAs(children);
         final int size = Math.min(nodeChildren.size(), children.size());
         for (int index = 0; index < size; index++)
             children.get(index).setBuffer(buffer)
