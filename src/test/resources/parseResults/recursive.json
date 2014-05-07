@@ -2,11 +2,11 @@
     "buffer": "AaA",
     "hasMatch": true,
     "parseTree": {
-        "label": "lotsofAs",
+        "label": "mainRule",
         "match": "AaA",
         "children": [
             {
-                "label": "a/A",
+                "label": "'a/A'",
                 "match": "A"
             },
             {
@@ -18,7 +18,7 @@
                         "match": "aA",
                         "children": [
                             {
-                                "label": "a/A",
+                                "label": "'a/A'",
                                 "match": "a"
                             },
                             {
@@ -30,7 +30,7 @@
                                         "match": "A",
                                         "children": [
                                             {
-                                                "label": "a/A",
+                                                "label": "'a/A'",
                                                 "match": "A"
                                             },
                                             {

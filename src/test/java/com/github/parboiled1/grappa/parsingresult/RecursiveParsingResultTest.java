@@ -10,6 +10,6 @@ public final class RecursiveParsingResultTest
     public RecursiveParsingResultTest()
         throws IOException
     {
-        super(RecursiveParser.class, "simple.json");
+        super(RecursiveParser.class, "recursive.json");
     }
 }
