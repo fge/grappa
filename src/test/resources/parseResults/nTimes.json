@@ -1,0 +1,96 @@
+{
+    "buffer": "1234+2345-3456",
+    "hasMatch": true,
+    "parseTree": {
+        "label": "mainRule",
+        "match": "1234+2345-3456",
+        "children": [
+            {
+                "label": "fourDigits",
+                "match": "1234",
+                "children": [
+                    {
+                        "label": "digit",
+                        "match": "1"
+                    },
+                    {
+                        "label": "digit",
+                        "match": "2"
+                    },
+                    {
+                        "label": "digit",
+                        "match": "3"
+                    },
+                    {
+                        "label": "digit",
+                        "match": "4"
+                    }
+                ]
+            },
+            {
+                "label": "operator",
+                "match": "+",
+                "children": [
+                    {
+                        "label": "'+'",
+                        "match": "+"
+                    }
+                ]
+            },
+            {
+                "label": "fourDigits",
+                "match": "2345",
+                "children": [
+                    {
+                        "label": "digit",
+                        "match": "2"
+                    },
+                    {
+                        "label": "digit",
+                        "match": "3"
+                    },
+                    {
+                        "label": "digit",
+                        "match": "4"
+                    },
+                    {
+                        "label": "digit",
+                        "match": "5"
+                    }
+                ]
+            },
+            {
+                "label": "operator",
+                "match": "-",
+                "children": [
+                    {
+                        "label": "'-'",
+                        "match": "-"
+                    }
+                ]
+            },
+            {
+                "label": "fourDigits",
+                "match": "3456",
+                "children": [
+                    {
+                        "label": "digit",
+                        "match": "3"
+                    },
+                    {
+                        "label": "digit",
+                        "match": "4"
+                    },
+                    {
+                        "label": "digit",
+                        "match": "5"
+                    },
+                    {
+                        "label": "digit",
+                        "match": "6"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,56 @@
+{
+    "buffer": "abcdefgh",
+    "hasMatch": true,
+    "parseTree": {
+        "label": "abcdefgh",
+        "match": "abcdefgh",
+        "children": [
+            {
+                "label": "abcd",
+                "match": "abcd",
+                "children": [
+                    {
+                        "label": "ab",
+                        "match": "ab",
+                        "children": [
+                            {
+                                "label": "a",
+                                "match": "a"
+                            }
+                        ]
+                    },
+                    {
+                        "label": "c",
+                        "match": "c"
+                    },
+                    {
+                        "label": "d",
+                        "match": "d"
+                    }
+                ]
+            },
+            {
+                "label": "ef",
+                "match": "ef",
+                "children": [
+                    {
+                        "label": "e",
+                        "match": "e"
+                    },
+                    {
+                        "label": "f",
+                        "match": "f"
+                    }
+                ]
+            },
+            {
+                "label": "g",
+                "match": "g"
+            },
+            {
+                "label": "h",
+                "match": "h"
+            }
+        ]
+    }
+}
