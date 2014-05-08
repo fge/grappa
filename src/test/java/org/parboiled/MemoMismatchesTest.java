@@ -16,6 +16,7 @@
 
 package org.parboiled;
 
+import com.github.parboiled1.grappa.assertions.OldStatsAssert;
 import org.parboiled.annotations.MemoMismatches;
 import org.parboiled.matchers.CharMatcher;
 import org.parboiled.matchers.FirstOfMatcher;
@@ -23,10 +24,8 @@ import org.parboiled.matchers.MemoMismatchesMatcher;
 import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.matchers.TestNotMatcher;
 import org.parboiled.parserunners.ProfilingParseRunner;
-import com.github.parboiled1.grappa.assertions.OldStatsAssert;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 
 public class MemoMismatchesTest {
@@ -76,18 +75,6 @@ public class MemoMismatchesTest {
 
         ProfilingParseRunner runner = new ProfilingParseRunner(parser.Clause());
         assertFalse(runner.run("2").hasErrors());
-        assertEquals(runner.getReport().printBasics().replaceFirst("\\d\\.\\d\\d\\d s", "X.XXX s"), "" +
-                "Runs                     :               1\n" +
-                "Active rules             :              13\n" +
-                "Total net rule time      :           X.XXX s\n" +
-                "Total rule invocations   :              21\n" +
-                "Total rule matches       :               8\n" +
-                "Total rule mismatches    :              13\n" +
-                "Total match share        :           38.10 %\n" +
-                "Rule re-invocations      :               8\n" +
-                "Rule re-matches          :               2\n" +
-                "Rule re-mismatches       :               6\n" +
-                "Rule re-invocation share :           38.10 %\n");
     }
 
     @Test
@@ -104,17 +91,5 @@ public class MemoMismatchesTest {
 
         ProfilingParseRunner runner = new ProfilingParseRunner(parser.Clause());
         assertFalse(runner.run("2").hasErrors());
-        assertEquals(runner.getReport().printBasics().replaceFirst("\\d\\.\\d\\d\\d s", "X.XXX s"), "" +
-                "Runs                     :               1\n" +
-                "Active rules             :              13\n" +
-                "Total net rule time      :           X.XXX s\n" +
-                "Total rule invocations   :              17\n" +
-                "Total rule matches       :               8\n" +
-                "Total rule mismatches    :               9\n" +
-                "Total match share        :           47.06 %\n" +
-                "Rule re-invocations      :               4\n" +
-                "Rule re-matches          :               2\n" +
-                "Rule re-mismatches       :               2\n" +
-                "Rule re-invocation share :           23.53 %\n");
     }
 }

@@ -2,7 +2,7 @@
     "runs": 1,
     "ruleReports": [ {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {} ],
     "matches": 8,
-    "mismatches": 13,
+    "mismatches": 9,
     "rematches": 2,
-    "remismatches": 6
+    "remismatches": 2
 }
