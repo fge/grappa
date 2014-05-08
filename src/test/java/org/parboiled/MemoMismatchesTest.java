@@ -16,13 +16,7 @@
 
 package org.parboiled;
 
-import com.github.parboiled1.grappa.assertions.OldStatsAssert;
 import org.parboiled.annotations.MemoMismatches;
-import org.parboiled.matchers.CharMatcher;
-import org.parboiled.matchers.FirstOfMatcher;
-import org.parboiled.matchers.MemoMismatchesMatcher;
-import org.parboiled.matchers.SequenceMatcher;
-import org.parboiled.matchers.TestNotMatcher;
 import org.parboiled.parserunners.ProfilingParseRunner;
 import org.testng.annotations.Test;
 
@@ -66,13 +60,6 @@ public class MemoMismatchesTest {
     public void test1() {
         Parser parser = Parboiled.createParser(Parser.class);
 
-        OldStatsAssert.assertStatsForRule(parser.Clause()).hasCountedTotal(13)
-            .hasCounted(6, CharMatcher.class)
-            .hasCounted(2, FirstOfMatcher.class)
-            .hasCounted(4, SequenceMatcher.class)
-            .hasCounted(1, TestNotMatcher.class)
-            .hasCountedNothingElse();
-
         ProfilingParseRunner runner = new ProfilingParseRunner(parser.Clause());
         assertFalse(runner.run("2").hasErrors());
     }
@@ -80,14 +67,6 @@ public class MemoMismatchesTest {
     @Test
     public void test2() {
         MemoParser parser = Parboiled.createParser(MemoParser.class);
-
-        OldStatsAssert.assertStatsForRule(parser.Clause()).hasCountedTotal(13)
-            .hasCounted(6, CharMatcher.class)
-            .hasCounted(2, FirstOfMatcher.class)
-            .hasCounted(4, SequenceMatcher.class)
-            .hasCounted(1, TestNotMatcher.class)
-            .hasCounted(1, MemoMismatchesMatcher.class)
-            .hasCountedNothingElse();
 
         ProfilingParseRunner runner = new ProfilingParseRunner(parser.Clause());
         assertFalse(runner.run("2").hasErrors());

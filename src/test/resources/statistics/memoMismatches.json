@@ -1,0 +1,8 @@
+{
+    "totalRules": 13,
+    "CharMatcher": 6,
+    "FirstOfMatcher": 2,
+    "SequenceMatcher": 4,
+    "TestNotMatcher": 1,
+    "MemoMismatchesMatcher": 1
+}
