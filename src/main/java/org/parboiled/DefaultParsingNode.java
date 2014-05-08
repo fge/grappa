@@ -18,10 +18,11 @@ package org.parboiled;
 
 import com.github.parboiled1.grappa.cleanup.VisibleForDocumentation;
 import com.google.common.base.Preconditions;
-import org.parboiled.common.ImmutableLinkedList;
 import org.parboiled.matchers.Matcher;
 import org.parboiled.support.CharsEscaper;
 import org.parboiled.trees.ImmutableTreeNode;
+
+import java.util.List;
 
 /**
  * An immutable implementation of the Node interface.
@@ -38,7 +39,7 @@ public final class DefaultParsingNode<V>
     private final boolean hasError;
 
     public DefaultParsingNode(final Matcher matcher,
-        final ImmutableLinkedList<Node<V>> children, final int startIndex,
+        final List<Node<V>> children, final int startIndex,
         final int endIndex, final V value, final boolean hasError)
     {
         super(children);

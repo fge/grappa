@@ -18,12 +18,12 @@ package org.parboiled.parserunners;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.buffers.MutableInputBuffer;
-import org.parboiled.common.ImmutableLinkedList;
 import org.parboiled.errors.InvalidInputError;
 import org.parboiled.matchers.AbstractMatcher;
 import org.parboiled.matchers.ActionMatcher;
@@ -43,6 +43,7 @@ import org.parboiled.support.MatcherPath;
 import org.parboiled.support.ParsingResult;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import static org.parboiled.support.Chars.DEL_ERROR;
@@ -590,8 +591,7 @@ while_loop:
     private static class CollectResyncActionsVisitor
         extends DefaultMatcherVisitor<List<ActionMatcher>>
     {
-        private ImmutableLinkedList<SequenceMatcher> path = ImmutableLinkedList
-            .nil();
+        private LinkedList<SequenceMatcher> path = Lists.newLinkedList();
 
         @Override
         public List<ActionMatcher> visit(final ActionMatcher matcher)
@@ -626,8 +626,9 @@ while_loop:
                 return null;
             }
 
-            final ImmutableLinkedList<SequenceMatcher> previousPath = path;
-            path = path.prepend(matcher);
+            final LinkedList<SequenceMatcher> previousPath
+                = Lists.newLinkedList(path);
+            path.push(matcher);
 
             final List<ActionMatcher> actions = new ArrayList<ActionMatcher>();
             for (final Matcher sub : matcher.getChildren()) {

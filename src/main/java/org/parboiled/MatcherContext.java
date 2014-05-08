@@ -18,8 +18,8 @@ package org.parboiled;
 
 import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import org.parboiled.buffers.InputBuffer;
-import org.parboiled.common.ImmutableLinkedList;
 import org.parboiled.errors.BasicParseError;
 import org.parboiled.errors.GrammarException;
 import org.parboiled.errors.ParseError;
@@ -43,6 +43,7 @@ import org.parboiled.support.ValueStack;
 
 import javax.annotation.Nonnull;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -100,7 +101,7 @@ public class MatcherContext<V>
     private Matcher matcher;
     private Node<V> node;
     // TODO! Replace!
-    private ImmutableLinkedList<Node<V>> subNodes = ImmutableLinkedList.nil();
+    private LinkedList<Node<V>> subNodes = Lists.newLinkedList();
     private MatcherPath path;
     private int intTag;
     private boolean hasError;
@@ -236,25 +237,34 @@ public class MatcherContext<V>
     }
 
     @Override
-    public ImmutableLinkedList<Node<V>> getSubNodes()
+    @Nonnull
+    public List<Node<V>> getSubNodes()
     {
-        return matcher.isNodeSkipped()
-            ? subNodes
-            : getSubNodes(subNodes, ImmutableLinkedList.<Node<V>>nil());
+        if (matcher.isNodeSkipped()) {
+            return subNodes;
+        }
+
+        final LinkedList<Node<V>> remaining
+            = Lists.newLinkedList(subNodes);
+        final LinkedList<Node<V>> tail = Lists.newLinkedList();
+        return getSubNodes(remaining, tail);
     }
 
     // TODO: replace, remove, I don't know, but do something
-    private static <V> ImmutableLinkedList<Node<V>> getSubNodes(
-        ImmutableLinkedList<Node<V>> remaining,
-        ImmutableLinkedList<Node<V>> tail)
+    private static <V> LinkedList<Node<V>> getSubNodes(
+        LinkedList<Node<V>> remaining,
+        LinkedList<Node<V>> tail)
     {
         while (!remaining.isEmpty()) {
-            final Node<V> head = remaining.head();
-            tail = head.getMatcher().isNodeSkipped()
-                ? getSubNodes((ImmutableLinkedList<Node<V>>) head.getChildren(),
-                    tail)
-                : tail.prepend(head);
-            remaining = remaining.tail();
+            final Node<V> head = remaining.peek();
+            if (head.getMatcher().isNodeSkipped()) {
+                final LinkedList<Node<V>> children
+                    = Lists.newLinkedList(head.getChildren());
+                tail = getSubNodes(children, tail);
+            } else {
+                tail.push(head);
+            }
+            remaining.pop();
         }
         return tail;
     }
@@ -449,8 +459,9 @@ public class MatcherContext<V>
         node = new DefaultParsingNode<V>(matcher, getSubNodes(), startIndex,
             currentIndex, valueStack.isEmpty() ? null : valueStack.peek(),
             hasError);
-        if (parent != null)
-            parent.subNodes = parent.subNodes.prepend(node);
+        if (parent != null) {
+            parent.subNodes.push(node);
+        }
     }
 
     public final MatcherContext<V> getBasicSubContext()
@@ -474,7 +485,7 @@ public class MatcherContext<V>
         sc.startIndex = sc.currentIndex = currentIndex;
         sc.currentChar = currentChar;
         sc.node = null;
-        sc.subNodes = ImmutableLinkedList.nil();
+        sc.subNodes = Lists.newLinkedList();
         sc.nodeSuppressed = nodeSuppressed || this.matcher
             .areSubnodesSuppressed() || matcher.isNodeSuppressed();
         sc.hasError = false;

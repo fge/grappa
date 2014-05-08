@@ -18,6 +18,9 @@
 
 package org.parboiled.common;
 
+import com.github.parboiled1.grappa.cleanup.DoNotUse;
+import com.github.parboiled1.grappa.cleanup.Unused;
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
 import com.google.common.collect.ForwardingList;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -26,6 +29,10 @@ import com.google.common.collect.Lists;
 import java.util.List;
 
 // TODO: get rid of it
+@Deprecated
+@Unused
+@DoNotUse
+@WillBeRemoved(version = "1.1")
 public final class ImmutableLinkedList<T>
     extends ForwardingList<T>
 {

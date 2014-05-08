@@ -17,10 +17,10 @@
 package org.parboiled.trees;
 
 import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import org.parboiled.common.ImmutableLinkedList;
 
-import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
 import java.util.List;
 
 /**
@@ -45,25 +45,20 @@ public class ImmutableGraphNode<T extends GraphNode<T>>
 
     public ImmutableGraphNode()
     {
-        this(null);
+        this(ImmutableList.<T>of());
     }
 
     // TODO! Null! Again! I need a gun!
-    public ImmutableGraphNode(@Nullable final List<T> children)
+    public ImmutableGraphNode(@Nonnull final List<T> children)
     {
-        if (children == null) {
-            this.children = ImmutableList.<T>of();
-            return;
-        }
+        Preconditions.checkNotNull(children);
         /*
          * ImmutableLinkedList has no such thing as a "safe copy constructor";
          * ImmutableList (Guava's, that is) does; what is more, if the argument
          * to .copyOf() is _also_ a (Guava...) ImmutableList, it won't even make
          * a copy.
          */
-        this.children = children instanceof ImmutableLinkedList
-            ? children
-            : ImmutableList.copyOf(children);
+        this.children = ImmutableList.copyOf(children);
     }
 
     @Override
