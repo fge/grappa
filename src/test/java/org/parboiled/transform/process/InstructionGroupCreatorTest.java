@@ -39,7 +39,7 @@ public class InstructionGroupCreatorTest extends TransformationTest {
             new InstructionGroupCreator()
     );
 
-    @SuppressWarnings({"FieldCanBeLocal"})
+    @SuppressWarnings("FieldCanBeLocal")
     private String dotSource;
 
     @Test(enabled = false)
@@ -50,22 +50,22 @@ public class InstructionGroupCreatorTest extends TransformationTest {
         //renderToGraphViz(dotSource);
     }
 
-    private void testMethodAnalysis(String methodName, long dotSourceCRC) throws Exception {
-        RuleMethod method = processMethod(methodName, processors);
+    private void testMethodAnalysis(final String methodName, final long dotSourceCRC) throws Exception {
+        final RuleMethod method = processMethod(methodName, processors);
 
         dotSource = generateDotSource(method);
-        long crc = computeCRC(dotSource);
+        final long crc = computeCRC(dotSource);
         if (crc != dotSourceCRC) {
             System.err.println("Invalid dotSource CRC for method '" + methodName + "': " + crc + 'L');
             assertEquals(dotSource, "");
         }
     }
 
-    private String generateDotSource(RuleMethod method) {
+    private String generateDotSource(final RuleMethod method) {
         Preconditions.checkNotNull(method, "method");
 
         // generate graph attributes
-        StringBuilder sb = new StringBuilder()
+        final StringBuilder sb = new StringBuilder()
                 .append("digraph G {\n")
                 .append("fontsize=10;\n")
                 .append("label=\"")
@@ -81,9 +81,9 @@ public class InstructionGroupCreatorTest extends TransformationTest {
         sb.append(" Action -> Capture -> VarInit -> ContextSwitch -> XLoad -> XStore -> CallOnContextAware;\n");
 
         for (int i = 0; i < method.getGraphNodes().size(); i++) {
-            InstructionGraphNode node = method.getGraphNodes().get(i);
+            final InstructionGraphNode node = method.getGraphNodes().get(i);
             // generate node
-            boolean isSpecial = node.isActionRoot() || node.isVarInitRoot() ||
+            final boolean isSpecial = node.isActionRoot() || node.isVarInitRoot() ||
                     node.isXLoad() || node.isXStore() || node.isCallOnContextAware();
             sb.append(" ").append(i)
                     .append(" [")
@@ -100,7 +100,7 @@ public class InstructionGroupCreatorTest extends TransformationTest {
                     .append("fontcolor=black];\n");
 
             // generate edges
-            for (InstructionGraphNode pred : node.getPredecessors()) {
+            for (final InstructionGraphNode pred : node.getPredecessors()) {
                 sb.append(" ").append(method.getGraphNodes().indexOf(pred)).append(" -> ").append(i)
                         .append(";\n");
             }
@@ -109,9 +109,9 @@ public class InstructionGroupCreatorTest extends TransformationTest {
         return sb.toString();
     }
 
-    private static long computeCRC(String text) throws Exception {
-        CRC32 crc32 = new CRC32();
-        byte[] buf = text.getBytes("UTF8");
+    private static long computeCRC(final String text) throws Exception {
+        final CRC32 crc32 = new CRC32();
+        final byte[] buf = text.getBytes("UTF8");
         crc32.update(buf);
         return crc32.getValue();
     }

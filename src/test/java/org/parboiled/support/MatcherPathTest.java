@@ -43,12 +43,12 @@ public class MatcherPathTest {
 
     @Test
     public void testMatcherPath() {
-        Parser parser = Parboiled.createParser(Parser.class);
-        MatcherPath path1 =
+        final Parser parser = Parboiled.createParser(Parser.class);
+        final MatcherPath path1 =
                 new MatcherPath(new MatcherPath.Element((Matcher)parser.A(), 0, 2),
                 new MatcherPath(new MatcherPath.Element((Matcher)parser.B(), 0, 1),
                 new MatcherPath(new MatcherPath.Element((Matcher)parser.C(), 0, 0), null)));
-        MatcherPath path2 = path1.parent;
+        final MatcherPath path2 = path1.parent;
 
         assertEquals(path1.toString(), "C/B/A");
         assertEquals(path2.toString(), "C/B");

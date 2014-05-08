@@ -28,7 +28,7 @@ public class IntArrayStackTest {
 
     @Test
     public void testIntArrayStack() {
-        IntArrayStack stack = new IntArrayStack();
+        final IntArrayStack stack = new IntArrayStack();
         stack.push(1);
         stack.push(2);
         stack.push(6);
@@ -43,7 +43,7 @@ public class IntArrayStackTest {
         assertEquals(stack.pop(), 8);
         assertEquals(stack.size(), 2);
 
-        int[] buf = new int[5];
+        final int[] buf = new int[5];
         stack.getElements(buf, 1);
         assertTrue(Arrays.equals(buf, new int[]{ 0, 1, 2, 0, 0 }));
 

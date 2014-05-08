@@ -28,7 +28,7 @@ import org.parboiled.support.Var;
 
 import static java.lang.Integer.parseInt;
 
-@SuppressWarnings({"UnusedDeclaration"})
+@SuppressWarnings("UnusedDeclaration")
 @BuildParseTree
 public class TestParser extends BaseParser<Integer> {
 
@@ -65,25 +65,25 @@ public class TestParser extends BaseParser<Integer> {
         return sequence('a', 'b', ACTION(integer < 0 && action()));
     }
 
-    public Rule RuleWithIndirectImplicitParamAction(int param) {
+    public Rule RuleWithIndirectImplicitParamAction(final int param) {
         return sequence('a', 'b', integer == param);
     }
 
-    public Rule RuleWithComplexActionSetup(int param) {
+    public Rule RuleWithComplexActionSetup(final int param) {
         int i = 26, j = 18;
-        Var<String> string = new Var<String>("text");
+        final Var<String> string = new Var<String>("text");
         i += param;
         j -= i;
         return sequence('a' + i, i > param + j, string, ACTION(integer + param < string.get().length() - i - j));
     }
 
     public Rule BugIn0990() {
-        Var<Integer> var = new Var<Integer>();
+        final Var<Integer> var = new Var<Integer>();
         return firstOf("10", "2");
     }
 
     @DontLabel
-    public Rule RuleWith2Returns(int param) {
+    public Rule RuleWith2Returns(final int param) {
         if (param == integer) {
             return sequence('a', ACTION(action()));
         } else {
@@ -92,7 +92,7 @@ public class TestParser extends BaseParser<Integer> {
     }
 
     @DontLabel
-    public Rule RuleWithSwitchAndAction(int param) {
+    public Rule RuleWithSwitchAndAction(final int param) {
         switch (param) {
             case 0: return sequence(EMPTY, push(1));
         }
@@ -100,18 +100,18 @@ public class TestParser extends BaseParser<Integer> {
     }
 
     @ExplicitActionsOnly
-    public Rule RuleWithExplicitActionsOnly(int param) {
-        Boolean b = integer == param;
+    public Rule RuleWithExplicitActionsOnly(final int param) {
+        final Boolean b = integer == param;
         return sequence('a', 'b', b);
     }
 
     @Cached
-    public Rule RuleWithCachedAnd2Params(String string, long aLong) {
+    public Rule RuleWithCachedAnd2Params(final String string, final long aLong) {
         return sequence(string, aLong == integer);
     }
 
-    public Rule RuleWithFakeImplicitAction(int param) {
-        Boolean b = integer == param;
+    public Rule RuleWithFakeImplicitAction(final int param) {
+        final Boolean b = integer == param;
         return sequence('a', 'b', b);
     }
 

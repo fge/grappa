@@ -27,7 +27,7 @@ import java.util.List;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
-@SuppressWarnings({"InstantiatingObjectToGetClassObject"})
+@SuppressWarnings("InstantiatingObjectToGetClassObject")
 public class ErrorDetectionTest extends TransformationTest {
 
     private final List<RuleMethodProcessor> processors = ImmutableList.of(

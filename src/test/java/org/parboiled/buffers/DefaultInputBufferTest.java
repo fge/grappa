@@ -27,7 +27,7 @@ public class DefaultInputBufferTest {
 
     @Test
     public void testOneliner() {
-        InputBuffer buf = new DefaultInputBuffer("abcdefgh".toCharArray());
+        final InputBuffer buf = new DefaultInputBuffer("abcdefgh".toCharArray());
         Assert.assertEquals(buf.charAt(-4), Chars.EOI);
         assertEquals(buf.charAt(0), 'a');
         assertEquals(buf.charAt(7), 'h');
@@ -43,7 +43,7 @@ public class DefaultInputBufferTest {
 
     @Test
     public void testMultiliner() {
-        InputBuffer buf = new DefaultInputBuffer(("" +
+        final InputBuffer buf = new DefaultInputBuffer(("" +
                 "abcd\n" +
                 "ef\r\n" +
                 "\n" +

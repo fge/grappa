@@ -62,7 +62,7 @@ public class StringVar
      */
     public boolean append(final String text)
     {
-        return set(get() == null ? text : get().concat(text));
+        return set(get() == null ? text : get() + text);
     }
 
     /**

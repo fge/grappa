@@ -38,7 +38,7 @@ public class ReturnInstructionUnifierTest extends TransformationTest {
         setup(TestParser.class);
     }
 
-    @SuppressWarnings({"unchecked"})
+    @SuppressWarnings("unchecked")
     @Test
     public void testReturnInstructionUnification() throws Exception {
         assertTraceDumpEquality(processMethod("RuleWithSwitchAndAction", processors), "" +

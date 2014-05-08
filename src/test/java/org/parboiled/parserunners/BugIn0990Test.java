@@ -37,7 +37,7 @@ public class BugIn0990Test extends ParboiledTest<Integer>
 
     @Test
     public void test() {
-        Parser parser = Parboiled.createParser(Parser.class);
+        final Parser parser = Parboiled.createParser(Parser.class);
         // threw IllegalStateException in 0.9.9.0
         testWithRecovery(parser.Clause(), "a.b;")
             .hasErrors("Unexpected end of input, " +

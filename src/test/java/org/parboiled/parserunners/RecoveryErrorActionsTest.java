@@ -56,7 +56,7 @@ public class RecoveryErrorActionsTest extends ParboiledTest<Object>
 
     @Test
     public void testRecoveryErrorActions1() {
-        Parser parser = Parboiled.createParser(Parser.class);
+        final Parser parser = Parboiled.createParser(Parser.class);
         testWithRecovery(parser.Clause(), "abcd")
                 .hasNoErrors()
                 .hasResult("a", "b", 1, 2.0);
@@ -64,7 +64,7 @@ public class RecoveryErrorActionsTest extends ParboiledTest<Object>
 
     @Test
     public void testRecoveryErrorActions2() {
-        Parser parser = Parboiled.createParser(Parser.class);
+        final Parser parser = Parboiled.createParser(Parser.class);
         testWithRecovery(parser.Clause(), "axcd")
             .hasErrors(
                 "Invalid input 'x', expected one of: [B] (line 1, pos 2):\n" +
@@ -75,7 +75,7 @@ public class RecoveryErrorActionsTest extends ParboiledTest<Object>
     
     @Test
     public void testRecoveryErrorActions3() {
-        Parser parser = Parboiled.createParser(Parser.class);
+        final Parser parser = Parboiled.createParser(Parser.class);
         testWithRecovery(parser.Clause(), "axx")
             .hasErrors(
                 "Invalid input 'x...', expected one of: [B] (line 1, pos 2):\n"
@@ -85,7 +85,7 @@ public class RecoveryErrorActionsTest extends ParboiledTest<Object>
     
     @Test
     public void testRecoveryErrorActions4() {
-        Parser parser = Parboiled.createParser(Parser.class);
+        final Parser parser = Parboiled.createParser(Parser.class);
         testWithRecovery(parser.Clause(), "abx")
             .hasErrors(
                 "Invalid input 'x', expected one of: [C] (line 1, pos 3):\n" +
@@ -96,7 +96,7 @@ public class RecoveryErrorActionsTest extends ParboiledTest<Object>
     
     @Test
     public void testRecoveryErrorActions5() {
-        Parser parser = Parboiled.createParser(Parser.class);
+        final Parser parser = Parboiled.createParser(Parser.class);
         testWithRecovery(parser.Clause(), "abxyz")
             .hasErrors(
                 "Invalid input 'x...', expected one of: [C] (line 1, pos 3):\n"
@@ -106,7 +106,7 @@ public class RecoveryErrorActionsTest extends ParboiledTest<Object>
 
     @Test
     public void testRecoveryOnEmptyBuffer() {
-        Parser parser = Parboiled.createParser(Parser.class);
+        final Parser parser = Parboiled.createParser(Parser.class);
         testWithRecovery(parser.Clause(), "")
             .hasErrors(
                 "Unexpected end of input, expected one of: [Clause]"

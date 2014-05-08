@@ -39,9 +39,9 @@ public class ReportingParseRunnerTest {
 
     @Test
     public void testErrorLocation() {
-        Parser parser = Parboiled.createParser(Parser.class);
-        Rule rule = parser.Line1();
-        ParsingResult result = new ReportingParseRunner(rule).run("Text;;Something");
+        final Parser parser = Parboiled.createParser(Parser.class);
+        final Rule rule = parser.Line1();
+        final ParsingResult result = new ReportingParseRunner(rule).run("Text;;Something");
         assertEquals(result.parseErrors.size(), 1);
         assertEquals(printParseErrors(result),
             "Invalid input ';' (line 1, pos 6):\n" +
@@ -51,9 +51,9 @@ public class ReportingParseRunnerTest {
 
     @Test
     public void testErrorAtEOI() {
-        Parser parser = Parboiled.createParser(Parser.class);
-        Rule rule = parser.Line1();
-        ParsingResult result = new ReportingParseRunner(rule).run("Text;");
+        final Parser parser = Parboiled.createParser(Parser.class);
+        final Rule rule = parser.Line1();
+        final ParsingResult result = new ReportingParseRunner(rule).run("Text;");
         assertEquals(result.parseErrors.size(), 1);
         assertEquals(printParseErrors(result), "" +
             "Unexpected end of input, expected one of: [ANY]" +
@@ -62,9 +62,9 @@ public class ReportingParseRunnerTest {
 
     @Test
     public void testDoesntExpectTestNotMatcher() {
-        Parser parser = Parboiled.createParser(Parser.class);
-        Rule rule = parser.Line2();
-        ParsingResult result = new ReportingParseRunner(rule).run("ad");
+        final Parser parser = Parboiled.createParser(Parser.class);
+        final Rule rule = parser.Line2();
+        final ParsingResult result = new ReportingParseRunner(rule).run("ad");
         assertEquals(result.parseErrors.size(), 1);
         assertEquals(printParseErrors(result),
             "Invalid input 'd', expected one of: ['c'] (line 1, pos 2):\n"

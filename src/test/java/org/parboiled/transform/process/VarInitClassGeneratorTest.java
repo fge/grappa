@@ -49,10 +49,10 @@ public class VarInitClassGeneratorTest extends TransformationTest {
 
     static class Parser extends BaseParser<Integer> {
 
-        @SuppressWarnings({"UnusedDeclaration"})
+        @SuppressWarnings("UnusedDeclaration")
         public Rule A() {
-            Var<List<String>> list = new Var<List<String>>(new ArrayList<String>());
-            Var<Integer> i = new Var<Integer>(26);
+            final Var<List<String>> list = new Var<List<String>>(new ArrayList<String>());
+            final Var<Integer> i = new Var<Integer>(26);
             return sequence('a', list.get().add(match()));
         }
 
@@ -65,7 +65,7 @@ public class VarInitClassGeneratorTest extends TransformationTest {
 
     @Test
     public void testVarInitClassGeneration() throws Exception {
-        RuleMethod method = processMethod("A", processors);
+        final RuleMethod method = processMethod("A", processors);
 
         assertEquals(method.getGroups().size(), 3);
 

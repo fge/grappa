@@ -32,7 +32,7 @@ public class IndentDedentInputBufferTest {
     
     @Test
     public void testIndentDedentInputBuffer0() {
-        InputBuffer buf = new IndentDedentInputBuffer(("" +
+        final InputBuffer buf = new IndentDedentInputBuffer(("" +
                 "###\n" +
                 "\n" +
                 "L1#X\n" +
@@ -40,7 +40,7 @@ public class IndentDedentInputBufferTest {
                 "  L2\n" +
                 "L12").toCharArray(), 2, "#", false);
         
-        String bufContent = collectContent(buf);
+        final String bufContent = collectContent(buf);
         assertEquals(bufContent, "" +
                 "L1\n" +
                 "»L2\n" +
@@ -55,7 +55,7 @@ public class IndentDedentInputBufferTest {
 
     @Test
     public void testIndentDedentInputBufferEmptyLines() {
-        InputBuffer buf = new IndentDedentInputBuffer(("" +
+        final InputBuffer buf = new IndentDedentInputBuffer(("" +
                 "###\n" +
                 "\n" +
                 "A#X\n" +
@@ -65,7 +65,7 @@ public class IndentDedentInputBufferTest {
                 "  C\n" +
                 "DEF").toCharArray(), 2, "#", true, false);
 
-        String bufContent = collectContent(buf);
+        final String bufContent = collectContent(buf);
         assertEquals(bufContent, "" +
                 "\n" +
                 "\n" +
@@ -85,7 +85,7 @@ public class IndentDedentInputBufferTest {
 
     @Test
     public void testIndentDedentInputBuffer1() {
-        InputBuffer buf = new IndentDedentInputBuffer(("" +
+        final InputBuffer buf = new IndentDedentInputBuffer(("" +
                 "level 1\n" +
                 "  \tlevel 2\n" +
                 "    still level 2\n" +
@@ -96,7 +96,7 @@ public class IndentDedentInputBufferTest {
                 "and back to 1\n" +
                 "  another level 2 again").toCharArray(), 2, null, false);
         
-        String bufContent = collectContent(buf);
+        final String bufContent = collectContent(buf);
         assertEquals(bufContent, "" +
                 "level 1\n" +
                 "»level 2\n" +
@@ -122,14 +122,14 @@ public class IndentDedentInputBufferTest {
     public void testIndentDedentInputBuffer2()
         throws IOException
     {
-        String input = fromResource("IndentDedentBuffer2.test");
-        InputBuffer buf = new IndentDedentInputBuffer(input.toCharArray(), 4, "#", false);
+        final String input = fromResource("IndentDedentBuffer2.test");
+        final InputBuffer buf = new IndentDedentInputBuffer(input.toCharArray(), 4, "#", false);
         
-        String bufContent = collectContent(buf);
+        final String bufContent = collectContent(buf);
         assertEquals(bufContent, fromResource("IndentDedentBuffer2.converted.test"));
         
-        String text = "go deep";
-        int start = bufContent.indexOf(text);
+        final String text = "go deep";
+        final int start = bufContent.indexOf(text);
         assertEquals(buf.extract(start, start + text.length()), text);        
     }
 
@@ -137,9 +137,9 @@ public class IndentDedentInputBufferTest {
     public void testIndentDedentInputBuffer3()
         throws IOException
     {
-        String input = fromResource("IndentDedentBuffer3.test");
-        InputBuffer buf = new IndentDedentInputBuffer(input.toCharArray(), 4, "//", false);
-        String bufContent = collectContent(buf);
+        final String input = fromResource("IndentDedentBuffer3.test");
+        final InputBuffer buf = new IndentDedentInputBuffer(input.toCharArray(), 4, "//", false);
+        final String bufContent = collectContent(buf);
         assertEquals(bufContent, fromResource(
             "IndentDedentBuffer3.converted.test"));
         assertEquals(buf.extract(0, bufContent.length()), input);
@@ -147,11 +147,11 @@ public class IndentDedentInputBufferTest {
     
     @Test
     public void testIndentDedentInputBuffer4() {
-        InputBuffer buf = new IndentDedentInputBuffer(("" +
+        final InputBuffer buf = new IndentDedentInputBuffer(("" +
                 "level 1\n" +
                 "  level 2 # comment").toCharArray(), 2, "#", false);
         
-        String bufContent = collectContent(buf);
+        final String bufContent = collectContent(buf);
         assertEquals(bufContent, "" +
                 "level 1\n" +
                 "»level 2 \n" +
@@ -160,7 +160,7 @@ public class IndentDedentInputBufferTest {
 
     @Test
     public void testIndentDedentInputBufferIllegalIndent1() {
-        InputBuffer buf = new IndentDedentInputBuffer(("" +
+        final InputBuffer buf = new IndentDedentInputBuffer(("" +
                 "level 1\n" +
                 "  \tlevel 2\n" +
                 "    still level 2\n" +
@@ -171,7 +171,7 @@ public class IndentDedentInputBufferTest {
                 "and back to 1\n" +
                 "  another level 2 again").toCharArray(), 2, null, false);
 
-        String bufContent = collectContent(buf);
+        final String bufContent = collectContent(buf);
         assertEquals(bufContent, "" +
                 "level 1\n" +
                 "»level 2\n" +
@@ -209,7 +209,7 @@ public class IndentDedentInputBufferTest {
     
     @Test
     public void testEmptyIndentDedentInputBuffer() {
-        InputBuffer buf = new IndentDedentInputBuffer(new char[0], 2, "#", false);
+        final InputBuffer buf = new IndentDedentInputBuffer(new char[0], 2, "#", false);
         assertEquals(buf.extract(0, 1), "");
     }
 

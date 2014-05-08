@@ -47,7 +47,7 @@ public class FirstOfStringsMatcherTest extends ParboiledTest<Object>
 
     @Test
     public void testCreateRecords() {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         printRecord(FirstOfStringsMatcher.createRecord(0, toArrayOfCharArray("" +
                 "Alpha",
                 "Beta",
@@ -74,7 +74,7 @@ public class FirstOfStringsMatcherTest extends ParboiledTest<Object>
 
     @Test
     public void testFirstOfStringsMatcher() {
-        Parser parser = Parboiled.createParser(Parser.class);
+        final Parser parser = Parboiled.createParser(Parser.class);
         test(parser.Test1(), "Abc").hasNoErrors().hasParseTree("[Test1] 'Abc'\n");
         test(parser.Test1(), "Ab").hasNoErrors().hasParseTree("[Test1] 'Ab'\n");
         test(parser.Test1(), "Bcd").hasNoErrors().hasParseTree("[Test1] 'Bcd'\n");
@@ -86,19 +86,20 @@ public class FirstOfStringsMatcherTest extends ParboiledTest<Object>
 
     @Test(expectedExceptions = GrammarException.class)
     public void testFirstOfStringsFail() {
-        Parser parser = Parboiled.createParser(Parser.class);
+        final Parser parser = Parboiled.createParser(Parser.class);
         test(parser.Test3(), "Abc").hasNoErrors().hasParseTree("");
     }
 
-    private char[][] toArrayOfCharArray(String... strings) {
-        char[][] chars = new char[strings.length][];
+    private char[][] toArrayOfCharArray(final String... strings) {
+        final char[][] chars = new char[strings.length][];
         for (int i = 0; i < strings.length; i++) {
             chars[i] = strings[i].toCharArray();
         }
         return chars;
     }
 
-    private void printRecord(FirstOfStringsMatcher.Record rec, String indent, StringBuilder sb) {
+    private void printRecord(
+        final FirstOfStringsMatcher.Record rec, final String indent, final StringBuilder sb) {
         if (rec == null) {
             sb.append('\n');
             return;

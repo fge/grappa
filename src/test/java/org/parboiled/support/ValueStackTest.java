@@ -30,7 +30,7 @@ public class ValueStackTest {
 
     @Test
     public void testValueStack() {
-        ValueStack<Integer> stack = new DefaultValueStack<Integer>();
+        final ValueStack<Integer> stack = new DefaultValueStack<Integer>();
 
         assertTrue(stack.isEmpty());
 
@@ -61,8 +61,8 @@ public class ValueStackTest {
         stack.pushAll(19, 20);
         stack.swap3();
 
-        List<Integer> list = new LinkedList<Integer>();
-        for (Integer i : stack) list.add(i);
+        final List<Integer> list = new LinkedList<Integer>();
+        for (final Integer i : stack) list.add(i);
         assertEquals(list, Arrays.asList(18,19,20));
     }
 

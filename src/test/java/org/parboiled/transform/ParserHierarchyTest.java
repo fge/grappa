@@ -61,7 +61,7 @@ public class ParserHierarchyTest {
         @Override Rule C() {
             return sequence('C', super.C());
         }
-        @SuppressWarnings( {"UnusedDeclaration"})
+        @SuppressWarnings("UnusedDeclaration")
         Rule D() {
             return sequence(super.A(), super.B(), B(), dup());
         }
@@ -75,7 +75,7 @@ public class ParserHierarchyTest {
 
     @Test
     public void verifyTestParserHierarchyExtension() throws Exception {
-        ParserClassNode classNode = ParserTransformer.extendParserClass(Parser3.class);
+        final ParserClassNode classNode = ParserTransformer.extendParserClass(Parser3.class);
         verifyIntegrity(classNode.name, classNode.getClassCode());
 
         assertEquals(getMethodInstructionList(classNode.getRuleMethods().get("$A()Lorg/parboiled/Rule;")), "" +

@@ -26,14 +26,14 @@ public class BugIn101Test {
 
     static class Parser extends BaseParser<Object> {
         Rule A() {
-            Object a = new Object();
+            final Object a = new Object();
             return sequence("a", push(a));
         }
         Rule B() {
-            String b = "b";
+            final String b = "b";
             return sequence("b", push(b));
         }
-        Rule Switch(int i) {
+        Rule Switch(final int i) {
             switch (i) {
                 case 0: return sequence(EMPTY, push(1));
             }
@@ -45,7 +45,7 @@ public class BugIn101Test {
     public void test() throws Exception {
         // threw "java.lang.RuntimeException: Error creating extended parser class:
         // Execution can fall off end of the code" in 1.0.1
-        Parser parser = Parboiled.createParser(Parser.class);
+        final Parser parser = Parboiled.createParser(Parser.class);
 
         // threw "java.lang.NoSuchFieldError: field$1" in 1.0.1
         new ReportingParseRunner<Object>(parser.B()).run("b");

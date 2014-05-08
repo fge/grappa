@@ -52,7 +52,7 @@ public class ActionClassGeneratorTest extends TransformationTest {
 
     @Test
     public void testActionClassGeneration() throws Exception {
-        RuleMethod method = processMethod("RuleWithComplexActionSetup", processors);
+        final RuleMethod method = processMethod("RuleWithComplexActionSetup", processors);
 
         assertEquals(method.getGroups().size(), 3);
 

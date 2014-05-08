@@ -55,7 +55,7 @@ public class SimpleErrorRecoveryTest extends ParboiledTest<Object>
 
     @Test
     public void testRecovery() {
-        Parser parser = Parboiled.createParser(Parser.class);
+        final Parser parser = Parboiled.createParser(Parser.class);
         testWithRecovery(parser.Clause(), "AaA").hasErrors(
             "Invalid input 'a...', expected one of: ['l'] (line 1, pos 2):\n" +
                 "AaA\n" +
@@ -231,7 +231,7 @@ public class SimpleErrorRecoveryTest extends ParboiledTest<Object>
     
     @Test(expectedExceptions = RecoveringParseRunner.TimeoutException.class)
     public void testRecoveryTimeout() {
-        Parser parser = Parboiled.createParser(Parser.class);
+        final Parser parser = Parboiled.createParser(Parser.class);
         new RecoveringParseRunner<Object>(parser.Clause(), 0).run("AaA");
     }
 }

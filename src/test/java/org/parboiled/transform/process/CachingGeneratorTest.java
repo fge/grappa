@@ -40,7 +40,7 @@ public class CachingGeneratorTest extends TransformationTest {
         setup(TestParser.class);
     }
 
-    @SuppressWarnings( {"unchecked"})
+    @SuppressWarnings("unchecked")
     @Test
     public void test() throws Exception {
         assertTraceDumpEquality(processMethod("RuleWithoutAction", processors), "" +

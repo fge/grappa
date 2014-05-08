@@ -38,7 +38,7 @@ public class NoPackageParser
     @Test
     public void testNoPackageParser()
     {
-        Parser parser = Parboiled.createParser(Parser.class);
+        final Parser parser = Parboiled.createParser(Parser.class);
         test(parser.a(), "a").hasNoErrors().hasParseTree("" +
             "[a, {42}] 'a'\n" +
             "  ['a'] 'a'\n");

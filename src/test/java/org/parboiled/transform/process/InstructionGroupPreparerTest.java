@@ -46,7 +46,7 @@ public class InstructionGroupPreparerTest extends TransformationTest {
 
     @Test
     public void testRuleWithComplexActionSetup() throws Exception {
-        RuleMethod method = processMethod("RuleWithComplexActionSetup", processors);
+        final RuleMethod method = processMethod("RuleWithComplexActionSetup", processors);
 
         assertEquals(method.getGroups().size(), 3);
 

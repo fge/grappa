@@ -28,15 +28,15 @@ public class ActionVar2Test extends ParboiledTest<Object>
     static class Parser extends BaseParser<Object> {
 
         Rule Clause() {
-            Reference<Integer> count = new Reference<Integer>();
+            final Reference<Integer> count = new Reference<Integer>();
             return sequence(CharCount(count), Chars(count), '\n');
         }
 
-        Rule CharCount(Reference<Integer> count) {
+        Rule CharCount(final Reference<Integer> count) {
             return sequence('{', oneOrMore(charRange('0', '9')), count.set(Integer.parseInt(match())), '}');
         }
 
-        Rule Chars(Reference<Integer> count) {
+        Rule Chars(final Reference<Integer> count) {
             return sequence(
                     zeroOrMore(count.get() > 0, ANY, count.set(count.get() - 1)),
                     count.get() == 0
@@ -46,7 +46,7 @@ public class ActionVar2Test extends ParboiledTest<Object>
 
     @Test
     public void test() {
-        Parser parser = Parboiled.createParser(Parser.class);
+        final Parser parser = Parboiled.createParser(Parser.class);
         test(parser.Clause(), "{12}abcdefghijkl\n")
                 .hasNoErrors()
                 .hasParseTree("" +

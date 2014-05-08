@@ -33,7 +33,7 @@ public abstract class ParboiledTest<V> {
         public final ParsingResult<V> result;
         private final OldParsingResultAssert<V> resultAssert;
 
-        public TestResult(ParsingResult<V> result) {
+        public TestResult(final ParsingResult<V> result) {
             this.result = result;
             resultAssert = OldParsingResultAssert.assertResult(result);
         }
@@ -50,32 +50,32 @@ public abstract class ParboiledTest<V> {
             return this;
         }
 
-        public TestResult<V> hasErrors(String expectedErrors) {
+        public TestResult<V> hasErrors(final String expectedErrors) {
             assertEquals(printParseErrors(result), expectedErrors);
             return this;
         }
 
-        public TestResult<V> hasParseTree(String expectedTree) {
+        public TestResult<V> hasParseTree(final String expectedTree) {
             assertEquals(printNodeTree(result), expectedTree);
             return this;
         }
 
-        public TestResult<V> hasResult(V... expectedResults) {
+        public TestResult<V> hasResult(final V... expectedResults) {
             // TODO: why are lists reversed? Seems unnatural
             resultAssert.hasStack(expectedResults);
             return this;
         }
     }
 
-    public TestResult<V> test(Rule rule, String input) {
+    public TestResult<V> test(final Rule rule, final String input) {
         return new TestResult<V>(new ReportingParseRunner<V>(rule).run(input));
     }
     
-    public TestResult<V> test(Rule rule, InputBuffer inputBuffer) {
+    public TestResult<V> test(final Rule rule, final InputBuffer inputBuffer) {
         return new TestResult<V>(new ReportingParseRunner<V>(rule).run(inputBuffer));
     }
 
-    public TestResult<V> testWithRecovery(Rule rule, String input) {
+    public TestResult<V> testWithRecovery(final Rule rule, final String input) {
         return new TestResult<V>(new RecoveringParseRunner<V>(rule).run(input));
     }
 }

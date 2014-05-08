@@ -184,10 +184,10 @@ public class ClassNodeInitializer
         // check, whether we do not already have a method with that name and descriptor
         // if we do we add the method with a "$" prefix in order to have it processed and be able to reference it
         // later if we have to
-        String methodKey = name.concat(desc);
+        String methodKey = name + desc;
         while (classNode.getRuleMethods().containsKey(methodKey)) {
             name = '$' + name;
-            methodKey = name.concat(desc);
+            methodKey = name + desc;
         }
 
         final RuleMethod method = new RuleMethod(ownerClass, access, name, desc,

@@ -33,9 +33,9 @@ public class ActionVarTest extends ParboiledTest<Integer>
     @BuildParseTree
     static class Parser extends BaseParser<Integer> {
 
-        @SuppressWarnings( {"InfiniteRecursion"})
+        @SuppressWarnings("InfiniteRecursion")
         public Rule A() {
-            Var<List<String>> list = new Var<List<String>>(new ArrayList<String>());
+            final Var<List<String>> list = new Var<List<String>>(new ArrayList<String>());
             return sequence('a', optional(A(), list.get().add("Text"), push(list.get().size())));
         }
 
@@ -43,8 +43,8 @@ public class ActionVarTest extends ParboiledTest<Integer>
 
     @Test
     public void test() {
-        Parser parser = Parboiled.createParser(Parser.class);
-        Matcher rule = (Matcher) parser.A();
+        final Parser parser = Parboiled.createParser(Parser.class);
+        final Matcher rule = (Matcher) parser.A();
 
         assertEquals(rule.getClass().getName(), "org.parboiled.matchers.VarFramingMatcher");
 

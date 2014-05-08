@@ -33,7 +33,7 @@ public class ImmutableLinkedListTest
         assertEquals(nil().prepend(5).size(), 1);
         assertEquals(nil().prepend(5).prepend(7).size(), 2);
 
-        ImmutableLinkedList<Object> abc = nil().prepend("c").prepend("b").prepend("a");
+        final ImmutableLinkedList<Object> abc = nil().prepend("c").prepend("b").prepend("a");
         assertEquals(COMMA.join(abc), "a,b,c");
         assertEquals(COMMA.join(abc.reverse()), "c,b,a");
     }

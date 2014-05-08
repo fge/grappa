@@ -15,9 +15,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "type")
 
-@JsonSubTypes({
-    @Type(name = "invalidInput", value = InvalidInputErrorVerifier.class)
-})
+@JsonSubTypes(
+    @Type(name = "invalidInput", value = InvalidInputErrorVerifier.class))
 public abstract class ParseErrorVerifier<E extends ParseError>
     implements Verifier<ParseError>
 {

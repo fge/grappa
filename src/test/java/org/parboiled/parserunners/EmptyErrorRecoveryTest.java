@@ -44,7 +44,7 @@ public class EmptyErrorRecoveryTest extends ParboiledTest<Object>
 
     @Test
     public void testSingleRecovery() {
-        Parser parser = Parboiled.createParser(Parser.class);
+        final Parser parser = Parboiled.createParser(Parser.class);
         testWithRecovery(parser.Clause(), "Y cool")
             .hasErrors(
                 "Invalid input, expected one of: ['e', 'u'] (line 1, pos 2):\n"

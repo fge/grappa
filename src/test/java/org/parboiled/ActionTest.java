@@ -32,7 +32,7 @@ public class ActionTest extends ParboiledTest<Integer>
     public static class Actions extends BaseActions<Integer> {
 
         public boolean addOne() {
-            Integer i = getContext().getValueStack().pop();
+            final Integer i = getContext().getValueStack().pop();
             getContext().getValueStack().push(i + 1);
             return true;
         }
@@ -52,8 +52,8 @@ public class ActionTest extends ParboiledTest<Integer>
             );
         }
 
-        public Rule B(int i) {
-            int j = i + 1;
+        public Rule B(final int i) {
+            final int j = i + 1;
             return sequence(
                     'b',
                     push(timesTwo(i + j)),
@@ -67,7 +67,7 @@ public class ActionTest extends ParboiledTest<Integer>
                     'c',
                     push(pop()), // no effect
                     new Action() {
-                        public boolean run(Context context) {
+                        public boolean run(final Context context) {
                             return getContext() == context;
                         }
                     },
@@ -76,7 +76,7 @@ public class ActionTest extends ParboiledTest<Integer>
         }
 
         @Label("Last")
-        public Rule D(int i) {
+        public Rule D(final int i) {
             return sequence(
                     'd', dup(),
                     push(i),
@@ -84,13 +84,13 @@ public class ActionTest extends ParboiledTest<Integer>
             );
         }
 
-        public boolean stringAction(String string) {
+        public boolean stringAction(final String string) {
             return "lastText:bcd".equals(string);
         }
 
         // ************* ACTIONS **************
 
-        public int timesTwo(int i) {
+        public int timesTwo(final int i) {
             return i * 2;
         }
 
@@ -98,7 +98,7 @@ public class ActionTest extends ParboiledTest<Integer>
 
     @Test
     public void test() {
-        Parser parser = Parboiled.createParser(Parser.class);
+        final Parser parser = Parboiled.createParser(Parser.class);
         test(parser.A(), "abcd")
                 .hasNoErrors()
                 .hasParseTree("" +
@@ -118,7 +118,7 @@ public class ActionTest extends ParboiledTest<Integer>
             .hasCountedActionClasses(8)
             .hasCountedNothingElse();
 
-        ParserStatistics stats = ParserStatistics.generateFor(parser.A());
+        final ParserStatistics stats = ParserStatistics.generateFor(parser.A());
 
         assertEquals(stats.printActionClassInstances(), "" +
                 "Action classes and their instances for rule 'A':\n" +

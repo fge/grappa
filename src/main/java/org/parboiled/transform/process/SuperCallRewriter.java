@@ -70,7 +70,7 @@ public class SuperCallRewriter
             return;
         final String superMethodName = getSuperMethodName(method, insn);
         final RuleMethod superMethod = classNode.getRuleMethods().get(
-            superMethodName.concat(insn.desc));
+            superMethodName + insn.desc);
         if (superMethod == null)
             return;
         if (!superMethod.isBodyRewritten())
