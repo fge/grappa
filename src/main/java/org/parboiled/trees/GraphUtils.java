@@ -99,6 +99,7 @@ public final class GraphUtils
      * @return the number of distinct nodes
      */
     // TODO: null! Again!
+    @DoNotUse
     public static <T extends GraphNode<T>> int countAllDistinct(
         @Nullable final T node)
     {
