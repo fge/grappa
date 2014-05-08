@@ -1,4 +1,4 @@
-package com.github.parboiled1.grappa.assertions;
+package com.github.parboiled1.grappa.assertions.verify;
 
 import com.google.common.collect.Lists;
 import org.assertj.core.api.SoftAssertions;

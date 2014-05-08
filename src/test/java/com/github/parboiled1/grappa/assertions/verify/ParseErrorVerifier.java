@@ -1,4 +1,4 @@
-package com.github.parboiled1.grappa.assertions;
+package com.github.parboiled1.grappa.assertions.verify;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;

@@ -14,18 +14,18 @@ import javax.annotation.Nullable;
  *
  * @param <V> values produced by this node tree
  */
-final class NodeAssert<V>
+public final class NodeAssert<V>
     extends AbstractAssert<NodeAssert<V>, Node<V>>
 {
     private final InputBuffer buffer;
 
-    NodeAssert(final Node<V> actual, final InputBuffer buffer)
+    public NodeAssert(final Node<V> actual, final InputBuffer buffer)
     {
         super(actual, NodeAssert.class);
         this.buffer = buffer;
     }
 
-    void hasLabel(final SoftAssertions soft,
+    public void hasLabel(final SoftAssertions soft,
         final String expectedLabel)
     {
         final String actualLabel = actual.getLabel();
@@ -38,7 +38,7 @@ final class NodeAssert<V>
         ).isEqualTo(expectedLabel);
     }
 
-    void hasMatch(final SoftAssertions soft,
+    public void hasMatch(final SoftAssertions soft,
         final String expectedMatch)
     {
         final String actualMatch
@@ -50,7 +50,8 @@ final class NodeAssert<V>
         ).isEqualTo(expectedMatch);
     }
 
-    void hasValue(final SoftAssertions soft, @Nullable final V expectedValue)
+    public void hasValue(final SoftAssertions soft,
+        @Nullable final V expectedValue)
     {
         final V actualValue = actual.getValue();
         soft.assertThat(actualValue).as("expected a value").isNotNull();

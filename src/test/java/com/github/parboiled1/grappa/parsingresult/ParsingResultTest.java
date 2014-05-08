@@ -3,7 +3,7 @@ package com.github.parboiled1.grappa.parsingresult;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.parboiled1.grappa.testparsers.TestParser;
-import com.github.parboiled1.grappa.assertions.ParsingResultVerifier;
+import com.github.parboiled1.grappa.assertions.verify.ParsingResultVerifier;
 import com.google.common.io.Closer;
 import org.assertj.core.api.SoftAssertions;
 import org.parboiled.Parboiled;

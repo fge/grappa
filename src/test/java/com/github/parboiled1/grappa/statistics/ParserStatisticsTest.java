@@ -1,7 +1,7 @@
 package com.github.parboiled1.grappa.statistics;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.parboiled1.grappa.assertions.ParserStatisticsVerifier;
+import com.github.parboiled1.grappa.assertions.verify.ParserStatisticsVerifier;
 import com.github.parboiled1.grappa.testparsers.TestParser;
 import com.google.common.io.Closer;
 import org.assertj.core.api.SoftAssertions;

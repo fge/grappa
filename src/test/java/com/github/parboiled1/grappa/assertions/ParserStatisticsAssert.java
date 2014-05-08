@@ -32,7 +32,7 @@ public final class ParserStatisticsAssert
     private boolean actionsCounted = false;
     private boolean actionClassesCounted = false;
 
-    ParserStatisticsAssert(final ParserStatistics actual)
+    public ParserStatisticsAssert(final ParserStatistics actual)
     {
         super(actual, ParserStatisticsAssert.class);
         regularMatcherStats  = new HashMap<Class<?>, MatcherStats<?>>(
@@ -44,13 +44,14 @@ public final class ParserStatisticsAssert
         totalRules = actual.getTotalRules();
     }
 
-    void hasTotalRules(final SoftAssertions soft, final int expectedCount)
+    public void hasTotalRules(final SoftAssertions soft,
+        final int expectedCount)
     {
         soft.assertThat(expectedCount).as("total rule count")
             .isEqualTo(totalRules);
     }
 
-    void hasCounted(final SoftAssertions soft,
+    public void hasCounted(final SoftAssertions soft,
         final Class<? extends Matcher> c, final int expectedCount)
     {
         MatcherStats<?> stats = regularMatcherStats.remove(c);
@@ -63,7 +64,7 @@ public final class ParserStatisticsAssert
         ).isEqualTo(actualCount);
     }
 
-    void hasCountedActions(final SoftAssertions soft, final int expectedCount)
+    public void hasCountedActions(final SoftAssertions soft, final int expectedCount)
     {
         final int actualCount = actions.size();
         soft.assertThat(actualCount).as("number of recorded actions")
@@ -71,7 +72,7 @@ public final class ParserStatisticsAssert
         actionsCounted = true;
     }
 
-    void hasCountedActionClasses(final SoftAssertions soft,
+    public void hasCountedActionClasses(final SoftAssertions soft,
         final int expectedCount)
     {
         final int actualCount = actionClasses.size();
@@ -80,7 +81,7 @@ public final class ParserStatisticsAssert
         actionClassesCounted = true;
     }
 
-    void hasCountedNothingElse(final SoftAssertions soft)
+    public void hasCountedNothingElse(final SoftAssertions soft)
     {
         noMatchersLeft(soft);
         noActionsLeft(soft);

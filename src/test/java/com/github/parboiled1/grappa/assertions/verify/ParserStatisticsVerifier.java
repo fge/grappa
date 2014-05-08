@@ -1,8 +1,9 @@
-package com.github.parboiled1.grappa.assertions;
+package com.github.parboiled1.grappa.assertions.verify;
 
 import com.beust.jcommander.internal.Maps;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.github.parboiled1.grappa.assertions.ParserStatisticsAssert;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import org.assertj.core.api.SoftAssertions;
