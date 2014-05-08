@@ -19,7 +19,7 @@ public final class ClassHelper
     private final ListMultimap<String, MethodDescriptor> methods
         = ArrayListMultimap.create();
 
-    ClassHelper(@Nonnull final Class<?> c)
+    public ClassHelper(@Nonnull final Class<?> c)
     {
         Preconditions.checkNotNull(c);
         classType = Type.getType(c);

@@ -150,20 +150,16 @@ public final class AsmUtils
     {
         Preconditions.checkNotNull(classInternalName, "classInternalName");
         Preconditions.checkNotNull(fieldName, "fieldName");
-        final Class<?> clazz = getClassForInternalName(classInternalName);
-        Class<?> current = clazz;
-        while (true) {
-            try {
-                return current.getDeclaredField(fieldName);
-            } catch (NoSuchFieldException e) {
-                current = current.getSuperclass();
-                if (Object.class.equals(current)) {
-                    throw new RuntimeException(
-                        "Field '" + fieldName + "' not found in '" + clazz
-                            + "\' or any superclass", e);
-                }
-            }
+        final Class<?> c = getClassForInternalName(classInternalName);
+        Class<?> current = c;
+        while (current != Object.class) {
+            for (final Field field: current.getDeclaredFields())
+                if (field.getName().equals(fieldName))
+                    return field;
+            current = current.getSuperclass();
         }
+        throw new RuntimeException("Field '" + fieldName + "' not found in '"
+            + c.getCanonicalName() + "' or any superclass");
     }
 
     public static Method getClassMethod(final String classInternalName,

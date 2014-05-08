@@ -1,5 +1,7 @@
 package org.parboiled.transform.asm;
 
+import com.github.parboiled1.grappa.cleanup.DoNotUse;
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
@@ -35,6 +37,9 @@ public final class AsmHelper
     {
     }
 
+    @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     public static ClassHelper classHelper(@Nonnull final Class<?> c)
     {
         return new ClassHelper(c);

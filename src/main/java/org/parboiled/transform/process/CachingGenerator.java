@@ -44,7 +44,6 @@ import org.parboiled.transform.CacheArguments;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
 import org.parboiled.transform.Types;
-import org.parboiled.transform.asm.AsmHelper;
 import org.parboiled.transform.asm.ClassHelper;
 
 import javax.annotation.Nonnull;
@@ -353,7 +352,7 @@ public class CachingGenerator
     private void generateArmProxyMatcher()
     {
         final String proxyMatcherType = Types.PROXY_MATCHER.getInternalName();
-        final ClassHelper helper = AsmHelper.classHelper(ProxyMatcher.class);
+        final ClassHelper helper = new ClassHelper(ProxyMatcher.class);
 
         // stack: <proxyMatcher> :: <rule>
         insert(new InsnNode(DUP_X1));
