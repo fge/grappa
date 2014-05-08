@@ -110,7 +110,9 @@ public final class CharSequenceInputBuffer
     @Override
     public int getLineCount()
     {
-        return 0;
+        if (!newlinesAreBuilt.getAndSet(true))
+            buildNewlines();
+        return newlines.length + 1;
     }
 
     // TODO: replace implementation with a List<Range>
