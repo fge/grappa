@@ -55,13 +55,6 @@ public class LabelTest extends ParboiledTest<Object>
         public Rule Digit() {
             return charRange('0', '9');
         }
-
-        @SuppressWarnings( {"InfiniteRecursion"})
-        public Rule RecursiveLabel() {
-            return firstOf('a', sequence('b', RecursiveLabel().label("First"),
-                RecursiveLabel().label("Second")));
-        }
-
     }
 
     @Test
@@ -86,23 +79,5 @@ public class LabelTest extends ParboiledTest<Object>
 
         // verify that there is each only one Digit matcher, '+' matcher and '-' matcher
         assertEquals(countAllDistinct((Matcher) rule), 9);
-
-        test(rule, "123-54+9")
-                .hasNoErrors()
-                .hasParseTree("" +
-                        "[AOpB] '123-54+9'\n" +
-                        "  [A] '123'\n" +
-                        "    [Digit] '1'\n" +
-                        "    [Digit] '2'\n" +
-                        "    [Digit] '3'\n" +
-                        "  [FirstOp] '-'\n" +
-                        "    ['-'] '-'\n" +
-                        "  [B] '54'\n" +
-                        "    [Digit] '5'\n" +
-                        "    [Digit] '4'\n" +
-                        "  [SecondOp] '+'\n" +
-                        "    ['+'] '+'\n" +
-                        "  [NUmBER] '9'\n" +
-                        "    [Digit] '9'\n");
     }
 }
