@@ -19,6 +19,7 @@ package org.parboiled;
 import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Queues;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.errors.BasicParseError;
 import org.parboiled.errors.GrammarException;
@@ -42,6 +43,7 @@ import org.parboiled.support.Position;
 import org.parboiled.support.ValueStack;
 
 import javax.annotation.Nonnull;
+import java.util.Deque;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -240,26 +242,25 @@ public class MatcherContext<V>
     @Nonnull
     public List<Node<V>> getSubNodes()
     {
-        if (matcher.isNodeSkipped()) {
+        if (matcher.isNodeSkipped())
             return subNodes;
-        }
 
-        final LinkedList<Node<V>> remaining
-            = Lists.newLinkedList(subNodes);
+        final Deque<Node<V>> remaining
+            = Queues.newArrayDeque(subNodes);
         final LinkedList<Node<V>> tail = Lists.newLinkedList();
         return getSubNodes(remaining, tail);
     }
 
     // TODO: replace, remove, I don't know, but do something
     private static <V> LinkedList<Node<V>> getSubNodes(
-        LinkedList<Node<V>> remaining,
+        final Deque<Node<V>> remaining,
         LinkedList<Node<V>> tail)
     {
         while (!remaining.isEmpty()) {
             final Node<V> head = remaining.peek();
             if (head.getMatcher().isNodeSkipped()) {
-                final LinkedList<Node<V>> children
-                    = Lists.newLinkedList(head.getChildren());
+                final Deque<Node<V>> children
+                    = Queues.newArrayDeque(head.getChildren());
                 tail = getSubNodes(children, tail);
             } else {
                 tail.push(head);
