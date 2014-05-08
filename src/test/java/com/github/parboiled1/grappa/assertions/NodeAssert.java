@@ -57,6 +57,5 @@ final class NodeAssert<V>
         if (actualValue != null)
             soft.assertThat(actualValue).as("node value check")
                 .isEqualTo(expectedValue);
-
     }
 }

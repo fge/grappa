@@ -1,0 +1,8 @@
+{
+    "runs": 1,
+    "ruleReports": [ {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {} ],
+    "matches": 8,
+    "mismatches": 13,
+    "rematches": 2,
+    "remismatches": 6
+}

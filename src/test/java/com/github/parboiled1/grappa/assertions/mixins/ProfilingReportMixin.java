@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import static org.parboiled.parserunners.ProfilingParseRunner.RuleReport;
+
 public abstract class ProfilingReportMixin
 {
     @JsonProperty("runs")
@@ -35,7 +37,7 @@ public abstract class ProfilingReportMixin
     @JsonIgnore
     private long totalNanoTime;
     @JsonProperty("ruleReports")
-    private List<ProfilingParseRunner.RuleReport> ruleReports;
+    private List<RuleReport> ruleReports;
 
     @JsonCreator
     protected ProfilingReportMixin(
@@ -45,10 +47,8 @@ public abstract class ProfilingReportMixin
         @JsonProperty("rematches") final int rematches,
         @JsonProperty("remismatches") final int remismatches,
         @JsonProperty("totalNanoTime") final long totalNanoTime,
-        @JsonProperty("ruleReports") final List<ProfilingParseRunner.RuleReport> ruleReports
+        @JsonProperty("ruleReports") final List<RuleReport> ruleReports
     )
-
-
     {
     }
 
