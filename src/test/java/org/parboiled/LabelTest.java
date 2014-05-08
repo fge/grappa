@@ -105,27 +105,4 @@ public class LabelTest extends ParboiledTest<Object>
                         "  [NUmBER] '9'\n" +
                         "    [Digit] '9'\n");
     }
-
-    @Test
-    public void testRecursiveLabelling() {
-        LabellingParser parser = Parboiled.createParser(LabellingParser.class);
-        Rule rule = parser.RecursiveLabel();
-
-        test(rule, "bbaaaa")
-                .hasNoErrors()
-                .hasParseTree("" +
-                        "[RecursiveLabel] 'bbaaa'\n" +
-                        "  [Sequence] 'bbaaa'\n" +
-                        "    ['b'] 'b'\n" +
-                        "    [First] 'baa'\n" +
-                        "      [Sequence] 'baa'\n" +
-                        "        ['b'] 'b'\n" +
-                        "        [First] 'a'\n" +
-                        "          ['a'] 'a'\n" +
-                        "        [Second] 'a'\n" +
-                        "          ['a'] 'a'\n" +
-                        "    [Second] 'a'\n" +
-                        "      ['a'] 'a'\n");
-    }
-
 }

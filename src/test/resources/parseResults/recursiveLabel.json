@@ -1,0 +1,66 @@
+{
+    "buffer": "bbaaaa",
+    "hasMatch": "true",
+    "parseTree": {
+        "label": "mainRule",
+        "match": "bbaaa",
+        "children": [
+            {
+                "label": "Sequence",
+                "match": "bbaaa",
+                "children": [
+                    {
+                        "label": "'b'",
+                        "match": "b"
+                    },
+                    {
+                        "label": "first",
+                        "match": "baa",
+                        "children": [
+                            {
+                                "label": "Sequence",
+                                "match": "baa",
+                                "children": [
+                                    {
+                                        "label": "'b'",
+                                        "match": "b"
+                                    },
+                                    {
+                                        "label": "first",
+                                        "match": "a",
+                                        "children": [
+                                            {
+                                                "label": "'a'",
+                                                "match": "a"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "label": "second",
+                                        "match": "a",
+                                        "children": [
+                                            {
+                                                "label": "'a'",
+                                                "match": "a"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "label": "second",
+                        "match": "a",
+                        "children": [
+                            {
+                                "label": "'a'",
+                                "match": "a"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}
