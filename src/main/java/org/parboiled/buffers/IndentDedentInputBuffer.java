@@ -16,6 +16,7 @@
 
 package org.parboiled.buffers;
 
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
 import com.google.common.base.Preconditions;
 import org.parboiled.common.IntArrayStack;
 import org.parboiled.errors.IllegalIndentationException;
@@ -48,6 +49,8 @@ import org.parboiled.support.Position;
  * <p>If the input contains illegal indentation the buffer throws an {@link
  * IllegalIndentationException} during construction.</p>
  */
+@Deprecated
+@WillBeRemoved(version = "1.1")
 public final class IndentDedentInputBuffer
     implements InputBuffer
 {

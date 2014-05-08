@@ -20,6 +20,8 @@ import com.github.parboiled1.grappa.cleanup.DoNotUse;
 import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
 
+import javax.annotation.Nullable;
+
 /**
  * A simple container holding a reference to another object.
  *
@@ -41,7 +43,7 @@ public class Reference<T>
      *
      * @param value the value object
      */
-    public Reference(final T value)
+    public Reference(@Nullable final T value)
     {
         this.value = value;
     }
@@ -64,7 +66,7 @@ public class Reference<T>
      * @return true
      */
     @WillBeFinal(version = "1.1.0")
-    public boolean set(final T value)
+    public boolean set(@Nullable final T value)
     {
         this.value = value;
         return true;
@@ -75,6 +77,7 @@ public class Reference<T>
      *
      * @return the target
      */
+    @Nullable
     @WillBeFinal(version = "1.1.0")
     public T get()
     {
@@ -108,9 +111,9 @@ public class Reference<T>
     @WillBeFinal(version = "1.1")
     public T getAndSet(final T value)
     {
-        final T t = this.value;
+        final T ret = this.value;
         this.value = value;
-        return t;
+        return ret;
     }
 
     /**

@@ -16,6 +16,7 @@
 
 package org.parboiled.support;
 
+import com.github.parboiled1.grappa.cleanup.WillBePrivate;
 import com.google.common.base.Joiner;
 import org.parboiled.common.ConsoleSink;
 import org.parboiled.common.Sink;
@@ -28,6 +29,7 @@ public class DebuggingValueStack<V>
 {
     private static final Joiner COMMA = Joiner.on(", ");
 
+    @WillBePrivate(version = "1.1")
     public final Sink<String> log;
 
     public DebuggingValueStack()
