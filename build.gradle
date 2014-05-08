@@ -10,10 +10,14 @@ project.ext {
 
 buildscript {
     repositories {
-        maven { url "http://repo.spring.io/plugins-release" }
+        maven { url "http://repo.spring.io/plugins-release" };
+        mavenCentral();
     }
     dependencies {
-        classpath("org.springframework.build.gradle:propdeps-plugin:0.0.6")
+        classpath(group: "org.springframework.build.gradle", 
+            name: "propdeps-plugin", version: "0.0.6");
+        classpath(group: "info.solidsoft.gradle.pitest",
+            name: "gradle-pitest-plugin", version: "0.33.0");
     }
 }
 
@@ -27,6 +31,7 @@ apply(plugin: "propdeps");
 apply(plugin: "propdeps-maven");
 apply(plugin: "propdeps-idea");
 apply(plugin: "propdeps-eclipse");
+apply(plugin: "pitest");
 
 
 repositories {
@@ -60,6 +65,12 @@ test {
     useTestNG() {
         useDefaultListeners = true;
     };
+}
+
+pitest {
+    // Since for now it is org.parboiled, we cannot leave the default.
+    // By default it is ${project.group}.
+    targetClasses = [ "org.parboiled.*", "com.github.parboiled1.*" ];
 }
 
 /*
