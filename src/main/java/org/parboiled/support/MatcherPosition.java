@@ -16,22 +16,23 @@
 package org.parboiled.support;
 
 import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+import com.github.parboiled1.grappa.cleanup.WillBePrivate;
 import org.parboiled.matchers.Matcher;
 
 @WillBeFinal(version = "1.1")
 public class MatcherPosition
 {
     private final Matcher matcher;
-    // TODO: replace with int
-    private final Integer index;
+    private final int index;
 
-    protected MatcherPosition(final Matcher matcher, final Integer index)
+    @WillBePrivate(version = "1.1")
+    protected MatcherPosition(final Matcher matcher, final int index)
     {
         this.matcher = matcher;
         this.index = index;
     }
 
-    public static MatcherPosition at(final Matcher matcher, final Integer index)
+    public static MatcherPosition at(final Matcher matcher, final int index)
     {
         return new MatcherPosition(matcher, index);
     }
