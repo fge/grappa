@@ -19,6 +19,7 @@ package org.parboiled.parserunners;
 import com.github.parboiled1.grappa.cleanup.ShouldBeReplaced;
 import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.github.parboiled1.grappa.cleanup.WillBeProtected;
+import com.github.parboiled1.grappa.stack.DefaultValueStack;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
@@ -28,7 +29,6 @@ import org.parboiled.buffers.DefaultInputBuffer;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.errors.ParseError;
 import org.parboiled.matchers.Matcher;
-import org.parboiled.support.DefaultValueStack;
 import org.parboiled.support.ParsingResult;
 import org.parboiled.support.ValueStack;
 
@@ -46,7 +46,7 @@ public abstract class AbstractParseRunner<V>
     private Object initialValueStackSnapshot;
 
     @WillBeProtected(version = "1.1")
-    public AbstractParseRunner(final Rule rule)
+    public AbstractParseRunner(@Nonnull final Rule rule)
     {
         this.rootMatcher = Preconditions.checkNotNull((Matcher) rule, "rule");
     }

@@ -19,6 +19,7 @@ package org.parboiled.support;
 import com.github.parboiled1.grappa.cleanup.DoNotUse;
 import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.github.parboiled1.grappa.cleanup.WillBePrivate;
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
 import com.google.common.base.Preconditions;
 
 import javax.annotation.Nonnull;
@@ -31,7 +32,12 @@ import java.util.Iterator;
  * over the current stack values (the values are being provided with the last value (on top of the stack) first).
  *
  * @param <V> the type of the value objects
+ *
+ * @deprecated use {@link com.github.parboiled1.grappa.stack.DefaultValueStack}
+ * instead
  */
+@Deprecated
+@WillBeRemoved(version = "1.1")
 public class DefaultValueStack<V>
     implements ValueStack<V>
 {

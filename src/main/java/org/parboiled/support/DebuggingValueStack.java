@@ -17,6 +17,7 @@
 package org.parboiled.support;
 
 import com.github.parboiled1.grappa.cleanup.WillBePrivate;
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
 import com.google.common.base.Joiner;
 import org.parboiled.common.ConsoleSink;
 import org.parboiled.common.Sink;
@@ -24,6 +25,16 @@ import org.parboiled.common.Sink;
 import java.util.Deque;
 import java.util.LinkedList;
 
+/**
+ * Deprecated!
+ *
+ * @param <V> value type
+ *
+ * @deprecated use {@link
+ * com.github.parboiled1.grappa.stack.DebuggingValueStack} instead
+ */
+@Deprecated
+@WillBeRemoved(version = "1.1")
 public class DebuggingValueStack<V>
     extends DefaultValueStack<V>
 {
