@@ -16,15 +16,21 @@
 
 package org.parboiled.parserunners;
 
+import com.github.parboiled1.grappa.cleanup.DoNotUse;
+import com.github.parboiled1.grappa.cleanup.ShouldBeReplaced;
+import com.github.parboiled1.grappa.cleanup.Unused;
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+import com.github.parboiled1.grappa.misc.SinkAdapter;
+import com.github.parboiled1.grappa.misc.SystemOutCharSource;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
+import com.google.common.io.CharSink;
 import org.parboiled.Context;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
 import org.parboiled.buffers.InputBuffer;
-import org.parboiled.common.ConsoleSink;
 import org.parboiled.common.Sink;
 import org.parboiled.common.Tuple2;
 import org.parboiled.matchers.Matcher;
@@ -33,6 +39,7 @@ import org.parboiled.support.ParsingResult;
 import org.parboiled.support.Position;
 
 import javax.annotation.Nonnull;
+import java.io.IOException;
 
 /**
  * A {@link ParseRunner} implementation used for debugging purposes.
@@ -44,8 +51,9 @@ public class TracingParseRunner<V>
     extends ReportingParseRunner<V>
     implements MatchHandler
 {
-    private Predicate<Tuple2<Context<?>, Boolean>> filter;
-    private Sink<String> log;
+    private Predicate<Tuple2<Context<?>, Boolean>> filter
+        = Predicates.alwaysTrue();
+    private CharSink log = SystemOutCharSource.INSTANCE;
     private MatcherPath lastPath;
 
     /**
@@ -60,12 +68,14 @@ public class TracingParseRunner<V>
 
     /**
      * Attaches the given filter to this TracingParseRunner instance.
-     * The given filter is used to select the matchers to print tracing statements for.
+     * The given filter is used to select the matchers to print tracing
+     * statements for.
      *
-     * @param filter the matcher filter selecting the matchers to print tracing statements for. Must be of type
-     * Predicate&lt;Tuple2&lt;Context&lt;?&gt;, Boolean&gt;&gt;.
+     * @param filter the matcher filter selecting the matchers to print tracing
+     * statements for
      * @return this instance
      */
+    @ShouldBeReplaced
     public TracingParseRunner<V> withFilter(
         @Nonnull final Predicate<Tuple2<Context<?>, Boolean>> filter)
     {
@@ -73,11 +83,12 @@ public class TracingParseRunner<V>
         return this;
     }
 
+    @Deprecated
+    @Unused
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     public Predicate<Tuple2<Context<?>, Boolean>> getFilter()
     {
-        if (filter == null) {
-            withFilter(Predicates.<Tuple2<Context<?>, Boolean>>alwaysTrue());
-        }
         return filter;
     }
 
@@ -87,28 +98,40 @@ public class TracingParseRunner<V>
      * @param log the log to use
      * @return this instance
      */
-    public TracingParseRunner<V> withLog(final Sink<String> log)
+    @Deprecated
+    @DoNotUse
+    @Unused
+    @WillBeRemoved(version = "1.1")
+    public TracingParseRunner<V> withLog(@Nonnull final Sink<String> log)
     {
-        this.log = log;
+        Preconditions.checkNotNull(log);
+        this.log = new SinkAdapter(log);
         return this;
     }
 
+    @Deprecated
+    @DoNotUse
+    @Unused
+    @WillBeRemoved(version = "1.1")
     public Sink<String> getLog()
     {
-        if (log == null) {
-            withLog(new ConsoleSink());
-        }
-        return log;
+        @SuppressWarnings("unchecked")
+        final Sink<String> sink = (Sink<String>) log;
+        return sink;
     }
 
     @Override
     protected ParsingResult<V> runBasicMatch(final InputBuffer inputBuffer)
     {
-        getLog().receive("Starting new parsing run\n");
+        try {
+            log.write("Starting new parsing run\n");
+        } catch (IOException e) {
+            throw new RuntimeException("cannot write to CharSink", e);
+        }
         lastPath = null;
 
-        final MatcherContext<V> rootContext = createRootContext(inputBuffer,
-            this, true);
+        final MatcherContext<V> rootContext
+            = createRootContext(inputBuffer, this, true);
         final boolean matched = rootContext.runMatcher();
         return createParsingResult(matched, rootContext);
     }
@@ -119,30 +142,42 @@ public class TracingParseRunner<V>
     {
         final Matcher matcher = context.getMatcher();
         final boolean matched = matcher.match(context);
-        if (getFilter()
-            .apply(new Tuple2<Context<?>, Boolean>(context, matched))) {
-            print(context, matched); // set line-dependent breakpoint here
-        }
+        final Tuple2<Context<?>, Boolean> input
+            = new Tuple2<Context<?>, Boolean>(context, matched);
+
+        if (filter.apply(input))
+            try {
+                print(context, matched); // set line-dependent breakpoint here
+            } catch (IOException e) {
+                throw new RuntimeException("cannot write to CharSink", e);
+            }
+
+
         return matched;
     }
 
     private void print(final MatcherContext<?> context, final boolean matched)
+        throws IOException
     {
-        final Position pos = context.getInputBuffer()
-            .getPosition(context.getCurrentIndex());
+        final int currentIndex = context.getCurrentIndex();
+        final Position pos
+            = context.getInputBuffer().getPosition(currentIndex);
         final MatcherPath path = context.getPath();
-        final MatcherPath prefix = lastPath != null ? path
-            .commonPrefix(lastPath) : null;
+        final MatcherPath prefix = lastPath != null
+            ? path.commonPrefix(lastPath)
+            : null;
+
         if (prefix != null && prefix.length() > 1)
-            getLog().receive("..(" + (prefix.length() - 1) + ")../");
-        getLog().receive(path.toString(prefix != null ? prefix.parent : null));
+            log.write("..(" + (prefix.length() - 1) + ")../");
+
+        log.write(path.toString(prefix != null ? prefix.parent : null));
+
         final String line = context.getInputBuffer().extractLine(pos.line);
-        getLog().receive(
-            ", " + (matched ? "matched" : "failed") + ", cursor at " + pos.line
-                + ':' + pos.column +
-                " after \"" + line
-                .substring(0, Math.min(line.length(), pos.column - 1))
-                + "\"\n");
+        log.write(", " + (matched ? "matched" : "failed") + ", cursor at "
+            + pos.line + ':' + pos.column + " after \""
+            + line.substring(0, Math.min(line.length(), pos.column - 1))
+            + "\"\n"
+        );
         lastPath = path;
     }
 }
