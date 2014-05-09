@@ -16,12 +16,19 @@
 
 package org.parboiled.support;
 
-import com.github.parboiled1.grappa.cleanup.WillBePrivate;
+import com.github.parboiled1.grappa.cleanup.DoNotUse;
+import com.github.parboiled1.grappa.cleanup.Unused;
 import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+import com.github.parboiled1.grappa.misc.SinkAdapter;
+import com.github.parboiled1.grappa.misc.SystemOutCharSource;
 import com.google.common.base.Joiner;
-import org.parboiled.common.ConsoleSink;
+import com.google.common.base.Preconditions;
+import com.google.common.io.CharSink;
 import org.parboiled.common.Sink;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.io.IOException;
 import java.util.Deque;
 import java.util.LinkedList;
 
@@ -40,28 +47,66 @@ public class DebuggingValueStack<V>
 {
     private static final Joiner COMMA = Joiner.on(", ");
 
-    @WillBePrivate(version = "1.1")
-    public final Sink<String> log;
+    @Nullable
+    public final SinkAdapter log;
+    private final CharSink sink;
 
     public DebuggingValueStack()
     {
-        this(new ConsoleSink());
+        this(SystemOutCharSource.INSTANCE);
     }
 
+    public DebuggingValueStack(final CharSink sink)
+    {
+        this.sink = sink;
+        log = null;
+    }
+
+    public DebuggingValueStack(@Nonnull final Iterable<V> values,
+        @Nonnull final CharSink sink)
+    {
+        super(values);
+        this.sink = Preconditions.checkNotNull(sink);
+        log = null;
+    }
+
+    @Deprecated
+    @DoNotUse
     public DebuggingValueStack(final Sink<String> log)
     {
-        this.log = log;
+        sink = this.log = new SinkAdapter(log);
     }
 
+    /**
+     * Deprecated!
+     *
+     * <p>It is never used and should not be used.</p>
+     *
+     * @param values deprecated
+     */
+    @Deprecated
+    @DoNotUse
+    @Unused
     public DebuggingValueStack(final Iterable<V> values)
     {
-        this(values, new ConsoleSink());
+        this(values, SystemOutCharSource.INSTANCE);
     }
 
+    /**
+     * Deprecated!
+     *
+     * <p>It is never used and should not be used.</p>
+     *
+     * @param values deprecated
+     * @param log deprecated
+     */
+    @Deprecated
+    @DoNotUse
+    @Unused
     public DebuggingValueStack(final Iterable<V> values, final Sink<String> log)
     {
         super(values);
-        this.log = log;
+        sink = this.log = new SinkAdapter(log);
     }
 
     @Override
@@ -150,13 +195,17 @@ public class DebuggingValueStack<V>
 
     protected void log(final String action)
     {
-        log.receive(action);
-        log.receive(Chars.repeat(' ', 15 - action.length()));
-        log.receive(": ");
-        final Deque<V> elements = new LinkedList<V>();
-        for (final V v: this)
-            elements.addFirst(v);
-        log.receive(COMMA.join(elements));
-        log.receive("\n");
+        try {
+            sink.write(action);
+            sink.write(Chars.repeat(' ', 15 - action.length()));
+            sink.write(": ");
+            final Deque<V> elements = new LinkedList<V>();
+            for (final V v : this)
+                elements.addFirst(v);
+            sink.write(COMMA.join(elements));
+            sink.write("\n");
+        } catch (IOException e) {
+            throw new RuntimeException("failed to write to CharSink", e);
+        }
     }
 }

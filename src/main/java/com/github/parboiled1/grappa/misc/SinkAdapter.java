@@ -1,18 +1,20 @@
 package com.github.parboiled1.grappa.misc;
 
 import com.google.common.io.CharSink;
+import org.parboiled.common.Sink;
 
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.io.Writer;
 
-public final class SystemOutCharSource
+public final class SinkAdapter
     extends CharSink
+    implements Sink<String>
 {
-    public static final CharSink INSTANCE = new SystemOutCharSource();
+    private final SinkWriter sinkWriter;
 
-    private SystemOutCharSource()
+    public SinkAdapter(final Sink<String> sink)
     {
+        sinkWriter = new SinkWriter(sink);
     }
 
     /**
@@ -29,6 +31,12 @@ public final class SystemOutCharSource
     public Writer openStream()
         throws IOException
     {
-        return new OutputStreamWriter(System.out);
+        return sinkWriter;
+    }
+
+    @Override
+    public void receive(final String value)
+    {
+        sinkWriter.receive(value);
     }
 }

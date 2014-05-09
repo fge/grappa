@@ -16,6 +16,25 @@
 
 package org.parboiled.common;
 
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+import com.google.common.hash.PrimitiveSink;
+import com.google.common.io.ByteSink;
+import com.google.common.io.CharSink;
+
+/**
+ * Deprecated!
+ *
+ * <p>This interface will have no replacement. Some solutions to it are:</p>
+ *
+ * <ul>
+ *     <li>Guava's {@link PrimitiveSink};</li>
+ *     <li>Guava's {@link ByteSink} or {@link CharSink}.</li>
+ * </ul>
+ *
+ * @param <T> values to be consumed
+ */
+@Deprecated
+@WillBeRemoved(version = "1.1")
 public interface Sink<T>
 {
     void receive(T value);
