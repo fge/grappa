@@ -109,6 +109,8 @@ public interface ValueStack<V>
      *
      * @param values the values
      */
+    // TODO: overload of varargs! Doesn't really work well
+    @Deprecated
     void pushAll(@Nonnull Iterable<V> values);
 
     /**
