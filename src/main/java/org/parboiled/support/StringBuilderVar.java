@@ -16,6 +16,11 @@
 
 package org.parboiled.support;
 
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
+
+import javax.annotation.Nonnull;
+
 /**
  * Simple specialization of a {@link Var} for StringBuilders.
  * Provides a few convenience helper methods.
