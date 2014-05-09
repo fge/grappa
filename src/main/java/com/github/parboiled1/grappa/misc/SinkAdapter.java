@@ -1,11 +1,15 @@
 package com.github.parboiled1.grappa.misc;
 
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
 import com.google.common.io.CharSink;
+import org.parboiled.annotations.ForBackwardsCompatibilityOnly;
 import org.parboiled.common.Sink;
 
 import java.io.IOException;
 import java.io.Writer;
 
+@ForBackwardsCompatibilityOnly
+@WillBeRemoved(version = "1.1")
 public final class SinkAdapter
     extends CharSink
     implements Sink<String>

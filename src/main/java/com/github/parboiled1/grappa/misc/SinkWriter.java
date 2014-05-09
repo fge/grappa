@@ -1,6 +1,8 @@
 package com.github.parboiled1.grappa.misc;
 
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
 import com.google.common.base.Preconditions;
+import org.parboiled.annotations.ForBackwardsCompatibilityOnly;
 import org.parboiled.common.Sink;
 
 import javax.annotation.Nonnull;
@@ -8,6 +10,8 @@ import java.io.IOException;
 import java.io.Writer;
 import java.nio.CharBuffer;
 
+@ForBackwardsCompatibilityOnly
+@WillBeRemoved(version = "1.1")
 public final class SinkWriter
     extends Writer
     implements Sink<String>

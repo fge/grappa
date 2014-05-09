@@ -1,11 +1,15 @@
 package com.github.parboiled1.grappa.misc;
 
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
+import org.parboiled.annotations.ForBackwardsCompatibilityOnly;
 import org.parboiled.common.Factory;
 
 import javax.annotation.Nonnull;
 
+@ForBackwardsCompatibilityOnly
+@WillBeRemoved(version = "1.1")
 public final class SupplierAdapter<T>
     implements Supplier<T>, Factory<T>
 {

@@ -82,6 +82,8 @@ public class Var<T>
      * of the enclosing rule.
      *
      * @param factory the factory used to create the initial value for a rule execution frame
+     *
+     * @deprecated use {@link Var#Var(Supplier)} instead
      */
     @Deprecated
     @WillBeRemoved(version = "1.1")
