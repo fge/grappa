@@ -1,3 +1,17 @@
+### 1.0.0-beta.5
+
+* Major code cleanup: reformatting, intents with @Documented annotations, a lot
+  of @Deprecated classes/methods/constructors. Cleanup for 1.1 will be massive!
+* Fix one brown paper bag bug with CharSequenceInputBuffer: it always returned 0
+  when asked for the number of lines... But then tests did not cover this, and
+  still do not...
+* Replace custom implementations of linked lists etc with standard JDK classes.
+* Tests: get rid of 80+% of tests depending on string outputs; replace them with
+  assertions instead.
+* Tests: integrate [mutation testing](https://github.com/hcoles/pitest).
+* Deprecate IndentDedentInputBuffer: not that useful, and used characters are of
+  common use in some languages (French, amon others).
+
 ### 1.0.0-beta.4
 
 * New, experimental `join()` rule.
