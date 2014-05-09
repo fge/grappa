@@ -21,6 +21,7 @@ import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.github.parboiled1.grappa.cleanup.WillBePrivate;
 import com.google.common.base.Preconditions;
 
+import javax.annotation.Nonnull;
 import java.util.Iterator;
 
 /**
@@ -151,7 +152,7 @@ public class DefaultValueStack<V>
 
     @Override
     @WillBeFinal(version = "1.1")
-    public void pushAll(final Iterable<V> values)
+    public void pushAll(@Nonnull final Iterable<V> values)
     {
         head = null;
         for (final V value : values)

@@ -2,22 +2,23 @@ package com.github.parboiled1.grappa.stack;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import org.parboiled.errors.GrammarException;
 import org.parboiled.support.ValueStack;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 public final class DefaultValueStack<V>
     implements ValueStack<V>
 {
-    private LinkedList<V> stack = new LinkedList<V>();
+    private List<V> stack = new ArrayList<V>();
 
     /**
      * Determines whether the stack is empty.
@@ -52,32 +53,34 @@ public final class DefaultValueStack<V>
 
     /**
      * Returns an object representing the current state of the stack.
-     * This cost of running this operation is negligible and independent from
-     * the size of the stack.
      *
      * @return an object representing the current state of the stack
      */
-    @Nonnull
     @Override
     public Object takeSnapshot()
     {
-        return new LinkedList<V>(stack);
+        return new ArrayList<V>(stack);
     }
 
     /**
      * Restores the stack state as previously returned by {@link
-     * #takeSnapshot()}. This cost of running this operation is negligible and
-     * independent from the size of the stack.
+     * #takeSnapshot()}.
      *
      * @param snapshot a snapshot object previously returned by {@link
      * #takeSnapshot()}
      */
     @Override
     @SuppressWarnings("unchecked")
-    public void restoreSnapshot(@Nonnull final Object snapshot)
+    public void restoreSnapshot(final Object snapshot)
     {
-        Preconditions.checkState(snapshot.getClass() == LinkedList.class);
-        stack = (LinkedList<V>) snapshot;
+        // FIXME: should not happen, but...
+        // TODO: when old implementation is out, make snapshot arg @Nonnull
+        if (snapshot == null) {
+            stack = new ArrayList<V>();
+            return;
+        }
+        Preconditions.checkState(snapshot.getClass() == ArrayList.class);
+        stack = (List<V>) snapshot;
     }
 
     /**
@@ -86,10 +89,9 @@ public final class DefaultValueStack<V>
      * @param value the value
      */
     @Override
-    public void push(@Nonnull final V value)
+    public void push(final V value)
     {
-        Preconditions.checkNotNull(value, "null elements are not allowed");
-        stack.push(value);
+        push(0, value);
     }
 
     /**
@@ -103,9 +105,8 @@ public final class DefaultValueStack<V>
      * elements to perform this operation
      */
     @Override
-    public void push(final int down, @Nonnull final V value)
+    public void push(final int down, final V value)
     {
-        Preconditions.checkNotNull(value, "null elements are not allowed");
         /*
          * It is legal to append at the end! We must therefore check that the
          * index - 1 is strictly less than size, not the index itself
@@ -121,24 +122,25 @@ public final class DefaultValueStack<V>
      * @param moreValues the other values
      */
     @Override
-    @SuppressWarnings("unchecked")
-    public void pushAll(@Nonnull final V firstValue,
-        @Nonnull final V... moreValues)
+    public void pushAll(@Nullable final V firstValue,
+        @Nullable final V... moreValues)
     {
-        Preconditions.checkNotNull(firstValue, "null elements are not allowed");
-        Preconditions.checkNotNull(moreValues, "null elements are not allowed");
-
-        for (final V value: moreValues)
-            Preconditions.checkNotNull(value, "null elements are not allowed");
-
         // FIXME: hackish :/ Can throw ClassCastException all right
-        if (firstValue instanceof Iterable && moreValues.length == 0) {
-            pushAll((Iterable<V>) firstValue);
+        if (firstValue instanceof Iterable
+            && moreValues != null
+            && moreValues.length == 0) {
+            @SuppressWarnings("unchecked")
+            final Iterable<V> values = (Iterable<V>) firstValue;
+            pushAll(values);
             return;
         }
-        final List<V> list = ImmutableList.<V>builder()
-            .add(firstValue).add(moreValues).build();
-        pushAll(list);
+        final List<V> temp = new ArrayList<V>();
+        temp.add(firstValue);
+        if (moreValues == null)
+            temp.add(null);
+        else
+            temp.addAll(Arrays.asList(moreValues));
+        pushAll(temp);
     }
 
     /**
@@ -149,9 +151,7 @@ public final class DefaultValueStack<V>
     @Override
     public void pushAll(@Nonnull final Iterable<V> values)
     {
-        for (final V value: values)
-            Preconditions.checkNotNull(value, "null elements are not allowed");
-        final LinkedList<V> newStack = Lists.newLinkedList(values);
+        final List<V> newStack = Lists.newArrayList(values);
         newStack.addAll(stack);
         stack = newStack;
     }
@@ -163,12 +163,11 @@ public final class DefaultValueStack<V>
      *
      * @throws IllegalArgumentException if the stack is empty
      */
-    @Nonnull
     @Override
     public V pop()
     {
         Preconditions.checkArgument(!stack.isEmpty(), "stack is empty");
-        return stack.pop();
+        return stack.remove(0);
     }
 
     /**
@@ -182,7 +181,6 @@ public final class DefaultValueStack<V>
      * @throws IllegalArgumentException if the stack does not contain enough
      * elements to perform this operation
      */
-    @Nonnull
     @Override
     public V pop(final int down)
     {
@@ -197,12 +195,11 @@ public final class DefaultValueStack<V>
      *
      * @throws IllegalArgumentException if the stack is empty
      */
-    @Nonnull
     @Override
     public V peek()
     {
         Preconditions.checkArgument(!stack.isEmpty(), "stack is empty");
-        return stack.peek();
+        return stack.get(0);
     }
 
     /**
@@ -215,7 +212,6 @@ public final class DefaultValueStack<V>
      * @throws IllegalArgumentException if the stack does not contain enough
      * elements to perform this operation
      */
-    @Nonnull
     @Override
     public V peek(final int down)
     {
@@ -231,9 +227,8 @@ public final class DefaultValueStack<V>
      * @throws IllegalArgumentException if the stack is empty
      */
     @Override
-    public void poke(@Nonnull final V value)
+    public void poke(@Nullable final V value)
     {
-        Preconditions.checkNotNull(value, "null elements are not allowed");
         Preconditions.checkArgument(!stack.isEmpty(), "stack is empty");
         poke(0, value);
     }
@@ -249,7 +244,7 @@ public final class DefaultValueStack<V>
      * elements to perform this operation
      */
     @Override
-    public void poke(final int down, @Nonnull final V value)
+    public void poke(final int down, @Nullable final V value)
     {
         checkSize(down);
         stack.set(down, value);
@@ -263,7 +258,9 @@ public final class DefaultValueStack<V>
     @Override
     public void dup()
     {
-        stack.push(peek());
+        Preconditions.checkArgument(!stack.isEmpty(), "stack is empty");
+        final V element = stack.get(0);
+        stack.add(0, element);
     }
 
     // TODO: make this part of the interface

@@ -66,61 +66,6 @@ public final class DefaultValueStackTest
     }
 
     @Test
-    public void cannotPushPokeNullValue()
-    {
-        try {
-            stack.push(null);
-            failBecauseExceptionWasNotThrown(NullPointerException.class);
-        } catch (NullPointerException e) {
-            assertThat(e).hasMessage("null elements are not allowed");
-        }
-
-        try {
-            stack.poke(null);
-            failBecauseExceptionWasNotThrown(NullPointerException.class);
-        } catch (NullPointerException e) {
-            assertThat(e).hasMessage("null elements are not allowed");
-        }
-
-        try {
-            stack.pushAll(null, 1, 2);
-            failBecauseExceptionWasNotThrown(NullPointerException.class);
-        } catch (NullPointerException e) {
-            assertThat(e).hasMessage("null elements are not allowed");
-        }
-
-        try {
-            stack.pushAll(1, null);
-            failBecauseExceptionWasNotThrown(NullPointerException.class);
-        } catch (NullPointerException e) {
-            assertThat(e).hasMessage("null elements are not allowed");
-        }
-
-        try {
-            stack.pushAll(1, 2, null, 3);
-            failBecauseExceptionWasNotThrown(NullPointerException.class);
-        } catch (NullPointerException e) {
-            assertThat(e).hasMessage("null elements are not allowed");
-        }
-
-        try {
-            stack.pushAll(Arrays.asList("hello", "world", null));
-            failBecauseExceptionWasNotThrown(NullPointerException.class);
-        } catch (NullPointerException e) {
-            assertThat(e).hasMessage("null elements are not allowed");
-        }
-
-        stack.pushAll(1, 2);
-
-        try {
-            stack.push(1, null);
-            failBecauseExceptionWasNotThrown(NullPointerException.class);
-        } catch (NullPointerException e) {
-            assertThat(e).hasMessage("null elements are not allowed");
-        }
-    }
-
-    @Test
     public void singleElementStackPushPeekPopPokeWorks()
     {
         Object element = new Object();
@@ -151,6 +96,39 @@ public final class DefaultValueStackTest
         stack.poke(0, element);
         soft.assertThat(stack.pop()).as("poke(0) is the same as poke()")
             .isSameAs(element);
+
+        soft.assertAll();
+    }
+
+    @Test
+    public void nullInsertionsAreCorrectlyHandled()
+    {
+        final SoftAssertions soft = new SoftAssertions();
+
+        stack.push(null);
+        soft.assertThat(stack.isEmpty()).as("inserting null is OK").isFalse();
+        soft.assertThat(stack).as("size of a single null element stack is 1")
+            .hasSize(1);
+
+        assertThat(stack.pop()).as("pop() of null returns null").isNull();
+
+        stack.pushAll(null, null);
+        soft.assertThat(stack).as("inserting two nulls gives size 2")
+            .hasSize(2);
+        soft.assertThat(stack).containsExactly(null, null);
+
+        stack.clear();
+        stack.pushAll(Arrays.asList(null, null));
+        soft.assertThat(stack).as("inserting list of two nulls gives size 2")
+            .hasSize(2);
+        soft.assertThat(stack).containsExactly(null, null);
+
+        final Object nonNull = new Object();
+        stack.clear();
+        stack.pushAll(null, nonNull, null);
+        soft.assertThat(stack).as("mixing nulls and non nulls work")
+            .hasSize(3);
+        soft.assertThat(stack).containsExactly(null, nonNull, null);
 
         soft.assertAll();
     }
@@ -346,7 +324,7 @@ public final class DefaultValueStackTest
         stack.pushAll(1, 2, 3);
 
         final Object snapshot = stack.takeSnapshot();
-        final Object poison = Lists.newArrayList();
+        final Object poison = Lists.newLinkedList();
 
         try {
             stack.restoreSnapshot(poison);

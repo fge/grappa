@@ -20,6 +20,7 @@ import com.github.parboiled1.grappa.cleanup.ThrownExceptionsWillChange;
 import org.parboiled.errors.GrammarException;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * A ValueStack is a stack implementation for parser values. The current state
@@ -57,30 +58,27 @@ public interface ValueStack<V>
 
     /**
      * Returns an object representing the current state of the stack.
-     * This cost of running this operation is negligible and independent from
-     * the size of the stack.
      *
      * @return an object representing the current state of the stack
      */
-    @Nonnull
+    @Nullable
     Object takeSnapshot();
 
     /**
      * Restores the stack state as previously returned by {@link
-     * #takeSnapshot()}. This cost of running this operation is negligible and
-     * independent from the size of the stack.
+     * #takeSnapshot()}.
      *
      * @param snapshot a snapshot object previously returned by {@link
      * #takeSnapshot()}
      */
-    void restoreSnapshot(@Nonnull Object snapshot);
+    void restoreSnapshot(@Nullable Object snapshot);
 
     /**
      * Pushes the given value onto the stack. Equivalent to push(0, value).
      *
      * @param value the value
      */
-    void push(@Nonnull V value);
+    void push(@Nullable V value);
 
     /**
      * Inserts the given value a given number of elements below the current top
@@ -94,7 +92,7 @@ public interface ValueStack<V>
      */
     @ThrownExceptionsWillChange(version = "1.1",
         to = IllegalStateException.class)
-    void push(int down, @Nonnull V value);
+    void push(int down, @Nullable V value);
 
     /**
      * Pushes all given elements onto the stack (in the order as given).
@@ -102,7 +100,7 @@ public interface ValueStack<V>
      * @param firstValue the first value
      * @param moreValues the other values
      */
-    void pushAll(@Nonnull V firstValue, @Nonnull V... moreValues);
+    void pushAll(@Nullable V firstValue, @Nullable V... moreValues);
 
     /**
      * Pushes all given elements onto the stack (in the order as given).
@@ -122,7 +120,7 @@ public interface ValueStack<V>
      */
     @ThrownExceptionsWillChange(version = "1.1",
         to = IllegalStateException.class)
-    @Nonnull
+    @Nullable
     V pop();
 
     /**
@@ -137,7 +135,7 @@ public interface ValueStack<V>
      */
     @ThrownExceptionsWillChange(version = "1.1",
         to = IllegalStateException.class)
-    @Nonnull
+    @Nullable
     V pop(int down);
 
     /**
@@ -149,7 +147,7 @@ public interface ValueStack<V>
      */
     @ThrownExceptionsWillChange(version = "1.1",
         to = IllegalStateException.class)
-    @Nonnull
+    @Nullable
     V peek();
 
     /**
@@ -164,7 +162,7 @@ public interface ValueStack<V>
      */
     @ThrownExceptionsWillChange(version = "1.1",
         to = IllegalStateException.class)
-    @Nonnull
+    @Nullable
     V peek(int down);
 
     /**
@@ -176,7 +174,7 @@ public interface ValueStack<V>
      */
     @ThrownExceptionsWillChange(version = "1.1",
         to = IllegalStateException.class)
-    void poke(@Nonnull V value);
+    void poke(@Nullable V value);
 
     /**
      * Replaces the element the given number of elements below the current top
@@ -190,7 +188,7 @@ public interface ValueStack<V>
      */
     @ThrownExceptionsWillChange(version = "1.1",
         to = IllegalStateException.class)
-    void poke(int down, @Nonnull V value);
+    void poke(int down, @Nullable V value);
 
     /**
      * Duplicates the top value. Equivalent to push(peek()).
