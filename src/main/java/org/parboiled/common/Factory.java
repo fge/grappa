@@ -16,7 +16,22 @@
 
 package org.parboiled.common;
 
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+import com.google.common.base.Supplier;
+
+import javax.annotation.Nullable;
+
+/**
+ * Deprecated!
+ *
+ * @param <T> produced values
+ *
+ * @deprecated use {@link Supplier} instead
+ */
+@Deprecated
+@WillBeRemoved(version = "1.1")
 public interface Factory<T>
 {
+    @Nullable
     T create();
 }

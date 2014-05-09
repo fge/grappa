@@ -18,12 +18,17 @@ package org.parboiled.support;
 
 import com.github.parboiled1.grappa.cleanup.DoNotUse;
 import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+import com.github.parboiled1.grappa.misc.SupplierAdapter;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
 import com.google.common.collect.Queues;
 import org.parboiled.common.Factory;
 import org.parboiled.common.Reference;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Deque;
 
 /**
@@ -42,7 +47,7 @@ import java.util.Deque;
 public class Var<T>
     extends Reference<T>
 {
-    private final Factory<T> factory;
+    private final Supplier<T> supplier;
     private final Deque<T> stack = Queues.newArrayDeque();
     private int level;
     private String name;
@@ -61,17 +66,15 @@ public class Var<T>
      *
      * @param value the value
      */
-    public Var(final T value)
+    public Var(@Nullable final T value)
     {
         super(value);
-        factory = new Factory<T>()
-        {
-            @Override
-            public T create()
-            {
-                return value;
-            }
-        };
+        supplier = Suppliers.ofInstance(value);
+    }
+
+    public Var(@Nonnull final Supplier<T> supplier)
+    {
+        this.supplier = Preconditions.checkNotNull(supplier);
     }
 
     /**
@@ -80,9 +83,11 @@ public class Var<T>
      *
      * @param factory the factory used to create the initial value for a rule execution frame
      */
+    @Deprecated
+    @WillBeRemoved(version = "1.1")
     public Var(@Nonnull final Factory<T> factory)
     {
-        this.factory = Preconditions.checkNotNull(factory);
+        supplier = new SupplierAdapter<T>(factory);
     }
 
     /**
@@ -133,7 +138,7 @@ public class Var<T>
     {
         if (level++ > 0)
             stack.add(get());
-        return set(factory.create());
+        return set(supplier.get());
     }
 
     /**

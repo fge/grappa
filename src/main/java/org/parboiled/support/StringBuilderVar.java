@@ -29,6 +29,14 @@ public class StringBuilderVar
      */
     public StringBuilderVar()
     {
+        super(new Supplier<StringBuilder>()
+        {
+            @Override
+            public StringBuilder get()
+            {
+                return new StringBuilder();
+            }
+        });
     }
 
     /**
@@ -38,7 +46,7 @@ public class StringBuilderVar
      */
     public StringBuilderVar(final StringBuilder value)
     {
-        super(value);
+        super(Suppliers.ofInstance(value));
     }
 
     /**
@@ -48,7 +56,7 @@ public class StringBuilderVar
      */
     public boolean isEmpty()
     {
-        return get() == null || get().length() == 0;
+        return get().length() == 0;
     }
 
     /**
@@ -56,7 +64,7 @@ public class StringBuilderVar
      */
     public String getString()
     {
-        return get() == null ? "" : get().toString();
+        return get().toString();
     }
 
     /**
@@ -64,8 +72,6 @@ public class StringBuilderVar
      */
     public char[] getChars()
     {
-        if (get() == null)
-            return new char[0];
         final StringBuilder sb = get();
         final char[] buf = new char[sb.length()];
         sb.getChars(0, buf.length, buf, 0);
@@ -81,8 +87,6 @@ public class StringBuilderVar
      */
     public boolean append(final String text)
     {
-        if (get() == null)
-            return set(new StringBuilder(text));
         get().append(text);
         return true;
     }
@@ -109,8 +113,6 @@ public class StringBuilderVar
      */
     public boolean append(final char c)
     {
-        if (get() == null)
-            return set(new StringBuilder().append(c));
         get().append(c);
         return true;
     }
@@ -136,8 +138,7 @@ public class StringBuilderVar
      */
     public boolean clearContents()
     {
-        if (get() != null)
-            get().setLength(0);
+        get().setLength(0);
         return true;
     }
 
@@ -149,9 +150,16 @@ public class StringBuilderVar
      */
     public StringBuilderVar contentsCleared()
     {
-        if (get() != null)
-            get().setLength(0);
+        get().setLength(0);
         return this;
+    }
+
+    @Nonnull
+    @Override
+    public StringBuilder get()
+    {
+        final StringBuilder superValue = super.get();
+        return superValue == null ? new StringBuilder() : superValue;
     }
 }
 
