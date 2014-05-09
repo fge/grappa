@@ -16,7 +16,10 @@
 
 package org.parboiled.support;
 
+import com.github.parboiled1.grappa.cleanup.ThrownExceptionsWillChange;
 import org.parboiled.errors.GrammarException;
+
+import javax.annotation.Nonnull;
 
 /**
  * A ValueStack is a stack implementation for parser values. The current state
@@ -59,6 +62,7 @@ public interface ValueStack<V>
      *
      * @return an object representing the current state of the stack
      */
+    @Nonnull
     Object takeSnapshot();
 
     /**
@@ -69,14 +73,14 @@ public interface ValueStack<V>
      * @param snapshot a snapshot object previously returned by {@link
      * #takeSnapshot()}
      */
-    void restoreSnapshot(Object snapshot);
+    void restoreSnapshot(@Nonnull Object snapshot);
 
     /**
      * Pushes the given value onto the stack. Equivalent to push(0, value).
      *
      * @param value the value
      */
-    void push(V value);
+    void push(@Nonnull V value);
 
     /**
      * Inserts the given value a given number of elements below the current top
@@ -88,7 +92,9 @@ public interface ValueStack<V>
      * @throws IllegalArgumentException if the stack does not contain enough
      * elements to perform this operation
      */
-    void push(int down, V value);
+    @ThrownExceptionsWillChange(version = "1.1",
+        to = IllegalStateException.class)
+    void push(int down, @Nonnull V value);
 
     /**
      * Pushes all given elements onto the stack (in the order as given).
@@ -96,14 +102,14 @@ public interface ValueStack<V>
      * @param firstValue the first value
      * @param moreValues the other values
      */
-    void pushAll(V firstValue, V... moreValues);
+    void pushAll(@Nonnull V firstValue, @Nonnull V... moreValues);
 
     /**
      * Pushes all given elements onto the stack (in the order as given).
      *
      * @param values the values
      */
-    void pushAll(Iterable<V> values);
+    void pushAll(@Nonnull Iterable<V> values);
 
     /**
      * Removes the value at the top of the stack and returns it.
@@ -112,6 +118,9 @@ public interface ValueStack<V>
      *
      * @throws IllegalArgumentException if the stack is empty
      */
+    @ThrownExceptionsWillChange(version = "1.1",
+        to = IllegalStateException.class)
+    @Nonnull
     V pop();
 
     /**
@@ -124,6 +133,9 @@ public interface ValueStack<V>
      * @throws IllegalArgumentException if the stack does not contain enough
      * elements to perform this operation
      */
+    @ThrownExceptionsWillChange(version = "1.1",
+        to = IllegalStateException.class)
+    @Nonnull
     V pop(int down);
 
     /**
@@ -133,6 +145,9 @@ public interface ValueStack<V>
      *
      * @throws IllegalArgumentException if the stack is empty
      */
+    @ThrownExceptionsWillChange(version = "1.1",
+        to = IllegalStateException.class)
+    @Nonnull
     V peek();
 
     /**
@@ -145,6 +160,9 @@ public interface ValueStack<V>
      * @throws IllegalArgumentException if the stack does not contain enough
      * elements to perform this operation
      */
+    @ThrownExceptionsWillChange(version = "1.1",
+        to = IllegalStateException.class)
+    @Nonnull
     V peek(int down);
 
     /**
@@ -154,7 +172,9 @@ public interface ValueStack<V>
      * @param value the value
      * @throws IllegalArgumentException if the stack is empty
      */
-    void poke(V value);
+    @ThrownExceptionsWillChange(version = "1.1",
+        to = IllegalStateException.class)
+    void poke(@Nonnull V value);
 
     /**
      * Replaces the element the given number of elements below the current top
@@ -166,13 +186,17 @@ public interface ValueStack<V>
      * @throws IllegalArgumentException if the stack does not contain enough
      * elements to perform this operation
      */
-    void poke(int down, V value);
+    @ThrownExceptionsWillChange(version = "1.1",
+        to = IllegalStateException.class)
+    void poke(int down, @Nonnull V value);
 
     /**
      * Duplicates the top value. Equivalent to push(peek()).
      *
      * @throws IllegalArgumentException if the stack is empty
      */
+    @ThrownExceptionsWillChange(version = "1.1",
+        to = IllegalStateException.class)
     void dup();
 
     /**
@@ -181,6 +205,8 @@ public interface ValueStack<V>
      * @throws GrammarException if the stack does not contain at least two
      * elements
      */
+    @ThrownExceptionsWillChange(version = "1.1",
+        to = IllegalStateException.class)
     void swap();
 
     /**
@@ -189,6 +215,8 @@ public interface ValueStack<V>
      * @throws GrammarException if the stack does not contain at least 3
      * elements
      */
+    @ThrownExceptionsWillChange(version = "1.1",
+        to = IllegalStateException.class)
     void swap3();
 
     /**
@@ -197,6 +225,8 @@ public interface ValueStack<V>
      * @throws GrammarException if the stack does not contain at least 4
      * elements
      */
+    @ThrownExceptionsWillChange(version = "1.1",
+        to = IllegalStateException.class)
     void swap4();
 
     /**
@@ -205,6 +235,8 @@ public interface ValueStack<V>
      * @throws GrammarException if the stack does not contain at least 5
      * elements
      */
+    @ThrownExceptionsWillChange(version = "1.1",
+        to = IllegalStateException.class)
     void swap5();
 
     /**
@@ -213,6 +245,7 @@ public interface ValueStack<V>
      * @throws GrammarException if the stack does not contain at least 6
      * elements
      */
+    @ThrownExceptionsWillChange(version = "1.1",
+        to = IllegalStateException.class)
     void swap6();
-
 }
