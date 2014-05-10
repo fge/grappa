@@ -10,7 +10,7 @@ import org.parboiled.matchers.join.JoinMatcherBootstrap;
  * <p>Given two rules {@code rule} and {@code separator}, here are sample
  * usages:</p>
  *
- * <ul>
+ * <pre>
  *     Rule myRule()
  *     {
  *         // Minimum twice
@@ -24,7 +24,7 @@ import org.parboiled.matchers.join.JoinMatcherBootstrap;
  *         // Advanced: using a Guava Range
  *         return join(rule).using(separator).range(Range.atLeast(8));
  *     }
- * </ul>
+ * </pre>
  *
  * @param <V> production value of this parser
  */

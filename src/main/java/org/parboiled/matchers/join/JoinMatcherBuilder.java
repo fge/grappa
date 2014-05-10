@@ -34,8 +34,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
  *     submatcher;</li>
  *     <li>[1..1]: the "joined" rule itself;</li>
  *     <li>[n..+∞) for whatever n: a {@link BoundedDownJoinMatcher};</li>
- *     <li>[0..n] for n >= 2: a {@link BoundedUpJoinMatcher};</li>
- *     <li>[n..n] for n >= 2: an {@link ExactMatchesJoinMatcher};</li>
+ *     <li>[0..n] for n &gt;= 2: a {@link BoundedUpJoinMatcher};</li>
+ *     <li>[n..n] for n &gt;= 2: an {@link ExactMatchesJoinMatcher};</li>
  *     <li>[n..m]: a {@link BoundedBothJoinMatcher}.</li>
  * </ul>
  *
