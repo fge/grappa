@@ -16,6 +16,8 @@
 
 package org.parboiled.common;
 
+import com.github.parboiled1.grappa.cleanup.Unused;
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
@@ -39,6 +41,9 @@ import java.util.Queue;
 /**
  * General utility methods.
  */
+@Deprecated
+@Unused
+@WillBeRemoved(version = "1.1")
 public final class Utils
 {
 
@@ -200,8 +205,8 @@ public final class Utils
      *
      * @deprecated will be removed in 1.1.
      */
-    @SuppressWarnings("unchecked")
     @Deprecated
+    @SuppressWarnings("unchecked")
     public static <T> T[] arrayOf(final T firstElement, final T secondElement,
         final T... moreElements)
     {
@@ -224,8 +229,8 @@ public final class Utils
      *
      * @deprecated will be removed in 1.1.
      */
-    @SuppressWarnings("unchecked")
     @Deprecated
+    @SuppressWarnings("unchecked")
     public static <T> T[] arrayOf(final T[] firstElements, final T lastElement)
     {
         Preconditions.checkNotNull(firstElements, "firstElements");
@@ -386,6 +391,7 @@ public final class Utils
      * @return the constructor
      */
     // TODO: move to Parboiled class, or whatever will be its successor
+    @Deprecated
     public static Constructor<?> findConstructor(final Class<?> c,
         final Object[] arguments)
     {
@@ -419,6 +425,7 @@ outer:
      * @return the string representation
      */
     // TODO: replace!
+    @Deprecated
     public static String humanize(final long value)
     {
         if (value < 0) {

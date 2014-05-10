@@ -19,13 +19,12 @@ package org.parboiled;
 import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.github.parboiled1.grappa.cleanup.WillBePrivate;
 import com.google.common.base.Preconditions;
+import org.parboiled.errors.GrammarException;
 import org.parboiled.parserunners.ParseRunner;
 import org.parboiled.transform.ParserTransformer;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.Constructor;
-
-import static org.parboiled.common.Utils.findConstructor;
 
 /**
  * Main class providing the high-level entry point into the parboiled library.
@@ -102,5 +101,31 @@ public class Parboiled
         } catch (Exception e) {
             throw new RuntimeException("failed to generate byte code", e);
         }
+    }
+
+    private static Constructor<?> findConstructor(final Class<?> c,
+        final Object[] arguments)
+    {
+        Class<?>[] paramTypes;
+        Object argument;
+
+outer:
+        for (final Constructor<?> constructor : c.getConstructors()) {
+            paramTypes = constructor.getParameterTypes();
+            if (paramTypes.length != arguments.length)
+                continue;
+            for (int i = 0; i < arguments.length; i++) {
+                argument = arguments[i];
+                if (argument != null && !paramTypes[i]
+                    .isAssignableFrom(argument.getClass()))
+                    continue outer;
+                if (argument == null && paramTypes[i].isPrimitive())
+                    continue outer;
+            }
+            return constructor;
+        }
+        throw new GrammarException(
+            "No constructor found for %s and the given %s arguments", c,
+            arguments.length);
     }
 }

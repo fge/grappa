@@ -16,7 +16,6 @@
 
 package org.parboiled.trees;
 
-import com.github.parboiled1.grappa.cleanup.DoNotUse;
 import com.github.parboiled1.grappa.cleanup.Unused;
 import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
 import com.google.common.base.Preconditions;
@@ -57,7 +56,6 @@ public final class TreeUtils
      */
     @Deprecated
     @Unused
-    @DoNotUse
     @WillBeRemoved(version = "1.1")
     public static <T extends MutableTreeNode<T>> void addChild(final T parent,
         final T child)
@@ -96,9 +94,8 @@ public final class TreeUtils
      * @return the new root after the transformation, which is either the right sub node of the original root
      * or the original root, if the right sub node is null
      */
-    @Unused
     @Deprecated
-    @DoNotUse
+    @Unused
     @WillBeRemoved(version = "1.1")
     public static <N extends MutableBinaryTreeNode<N>> N toLeftAssociativity(
         final N node)

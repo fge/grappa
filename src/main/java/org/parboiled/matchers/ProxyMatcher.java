@@ -16,7 +16,6 @@
 
 package org.parboiled.matchers;
 
-import com.github.parboiled1.grappa.cleanup.ShouldBeReplaced;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
@@ -29,7 +28,6 @@ import java.util.List;
  * It can also hold a label and a leaf marker and lazily apply these to the underlying {@link Matcher} once it is available.
  */
 // TODO: REMOVE!! It is THE pain point in generation today
-@ShouldBeReplaced
 public class ProxyMatcher
     implements Matcher, Cloneable
 {

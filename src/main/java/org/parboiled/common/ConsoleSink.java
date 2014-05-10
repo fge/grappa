@@ -16,9 +16,19 @@
 
 package org.parboiled.common;
 
-import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+import com.github.parboiled1.grappa.misc.SinkAdapter;
+import com.github.parboiled1.grappa.misc.SystemOutCharSource;
 
-@WillBeFinal(version = "1.1.0")
+/**
+ * Deprecated!
+ *
+ * @deprecated use {@link SystemOutCharSource} instead
+ *
+ * @see SinkAdapter
+ */
+@Deprecated
+@WillBeRemoved(version = "1.1")
 public class ConsoleSink
     implements Sink<String>
 {
