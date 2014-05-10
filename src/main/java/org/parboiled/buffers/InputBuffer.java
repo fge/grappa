@@ -23,6 +23,7 @@ import org.parboiled.support.Position;
 /**
  * Abstraction of a simple char[] buffer holding the input text to be parsed.
  */
+// TODO: it furiously resembles a CharSequence and should use that
 public interface InputBuffer
 {
 

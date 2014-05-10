@@ -108,8 +108,8 @@ public class CachingGenerator
 
         this.classNode = classNode;
         this.method = method;
-        this.instructions = method.instructions;
-        this.current = instructions.getFirst();
+        instructions = method.instructions;
+        current = instructions.getFirst();
 
         generateCacheHitReturn();
         generateStoreNewProxyMatcher();

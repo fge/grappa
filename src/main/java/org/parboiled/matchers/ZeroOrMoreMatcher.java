@@ -37,7 +37,7 @@ public class ZeroOrMoreMatcher
     public ZeroOrMoreMatcher(final Rule subRule)
     {
         super(Preconditions.checkNotNull(subRule, "subRule"), "ZeroOrMore");
-        this.subMatcher = getChildren().get(0);
+        subMatcher = getChildren().get(0);
     }
 
     @Override

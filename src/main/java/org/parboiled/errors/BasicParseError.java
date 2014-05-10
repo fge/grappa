@@ -37,8 +37,8 @@ public class BasicParseError
         final String errorMessage)
     {
         this.inputBuffer = Preconditions.checkNotNull(inputBuffer);
-        this.startIndex = errorIndex;
-        this.endIndex = errorIndex + 1;
+        startIndex = errorIndex;
+        endIndex = errorIndex + 1;
         this.errorMessage = errorMessage;
     }
 
@@ -78,6 +78,6 @@ public class BasicParseError
 
     public void shiftIndexDeltaBy(final int delta)
     {
-        this.indexDelta += delta;
+        indexDelta += delta;
     }
 }

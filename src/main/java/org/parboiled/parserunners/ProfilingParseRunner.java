@@ -294,14 +294,14 @@ public class ProfilingParseRunner<V>
             final List<RuleReport> ruleReports)
         {
             this.totalRuns = totalRuns;
-            this.totalInvocations = totalMatches + totalMismatches;
+            totalInvocations = totalMatches + totalMismatches;
             this.totalMatches = totalMatches;
             this.totalMismatches = totalMismatches;
-            this.matchShare = (double) totalMatches / (double) totalInvocations;
-            this.reinvocations = rematches + remismatches;
+            matchShare = (double) totalMatches / (double) totalInvocations;
+            reinvocations = rematches + remismatches;
             this.rematches = rematches;
             this.remismatches = remismatches;
-            this.reinvocationShare = (double) reinvocations
+            reinvocationShare = (double) reinvocations
                 / (double) totalInvocations;
             this.totalNanoTime = totalNanoTime;
             this.ruleReports = ruleReports;

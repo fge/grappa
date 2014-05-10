@@ -89,7 +89,7 @@ public class ParsingResult<V>
         this.matched = matched;
         this.parseTreeRoot = parseTreeRoot;
         this.valueStack = Preconditions.checkNotNull(valueStack);
-        this.resultValue = valueStack.isEmpty() ? null : valueStack.peek();
+        resultValue = valueStack.isEmpty() ? null : valueStack.peek();
         this.parseErrors = Preconditions.checkNotNull(parseErrors);
         this.inputBuffer = Preconditions.checkNotNull(inputBuffer);
     }

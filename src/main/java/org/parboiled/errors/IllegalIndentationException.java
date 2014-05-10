@@ -16,7 +16,6 @@
 
 package org.parboiled.errors;
 
-import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.github.parboiled1.grappa.cleanup.WillBePrivate;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.support.Chars;
@@ -25,7 +24,7 @@ import org.parboiled.support.Position;
 /**
  * Exception thrown by the IndentDedentInputbuffer upon detection of an illegal indentation.
  */
-@WillBeFinal(version = "1.1")
+@Deprecated
 public class IllegalIndentationException
     extends RuntimeException
 {

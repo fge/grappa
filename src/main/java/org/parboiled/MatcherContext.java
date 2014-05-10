@@ -142,11 +142,11 @@ public class MatcherContext<V>
             Preconditions.checkNotNull(parseErrors, "parseErrors"),
             Preconditions.checkNotNull(matchHandler, "matchHandler"), null, 0,
             fastStringMatching, new HashSet<MatcherPosition>());
-        this.currentChar = inputBuffer.charAt(0);
+        currentChar = inputBuffer.charAt(0);
         Preconditions.checkNotNull(matcher);
         // TODO: what the...
         this.matcher = ProxyMatcher.unwrap(matcher);
-        this.nodeSuppressed = matcher.isNodeSuppressed();
+        nodeSuppressed = matcher.isNodeSuppressed();
     }
 
     private MatcherContext(final InputBuffer inputBuffer,

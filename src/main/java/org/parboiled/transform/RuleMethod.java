@@ -223,7 +223,7 @@ public class RuleMethod
 
     public void setBodyRewritten()
     {
-        this.bodyRewritten = true;
+        bodyRewritten = true;
     }
 
     public boolean isSuperMethod()

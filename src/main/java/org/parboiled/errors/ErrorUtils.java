@@ -28,6 +28,7 @@ import org.parboiled.support.MatcherPath;
 import org.parboiled.support.ParsingResult;
 import org.parboiled.support.Position;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -58,6 +59,7 @@ public final class ErrorUtils
      * @param errorIndex the start index of the respective parse error
      * @return the matcher whose label is best for presentation in "expected" strings
      */
+    @Nullable
     static Matcher findProperLabelMatcher(final MatcherPath path,
         final int errorIndex)
     {

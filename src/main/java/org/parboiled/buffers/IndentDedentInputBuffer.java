@@ -48,6 +48,9 @@ import org.parboiled.support.Position;
  *
  * <p>If the input contains illegal indentation the buffer throws an {@link
  * IllegalIndentationException} during construction.</p>
+ *
+ * @deprecated will have no replacement; the two characters used for indent and
+ * "dedent" (respectively {@code «} and {@code »}) are of common use.
  */
 @Deprecated
 @WillBeRemoved(version = "1.1")
@@ -188,7 +191,7 @@ public final class IndentDedentInputBuffer
         {
             this.tabStop = tabStop;
             this.lineCommentStart = lineCommentStart;
-            this.currentChar = origBuffer.charAt(0);
+            currentChar = origBuffer.charAt(0);
             build();
         }
 

@@ -50,7 +50,7 @@ public final class DefaultInputBuffer
     public DefaultInputBuffer(final char[] buffer)
     {
         this.buffer = Preconditions.checkNotNull(buffer);
-        this.length = buffer.length;
+        length = buffer.length;
     }
 
     @Override

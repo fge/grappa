@@ -47,7 +47,7 @@ public abstract class AbstractParseRunner<V>
     @WillBeProtected(version = "1.1")
     public AbstractParseRunner(@Nonnull final Rule rule)
     {
-        this.rootMatcher = Preconditions.checkNotNull((Matcher) rule, "rule");
+        rootMatcher = Preconditions.checkNotNull((Matcher) rule, "rule");
     }
 
     @WillBeFinal(version = "1.1")
@@ -78,7 +78,7 @@ public abstract class AbstractParseRunner<V>
         @Nonnull final ValueStack<V> valueStack)
     {
         this.valueStack = Preconditions.checkNotNull(valueStack, "valueStack");
-        this.initialValueStackSnapshot = valueStack.takeSnapshot();
+        initialValueStackSnapshot = valueStack.takeSnapshot();
         return this;
     }
 

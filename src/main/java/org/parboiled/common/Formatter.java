@@ -23,6 +23,7 @@ import javax.annotation.Nullable;
  *
  * @param <T>
  */
+// TODO: java.util{,.logging}.Formatter also exist
 public interface Formatter<T>
 {
 

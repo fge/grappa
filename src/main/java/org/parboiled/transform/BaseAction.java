@@ -47,6 +47,6 @@ public abstract class BaseAction<V>
 
     public void setSkipInPredicates()
     {
-        this.skipInPredicates = true;
+        skipInPredicates = true;
     }
 }

@@ -63,12 +63,12 @@ public class InstructionGraphNode
         super(null);
         this.instruction = instruction;
         this.resultValue = resultValue;
-        this.isActionRoot = AsmUtils.isActionRoot(instruction);
-        this.isVarInitRoot = AsmUtils.isVarRoot(instruction);
-        this.isCallOnContextAware = AsmUtils.isCallOnContextAware(instruction);
-        this.isXLoad = ILOAD <= instruction.getOpcode()
+        isActionRoot = AsmUtils.isActionRoot(instruction);
+        isVarInitRoot = AsmUtils.isVarRoot(instruction);
+        isCallOnContextAware = AsmUtils.isCallOnContextAware(instruction);
+        isXLoad = ILOAD <= instruction.getOpcode()
             && instruction.getOpcode() < IALOAD;
-        this.isXStore = ISTORE <= instruction.getOpcode()
+        isXStore = ISTORE <= instruction.getOpcode()
             && instruction.getOpcode() < IASTORE;
     }
 
