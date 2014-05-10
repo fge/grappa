@@ -70,11 +70,13 @@ public class Chars
     /**
      * Special non-character used by the {@link IndentDedentInputBuffer}.
      */
+    @Deprecated
     public static final char INDENT = '\uFDD0';
 
     /**
      * Special non-character used by the {@link IndentDedentInputBuffer}.
      */
+    @Deprecated
     public static final char DEDENT = '\uFDD1';
 
     private static final Map<Character, String> ESCAPE_MAP
