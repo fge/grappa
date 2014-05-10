@@ -1,16 +1,14 @@
 ### 1.0.0-beta.5
 
-* Major code cleanup: reformatting, intents with @Documented annotations, a lot
-  of @Deprecated classes/methods/constructors. Cleanup for 1.1 will be massive!
-* Fix one brown paper bag bug with CharSequenceInputBuffer: it always returned 0
-  when asked for the number of lines... But then tests did not cover this, and
-  still do not...
+* Major code cleanup: reformatting, intents with @Documented annotations, a lot of @Deprecated
+  classes/methods/constructors. Cleanup for 1.1 will be massive!
+* Fix one brown paper bag bug with CharSequenceInputBuffer: it always returned 0 when asked for the
+  number of lines... But then tests did not cover this, and still do not...
 * Replace custom implementations of linked lists etc with standard JDK classes.
-* Tests: get rid of 80+% of tests depending on string outputs; replace them with
-  assertions instead.
+* Tests: get rid of 80+% of tests depending on string outputs; replace them with assertions instead.
 * Tests: integrate [mutation testing](https://github.com/hcoles/pitest).
-* Deprecate IndentDedentInputBuffer: not that useful, and used characters are of
-  common use in some languages (French, amon others).
+* Deprecate IndentDedentInputBuffer: used characters are of common use in some languages (French,
+  among others).
 
 ### 1.0.0-beta.4
 
@@ -28,14 +26,13 @@
 * Code cleanup/update/reformatting (not finished yet).
 * Rule methods are now lowercase; deprecate uppercase rules.
 * Add all rules defined by
-  [RFC 5234, Appendix B, section 1](https://tools.ietf.org/html/rfc5234#appendix-B.1), except for `LWSP`.
-* Depend on asm-debug-all: asm is critical and we want to reliably debug into
-  it.
+  [RFC 5234, Appendix B, section 1](https://tools.ietf.org/html/rfc5234#appendix-B.1), except for
+  `LWSP`.
+* Depend on asm-debug-all: asm is critical and we want to reliably debug into it.
 
 ### 1.0.0-beta.1
 
-* Make all RuleMethodProcessors public (were package private); document them,
-  change package.
+* Make all RuleMethodProcessors public (were package private); document them, change package.
 * Document all parser/rule annotations.
 * Rewrite ParserStatistics; add custom matcher.
 * Depend on mockito, AssertJ for tests.
@@ -43,7 +40,7 @@
 * Add dependency on Guava.
 * ASM 5.0.1: make package work with Java 8.
 * Implement an InputBuffer over a CharSequence.
-* Deprecate a lot of packages which are in Guava (in fact, most of them _were_
-  copied from Guava in the first place).
+* Deprecate a lot of packages which are in Guava (in fact, most of them _were_ copied from Guava in
+  the first place).
 * Make javadoc compatible with Java 8.
 
