@@ -17,7 +17,6 @@
 package org.parboiled.parserunners;
 
 import com.github.parboiled1.grappa.cleanup.DoNotUse;
-import com.github.parboiled1.grappa.cleanup.ShouldBeReplaced;
 import com.github.parboiled1.grappa.cleanup.Unused;
 import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
 import com.github.parboiled1.grappa.misc.SinkAdapter;
@@ -75,7 +74,6 @@ public class TracingParseRunner<V>
      * statements for
      * @return this instance
      */
-    @ShouldBeReplaced
     public TracingParseRunner<V> withFilter(
         @Nonnull final Predicate<Tuple2<Context<?>, Boolean>> filter)
     {

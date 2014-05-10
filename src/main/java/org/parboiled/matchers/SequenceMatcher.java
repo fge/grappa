@@ -16,7 +16,6 @@
 
 package org.parboiled.matchers;
 
-import com.github.parboiled1.grappa.cleanup.ShouldBeReplaced;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
@@ -34,7 +33,6 @@ import java.util.List;
  * impossible to .chainInto(someMatchConsumer) for instance, which is a royal
  * pain.
  */
-@ShouldBeReplaced
 public class SequenceMatcher
     extends CustomDefaultLabelMatcher<SequenceMatcher>
 {

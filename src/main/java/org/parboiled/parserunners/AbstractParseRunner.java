@@ -16,7 +16,6 @@
 
 package org.parboiled.parserunners;
 
-import com.github.parboiled1.grappa.cleanup.ShouldBeReplaced;
 import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.github.parboiled1.grappa.cleanup.WillBeProtected;
 import com.github.parboiled1.grappa.stack.DefaultValueStack;
@@ -59,7 +58,6 @@ public abstract class AbstractParseRunner<V>
 
     @Override
     // TODO: for now, parseErrors is @Nullable here
-    @ShouldBeReplaced
     @WillBeFinal(version = "1.1")
     public ParseRunner<V> withParseErrors(final List<ParseError> parseErrors)
     {
@@ -84,7 +82,6 @@ public abstract class AbstractParseRunner<V>
         return this;
     }
 
-    @ShouldBeReplaced
     @WillBeFinal(version = "1.1")
     public ValueStack<V> getValueStack()
     {
