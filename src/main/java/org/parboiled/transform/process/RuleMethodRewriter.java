@@ -37,7 +37,7 @@ import org.parboiled.transform.InstructionGraphNode;
 import org.parboiled.transform.InstructionGroup;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
-import org.parboiled.transform.asm.AsmHelper;
+import com.github.parboiled1.grappa.transform.asm.AsmHelper;
 
 import javax.annotation.Nonnull;
 

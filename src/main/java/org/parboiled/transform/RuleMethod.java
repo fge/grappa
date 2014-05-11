@@ -35,7 +35,7 @@ import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.analysis.BasicValue;
 import org.parboiled.BaseParser;
 import org.parboiled.support.Var;
-import org.parboiled.transform.method.ParserAnnotation;
+import com.github.parboiled1.grappa.transform.method.ParserAnnotation;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -50,7 +50,7 @@ import static org.parboiled.transform.AsmUtils.isActionRoot;
 import static org.parboiled.transform.AsmUtils.isAssignableTo;
 import static org.parboiled.transform.AsmUtils.isBooleanValueOfZ;
 import static org.parboiled.transform.AsmUtils.isVarRoot;
-import static org.parboiled.transform.method.ParserAnnotation.*;
+import static com.github.parboiled1.grappa.transform.method.ParserAnnotation.*;
 
 public class RuleMethod
     extends MethodNode

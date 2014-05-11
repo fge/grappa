@@ -44,7 +44,7 @@ import org.parboiled.transform.CacheArguments;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
 import org.parboiled.transform.Types;
-import org.parboiled.transform.asm.ClassHelper;
+import com.github.parboiled1.grappa.transform.asm.ClassHelper;
 
 import javax.annotation.Nonnull;
 

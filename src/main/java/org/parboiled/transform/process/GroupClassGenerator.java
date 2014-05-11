@@ -36,7 +36,7 @@ import org.parboiled.transform.InstructionGroup;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
 import org.parboiled.transform.Types;
-import org.parboiled.transform.asm.MethodDescriptor;
+import com.github.parboiled1.grappa.transform.asm.MethodDescriptor;
 
 import javax.annotation.Nonnull;
 

@@ -22,7 +22,7 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 import org.parboiled.Context;
-import org.parboiled.transform.asm.MethodDescriptor;
+import com.github.parboiled1.grappa.transform.asm.MethodDescriptor;
 import org.parboiled.transform.process.GroupClassGenerator;
 
 import javax.annotation.Nonnull;

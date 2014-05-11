@@ -40,7 +40,7 @@ import org.parboiled.matchers.Matcher;
 import org.parboiled.matchers.ProxyMatcher;
 import org.parboiled.matchers.VarFramingMatcher;
 import org.parboiled.support.Var;
-import org.parboiled.transform.method.ParserAnnotation;
+import com.github.parboiled1.grappa.transform.method.ParserAnnotation;
 
 /**
  * DON'T USE
