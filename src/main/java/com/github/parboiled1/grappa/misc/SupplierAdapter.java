@@ -23,7 +23,15 @@ import org.parboiled.annotations.ForBackwardsCompatibilityOnly;
 import org.parboiled.common.Factory;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
+/**
+ * Backwards compatibility class
+ *
+ * <p>Will be removed when {@link Factory} will be removed.</p>
+ *
+ * @param <T>
+ */
 @ForBackwardsCompatibilityOnly
 @WillBeRemoved(version = "1.1")
 public final class SupplierAdapter<T>
@@ -36,6 +44,7 @@ public final class SupplierAdapter<T>
         this.factory = Preconditions.checkNotNull(factory);
     }
 
+    @Nullable
     @Override
     public T create()
     {
@@ -48,6 +57,7 @@ public final class SupplierAdapter<T>
      *
      * @return an instance of the appropriate type
      */
+    @Nullable
     @Override
     public T get()
     {

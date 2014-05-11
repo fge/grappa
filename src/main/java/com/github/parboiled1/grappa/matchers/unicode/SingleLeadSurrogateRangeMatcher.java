@@ -18,6 +18,19 @@ package com.github.parboiled1.grappa.matchers.unicode;
 
 import org.parboiled.MatcherContext;
 
+/**
+ * A specialized version of a supplementary range matcher
+ *
+ * <p>This matcher is used when the range of characters asked for obey both of
+ * the following rules:</p>
+ *
+ * <ul>
+ *     <li>they are in the supplementary plane;</li>
+ *     <li>both the lower bound and the upper bound share the same lead
+ *     surrogate.</li>
+ * </ul>
+ *
+ */
 public class SingleLeadSurrogateRangeMatcher
     extends UnicodeRangeMatcher
 {

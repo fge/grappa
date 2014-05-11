@@ -18,6 +18,15 @@ package com.github.parboiled1.grappa.matchers.unicode;
 
 import org.parboiled.MatcherContext;
 
+/**
+ * Generic {@link UnicodeRangeMatcher} for a code point range outside the BMP
+ *
+ * <p>This matcher is used as a code point range matcher if the lower bound's
+ * lead surrogate and the upper bound's lead surrogate are different (otherwise
+ * a {@link SingleLeadSurrogateRangeMatcher} is used).</p>
+ *
+ * @see SupplementaryCharMatcher
+ */
 public class GenericSupplementaryRangeMatcher
     extends UnicodeRangeMatcher
 {

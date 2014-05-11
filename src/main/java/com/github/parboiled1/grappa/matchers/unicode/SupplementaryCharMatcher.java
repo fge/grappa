@@ -18,7 +18,25 @@ package com.github.parboiled1.grappa.matchers.unicode;
 
 import org.parboiled.MatcherContext;
 import org.parboiled.buffers.InputBuffer;
+import org.parboiled.matchers.CharMatcher;
 
+/**
+ * A {@link UnicodeCharMatcher} for a single, supplementary code point
+ *
+ * <p>Java's {@code char} is in fact a UTF-16 code unit; but since the birth of
+ * Java, Unicode has evolved beyond the basic multilingual plane, which means
+ * code points are defined outside the range U+0000-U+FFFF.</p>
+ *
+ * <p>For these, Java uses two {@code char}s: a lead surrogate and a trail
+ * surrogate. This pair is the exact pair used by UTF-16, and is obtained
+ * using {@link Character#toChars(int)}. And this is what this matcher uses.</p>
+ *
+ * <p>For code points inside the basic multilingual plane, a "plain" {@link
+ * CharMatcher} is used instead.</p>
+ *
+ * <p>For more information, see <a href="http://en.wikipedia.org/wiki/UTF-16"
+ * target="_blank">the Wikipedia article on UTF-16</a>.</p>
+ */
 public class SupplementaryCharMatcher
     extends UnicodeCharMatcher
 {

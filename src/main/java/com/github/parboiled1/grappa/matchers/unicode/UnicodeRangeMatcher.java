@@ -21,6 +21,15 @@ import org.parboiled.matchers.CharRangeMatcher;
 import org.parboiled.matchers.CustomMatcher;
 import org.parboiled.matchervisitors.MatcherVisitor;
 
+/**
+ * Base implementation of a Unicode code point range matcher
+ *
+ * <p>This matcher is also the "factory" for all its implementation using the
+ * {@link #forRange(int, int)} method; according to the lower and upper bounds
+ * of the range, it will generate either of a {@link BmpRangeMatcher}, a {@link
+ * SingleLeadSurrogateRangeMatcher} or a {@link
+ * GenericSupplementaryRangeMatcher}.</p>
+ */
 public abstract class UnicodeRangeMatcher
     extends CustomMatcher
 {

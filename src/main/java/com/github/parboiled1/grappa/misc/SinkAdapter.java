@@ -24,6 +24,11 @@ import org.parboiled.common.Sink;
 import java.io.IOException;
 import java.io.Writer;
 
+/**
+ * Backwards compatibility class
+ *
+ * <p>Will be removed when {@link Sink} will be removed.</p>
+ */
 @ForBackwardsCompatibilityOnly
 @WillBeRemoved(version = "1.1")
 public final class SinkAdapter

@@ -19,6 +19,23 @@ package com.github.parboiled1.grappa.matchers.unicode;
 import org.parboiled.MatcherContext;
 import org.parboiled.matchers.CharRangeMatcher;
 
+/**
+ * A {@link UnicodeRangeMatcher} for "mixed" code point ranges
+ *
+ * <p>Such a range contains a character in the basic multilingual plane as its
+ * lower bound and a character in the supplementary plane at its upper bound.
+ * </p>
+ *
+ * <p>When matching, the supplementary plane is checked first (using a {@link
+ * GenericSupplementaryRangeMatcher} or a {@link
+ * SingleLeadSurrogateRangeMatcher} as appropriate), then the basic multilingual
+ * plane (using a {@link CharRangeMatcher}).</p>
+ *
+ * <p>For instance, given the range U+1200-U+12000, range U+1000-U+12000 will
+ * be checked first and only then range U+1200-U+FFFF. This is done this way
+ * because Java allows to create a "string" with only a lead surrogate as a
+ * single {@code char} (which is invalid Unicode).</p>
+ */
 public class CombinedUnicodeRangeMatcher
     extends UnicodeRangeMatcher
 {

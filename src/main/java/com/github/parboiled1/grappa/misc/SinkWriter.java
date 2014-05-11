@@ -18,6 +18,7 @@ package com.github.parboiled1.grappa.misc;
 
 import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
 import com.google.common.base.Preconditions;
+import com.google.common.io.CharSink;
 import org.parboiled.annotations.ForBackwardsCompatibilityOnly;
 import org.parboiled.common.Sink;
 
@@ -26,6 +27,14 @@ import java.io.IOException;
 import java.io.Writer;
 import java.nio.CharBuffer;
 
+/**
+ * Backwards compatibility class
+ *
+ * <p>Will be removed when {@link Sink} is removed; this class is here to
+ * provide a {@link Writer} for a {@link CharSink}.</p>
+ *
+ * @see CharSink#openStream()
+ */
 @ForBackwardsCompatibilityOnly
 @WillBeRemoved(version = "1.1")
 public final class SinkWriter
@@ -36,7 +45,7 @@ public final class SinkWriter
 
     public SinkWriter(@Nonnull final Sink<String> sink)
     {
-        this.sink = sink;
+        this.sink = Preconditions.checkNotNull(sink);
     }
 
     @Override

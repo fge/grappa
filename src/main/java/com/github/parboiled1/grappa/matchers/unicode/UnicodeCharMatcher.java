@@ -20,6 +20,18 @@ import com.google.common.base.Preconditions;
 import org.parboiled.matchers.CustomMatcher;
 import org.parboiled.matchervisitors.MatcherVisitor;
 
+/**
+ * Base implementation of a Unicode code point matcher
+ *
+ * <p>This method will instantiate one of its children according to the value
+ * of the code point passed as an argument:</p>
+ *
+ * <ul>
+ *     <li>if the code point falls into the Basic Multilingual Plane, it will
+ *     generate a {@link BmpCharMatcher};</li>
+ *     <li>otherwise it will build a {@link SupplementaryCharMatcher}.</li>
+ * </ul>
+ */
 public abstract class UnicodeCharMatcher
     extends CustomMatcher
 {

@@ -19,6 +19,15 @@ package com.github.parboiled1.grappa.matchers.unicode;
 import org.parboiled.MatcherContext;
 import org.parboiled.matchers.CharMatcher;
 
+/**
+ * A {@link UnicodeCharMatcher} for characters inside the basic multilingual
+ * plane
+ *
+ * <p>The basic multilingual plane includes all code points in the range U+0000
+ * to U+FFFF, as far as Java is concerned, there is a one-to-one match between
+ * such a code point and a {@code char}, so what this does is simply delegate
+ * the job to a {@link CharMatcher}.</p>
+ */
 public class BmpCharMatcher
     extends UnicodeCharMatcher
 {

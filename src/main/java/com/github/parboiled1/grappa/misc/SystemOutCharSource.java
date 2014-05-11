@@ -22,6 +22,9 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
+/**
+ * A {@link CharSink} over {@code System.out}
+ */
 public final class SystemOutCharSource
     extends CharSink
 {
@@ -33,8 +36,8 @@ public final class SystemOutCharSource
 
     /**
      * Opens a new {@link Writer} for writing to this sink. This method
-     * should return a new,
-     * independent writer each time it is called.
+     * should return a new, independent writer each time it is called.
+     *
      * <p>The caller is responsible for ensuring that the returned writer is
      * closed.
      *
