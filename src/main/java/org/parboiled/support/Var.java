@@ -23,7 +23,7 @@ import com.github.parboiled1.grappa.misc.SupplierAdapter;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
-import com.google.common.collect.Queues;
+import com.google.common.collect.Lists;
 import org.parboiled.common.Factory;
 import org.parboiled.common.Reference;
 
@@ -48,7 +48,7 @@ public class Var<T>
     extends Reference<T>
 {
     private final Supplier<T> supplier;
-    private final Deque<T> stack = Queues.newArrayDeque();
+    private final Deque<T> stack = Lists.newLinkedList();
     private int level;
     private String name;
 
