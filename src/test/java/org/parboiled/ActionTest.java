@@ -120,17 +120,18 @@ public class ActionTest extends ParboiledTest<Integer>
 
         final ParserStatistics stats = ParserStatistics.generateFor(parser.A());
 
+        // TODO: replace printActionClassInstances with something else here
         assertEquals(stats.printActionClassInstances()
             .replaceAll("(?<=\\$)[A-Za-z0-9]{16}", "XXXXXXXXXXXXXXXX"), "" +
-                "Action classes and their instances for rule 'A':\n" +
-                "    Action$XXXXXXXXXXXXXXXX : D_Action2\n" +
-                "    Action$XXXXXXXXXXXXXXXX : D_Action3\n" +
-                "    Action$XXXXXXXXXXXXXXXX : B_Action1\n" +
-                "    Action$XXXXXXXXXXXXXXXX : A_Action1\n" +
-                "    Action$XXXXXXXXXXXXXXXX : D_Action1\n" +
-                "    Action$XXXXXXXXXXXXXXXX : B_Action2, C_Action1\n" +
-                "    Action$XXXXXXXXXXXXXXXX : A_Action2\n" +
-                "    and 1 anonymous instance(s)\n");
+            "Action classes and their instances for rule 'A':\n" +
+            "    Action$XXXXXXXXXXXXXXXX : D_Action1\n" +
+            "    Action$XXXXXXXXXXXXXXXX : A_Action2\n" +
+            "    Action$XXXXXXXXXXXXXXXX : B_Action1\n" +
+            "    Action$XXXXXXXXXXXXXXXX : D_Action3\n" +
+            "    Action$XXXXXXXXXXXXXXXX : B_Action2, C_Action1\n" +
+            "    Action$XXXXXXXXXXXXXXXX : A_Action1\n" +
+            "    Action$XXXXXXXXXXXXXXXX : D_Action2\n" +
+            "    and 1 anonymous instance(s)\n");
     }
 
 }
