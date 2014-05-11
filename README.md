@@ -13,8 +13,8 @@ Pure Java!
 License is Apache 2.0. See [here](https://github.com/parboiled1/project-info) for further
 information.
 
-This project has two dedicated Google groups:
-[grappa-users](http://groups.google.com/d/forum/grappa-users) and
+This project has an IRC channel (`#grappa` on Freenode; server: `irc.freenode.net`) and two
+dedicated Google groups: [grappa-users](http://groups.google.com/d/forum/grappa-users) and
 [grappa-devel](http://groups.google.com/d/forum/grappa-devel). They are also available to post by
 email.
 
