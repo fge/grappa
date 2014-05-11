@@ -11,6 +11,7 @@
   among others).
 * Replace digest implementation for instruction groups; now means generating a group name does not
   have to be synchronized anymore.
+* JoinMatcher: check each time that the matched content is not empty... No choice at this moment.
 
 ### 1.0.0-beta.4
 
