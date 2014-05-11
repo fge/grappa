@@ -18,6 +18,8 @@ package org.parboiled;
 
 import com.github.parboiled1.grappa.cleanup.DoNotUse;
 import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+import com.github.parboiled1.grappa.matchers.unicode.UnicodeCharMatcher;
+import com.github.parboiled1.grappa.matchers.unicode.UnicodeRangeMatcher;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicates;
 import com.google.common.collect.FluentIterable;
@@ -48,8 +50,6 @@ import org.parboiled.matchers.StringMatcher;
 import org.parboiled.matchers.TestMatcher;
 import org.parboiled.matchers.TestNotMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
-import com.github.parboiled1.grappa.matchers.unicode.UnicodeCharMatcher;
-import com.github.parboiled1.grappa.matchers.unicode.UnicodeRangeMatcher;
 import org.parboiled.support.Characters;
 import org.parboiled.support.Chars;
 import org.parboiled.support.Checks;

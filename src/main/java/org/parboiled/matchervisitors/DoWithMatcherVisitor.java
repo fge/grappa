@@ -16,6 +16,7 @@
 
 package org.parboiled.matchervisitors;
 
+import com.github.parboiled1.grappa.matchers.join.JoinMatcher;
 import com.google.common.base.Preconditions;
 import org.parboiled.matchers.AbstractMatcher;
 import org.parboiled.matchers.FirstOfMatcher;
@@ -26,7 +27,6 @@ import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.matchers.TestMatcher;
 import org.parboiled.matchers.TestNotMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
-import com.github.parboiled1.grappa.matchers.join.JoinMatcher;
 
 import java.util.HashSet;
 import java.util.Set;

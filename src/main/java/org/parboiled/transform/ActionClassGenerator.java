@@ -17,12 +17,12 @@
 package org.parboiled.transform;
 
 import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+import com.github.parboiled1.grappa.transform.asm.MethodDescriptor;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 import org.parboiled.Context;
-import com.github.parboiled1.grappa.transform.asm.MethodDescriptor;
 import org.parboiled.transform.process.GroupClassGenerator;
 
 import javax.annotation.Nonnull;

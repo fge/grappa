@@ -17,6 +17,9 @@
 package org.parboiled;
 
 import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+import com.github.parboiled1.grappa.matchers.join.JoinMatcher;
+import com.github.parboiled1.grappa.matchers.unicode.UnicodeCharMatcher;
+import com.github.parboiled1.grappa.matchers.unicode.UnicodeRangeMatcher;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
@@ -43,9 +46,6 @@ import org.parboiled.matchers.TestMatcher;
 import org.parboiled.matchers.TestNotMatcher;
 import org.parboiled.matchers.VarFramingMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
-import com.github.parboiled1.grappa.matchers.join.JoinMatcher;
-import com.github.parboiled1.grappa.matchers.unicode.UnicodeCharMatcher;
-import com.github.parboiled1.grappa.matchers.unicode.UnicodeRangeMatcher;
 import org.parboiled.matchervisitors.MatcherVisitor;
 
 import java.nio.CharBuffer;

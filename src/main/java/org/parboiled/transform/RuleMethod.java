@@ -22,6 +22,7 @@
 
 package org.parboiled.transform;
 
+import com.github.parboiled1.grappa.transform.method.ParserAnnotation;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import org.objectweb.asm.AnnotationVisitor;
@@ -35,13 +36,24 @@ import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.analysis.BasicValue;
 import org.parboiled.BaseParser;
 import org.parboiled.support.Var;
-import com.github.parboiled1.grappa.transform.method.ParserAnnotation;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
+import static com.github.parboiled1.grappa.transform.method.ParserAnnotation.CACHED;
+import static com.github.parboiled1.grappa.transform.method.ParserAnnotation.DONT_EXTEND;
+import static com.github.parboiled1.grappa.transform.method.ParserAnnotation.DONT_LABEL;
+import static com.github.parboiled1.grappa.transform.method.ParserAnnotation.DONT_SKIP_ACTIONS_IN_PREDICATES;
+import static com.github.parboiled1.grappa.transform.method.ParserAnnotation.EXPLICIT_ACTIONS_ONLY;
+import static com.github.parboiled1.grappa.transform.method.ParserAnnotation.MEMO_MISMATCHES;
+import static com.github.parboiled1.grappa.transform.method.ParserAnnotation.SKIP_ACTIONS_IN_PREDICATES;
+import static com.github.parboiled1.grappa.transform.method.ParserAnnotation.SKIP_NODE;
+import static com.github.parboiled1.grappa.transform.method.ParserAnnotation.SUPPRESS_NODE;
+import static com.github.parboiled1.grappa.transform.method.ParserAnnotation.SUPPRESS_SUBNODES;
+import static com.github.parboiled1.grappa.transform.method.ParserAnnotation.moveTo;
+import static com.github.parboiled1.grappa.transform.method.ParserAnnotation.recordAnnotation;
 import static org.objectweb.asm.Opcodes.ARETURN;
 import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
 import static org.objectweb.asm.Opcodes.INVOKESTATIC;
@@ -50,7 +62,6 @@ import static org.parboiled.transform.AsmUtils.isActionRoot;
 import static org.parboiled.transform.AsmUtils.isAssignableTo;
 import static org.parboiled.transform.AsmUtils.isBooleanValueOfZ;
 import static org.parboiled.transform.AsmUtils.isVarRoot;
-import static com.github.parboiled1.grappa.transform.method.ParserAnnotation.*;
 
 public class RuleMethod
     extends MethodNode

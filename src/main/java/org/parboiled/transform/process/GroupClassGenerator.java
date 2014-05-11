@@ -17,6 +17,7 @@
 package org.parboiled.transform.process;
 
 import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+import com.github.parboiled1.grappa.transform.asm.MethodDescriptor;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
@@ -36,7 +37,6 @@ import org.parboiled.transform.InstructionGroup;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
 import org.parboiled.transform.Types;
-import com.github.parboiled1.grappa.transform.asm.MethodDescriptor;
 
 import javax.annotation.Nonnull;
 

@@ -16,6 +16,9 @@
 
 package org.parboiled.matchervisitors;
 
+import com.github.parboiled1.grappa.matchers.join.JoinMatcher;
+import com.github.parboiled1.grappa.matchers.unicode.UnicodeCharMatcher;
+import com.github.parboiled1.grappa.matchers.unicode.UnicodeRangeMatcher;
 import org.parboiled.matchers.ActionMatcher;
 import org.parboiled.matchers.AnyMatcher;
 import org.parboiled.matchers.AnyOfMatcher;
@@ -33,9 +36,6 @@ import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.matchers.TestMatcher;
 import org.parboiled.matchers.TestNotMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
-import com.github.parboiled1.grappa.matchers.join.JoinMatcher;
-import com.github.parboiled1.grappa.matchers.unicode.UnicodeCharMatcher;
-import com.github.parboiled1.grappa.matchers.unicode.UnicodeRangeMatcher;
 import org.parboiled.support.Checks;
 
 /**

@@ -1,8 +1,8 @@
 package org.parboiled;
 
-import com.google.common.annotations.Beta;
 import com.github.parboiled1.grappa.matchers.join.JoinMatcher;
 import com.github.parboiled1.grappa.matchers.join.JoinMatcherBootstrap;
+import com.google.common.annotations.Beta;
 
 /**
  * Base parser with a {@code join()} method to create a {@link JoinMatcher}

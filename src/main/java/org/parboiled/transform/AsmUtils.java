@@ -22,6 +22,7 @@
 
 package org.parboiled.transform;
 
+import com.github.parboiled1.grappa.transform.asm.AsmHelper;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.Opcodes;
@@ -33,7 +34,6 @@ import org.objectweb.asm.tree.VarInsnNode;
 import org.parboiled.BaseParser;
 import org.parboiled.ContextAware;
 import org.parboiled.support.Var;
-import com.github.parboiled1.grappa.transform.asm.AsmHelper;
 
 import java.io.IOException;
 import java.io.InputStream;

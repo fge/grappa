@@ -18,6 +18,7 @@ package org.parboiled.transform;
 
 import com.github.parboiled1.grappa.cleanup.DoNotUse;
 import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+import com.github.parboiled1.grappa.transform.method.ParserAnnotation;
 import org.objectweb.asm.Type;
 import org.parboiled.Action;
 import org.parboiled.BaseParser;
@@ -40,7 +41,6 @@ import org.parboiled.matchers.Matcher;
 import org.parboiled.matchers.ProxyMatcher;
 import org.parboiled.matchers.VarFramingMatcher;
 import org.parboiled.support.Var;
-import com.github.parboiled1.grappa.transform.method.ParserAnnotation;
 
 /**
  * DON'T USE

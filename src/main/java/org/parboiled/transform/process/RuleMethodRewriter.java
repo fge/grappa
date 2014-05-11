@@ -23,6 +23,7 @@
 package org.parboiled.transform.process;
 
 import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+import com.github.parboiled1.grappa.transform.asm.AsmHelper;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
@@ -37,7 +38,6 @@ import org.parboiled.transform.InstructionGraphNode;
 import org.parboiled.transform.InstructionGroup;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
-import com.github.parboiled1.grappa.transform.asm.AsmHelper;
 
 import javax.annotation.Nonnull;
 

@@ -25,6 +25,7 @@ package org.parboiled.transform.process;
 import com.github.parboiled1.grappa.cleanup.DoNotUse;
 import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.github.parboiled1.grappa.cleanup.WillBePrivate;
+import com.github.parboiled1.grappa.transform.asm.ClassHelper;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
@@ -44,7 +45,6 @@ import org.parboiled.transform.CacheArguments;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
 import org.parboiled.transform.Types;
-import com.github.parboiled1.grappa.transform.asm.ClassHelper;
 
 import javax.annotation.Nonnull;
 

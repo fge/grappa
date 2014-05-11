@@ -16,14 +16,14 @@
 
 package org.parboiled.matchervisitors;
 
+import com.github.parboiled1.grappa.matchers.unicode.UnicodeCharMatcher;
+import com.github.parboiled1.grappa.matchers.unicode.UnicodeRangeMatcher;
 import org.parboiled.matchers.AnyMatcher;
 import org.parboiled.matchers.AnyOfMatcher;
 import org.parboiled.matchers.CharIgnoreCaseMatcher;
 import org.parboiled.matchers.CharMatcher;
 import org.parboiled.matchers.CharRangeMatcher;
 import org.parboiled.matchers.CustomMatcher;
-import com.github.parboiled1.grappa.matchers.unicode.UnicodeCharMatcher;
-import com.github.parboiled1.grappa.matchers.unicode.UnicodeRangeMatcher;
 import org.parboiled.support.Characters;
 
 import java.util.Random;

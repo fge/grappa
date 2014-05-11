@@ -16,10 +16,10 @@
 
 package com.github.parboiled1.grappa.matchers.unicode;
 
+import com.github.parboiled1.grappa.assertions.OldStatsAssert;
 import org.parboiled.BaseParser;
 import org.parboiled.Parboiled;
 import org.parboiled.Rule;
-import com.github.parboiled1.grappa.assertions.OldStatsAssert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 

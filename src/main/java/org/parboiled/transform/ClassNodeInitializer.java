@@ -23,6 +23,7 @@
 package org.parboiled.transform;
 
 import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+import com.github.parboiled1.grappa.transform.method.ParserAnnotation;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.io.Closer;
@@ -34,13 +35,15 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.MethodNode;
 import org.parboiled.support.Checks;
-import com.github.parboiled1.grappa.transform.method.ParserAnnotation;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.EnumSet;
 import java.util.Set;
 
+import static com.github.parboiled1.grappa.transform.method.ParserAnnotation.BUILD_PARSE_TREE;
+import static com.github.parboiled1.grappa.transform.method.ParserAnnotation.clearClassFlags;
+import static com.github.parboiled1.grappa.transform.method.ParserAnnotation.recordAnnotation;
 import static org.objectweb.asm.Opcodes.ACC_ABSTRACT;
 import static org.objectweb.asm.Opcodes.ACC_FINAL;
 import static org.objectweb.asm.Opcodes.ACC_NATIVE;
@@ -48,9 +51,6 @@ import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.V1_6;
 import static org.parboiled.transform.AsmUtils.getExtendedParserClassName;
-import static com.github.parboiled1.grappa.transform.method.ParserAnnotation.BUILD_PARSE_TREE;
-import static com.github.parboiled1.grappa.transform.method.ParserAnnotation.clearClassFlags;
-import static com.github.parboiled1.grappa.transform.method.ParserAnnotation.recordAnnotation;
 
 /**
  * Initializes the basic ParserClassNode fields and collects all methods.
