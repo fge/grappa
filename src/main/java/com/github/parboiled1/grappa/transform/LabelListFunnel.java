@@ -9,12 +9,15 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Set;
 
 /**
- * A {@link Funnel} for an (ASM) {@link Label}
+ * A {@link Funnel} for a list of (ASM) {@link Label}s
+ *
+ * <p>This funnel keeps a set of labels it has already been asked to funnel;
+ * when one has already been visited, this funnel does nothing.</p>
  *
  * @see InstructionGroupHasher#visitLabel(Label)
  */
 @ParametersAreNonnullByDefault
-public final class LabelFunnel
+public final class LabelListFunnel
     implements Funnel<Label>
 {
     private final Set<Label> labels = Sets.newHashSet();

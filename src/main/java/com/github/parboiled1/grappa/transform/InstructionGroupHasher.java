@@ -48,7 +48,7 @@ public final class InstructionGroupHasher
 
     private final Set<Label> labels = Sets.newLinkedHashSet();
     private int nrLabels = 0;
-    private final LabelFunnel labelFunnel = new LabelFunnel();
+    private final LabelListFunnel labelFunnel = new LabelListFunnel();
 
     /**
      * Generate a hash of the group, use it to name it
