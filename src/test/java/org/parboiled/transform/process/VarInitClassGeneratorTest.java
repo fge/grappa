@@ -70,10 +70,11 @@ public class VarInitClassGeneratorTest extends TransformationTest {
         assertEquals(method.getGroups().size(), 3);
 
         InstructionGroup group = method.getGroups().get(0);
-        assertEquals(getClassDump(group.getGroupClassCode()), "" +
+        assertEquals(getClassDump(group.getGroupClassCode())
+            .replaceAll("(?<=\\$)[A-Za-z0-9]{16}", "XXXXXXXXXXXXXXXX"), "" +
                 "// class version 50.0 (50)\n" +
                 "// access flags 0x1011\n" +
-                "public final synthetic class org/parboiled/transform/process/VarInit$eYqwbz6zYKb27FsS extends org/parboiled/transform/BaseVarInit  {\n" +
+                "public final synthetic class org/parboiled/transform/process/VarInit$XXXXXXXXXXXXXXXX extends org/parboiled/transform/BaseVarInit  {\n" +
                 "\n" +
                 "\n" +
                 "  // access flags 0x1\n" +
@@ -96,10 +97,11 @@ public class VarInitClassGeneratorTest extends TransformationTest {
                 "}\n");
 
         group = method.getGroups().get(1);
-        assertEquals(getClassDump(group.getGroupClassCode()), "" +
+        assertEquals(getClassDump(group.getGroupClassCode())
+            .replaceAll("(?<=\\$)[A-Za-z0-9]{16}", "XXXXXXXXXXXXXXXX"), "" +
                 "// class version 50.0 (50)\n" +
                 "// access flags 0x1011\n" +
-                "public final synthetic class org/parboiled/transform/process/VarInit$L7SMqNxExCwCkL9F extends org/parboiled/transform/BaseVarInit  {\n" +
+                "public final synthetic class org/parboiled/transform/process/VarInit$XXXXXXXXXXXXXXXX extends org/parboiled/transform/BaseVarInit  {\n" +
                 "\n" +
                 "\n" +
                 "  // access flags 0x1\n" +
@@ -121,10 +123,11 @@ public class VarInitClassGeneratorTest extends TransformationTest {
                 "}\n");
 
         group = method.getGroups().get(2);
-        assertEquals(getClassDump(group.getGroupClassCode()), "" +
+        assertEquals(getClassDump(group.getGroupClassCode())
+            .replaceAll("(?<=\\$)[A-Za-z0-9]{16}", "XXXXXXXXXXXXXXXX"), "" +
                 "// class version 50.0 (50)\n" +
                 "// access flags 0x1011\n" +
-                "public final synthetic class org/parboiled/transform/process/Action$nqnLsrO8ZNysI7E0 extends org/parboiled/transform/BaseAction  {\n" +
+                "public final synthetic class org/parboiled/transform/process/Action$XXXXXXXXXXXXXXXX extends org/parboiled/transform/BaseAction  {\n" +
                 "\n" +
                 "\n" +
                 "  // access flags 0x1001\n" +
@@ -145,11 +148,11 @@ public class VarInitClassGeneratorTest extends TransformationTest {
                 "  // access flags 0x1\n" +
                 "  public run(Lorg/parboiled/Context;)Z\n" +
                 "    ALOAD 0\n" +
-                "    GETFIELD org/parboiled/transform/process/Action$nqnLsrO8ZNysI7E0.field$0 : Lorg/parboiled/support/Var;\n" +
+                "    GETFIELD org/parboiled/transform/process/Action$XXXXXXXXXXXXXXXX.field$0 : Lorg/parboiled/support/Var;\n" +
                 "    INVOKEVIRTUAL org/parboiled/support/Var.get ()Ljava/lang/Object;\n" +
                 "    CHECKCAST java/util/List\n" +
                 "    ALOAD 0\n" +
-                "    GETFIELD org/parboiled/transform/process/Action$nqnLsrO8ZNysI7E0.field$1 : Lorg/parboiled/transform/process/VarInitClassGeneratorTest$Parser$$parboiled;\n" +
+                "    GETFIELD org/parboiled/transform/process/Action$XXXXXXXXXXXXXXXX.field$1 : Lorg/parboiled/transform/process/VarInitClassGeneratorTest$Parser$$parboiled;\n" +
                 "    DUP\n" +
                 "    ALOAD 1\n" +
                 "    INVOKEINTERFACE org/parboiled/ContextAware.setContext (Lorg/parboiled/Context;)V\n" +
