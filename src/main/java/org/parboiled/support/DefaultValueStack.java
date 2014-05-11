@@ -16,13 +16,12 @@
 
 package org.parboiled.support;
 
-import com.github.parboiled1.grappa.cleanup.DoNotUse;
 import com.github.parboiled1.grappa.cleanup.WillBeFinal;
-import com.github.parboiled1.grappa.cleanup.WillBePrivate;
 import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
 import com.google.common.base.Preconditions;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Iterator;
 
 /**
@@ -41,16 +40,12 @@ import java.util.Iterator;
 public class DefaultValueStack<V>
     implements ValueStack<V>
 {
-    //TODO: replace with a ListHead
-    @DoNotUse
-    @WillBeFinal(version = "1.1")
-    @WillBePrivate(version = "1.1")
     protected static class Element
     {
         protected final Object value;
         protected final Element tail;
 
-        protected Element(final Object value, final Element tail)
+        protected Element(@Nullable final Object value, final Element tail)
         {
             this.value = value;
             this.tail = tail;
@@ -79,14 +74,12 @@ public class DefaultValueStack<V>
     }
 
     @Override
-    @WillBeFinal(version = "1.1")
     public boolean isEmpty()
     {
         return head == null;
     }
 
     @Override
-    @WillBeFinal(version = "1.1")
     public int size()
     {
         Element cursor = head;
@@ -105,7 +98,6 @@ public class DefaultValueStack<V>
     }
 
     @Override
-    @WillBeFinal(version = "1.1")
     public Object takeSnapshot()
     {
         return head;
@@ -123,13 +115,13 @@ public class DefaultValueStack<V>
     }
 
     @Override
-    public void push(final V value)
+    public void push(@Nullable final V value)
     {
         head = new Element(value, head);
     }
 
     @Override
-    public void push(final int down, final V value)
+    public void push(final int down, @Nullable final V value)
     {
         head = push(down, value, head);
     }
@@ -139,7 +131,7 @@ public class DefaultValueStack<V>
     {
         if (down == 0)
             return new Element(value, head);
-        Preconditions.checkArgument(head != null,
+        Preconditions.checkNotNull(head,
             "Cannot push beyond the bottom of the stack");
         if (down > 0)
             return new Element(head.value, push(down - 1, value, head.tail));
@@ -148,16 +140,18 @@ public class DefaultValueStack<V>
     }
 
     @Override
-    @WillBeFinal(version = "1.1")
-    public void pushAll(final V firstValue, final V... moreValues)
+    public void pushAll(@Nullable final V firstValue,
+        @Nullable final V... moreValues)
     {
         push(firstValue);
-        for (final V value : moreValues)
+        /*
+         * Won't fix the case of moreValues == null, sorry
+         */
+        for (final V value: moreValues)
             push(value);
     }
 
     @Override
-    @WillBeFinal(version = "1.1")
     public void pushAll(@Nonnull final Iterable<V> values)
     {
         head = null;
@@ -166,7 +160,6 @@ public class DefaultValueStack<V>
     }
 
     @Override
-    @WillBeFinal(version = "1.1")
     public V pop()
     {
         return pop(0);
@@ -197,14 +190,12 @@ public class DefaultValueStack<V>
     }
 
     @Override
-    @WillBeFinal(version = "1.1")
     public V peek()
     {
         return peek(0);
     }
 
     @Override
-    @WillBeFinal(version = "1.1")
     @SuppressWarnings("unchecked")
     public V peek(final int down)
     {
@@ -224,22 +215,21 @@ public class DefaultValueStack<V>
     }
 
     @Override
-    @WillBeFinal(version = "1.1")
-    public void poke(final V value)
+    public void poke(@Nullable final V value)
     {
         poke(0, value);
     }
 
     @Override
-    public void poke(final int down, final V value)
+    public void poke(final int down, @Nullable final V value)
     {
         head = poke(down, value, head);
     }
 
-    private static Element poke(final int down, final Object value,
-        final Element head)
+    private static Element poke(final int down, @Nullable final Object value,
+        @Nonnull final Element head)
     {
-        Preconditions.checkArgument(head != null,
+        Preconditions.checkNotNull(head,
             "Cannot poke beyond the bottom of the stack");
         if (down == 0)
             return new Element(value, head.tail);
@@ -250,7 +240,6 @@ public class DefaultValueStack<V>
     }
 
     @Override
-    @WillBeFinal(version = "1.1")
     public void dup()
     {
         push(peek());

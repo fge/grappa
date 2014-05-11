@@ -30,60 +30,36 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+// TODO: 1.1: change thrown exceptions!
 public final class DefaultValueStack<V>
     implements ValueStack<V>
 {
     private List<V> stack = new ArrayList<V>();
 
-    /**
-     * Determines whether the stack is empty.
-     *
-     * @return true if empty
-     */
     @Override
     public boolean isEmpty()
     {
         return stack.isEmpty();
     }
 
-    /**
-     * Returns the number of elements currently on the stack.
-     *
-     * @return the number of elements
-     */
     @Override
     public int size()
     {
         return stack.size();
     }
 
-    /**
-     * Clears all values.
-     */
     @Override
     public void clear()
     {
         stack.clear();
     }
 
-    /**
-     * Returns an object representing the current state of the stack.
-     *
-     * @return an object representing the current state of the stack
-     */
     @Override
     public Object takeSnapshot()
     {
         return new ArrayList<V>(stack);
     }
 
-    /**
-     * Restores the stack state as previously returned by {@link
-     * #takeSnapshot()}.
-     *
-     * @param snapshot a snapshot object previously returned by {@link
-     * #takeSnapshot()}
-     */
     @Override
     @SuppressWarnings("unchecked")
     public void restoreSnapshot(final Object snapshot)
@@ -98,27 +74,12 @@ public final class DefaultValueStack<V>
         stack = (List<V>) snapshot;
     }
 
-    /**
-     * Pushes the given value onto the stack. Equivalent to push(0, value).
-     *
-     * @param value the value
-     */
     @Override
     public void push(final V value)
     {
         push(0, value);
     }
 
-    /**
-     * Inserts the given value a given number of elements below the current top
-     * of the stack.
-     *
-     * @param down the number of elements to skip before inserting the value (0
-     * being equivalent to push(value))
-     * @param value the value
-     * @throws IllegalArgumentException if the stack does not contain enough
-     * elements to perform this operation
-     */
     @Override
     public void push(final int down, final V value)
     {
@@ -134,12 +95,6 @@ public final class DefaultValueStack<V>
         }
     }
 
-    /**
-     * Pushes all given elements onto the stack (in the order as given).
-     *
-     * @param firstValue the first value
-     * @param moreValues the other values
-     */
     @Override
     public void pushAll(@Nullable final V firstValue,
         @Nullable final V... moreValues)
@@ -162,11 +117,6 @@ public final class DefaultValueStack<V>
         pushAll(temp);
     }
 
-    /**
-     * Pushes all given elements onto the stack (in the order as given).
-     *
-     * @param values the values
-     */
     @Override
     public void pushAll(@Nonnull final Iterable<V> values)
     {
@@ -175,13 +125,6 @@ public final class DefaultValueStack<V>
         stack = newStack;
     }
 
-    /**
-     * Removes the value at the top of the stack and returns it.
-     *
-     * @return the current top value
-     *
-     * @throws IllegalArgumentException if the stack is empty
-     */
     @Override
     public V pop()
     {
@@ -189,17 +132,6 @@ public final class DefaultValueStack<V>
         return stack.remove(0);
     }
 
-    /**
-     * Removes the value the given number of elements below the top of the
-     * stack.
-     *
-     * @param down the number of elements to skip before removing the value (0
-     * being equivalent to pop())
-     * @return the value
-     *
-     * @throws IllegalArgumentException if the stack does not contain enough
-     * elements to perform this operation
-     */
     @Override
     public V pop(final int down)
     {
@@ -211,13 +143,6 @@ public final class DefaultValueStack<V>
         }
     }
 
-    /**
-     * Returns the value at the top of the stack without removing it.
-     *
-     * @return the current top value
-     *
-     * @throws IllegalArgumentException if the stack is empty
-     */
     @Override
     public V peek()
     {
@@ -225,16 +150,6 @@ public final class DefaultValueStack<V>
         return stack.get(0);
     }
 
-    /**
-     * Returns the value the given number of elements below the top of the stack
-     * without removing it.
-     *
-     * @param down the number of elements to skip (0 being equivalent to peek())
-     * @return the value
-     *
-     * @throws IllegalArgumentException if the stack does not contain enough
-     * elements to perform this operation
-     */
     @Override
     public V peek(final int down)
     {
@@ -246,13 +161,6 @@ public final class DefaultValueStack<V>
         }
     }
 
-    /**
-     * Replaces the current top value with the given value. Equivalent to
-     * poke(0, value).
-     *
-     * @param value the value
-     * @throws IllegalArgumentException if the stack is empty
-     */
     @Override
     public void poke(@Nullable final V value)
     {
@@ -260,16 +168,6 @@ public final class DefaultValueStack<V>
         poke(0, value);
     }
 
-    /**
-     * Replaces the element the given number of elements below the current top
-     * of the stack.
-     *
-     * @param down the number of elements to skip before replacing the value (0
-     * being equivalent to poke(value))
-     * @param value the value to replace with
-     * @throws IllegalArgumentException if the stack does not contain enough
-     * elements to perform this operation
-     */
     @Override
     public void poke(final int down, @Nullable final V value)
     {
@@ -281,11 +179,6 @@ public final class DefaultValueStack<V>
         }
     }
 
-    /**
-     * Duplicates the top value. Equivalent to push(peek()).
-     *
-     * @throws IllegalArgumentException if the stack is empty
-     */
     @Override
     public void dup()
     {
@@ -297,6 +190,8 @@ public final class DefaultValueStack<V>
     @Override
     public void swap(final int n)
     {
+        Preconditions.checkArgument(n >= 2, "illegal argument to swap() (" +
+            n + "), must be 2 or greater");
         /*
          * As for .push(n, value), we need to check for n - 1 here
          */
@@ -304,12 +199,6 @@ public final class DefaultValueStack<V>
         Collections.reverse(stack.subList(0, n));
     }
 
-    /**
-     * Swaps the top two stack values.
-     *
-     * @throws GrammarException if the stack does not contain at least two
-     * elements
-     */
     @Override
     public void swap()
     {
@@ -320,12 +209,6 @@ public final class DefaultValueStack<V>
         }
     }
 
-    /**
-     * Reverses the order of the top 3 stack values.
-     *
-     * @throws GrammarException if the stack does not contain at least 3
-     * elements
-     */
     @Override
     public void swap3()
     {
@@ -336,12 +219,6 @@ public final class DefaultValueStack<V>
         }
     }
 
-    /**
-     * Reverses the order of the top 4 stack values.
-     *
-     * @throws GrammarException if the stack does not contain at least 4
-     * elements
-     */
     @Override
     public void swap4()
     {
@@ -352,12 +229,6 @@ public final class DefaultValueStack<V>
         }
     }
 
-    /**
-     * Reverses the order of the top 5 stack values.
-     *
-     * @throws GrammarException if the stack does not contain at least 5
-     * elements
-     */
     @Override
     public void swap5()
     {
@@ -368,12 +239,6 @@ public final class DefaultValueStack<V>
         }
     }
 
-    /**
-     * Reverses the order of the top 6 stack values.
-     *
-     * @throws GrammarException if the stack does not contain at least 6
-     * elements
-     */
     @Override
     public void swap6()
     {
@@ -384,11 +249,6 @@ public final class DefaultValueStack<V>
         }
     }
 
-    /**
-     * Returns an iterator over a set of elements of type T.
-     *
-     * @return an Iterator.
-     */
     @Override
     public Iterator<V> iterator()
     {

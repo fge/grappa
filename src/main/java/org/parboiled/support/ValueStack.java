@@ -17,6 +17,7 @@
 package org.parboiled.support;
 
 import com.github.parboiled1.grappa.cleanup.ThrownExceptionsWillChange;
+import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
 import org.parboiled.errors.GrammarException;
 
 import javax.annotation.Nonnull;
@@ -224,9 +225,11 @@ public interface ValueStack<V>
      *
      * @throws GrammarException if the stack does not contain at least 3
      * elements
+     *
+     * @deprecated use {@link #swap(int)} instead
      */
-    @ThrownExceptionsWillChange(version = "1.1",
-        to = IllegalStateException.class)
+    @Deprecated
+    @WillBeRemoved(version = "1.1")
     void swap3();
 
     /**
@@ -234,9 +237,11 @@ public interface ValueStack<V>
      *
      * @throws GrammarException if the stack does not contain at least 4
      * elements
+     *
+     * @deprecated use {@link #swap(int)} instead
      */
-    @ThrownExceptionsWillChange(version = "1.1",
-        to = IllegalStateException.class)
+    @Deprecated
+    @WillBeRemoved(version = "1.1")
     void swap4();
 
     /**
@@ -244,9 +249,11 @@ public interface ValueStack<V>
      *
      * @throws GrammarException if the stack does not contain at least 5
      * elements
+     *
+     * @deprecated use {@link #swap(int)} instead
      */
-    @ThrownExceptionsWillChange(version = "1.1",
-        to = IllegalStateException.class)
+    @Deprecated
+    @WillBeRemoved(version = "1.1")
     void swap5();
 
     /**
@@ -254,8 +261,10 @@ public interface ValueStack<V>
      *
      * @throws GrammarException if the stack does not contain at least 6
      * elements
+     *
+     * @deprecated use {@link #swap(int)} instead
      */
-    @ThrownExceptionsWillChange(version = "1.1",
-        to = IllegalStateException.class)
+    @Deprecated
+    @WillBeRemoved(version = "1.1")
     void swap6();
 }
