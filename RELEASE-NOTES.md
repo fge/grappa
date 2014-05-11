@@ -9,6 +9,8 @@
 * Tests: integrate [mutation testing](https://github.com/hcoles/pitest).
 * Deprecate IndentDedentInputBuffer: used characters are of common use in some languages (French,
   among others).
+* Replace digest implementation for instruction groups; now means generating a group name does not
+  have to be synchronized anymore.
 
 ### 1.0.0-beta.4
 
