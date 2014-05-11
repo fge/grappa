@@ -6,10 +6,12 @@ import com.google.common.hash.PrimitiveSink;
 import org.objectweb.asm.tree.FieldNode;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
 
 /**
  * A {@link Funnel} for an ASM {@link FieldNode}
  */
+@Immutable
 @ParametersAreNonnullByDefault
 public enum FieldNodeFunnel
     implements Funnel<FieldNode>

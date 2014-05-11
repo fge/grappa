@@ -1,7 +1,6 @@
 package com.github.parboiled1.grappa.transform;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Sets;
 import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
@@ -16,8 +15,7 @@ import org.parboiled.transform.InstructionGroup;
 import org.parboiled.transform.process.InstructionGroupPreparer;
 
 import javax.annotation.Nonnull;
-import javax.annotation.concurrent.ThreadSafe;
-import java.util.Set;
+import javax.annotation.concurrent.NotThreadSafe;
 
 /**
  * Hashing for an {@link InstructionGroup}
@@ -31,7 +29,7 @@ import java.util.Set;
  * @see InstructionGroupPreparer
  */
 //TODO: use more than 16 chars; means updating all string-based bytecode tests
-@ThreadSafe
+@NotThreadSafe
 public final class InstructionGroupHasher
     extends MethodVisitor
 {
@@ -43,10 +41,6 @@ public final class InstructionGroupHasher
     private final InstructionGroup group;
 
     private final Hasher hasher;
-    private final LdcInstructionHashHelper ldcHelper;
-
-    private final Set<Label> labels = Sets.newLinkedHashSet();
-    private int nrLabels = 0;
     private final LabelListFunnel labelFunnel = new LabelListFunnel();
 
     /**
@@ -71,7 +65,6 @@ public final class InstructionGroupHasher
         this.group = Preconditions.checkNotNull(group);
         this.className = Preconditions.checkNotNull(className);
         hasher = SHA1.newHasher();
-        ldcHelper = new LdcInstructionHashHelper(hasher);
     }
 
     // TODO: not very nice :/
@@ -292,7 +285,7 @@ public final class InstructionGroupHasher
     @Override
     public void visitLdcInsn(final Object cst)
     {
-        ldcHelper.hashLdc(cst);
+        hasher.putObject(cst, LdcInsnFunnel.INSTANCE);
     }
 
     /**

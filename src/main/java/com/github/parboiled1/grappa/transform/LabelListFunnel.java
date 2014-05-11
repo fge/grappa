@@ -6,6 +6,7 @@ import com.google.common.hash.PrimitiveSink;
 import org.objectweb.asm.Label;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.NotThreadSafe;
 import java.util.Set;
 
 /**
@@ -16,6 +17,7 @@ import java.util.Set;
  *
  * @see InstructionGroupHasher#visitLabel(Label)
  */
+@NotThreadSafe
 @ParametersAreNonnullByDefault
 public final class LabelListFunnel
     implements Funnel<Label>
