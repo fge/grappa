@@ -43,9 +43,9 @@ import org.parboiled.matchers.TestMatcher;
 import org.parboiled.matchers.TestNotMatcher;
 import org.parboiled.matchers.VarFramingMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
-import org.parboiled.matchers.join.JoinMatcher;
-import org.parboiled.matchers.unicode.UnicodeCharMatcher;
-import org.parboiled.matchers.unicode.UnicodeRangeMatcher;
+import com.github.parboiled1.grappa.matchers.join.JoinMatcher;
+import com.github.parboiled1.grappa.matchers.unicode.UnicodeCharMatcher;
+import com.github.parboiled1.grappa.matchers.unicode.UnicodeRangeMatcher;
 import org.parboiled.matchervisitors.MatcherVisitor;
 
 import java.nio.CharBuffer;

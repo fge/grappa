@@ -1,5 +1,10 @@
-package org.parboiled.matchers.join;
+package com.github.parboiled1.grappa.matchers.join;
 
+import com.github.parboiled1.grappa.matchers.join.BoundedBothJoinMatcher;
+import com.github.parboiled1.grappa.matchers.join.BoundedDownJoinMatcher;
+import com.github.parboiled1.grappa.matchers.join.BoundedUpJoinMatcher;
+import com.github.parboiled1.grappa.matchers.join.ExactMatchesJoinMatcher;
+import com.github.parboiled1.grappa.matchers.join.JoinMatcherBootstrap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Range;
 import org.mockito.invocation.InvocationOnMock;

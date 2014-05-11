@@ -22,8 +22,8 @@ import org.parboiled.matchers.CharIgnoreCaseMatcher;
 import org.parboiled.matchers.CharMatcher;
 import org.parboiled.matchers.CharRangeMatcher;
 import org.parboiled.matchers.CustomMatcher;
-import org.parboiled.matchers.unicode.UnicodeCharMatcher;
-import org.parboiled.matchers.unicode.UnicodeRangeMatcher;
+import com.github.parboiled1.grappa.matchers.unicode.UnicodeCharMatcher;
+import com.github.parboiled1.grappa.matchers.unicode.UnicodeRangeMatcher;
 import org.parboiled.support.Characters;
 
 import java.util.Random;

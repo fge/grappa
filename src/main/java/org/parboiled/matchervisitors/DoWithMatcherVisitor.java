@@ -26,7 +26,7 @@ import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.matchers.TestMatcher;
 import org.parboiled.matchers.TestNotMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
-import org.parboiled.matchers.join.JoinMatcher;
+import com.github.parboiled1.grappa.matchers.join.JoinMatcher;
 
 import java.util.HashSet;
 import java.util.Set;

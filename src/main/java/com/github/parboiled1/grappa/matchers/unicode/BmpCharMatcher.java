@@ -1,17 +1,17 @@
-package org.parboiled.matchers.unicode;
+package com.github.parboiled1.grappa.matchers.unicode;
 
 import org.parboiled.MatcherContext;
-import org.parboiled.matchers.CharRangeMatcher;
+import org.parboiled.matchers.CharMatcher;
 
-public class BmpRangeMatcher
-    extends UnicodeRangeMatcher
+public class BmpCharMatcher
+    extends UnicodeCharMatcher
 {
-    private final CharRangeMatcher matcher;
+    private final CharMatcher matcher;
 
-    BmpRangeMatcher(final String label, final char low, final char high)
+    BmpCharMatcher(final String label, final char c)
     {
         super(label);
-        matcher = new CharRangeMatcher(low, high);
+        matcher = new CharMatcher(c);
     }
 
     @Override
@@ -29,13 +29,13 @@ public class BmpRangeMatcher
     @Override
     public boolean isStarterChar(final char c)
     {
-        return c >= matcher.cLow && c <= matcher.cHigh;
+        return c == matcher.character;
     }
 
     @Override
     public char getStarterChar()
     {
-        return matcher.cLow;
+        return matcher.character;
     }
 
     @Override
