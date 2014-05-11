@@ -75,7 +75,7 @@ public final class BoundedUpJoinMatcher
 
         int beforeCycle;
         beforeCycle = context.getCurrentIndex();
-        if (!firstCycle(context, beforeCycle)) {
+        if (!matchJoining(context, beforeCycle)) {
             context.setCurrentIndex(beforeCycle);
             return true;
         }
@@ -92,7 +92,7 @@ public final class BoundedUpJoinMatcher
          */
         while (cycles < maxCycles) {
             beforeCycle = context.getCurrentIndex();
-            if (joining.getSubContext(context).runMatcher()
+            if (matchJoining(context, beforeCycle)
                 && joined.getSubContext(context).runMatcher()) {
                 cycles++;
                 continue;

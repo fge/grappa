@@ -76,7 +76,7 @@ public final class BoundedDownJoinMatcher
         int beforeCycle;
 
         beforeCycle = context.getCurrentIndex();
-        if (!firstCycle(context, beforeCycle)) {
+        if (!matchJoining(context, beforeCycle)) {
             context.setCurrentIndex(beforeCycle);
             if (minCycles != 1)
                 return false;
@@ -94,7 +94,7 @@ public final class BoundedDownJoinMatcher
          */
         while (true) {
             beforeCycle = context.getCurrentIndex();
-            if (joining.getSubContext(context).runMatcher()
+            if (matchJoining(context, beforeCycle)
                 && joined.getSubContext(context).runMatcher()) {
                 cycles++;
                 continue;

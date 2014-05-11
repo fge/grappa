@@ -67,7 +67,7 @@ public final class ExactMatchesJoinMatcher
 
         int beforeCycle;
         beforeCycle = context.getCurrentIndex();
-        if (!firstCycle(context, beforeCycle)) {
+        if (!matchJoining(context, beforeCycle)) {
             context.setCurrentIndex(beforeCycle);
             return false;
         }
@@ -83,7 +83,7 @@ public final class ExactMatchesJoinMatcher
          */
         while (cycles < nrCycles) {
             beforeCycle = context.getCurrentIndex();
-            if (joining.getSubContext(context).runMatcher()
+            if (matchJoining(context, beforeCycle)
                 && joined.getSubContext(context).runMatcher()) {
                 cycles++;
                 continue;

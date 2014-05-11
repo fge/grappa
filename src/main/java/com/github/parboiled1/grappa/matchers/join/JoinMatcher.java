@@ -110,7 +110,7 @@ public abstract class JoinMatcher
         return visitor.visit(this);
     }
 
-    protected final <V> boolean firstCycle(final MatcherContext<V> context,
+    protected final <V> boolean matchJoining(final MatcherContext<V> context,
         final int beforeCycle)
     {
         if (!joining.getSubContext(context).runMatcher())
