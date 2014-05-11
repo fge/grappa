@@ -18,7 +18,7 @@ This project has two dedicated Google groups:
 [grappa-devel](http://groups.google.com/d/forum/grappa-devel). They are also available to post by
 email.
 
-The current version is **1.0.0-beta.4** (released May 3, 2014). See below for more information.
+The current version is **1.0.0-beta.5** (released May 11, 2014). See below for more information.
 
 ## Motivation
 
