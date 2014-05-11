@@ -23,13 +23,12 @@ The current version is **1.0.0-beta.4** (released May 3, 2014). See below for mo
 ## Motivation
 
 This is a fork of the original [parboiled](https://github.com/sirthias/parboiled). Its author,
-[Matthias Doenitz](https://github.com/sirthias), has since left the Java world for the Scala world
+[Mathias Doenitz](https://github.com/sirthias), has since left the Java world for the Scala world
 (with [parboiled2](https://github.com/sirthias/parboiled2)).
 
-But parboiled does not deserve to be left stranded, nor its users. It is just
-too good. No other package allows you to write grammars entirely in Java... And
-what is more, it performs really well. This package is therefore dedicated to
-continuing its development.
+But parboiled does not deserve to be left stranded, nor its users. It is just too good. No other
+package allows you to write grammars entirely in Java... And what is more, it performs really well.
+This package is therefore dedicated to continuing its development.
 
 Grappa requires Java 6 or later.
 
