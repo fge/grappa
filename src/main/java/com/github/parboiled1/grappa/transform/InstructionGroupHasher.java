@@ -17,6 +17,7 @@ import org.parboiled.transform.InstructionGroup;
 import org.parboiled.transform.process.InstructionGroupPreparer;
 
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.ThreadSafe;
 import java.util.Set;
 
 /**
@@ -31,6 +32,7 @@ import java.util.Set;
  * @see InstructionGroupPreparer
  */
 //TODO: use more than 16 chars; means updating all string-based bytecode tests
+@ThreadSafe
 public final class InstructionGroupHasher
     extends MethodVisitor
 {
@@ -46,7 +48,14 @@ public final class InstructionGroupHasher
 
     private final Set<Label> labels = Sets.newLinkedHashSet();
     private int nrLabels = 0;
+    private final LabelFunnel labelFunnel = new LabelFunnel();
 
+    /**
+     * Generate a hash of the group, use it to name it
+     *
+     * @param group the instruction group
+     * @param className this group's parent class name
+     */
     public static void hash(@Nonnull final InstructionGroup group,
         @Nonnull final String className)
     {
@@ -66,6 +75,7 @@ public final class InstructionGroupHasher
         ldcHelper = new LdcInstructionHashHelper(hasher);
     }
 
+    // TODO: not very nice :/
     private String hashAndGetName()
     {
         group.getInstructions().accept(this);
@@ -225,8 +235,7 @@ public final class InstructionGroupHasher
     @Override
     public void visitJumpInsn(final int opcode, final Label label)
     {
-        hasher.putInt(opcode);
-        visitLabel(label);
+        hasher.putInt(opcode).putObject(label, labelFunnel);
     }
 
     /**
@@ -238,8 +247,7 @@ public final class InstructionGroupHasher
     @Override
     public void visitLabel(final Label label)
     {
-        if (!labels.add(label))
-            hasher.putInt(nrLabels++);
+        hasher.putObject(label, labelFunnel);
     }
 
     /**
@@ -314,10 +322,9 @@ public final class InstructionGroupHasher
     public void visitTableSwitchInsn(final int min, final int max,
         final Label dflt, final Label... labels)
     {
-        hasher.putInt(min).putInt(max);
-        visitLabel(dflt);
+        hasher.putInt(min).putInt(max).putObject(dflt, labelFunnel);
         for (final Label label: labels)
-            visitLabel(label);
+            hasher.putObject(label, labelFunnel);
     }
 
     /**
@@ -331,11 +338,9 @@ public final class InstructionGroupHasher
     public void visitLookupSwitchInsn(final Label dflt, final int[] keys,
         final Label[] labels)
     {
-        visitLabel(dflt);
-        for (int i = 0; i < keys.length; i++) {
-            hasher.putInt(keys[i]);
-            visitLabel(labels[i]);
-        }
+        hasher.putObject(dflt, labelFunnel);
+        for (int i = 0; i < keys.length; i++)
+            hasher.putInt(keys[i]).putObject(labels[i], labelFunnel);
     }
 
     /**
@@ -367,9 +372,7 @@ public final class InstructionGroupHasher
     public void visitTryCatchBlock(final Label start, final Label end,
         final Label handler, final String type)
     {
-        visitLabel(start);
-        visitLabel(end);
-        visitLabel(handler);
-        hasher.putUnencodedChars(type);
+        hasher.putObject(start, labelFunnel).putObject(end, labelFunnel)
+            .putObject(handler, labelFunnel).putUnencodedChars(type);
     }
 }

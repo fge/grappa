@@ -124,7 +124,7 @@ public final class LdcInstructionHashHelper
             @Override
             public Hasher apply(final Object input)
             {
-                return hasher.putUnencodedChars((String) input);
+                return hasher.putUnencodedChars((CharSequence) input);
             }
         };
     }
