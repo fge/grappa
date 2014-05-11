@@ -1,4 +1,4 @@
-### 1.0.0-beta.5
+### 1.0.0-beta.5 (not released yet)
 
 * Major code cleanup: reformatting, intents with @Documented annotations, a lot of @Deprecated
   classes/methods/constructors. Cleanup for 1.1 will be massive!
