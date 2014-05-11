@@ -1,7 +1,6 @@
 package com.github.parboiled1.grappa.transform;
 
 import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hasher;
@@ -80,9 +79,7 @@ public final class InstructionGroupHasher
     {
         group.getInstructions().accept(this);
         for (final FieldNode node: group.getFields())
-            hasher.putUnencodedChars(Strings.nullToEmpty(node.name))
-                .putUnencodedChars(Strings.nullToEmpty(node.desc))
-                .putUnencodedChars(Strings.nullToEmpty(node.signature));
+            hasher.putObject(node, FieldNodeFunnel.INSTANCE);
         final byte[] hash = new byte[10];
         hasher.hash().writeBytesTo(hash, 0, 10);
         final String prefix = group.getRoot().isActionRoot()

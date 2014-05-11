@@ -71,6 +71,7 @@
 
 package org.parboiled.common;
 
+import com.github.parboiled1.grappa.cleanup.Unused;
 import com.google.common.io.BaseEncoding;
 
 import java.util.Arrays;
@@ -81,6 +82,7 @@ import java.util.Arrays;
  * @deprecated use Guava's {@link BaseEncoding} instead. Will be removed in 1.1.
  */
 @Deprecated
+@Unused
 public class Base64 {
 
     // -------- FIELDS -------------------------------------------------------------------------------------------------
