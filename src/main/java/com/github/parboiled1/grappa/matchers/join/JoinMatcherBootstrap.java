@@ -16,11 +16,11 @@
 
 package com.github.parboiled1.grappa.matchers.join;
 
+import com.github.parboiled1.grappa.parsers.JoinParser;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import org.parboiled.BaseParser;
-import org.parboiled.JoinParser;
 import org.parboiled.Rule;
 
 import javax.annotation.Nonnull;

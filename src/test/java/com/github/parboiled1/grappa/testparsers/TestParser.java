@@ -16,7 +16,7 @@
 
 package com.github.parboiled1.grappa.testparsers;
 
-import org.parboiled.JoinParser;
+import com.github.parboiled1.grappa.parsers.JoinParser;
 import org.parboiled.Rule;
 import org.parboiled.annotations.BuildParseTree;
 
