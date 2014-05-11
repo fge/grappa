@@ -318,6 +318,45 @@ public class DefaultValueStack<V>
                     new Element(head.value, down5.tail))))));
     }
 
+    /**
+     * Reverses the order of the top n stack values
+     *
+     * @param n the number of elements to reverse
+     * @throws IllegalStateException the stack does not contain at least n
+     * elements
+     */
+    @Override
+    public void swap(final int n)
+    {
+        Preconditions.checkArgument(n >= 2, "illegal argument to swap() (" +
+            n + "), must be 2 or greater");
+        if (n > 6)
+            throw new UnsupportedOperationException("this implementation" +
+                " does not support swapping more than 6 elements");
+        Preconditions.checkState(isSizeGTE(n, head),
+            "not enough elements in stack");
+        switch (n) {
+            case 2:
+                swap();
+                break;
+            case 3:
+                swap3();
+                break;
+            case 4:
+                swap4();
+                break;
+            case 5:
+                swap5();
+                break;
+            case 6:
+                swap6();
+                break;
+            default:
+                // unreachable
+                throw new IllegalStateException();
+        }
+    }
+
     private static boolean isSizeGTE(final int minSize, final Element head)
     {
         return minSize == 1 ? head != null : isSizeGTE(minSize - 1, head.tail);

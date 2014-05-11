@@ -235,6 +235,21 @@ public final class DebuggingValueStack<V>
     }
 
     /**
+     * Reverses the order of the top n stack values
+     *
+     * @param n the number of elements to reverse
+     * @throws IllegalArgumentException {@code n} is less than 2
+     * @throws IllegalStateException the stack does not contain at least n
+     * elements
+     */
+    @Override
+    public void swap(final int n)
+    {
+        log("swap: " + n);
+        super.swap(n);
+    }
+
+    /**
      * Swaps the top two stack values.
      *
      * @throws GrammarException if the stack does not contain at least two

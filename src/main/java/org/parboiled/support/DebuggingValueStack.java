@@ -158,6 +158,20 @@ public class DebuggingValueStack<V>
         log("poke");
     }
 
+    /**
+     * Reverses the order of the top n stack values
+     *
+     * @param n the number of elements to reverse
+     * @throws IllegalStateException the stack does not contain at least n
+     * elements
+     */
+    @Override
+    public void swap(final int n)
+    {
+        log("swap: " + n);
+        super.swap(n);
+    }
+
     @Override
     public void swap()
     {

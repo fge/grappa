@@ -16,7 +16,6 @@
 
 package com.github.parboiled1.grappa.stack;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
@@ -127,8 +126,12 @@ public final class DefaultValueStack<V>
          * It is legal to append at the end! We must therefore check that the
          * index - 1 is strictly less than size, not the index itself
          */
-        checkSize(down - 1);
-        stack.add(down, value);
+        try {
+            checkSize(down - 1);
+            stack.add(down, value);
+        } catch (IllegalStateException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
     }
 
     /**
@@ -200,8 +203,12 @@ public final class DefaultValueStack<V>
     @Override
     public V pop(final int down)
     {
-        checkSize(down);
-        return stack.remove(down);
+        try {
+            checkSize(down);
+            return stack.remove(down);
+        } catch (IllegalStateException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
     }
 
     /**
@@ -231,8 +238,12 @@ public final class DefaultValueStack<V>
     @Override
     public V peek(final int down)
     {
-        checkSize(down);
-        return stack.get(down);
+        try {
+            checkSize(down);
+            return stack.get(down);
+        } catch (IllegalStateException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
     }
 
     /**
@@ -262,8 +273,12 @@ public final class DefaultValueStack<V>
     @Override
     public void poke(final int down, @Nullable final V value)
     {
-        checkSize(down);
-        stack.set(down, value);
+        try {
+            checkSize(down);
+            stack.set(down, value);
+        } catch (IllegalStateException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
     }
 
     /**
@@ -279,19 +294,13 @@ public final class DefaultValueStack<V>
         stack.add(0, element);
     }
 
-    // TODO: make this part of the interface
-    @VisibleForTesting
-    void swap(final int n)
+    @Override
+    public void swap(final int n)
     {
         /*
          * As for .push(n, value), we need to check for n - 1 here
          */
-        // TODO: hack! See interface description
-        try {
-            checkSize(n - 1);
-        } catch (IllegalArgumentException e) {
-            throw new GrammarException(e.getMessage());
-        }
+        checkSize(n - 1);
         Collections.reverse(stack.subList(0, n));
     }
 
@@ -304,7 +313,11 @@ public final class DefaultValueStack<V>
     @Override
     public void swap()
     {
-        swap(2);
+        try {
+            swap(2);
+        } catch (IllegalStateException e) {
+            throw new GrammarException(e.getMessage());
+        }
     }
 
     /**
@@ -316,7 +329,11 @@ public final class DefaultValueStack<V>
     @Override
     public void swap3()
     {
-        swap(3);
+        try {
+            swap(3);
+        } catch (IllegalStateException e) {
+            throw new GrammarException(e.getMessage());
+        }
     }
 
     /**
@@ -328,7 +345,11 @@ public final class DefaultValueStack<V>
     @Override
     public void swap4()
     {
-        swap(4);
+        try {
+            swap(4);
+        } catch (IllegalStateException e) {
+            throw new GrammarException(e.getMessage());
+        }
     }
 
     /**
@@ -340,7 +361,11 @@ public final class DefaultValueStack<V>
     @Override
     public void swap5()
     {
-        swap(5);
+        try {
+            swap(5);
+        } catch (IllegalStateException e) {
+            throw new GrammarException(e.getMessage());
+        }
     }
 
     /**
@@ -352,7 +377,11 @@ public final class DefaultValueStack<V>
     @Override
     public void swap6()
     {
-        swap(6);
+        try {
+            swap(6);
+        } catch (IllegalStateException e) {
+            throw new GrammarException(e.getMessage());
+        }
     }
 
     /**
@@ -375,7 +404,7 @@ public final class DefaultValueStack<V>
 
     private void checkSize(final int index)
     {
-        Preconditions.checkArgument(index < stack.size(),
+        Preconditions.checkState(index < stack.size(),
             "not enough elements in stack");
     }
 }
