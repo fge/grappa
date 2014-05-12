@@ -18,8 +18,30 @@ package com.github.parboiled1.grappa.matchers.trie;
 
 import org.parboiled.MatcherContext;
 import org.parboiled.matchers.AbstractMatcher;
+import org.parboiled.matchers.FirstOfMatcher;
+import org.parboiled.matchers.FirstOfStringsMatcher;
 import org.parboiled.matchervisitors.MatcherVisitor;
+import org.parboiled.parserunners.RecoveringParseRunner;
 
+import javax.annotation.concurrent.Immutable;
+
+/**
+ * The trie matcher
+ *
+ * <p>Note that there are a few crucial differences compared to a {@link
+ * FirstOfStringsMatcher}:</p>
+ *
+ * <ul>
+ *     <li>this matcher is insensitive about the ordering of its arguments;
+ *     unlike {@link FirstOfMatcher}, for instance, it doesn't care about the
+ *     order of appearance of strings with a common prefix;</li>
+ *     <li>at this moment, it does not play well with a {@link
+ *     RecoveringParseRunner} (a {@link FirstOfStringsMatcher} keeps all
+ *     submatches information by its virtue of inheriting {@link
+ *     FirstOfMatcher}, which has all character subrules).</li>
+ * </ul>
+ */
+@Immutable
 public final class TrieMatcher
     extends AbstractMatcher
 {
@@ -40,14 +62,27 @@ public final class TrieMatcher
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
+        /*
+         * Since the trie knows about the length of its possible longest match,
+         * extract that many characters from the buffer. Remind that .extract()
+         * will adjust illegal indices automatically.
+         */
         final int maxLength = trie.getMaxLength();
         final int index = context.getCurrentIndex();
         final String input = context.getInputBuffer()
             .extract(index, index + maxLength);
+
+        /*
+         * We now just have to trie and search... (pun intended)
+         */
         final int ret = trie.search(input);
         if (ret == -1)
             return false;
 
+        /*
+         * and since the result, when positive, is the length of the match,
+         * advance the index in the buffer by that many positions.
+         */
         context.advanceIndex(ret);
         return true;
     }
