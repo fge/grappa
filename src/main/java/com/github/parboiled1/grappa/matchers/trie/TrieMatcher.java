@@ -20,12 +20,12 @@ import org.parboiled.MatcherContext;
 import org.parboiled.matchers.AbstractMatcher;
 import org.parboiled.matchervisitors.MatcherVisitor;
 
-public final class TrieStringMatcher
+public final class TrieMatcher
     extends AbstractMatcher
 {
     private final Trie trie;
 
-    public TrieStringMatcher(final Trie trie)
+    public TrieMatcher(final Trie trie)
     {
         super("Trie");
         this.trie = trie;

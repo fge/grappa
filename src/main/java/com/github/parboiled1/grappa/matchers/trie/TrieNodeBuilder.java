@@ -20,6 +20,15 @@ import java.nio.CharBuffer;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * A builder for a {@link TrieNode} tree
+ *
+ * <p>The tree is built "in depth"; each character of a string will create a new
+ * builder unless there is already a builder for that character.</p>
+ *
+ * <p>When {@link #build()} is called, the whole tree is built from the leaves
+ * up to the root.</p>
+ */
 public final class TrieNodeBuilder
 {
     private boolean fullWord = false;
@@ -27,12 +36,24 @@ public final class TrieNodeBuilder
     private final Map<Character, TrieNodeBuilder> subnodes
         = new TreeMap<Character, TrieNodeBuilder>();
 
-    public TrieNodeBuilder addWord(final String word)
+    TrieNodeBuilder addWord(final String word)
     {
         doAddWord(CharBuffer.wrap(word));
         return this;
     }
 
+    /**
+     * Add a word
+     *
+     * <p>Here also, a {@link CharBuffer} is used, which changes position as we
+     * progress into building the tree, character by character, node by node.
+     * </p>
+     *
+     * <p>If the buffer is "empty" when entering this method, it means a match
+     * must be recorded (see {@link #fullWord}).</p>
+     *
+     * @param buffer the buffer (never null)
+     */
     private void doAddWord(final CharBuffer buffer)
     {
         if (!buffer.hasRemaining()) {
@@ -40,8 +61,6 @@ public final class TrieNodeBuilder
             return;
         }
 
-        // Otherwise we need to continue; in any event we don't have a full
-        // match at this point
         final char c = buffer.get();
         TrieNodeBuilder builder = subnodes.get(c);
         if (builder == null) {

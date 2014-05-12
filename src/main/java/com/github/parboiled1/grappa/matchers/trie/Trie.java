@@ -16,54 +16,80 @@
 
 package com.github.parboiled1.grappa.matchers.trie;
 
-import javax.annotation.Nonnull;
+import org.parboiled.matchers.FirstOfStringsMatcher;
 
+import javax.annotation.concurrent.Immutable;
+
+/**
+ * "User-facing" class of a {@link TrieMatcher}
+ *
+ * <p>This is an implementation of <a
+ * href="http://en.wikipedia.org/wiki/Trie" target="_blank">trie</a> designed
+ * to search for string constants.</p>
+ *
+ * <p>It is a rather "naïve" implementation in that it is only a trie and not
+ * a much more sophisticated <a href="http://en.wikipedia.org/wiki/Radix_tree"
+ * target="_blank">radix tree</a>, but it is efficient enough that searching
+ * for a string among a series of strings is very fast (more so than {@link
+ * FirstOfStringsMatcher}, especially with large dictionaries).</p>
+ *
+ * <p>The core of the trie search algorithm is implemented by {@link
+ * TrieNode}.</p>
+ *
+ * @since 1.0.0-beta.6
+ */
+@Immutable
 public final class Trie
 {
+    private final int nrWords;
     private final int maxLength;
     private final TrieNode node;
 
-    public static Builder newBuilder()
+    /**
+     * Create a new builder for this class
+     *
+     * @return a builder
+     */
+    public static TrieBuilder newBuilder()
     {
-        return new Builder();
+        return new TrieBuilder();
     }
 
+    /**
+     * Get the number of words injected into this trie
+     *
+     * @return the number of words
+     */
+    public int getNrWords()
+    {
+        return nrWords;
+    }
+
+    /**
+     * Get the maximum length of a match
+     *
+     * @return the length of the longest word(s) added to this trie
+     */
     public int getMaxLength()
     {
         return maxLength;
     }
 
+    /**
+     * Search for a string into this trie
+     *
+     * @param needle the string to search
+     * @return the length of the match (ie, the string) or -1 if not found
+     */
     public int search(final String needle)
     {
         return node.search(needle);
     }
 
-    private Trie(final Builder builder)
+    Trie(final TrieBuilder builder)
     {
+        nrWords = builder.nrWords;
         maxLength = builder.maxLength;
         node = builder.nodeBuilder.build();
-    }
-
-    public static final class Builder
-    {
-        private int maxLength = 0;
-        private final TrieNodeBuilder nodeBuilder
-            = new TrieNodeBuilder();
-
-        private Builder()
-        {
-        }
-
-        public Builder addWord(@Nonnull final String word)
-        {
-            maxLength = Math.max(maxLength, word.length());
-            nodeBuilder.addWord(word);
-            return this;
-        }
-
-        public Trie build()
-        {
-            return new Trie(this);
-        }
     }
 }
