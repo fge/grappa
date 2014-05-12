@@ -43,8 +43,8 @@ public final class TrieNode
     private final TrieNode[] nextNodes;
 
     @SuppressWarnings("MethodCanBeVariableArityMethod")
-    TrieNode(final boolean fullWord,
-        final char[] nextChars, final TrieNode[] nextNodes)
+    TrieNode(final boolean fullWord, final char[] nextChars,
+        final TrieNode[] nextNodes)
     {
         this.fullWord = fullWord;
         this.nextChars = nextChars;
