@@ -109,6 +109,28 @@ public class TracingParseRunner<V>
         return this;
     }
 
+    /**
+     * Deprecated, and does nothing! Read description...
+     *
+     * <p>Unfortunately, the <a
+     * href="https://github.com/sirthias/parboiled/wiki/Grammar-and-Parser-Debugging"
+     * target="_blank">original documentation about parser debugging</a> would
+     * have you believe that this method was important to obtain the debug
+     * output.</p>
+     *
+     * <p><strong>But that is not the case</strong>. What happens in reality is
+     * that the output shown in the documentation is the result of the parsing
+     * run itself, since by default it uses a {@link SystemOutCharSink}
+     * (before that, it was the now deprecated {@link ConsoleSink}). The only
+     * exception to that is if you used a {@link StringBuilderSink} to the
+     * {@link #withLog(Sink)} method (now also deprecated), because this sink
+     * implementation <em>does</em> overwrite {@code .toString()} -- which the
+     * {@code Sink} implementation does not require, therefore do not rely on
+     * it.</p>
+     *
+     * @return a sink, which may, or may not, implement {@link
+     * Object#toString()}.
+     */
     @Deprecated
     @DoNotUse
     @Unused
