@@ -23,7 +23,7 @@ import org.testng.annotations.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
-public final class TrieNodeBuilderTest
+public final class TrieBuilderTest
 {
     private TrieBuilder builder;
 
