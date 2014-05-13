@@ -1,5 +1,6 @@
 com.github.parboiled1.grappa.cleanup
 com.github.parboiled1.grappa.matchers.join
+com.github.parboiled1.grappa.matchers.trie
 com.github.parboiled1.grappa.matchers.unicode
 com.github.parboiled1.grappa.misc
 com.github.parboiled1.grappa.parsers
