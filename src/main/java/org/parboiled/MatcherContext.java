@@ -43,6 +43,7 @@ import org.parboiled.support.Position;
 import org.parboiled.support.ValueStack;
 
 import javax.annotation.Nonnull;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -245,29 +246,26 @@ public class MatcherContext<V>
         if (matcher.isNodeSkipped())
             return subNodes;
 
-        final Deque<Node<V>> remaining
-            = Queues.newArrayDeque(subNodes);
-        final LinkedList<Node<V>> tail = Lists.newLinkedList();
-        return getSubNodes(remaining, tail);
+        final Deque<Node<V>> remaining = Queues.newArrayDeque(subNodes);
+
+        final List<Node<V>> ret = Lists.newArrayList();
+        collectSubNodes(remaining, ret);
+        Collections.reverse(ret);
+        return ret;
     }
 
-    // TODO: replace, remove, I don't know, but do something
-    private static <V> LinkedList<Node<V>> getSubNodes(
-        final Deque<Node<V>> remaining,
-        LinkedList<Node<V>> tail)
+    private static <E> void collectSubNodes(final Deque<Node<E>> remaining,
+        final List<Node<E>> into)
     {
+        Node<E> head;
         while (!remaining.isEmpty()) {
-            final Node<V> head = remaining.peek();
-            if (head.getMatcher().isNodeSkipped()) {
-                final Deque<Node<V>> children
-                    = Queues.newArrayDeque(head.getChildren());
-                tail = getSubNodes(children, tail);
-            } else {
-                tail.push(head);
+            head = remaining.pop();
+            if (!head.getMatcher().isNodeSkipped()) {
+                into.add(head);
+                continue;
             }
-            remaining.pop();
+            collectSubNodes(Queues.newArrayDeque(head.getChildren()), into);
         }
-        return tail;
     }
 
     @Override
