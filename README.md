@@ -18,7 +18,7 @@ dedicated Google groups: [grappa-users](http://groups.google.com/d/forum/grappa-
 [grappa-devel](http://groups.google.com/d/forum/grappa-devel). They are also available to post by
 email.
 
-The current version is **1.0.0-beta.5** (released May 11, 2014). See below for more information.
+The current version is **1.0.0-beta.6** (released May 11, 2014). See below for more information.
 
 ## Motivation
 
@@ -47,7 +47,7 @@ repositories {
 }
 
 dependencies {
-    compile(group: "com.github.parboiled1", name: "grappa", version: "1.0.0-beta.4");
+    compile(group: "com.github.parboiled1", name: "grappa", version: "1.0.0-beta.6");
 }
 ```
 
@@ -65,7 +65,7 @@ With Maven:
 
 Grappa uses [semantic versioning](http://semver.org).
 
-The current version is **1.0.0-beta.4**. The complete release notes can be found in file
+The current version is **1.0.0-beta.6**. The complete release notes can be found in file
 [`RELEASE-NOTES.md` file](RELEASE-NOTES.md).
 
  The major new features compared to parboiled1 are:
@@ -94,12 +94,9 @@ double quoted strings and does nothing else (you can, of course, do [much
 more](https://github.com/parboiled1/parboiled/wiki)):
 
 ```java
-/*
- * Notes: uses the JoinParser available in 1.0.0-beta.4
- */
 @BuildParseTree
 public class DoubleQuotedString
-    extends JoinParser<Void>
+    extends BaseParser<Void>
 {
     Rule normal()
     {
