@@ -1,3 +1,9 @@
+### 1.0.0-beta.6 (not released yet)
+
+* New trie matcher for multiple string matchings.
+* Use Opcodes.ASM5 for ASM API compatibility (was ASM4).
+* Include join() and trie() in BaseParser; deprecate JoinParser.
+
 ### 1.0.0-beta.5
 
 * Major code cleanup: reformatting, intents with @Documented annotations, a lot of @Deprecated
