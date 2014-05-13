@@ -16,6 +16,7 @@
 
 package com.github.parboiled1.grappa.matchers.trie;
 
+import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.matchers.AbstractMatcher;
 import org.parboiled.matchers.FirstOfMatcher;
@@ -49,7 +50,8 @@ public final class TrieMatcher
 
     public TrieMatcher(final Trie trie)
     {
-        super("Trie");
+        super("Trie (" + Preconditions.checkNotNull(trie).getNrWords()
+            + " strings)");
         this.trie = trie;
     }
 
