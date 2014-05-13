@@ -18,9 +18,11 @@ package com.github.parboiled1.grappa.misc;
 
 import com.google.common.io.CharSink;
 
+import javax.annotation.Nonnull;
+import java.io.Closeable;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.CharBuffer;
 
 /**
  * A {@link CharSink} over {@code System.out}
@@ -48,6 +50,48 @@ public final class SystemOutCharSink
     public Writer openStream()
         throws IOException
     {
-        return new OutputStreamWriter(System.out);
+        return SystemOutWriter.INSTANCE;
+    }
+
+    /**
+     * Writer returned by {@link CharSink#openStream()}
+     *
+     * <p>It appears that this method opens a new writer for <em>each</em> of
+     * its operations; not sure whether this is a bug but on the other hand the
+     * base class does not implement {@link Closeable}, so maybe that explains
+     * part of it. But not all.</p>
+     *
+     * <p>This is therefore the "new, independent writer" returned by this
+     * method which is in fact always the same; it just delegates to {@code
+     * System.out} and only overwrites the base method which all {@code Writer}s
+     * must implement.</p>
+     */
+    private static final class SystemOutWriter
+        extends Writer
+    {
+        @SuppressWarnings("IOResourceOpenedButNotSafelyClosed")
+        private static final Writer INSTANCE = new SystemOutWriter();
+
+        @Override
+        public void write(@Nonnull final char[] cbuf, final int off,
+            final int len)
+            throws IOException
+        {
+            System.out.append(CharBuffer.wrap(cbuf, off, len));
+        }
+
+        @Override
+        public void flush()
+            throws IOException
+        {
+            System.out.flush();
+        }
+
+        @Override
+        public void close()
+            throws IOException
+        {
+            // Nothing
+        }
     }
 }
