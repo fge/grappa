@@ -46,7 +46,6 @@ import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -104,7 +103,7 @@ public class MatcherContext<V>
     private Matcher matcher;
     private Node<V> node;
     // TODO! Replace!
-    private LinkedList<Node<V>> subNodes = Lists.newLinkedList();
+    private List<Node<V>> subNodes = Lists.newArrayList();
     private MatcherPath path;
     private int intTag;
     private boolean hasError;
@@ -459,7 +458,7 @@ public class MatcherContext<V>
             currentIndex, valueStack.isEmpty() ? null : valueStack.peek(),
             hasError);
         if (parent != null) {
-            parent.subNodes.push(node);
+            parent.subNodes.add(0, node);
         }
     }
 
@@ -484,7 +483,7 @@ public class MatcherContext<V>
         sc.startIndex = sc.currentIndex = currentIndex;
         sc.currentChar = currentChar;
         sc.node = null;
-        sc.subNodes = Lists.newLinkedList();
+        sc.subNodes = Lists.newArrayList();
         sc.nodeSuppressed = nodeSuppressed || this.matcher
             .areSubnodesSuppressed() || matcher.isNodeSuppressed();
         sc.hasError = false;
