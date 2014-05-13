@@ -1,4 +1,4 @@
-### 1.0.0-beta.6 (not released yet)
+### 1.0.0-beta.6
 
 * New trie matcher for multiple string matchings.
 * Use Opcodes.ASM5 for ASM API compatibility (was ASM4).
