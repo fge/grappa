@@ -20,7 +20,7 @@ import com.github.parboiled1.grappa.cleanup.DoNotUse;
 import com.github.parboiled1.grappa.cleanup.Unused;
 import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
 import com.github.parboiled1.grappa.misc.SinkAdapter;
-import com.github.parboiled1.grappa.misc.SystemOutCharSource;
+import com.github.parboiled1.grappa.misc.SystemOutCharSink;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.io.CharSink;
@@ -53,7 +53,7 @@ public class DebuggingValueStack<V>
 
     public DebuggingValueStack()
     {
-        this(SystemOutCharSource.INSTANCE);
+        this(SystemOutCharSink.INSTANCE);
     }
 
     public DebuggingValueStack(final CharSink sink)
@@ -89,7 +89,7 @@ public class DebuggingValueStack<V>
     @Unused
     public DebuggingValueStack(final Iterable<V> values)
     {
-        this(values, SystemOutCharSource.INSTANCE);
+        this(values, SystemOutCharSink.INSTANCE);
     }
 
     /**

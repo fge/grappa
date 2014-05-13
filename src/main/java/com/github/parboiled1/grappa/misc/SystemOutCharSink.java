@@ -25,12 +25,12 @@ import java.io.Writer;
 /**
  * A {@link CharSink} over {@code System.out}
  */
-public final class SystemOutCharSource
+public final class SystemOutCharSink
     extends CharSink
 {
-    public static final CharSink INSTANCE = new SystemOutCharSource();
+    public static final CharSink INSTANCE = new SystemOutCharSink();
 
-    private SystemOutCharSource()
+    private SystemOutCharSink()
     {
     }
 

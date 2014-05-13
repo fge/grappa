@@ -18,12 +18,12 @@ package org.parboiled.common;
 
 import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
 import com.github.parboiled1.grappa.misc.SinkAdapter;
-import com.github.parboiled1.grappa.misc.SystemOutCharSource;
+import com.github.parboiled1.grappa.misc.SystemOutCharSink;
 
 /**
  * Deprecated!
  *
- * @deprecated use {@link SystemOutCharSource} instead
+ * @deprecated use {@link SystemOutCharSink} instead
  *
  * @see SinkAdapter
  */

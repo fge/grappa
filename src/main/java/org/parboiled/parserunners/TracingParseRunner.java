@@ -20,7 +20,7 @@ import com.github.parboiled1.grappa.cleanup.DoNotUse;
 import com.github.parboiled1.grappa.cleanup.Unused;
 import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
 import com.github.parboiled1.grappa.misc.SinkAdapter;
-import com.github.parboiled1.grappa.misc.SystemOutCharSource;
+import com.github.parboiled1.grappa.misc.SystemOutCharSink;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -30,7 +30,9 @@ import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
 import org.parboiled.buffers.InputBuffer;
+import org.parboiled.common.ConsoleSink;
 import org.parboiled.common.Sink;
+import org.parboiled.common.StringBuilderSink;
 import org.parboiled.common.Tuple2;
 import org.parboiled.matchers.Matcher;
 import org.parboiled.support.MatcherPath;
@@ -52,7 +54,7 @@ public class TracingParseRunner<V>
 {
     private Predicate<Tuple2<Context<?>, Boolean>> filter
         = Predicates.alwaysTrue();
-    private CharSink log = SystemOutCharSource.INSTANCE;
+    private CharSink log = SystemOutCharSink.INSTANCE;
     private MatcherPath lastPath;
 
     /**
