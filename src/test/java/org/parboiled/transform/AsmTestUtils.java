@@ -48,7 +48,7 @@ public class AsmTestUtils {
         final StringWriter stringWriter = new StringWriter();
         final PrintWriter printWriter = new PrintWriter(stringWriter);
         final TraceClassVisitor traceClassVisitor = new TraceClassVisitor(printWriter);
-        final ClassVisitor checkClassAdapter = new ClassVisitor(Opcodes.ASM4, traceClassVisitor) {};
+        final ClassVisitor checkClassAdapter = new ClassVisitor(Opcodes.ASM5, traceClassVisitor) {};
         //ClassAdapter checkClassAdapter = new CheckClassAdapter(traceClassVisitor);
         final ClassReader classReader;
         classReader = new ClassReader(code);
@@ -118,7 +118,7 @@ public class AsmTestUtils {
 
         private NonMaxTextifier()
         {
-            super(Opcodes.ASM4);
+            super(Opcodes.ASM5);
         }
 
         @Override

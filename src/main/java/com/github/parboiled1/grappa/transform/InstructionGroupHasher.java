@@ -77,7 +77,7 @@ public final class InstructionGroupHasher
     private InstructionGroupHasher(@Nonnull final InstructionGroup group,
         @Nonnull final String className)
     {
-        super(Opcodes.ASM4);
+        super(Opcodes.ASM5);
         this.group = Preconditions.checkNotNull(group);
         this.className = Preconditions.checkNotNull(className);
         hasher = SHA1.newHasher();

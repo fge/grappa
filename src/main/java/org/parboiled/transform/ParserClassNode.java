@@ -49,7 +49,7 @@ public class ParserClassNode
 
     public ParserClassNode(final Class<?> parentClass)
     {
-        super(Opcodes.ASM4);
+        super(Opcodes.ASM5);
         this.parentClass = Preconditions.checkNotNull(parentClass);
         parentType = Type.getType(parentClass);
     }

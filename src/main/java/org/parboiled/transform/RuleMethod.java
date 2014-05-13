@@ -97,7 +97,7 @@ public class RuleMethod
         final String name, final String desc, final String signature,
         final String[] exceptions, final Set<ParserAnnotation> classAnnotations)
     {
-        super(Opcodes.ASM4, access, name, desc, signature, exceptions);
+        super(Opcodes.ASM5, access, name, desc, signature, exceptions);
         this.ownerClass = ownerClass;
         parameterCount = Type.getArgumentTypes(desc).length;
 

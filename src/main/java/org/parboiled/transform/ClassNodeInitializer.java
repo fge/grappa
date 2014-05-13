@@ -67,7 +67,7 @@ public class ClassNodeInitializer
 
     public ClassNodeInitializer()
     {
-        super(Opcodes.ASM4);
+        super(Opcodes.ASM5);
     }
 
     public void process(final ParserClassNode classNode)
