@@ -16,6 +16,55 @@
 
 package com.github.parboiled1.grappa.matchers.join;
 
+import com.github.parboiled1.grappa.parsers.JoinParser;
+import org.assertj.core.api.SoftAssertions;
+import org.parboiled.Parboiled;
+import org.parboiled.Rule;
+import org.parboiled.annotations.SuppressNode;
+import org.parboiled.errors.GrammarException;
+import org.parboiled.errors.ParserRuntimeException;
+import org.parboiled.parserunners.BasicParseRunner;
+import org.parboiled.parserunners.ParseRunner;
+import org.testng.annotations.Test;
+
+import static org.assertj.core.api.Assertions.fail;
+
 public final class JoinMatcherTest
 {
+    static class MyParser
+        extends JoinParser<Object>
+    {
+        @SuppressNode
+        Rule rule()
+        {
+            return join(zeroOrMore('a'))
+                .using(optional('b').label("foo"))
+                .min(0);
+        }
+    }
+
+    @Test
+    public void joinMatcherYellsIfJoiningRuleMatchesEmpty()
+    {
+        final CharSequence input = "aaaabaaaaxaaa";
+        final MyParser parser = Parboiled.createParser(MyParser.class);
+        final ParseRunner<Object> runner
+            = new BasicParseRunner<Object>(parser.rule());
+        final String expectedMessage = "joining rule (foo) of a JoinMatcher" +
+            " cannot match an empty character sequence!";
+
+        try {
+            runner.run(input);
+            fail("No exception thrown!!");
+        } catch (ParserRuntimeException e) {
+            final SoftAssertions soft = new SoftAssertions();
+            final Throwable cause = e.getCause();
+            soft.assertThat(cause).as("cause has correct class")
+                .isExactlyInstanceOf(GrammarException.class);
+            soft.assertThat(cause).as("exception has the correct message")
+                .hasMessage(expectedMessage);
+            soft.assertAll();
+        }
+    }
+
 }
