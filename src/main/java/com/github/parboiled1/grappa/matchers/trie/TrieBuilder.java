@@ -16,13 +16,17 @@
 
 package com.github.parboiled1.grappa.matchers.trie;
 
+import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 
 import javax.annotation.Nonnull;
 
 /**
  * A builder for a {@link Trie}
+ *
+ * @since 1.0.0-beta.6
  */
+@Beta
 public final class TrieBuilder
 {
     int nrWords;

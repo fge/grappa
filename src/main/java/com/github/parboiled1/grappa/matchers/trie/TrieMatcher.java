@@ -16,6 +16,7 @@
 
 package com.github.parboiled1.grappa.matchers.trie;
 
+import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.matchers.AbstractMatcher;
@@ -41,8 +42,11 @@ import javax.annotation.concurrent.Immutable;
  *     submatches information by its virtue of inheriting {@link
  *     FirstOfMatcher}, which has all character subrules).</li>
  * </ul>
+ *
+ * @since 1.0.0-beta.6
  */
 @Immutable
+@Beta
 public final class TrieMatcher
     extends AbstractMatcher
 {

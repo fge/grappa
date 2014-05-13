@@ -16,6 +16,8 @@
 
 package com.github.parboiled1.grappa.matchers.trie;
 
+import com.google.common.annotations.Beta;
+
 import java.nio.CharBuffer;
 import java.util.Map;
 import java.util.TreeMap;
@@ -28,7 +30,10 @@ import java.util.TreeMap;
  *
  * <p>When {@link #build()} is called, the whole tree is built from the leaves
  * up to the root.</p>
+ *
+ * @since 1.0.0-beta.6
  */
+@Beta
 public final class TrieNodeBuilder
 {
     private boolean fullWord = false;

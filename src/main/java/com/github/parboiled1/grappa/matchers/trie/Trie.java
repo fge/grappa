@@ -16,6 +16,7 @@
 
 package com.github.parboiled1.grappa.matchers.trie;
 
+import com.google.common.annotations.Beta;
 import org.parboiled.matchers.FirstOfStringsMatcher;
 
 import javax.annotation.concurrent.Immutable;
@@ -39,6 +40,7 @@ import javax.annotation.concurrent.Immutable;
  * @since 1.0.0-beta.6
  */
 @Immutable
+@Beta
 public final class Trie
 {
     private final int nrWords;

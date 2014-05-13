@@ -16,6 +16,8 @@
 
 package com.github.parboiled1.grappa.matchers.trie;
 
+import com.google.common.annotations.Beta;
+
 import javax.annotation.concurrent.Immutable;
 import java.nio.CharBuffer;
 import java.util.Arrays;
@@ -33,8 +35,11 @@ import java.util.Arrays;
  * <p>The children are indexed by the character they match (which means, in
  * effect, that a trie node has no characters "belonging" to him, and the root
  * node knows of all first characters there are to match).</p>
+ *
+ * @since 1.0.0-beta.6
  */
 @Immutable
+@Beta
 public final class TrieNode
 {
     private final boolean fullWord;
