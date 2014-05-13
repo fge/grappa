@@ -20,6 +20,10 @@ import com.github.parboiled1.grappa.cleanup.DoNotUse;
 import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
 import com.github.parboiled1.grappa.matchers.join.JoinMatcherBootstrap;
 import com.github.parboiled1.grappa.matchers.join.JoinMatcherBuilder;
+import com.github.parboiled1.grappa.matchers.trie.Trie;
+import com.github.parboiled1.grappa.matchers.trie.TrieBuilder;
+import com.github.parboiled1.grappa.matchers.trie.TrieMatcher;
+import com.github.parboiled1.grappa.matchers.trie.TrieNode;
 import com.github.parboiled1.grappa.matchers.unicode.UnicodeCharMatcher;
 import com.github.parboiled1.grappa.matchers.unicode.UnicodeRangeMatcher;
 import com.google.common.base.Preconditions;
@@ -52,6 +56,7 @@ import org.parboiled.matchers.StringMatcher;
 import org.parboiled.matchers.TestMatcher;
 import org.parboiled.matchers.TestNotMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
+import org.parboiled.parserunners.RecoveringParseRunner;
 import org.parboiled.support.Characters;
 import org.parboiled.support.Chars;
 import org.parboiled.support.Checks;
@@ -374,9 +379,80 @@ public abstract class BaseParser<V>
     }
 
     /**
+     * Match one string among many using a <a
+     * href="http://en.wikipedia.org/wiki/Trie" target="_blank">trie</a>
+     *
+     * <p>Duplicate elements will be silently eliminated.</p>
+     *
+     * <p>Note that order of elements does not matter, and that this rule will
+     * always trie (err, try) and match the <em>longest possible sequence</em>.
+     * That is, if you build a rule with inputs "do" and "double" in this order
+     * and the input text is "doubles", then "double" will be matched. However,
+     * if the input text is "doubling" then "do" is matched instead.</p>
+     *
+     * <p>Note also that the minimum length of strings in a trie is 2.</p>
+     *
+     * @param strings the list of strings for this trie
+     * @return a rule
+     *
+     * @see TrieMatcher
+     * @see TrieNode
+     */
+    // TODO: potentially a slew of strings in a trie; so maybe it's not a good
+    // idea to cache here
+    @Cached
+    Rule trie(@Nonnull final Collection<String> strings)
+    {
+        final List<String> list = ImmutableList.copyOf(strings);
+
+        final TrieBuilder builder = Trie.newBuilder();
+
+        for (final String word: list)
+            builder.addWord(word);
+
+        return new TrieMatcher(builder.build());
+    }
+
+    /**
+     * Match one string among many using a <a
+     * href="http://en.wikipedia.org/wiki/Trie" target="_blank">trie</a>
+     *
+     * <p>This method delegates to {@link #trie(Collection)}.</p>
+     *
+     * @param first the first string
+     * @param second the second string
+     * @param others other strings
+     * @return a rule
+     *
+     * @see TrieMatcher
+     * @see TrieNode
+     */
+    Rule trie(@Nonnull final String first, @Nonnull final String second,
+        @Nonnull final String... others)
+    {
+        final List<String> words = ImmutableList.<String>builder().add(first)
+            .add(second).add(others).build();
+
+        return trie(words);
+    }
+
+    /*
+     * "DELEGATING" RULES
+     *
+     * All rules below delegate to one or more other rules
+     */
+
+
+    /**
      * Match the first rule of a series of rules
      *
      * <p>When one rule matches, all others are ignored.</p>
+     *
+     * <p>Note: if you are considering matching one string among many,
+     * irrespective of the order of elements, consider using {@link
+     * #trie(Collection)} instead, <strong>except</strong> if you are using a
+     * {@link RecoveringParseRunner} (since at this moment the trie rule does
+     * not support it).</p>
      *
      * @param rule the first subrule
      * @param rule2 the second subrule
@@ -541,6 +617,10 @@ public abstract class BaseParser<V>
     {
         return new JoinMatcherBootstrap<V, BaseParser<V>>(this, joined);
     }
+
+    /*
+     * PREDICATES
+     */
 
     /**
      * Test a rule, but do not consume any input (predicate)
