@@ -1,3 +1,8 @@
+### 1.0.0-beta.7
+
+* Fix bug with console output reporting in RecoveringParseRunner; clarify .getLog() deprecation (see
+  [here](https://github.com/parboiled1/grappa/issues/2)).
+
 ### 1.0.0-beta.6
 
 * New trie matcher for multiple string matchings.
