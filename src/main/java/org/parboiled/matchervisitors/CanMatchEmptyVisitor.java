@@ -17,6 +17,7 @@
 package org.parboiled.matchervisitors;
 
 import com.github.parboiled1.grappa.matchers.join.JoinMatcher;
+import com.github.parboiled1.grappa.matchers.trie.TrieMatcher;
 import com.github.parboiled1.grappa.matchers.unicode.UnicodeCharMatcher;
 import com.github.parboiled1.grappa.matchers.unicode.UnicodeRangeMatcher;
 import org.parboiled.matchers.ActionMatcher;
@@ -88,6 +89,12 @@ public final class CanMatchEmptyVisitor
 
     @Override
     public Boolean visit(final AnyOfMatcher matcher)
+    {
+        return false;
+    }
+
+    @Override
+    public Boolean visit(final TrieMatcher matcher)
     {
         return false;
     }

@@ -18,6 +18,7 @@ package org.parboiled.matchervisitors;
 
 import com.github.parboiled1.grappa.cleanup.WillBePrivate;
 import com.github.parboiled1.grappa.matchers.join.JoinMatcher;
+import com.github.parboiled1.grappa.matchers.trie.TrieMatcher;
 import com.github.parboiled1.grappa.matchers.unicode.UnicodeCharMatcher;
 import com.github.parboiled1.grappa.matchers.unicode.UnicodeRangeMatcher;
 import org.parboiled.matchers.AbstractMatcher;
@@ -96,6 +97,12 @@ public abstract class DefaultMatcherVisitor<R>
 
     @Override
     public R visit(final CustomMatcher matcher)
+    {
+        return defaultValue(matcher);
+    }
+
+    @Override
+    public R visit(final TrieMatcher matcher)
     {
         return defaultValue(matcher);
     }

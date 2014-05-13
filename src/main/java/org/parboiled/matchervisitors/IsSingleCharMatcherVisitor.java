@@ -17,6 +17,7 @@
 package org.parboiled.matchervisitors;
 
 import com.github.parboiled1.grappa.matchers.join.JoinMatcher;
+import com.github.parboiled1.grappa.matchers.trie.TrieMatcher;
 import com.github.parboiled1.grappa.matchers.unicode.UnicodeCharMatcher;
 import com.github.parboiled1.grappa.matchers.unicode.UnicodeRangeMatcher;
 import org.parboiled.matchers.ActionMatcher;
@@ -83,6 +84,12 @@ public final class IsSingleCharMatcherVisitor
     public Boolean visit(final UnicodeRangeMatcher matcher)
     {
         return matcher.isSingleCharMatcher();
+    }
+
+    @Override
+    public Boolean visit(final TrieMatcher matcher)
+    {
+        return false;
     }
 
     @Override

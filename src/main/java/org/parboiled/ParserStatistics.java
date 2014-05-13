@@ -18,6 +18,7 @@ package org.parboiled;
 
 import com.github.parboiled1.grappa.cleanup.WillBeFinal;
 import com.github.parboiled1.grappa.matchers.join.JoinMatcher;
+import com.github.parboiled1.grappa.matchers.trie.TrieMatcher;
 import com.github.parboiled1.grappa.matchers.unicode.UnicodeCharMatcher;
 import com.github.parboiled1.grappa.matchers.unicode.UnicodeRangeMatcher;
 import com.google.common.annotations.VisibleForTesting;
@@ -75,6 +76,7 @@ public class ParserStatistics
      * <p>Note: this is a Guava's {@link ImmutableSet}, so it can be shared
      * safely (and {@code Class} objects are final)</p>
      */
+    // TODO: remove this distinction (regular/special)
     @VisibleForTesting
     public static final Set<Class<? extends Matcher>> REGULAR_MATCHER_CLASSES;
 
@@ -103,6 +105,7 @@ public class ParserStatistics
         builder.add(UnicodeRangeMatcher.class);
         builder.add(AnyOfMatcher.class);
         builder.add(EmptyMatcher.class);
+        builder.add(TrieMatcher.class);
         builder.add(FirstOfMatcher.class);
         builder.add(FirstOfStringsMatcher.class);
         builder.add(NothingMatcher.class);
@@ -238,6 +241,12 @@ public class ParserStatistics
     public ParserStatistics visit(final AnyOfMatcher matcher)
     {
         return doVisit(matcher, AnyOfMatcher.class);
+    }
+
+    @Override
+    public ParserStatistics visit(final TrieMatcher matcher)
+    {
+        return doVisit(matcher, TrieMatcher.class);
     }
 
     @Override

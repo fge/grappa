@@ -17,6 +17,7 @@
 package org.parboiled.matchervisitors;
 
 import com.github.parboiled1.grappa.matchers.join.JoinMatcher;
+import com.github.parboiled1.grappa.matchers.trie.TrieMatcher;
 import com.github.parboiled1.grappa.matchers.unicode.UnicodeCharMatcher;
 import com.github.parboiled1.grappa.matchers.unicode.UnicodeRangeMatcher;
 import org.parboiled.matchers.ActionMatcher;
@@ -66,6 +67,8 @@ public interface MatcherVisitor<R> {
     R visit(UnicodeRangeMatcher matcher);
 
     R visit(AnyMatcher matcher);
+
+    R visit(TrieMatcher matcher);
 
     R visit(EmptyMatcher matcher);
 

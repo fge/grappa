@@ -17,6 +17,7 @@
 package org.parboiled.matchervisitors;
 
 import com.github.parboiled1.grappa.matchers.join.JoinMatcher;
+import com.github.parboiled1.grappa.matchers.trie.TrieMatcher;
 import com.github.parboiled1.grappa.matchers.unicode.UnicodeCharMatcher;
 import com.github.parboiled1.grappa.matchers.unicode.UnicodeRangeMatcher;
 import org.parboiled.matchers.ActionMatcher;
@@ -99,6 +100,12 @@ public final class IsStarterCharVisitor
     public Boolean visit(final AnyOfMatcher matcher)
     {
         return matcher.characters.contains(starterChar);
+    }
+
+    @Override
+    public Boolean visit(final TrieMatcher matcher)
+    {
+        return matcher.trieHasStart(starterChar);
     }
 
     @Override
