@@ -623,7 +623,7 @@ while_loop:
         public List<ActionMatcher> visit(final SequenceMatcher matcher)
         {
             if (path.contains(matcher)) {
-                return null;
+                return ImmutableList.of();
             }
 
             final LinkedList<SequenceMatcher> previousPath
@@ -634,7 +634,7 @@ while_loop:
             for (final Matcher sub : matcher.getChildren()) {
                 final List<ActionMatcher> subActions = sub.accept(this);
                 if (subActions == null)
-                    return null;
+                    return ImmutableList.of();
                 actions.addAll(subActions);
             }
 
