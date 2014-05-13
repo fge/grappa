@@ -17,7 +17,6 @@
 package com.github.parboiled1.grappa.parsers;
 
 import com.github.parboiled1.grappa.matchers.join.JoinMatcher;
-import com.github.parboiled1.grappa.matchers.join.JoinMatcherBootstrap;
 import com.google.common.annotations.Beta;
 import org.parboiled.BaseParser;
 
@@ -44,14 +43,12 @@ import org.parboiled.BaseParser;
  * </pre>
  *
  * @param <V> production value of this parser
+ *
+ * @deprecated the join rule is now integrated in {@link BaseParser}
  */
 @Beta
+@Deprecated
 public abstract class JoinParser<V>
     extends BaseParser<V>
 {
-    public final JoinMatcherBootstrap<V, BaseParser<V>> join(
-        final Object joined)
-    {
-        return new JoinMatcherBootstrap<V, BaseParser<V>>(this, joined);
-    }
 }

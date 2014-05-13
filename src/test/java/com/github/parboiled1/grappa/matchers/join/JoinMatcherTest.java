@@ -16,8 +16,8 @@
 
 package com.github.parboiled1.grappa.matchers.join;
 
-import com.github.parboiled1.grappa.parsers.JoinParser;
 import org.assertj.core.api.SoftAssertions;
+import org.parboiled.BaseParser;
 import org.parboiled.Parboiled;
 import org.parboiled.Rule;
 import org.parboiled.annotations.SuppressNode;
@@ -32,7 +32,7 @@ import static org.assertj.core.api.Assertions.fail;
 public final class JoinMatcherTest
 {
     static class MyParser
-        extends JoinParser<Object>
+        extends BaseParser<Object>
     {
         @SuppressNode
         Rule rule()

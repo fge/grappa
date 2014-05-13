@@ -16,7 +16,6 @@
 
 package com.github.parboiled1.grappa.matchers.join;
 
-import com.github.parboiled1.grappa.parsers.JoinParser;
 import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.BoundType;
@@ -56,7 +55,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
  * </ul>
  *
  * @see JoinMatcher
- * @see JoinParser
  * @see Range
  */
 @ParametersAreNonnullByDefault

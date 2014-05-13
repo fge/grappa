@@ -16,7 +16,6 @@
 
 package com.github.parboiled1.grappa.matchers.join;
 
-import com.github.parboiled1.grappa.parsers.JoinParser;
 import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
@@ -68,7 +67,6 @@ import org.parboiled.matchervisitors.MatcherVisitor;
  * </pre>
  *
  * @see JoinMatcherBootstrap
- * @see JoinParser#join(Object)
  */
 @Beta
 public abstract class JoinMatcher

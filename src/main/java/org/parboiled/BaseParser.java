@@ -18,6 +18,8 @@ package org.parboiled;
 
 import com.github.parboiled1.grappa.cleanup.DoNotUse;
 import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+import com.github.parboiled1.grappa.matchers.join.JoinMatcherBootstrap;
+import com.github.parboiled1.grappa.matchers.join.JoinMatcherBuilder;
 import com.github.parboiled1.grappa.matchers.unicode.UnicodeCharMatcher;
 import com.github.parboiled1.grappa.matchers.unicode.UnicodeRangeMatcher;
 import com.google.common.base.Preconditions;
@@ -57,6 +59,8 @@ import org.parboiled.support.Checks;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 import static org.parboiled.common.Preconditions.checkArgNotNull;
 import static org.parboiled.common.Preconditions.checkArgument;
@@ -513,6 +517,29 @@ public abstract class BaseParser<V>
         Preconditions.checkNotNull(rules, "rules");
         return rules.length == 1 ? toRule(rules[0])
             : new SequenceMatcher(toRules(rules));
+    }
+
+    /**
+     * Kickstart a {@code join} rule
+     *
+     * <p>Usages:</p>
+     *
+     * <ul>
+     *     return join(rule()).using(otherRule()).times(n);
+     *     return join(rule()).using(otherRule()).min(n);
+     * </ul>
+     *
+     * <p>etc. See {@link JoinMatcherBuilder} for more possible constructs.</p>
+     *
+     * @param joined the joined rule (must not match an empty sequence!)
+     * @return a {@link JoinMatcherBootstrap}
+     *
+     * @see JoinMatcherBootstrap#using(Object)
+     */
+    public final JoinMatcherBootstrap<V, BaseParser<V>> join(
+        final Object joined)
+    {
+        return new JoinMatcherBootstrap<V, BaseParser<V>>(this, joined);
     }
 
     /**
