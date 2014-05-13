@@ -20,7 +20,6 @@ import com.github.parboiled1.grappa.util.MatcherContextBuilder;
 import com.google.common.collect.Lists;
 import org.assertj.core.api.SoftAssertions;
 import org.parboiled.MatcherContext;
-import org.parboiled.matchers.Matcher;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -40,7 +39,7 @@ public final class TrieMatcherTest
         "volatile", "while", "false", "null", "true"
     };
 
-    private final Matcher matcher;
+    private final TrieMatcher matcher;
 
     public TrieMatcherTest()
     {
@@ -121,5 +120,17 @@ public final class TrieMatcherTest
             .isEqualTo(index);
 
         soft.assertAll();
+    }
+
+    @Test
+    public void startingCharIsCorrectlyDetected()
+    {
+        // Hardcoded for the matcher we have, but ohwell
+        final SoftAssertions soft = new SoftAssertions();
+
+        soft.assertThat(matcher.trieHasStart('z'))
+            .as("non starting character of the trie").isFalse();
+        soft.assertThat(matcher.trieHasStart('a'))
+            .as("starting character of the trie").isTrue();
     }
 }
