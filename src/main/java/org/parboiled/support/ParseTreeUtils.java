@@ -77,6 +77,7 @@ public final class ParseTreeUtils
      * @param path    the path to the Node being searched for
      * @return the Node if found or null if not found
      */
+    @Nullable
     public static <V> Node<V> findNodeByPath(
         final List<Node<V>> parents, final String path) {
         Preconditions.checkNotNull(path, "path");
@@ -408,6 +409,7 @@ public final class ParseTreeUtils
      * @param parsingResult the parsing result containing the parse tree
      * @return a new String
      */
+    // TODO: use Guava's TreeTraverser here, and in other places
     public static <V> String printNodeTree(final ParsingResult<V> parsingResult)
     {
         Preconditions.checkNotNull(parsingResult, "parsingResult");
