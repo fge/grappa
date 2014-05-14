@@ -12,6 +12,9 @@ buildscript {
     repositories {
         maven { url "http://repo.spring.io/plugins-release" };
         mavenCentral();
+        maven {
+            url "http://oss.sonatype.org/content/repositories/snapshots/"
+        };
     }
     dependencies {
         classpath(group: "org.springframework.build.gradle", 
@@ -38,6 +41,9 @@ repositories {
     mavenCentral();
     mavenLocal();
     jcenter();
+    maven {
+        url "http://oss.sonatype.org/content/repositories/snapshots/"
+    };
 }
 
 dependencies {
@@ -75,6 +81,7 @@ pitest {
     // Since for now it is org.parboiled, we cannot leave the default.
     // By default it is ${project.group}.
     targetClasses = [ "org.parboiled.*", "com.github.parboiled1.*" ];
+    pitestVersion = "0.34-SNAPSHOT";
 }
 
 /*
@@ -106,7 +113,7 @@ artifacts {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = "1.12";
+    gradleVersion = "1.11";
     distributionUrl = "http://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip";
 }
 

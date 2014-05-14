@@ -23,7 +23,6 @@ import java.io.IOException;
 public final class NoMismatchesStatisticsTest
     extends ParserStatisticsTest<NoMismatchesParser, Integer>
 {
-
     public NoMismatchesStatisticsTest()
         throws IOException
     {
