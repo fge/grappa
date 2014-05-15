@@ -39,6 +39,16 @@ Grappa requires Java 6 or later. **Starting with version 2.0, Grappa will requir
 Well, you write <i>gra</i>mmars and can then generate <i>pa</i>rsers for them. (I also happen to
 like the [drink of the same name](http://www.istitutograppa.org/))
 
+## Comparison with parboiled
+
+Backwards compatibility is ensured for the 1.0.x timeline. **2.0.x and greater will introduce
+incompatible changes**, however these changes will be documented.
+
+See [this
+page](https://github.com/parboiled1/grappa/wiki/Overview:-grappa-1.0.x-vs-parboiled-java) for an
+overview of the changes; if you want the nitty gritty details, you can read the [release
+notes](https://github.com/parboiled1/grappa/blob/master/RELEASE-NOTES.md) as well.
+
 ## Gradle/maven artifacts
 
 Grappa is available on Maven Central. With Gradle:
@@ -62,18 +72,6 @@ With Maven:
     <version>1.0.0-beta.7</version>
 </dependency>
 ```
-
-## Versioning, features
-
-### Comparison with parboiled
-
-Backwards compatibility is ensured for the 1.0.x timeline. **2.0.x and greater will introduce
-incompatible changes**, however these changes will be documented.
-
-See [this
-page](https://github.com/parboiled1/grappa/wiki/Overview:-grappa-1.0.x-vs-parboiled-java) for an
-overview of the changes; if you want the nitty gritty details, you can read the [release
-notes](https://github.com/parboiled1/grappa/blob/master/RELEASE-NOTES.md) as well.
 
 ## Example grammars
 
