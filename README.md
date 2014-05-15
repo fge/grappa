@@ -10,8 +10,7 @@ grammars) entirely in Java. Unlike, for instance, ANTLR and JavaCC, parsers writ
 package do **not** require a pre-processing phase. Yes, this means you generate your parsers at
 _runtime_. And there is no DSL.  Pure Java!
 
-License is Apache 2.0. See [here](https://github.com/parboiled1/project-info) for further
-information.
+License is **Apache 2.0**.
 
 This project has an IRC channel (`#grappa` on Freenode; server: `irc.freenode.net`) and two
 dedicated Google groups: [grappa-users](http://groups.google.com/d/forum/grappa-users) and
