@@ -5,10 +5,10 @@
 ## What this is
 
 This package allows you to write grammars (more precisely, parsing expression grammars, or
-[PEG](http://en.wikipedia.org/wiki/Parsing_expression_grammar) for short) entirely in Java. Unlike,
-for instance, ANTLR and JavaCC, parsers written with this package do **not** require a
-pre-processing phase. Yes, this means you generate your parsers at _runtime_. And there is no DSL.
-Pure Java!
+[PEG](http://en.wikipedia.org/wiki/Parsing_expression_grammar) for short; another name is "packrat"
+grammars) entirely in Java. Unlike, for instance, ANTLR and JavaCC, parsers written with this
+package do **not** require a pre-processing phase. Yes, this means you generate your parsers at
+_runtime_. And there is no DSL.  Pure Java!
 
 License is Apache 2.0. See [here](https://github.com/parboiled1/project-info) for further
 information.
@@ -20,6 +20,8 @@ email.
 
 The current version is **1.0.0-beta.7** (released May 14, 2014). See the [release
 notes](RELEASE-NOTES.md) for details.
+
+See also the [grappa-support project](https://github.com/parboiled1/grappa-support).
 
 ## Motivation
 
