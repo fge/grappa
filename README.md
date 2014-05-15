@@ -33,7 +33,7 @@ But parboiled does not deserve to be left stranded, nor its users. It is just to
 package allows you to write grammars entirely in Java... And what is more, it performs really well.
 This package is therefore dedicated to continuing its development.
 
-Grappa requires Java 6 or later. **Starting with version 1.1, Grappa will require Java 7**.
+Grappa requires Java 6 or later. **Starting with version 2.0, Grappa will require Java 7**.
 
 ### And, uh, the name?
 
