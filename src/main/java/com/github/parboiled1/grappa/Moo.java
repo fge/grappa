@@ -16,7 +16,8 @@
 
 package com.github.parboiled1.grappa;
 
-import com.github.parboiled1.grappa.parsers.EventBusParser;
+import com.github.parboiled1.grappa.event.BasicMatchEvent;
+import com.github.parboiled1.grappa.event.EventBusParser;
 import com.google.common.base.Preconditions;
 import com.google.common.eventbus.Subscribe;
 import org.parboiled.Parboiled;
@@ -29,15 +30,15 @@ import javax.annotation.Untainted;
 
 public final class Moo
 {
-    public static final class StringListener
+    public static final class StringListener<V>
     {
         private final StringBuilder sb = new StringBuilder();
 
         @Subscribe
-        public void capture(@Untainted @Nonnull final MatchEvent event)
+        public void capture(@Untainted @Nonnull final BasicMatchEvent<V> event)
         {
             System.out.println("Called");
-            sb.append(event.getCaptured());
+            sb.append(event.getMatch());
         }
 
         public String getContent()
@@ -46,28 +47,13 @@ public final class Moo
         }
     }
 
-    public static class MatchEvent
-    {
-        private final String captured;
-
-        public MatchEvent(final String captured)
-        {
-            this.captured = captured;
-        }
-
-        public String getCaptured()
-        {
-            return captured;
-        }
-    }
-
     static class MyParser
         extends EventBusParser<Object>
     {
         MyParser()
         {
-            addEvent("normal", MatchEvent.class);
-            addEvent("special", MatchEvent.class);
+            addEvent("normal", BasicMatchEvent.class);
+            addEvent("special", BasicMatchEvent.class);
         }
 
         public final void addListener(@Nonnull final Object listener)

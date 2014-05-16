@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.parboiled1.grappa.parsers;
+package com.github.parboiled1.grappa.event;
 
 import com.github.parboiled1.grappa.exceptions.GrappaException;
 import com.google.common.annotations.Beta;
@@ -22,6 +22,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import com.google.common.eventbus.EventBus;
 import org.parboiled.BaseParser;
+import org.parboiled.Context;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.Constructor;
@@ -42,7 +43,7 @@ public abstract class EventBusParser<V>
         Preconditions.checkNotNull(eventClass);
         final Constructor<?> constructor;
         try {
-            constructor = eventClass.getConstructor(String.class);
+            constructor = eventClass.getConstructor(Context.class);
             eventMap.put(eventName, constructor);
         } catch (NoSuchMethodException e) {
             throw new GrappaException("cannot find constructor for event class",
@@ -61,7 +62,7 @@ public abstract class EventBusParser<V>
 
         final Object event;
         try {
-            event = constructor.newInstance(getContext().getMatch());
+            event = constructor.newInstance(getContext());
         } catch (InstantiationException e) {
             throw new GrappaException("cannot instantiate event class", e);
         } catch (IllegalAccessException e) {
