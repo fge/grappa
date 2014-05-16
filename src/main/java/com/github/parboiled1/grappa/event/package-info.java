@@ -44,7 +44,7 @@
  *     {
  *         private final MyBean bean = new MyBean();
  *
- *         &#0040;Subscribe
+ *         &#64;Subscribe
  *         public void setValue(final MyEventClass event)
  *         {
  *             bean.setMyValue(event.getValue());

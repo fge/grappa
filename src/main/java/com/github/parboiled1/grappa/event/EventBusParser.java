@@ -68,7 +68,7 @@ import java.util.Map;
  *     {
  *         private String match;
  *
- *         &#0040;Subscribe
+ *         &#64;Subscribe
  *         public void receiveMatch(final BasicMatchEvent event)
  *         {
  *             match = event.getMatch();
