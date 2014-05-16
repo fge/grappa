@@ -101,6 +101,10 @@ import java.util.Map;
  * associated with this name with the current parser context as a constructor
  * argument, which it will then publish via the event bus.</p>
  *
+ * <p>Note that you are not limited to one subscriber per event class. For the
+ * full details of how, and when, events are dispatched, see the {@link EventBus
+ * javadoc for {@code EventBus}}.</p>
+ *
  * @param <V> the result type of the parser
  *
  * @see EventBus
