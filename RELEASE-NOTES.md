@@ -1,6 +1,7 @@
 ### 1.0.0-beta.9
 
 * BaseParser: make trie() public...
+* Javadoc fixes
 
 ### 1.0.0-beta.8
 
