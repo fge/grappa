@@ -19,6 +19,26 @@ package com.github.parboiled1.grappa.event;
 import com.github.parboiled1.grappa.annotations.Experimental;
 import org.parboiled.Context;
 
+/**
+ * A basic match event to be used with an {@link EventBusParser}
+ *
+ * <p>Reminder: in order for an event class to be usable by the parser, it must
+ * have a constructor with a {@link Context} as an argument.</p>
+ *
+ * <p>Note that since instances of event classes are constructed in an action
+ * context, this means you can call all of the methods of {@link Context} in
+ * the constructor (get the current match, index, peek into the stack etc) --
+ * <strong>but not anywhere else!!</strong></p>
+ *
+ * <p>The latter basically means: DO NOT make the {@code Context} an instance
+ * variable of your event class; call any method of it outside of the
+ * constructor and it will fail very badly. You have been warned!</p>
+ *
+ * <p>This simple match event only grabs the text matched by the previous rule
+ * (via {@link Context#getMatch()}.</p>
+ *
+ * @param <V> type of the parser production
+ */
 @Experimental
 public class BasicMatchEvent<V>
 {

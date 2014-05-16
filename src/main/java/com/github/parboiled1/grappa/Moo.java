@@ -18,7 +18,6 @@ package com.github.parboiled1.grappa;
 
 import com.github.parboiled1.grappa.event.BasicMatchEvent;
 import com.github.parboiled1.grappa.event.EventBusParser;
-import com.google.common.base.Preconditions;
 import com.google.common.eventbus.Subscribe;
 import org.parboiled.Parboiled;
 import org.parboiled.Rule;
@@ -54,11 +53,6 @@ public final class Moo
         {
             addEvent("normal", BasicMatchEvent.class);
             addEvent("special", BasicMatchEvent.class);
-        }
-
-        public final void addListener(@Nonnull final Object listener)
-        {
-            bus.register(Preconditions.checkNotNull(listener));
         }
 
         Rule normal()
