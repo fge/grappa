@@ -1,4 +1,8 @@
-com.github.parboiled1.grappa.cleanup
+com.github.parboiled1.grappa
+com.github.parboiled1.grappa.annotations
+com.github.parboiled1.grappa.event
+com.github.parboiled1.grappa.exceptions
+com.github.parboiled1.grappa.matchers
 com.github.parboiled1.grappa.matchers.join
 com.github.parboiled1.grappa.matchers.trie
 com.github.parboiled1.grappa.matchers.unicode
