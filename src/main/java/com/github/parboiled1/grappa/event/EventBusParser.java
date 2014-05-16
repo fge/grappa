@@ -16,6 +16,7 @@
 
 package com.github.parboiled1.grappa.event;
 
+import com.github.parboiled1.grappa.annotations.Experimental;
 import com.github.parboiled1.grappa.exceptions.GrappaException;
 import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
@@ -29,7 +30,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
-@Beta
+@Experimental
 public abstract class EventBusParser<V>
     extends BaseParser<V>
 {

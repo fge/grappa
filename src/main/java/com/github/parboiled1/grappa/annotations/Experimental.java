@@ -14,23 +14,17 @@
  * limitations under the License.
  */
 
-package com.github.parboiled1.grappa.event;
+package com.github.parboiled1.grappa.annotations;
 
-import com.github.parboiled1.grappa.annotations.Experimental;
-import org.parboiled.Context;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-@Experimental
-public class BasicMatchEvent<V>
+@Documented
+@Retention(RetentionPolicy.SOURCE)
+@Target(ElementType.TYPE)
+public @interface Experimental
 {
-    private final String match;
-
-    public BasicMatchEvent(final Context<V> context)
-    {
-        match = context.getMatch();
-    }
-
-    public final String getMatch()
-    {
-        return match;
-    }
 }
