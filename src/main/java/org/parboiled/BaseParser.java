@@ -600,10 +600,10 @@ public abstract class BaseParser<V>
      *
      * <p>Usages:</p>
      *
-     * <ul>
+     * <pre>
      *     return join(rule()).using(otherRule()).times(n);
      *     return join(rule()).using(otherRule()).min(n);
-     * </ul>
+     * </pre>
      *
      * <p>etc. See {@link JoinMatcherBuilder} for more possible constructs.</p>
      *
