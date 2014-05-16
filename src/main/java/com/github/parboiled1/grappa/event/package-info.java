@@ -55,6 +55,6 @@
  * <p>You then register the event class by name to the parser, register the
  * listener, and fire the event by name when appropriate.</p>
  *
- * <p>See the individual classes documentation for more details.</p>
+ * <p>See the documentation of individual classes for more details.</p>
  */
 package com.github.parboiled1.grappa.event;
