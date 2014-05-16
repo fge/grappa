@@ -16,8 +16,8 @@
 
 package org.parboiled.trees;
 
-import com.github.parboiled1.grappa.cleanup.DoNotUse;
-import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+import com.github.parboiled1.grappa.annotations.DoNotUse;
+import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 
 /**
  * A {@link TreeNode} specialization with only two child nodes, left and right.

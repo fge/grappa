@@ -16,7 +16,7 @@
 
 package org.parboiled.support;
 
-import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Predicate;
 import org.parboiled.Node;
 

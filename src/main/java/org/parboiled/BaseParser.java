@@ -16,8 +16,8 @@
 
 package org.parboiled;
 
-import com.github.parboiled1.grappa.cleanup.DoNotUse;
-import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+import com.github.parboiled1.grappa.annotations.DoNotUse;
+import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 import com.github.parboiled1.grappa.matchers.join.JoinMatcherBootstrap;
 import com.github.parboiled1.grappa.matchers.join.JoinMatcherBuilder;
 import com.github.parboiled1.grappa.matchers.trie.Trie;

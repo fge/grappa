@@ -16,7 +16,7 @@
 
 package org.parboiled.transform;
 
-import com.github.parboiled1.grappa.cleanup.VisibleForDocumentation;
+import com.github.parboiled1.grappa.annotations.VisibleForDocumentation;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.InsnNode;

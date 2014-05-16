@@ -16,7 +16,7 @@
 
 package org.parboiled.errors;
 
-import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 
 /**
  * Exception that is thrown for any problem during the parsing run that cannot be overcome automatically.

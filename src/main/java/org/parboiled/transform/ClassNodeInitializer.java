@@ -22,7 +22,7 @@
 
 package org.parboiled.transform;
 
-import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.transform.method.ParserAnnotation;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;

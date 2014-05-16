@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.parboiled1.grappa.cleanup;
+package com.github.parboiled1.grappa.annotations;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -24,7 +24,9 @@ import java.lang.annotation.Target;
 
 @Documented
 @Retention(RetentionPolicy.SOURCE)
-@Target(ElementType.TYPE)
-public @interface VisibleForDocumentation
+@Target(ElementType.METHOD)
+public @interface ThrownExceptionsWillChange
 {
+    String version();
+    Class<? extends Exception>[] to();
 }

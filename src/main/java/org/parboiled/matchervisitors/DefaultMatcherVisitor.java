@@ -16,7 +16,7 @@
 
 package org.parboiled.matchervisitors;
 
-import com.github.parboiled1.grappa.cleanup.WillBePrivate;
+import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import com.github.parboiled1.grappa.matchers.join.JoinMatcher;
 import com.github.parboiled1.grappa.matchers.trie.TrieMatcher;
 import com.github.parboiled1.grappa.matchers.unicode.UnicodeCharMatcher;

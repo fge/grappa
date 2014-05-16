@@ -16,9 +16,9 @@
 
 package org.parboiled.parserunners;
 
-import com.github.parboiled1.grappa.cleanup.DoNotUse;
-import com.github.parboiled1.grappa.cleanup.Unused;
-import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+import com.github.parboiled1.grappa.annotations.DoNotUse;
+import com.github.parboiled1.grappa.annotations.Unused;
+import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 import com.github.parboiled1.grappa.misc.SinkAdapter;
 import com.github.parboiled1.grappa.misc.SystemOutCharSink;
 import com.google.common.base.Preconditions;

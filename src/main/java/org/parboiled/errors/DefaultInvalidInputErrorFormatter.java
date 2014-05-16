@@ -16,7 +16,7 @@
 
 package org.parboiled.errors;
 
-import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Joiner;
 import com.google.common.escape.Escaper;
 import org.parboiled.common.Formatter;

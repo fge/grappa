@@ -16,7 +16,7 @@
 
 package org.parboiled.errors;
 
-import com.github.parboiled1.grappa.cleanup.WillBePrivate;
+import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.support.Chars;
 import org.parboiled.support.Position;

@@ -71,7 +71,7 @@
 
 package org.parboiled.common;
 
-import com.github.parboiled1.grappa.cleanup.Unused;
+import com.github.parboiled1.grappa.annotations.Unused;
 import com.google.common.io.BaseEncoding;
 
 import java.util.Arrays;

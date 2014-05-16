@@ -16,7 +16,7 @@
 
 package org.parboiled.errors;
 
-import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 
 /**
  * Exception type not directly used by parboiled but included as a convenience base class for custom exceptions

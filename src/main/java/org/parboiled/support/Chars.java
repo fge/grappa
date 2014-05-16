@@ -16,7 +16,7 @@
 
 package org.parboiled.support;
 
-import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
 import org.parboiled.buffers.IndentDedentInputBuffer;

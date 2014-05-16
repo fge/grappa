@@ -16,8 +16,8 @@
 
 package com.github.parboiled1.grappa.transform.asm;
 
-import com.github.parboiled1.grappa.cleanup.DoNotUse;
-import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+import com.github.parboiled1.grappa.annotations.DoNotUse;
+import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;

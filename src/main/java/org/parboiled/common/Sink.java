@@ -16,7 +16,7 @@
 
 package org.parboiled.common;
 
-import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 import com.google.common.hash.PrimitiveSink;
 import com.google.common.io.ByteSink;
 import com.google.common.io.CharSink;

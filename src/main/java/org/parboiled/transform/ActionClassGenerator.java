@@ -16,7 +16,7 @@
 
 package org.parboiled.transform;
 
-import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.transform.asm.MethodDescriptor;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.ClassWriter;

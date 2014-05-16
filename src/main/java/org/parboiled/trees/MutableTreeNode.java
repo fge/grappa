@@ -16,8 +16,8 @@
 
 package org.parboiled.trees;
 
-import com.github.parboiled1.grappa.cleanup.Unused;
-import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+import com.github.parboiled1.grappa.annotations.Unused;
+import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 
 /**
  * A {@link TreeNode} specialiation that allow for mutability of the tree

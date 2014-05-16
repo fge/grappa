@@ -16,9 +16,9 @@
 
 package org.parboiled.common;
 
-import com.github.parboiled1.grappa.cleanup.DoNotUse;
-import com.github.parboiled1.grappa.cleanup.WillBeFinal;
-import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+import com.github.parboiled1.grappa.annotations.DoNotUse;
+import com.github.parboiled1.grappa.annotations.WillBeFinal;
+import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 
 import javax.annotation.Nullable;
 

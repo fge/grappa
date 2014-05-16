@@ -16,8 +16,8 @@
 
 package org.parboiled.matchers;
 
-import com.github.parboiled1.grappa.cleanup.WillBeFinal;
-import com.github.parboiled1.grappa.cleanup.WillBeProtected;
+import com.github.parboiled1.grappa.annotations.WillBeFinal;
+import com.github.parboiled1.grappa.annotations.WillBeProtected;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;

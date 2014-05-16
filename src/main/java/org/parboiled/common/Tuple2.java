@@ -16,7 +16,7 @@
 
 package org.parboiled.common;
 
-import com.github.parboiled1.grappa.cleanup.WillBePrivate;
+import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import com.google.common.base.Objects;
 
 import javax.annotation.Nullable;

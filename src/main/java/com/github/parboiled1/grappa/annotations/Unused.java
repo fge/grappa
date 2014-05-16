@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.parboiled1.grappa.cleanup;
+package com.github.parboiled1.grappa.annotations;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

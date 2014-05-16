@@ -16,7 +16,7 @@
 
 package com.github.parboiled1.grappa.misc;
 
-import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
 import org.parboiled.annotations.ForBackwardsCompatibilityOnly;

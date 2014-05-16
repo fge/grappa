@@ -16,8 +16,8 @@
 
 package org.parboiled.trees;
 
-import com.github.parboiled1.grappa.cleanup.DoNotUse;
-import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+import com.github.parboiled1.grappa.annotations.DoNotUse;
+import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 
 /**
  * A {@link MutableTreeNode} specialization also satisfying the {@link BinaryTreeNode} interface

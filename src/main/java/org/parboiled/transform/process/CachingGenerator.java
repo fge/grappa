@@ -22,9 +22,9 @@
 
 package org.parboiled.transform.process;
 
-import com.github.parboiled1.grappa.cleanup.DoNotUse;
-import com.github.parboiled1.grappa.cleanup.WillBeFinal;
-import com.github.parboiled1.grappa.cleanup.WillBePrivate;
+import com.github.parboiled1.grappa.annotations.DoNotUse;
+import com.github.parboiled1.grappa.annotations.WillBeFinal;
+import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import com.github.parboiled1.grappa.transform.asm.ClassHelper;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.Type;

@@ -16,7 +16,7 @@
 
 package org.parboiled.common;
 
-import com.github.parboiled1.grappa.cleanup.WillBeFinal;
+import com.github.parboiled1.grappa.annotations.WillBeFinal;
 
 @WillBeFinal(version = "1.1.0")
 public class IntArrayStack

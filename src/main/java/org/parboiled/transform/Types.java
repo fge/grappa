@@ -16,8 +16,8 @@
 
 package org.parboiled.transform;
 
-import com.github.parboiled1.grappa.cleanup.DoNotUse;
-import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+import com.github.parboiled1.grappa.annotations.DoNotUse;
+import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 import com.github.parboiled1.grappa.transform.method.ParserAnnotation;
 import org.objectweb.asm.Type;
 import org.parboiled.Action;

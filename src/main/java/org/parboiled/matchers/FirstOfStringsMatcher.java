@@ -16,8 +16,8 @@
 
 package org.parboiled.matchers;
 
-import com.github.parboiled1.grappa.cleanup.WillBeFinal;
-import com.github.parboiled1.grappa.cleanup.WillBePrivate;
+import com.github.parboiled1.grappa.annotations.WillBeFinal;
+import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;

@@ -15,8 +15,8 @@
  */
 package org.parboiled.support;
 
-import com.github.parboiled1.grappa.cleanup.WillBeFinal;
-import com.github.parboiled1.grappa.cleanup.WillBePrivate;
+import com.github.parboiled1.grappa.annotations.WillBeFinal;
+import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import org.parboiled.matchers.Matcher;
 
 @WillBeFinal(version = "1.1")

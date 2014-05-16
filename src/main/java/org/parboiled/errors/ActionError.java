@@ -16,8 +16,8 @@
 
 package org.parboiled.errors;
 
-import com.github.parboiled1.grappa.cleanup.DoNotUse;
-import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+import com.github.parboiled1.grappa.annotations.DoNotUse;
+import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 import com.google.common.base.Preconditions;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.support.MatcherPath;

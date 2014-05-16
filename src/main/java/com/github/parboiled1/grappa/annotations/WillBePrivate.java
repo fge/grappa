@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.parboiled1.grappa.cleanup;
+package com.github.parboiled1.grappa.annotations;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -24,8 +24,9 @@ import java.lang.annotation.Target;
 
 @Documented
 @Retention(RetentionPolicy.SOURCE)
-@Target({ ElementType.CONSTRUCTOR, ElementType.FIELD })
-public @interface WillBeProtected
+@Target({ ElementType.METHOD,  ElementType.FIELD, ElementType.TYPE,
+    ElementType.CONSTRUCTOR})
+public @interface WillBePrivate
 {
     String version();
 }

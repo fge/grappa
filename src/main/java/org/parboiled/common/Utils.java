@@ -16,8 +16,8 @@
 
 package org.parboiled.common;
 
-import com.github.parboiled1.grappa.cleanup.Unused;
-import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+import com.github.parboiled1.grappa.annotations.Unused;
+import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;

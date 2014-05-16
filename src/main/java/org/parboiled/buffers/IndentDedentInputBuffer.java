@@ -16,7 +16,7 @@
 
 package org.parboiled.buffers;
 
-import com.github.parboiled1.grappa.cleanup.WillBeRemoved;
+import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 import com.google.common.base.Preconditions;
 import org.parboiled.common.IntArrayStack;
 import org.parboiled.errors.IllegalIndentationException;
