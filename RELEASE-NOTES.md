@@ -1,3 +1,11 @@
+### 1.0.0-beta.8 (not released yet)
+
+* Event-based parser: now possible to register listeners to consume parser productions.
+* Use pitest 0.34-SNAPSHOT: cures the bug with disparaging sources when two classes have the same
+  name but are in different packages.
+* Downgrade to gradle 1.11: 1.12 does not play well with IDEA...
+* Add -Xlint:unchecked to compile options.
+
 ### 1.0.0-beta.7
 
 * Fix bug with console output reporting in RecoveringParseRunner; clarify .getLog() deprecation (see
