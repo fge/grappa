@@ -12,9 +12,6 @@ buildscript {
     repositories {
         maven { url "http://repo.spring.io/plugins-release" };
         mavenCentral();
-        maven {
-            url "http://oss.sonatype.org/content/repositories/snapshots/"
-        };
     }
     dependencies {
         classpath(group: "org.springframework.build.gradle", 
