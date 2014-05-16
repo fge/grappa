@@ -401,7 +401,7 @@ public abstract class BaseParser<V>
     // TODO: potentially a slew of strings in a trie; so maybe it's not a good
     // idea to cache here
     @Cached
-    Rule trie(@Nonnull final Collection<String> strings)
+    public Rule trie(@Nonnull final Collection<String> strings)
     {
         final List<String> list = ImmutableList.copyOf(strings);
 
@@ -427,7 +427,7 @@ public abstract class BaseParser<V>
      * @see TrieMatcher
      * @see TrieNode
      */
-    Rule trie(@Nonnull final String first, @Nonnull final String second,
+    public Rule trie(@Nonnull final String first, @Nonnull final String second,
         @Nonnull final String... others)
     {
         final List<String> words = ImmutableList.<String>builder().add(first)
