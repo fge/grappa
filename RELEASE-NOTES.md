@@ -1,4 +1,8 @@
-### 1.0.0-beta.8 (not released yet)
+### 1.0.0-beta.9
+
+* BaseParser: make trie() public...
+
+### 1.0.0-beta.8
 
 * Event-based parser: now possible to register listeners to consume parser productions.
 * Use pitest 0.34-SNAPSHOT: cures the bug with disparaging sources when two classes have the same
