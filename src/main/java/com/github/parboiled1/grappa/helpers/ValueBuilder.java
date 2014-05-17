@@ -34,7 +34,7 @@ import javax.annotation.Nonnull;
  *
  * @param <T> type of the value produced
  *
- * @see EventBusParser#buildEvent(ValueBuilder)
+ * @see EventBusParser#post(ValueBuilder)
  */
 @Experimental
 public interface ValueBuilder<T>

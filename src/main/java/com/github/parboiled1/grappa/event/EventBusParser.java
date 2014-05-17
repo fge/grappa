@@ -17,25 +17,71 @@
 package com.github.parboiled1.grappa.event;
 
 import com.github.parboiled1.grappa.annotations.Experimental;
-import com.github.parboiled1.grappa.exceptions.GrappaException;
 import com.github.parboiled1.grappa.helpers.ValueBuilder;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Maps;
 import com.google.common.eventbus.EventBus;
-import org.parboiled.Action;
+import com.google.common.eventbus.Subscribe;
 import org.parboiled.BaseParser;
-import org.parboiled.Context;
-import org.parboiled.matchers.ActionMatcher;
+import org.parboiled.support.Var;
 
 import javax.annotation.Nonnull;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Map;
 
 /**
  * A basic parser with an attached {@link EventBus}
  *
- * <p><strong>TODO: redocument</strong></p>
+ * <p>This parser allows you to post either {@link Var}s or {@link
+ * ValueBuilder}s on the bus; methods of your custom classes having {@link
+ * Subscribe}d to receive the correct values will then be invoked by the bus
+ * with the given arguments:</p>
+ *
+ * <ul>
+ *     <li>the result of {@link Var#get()} for vars;</li>
+ *     <li>the result of {@link ValueBuilder#build()} for value builders.</li>
+ * </ul>
+ *
+ * <p>A subscribing method must be {@code public} and accept only one argument,
+ * the type of which is the value type posted by the event <em>or any
+ * subtype</em> (this means, for instance, that a subscribing method accepting a
+ * {@link Number} as an argument will also receive {@link Integer}s or {@link
+ * Double}s).</p>
+ *
+ * <p>A simple example class would be:</p>
+ *
+ * <pre>
+ *     public final class MyClass
+ *     {
+ *         private String myString;
+ *
+ *         &#64;Subscribe
+ *         public void setMyString(@Nonnull final String s)
+ *         {
+ *             myString = s;
+ *         }
+ *     }
+ * </pre>
+ *
+ * <p>You would then register an instance of that class with your parser (using
+ * {@link #register(Object)}) and would write rules like the following:</p>
+ *
+ * <pre>
+ *     protected final Var&lt;String&gt; var = new Var&lt;String&gt;
+ *     protected final ValueBuilder&lt;String&gt; builder
+ *         = new ValueBuilder&lt;String&gt;
+ *
+ *     Rule usingVar()
+ *     {
+ *         return sequence(oneOrMore('a'), var.set(match()), post(var));
+ *     }
+ *
+ *     Rule usingBuilder()
+ *     {
+ *         return sequence(oneOrMore('a'), builder.set(match()),
+ *             post(builder));
+ *     }
+ * </pre>
+ *
+ * <p>Note that if using a var, the value <strong>must not</strong> be null.
+ * </p>
  *
  * @param <V> the result type of the parser
  *
@@ -46,43 +92,6 @@ public abstract class EventBusParser<V>
     extends BaseParser<V>
 {
     protected final EventBus bus = new EventBus();
-    private final Map<String, Constructor<?>> eventMap = Maps.newHashMap();
-
-    /**
-     * Associate an event class to a given name
-     *
-     * <p>Note that at this moment, if you register an event twice with the
-     * same name, the previous event class is overriden without notice.</p>
-     *
-     * <p>Note also that grappa makes no effort to modify the visibility of
-     * constructors, nor does it check it; it is therefore your responsibility
-     * to ensure that both the class and constructor have sufficient "access
-     * privileges".</p>
-     *
-     * @param eventName the name to associate this event to
-     * @param eventClass the event class
-     * @throws GrappaException no suitable constructor found
-     *
-     * @see BasicMatchEvent
-     * @see #fireEvent(String)
-     *
-     * @deprecated use {@link #buildEvent(ValueBuilder)} instead
-     */
-    @Deprecated
-    protected final void addEvent(@Nonnull final String eventName,
-        @Nonnull final Class<?> eventClass)
-    {
-        Preconditions.checkNotNull(eventName);
-        Preconditions.checkNotNull(eventClass);
-        final Constructor<?> constructor;
-        try {
-            constructor = eventClass.getConstructor(Context.class);
-            eventMap.put(eventName, constructor);
-        } catch (NoSuchMethodException e) {
-            throw new GrappaException("cannot find constructor for event class",
-                e);
-        }
-    }
 
     /**
      * Register a listener to the event bus
@@ -91,51 +100,13 @@ public abstract class EventBusParser<V>
      *
      * @see EventBus#register(Object)
      */
-    public final void addListener(@Nonnull final Object listener)
+    public final void register(@Nonnull final Object listener)
     {
         bus.register(Preconditions.checkNotNull(listener));
     }
 
     /**
-     * Fire an event by name
-     *
-     * <p>See the class description for more details.</p>
-     *
-     * @param eventName the name of the event
-     * @return always true
-     *
-     * @see ActionMatcher
-     * @see Action
-     *
-     * @deprecated use {@link #buildEvent(ValueBuilder)} instead
-     */
-    @Deprecated
-    public final boolean fireEvent(@Nonnull final String eventName)
-    {
-        Preconditions.checkNotNull(eventName);
-
-        final Constructor<?> constructor = eventMap.get(eventName);
-        if (constructor == null)
-            throw new GrappaException("no event class for name " + eventName);
-
-        final Object event;
-        try {
-            event = constructor.newInstance(getContext());
-        } catch (InstantiationException e) {
-            throw new GrappaException("cannot instantiate event class", e);
-        } catch (IllegalAccessException e) {
-            throw new GrappaException("cannot instantiate event class", e);
-        } catch (InvocationTargetException e) {
-            throw new GrappaException("cannot instantiate event class", e);
-        }
-
-        bus.post(event);
-        return true;
-    }
-
-    /**
-     * Send an event on the bus which is the result of the value builder's
-     * production
+     * Post a value on the bus from a {@link ValueBuilder}
      *
      * <p>This method will {@link ValueBuilder#build() build} the value and
      * {@link EventBus#post(Object) post} the built value on the bus.</p>
@@ -148,12 +119,55 @@ public abstract class EventBusParser<V>
      * @param <T> the value type produced by the builder
      * @return always {@code true}
      */
-    public final  <T> boolean buildEvent(@Nonnull final ValueBuilder<T> builder)
+    public final <T> boolean post(@Nonnull final ValueBuilder<T> builder)
     {
         Preconditions.checkNotNull(builder);
 
         final T event = builder.build();
         bus.post(event);
+        return true;
+    }
+
+    /**
+     * Post a value on the bus from a {@link Var}
+     *
+     * <p>This method will {@link Var#get() get} the value of the associated
+     * var and {@link EventBus#post(Object) post} it on the bus.</p>
+     *
+     * <p>Notes:</p>
+     *
+     * <ul>
+     *     <li>the value <strong>must not be null</strong>;</li>
+     *     <li>this method will not affect the var in any way (ie, it will leave
+     *     the existing value intact etc).</li>
+     * </ul>
+     *
+     * @param var the var to use
+     * @param <T> value type of the var
+     * @return always true
+     */
+    public final <T> boolean post(@Nonnull final Var<T> var)
+    {
+        Preconditions.checkNotNull(var);
+        @SuppressWarnings("ConstantConditions")
+        final T value = Preconditions.checkNotNull(var.get());
+        bus.post(value);
+        return true;
+    }
+
+    /**
+     * "Raw" post to the bus
+     *
+     * <p>Use this method if you want to post any other object than a value
+     * wrapped in a {@code Var} or {@code ValueBuilder}.</p>
+     *
+     * @param object the object (must not be null)
+     * @return always true
+     */
+    public final boolean postRaw(@Nonnull final Object object)
+    {
+        Preconditions.checkNotNull(object);
+        bus.post(object);
         return true;
     }
 }
