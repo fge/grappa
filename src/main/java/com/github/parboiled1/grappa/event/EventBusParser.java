@@ -29,14 +29,15 @@ import javax.annotation.Nonnull;
 /**
  * A basic parser with an attached {@link EventBus}
  *
- * <p>This parser allows you to post either {@link Var}s or {@link
- * ValueBuilder}s on the bus; methods of your custom classes having {@link
- * Subscribe}d to receive the correct values will then be invoked by the bus
- * with the given arguments:</p>
+ * <p>This parser allows you to post {@link Var}s, {@link ValueBuilder}s or even
+ * raw, arbitrary objects on the bus; methods of your custom classes having
+ * {@link Subscribe}d to receive the correct values will then be invoked by the
+ * bus with the posted arguments:</p>
  *
  * <ul>
  *     <li>the result of {@link Var#get()} for vars;</li>
- *     <li>the result of {@link ValueBuilder#build()} for value builders.</li>
+ *     <li>the result of {@link ValueBuilder#build()} for value builders;</li>
+ *     <li>the object itself otherwise.</li>
  * </ul>
  *
  * <p>A subscribing method must be {@code public} and accept only one argument,
@@ -64,6 +65,7 @@ import javax.annotation.Nonnull;
  * {@link #register(Object)}) and would write rules like the following:</p>
  *
  * <pre>
+ *     // Variables used in rules cannot be private!
  *     protected final Var&lt;String&gt; var = new Var&lt;String&gt;
  *     protected final ValueBuilder&lt;String&gt; builder
  *         = new ValueBuilder&lt;String&gt;
@@ -75,13 +77,12 @@ import javax.annotation.Nonnull;
  *
  *     Rule usingBuilder()
  *     {
- *         return sequence(oneOrMore('a'), builder.set(match()),
- *             post(builder));
+ *         return sequence(oneOrMore('a'), builder.set(match()), post(builder));
  *     }
  * </pre>
  *
- * <p>Note that if using a var, the value <strong>must not</strong> be null.
- * </p>
+ * <p>Note that null values are not accepted, so this means {@link Var#get()}
+ * must not return null.</p>
  *
  * @param <V> the result type of the parser
  *
