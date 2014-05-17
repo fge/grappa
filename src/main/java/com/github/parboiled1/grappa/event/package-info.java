@@ -28,33 +28,5 @@
  * href="https://github.com/parboiled1/grappa-support" target="_blank">support
  * project</a> proved otherwise: Guava's {@code EventBus} is three times as
  * fast for the needs of this package. And speed matters here :)</p>
- *
- * <p>The basic architecture is simple: you create event classes accepting a
- * {@link org.parboiled.Context} as an argument, extract what you want from the
- * context, and fire events with a name associated to your event class; the bus
- * will then dispatch this event class to all callers accepting this event class
- * as an argument.</p>
- *
- * <p>This allows to reuse existing classes by the means of composition, which
- * is much easier than creating the bean in the parser and retrieving it
- * afterwards. For instance you can do this:</p>
- *
- * <pre>
- *     public class MyBeanListener
- *     {
- *         private final MyBean bean = new MyBean();
- *
- *         &#64;Subscribe
- *         public void setValue(final MyEventClass event)
- *         {
- *             bean.setMyValue(event.getValue());
- *         }
- *     }
- * </pre>
- *
- * <p>You then register the event class by name to the parser, register the
- * listener, and fire the event by name when appropriate.</p>
- *
- * <p>See the documentation of individual classes for more details.</p>
  */
 package com.github.parboiled1.grappa.event;

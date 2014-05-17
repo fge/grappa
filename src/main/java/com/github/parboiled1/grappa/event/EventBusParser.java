@@ -20,7 +20,6 @@ import com.github.parboiled1.grappa.annotations.Experimental;
 import com.github.parboiled1.grappa.helpers.ValueBuilder;
 import com.google.common.base.Preconditions;
 import com.google.common.eventbus.EventBus;
-import com.google.common.eventbus.Subscribe;
 import org.parboiled.BaseParser;
 import org.parboiled.support.Var;
 
@@ -29,60 +28,61 @@ import javax.annotation.Nonnull;
 /**
  * A basic parser with an attached {@link EventBus}
  *
- * <p>This parser allows you to post {@link Var}s, {@link ValueBuilder}s or even
- * raw, arbitrary objects on the bus; methods of your custom classes having
- * {@link Subscribe}d to receive the correct values will then be invoked by the
- * bus with the posted arguments:</p>
+ * <p>Basic usage of this parser is as follows:</p>
  *
  * <ul>
- *     <li>the result of {@link Var#get()} for vars;</li>
- *     <li>the result of {@link ValueBuilder#build()} for value builders;</li>
- *     <li>the object itself otherwise.</li>
+ *     <li>you create classes with listening methods (see below);</li>
+ *     <li>you register these classes to the parser's bus;</li>
+ *     <li>you post objects on the bus from your parser rules.</li>
  * </ul>
  *
- * <p>A subscribing method must be {@code public} and accept only one argument,
- * the type of which is the value type posted by the event <em>or any
- * subtype</em> (this means, for instance, that a subscribing method accepting a
- * {@link Number} as an argument will also receive {@link Integer}s or {@link
- * Double}s).</p>
+ * <p>A "listening method" is a method which obeys the following conditions:</p>
  *
- * <p>A simple example class would be:</p>
+ * <ul>
+ *     <li>it is {@code public};</li>
+ *     <li>it accepts a single argument, which is the type of the posted event.
+ *     </li>
+ * </ul>
+ *
+ * <p>Note that the return values of this method can be anything; generally,
+ * though, such methods return {@code void}. Also note that these methods will
+ * not only receive objects of the exact type they have subscribed to, but any
+ * subtype as well; a method accepting a {@link Number}, for instance, will also
+ * receive {@link Integer}s and {@link Double}s.</p>
+ *
+ * <p>An example class would be:</p>
  *
  * <pre>
- *     public final class MyClass
+ *     public class MyListener
  *     {
- *         private String myString;
+ *         private String value;
  *
  *         &#64;Subscribe
- *         public void setMyString(@Nonnull final String s)
+ *         public void setValue(final String value)
  *         {
- *             myString = s;
+ *             this.value = value;
  *         }
  *     }
  * </pre>
  *
- * <p>You would then register an instance of that class with your parser (using
- * {@link #register(Object)}) and would write rules like the following:</p>
+ * <p>In your parser you could then do:</p>
  *
  * <pre>
- *     // Variables used in rules cannot be private!
- *     protected final Var&lt;String&gt; var = new Var&lt;String&gt;
- *     protected final ValueBuilder&lt;String&gt; builder
- *         = new ValueBuilder&lt;String&gt;
- *
- *     Rule usingVar()
+ *     Rule myRule()
  *     {
- *         return sequence(oneOrMore('a'), var.set(match()), post(var));
- *     }
- *
- *     Rule usingBuilder()
- *     {
- *         return sequence(oneOrMore('a'), builder.set(match()), post(builder));
+ *         return sequence(oneOrMore('a'), postRaw(match()));
  *     }
  * </pre>
  *
- * <p>Note that null values are not accepted, so this means {@link Var#get()}
- * must not return null.</p>
+ * <p>The parser class also has two other methods to post events: one taking a
+ * {@link ValueBuilder} as an argument and another taking a {@link Var} as an
+ * argument. These methods will extract the values from both of these classes
+ * and feed it to the event bus.</p>
+ *
+ * <p>For more details on how the bus work, see the {@link EventBus
+ * documentation for this class}, along with <a
+ * href="https://code.google.com/p/guava-libraries/wiki/EventBusExplained"
+ * target="_blank">Guava's user guide article</a>.</p>
  *
  * @param <V> the result type of the parser
  *
@@ -110,7 +110,7 @@ public abstract class EventBusParser<V>
      * Post a value on the bus from a {@link ValueBuilder}
      *
      * <p>This method will {@link ValueBuilder#build() build} the value and
-     * {@link EventBus#post(Object) post} the built value on the bus.</p>
+     * post the result on the bus.</p>
      *
      * <p>Note that it <strong>will not</strong> reset the builder, that is, it
      * will not call {@link ValueBuilder#reset()} after it has built the value;
@@ -133,7 +133,7 @@ public abstract class EventBusParser<V>
      * Post a value on the bus from a {@link Var}
      *
      * <p>This method will {@link Var#get() get} the value of the associated
-     * var and {@link EventBus#post(Object) post} it on the bus.</p>
+     * var and post it on the bus.</p>
      *
      * <p>Notes:</p>
      *
