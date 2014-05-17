@@ -110,7 +110,7 @@ public abstract class EventBusParser<V>
      * @deprecated use {@link #buildEvent(ValueBuilder)} instead
      */
     @Deprecated
-    protected boolean fireEvent(@Nonnull final String eventName)
+    public final boolean fireEvent(@Nonnull final String eventName)
     {
         Preconditions.checkNotNull(eventName);
 
@@ -148,7 +148,7 @@ public abstract class EventBusParser<V>
      * @param <T> the value type produced by the builder
      * @return always {@code true}
      */
-    protected <T> boolean buildEvent(@Nonnull final ValueBuilder<T> builder)
+    public final  <T> boolean buildEvent(@Nonnull final ValueBuilder<T> builder)
     {
         Preconditions.checkNotNull(builder);
 
