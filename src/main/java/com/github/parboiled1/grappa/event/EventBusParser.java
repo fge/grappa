@@ -114,7 +114,7 @@ import java.util.Map;
 public abstract class EventBusParser<V>
     extends BaseParser<V>
 {
-    private final EventBus bus = new EventBus();
+    protected final EventBus bus = new EventBus();
     private final Map<String, Constructor<?>> eventMap = Maps.newHashMap();
 
     /**
