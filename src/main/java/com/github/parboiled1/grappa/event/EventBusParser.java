@@ -18,10 +18,10 @@ package com.github.parboiled1.grappa.event;
 
 import com.github.parboiled1.grappa.annotations.Experimental;
 import com.github.parboiled1.grappa.exceptions.GrappaException;
+import com.github.parboiled1.grappa.helpers.ValueBuilder;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import com.google.common.eventbus.EventBus;
-import com.google.common.eventbus.Subscribe;
 import org.parboiled.Action;
 import org.parboiled.BaseParser;
 import org.parboiled.Context;
@@ -35,80 +35,11 @@ import java.util.Map;
 /**
  * A basic parser with an attached {@link EventBus}
  *
- * <p>This parser allows you to register events and listeners.</p>
- *
- * <p>Events are registered by a unique name (which must not be null), using
- * the {@link #addEvent(String, Class)} method; the class passed as an argument
- * <strong>must</strong> have a constructor accepting a {@link Context} as an
- * argument; grappa provides one such class, {@link BasicMatchEvent}, which
- * grabs the match of the current context (see {@link Context#getMatch()}).</p>
- *
- * <p>Note that the {@code addEvent()} method is both {@code protected} and
- * {@code final}; the recommended use is to add events in the constructor; for
- * instance:</p>
- *
- * <pre>
- *     public class MyParser
- *         extends EventBusParser&lt;Object&gt;
- *     {
- *         MyParser()
- *         {
- *             addEvent("basicEvent", BasicMatchEvent.class);
- *             addEvent("myEvent", MyEvent.class);
- *         }
- *     }
- * </pre>
- *
- * <p>Listeners are classes of yours; methods which will listen on events need
- * to be annotated with {@link Subscribe}; they must also be {@code public} and
- * accept only one argument, which is the event class. For instance:</p>
- *
- * <pre>
- *     public final class MyListener
- *     {
- *         private String match;
- *
- *         &#64;Subscribe
- *         public void receiveMatch(final BasicMatchEvent event)
- *         {
- *             match = event.getMatch();
- *         }
- *     }
- * </pre>
- *
- * <p>You then register instances of your listeners on your generated parser
- * using the {@link #addListener(Object)} method:</p>
- *
- * <pre>
- *     final MyParser parser = Parboiled.createParser(MyParser.class);
- *     final MyListener listener = new MyListener();
- *     parser.addListener(listener);
- * </pre>
- *
- * <p>In order to get events to be published in the parsing process, you will
- * use the {@link #fireEvent(String)} method; the argument to this method must
- * be a name you have registered using {@link #addEvent(String, Class)
- * addEvent()}. Given the above, you will therefore write, for instance:</p>
- *
- * <pre>
- *     Rule wantToCaptureThat()
- *     {
- *         return sequence(string("Capture me!"), fireEvent("basicEvent"));
- *     }
- * </pre>
- *
- * <p>This will cause the parser to create a new instance of the class
- * associated with this name with the current parser context as a constructor
- * argument, which it will then publish via the event bus.</p>
- *
- * <p>Note that you are not limited to one subscriber per event class. For the
- * full details of how, and when, events are dispatched, see the {@link EventBus
- * javadoc for {@code EventBus}}.</p>
+ * <p><strong>TODO: redocument</strong></p>
  *
  * @param <V> the result type of the parser
  *
- * @see EventBus
- * @see BasicMatchEvent
+ * @see ValueBuilder
  */
 @Experimental
 public abstract class EventBusParser<V>
@@ -134,7 +65,10 @@ public abstract class EventBusParser<V>
      *
      * @see BasicMatchEvent
      * @see #fireEvent(String)
+     *
+     * @deprecated use {@link #buildEvent(ValueBuilder)} instead
      */
+    @Deprecated
     protected final void addEvent(@Nonnull final String eventName,
         @Nonnull final Class<?> eventClass)
     {
@@ -172,8 +106,11 @@ public abstract class EventBusParser<V>
      *
      * @see ActionMatcher
      * @see Action
+     *
+     * @deprecated use {@link #buildEvent(ValueBuilder)} instead
      */
-    public boolean fireEvent(@Nonnull final String eventName)
+    @Deprecated
+    protected boolean fireEvent(@Nonnull final String eventName)
     {
         Preconditions.checkNotNull(eventName);
 
@@ -192,6 +129,30 @@ public abstract class EventBusParser<V>
             throw new GrappaException("cannot instantiate event class", e);
         }
 
+        bus.post(event);
+        return true;
+    }
+
+    /**
+     * Send an event on the bus which is the result of the value builder's
+     * production
+     *
+     * <p>This method will {@link ValueBuilder#build() build} the value and
+     * {@link EventBus#post(Object) post} the built value on the bus.</p>
+     *
+     * <p>Note that it <strong>will not</strong> reset the builder, that is, it
+     * will not call {@link ValueBuilder#reset()} after it has built the value;
+     * resetting the value if necessary is the responsibility of the caller.</p>
+     *
+     * @param builder the value builder
+     * @param <T> the value type produced by the builder
+     * @return always {@code true}
+     */
+    protected <T> boolean buildEvent(@Nonnull final ValueBuilder<T> builder)
+    {
+        Preconditions.checkNotNull(builder);
+
+        final T event = builder.build();
         bus.post(event);
         return true;
     }

@@ -17,6 +17,7 @@
 package com.github.parboiled1.grappa.event;
 
 import com.github.parboiled1.grappa.annotations.Experimental;
+import com.github.parboiled1.grappa.helpers.ValueBuilder;
 import org.parboiled.Context;
 
 /**
@@ -38,7 +39,11 @@ import org.parboiled.Context;
  * (via {@link Context#getMatch()}.</p>
  *
  * @param <V> type of the parser production
+ *
+ * @deprecated use a {@link ValueBuilder} and {@link
+ * EventBusParser#buildEvent(ValueBuilder)} instead
  */
+@Deprecated
 @Experimental
 public class BasicMatchEvent<V>
 {
