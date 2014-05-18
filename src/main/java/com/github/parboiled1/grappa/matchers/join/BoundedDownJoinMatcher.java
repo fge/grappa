@@ -78,7 +78,7 @@ public final class BoundedDownJoinMatcher
         beforeCycle = context.getCurrentIndex();
         if (!matchJoining(context, beforeCycle)) {
             context.setCurrentIndex(beforeCycle);
-            if (minCycles != 1)
+            if (minCycles > 1)
                 return false;
             context.createNode();
             return true;
