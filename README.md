@@ -17,9 +17,7 @@ dedicated Google groups: [grappa-users](http://groups.google.com/d/forum/grappa-
 [grappa-devel](http://groups.google.com/d/forum/grappa-devel). They are also available to post by
 email.
 
-The current version is **1.0.0-beta.9** (released May 16, 2014). **Grappa can now do [event-based
-parsing](http://parboiled1.github.io/grappa/api/com/github/parboiled1/grappa/event/package-summary.html)!**
-See below for more details.
+The current version is **1.0.0-beta.9** (released May 16, 2014).
 
 See also the [grappa-support project](https://github.com/parboiled1/grappa-support).
 
