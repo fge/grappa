@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.parboiled1.grappa.event;
+package com.github.parboiled1.grappa.parsers;
 
 import com.github.parboiled1.grappa.annotations.Experimental;
 import com.github.parboiled1.grappa.helpers.ValueBuilder;

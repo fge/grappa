@@ -18,7 +18,7 @@
  * Event-based parser
  *
  * <p>The base parser class ({@link
- * com.github.parboiled1.grappa.event.EventBusParser}) uses Guava's {@link
+ * com.github.parboiled1.grappa.parsers.EventBusParser}) uses Guava's {@link
  * com.google.common.eventbus.EventBus} to dispatch events.</p>
  *
  * <p>The choice of this class over other implementations is performance;
@@ -29,4 +29,4 @@
  * project</a> proved otherwise: Guava's {@code EventBus} is three times as
  * fast for the needs of this package. And speed matters here :)</p>
  */
-package com.github.parboiled1.grappa.event;
+package com.github.parboiled1.grappa.parsers;

@@ -17,7 +17,7 @@
 package com.github.parboiled1.grappa.helpers;
 
 import com.github.parboiled1.grappa.annotations.Experimental;
-import com.github.parboiled1.grappa.event.EventBusParser;
+import com.github.parboiled1.grappa.parsers.EventBusParser;
 
 import javax.annotation.Nonnull;
 
