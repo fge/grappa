@@ -16,11 +16,6 @@
 
 package org.parboiled.support;
 
-import com.google.common.base.Supplier;
-import com.google.common.base.Suppliers;
-
-import javax.annotation.Nonnull;
-
 /**
  * Simple specialization of a {@link Var} for StringBuilders.
  * Provides a few convenience helper methods.
@@ -34,14 +29,6 @@ public class StringBuilderVar
      */
     public StringBuilderVar()
     {
-        super(new Supplier<StringBuilder>()
-        {
-            @Override
-            public StringBuilder get()
-            {
-                return new StringBuilder();
-            }
-        });
     }
 
     /**
@@ -51,7 +38,7 @@ public class StringBuilderVar
      */
     public StringBuilderVar(final StringBuilder value)
     {
-        super(Suppliers.ofInstance(value));
+        super(value);
     }
 
     /**
@@ -61,7 +48,7 @@ public class StringBuilderVar
      */
     public boolean isEmpty()
     {
-        return get().length() == 0;
+        return get() == null || get().length() == 0;
     }
 
     /**
@@ -69,7 +56,7 @@ public class StringBuilderVar
      */
     public String getString()
     {
-        return get().toString();
+        return get() == null ? "" : get().toString();
     }
 
     /**
@@ -77,6 +64,8 @@ public class StringBuilderVar
      */
     public char[] getChars()
     {
+        if (get() == null)
+            return new char[0];
         final StringBuilder sb = get();
         final char[] buf = new char[sb.length()];
         sb.getChars(0, buf.length, buf, 0);
@@ -92,6 +81,8 @@ public class StringBuilderVar
      */
     public boolean append(final String text)
     {
+        if (get() == null)
+            return set(new StringBuilder(text));
         get().append(text);
         return true;
     }
@@ -118,6 +109,8 @@ public class StringBuilderVar
      */
     public boolean append(final char c)
     {
+        if (get() == null)
+            return set(new StringBuilder().append(c));
         get().append(c);
         return true;
     }
@@ -143,7 +136,8 @@ public class StringBuilderVar
      */
     public boolean clearContents()
     {
-        get().setLength(0);
+        if (get() != null)
+            get().setLength(0);
         return true;
     }
 
@@ -155,16 +149,9 @@ public class StringBuilderVar
      */
     public StringBuilderVar contentsCleared()
     {
-        get().setLength(0);
+        if (get() != null)
+            get().setLength(0);
         return this;
-    }
-
-    @Nonnull
-    @Override
-    public StringBuilder get()
-    {
-        final StringBuilder superValue = super.get();
-        return superValue == null ? new StringBuilder() : superValue;
     }
 }
 

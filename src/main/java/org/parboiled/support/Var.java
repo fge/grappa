@@ -44,7 +44,6 @@ import java.util.Deque;
  *
  * @param <T> the type wrapped by this Var
  */
-// TODO: remove; too complicated, not worth it
 public class Var<T>
     extends Reference<T>
 {
