@@ -61,7 +61,7 @@ dependencies {
 
 javadoc.options.links("http://docs.oracle.com/javase/6/docs/api/");
 javadoc.options.links("http://jsr-305.googlecode.com/svn/trunk/javadoc/");
-javadoc.options.links("http://asm.ow2.org/asm40/javadoc/user/");
+javadoc.options.links("http://asm.ow2.org/asm50/javadoc/user/");
 javadoc.options.links("http://docs.guava-libraries.googlecode.com/git-history/v17.0/javadoc/");
 
 compileJava {
