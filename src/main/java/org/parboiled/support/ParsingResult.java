@@ -211,6 +211,6 @@ public class ParsingResult<V>
     @Unused
     public boolean hasErrors()
     {
-        return !matched;
+        return hasCollectedParseErrors();
     }
 }
