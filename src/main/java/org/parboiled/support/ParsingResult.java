@@ -99,6 +99,6 @@ public class ParsingResult<V>
      */
     public boolean hasErrors()
     {
-        return !parseErrors.isEmpty();
+        return !matched;
     }
 }
