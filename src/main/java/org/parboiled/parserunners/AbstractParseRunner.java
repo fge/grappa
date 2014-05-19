@@ -16,6 +16,8 @@
 
 package org.parboiled.parserunners;
 
+import com.github.parboiled1.grappa.annotations.Dangerous;
+import com.github.parboiled1.grappa.annotations.DoNotUse;
 import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.annotations.WillBeProtected;
 import com.github.parboiled1.grappa.stack.DefaultValueStack;
@@ -61,10 +63,24 @@ public abstract class AbstractParseRunner<V>
     @WillBeFinal(version = "1.1")
     public ParseRunner<V> withParseErrors(final List<ParseError> parseErrors)
     {
+        /*
+         * TODO: figure out why the below is true... That really, really sucks
+         *
+         * The code below IS NOT equivalent to:
+         *
+         *     this.parseErrors.clear();
+         *     this.parseErrors.addAll(parseErrors);
+         *
+         * No idea why :/
+         *
+         */
         this.parseErrors = parseErrors;
         return this;
     }
 
+    @Dangerous
+    @DoNotUse
+    @Deprecated
     public List<ParseError> getParseErrors()
     {
         return parseErrors;
