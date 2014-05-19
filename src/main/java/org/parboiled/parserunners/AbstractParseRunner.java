@@ -20,6 +20,7 @@ import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.annotations.WillBeProtected;
 import com.github.parboiled1.grappa.stack.DefaultValueStack;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
@@ -32,7 +33,6 @@ import org.parboiled.support.ParsingResult;
 import org.parboiled.support.ValueStack;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractParseRunner<V>
@@ -68,7 +68,7 @@ public abstract class AbstractParseRunner<V>
     public List<ParseError> getParseErrors()
     {
         if (parseErrors == null)
-            withParseErrors(new ArrayList<ParseError>());
+            parseErrors = Lists.newArrayList();
         return parseErrors;
     }
 
