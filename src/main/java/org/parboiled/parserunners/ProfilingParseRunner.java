@@ -75,7 +75,7 @@ public class ProfilingParseRunner<V>
         {
             final RuleStats ruleStats = (RuleStats) matcher.getTag();
             int rematches = 0, remismatches = 0;
-            for (final Integer i : ruleStats.positionMatches.values()) {
+            for (final int i: ruleStats.positionMatches.values()) {
                 if (i > 0) {
                     rematches += i - 1;
                 } else if (i < 0) {
@@ -307,6 +307,7 @@ public class ProfilingParseRunner<V>
             this.ruleReports = ruleReports;
         }
 
+        @Unused
         public String print()
         {
             final StringBuilder sb = new StringBuilder();
