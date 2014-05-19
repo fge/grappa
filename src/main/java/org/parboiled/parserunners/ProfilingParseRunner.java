@@ -138,7 +138,7 @@ public class ProfilingParseRunner<V>
         final boolean matched = rootContext.runMatcher();
         totalNanoTime += System.nanoTime() - timeCorrection - timeStamp;
 
-        getRootMatcher().accept(new DoWithMatcherVisitor(updateStatsAction));
+        rootMatcher.accept(new DoWithMatcherVisitor(updateStatsAction));
         return createParsingResult(matched, rootContext);
     }
 

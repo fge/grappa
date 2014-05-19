@@ -91,25 +91,28 @@ public class ReportingParseRunner<V>
 
     protected ParsingResult<V> runBasicMatch(final InputBuffer inputBuffer)
     {
-        final ParseRunner<V> basicRunner = new BasicParseRunner<V>(
-            getRootMatcher()).withParseErrors(getParseErrors())
-            .withValueStack(getValueStack());
+        final ParseRunner<V> basicRunner
+            = new BasicParseRunner<V>(rootMatcher)
+            .withParseErrors(getParseErrors())
+            .withValueStack(valueStack);
         return basicRunner.run(inputBuffer);
     }
 
     protected ParsingResult<V> runLocatingMatch(final InputBuffer inputBuffer)
     {
-        final ParseRunner<V> locatingRunner = new ErrorLocatingParseRunner<V>(
-            getRootMatcher()).withValueStack(getValueStack());
+        final ParseRunner<V> locatingRunner
+            = new ErrorLocatingParseRunner<V>(rootMatcher)
+            .withValueStack(valueStack);
         return locatingRunner.run(inputBuffer);
     }
 
     protected ParsingResult<V> runReportingMatch(final InputBuffer inputBuffer,
         final int errorIndex)
     {
-        final ParseRunner<V> reportingRunner = new ErrorReportingParseRunner<V>(
-            getRootMatcher(), errorIndex).withParseErrors(getParseErrors())
-            .withValueStack(getValueStack());
+        final ParseRunner<V> reportingRunner
+            = new ErrorReportingParseRunner<V>(rootMatcher, errorIndex)
+            .withParseErrors(getParseErrors())
+            .withValueStack(valueStack);
         return reportingRunner.run(inputBuffer);
     }
 }

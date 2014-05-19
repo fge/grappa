@@ -96,7 +96,7 @@ public class RecoveringParseRunner<V>
     private InvalidInputError currentError;
     private MutableInputBuffer buffer;
     private ParsingResult<V> lastParsingResult;
-    private Matcher rootMatcherWithoutPTB;
+    private Matcher rootMatcherNoTreeBuild;
         // the root matcher with parse tree building disabled
 
     /**
@@ -150,13 +150,14 @@ public class RecoveringParseRunner<V>
 
         // first, run a basic match
         final ParseRunner<V> basicRunner = new BasicParseRunner<V>(
-            getRootMatcher()).withParseErrors(getParseErrors())
-            .withValueStack(getValueStack());
+            rootMatcher).withParseErrors(getParseErrors())
+            .withValueStack(valueStack);
         lastParsingResult = basicRunner.run(inputBuffer);
 
         if (!lastParsingResult.matched) {
             // for better performance disable parse tree building during the recovery runs
-            rootMatcherWithoutPTB = (Matcher) getRootMatcher().suppressNode();
+            rootMatcherNoTreeBuild = rootMatcher;
+            rootMatcherNoTreeBuild.suppressNode();
 
             // locate first error
             performLocatingRun(inputBuffer);
@@ -176,7 +177,7 @@ public class RecoveringParseRunner<V>
             }
 
             // rerun once more with parse tree building enabled to create a parse tree for the fixed input
-            if (!getRootMatcher().isNodeSuppressed()) {
+            if (!rootMatcher.isNodeSuppressed()) {
                 performFinalRun();
                 Preconditions.checkState(lastParsingResult.matched);
             }
@@ -188,8 +189,8 @@ public class RecoveringParseRunner<V>
     {
         resetValueStack();
         final ParseRunner<V> locatingRunner = new ErrorLocatingParseRunner<V>(
-            rootMatcherWithoutPTB, getInnerHandler())
-            .withParseErrors(getParseErrors()).withValueStack(getValueStack());
+            rootMatcherNoTreeBuild, getInnerHandler())
+            .withParseErrors(getParseErrors()).withValueStack(valueStack);
         lastParsingResult = locatingRunner.run(inputBuffer);
         errorIndex = lastParsingResult.matched ? -1
             : getParseErrors().remove(getParseErrors().size() - 1)
@@ -200,9 +201,10 @@ public class RecoveringParseRunner<V>
     private void performReportingRun()
     {
         resetValueStack();
-        final ParseRunner<V> reportingRunner = new ErrorReportingParseRunner<V>(
-            rootMatcherWithoutPTB, errorIndex, getInnerHandler())
-            .withParseErrors(getParseErrors()).withValueStack(getValueStack());
+        final ParseRunner<V> reportingRunner
+            = new ErrorReportingParseRunner<V>(rootMatcherNoTreeBuild,
+                errorIndex, getInnerHandler())
+            .withParseErrors(getParseErrors()).withValueStack(valueStack);
         final ParsingResult<V> result = reportingRunner.run(buffer);
         // we failed before so we should really be failing again
         Preconditions.checkState(result.hasErrors());
@@ -399,7 +401,7 @@ public class RecoveringParseRunner<V>
             // check for timeout only on failures of sequences so as to not add
             // too much overhead
             if (System.currentTimeMillis() - startTimeStamp > timeout)
-                throw new TimeoutException(getRootMatcher(), buffer,
+                throw new TimeoutException(rootMatcher, buffer,
                     lastParsingResult);
 
             return false;

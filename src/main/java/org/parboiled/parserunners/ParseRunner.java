@@ -16,6 +16,7 @@
 
 package org.parboiled.parserunners;
 
+import com.github.parboiled1.grappa.annotations.Dangerous;
 import com.github.parboiled1.grappa.annotations.DoNotUse;
 import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 import org.parboiled.buffers.InputBuffer;
@@ -53,6 +54,7 @@ public interface ParseRunner<V>
      * @param valueStack the ValueStack to use
      * @return this instance
      */
+    @Dangerous
     ParseRunner<V> withValueStack(ValueStack<V> valueStack);
 
     /**

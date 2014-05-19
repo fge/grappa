@@ -38,11 +38,11 @@ import java.util.List;
 public abstract class AbstractParseRunner<V>
     implements ParseRunner<V>
 {
-    private final Matcher rootMatcher;
+    protected final Matcher rootMatcher;
     // TODO: make final
     private List<ParseError> parseErrors;
-    private ValueStack<V> valueStack = new DefaultValueStack<V>();
-    private Object initialValueStackSnapshot;
+    protected ValueStack<V> valueStack = new DefaultValueStack<V>();
+    protected Object initialValueStackSnapshot;
 
     @WillBeProtected(version = "1.1")
     public AbstractParseRunner(@Nonnull final Rule rule)
