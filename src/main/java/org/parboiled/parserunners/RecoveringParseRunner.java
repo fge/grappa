@@ -152,7 +152,7 @@ public class RecoveringParseRunner<V>
         // FIXME: cannot replace .getParseErrors() here with parseErrors
         final ParseRunner<V> basicRunner
             = new BasicParseRunner<V>(rootMatcher)
-            .withParseErrors(getParseErrors())
+            .withParseErrors(parseErrors)
             .withValueStack(valueStack);
         lastParsingResult = basicRunner.run(inputBuffer);
 

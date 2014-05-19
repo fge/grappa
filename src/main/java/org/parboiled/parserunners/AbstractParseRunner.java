@@ -40,7 +40,7 @@ public abstract class AbstractParseRunner<V>
 {
     protected final Matcher rootMatcher;
     // TODO: make final
-    protected List<ParseError> parseErrors;
+    protected List<ParseError> parseErrors = Lists.newArrayList();
     protected ValueStack<V> valueStack = new DefaultValueStack<V>();
     protected Object initialValueStackSnapshot;
 
@@ -67,8 +67,6 @@ public abstract class AbstractParseRunner<V>
 
     public List<ParseError> getParseErrors()
     {
-        if (parseErrors == null)
-            parseErrors = Lists.newArrayList();
         return parseErrors;
     }
 
@@ -122,7 +120,7 @@ public abstract class AbstractParseRunner<V>
         final MatchHandler matchHandler, final boolean fastStringMatching)
     {
         return new MatcherContext<V>(inputBuffer, valueStack,
-            getParseErrors(), matchHandler, rootMatcher, fastStringMatching);
+            parseErrors, matchHandler, rootMatcher, fastStringMatching);
     }
 
     @WillBeFinal(version = "1.1")
