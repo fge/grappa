@@ -76,7 +76,7 @@ public class ErrorLocatingParseRunner<V>
             = createRootContext(inputBuffer, this, false);
         final boolean matched = match(rootContext);
         if (!matched)
-            getParseErrors()
+            parseErrors
                 .add(new BasicParseError(inputBuffer, errorIndex, null));
 
         return createParsingResult(matched, rootContext);

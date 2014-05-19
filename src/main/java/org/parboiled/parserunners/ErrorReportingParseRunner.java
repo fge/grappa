@@ -94,7 +94,7 @@ public class ErrorReportingParseRunner<V>
             this, false);
         final boolean matched = match(rootContext);
         if (!matched) {
-            getParseErrors().add(
+            parseErrors.add(
                 new InvalidInputError(inputBuffer, errorIndex, failedMatchers,
                     null));
         }

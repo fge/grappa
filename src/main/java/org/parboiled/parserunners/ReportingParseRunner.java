@@ -93,7 +93,7 @@ public class ReportingParseRunner<V>
     {
         final ParseRunner<V> basicRunner
             = new BasicParseRunner<V>(rootMatcher)
-            .withParseErrors(getParseErrors())
+            .withParseErrors(parseErrors)
             .withValueStack(valueStack);
         return basicRunner.run(inputBuffer);
     }
@@ -111,7 +111,7 @@ public class ReportingParseRunner<V>
     {
         final ParseRunner<V> reportingRunner
             = new ErrorReportingParseRunner<V>(rootMatcher, errorIndex)
-            .withParseErrors(getParseErrors())
+            .withParseErrors(parseErrors)
             .withValueStack(valueStack);
         return reportingRunner.run(inputBuffer);
     }

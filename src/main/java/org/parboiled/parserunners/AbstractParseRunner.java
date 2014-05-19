@@ -40,7 +40,7 @@ public abstract class AbstractParseRunner<V>
 {
     protected final Matcher rootMatcher;
     // TODO: make final
-    private List<ParseError> parseErrors;
+    protected List<ParseError> parseErrors;
     protected ValueStack<V> valueStack = new DefaultValueStack<V>();
     protected Object initialValueStackSnapshot;
 
@@ -130,6 +130,6 @@ public abstract class AbstractParseRunner<V>
         final MatcherContext<V> rootContext)
     {
         return new ParsingResult<V>(matched, rootContext.getNode(), valueStack,
-            getParseErrors(), rootContext.getInputBuffer());
+            parseErrors, rootContext.getInputBuffer());
     }
 }

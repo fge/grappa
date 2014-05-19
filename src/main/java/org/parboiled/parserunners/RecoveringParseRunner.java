@@ -149,8 +149,10 @@ public class RecoveringParseRunner<V>
         resetValueStack();
 
         // first, run a basic match
-        final ParseRunner<V> basicRunner = new BasicParseRunner<V>(
-            rootMatcher).withParseErrors(getParseErrors())
+        // FIXME: cannot replace .getParseErrors() here with parseErrors
+        final ParseRunner<V> basicRunner
+            = new BasicParseRunner<V>(rootMatcher)
+            .withParseErrors(getParseErrors())
             .withValueStack(valueStack);
         lastParsingResult = basicRunner.run(inputBuffer);
 
@@ -190,11 +192,10 @@ public class RecoveringParseRunner<V>
         resetValueStack();
         final ParseRunner<V> locatingRunner = new ErrorLocatingParseRunner<V>(
             rootMatcherNoTreeBuild, getInnerHandler())
-            .withParseErrors(getParseErrors()).withValueStack(valueStack);
+            .withParseErrors(parseErrors).withValueStack(valueStack);
         lastParsingResult = locatingRunner.run(inputBuffer);
         errorIndex = lastParsingResult.hasMatch() ? -1
-            : getParseErrors().remove(getParseErrors().size() - 1)
-                .getStartIndex();
+            : parseErrors.remove(parseErrors.size() - 1).getStartIndex();
         return lastParsingResult.hasMatch();
     }
 
@@ -204,13 +205,13 @@ public class RecoveringParseRunner<V>
         final ParseRunner<V> reportingRunner
             = new ErrorReportingParseRunner<V>(rootMatcherNoTreeBuild,
                 errorIndex, getInnerHandler())
-            .withParseErrors(getParseErrors()).withValueStack(valueStack);
+            .withParseErrors(parseErrors).withValueStack(valueStack);
         final ParsingResult<V> result = reportingRunner.run(buffer);
         // we failed before so we should really be failing again
         Preconditions.checkState(!result.hasMatch());
         Preconditions.checkState(result.hasCollectedParseErrors());
-        currentError = (InvalidInputError) getParseErrors()
-            .get(getParseErrors().size() - 1);
+        currentError = (InvalidInputError) parseErrors
+            .get(parseErrors.size() - 1);
     }
 
     private void performFinalRun()
