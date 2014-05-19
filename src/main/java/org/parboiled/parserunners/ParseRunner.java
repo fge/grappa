@@ -42,18 +42,28 @@ public interface ParseRunner<V>
     /**
      * Initializes the parse runner with the given error list.
      *
+     * <p><strong>Don't use it</strong>: this method is only really used
+     * internally by parse runners but at this moment they don't use a proper
+     * builder pattern.</p>
+     *
      * @param parseErrors the error list to start off with
      * @return this instance
      */
     @DoNotUse
+    @Dangerous
     ParseRunner<V> withParseErrors(List<ParseError> parseErrors);
 
     /**
      * Initializes the parse runner with the given ValueStack instance.
      *
+     * <p><strong>Don't use it</strong>: this method is only really used
+     * internally by parse runners but at this moment they don't use a proper
+     * builder pattern.</p>
+     *
      * @param valueStack the ValueStack to use
      * @return this instance
      */
+    @DoNotUse
     @Dangerous
     ParseRunner<V> withValueStack(ValueStack<V> valueStack);
 

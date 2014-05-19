@@ -85,8 +85,6 @@ public abstract class AbstractParseRunner<V>
     @WillBeFinal(version = "1.1")
     public ValueStack<V> getValueStack()
     {
-//        if (valueStack == null)
-//            withValueStack(new DefaultValueStack<V>());
         return valueStack;
     }
 
