@@ -108,7 +108,7 @@ public final class ErrorUtils
     public static String printParseErrors(final ParsingResult<?> parsingResult)
     {
         Preconditions.checkNotNull(parsingResult, "parsingResult");
-        return printParseErrors(parsingResult.parseErrors);
+        return printParseErrors(parsingResult.getParseErrors());
     }
 
     /**

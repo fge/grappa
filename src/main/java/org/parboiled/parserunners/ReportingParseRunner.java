@@ -83,7 +83,7 @@ public class ReportingParseRunner<V>
         // finally perform a third, reporting run (now that we know the error location)
         resetValueStack();
         result = runReportingMatch(inputBuffer,
-            result.parseErrors.get(0).getStartIndex());
+            result.getParseErrors().get(0).getStartIndex());
         // we failed before so we should really be failing again
         Preconditions.checkState(!result.hasMatch());
         return result;

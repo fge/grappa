@@ -53,7 +53,7 @@ public final class OldParsingResultAssert<V>
         final List<V> list = Lists.newArrayList(values);
         Collections.reverse(list);
         final List<V> stack
-            = Lists.newArrayList(actual.valueStack);
+            = Lists.newArrayList(actual.getValueStack());
         assertThat(stack).overridingErrorMessage(
             "stack does not have the expected values!\nExpected: %s\n"
             + "Actual  : %s", list, stack

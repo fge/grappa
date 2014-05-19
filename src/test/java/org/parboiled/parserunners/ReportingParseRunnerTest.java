@@ -42,7 +42,7 @@ public class ReportingParseRunnerTest {
         final Parser parser = Parboiled.createParser(Parser.class);
         final Rule rule = parser.Line1();
         final ParsingResult result = new ReportingParseRunner(rule).run("Text;;Something");
-        assertEquals(result.parseErrors.size(), 1);
+        assertEquals(result.getParseErrors().size(), 1);
         assertEquals(printParseErrors(result),
             "Invalid input ';' (line 1, pos 6):\n" +
                 "Text;;Something\n" +
@@ -54,7 +54,7 @@ public class ReportingParseRunnerTest {
         final Parser parser = Parboiled.createParser(Parser.class);
         final Rule rule = parser.Line1();
         final ParsingResult result = new ReportingParseRunner(rule).run("Text;");
-        assertEquals(result.parseErrors.size(), 1);
+        assertEquals(result.getParseErrors().size(), 1);
         assertEquals(printParseErrors(result), "" +
             "Unexpected end of input, expected one of: [ANY]" +
             " (line 1, pos 6):\nText;\n     ^\n");
@@ -65,7 +65,7 @@ public class ReportingParseRunnerTest {
         final Parser parser = Parboiled.createParser(Parser.class);
         final Rule rule = parser.Line2();
         final ParsingResult result = new ReportingParseRunner(rule).run("ad");
-        assertEquals(result.parseErrors.size(), 1);
+        assertEquals(result.getParseErrors().size(), 1);
         assertEquals(printParseErrors(result),
             "Invalid input 'd', expected one of: ['c'] (line 1, pos 2):\n"
             + "ad\n"
