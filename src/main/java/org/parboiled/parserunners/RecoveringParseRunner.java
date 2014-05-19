@@ -155,9 +155,9 @@ public class RecoveringParseRunner<V>
         lastParsingResult = basicRunner.run(inputBuffer);
 
         if (!lastParsingResult.matched) {
-            // for better performance disable parse tree building during the recovery runs
-            rootMatcherNoTreeBuild = rootMatcher;
-            rootMatcherNoTreeBuild.suppressNode();
+            // for better performance disable parse tree building during the
+            // recovery runs
+            rootMatcherNoTreeBuild = (Matcher) rootMatcher.suppressNode();
 
             // locate first error
             performLocatingRun(inputBuffer);
