@@ -58,9 +58,11 @@ public interface ParseRunner<V>
     ParseRunner<V> withValueStack(ValueStack<V> valueStack);
 
     /**
-     * DEPRECATED
-     * <p>You should use {@link #run(CharSequence)} instead; {@link
-     * AbstractParseRunner} delegates to this method.</p>
+     * Not needed! See description
+     *
+     * <p>You should use {@link #run(CharSequence)} instead ({@code String}
+     * implements {@code CharSequence}); {@link AbstractParseRunner} delegates
+     * to this method.</p>
      *
      * @param input see above
      * @return a parsing result
