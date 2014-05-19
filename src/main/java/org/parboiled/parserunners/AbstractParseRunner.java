@@ -41,7 +41,7 @@ public abstract class AbstractParseRunner<V>
     private final Matcher rootMatcher;
     // TODO: make final
     private List<ParseError> parseErrors;
-    private ValueStack<V> valueStack;
+    private ValueStack<V> valueStack = new DefaultValueStack<V>();
     private Object initialValueStackSnapshot;
 
     @WillBeProtected(version = "1.1")
@@ -85,8 +85,6 @@ public abstract class AbstractParseRunner<V>
     @WillBeFinal(version = "1.1")
     public ValueStack<V> getValueStack()
     {
-        if (valueStack == null)
-            withValueStack(new DefaultValueStack<V>());
         return valueStack;
     }
 
@@ -116,14 +114,14 @@ public abstract class AbstractParseRunner<V>
     @WillBeFinal(version = "1.1")
     protected void resetValueStack()
     {
-        getValueStack().restoreSnapshot(initialValueStackSnapshot);
+        valueStack.restoreSnapshot(initialValueStackSnapshot);
     }
 
     @WillBeFinal(version = "1.1")
     protected MatcherContext<V> createRootContext(final InputBuffer inputBuffer,
         final MatchHandler matchHandler, final boolean fastStringMatching)
     {
-        return new MatcherContext<V>(inputBuffer, getValueStack(),
+        return new MatcherContext<V>(inputBuffer, valueStack,
             getParseErrors(), matchHandler, rootMatcher, fastStringMatching);
     }
 
@@ -131,7 +129,7 @@ public abstract class AbstractParseRunner<V>
     protected ParsingResult<V> createParsingResult(final boolean matched,
         final MatcherContext<V> rootContext)
     {
-        return new ParsingResult<V>(matched, rootContext.getNode(),
-            getValueStack(), getParseErrors(), rootContext.getInputBuffer());
+        return new ParsingResult<V>(matched, rootContext.getNode(), valueStack,
+            getParseErrors(), rootContext.getInputBuffer());
     }
 }
