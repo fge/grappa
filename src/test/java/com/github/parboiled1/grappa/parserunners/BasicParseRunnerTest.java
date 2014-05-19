@@ -21,7 +21,6 @@ import org.parboiled.Parboiled;
 import org.parboiled.Rule;
 import org.parboiled.parserunners.BasicParseRunner;
 import org.parboiled.parserunners.ParseRunner;
-import org.parboiled.support.ParsingResult;
 import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -45,18 +44,7 @@ public final class BasicParseRunnerTest
     @Test
     public void basicParseRunnerCanReliablyReportErrors()
     {
-        ParsingResult<Object> result;
-
-        result = runner.run("aaa");
-        assertThat(result.hasErrors()).as("initial run with no errors is OK")
-            .isFalse();
-
-        result = runner.run("bbb");
-        assertThat(result.hasErrors()).as("errors are reported")
-            .isTrue();
-
-        result = runner.run("aaa");
-        assertThat(result.hasErrors()).as("reuse of runner works")
+        assertThat(runner.run("bbb").hasMatch()).as("errors are reported")
             .isFalse();
     }
 }

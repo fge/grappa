@@ -154,7 +154,7 @@ public class RecoveringParseRunner<V>
             .withValueStack(valueStack);
         lastParsingResult = basicRunner.run(inputBuffer);
 
-        if (!lastParsingResult.matched) {
+        if (!lastParsingResult.hasMatch()) {
             // for better performance disable parse tree building during the
             // recovery runs
             rootMatcherNoTreeBuild = (Matcher) rootMatcher.suppressNode();
@@ -179,7 +179,7 @@ public class RecoveringParseRunner<V>
             // rerun once more with parse tree building enabled to create a parse tree for the fixed input
             if (!rootMatcher.isNodeSuppressed()) {
                 performFinalRun();
-                Preconditions.checkState(lastParsingResult.matched);
+                Preconditions.checkState(lastParsingResult.hasMatch());
             }
         }
         return lastParsingResult;
@@ -192,10 +192,10 @@ public class RecoveringParseRunner<V>
             rootMatcherNoTreeBuild, getInnerHandler())
             .withParseErrors(getParseErrors()).withValueStack(valueStack);
         lastParsingResult = locatingRunner.run(inputBuffer);
-        errorIndex = lastParsingResult.matched ? -1
+        errorIndex = lastParsingResult.hasMatch() ? -1
             : getParseErrors().remove(getParseErrors().size() - 1)
                 .getStartIndex();
-        return lastParsingResult.matched;
+        return lastParsingResult.hasMatch();
     }
 
     private void performReportingRun()
@@ -207,7 +207,8 @@ public class RecoveringParseRunner<V>
             .withParseErrors(getParseErrors()).withValueStack(valueStack);
         final ParsingResult<V> result = reportingRunner.run(buffer);
         // we failed before so we should really be failing again
-        Preconditions.checkState(result.hasErrors());
+        Preconditions.checkState(!result.hasMatch());
+        Preconditions.checkState(result.hasCollectedParseErrors());
         currentError = (InvalidInputError) getParseErrors()
             .get(getParseErrors().size() - 1);
     }

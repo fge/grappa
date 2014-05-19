@@ -22,6 +22,7 @@ import com.google.common.base.Preconditions;
 import org.parboiled.Node;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.errors.ParseError;
+import org.parboiled.parserunners.BasicParseRunner;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -35,7 +36,9 @@ public class ParsingResult<V>
 {
 
     /**
-     * Indicates whether the input was successfully parsed.
+     * DO NOT USE DIRECTLY!
+     *
+     * Use {@link #hasMatch()} instead
      */
     @WillBePrivate(version = "1.1")
     public final boolean matched;
@@ -94,9 +97,44 @@ public class ParsingResult<V>
         this.inputBuffer = Preconditions.checkNotNull(inputBuffer);
     }
 
+
+    /**
+     * Return true if this parse result is a match
+     *
+     * <p>Note that a result NOT having a match does not mean that it has
+     * collected parse errors (see {@link #hasCollectedParseErrors()}; a
+     * {@link BasicParseRunner}, for instance, does not collect errors.</p>
+     *
+     * @return see description
+     */
+    public final boolean hasMatch()
+    {
+        return matched;
+    }
+
+    /**
+     * Has this result collected any parse errors?
+     *
+     * <p><strong>note</strong>: this method does not guarantee that the result
+     * is a success; for this use {@link #hasMatch()} instead.</p>
+     *
+     * @return true if the parse error list is not empty
+     */
+    // TODO: not clear whether parseErrors can be null
+    public final boolean hasCollectedParseErrors()
+    {
+        return parseErrors != null && !parseErrors.isEmpty();
+    }
+
     /**
      * @return true if this parsing result contains parsing errors.
+     *
+     * @deprecated name is confusing; use {@link #hasMatch()} to see if this
+     * result is a match and {@link #hasCollectedParseErrors()} if this result
+     * has collected parse errors.
      */
+    @Deprecated
+    @Unused
     public boolean hasErrors()
     {
         return !matched;

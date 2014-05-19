@@ -40,14 +40,14 @@ public abstract class ParboiledTest<V> {
         }
 
         public TestResult<V> hasNoErrors() {
-//            resultAssert.hasNoErrors();
-            if (result.hasErrors()) {
-                fail("\n--- ParseErrors ---\n" +
-                        printParseErrors(result) +
-                        "\n--- ParseTree ---\n" +
-                        printNodeTree(result)
-                );
-            }
+//            resultAssert.hasMatch();
+            if (result.hasMatch())
+                return this;
+            fail("\n--- ParseErrors ---\n" +
+                    printParseErrors(result) +
+                    "\n--- ParseTree ---\n" +
+                    printNodeTree(result)
+            );
             return this;
         }
 

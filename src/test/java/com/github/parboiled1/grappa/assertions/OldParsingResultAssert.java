@@ -40,9 +40,9 @@ public final class OldParsingResultAssert<V>
         return new OldParsingResultAssert<E>(actual);
     }
 
-    public OldParsingResultAssert<V> hasNoErrors()
+    public OldParsingResultAssert<V> hasMatch()
     {
-        assertThat(actual.hasErrors()).overridingErrorMessage(
+        assertThat(actual.hasMatch()).overridingErrorMessage(
             "parsing result should not have any errors!"
         ).isFalse();
         return this;
