@@ -24,7 +24,12 @@ import javax.annotation.Nullable;
 
 /**
  * General utility methods for operating on tree, i.e. graphs consisting of {@link TreeNode}s.
+ *
+ * @deprecated This class is unused; it will not have a replacement.
  */
+@Deprecated
+@Unused
+@WillBeRemoved(version = "1.1")
 public final class TreeUtils
 {
     private TreeUtils()
@@ -38,7 +43,9 @@ public final class TreeUtils
      * @return the root or null if the given node is null
      */
     @Nullable
-    // TODO: null! again!
+    @Deprecated
+    @Unused
+    @WillBeRemoved(version = "1.1")
     public static <T extends TreeNode<T>> T getRoot(@Nullable final T node)
     {
         if (node == null)

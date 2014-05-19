@@ -16,7 +16,9 @@
 
 package org.parboiled.trees;
 
+import com.github.parboiled1.grappa.annotations.Unused;
 import com.github.parboiled1.grappa.annotations.WillBeFinal;
+import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 import com.google.common.base.Preconditions;
 
 import javax.annotation.Nullable;
@@ -29,6 +31,9 @@ import java.util.List;
  *
  * @param <T> the actual implementation type of this MutableTreeNodeImpl
  */
+@Deprecated
+@Unused
+@WillBeRemoved(version = "1.1")
 public class MutableTreeNodeImpl<T extends MutableTreeNode<T>>
     implements MutableTreeNode<T>
 {

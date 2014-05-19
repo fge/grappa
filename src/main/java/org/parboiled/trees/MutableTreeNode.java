@@ -32,6 +32,9 @@ import com.github.parboiled1.grappa.annotations.WillBeRemoved;
  * @param <T> the actual implementation type of this TreeNode
  */
 // TODO: see description; the fact that TreeUtils handles some operations suck
+@Deprecated
+@Unused
+@WillBeRemoved(version = "1.1")
 public interface MutableTreeNode<T extends MutableTreeNode<T>>
     extends TreeNode<T>
 {
