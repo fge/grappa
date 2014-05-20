@@ -20,6 +20,7 @@ import com.github.parboiled1.grappa.annotations.DoNotUse;
 import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 import com.github.parboiled1.grappa.misc.SupplierAdapter;
+import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
@@ -32,15 +33,23 @@ import javax.annotation.Nullable;
 import java.util.Deque;
 
 /**
- * <p>This class provides a "local variable"-like construct for action expressions in parser rule methods.
- * Var objects wrap an internal value of an arbitrary (reference) type, can have an initial value,
- * allow read/write access to their values and can be passed around as parameters to nested rule methods.
- * Each rule invocation (i.e. rule matching attempt) receives its own Var scope (which is automatically
- * initialized with the initial value), so actions in recursive rules work just like expected.</p>
+ * <p>This class provides a "local variable"-like construct for action
+ * expressions in parser rule methods.</p>
+ *
+ * <p>Var objects wrap an internal value of an arbitrary (reference) type, can
+ * have an initial value, allow read/write access to their values and can be
+ * passed around as parameters to nested rule methods.</p>
+ *
+ * <p>Each rule invocation (i.e. rule matching attempt) receives its own
+ * scope (which is automatically initialized with the initial value), so actions
+ * in recursive rules work just like expected.</p>
+ *
  * <p>Var objects generally behave just like local variables with one exception:
- * When rule method A() passes a Var defined in its scope to another rule method B() as a parameter and an action
- * in rule method B() writes to this Var all actions in rule method A() running after B() will "see" this newly written
- * value (since values in Var objects are passed by reference)</p>
+ * When rule method {@code rule1()} passes a Var defined in its scope to another
+ * rule method {@code rule2()} as a parameter, and an action in rule method
+ * {@code rule2()} writes to this Var, all actions in rule method {@code
+ * rule1()} running after {@code rule2()} will "see" this newly written value
+ * (since values in Var objects are passed by reference).</p>
  *
  * @param <T> the type wrapped by this Var
  */
@@ -72,14 +81,19 @@ public class Var<T>
         supplier = Suppliers.ofInstance(value);
     }
 
+    /**
+     * Initialize a new {@code Var} with an initial value supplier
+     *
+     * @param supplier supplier of initial values
+     */
     public Var(@Nonnull final Supplier<T> supplier)
     {
         this.supplier = Preconditions.checkNotNull(supplier);
     }
 
     /**
-     * Initializes a new Var. The given factory will be used to create the initial value for each "execution frame"
-     * of the enclosing rule.
+     * Initializes a new Var. The given factory will be used to create the
+     * initial value for each "execution frame" of the enclosing rule.
      *
      * @param factory the factory used to create the initial value for a rule execution frame
      *
@@ -162,6 +176,6 @@ public class Var<T>
     @Override
     public String toString()
     {
-        return name != null ? name : super.toString();
+        return Optional.fromNullable(name).or(super.toString());
     }
 }

@@ -73,6 +73,9 @@ public abstract class AbstractParseRunner<V>
          *
          * No idea why :/
          *
+         * Note that this event stands true for:
+         *
+         *     this.parseErrors.allAll(parseErrors);
          */
         this.parseErrors = parseErrors;
         return this;
