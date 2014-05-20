@@ -19,7 +19,9 @@ package org.parboiled.common;
 import com.github.parboiled1.grappa.annotations.DoNotUse;
 import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.annotations.WillBeRemoved;
+import com.google.common.base.Optional;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
@@ -83,6 +85,23 @@ public class Reference<T>
     {
         return value;
     }
+
+    /**
+     * Retrieves the non null value stored by this var
+     *
+     * @return the value if non null
+     * @throws IllegalStateException value is null
+     *
+     * @since 1.0.0-beta.10
+     */
+    @Nonnull
+    public final T getNonnull()
+    {
+        // See javadoc for Guava's Optional; this throws IllegalStateException
+        // if value is null
+        return Optional.fromNullable(value).get();
+    }
+
 
     /**
      * DO NOT USE
