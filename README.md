@@ -19,6 +19,9 @@ email.
 
 The current version is **1.0.0-beta.9** (released May 16, 2014).
 
+**Feedback needed**: there are plans for 1.0.0 and further; please comment on [the relevant
+issues](https://github.com/parboiled1/grappa/issues?labels=planned&state=open).
+
 See also the [grappa-support project](https://github.com/parboiled1/grappa-support).
 
 ## Motivation
@@ -74,39 +77,9 @@ With Maven:
 
 ## Example grammars
 
-You can have a first taste by looking at the [examples
-package](https://github.com/parboiled1/parboiled-examples). Note however that these examples do not
-make use of the latest developments available in this project.
-
-Here is a very simple grammar to match double quoted strings and does nothing else (you can, of
-course, do [much more](https://github.com/parboiled1/parboiled/wiki)):
-
-```java
-@BuildParseTree
-public class DoubleQuotedString
-    extends BaseParser<Void>
-{
-    Rule normal()
-    {
-        return noneOf("\\\"");
-    }
-
-    Rule special()
-    {
-        return string("\\\"");
-    }
-
-    Rule content()
-    {
-        return join(normal()).using(special()).min(0);
-    }
-
-    Rule mainRule()
-    {
-        return sequence('"', content(), '"', EOI);
-    }
-}
-```
+You can have a look at the [examples
+package](https://github.com/parboiled1/grappa-examples). Note however that these
+examples do not make use of the latest developments available in this project.
 
 ## How to build
 
