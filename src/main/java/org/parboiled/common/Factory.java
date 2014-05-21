@@ -16,6 +16,11 @@
 
 package org.parboiled.common;
 
+import org.objectweb.asm.ClassWriter;
+import org.parboiled.transform.BaseVarInit;
+import org.parboiled.transform.InstructionGroup;
+import org.parboiled.transform.VarInitClassGenerator;
+
 import javax.annotation.Nullable;
 
 /**
@@ -23,6 +28,8 @@ import javax.annotation.Nullable;
  *
  * @param <T> produced values
  *
+ * @see BaseVarInit
+ * @see VarInitClassGenerator#generateMethod(InstructionGroup, ClassWriter)
  */
 public interface Factory<T>
 {
