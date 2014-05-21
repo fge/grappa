@@ -18,6 +18,7 @@ package org.parboiled.transform;
 
 import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Preconditions;
+import me.qmx.jitescript.util.CodegenUtils;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
@@ -64,7 +65,7 @@ public class VarInitClassGenerator
         final ClassWriter cw)
     {
         final MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "create",
-            "()Ljava/lang/Object;", null, null);
+            CodegenUtils.sig(void.class, Object.class), null, null);
         convertXLoads(group);
         group.getInstructions().accept(mv);
 
