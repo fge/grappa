@@ -17,8 +17,8 @@
 package org.parboiled.transform;
 
 import com.github.parboiled1.grappa.annotations.WillBeFinal;
-import com.github.parboiled1.grappa.transform.asm.MethodDescriptor;
 import com.google.common.base.Preconditions;
+import me.qmx.jitescript.util.CodegenUtils;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
@@ -64,10 +64,8 @@ public class ActionClassGenerator
     protected void generateMethod(final InstructionGroup group,
         final ClassWriter cw)
     {
-        final MethodDescriptor descriptor = MethodDescriptor.newBuilder()
-            .addArgument(Context.class).withReturnType(boolean.class).build();
         final MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "run",
-            descriptor.getSignature(), null, null);
+            CodegenUtils.sig(boolean.class, Context.class), null, null);
 
         insertSetContextCalls(group, 1);
         convertXLoads(group);
