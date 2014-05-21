@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.parboiled1.grappa.transform;
+package com.github.parboiled1.grappa.transform.hash;
 
 import com.google.common.collect.Sets;
 import com.google.common.hash.Funnel;
