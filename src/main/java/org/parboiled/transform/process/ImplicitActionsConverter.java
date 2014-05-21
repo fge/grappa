@@ -19,10 +19,13 @@ package org.parboiled.transform.process;
 import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import me.qmx.jitescript.util.CodegenUtils;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
+import org.parboiled.Action;
+import org.parboiled.BaseParser;
 import org.parboiled.transform.InstructionGraphNode;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
@@ -65,6 +68,7 @@ public class ImplicitActionsConverter
         throws Exception
     {
         this.method = Preconditions.checkNotNull(method, "method");
+        // TODO: why? Tests pass if I comment the line below; something missing?
         covered.clear();
         walkNode(method.getReturnInstructionNode());
         method.setContainsImplicitActions(false);
@@ -113,7 +117,7 @@ public class ImplicitActionsConverter
             || isStoredIntoObjectArray(dependent);
     }
 
-    private boolean isObjectArgumentToRuleCreatingMethodCall(
+    private static boolean isObjectArgumentToRuleCreatingMethodCall(
         final InstructionGraphNode node, final InstructionGraphNode dependent)
     {
         // is the single dependent a method call ?
@@ -131,26 +135,27 @@ public class ImplicitActionsConverter
         final Type[] argTypes = Type.getArgumentTypes(methodNode.desc);
         final int argIndex = getArgumentIndex(dependent, node);
         Preconditions.checkState(argIndex < argTypes.length);
-        return "java/lang/Object".equals(argTypes[argIndex].getInternalName());
+        final String typeName = argTypes[argIndex].getInternalName();
+        return CodegenUtils.p(Object.class).equals(typeName);
     }
 
-    private boolean isStoredIntoObjectArray(
-        final InstructionGraphNode dependent)
+    private boolean isStoredIntoObjectArray(final InstructionGraphNode node)
     {
         // is the single dependent an AASTORE instruction ?
-        final AbstractInsnNode insn = dependent.getInstruction();
+        final AbstractInsnNode insn = node.getInstruction();
         if (insn.getOpcode() != AASTORE)
             return false;
 
         // Does this instruction store into an array of Object ?
-        final List<InstructionGraphNode> dependents = getDependents(dependent);
+        final List<InstructionGraphNode> dependents = getDependents(node);
         // an AASTORE instruction should have exactly one dependent
         Preconditions.checkState(dependents.size() == 1);
         final AbstractInsnNode newArrayInsn
             = dependents.get(0).getInstruction();
         // which should be a n ANEWARRAY instruction
         Preconditions.checkState(newArrayInsn.getOpcode() == ANEWARRAY);
-        return "java/lang/Object".equals(((TypeInsnNode) newArrayInsn).desc);
+        final String desc = ((TypeInsnNode) newArrayInsn).desc;
+        return CodegenUtils.p(Object.class).equals(desc);
     }
 
     private static int getArgumentIndex(final InstructionGraphNode callNode,
@@ -181,7 +186,7 @@ public class ImplicitActionsConverter
     private static MethodInsnNode createActionWrappingInsn()
     {
         return new MethodInsnNode(INVOKESTATIC,
-            Types.BASE_PARSER.getInternalName(), "ACTION",
-            "(Z)" + Types.ACTION_DESC, false);
+            CodegenUtils.p(BaseParser.class), "ACTION",
+            CodegenUtils.sig(Action.class, boolean.class), false);
     }
 }

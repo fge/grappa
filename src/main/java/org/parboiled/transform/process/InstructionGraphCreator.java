@@ -25,6 +25,7 @@ package org.parboiled.transform.process;
 import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.tree.analysis.Analyzer;
+import org.objectweb.asm.tree.analysis.BasicValue;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
 import org.parboiled.transform.RuleMethodInterpreter;
@@ -44,8 +45,9 @@ public class InstructionGraphCreator
     {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
-        return method.containsImplicitActions() || method
-            .containsExplicitActions() || method.containsVars();
+        return method.containsImplicitActions()
+            || method.containsExplicitActions()
+            || method.containsVars();
     }
 
     @Override
@@ -54,28 +56,39 @@ public class InstructionGraphCreator
         throws Exception
     {
         Preconditions.checkNotNull(method, "method");
-        final RuleMethodInterpreter interpreter = new RuleMethodInterpreter(
-            method);
-
-        // TODO: simplify!
-        new Analyzer(interpreter)
-        {
-            @Override
-            protected void newControlFlowEdge(final int insn,
-                final int successor)
-            {
-                interpreter.newControlFlowEdge(insn, successor);
-            }
-
-            @Override
-            protected boolean newControlFlowExceptionEdge(final int insn,
-                final int successor)
-            {
-                interpreter.newControlFlowEdge(insn, successor);
-                return true;
-            }
-        }.analyze(classNode.name, method);
-
+        final RuleMethodInterpreter interpreter
+            = new RuleMethodInterpreter(method);
+        final RuleMethodAnalyzer analyzer = new RuleMethodAnalyzer(interpreter);
+        analyzer.analyze(classNode.name, method);
         interpreter.finish();
+
+    }
+
+    // TODO: probably needs a rewrite; I have a hunch this is a gross hack
+    private static final class RuleMethodAnalyzer
+        extends Analyzer<BasicValue>
+    {
+        private final RuleMethodInterpreter rmi;
+
+        private RuleMethodAnalyzer(final RuleMethodInterpreter rmi)
+        {
+            super(Preconditions.checkNotNull(rmi));
+            this.rmi = rmi;
+        }
+
+        @Override
+        protected void newControlFlowEdge(final int insn,
+            final int successor)
+        {
+            rmi.newControlFlowEdge(insn, successor);
+        }
+
+        @Override
+        protected boolean newControlFlowExceptionEdge(final int insn,
+            final int successor)
+        {
+            rmi.newControlFlowEdge(insn, successor);
+            return true;
+        }
     }
 }
