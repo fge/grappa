@@ -43,7 +43,6 @@ import java.util.EnumSet;
 import java.util.Set;
 
 import static com.github.parboiled1.grappa.transform.method.ParserAnnotation.BUILD_PARSE_TREE;
-import static com.github.parboiled1.grappa.transform.method.ParserAnnotation.clearClassFlags;
 import static com.github.parboiled1.grappa.transform.method.ParserAnnotation.recordAnnotation;
 import static org.objectweb.asm.Opcodes.ACC_ABSTRACT;
 import static org.objectweb.asm.Opcodes.ACC_FINAL;
@@ -60,6 +59,11 @@ import static org.parboiled.transform.AsmUtils.getExtendedParserClassName;
 public class ClassNodeInitializer
     extends ClassVisitor
 {
+    private static final Set<ParserAnnotation> CLASS_FLAGS_CLEAR = EnumSet.of(
+        ParserAnnotation.EXPLICIT_ACTIONS_ONLY,
+        ParserAnnotation.DONT_LABEL,
+        ParserAnnotation.SKIP_ACTIONS_IN_PREDICATES
+    );
 
     private ParserClassNode classNode;
     private Class<?> ownerClass;
@@ -82,7 +86,7 @@ public class ClassNodeInitializer
         ClassReader reader;
         InputStream in;
         while (!Object.class.equals(ownerClass)) {
-            clearClassFlags(annotations);
+            annotations.removeAll(CLASS_FLAGS_CLEAR);
 
             closer = Closer.create();
             try {
