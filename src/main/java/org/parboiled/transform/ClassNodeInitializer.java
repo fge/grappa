@@ -36,6 +36,7 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.MethodNode;
 import org.parboiled.support.Checks;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.EnumSet;
@@ -129,6 +130,7 @@ public class ClassNodeInitializer
         }
     }
 
+    @Nullable
     @Override
     public AnnotationVisitor visitAnnotation(final String desc,
         final boolean visible)
@@ -140,8 +142,9 @@ public class ClassNodeInitializer
         if (!visible)
             return null;
 
-        return ownerClass == classNode.getParentClass() ? classNode
-            .visitAnnotation(desc, true) : null;
+        return ownerClass == classNode.getParentClass()
+            ? classNode.visitAnnotation(desc, true)
+            : null;
     }
 
     @Override
@@ -150,40 +153,43 @@ public class ClassNodeInitializer
         classNode.visitSource(null, null);
     }
 
+    @Nullable
     @Override
-    @SuppressWarnings("unchecked")
     public MethodVisitor visitMethod(final int access, String name,
         final String desc, final String signature, final String[] exceptions)
     {
         if ("<init>".equals(name)) {
             // do not add constructors from super classes or private constructors
-            if (ownerClass != classNode.getParentClass()
-                || (access & ACC_PRIVATE) > 0) {
+            if (ownerClass != classNode.getParentClass())
                 return null;
-            }
+            if ((access & ACC_PRIVATE) > 0)
+                return null;
+
             final MethodNode constructor = new MethodNode(access, name, desc,
                 signature, exceptions);
             classNode.getConstructors().add(constructor);
-            return constructor; // return the newly created method in order to have it "filled" with the method code
+             // return the newly created method in order to have it "filled"
+             // with the method code
+            return constructor;
         }
 
         // only add non-native, non-abstract methods returning Rules
-        if (!Type.getReturnType(desc).equals(Types.RULE)
-            || (access & (ACC_NATIVE | ACC_ABSTRACT)) > 0) {
+        if (!Type.getReturnType(desc).equals(Types.RULE))
             return null;
-        }
+         if ((access & (ACC_NATIVE | ACC_ABSTRACT)) > 0)
+            return null;
+
 
         Checks.ensure((access & ACC_PRIVATE) == 0,
-            "Rule method '%s'must not be private.\n"
-                + "Mark the method protected or package-private if you want to prevent public access!",
-            name
-        );
+            "Rule method '%s'must not be private.\n" +
+            "Mark the method protected or package-private if you want" +
+            " to prevent public access!", name);
         Checks.ensure((access & ACC_FINAL) == 0,
             "Rule method '%s' must not be final.", name);
 
-        // check, whether we do not already have a method with that name and descriptor
-        // if we do we add the method with a "$" prefix in order to have it processed and be able to reference it
-        // later if we have to
+        // check, whether we do not already have a method with that name and
+        // descriptor; if we do we add the method with a "$" prefix in order
+        // to have it processed and be able to reference it later if we have to
         String methodKey = name + desc;
         while (classNode.getRuleMethods().containsKey(methodKey)) {
             name = '$' + name;
@@ -193,7 +199,9 @@ public class ClassNodeInitializer
         final RuleMethod method = new RuleMethod(ownerClass, access, name, desc,
             signature, exceptions, annotations);
         classNode.getRuleMethods().put(methodKey, method);
-        return method; // return the newly created method in order to have it "filled" with the actual method code
+        // return the newly created method in order to have it "filled" with the
+        // actual method code
+        return method;
     }
 
     @Override
@@ -207,10 +215,10 @@ public class ClassNodeInitializer
         Preconditions.checkNotNull(c);
         final String name = c.getName().replace('.', '/') + ".class";
         final ClassLoader me = ClassNodeInitializer.class.getClassLoader();
-        final ClassLoader context = Thread.currentThread()
-            .getContextClassLoader();
+        final ClassLoader context
+            = Thread.currentThread().getContextClassLoader();
 
-        return Optional.fromNullable(me.getResourceAsStream(name)).or(
-            context.getResourceAsStream(name));
+        return Optional.fromNullable(me.getResourceAsStream(name))
+            .or(context.getResourceAsStream(name));
     }
 }
