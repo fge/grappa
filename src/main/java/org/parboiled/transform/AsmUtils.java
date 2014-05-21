@@ -26,6 +26,7 @@ import com.github.parboiled1.grappa.annotations.DoNotUse;
 import com.github.parboiled1.grappa.annotations.Unused;
 import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 import com.github.parboiled1.grappa.transform.asm.LoadingOpcode;
+import com.github.parboiled1.grappa.transform.cache.ClassCache;
 import com.google.common.base.Preconditions;
 import me.qmx.jitescript.util.CodegenUtils;
 import org.objectweb.asm.ClassReader;
@@ -52,6 +53,8 @@ import java.util.Map;
 
 public final class AsmUtils
 {
+    private static final ClassCache CACHE = ClassCache.INSTANCE;
+
     private AsmUtils()
     {
     }
@@ -92,7 +95,19 @@ public final class AsmUtils
     private static final Map<String, Class<?>> classForDesc
         = new HashMap<String, Class<?>>();
 
-    // TODO: remove that synchronized! Replace with a LoadingCache
+    /**
+     * Deprecated!
+     *
+     * @param classDesc class descriptor (as viewed by the JVM)
+     * @return a class
+     * @throws RuntimeException failed to load the class
+     *
+     * @deprecated use {@link ClassCache#loadClass(String)
+     * ClassCache.INSTANCE.loadClass()} instead
+     */
+    @Deprecated
+    @Unused
+    @WillBeRemoved(version = "1.1")
     public static synchronized Class<?> getClassForInternalName(
         final String classDesc)
     {
@@ -124,6 +139,12 @@ public final class AsmUtils
         return c;
     }
 
+    /**
+     * Get the class equivalent to an ASM {@link Type}
+     *
+     * @param type the type
+     * @return the matching class
+     */
     public static Class<?> getClassForType(final Type type)
     {
         Preconditions.checkNotNull(type, "type");
@@ -148,7 +169,8 @@ public final class AsmUtils
                 return void.class;
             case Type.OBJECT:
             case Type.ARRAY:
-                return getClassForInternalName(type.getInternalName());
+                return CACHE.loadClass(type.getInternalName());
+                //return getClassForInternalName(type.getInternalName());
         }
         throw new IllegalStateException(); // should be unreachable
     }
@@ -158,7 +180,8 @@ public final class AsmUtils
     {
         Preconditions.checkNotNull(classInternalName, "classInternalName");
         Preconditions.checkNotNull(fieldName, "fieldName");
-        final Class<?> c = getClassForInternalName(classInternalName);
+        final Class<?> c = CACHE.loadClass(classInternalName);
+        //final Class<?> c = getClassForInternalName(classInternalName);
         Class<?> current = c;
         while (current != Object.class) {
             for (final Field field: current.getDeclaredFields())
@@ -177,18 +200,19 @@ public final class AsmUtils
         Preconditions.checkNotNull(methodName, "methodName");
         Preconditions.checkNotNull(methodDesc, "methodDesc");
 
-        final Class<?> clazz = getClassForInternalName(classInternalName);
+        final Class<?> c = CACHE.loadClass(classInternalName);
+        //final Class<?> c = getClassForInternalName(classInternalName);
         final Type[] types = Type.getArgumentTypes(methodDesc);
         final Class<?>[] argTypes = new Class<?>[types.length];
 
         for (int i = 0; i < types.length; i++)
             argTypes[i] = getClassForType(types[i]);
 
-        final Method method = findMethod(clazz, methodName, argTypes);
+        final Method method = findMethod(c, methodName, argTypes);
         if (method == null) {
             throw new RuntimeException("Method '" + methodName
                 + "' with descriptor '" + methodDesc + "' not found in '"
-                + clazz + "' or any supertype");
+                + c + "' or any supertype");
         }
         return method;
     }
@@ -224,7 +248,8 @@ public final class AsmUtils
         Preconditions.checkNotNull(classInternalName, "classInternalName");
         Preconditions.checkNotNull(constructorDesc, "constructorDesc");
 
-        final Class<?> c = getClassForInternalName(classInternalName);
+        final Class<?> c = CACHE.loadClass(classInternalName);
+        //final Class<?> c = getClassForInternalName(classInternalName);
         final Type[] types = Type.getArgumentTypes(constructorDesc);
         final Class<?>[] argTypes = new Class<?>[types.length];
 
@@ -412,7 +437,8 @@ public final class AsmUtils
         Preconditions.checkNotNull(classInternalName, "classInternalName");
         Preconditions.checkNotNull(type, "type");
 
-        final Class<?> c = getClassForInternalName(classInternalName);
+        final Class<?> c = CACHE.loadClass(classInternalName);
+        //final Class<?> c = getClassForInternalName(classInternalName);
         return type.isAssignableFrom(c);
     }
 

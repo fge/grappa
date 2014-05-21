@@ -23,6 +23,7 @@
 package org.parboiled.transform.process;
 
 import com.github.parboiled1.grappa.annotations.WillBeFinal;
+import com.github.parboiled1.grappa.transform.cache.ClassCache;
 import com.google.common.base.Preconditions;
 import com.google.common.primitives.Ints;
 import org.objectweb.asm.tree.FieldInsnNode;
@@ -50,7 +51,6 @@ import static org.objectweb.asm.Opcodes.INVOKESTATIC;
 import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
 import static org.parboiled.transform.AsmUtils.getClassConstructor;
 import static org.parboiled.transform.AsmUtils.getClassField;
-import static org.parboiled.transform.AsmUtils.getClassForInternalName;
 import static org.parboiled.transform.AsmUtils.getClassMethod;
 
 @WillBeFinal(version = "1.1")
@@ -265,7 +265,8 @@ public class InstructionGroupCreator
         // first check whether the class is private
         Integer modifiers = memberModifiers.get(owner);
         if (modifiers == null) {
-            modifiers = getClassForInternalName(owner).getModifiers();
+            modifiers = ClassCache.INSTANCE.loadClass(owner).getModifiers();
+            //modifiers = getClassForInternalName(owner).getModifiers();
             memberModifiers.put(owner, modifiers);
         }
         if (Modifier.isPrivate(modifiers))
