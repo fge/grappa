@@ -79,6 +79,7 @@ public class RuleMethodRewriter
         varInitNr = 0;
 
         for (final InstructionGroup group: method.getGroups()) {
+            // TODO: remove that!! Make it a parameter to other methods
             instructionGroup = group;
             createNewGroupClassInstance();
             initializeFields();

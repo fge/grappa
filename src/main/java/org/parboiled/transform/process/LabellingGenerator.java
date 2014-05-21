@@ -18,6 +18,7 @@ package org.parboiled.transform.process;
 
 import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Preconditions;
+import me.qmx.jitescript.util.CodegenUtils;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.AnnotationNode;
 import org.objectweb.asm.tree.InsnList;
@@ -26,9 +27,10 @@ import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.LabelNode;
 import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
+import org.parboiled.Rule;
+import org.parboiled.annotations.Label;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
-import org.parboiled.transform.Types;
 
 import javax.annotation.Nonnull;
 
@@ -80,21 +82,21 @@ public class LabellingGenerator
         instructions.insertBefore(ret, new LdcInsnNode(getLabelText(method)));
         // stack: <rule> :: <labelText>
         instructions.insertBefore(ret, new MethodInsnNode(INVOKEINTERFACE,
-            Types.RULE.getInternalName(), "label",
-            "(Ljava/lang/String;)" + Types.RULE_DESC, true));
+            CodegenUtils.p(Rule.class), "label",
+            CodegenUtils.sig(Rule.class, String.class), true));
         // stack: <rule>
         instructions.insertBefore(ret, isNullLabel);
         // stack: <rule>
     }
 
-    public String getLabelText(final RuleMethod method) {
+    public static String getLabelText(final RuleMethod method) {
         if (method.visibleAnnotations == null)
             return method.name;
 
         AnnotationNode annotation;
         for (final Object annotationObj: method.visibleAnnotations) {
             annotation = (AnnotationNode) annotationObj;
-            if (!annotation.desc.equals(Types.LABEL_DESC))
+            if (!annotation.desc.equals(CodegenUtils.ci(Label.class)))
                 continue;
             if (annotation.values == null)
                 continue;

@@ -62,10 +62,11 @@ public final class InstructionGroupPreparer
     // method into the groups Insnlist
     private void extractInstructions(final InstructionGroup group)
     {
+        AbstractInsnNode insn;
         for (final InstructionGraphNode node: group.getNodes()) {
             if (node == group.getRoot())
                 continue;
-            final AbstractInsnNode insn = node.getInstruction();
+            insn = node.getInstruction();
             method.instructions.remove(insn);
             group.getInstructions().add(insn);
         }
@@ -75,11 +76,13 @@ public final class InstructionGroupPreparer
     private static void extractFields(final InstructionGroup group)
     {
         final List<FieldNode> fields = group.getFields();
+
+        VarInsnNode insn;
         for (final InstructionGraphNode node : group.getNodes()) {
             if (!node.isXLoad())
                 continue;
 
-            final VarInsnNode insn = (VarInsnNode) node.getInstruction();
+            insn = (VarInsnNode) node.getInstruction();
 
             // check whether we already have a field for the var with this index
             int index;
@@ -90,6 +93,8 @@ public final class InstructionGroupPreparer
             // if we don't, create a new field for the var
             if (index == fields.size()) {
                 /*
+                 * TODO: fix hack below
+                 *
                  * CAUTION, HACK!: for brevity we reuse the access field and
                  * the value field of the FieldNode for keeping track of the
                  * original var index as well as the FieldNodes Type

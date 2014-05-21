@@ -35,7 +35,7 @@ import static org.objectweb.asm.Opcodes.GOTO;
  * the transformer does nothing.
  */
 @WillBeFinal(version = "1.1")
-// TODO: remove?
+// TODO: remove! This is outright useless; in fact, this slows down the code
 public class ReturnInstructionUnifier
     implements RuleMethodProcessor
 {
@@ -53,7 +53,6 @@ public class ReturnInstructionUnifier
     {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
-        Preconditions.checkState(method.getNumberOfReturns() > 1);
 
         AbstractInsnNode current = method.instructions.getLast();
 
