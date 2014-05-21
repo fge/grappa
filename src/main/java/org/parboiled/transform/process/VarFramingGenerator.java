@@ -18,6 +18,7 @@ package org.parboiled.transform.process;
 
 import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Preconditions;
+import me.qmx.jitescript.util.CodegenUtils;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.InsnNode;
@@ -27,6 +28,8 @@ import org.objectweb.asm.tree.LocalVariableNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
+import org.parboiled.Rule;
+import org.parboiled.matchers.VarFramingMatcher;
 import org.parboiled.support.Var;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
@@ -44,10 +47,6 @@ import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
 import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
 import static org.objectweb.asm.Opcodes.NEW;
 import static org.objectweb.asm.Opcodes.SWAP;
-import static org.parboiled.transform.Types.RULE_DESC;
-import static org.parboiled.transform.Types.VAR;
-import static org.parboiled.transform.Types.VAR_DESC;
-import static org.parboiled.transform.Types.VAR_FRAMING_MATCHER;
 
 /**
  * Inserts code for wrapping the created rule into a VarFramingMatcher if the
@@ -83,7 +82,7 @@ public class VarFramingGenerator
 
         // stack: <Matcher>
         instructions.insertBefore(ret, new TypeInsnNode(NEW,
-            VAR_FRAMING_MATCHER.getInternalName()));
+            CodegenUtils.p(VarFramingMatcher.class)));
         // stack: <Matcher> :: <VarFramingMatcher>
         instructions.insertBefore(ret, new InsnNode(DUP_X1));
         // stack: <VarFramingMatcher> :: <Matcher> :: <VarFramingMatcher>
@@ -92,8 +91,8 @@ public class VarFramingGenerator
         createVarFieldArray(method, instructions, ret);
         // stack: <VarFramingMatcher> :: <VarFramingMatcher> :: <Matcher> :: <VarFieldArray>
         instructions.insertBefore(ret, new MethodInsnNode(INVOKESPECIAL,
-            VAR_FRAMING_MATCHER.getInternalName(), "<init>",
-            '(' + RULE_DESC + '[' + VAR_DESC + ")V", false));
+            CodegenUtils.p(VarFramingMatcher.class), "<init>",
+            CodegenUtils.sig(void.class, Rule.class, Var[].class), false));
         // stack: <VarFramingMatcher>
 
         method.setBodyRewritten();
@@ -108,7 +107,7 @@ public class VarFramingGenerator
         instructions.insertBefore(ret, new IntInsnNode(BIPUSH, count));
         // stack: <length>
         instructions.insertBefore(ret, new TypeInsnNode(ANEWARRAY,
-            VAR.getInternalName()));
+            CodegenUtils.p(Var.class)));
         // stack: <array>
         for (int i = 0; i < count; i++) {
             final LocalVariableNode var = method.getLocalVarVariables().get(i);
@@ -121,12 +120,12 @@ public class VarFramingGenerator
             // stack: <array> :: <array> :: <index> :: <var>
             instructions.insertBefore(ret, new InsnNode(DUP));
             // stack: <array> :: <array> :: <index> :: <var> :: <var>
-            instructions.insertBefore(ret, new LdcInsnNode(
-                method.name + ':' + var.name));
+            instructions.insertBefore(ret,
+                new LdcInsnNode(method.name + ':' + var.name));
             // stack: <array> :: <array> :: <index> :: <var> :: <var> :: <varName>
             instructions.insertBefore(ret, new MethodInsnNode(INVOKEVIRTUAL,
-                VAR.getInternalName(), "setName", "(Ljava/lang/String;)V",
-                false));
+                CodegenUtils.p(Var.class), "setName",
+                CodegenUtils.sig(void.class, String.class), false));
             // stack: <array> :: <array> :: <index> :: <var>
             instructions.insertBefore(ret, new InsnNode(AASTORE));
             // stack: <array>

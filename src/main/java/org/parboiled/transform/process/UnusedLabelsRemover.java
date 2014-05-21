@@ -48,10 +48,15 @@ public class UnusedLabelsRemover
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
         AbstractInsnNode current = method.instructions.getFirst();
+
+        AbstractInsnNode next;
+        boolean doRemove;
         while (current != null) {
-            final AbstractInsnNode next = current.getNext();
-            if (current.getType() == AbstractInsnNode.LABEL
-                && !method.getUsedLabels().contains(current))
+            next = current.getNext();
+            //noinspection SuspiciousMethodCalls
+            doRemove = current.getType() == AbstractInsnNode.LABEL
+                && !method.getUsedLabels().contains(current);
+            if (doRemove)
                 method.instructions.remove(current);
             current = next;
         }

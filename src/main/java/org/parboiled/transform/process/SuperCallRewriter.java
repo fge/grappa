@@ -69,8 +69,8 @@ public class SuperCallRewriter
         if ("<init>".equals(insn.name))
             return;
         final String superMethodName = getSuperMethodName(method, insn);
-        final RuleMethod superMethod = classNode.getRuleMethods().get(
-            superMethodName + insn.desc);
+        final RuleMethod superMethod = classNode.getRuleMethods()
+            .get(superMethodName + insn.desc);
         if (superMethod == null)
             return;
         if (!superMethod.isBodyRewritten())
@@ -91,14 +91,15 @@ public class SuperCallRewriter
     private static String getSuperMethodName(final RuleMethod method,
         final MethodInsnNode insn)
     {
-        Class<?> clazz = method.getOwnerClass();
-        String superMethodName = method.name;
+        Class<?> c = method.getOwnerClass();
+        final StringBuilder sb = new StringBuilder(method.name);
         do {
-            clazz = clazz.getSuperclass();
+            //noinspection ConstantConditions
+            c = c.getSuperclass();
             // we should find the owner before hitting Object
-            Preconditions.checkState(clazz != null);
-            superMethodName = '$' + superMethodName;
-        } while (!Type.getInternalName(clazz).equals(insn.owner));
-        return superMethodName;
+            Preconditions.checkState(c != null);
+            sb.insert(0, '$');
+        } while (!Type.getInternalName(c).equals(insn.owner));
+        return sb.toString();
     }
 }
