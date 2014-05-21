@@ -39,12 +39,12 @@ import org.objectweb.asm.tree.LabelNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
+import org.parboiled.Rule;
 import org.parboiled.matchers.Matcher;
 import org.parboiled.matchers.ProxyMatcher;
 import org.parboiled.transform.CacheArguments;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
-import org.parboiled.transform.Types;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -146,7 +146,7 @@ public class CachingGenerator
         // if we have no parameters we use a simple Rule field as cache,
         // otherwise a HashMap
         final String cacheFieldDesc = paramTypes.length == 0
-            ? Types.RULE_DESC
+            ? CodegenUtils.ci(Rule.class)
             : CodegenUtils.ci(HashMap.class);
         final FieldNode field = new FieldNode(ACC_PRIVATE, cacheFieldName,
             cacheFieldDesc, null, null);
@@ -198,15 +198,15 @@ public class CachingGenerator
         if (paramTypes.length > 1 || paramTypes[0].getSort() == Type.ARRAY) {
             // generate: push new Arguments(new Object[] {<params>})
 
-            final String arguments = Type.getInternalName(CacheArguments.class);
             // stack: <hashMap>
-            insert(new TypeInsnNode(NEW, arguments));
+            insert(new TypeInsnNode(NEW, CodegenUtils.p(CacheArguments.class)));
             // stack: <hashMap> :: <arguments>
             insert(new InsnNode(DUP));
             // stack: <hashMap> :: <arguments> :: <arguments>
             generatePushNewParameterObjectArray(paramTypes);
             // stack: <hashMap> :: <arguments> :: <arguments> :: <array>
-            insert(new MethodInsnNode(INVOKESPECIAL, arguments, "<init>",
+            insert(new MethodInsnNode(INVOKESPECIAL,
+                CodegenUtils.p(CacheArguments.class), "<init>",
                 CodegenUtils.sig(void.class, Object[].class), false));
             // stack: <hashMap> :: <arguments>
         } else {
@@ -225,7 +225,7 @@ public class CachingGenerator
         insert(new MethodInsnNode(INVOKEVIRTUAL, CodegenUtils.p(HashMap.class),
             "get", CodegenUtils.sig(Object.class, Object.class), false));
         // stack: <object>
-        insert(new TypeInsnNode(CHECKCAST, Types.RULE.getInternalName()));
+        insert(new TypeInsnNode(CHECKCAST, CodegenUtils.p(Rule.class)));
         // stack: <rule>
     }
 
@@ -336,15 +336,14 @@ public class CachingGenerator
     // <cache> = new ProxyMatcher();
     private void generateStoreNewProxyMatcher()
     {
-        final String proxyMatcherType = Types.PROXY_MATCHER.getInternalName();
-
         // stack:
-        insert(new TypeInsnNode(NEW, proxyMatcherType));
+        insert(new TypeInsnNode(NEW, CodegenUtils.p(ProxyMatcher.class)));
         // stack: <proxyMatcher>
         insert(new InsnNode(DUP));
         // stack: <proxyMatcher> :: <proxyMatcher>
-        insert(new MethodInsnNode(INVOKESPECIAL, proxyMatcherType, "<init>",
-                CodegenUtils.sig(void.class), false));
+        insert(new MethodInsnNode(INVOKESPECIAL,
+            CodegenUtils.p(ProxyMatcher.class), "<init>",
+            CodegenUtils.sig(void.class), false));
         // stack: <proxyMatcher>
         generateStoreInCache();
         // stack: <proxyMatcher>
@@ -362,7 +361,7 @@ public class CachingGenerator
         // stack: <proxyMatcher> :: <rule>
         insert(new InsnNode(DUP_X1));
         // stack: <rule> :: <proxyMatcher> :: <rule>
-        insert(new TypeInsnNode(CHECKCAST, Types.MATCHER.getInternalName()));
+        insert(new TypeInsnNode(CHECKCAST, CodegenUtils.p(Matcher.class)));
         // stack: <rule> :: <proxyMatcher> :: <matcher>
         insert(new MethodInsnNode(INVOKEVIRTUAL,
             CodegenUtils.p(ProxyMatcher.class), "arm",
@@ -385,7 +384,7 @@ public class CachingGenerator
             insert(new InsnNode(SWAP));
             // stack: <rule> :: <this> :: <rule>
             insert(new FieldInsnNode(PUTFIELD, classNode.name, cacheFieldName,
-                Types.RULE_DESC));
+                CodegenUtils.ci(Rule.class)));
             // stack: <rule>
             return;
         }
