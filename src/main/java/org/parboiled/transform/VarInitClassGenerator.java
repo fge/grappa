@@ -65,7 +65,7 @@ public class VarInitClassGenerator
         final ClassWriter cw)
     {
         final MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "create",
-            CodegenUtils.sig(void.class, Object.class), null, null);
+            CodegenUtils.sig(Object.class), null, null);
         convertXLoads(group);
         group.getInstructions().accept(mv);
 
