@@ -16,9 +16,12 @@
 
 package org.parboiled.parserunners;
 
+import com.github.parboiled1.grappa.annotations.WillBePrivate;
+import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Queues;
+import com.google.common.primitives.Ints;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
@@ -57,28 +60,42 @@ import static org.parboiled.support.Chars.RESYNC_EOI;
 import static org.parboiled.support.Chars.RESYNC_START;
 
 /**
- * A {@link ParseRunner} implementation that is able to recover from {@link InvalidInputError}s in the input and therefore
- * report more than just the first {@link InvalidInputError} if the input does not conform to the rule grammar.
- * Error recovery is done by attempting to either delete an error character, insert a potentially missing character
- * or do both at once (which is equivalent to a one char replace) whereby this implementation is able to determine
- * itself which of these options is the best strategy.
- * If the parse error cannot be overcome by either deleting, inserting or replacing one character a resynchronization
- * rule is determined and the parsing process resynchronized, so that parsing can still continue.
- * In this way the RecoveringParseRunner is able to completely parse all input texts (This ParseRunner never returns
- * an unmatched {@link ParsingResult}).
- * If the input is error free this {@link ParseRunner} implementation will only perform one parsing run, with the same
- * speed as the {@link BasicParseRunner}. However, if there are {@link InvalidInputError}s in the input potentially
- * many more runs are performed to properly report all errors and test the various recovery strategies.
+ * A {@link ParseRunner} implementation that is able to recover from {@link
+ * InvalidInputError}s
+ *
+ * <p>It is therefore able to report more than just the first {@link
+ * InvalidInputError} if the input does not conform to the rule grammar.</p>
+ *
+ * <p>Error recovery is done by attempting to either delete an error character,
+ * insert a potentially missing character or do both at once (which is
+ * equivalent to a one char replace) whereby this implementation is able to
+ * determine itself which of these options is the best strategy.</p>
+ *
+ * <p>If the parse error cannot be overcome by either deleting, inserting or
+ * replacing one character a resynchronization rule is determined and the
+ * parsing process resynchronized, so that parsing can still continue.</p>
+ *
+ * <p>In this way the RecoveringParseRunner is able to completely parse all
+ * input texts (This ParseRunner never returns an unmatched {@link
+ * ParsingResult}).</p>
+ *
+ * <p>If the input is error free this {@link ParseRunner} implementation will
+ * only perform one parsing run, with the same speed as the {@link
+ * BasicParseRunner}. However, if there are {@link InvalidInputError}s in the
+ * input potentially many more runs are performed to properly report all errors
+ * and test the various recovery strategies.</p>
  */
 public class RecoveringParseRunner<V>
     extends AbstractParseRunner<V>
 {
-
     public static class TimeoutException
         extends RuntimeException
     {
+        @WillBePrivate(version = "1.1")
         public final Rule rule;
+        @WillBePrivate(version = "1.1")
         public final InputBuffer inputBuffer;
+        @WillBePrivate(version = "1.1")
         public final ParsingResult<?> lastParsingResult;
 
         public TimeoutException(final Rule rule, final InputBuffer inputBuffer,
@@ -96,21 +113,24 @@ public class RecoveringParseRunner<V>
     private InvalidInputError currentError;
     private MutableInputBuffer buffer;
     private ParsingResult<V> lastParsingResult;
+    // the root matcher with parse tree building disabled
     private Matcher rootMatcherNoTreeBuild;
-        // the root matcher with parse tree building disabled
 
     /**
-     * Create a new RecoveringParseRunner instance with the given rule and input text and returns the result of
-     * its {@link #run(String)} method invocation.
+     * Create a new RecoveringParseRunner instance with the given rule and input
+     * text and returns the result of its {@link #run(String)} method
+     * invocation.
      *
      * @param rule the parser rule to run
      * @param input the input text to run on
      * @return the ParsingResult for the parsing run
      *
-     * @deprecated As of 0.11.0 you should use the "regular" constructor and one of the "run" methods rather than
-     * this static method. This method will be removed in one of the coming releases.
+     * @deprecated As of 0.11.0 you should use the "regular" constructor and
+     * one of the "run" methods rather than this static method. This method will
+     * be removed in one of the coming releases.
      */
     @Deprecated
+    @WillBeRemoved(version = "1.1")
     public static <V> ParsingResult<V> run(final Rule rule, final String input)
     {
         Preconditions.checkNotNull(rule, "rule");
@@ -130,7 +150,9 @@ public class RecoveringParseRunner<V>
 
     /**
      * Creates a new RecoveringParseRunner instance for the given rule.
-     * A parsing run will throw a TimeoutException if it takes longer than the given number if milliseconds.
+     *
+     * <p>A parsing run will throw a TimeoutException if it takes longer than
+     * the given number of milliseconds.</p>
      *
      * @param rule the parser rule
      * @param timeout the timeout value in milliseconds
@@ -150,8 +172,7 @@ public class RecoveringParseRunner<V>
 
         // first, run a basic match
         // FIXME: cannot replace .getParseErrors() here with parseErrors
-        final ParseRunner<V> basicRunner
-            = new BasicParseRunner<V>(rootMatcher)
+        final ParseRunner<V> basicRunner = new BasicParseRunner<V>(rootMatcher)
             .withParseErrors(parseErrors)
             .withValueStack(valueStack);
         lastParsingResult = basicRunner.run(inputBuffer);
@@ -163,22 +184,23 @@ public class RecoveringParseRunner<V>
 
             // locate first error
             performLocatingRun(inputBuffer);
-            Preconditions.checkState(errorIndex >= 0); // we failed before so
-            // we must fail
-            // again
+            // we failed before so we must fail again
+            Preconditions.checkState(errorIndex >= 0);
 
-            // in order to be able to apply fixes we need to wrap the input buffer with a mutability wrapper
+            // in order to be able to apply fixes we need to wrap the input
+            // buffer with a mutability wrapper
             buffer = new MutableInputBuffer(inputBuffer);
 
             // report first error
             performReportingRun();
 
             // fix and report until done
-            while (!fixError(errorIndex)) {
+            while (!fixError(errorIndex))
                 performReportingRun();
-            }
 
-            // rerun once more with parse tree building enabled to create a parse tree for the fixed input
+
+            // rerun once more with parse tree building enabled to create a
+            // parse tree for the fixed input
             if (!rootMatcher.isNodeSuppressed()) {
                 performFinalRun();
                 Preconditions.checkState(lastParsingResult.isSuccess());
@@ -231,48 +253,51 @@ public class RecoveringParseRunner<V>
 
     private boolean fixError(final int fixIndex)
     {
-        if (tryFixBySingleCharDeletion(fixIndex))
+        if (trySingleCharDeletion(fixIndex))
             return true;
-        final int nextErrorAfterDeletion = errorIndex;
+        final int singleCharDelFix = errorIndex;
 
         final Character bestInsertionCharacter
-            = findBestSingleCharInsertion(fixIndex);
+            = findSingleCharInsert(fixIndex);
         if (bestInsertionCharacter == null)
             return true;
-        final int nextErrorAfterBestInsertion = errorIndex;
+        final int singleCharInsertFix = errorIndex;
 
         final Character bestReplacementCharacter
-            = findBestSingleCharReplacement(fixIndex);
+            = findSingleCharReplace(fixIndex);
         if (bestReplacementCharacter == null)
             return true;
-        final int nextErrorAfterBestReplacement = errorIndex;
+        final int singleCharReplaceFix = errorIndex;
 
-        final int nextErrorAfterBestSingleCharFix = Math
-            .max(Math.max(nextErrorAfterDeletion, nextErrorAfterBestInsertion),
-                nextErrorAfterBestReplacement);
-        if (nextErrorAfterBestSingleCharFix > fixIndex) {
-            // we are able to overcome the error with a single char fix, so apply the best one found
-            if (nextErrorAfterBestSingleCharFix == nextErrorAfterDeletion) {
+        final int singleCharFix = Ints.max(singleCharDelFix,
+            singleCharInsertFix, singleCharReplaceFix);
+
+        if (singleCharFix > fixIndex) {
+            // we are able to overcome the error with a single char fix, so
+            // apply the best one found
+            if (singleCharFix == singleCharDelFix) {
                 buffer.insertChar(fixIndex, DEL_ERROR);
-                errorIndex = nextErrorAfterDeletion + 1;
+                errorIndex = singleCharDelFix + 1;
                 currentError.shiftIndexDeltaBy(1);
-            } else if (nextErrorAfterBestSingleCharFix
-                == nextErrorAfterBestInsertion) {
-                // we need to insert the characters in reverse order, since we insert twice at the same location
+            } else if (singleCharFix == singleCharInsertFix) {
+                // we need to insert the characters in reverse order, since we
+                // insert twice at the same location
                 buffer.insertChar(fixIndex, bestInsertionCharacter);
                 buffer.insertChar(fixIndex, INS_ERROR);
-                errorIndex = nextErrorAfterBestInsertion + 2;
+                errorIndex = singleCharInsertFix + 2;
                 currentError.shiftIndexDeltaBy(2);
-            } else {
-                // we need to insert the characters in reverse order, since we insert three times at the same location
+            } else { // singleCharFix == singleCharReplaceFix
+                // we need to insert the characters in reverse order, since we
+                // insert three times at the same location
                 buffer.insertChar(fixIndex + 1, bestReplacementCharacter);
                 buffer.insertChar(fixIndex + 1, INS_ERROR);
                 buffer.insertChar(fixIndex, DEL_ERROR);
-                errorIndex = nextErrorAfterBestReplacement + 5;
+                errorIndex = singleCharReplaceFix + 5;
                 currentError.shiftIndexDeltaBy(1);
             }
         } else {
-            // we can't fix the error with a single char fix, so fall back to resynchronization
+            // we can't fix the error with a single char fix, so fall back to
+            // resynchronization
             if (buffer.charAt(fixIndex) == EOI) {
                 buffer.insertChar(fixIndex, RESYNC_EOI);
                 currentError.shiftIndexDeltaBy(1);
@@ -285,13 +310,13 @@ public class RecoveringParseRunner<V>
         return errorIndex == -1;
     }
 
-    private boolean tryFixBySingleCharDeletion(final int fixIndex)
+    private boolean trySingleCharDeletion(final int fixIndex)
     {
         buffer.insertChar(fixIndex, DEL_ERROR);
         final boolean nowErrorFree = performLocatingRun(buffer);
         if (nowErrorFree) {
-            currentError.shiftIndexDeltaBy(
-                1); // compensate for the inserted DEL_ERROR char
+            // compensate for the inserted DEL_ERROR char
+            currentError.shiftIndexDeltaBy(1);
         } else {
             buffer.undoCharInsertion(fixIndex);
             errorIndex = Math.max(errorIndex - 1, 0);
@@ -300,29 +325,28 @@ public class RecoveringParseRunner<V>
     }
 
     @Nullable
-    private Character findBestSingleCharInsertion(final int fixIndex)
+    private Character findSingleCharInsert(final int fixIndex)
     {
-        final GetStarterCharVisitor getStarterCharVisitor
-            = new GetStarterCharVisitor();
+        final GetStarterCharVisitor visitor = new GetStarterCharVisitor();
         int bestNextErrorIndex = -1;
         Character bestChar = '\u0000'; // non-null default
-        for (final MatcherPath failedMatcherPath : currentError
-            .getFailedMatchers()) {
-            final Character starterChar = failedMatcherPath.element.matcher
-                .accept(getStarterCharVisitor);
-            Preconditions.checkState(starterChar != null); // we should only
-            // have single
-            // character matchers
+        for (final MatcherPath path: currentError.getFailedMatchers()) {
+            final Character starterChar = path.element.matcher.accept(visitor);
+            // we should only have single character matchers
+            Preconditions.checkState(starterChar != null);
+            // we should never conjure up an EOI character (that would be
+            // cheating :)
             //noinspection ConstantConditions
-            if (starterChar == EOI) {
-                continue; // we should never conjure up an EOI character (that would be cheating :)
-            }
+            if (starterChar == EOI)
+                continue;
+
             buffer.insertChar(fixIndex, starterChar);
             buffer.insertChar(fixIndex, INS_ERROR);
             if (performLocatingRun(buffer)) {
-                currentError
-                    .shiftIndexDeltaBy(2); // compensate for the inserted chars
-                return null; // success, exit immediately
+                // compensate for the inserted chars
+                currentError.shiftIndexDeltaBy(2);
+                // success, exit immediately
+                return null;
             }
             buffer.undoCharInsertion(fixIndex);
             buffer.undoCharInsertion(fixIndex);
@@ -338,10 +362,10 @@ public class RecoveringParseRunner<V>
     }
 
     @Nullable
-    private Character findBestSingleCharReplacement(final int fixIndex)
+    private Character findSingleCharReplace(final int fixIndex)
     {
         buffer.insertChar(fixIndex, DEL_ERROR);
-        final Character bestChar = findBestSingleCharInsertion(fixIndex + 2);
+        final Character bestChar = findSingleCharInsert(fixIndex + 2);
         if (bestChar == null) {
             // success, we found a fix that renders the complete input error
             // free; delta from DEL_ERROR char insertion and index shift by
@@ -356,8 +380,8 @@ public class RecoveringParseRunner<V>
 
     /**
      * A {@link MatchHandler} implementation that recognizes the special
-     * {@link Chars#RESYNC} character to overcome {@link InvalidInputError}s at the respective
-     * error indices.
+     * {@link Chars#RESYNC} character to overcome {@link InvalidInputError}s at
+     * the respective error indices.
      */
     private class Handler
         implements MatchHandler
@@ -394,8 +418,10 @@ public class RecoveringParseRunner<V>
                 case RESYNC:
                 case RESYNC_START:
                 case RESYNC_EOI:
-                    // however we only resynchronize if we are at a RESYNC location and the matcher is a SequenceMatcher
-                    // that has already matched at least one character and that is a parent of the last match
+                    // however we only resynchronize if we are at a RESYNC
+                    // location and the matcher is a SequenceMatcher that has
+                    // already matched at least one character and that is a
+                    // parent of the last match
                     return qualifiesForResync(context)
                         && resynchronize(context);
             }
@@ -445,7 +471,8 @@ public class RecoveringParseRunner<V>
         private boolean willMatchDelError(final MatcherContext<?> context)
         {
             final int preSkipIndex = context.getCurrentIndex();
-            context.advanceIndex(2); // skip del marker char and illegal char
+            // skip del marker char and illegal char
+            context.advanceIndex(2);
             if (!runTestMatch(context)) {
                 // if we wouldn't succeed with the match do not swallow the
                 // ERROR char & Co
@@ -461,7 +488,8 @@ public class RecoveringParseRunner<V>
         private boolean willMatchInsError(final MatcherContext<?> context)
         {
             final int preSkipIndex = context.getCurrentIndex();
-            context.advanceIndex(1); // skip ins marker char
+             // skip ins marker char
+            context.advanceIndex(1);
             if (!runTestMatch(context)) {
                 // if we wouldn't succeed with the match do not swallow the
                 // ERROR char
@@ -495,7 +523,7 @@ public class RecoveringParseRunner<V>
             // in order to keep the value stack consistent we go into a special
             // "error action mode" and execute the minimal set of actions
             // underneath the resync sequence
-            rerunAndExecuteErrorActions(context);
+            rerunWithActions(context);
 
             // skip over all characters that are not legal followers of the
             // failed Sequence
@@ -505,11 +533,10 @@ public class RecoveringParseRunner<V>
                     // length of the bad sequence and change this RESYNC marker
                     // to a RESYNC_START / RESYNC_END block
                     context.advanceIndex(1); // gobble RESYNC marker
-                    final List<Matcher> followMatchers
-                        = new FollowMatchersVisitor()
-                            .getFollowMatchers(context);
+                    final List<Matcher> matchers = new FollowMatchersVisitor()
+                        .getFollowMatchers(context);
                     final int endIndex
-                        = gobbleIllegalCharacters(context, followMatchers);
+                        = gobbleIllegalCharacters(context, matchers);
                     currentError.setEndIndex(endIndex);
                     buffer.replaceInsertedChar(currentError.getStartIndex() - 1,
                         RESYNC_START);
@@ -543,8 +570,7 @@ public class RecoveringParseRunner<V>
             return true;
         }
 
-        private void rerunAndExecuteErrorActions(
-            final MatcherContext<?> context)
+        private void rerunWithActions(final MatcherContext<?> context)
         {
             // the context is for the resync action, which at this point has
             // FAILED, i.e. ALL its sub actions haven't had a chance to change
@@ -558,7 +584,7 @@ public class RecoveringParseRunner<V>
             context.setCurrentIndex(context.getStartIndex());
 
             boolean preError = true;
-            for (final Matcher child : context.getMatcher().getChildren()) {
+            for (final Matcher child: context.getMatcher().getChildren()) {
                 if (preError && !child.getSubContext(context).runMatcher()) {
                     // run what will be the preceding matcher of all error
                     // actions
@@ -575,7 +601,7 @@ public class RecoveringParseRunner<V>
                     Preconditions.checkState(errorActions != null);
                     // execute the error actions without looking at their
                     // boolean results !!!
-                    for (final ActionMatcher errorAction : errorActions)
+                    for (final ActionMatcher errorAction: errorActions)
                         errorAction.getSubContext(context).runMatcher();
 
                     context.setInErrorRecovery(false);
@@ -657,7 +683,7 @@ public class RecoveringParseRunner<V>
 
             final List<ActionMatcher> actions = new ArrayList<ActionMatcher>();
             List<ActionMatcher> subActions;
-            for (final Matcher sub : matcher.getChildren()) {
+            for (final Matcher sub: matcher.getChildren()) {
                 subActions = sub.accept(this);
                 if (subActions == null)
                     return ImmutableList.of();
