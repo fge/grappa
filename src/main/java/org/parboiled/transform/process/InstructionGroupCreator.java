@@ -140,20 +140,24 @@ public class InstructionGroupCreator
     private void markUngroupedEnclosedNodes(final InstructionGroup group)
     {
         InstructionGraphNode node;
-while_:
-        // TODO: clean this... Not sure whether "max" depends on the loop
-        while (true) {
-            for (int i = getIndexOfFirstInsn(group), max = getIndexOfLastInsn(
-                group); i < max; i++) {
-                node = method.getGraphNodes().get(i);
-                if (node.getGroup() == null) {
-                    markGroup(node, group);
-                    sort(group);
-                    continue while_;
-                }
+        boolean keepGoing;
+        List<InstructionGraphNode> graphNodes;
+        int startIndex, endIndex;
+        do {
+            keepGoing = false;
+            graphNodes = method.getGraphNodes();
+            startIndex = getIndexOfFirstInsn(group);
+            endIndex = getIndexOfLastInsn(group);
+            for (int i = startIndex; i < endIndex; i++) {
+                node = graphNodes.get(i);
+                if (node.getGroup() != null)
+                    continue;
+
+                markGroup(node, group);
+                sort(group);
+                keepGoing = true;
             }
-            break;
-        }
+        } while (keepGoing);
     }
 
     private void verify(final InstructionGroup group)
