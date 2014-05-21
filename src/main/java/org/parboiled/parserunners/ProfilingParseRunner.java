@@ -154,7 +154,7 @@ public class ProfilingParseRunner<V>
     {
         long timeStamp = System.nanoTime();
         final Matcher matcher = context.getMatcher();
-        final RuleStats ruleStats = ((RuleStats) matcher.getTag());
+        final RuleStats ruleStats = (RuleStats) matcher.getTag();
         final int pos = context.getCurrentIndex();
 
         int subMatches = -++runMatches;
@@ -231,7 +231,7 @@ public class ProfilingParseRunner<V>
             mismatchSubs = 0;
             rematchSubs = 0;
             remismatchSubs = 0;
-            nanoTime = 0;
+            nanoTime = 0L;
             positionMatches.clear();
         }
     }

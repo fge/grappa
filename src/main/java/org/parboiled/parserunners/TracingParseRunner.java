@@ -44,8 +44,8 @@ import java.io.IOException;
 
 /**
  * A {@link ParseRunner} implementation used for debugging purposes.
- * It exhibits the same behavior as the {@link ReportingParseRunner} but collects debugging information as to which
- * rules did match and which didn't.
+ * It exhibits the same behavior as the {@link ReportingParseRunner} but
+ * collects debugging information as to which rules did match and which didn't.
  */
 // TODO: get rid of nulls
 public class TracingParseRunner<V>
@@ -58,7 +58,8 @@ public class TracingParseRunner<V>
     private MatcherPath lastPath;
 
     /**
-     * Creates a new TracingParseRunner instance without filter and a console log for the given rule.
+     * Creates a new TracingParseRunner instance without filter and a console
+     * log for the given rule.
      *
      * @param rule the parser rule
      */

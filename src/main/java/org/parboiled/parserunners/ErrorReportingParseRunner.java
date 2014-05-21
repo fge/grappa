@@ -27,6 +27,7 @@ import org.parboiled.matchervisitors.IsSingleCharMatcherVisitor;
 import org.parboiled.support.MatcherPath;
 import org.parboiled.support.ParsingResult;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class ErrorReportingParseRunner<V>
     extends AbstractParseRunner<V>
     implements MatchHandler
 {
-    private final IsSingleCharMatcherVisitor isSingleCharMatcherVisitor
+    private final IsSingleCharMatcherVisitor visitor
         = new IsSingleCharMatcherVisitor();
     private final int errorIndex;
     private final MatchHandler inner;
@@ -74,7 +75,7 @@ public class ErrorReportingParseRunner<V>
      */
     // TODO disallow null MatchHandler
     public ErrorReportingParseRunner(final Rule rule, final int errorIndex,
-        final MatchHandler inner)
+        @Nullable final MatchHandler inner)
     {
         super(rule);
         this.errorIndex = errorIndex;
@@ -90,13 +91,12 @@ public class ErrorReportingParseRunner<V>
         seeking = errorIndex > 0;
 
         // run without fast string matching to properly get to the error location
-        final MatcherContext<V> rootContext = createRootContext(inputBuffer,
-            this, false);
+        final MatcherContext<V> rootContext
+            = createRootContext(inputBuffer, this, false);
         final boolean matched = match(rootContext);
         if (!matched) {
-            parseErrors.add(
-                new InvalidInputError(inputBuffer, errorIndex, failedMatchers,
-                    null));
+            parseErrors.add(new InvalidInputError(inputBuffer, errorIndex,
+                failedMatchers, null));
         }
         return createParsingResult(matched, rootContext);
     }
@@ -104,15 +104,16 @@ public class ErrorReportingParseRunner<V>
     @Override
     public boolean match(final MatcherContext<?> context)
     {
-        final boolean matched =
-            inner == null && context.getMatcher().match(context)
-                || inner != null && inner.match(context);
+        final boolean matched = inner == null
+            ? context.getMatcher().match(context)
+            : inner.match(context);
+
         if (context.getCurrentIndex() == errorIndex) {
             if (matched && seeking)
                 seeking = false;
 
             if (!matched && !seeking
-                && context.getMatcher().accept(isSingleCharMatcherVisitor))
+                && context.getMatcher().accept(visitor))
                 failedMatchers.add(context.getPath());
 
         }

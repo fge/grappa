@@ -26,6 +26,8 @@ import org.parboiled.errors.BasicParseError;
 import org.parboiled.matchers.TestNotMatcher;
 import org.parboiled.support.ParsingResult;
 
+import javax.annotation.Nullable;
+
 /**
  * A {@link ParseRunner} implementation that creates a simple {@link BasicParseError} for the first error found in the
  * input and adds it to the list of ParseErrors.
@@ -56,9 +58,11 @@ public class ErrorLocatingParseRunner<V>
      * The given MatchHandler is used as a delegate for the actual match handling.
      *
      * @param rule the parser rule
-     * @param inner another MatchHandler to delegate the actual match handling to, can be null
+     * @param inner another MatchHandler to delegate the actual match handling
+     * to, can be null
      */
-    public ErrorLocatingParseRunner(final Rule rule, final MatchHandler inner)
+    public ErrorLocatingParseRunner(final Rule rule,
+        @Nullable final MatchHandler inner)
     {
         super(rule);
         this.inner = inner;
@@ -76,8 +80,7 @@ public class ErrorLocatingParseRunner<V>
             = createRootContext(inputBuffer, this, false);
         final boolean matched = match(rootContext);
         if (!matched)
-            parseErrors
-                .add(new BasicParseError(inputBuffer, errorIndex, null));
+            parseErrors.add(new BasicParseError(inputBuffer, errorIndex, null));
 
         return createParsingResult(matched, rootContext);
     }
@@ -85,14 +88,15 @@ public class ErrorLocatingParseRunner<V>
     @Override
     public boolean match(final MatcherContext<?> context)
     {
-        if (inner == null && context.getMatcher().match(context)
-            || inner != null && inner.match(context)) {
-            if (errorIndex < context.getCurrentIndex() && notTestNot(context))
-                errorIndex = context.getCurrentIndex();
+        final boolean condition = inner == null
+            ? context.getMatcher().match(context)
+            : inner.match(context);
+        if (!condition)
+            return false;
+        if (errorIndex < context.getCurrentIndex() && notTestNot(context))
+            errorIndex = context.getCurrentIndex();
 
-            return true;
-        }
-        return false;
+        return true;
     }
 
     private static boolean notTestNot(final MatcherContext<?> context)

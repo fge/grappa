@@ -80,7 +80,8 @@ public class ReportingParseRunner<V>
         // may be more than one in case of custom ActionExceptions
         Preconditions.checkState(result.hasCollectedParseErrors());
 
-        // finally perform a third, reporting run (now that we know the error location)
+        // finally perform a third, reporting run (now that we know the error
+        // location)
         resetValueStack();
         result = runReportingMatch(inputBuffer,
             result.getParseErrors().get(0).getStartIndex());

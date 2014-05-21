@@ -386,7 +386,7 @@ public class RecoveringParseRunner<V>
     private class Handler
         implements MatchHandler
     {
-        private final IsSingleCharMatcherVisitor isSingleCharMatcherVisitor
+        private final IsSingleCharMatcherVisitor visitor
             = new IsSingleCharMatcherVisitor();
         private int fringeIndex;
         private MatcherPath lastMatchPath;
@@ -395,7 +395,7 @@ public class RecoveringParseRunner<V>
         public boolean match(final MatcherContext<?> context)
         {
             final Matcher matcher = context.getMatcher();
-            if (matcher.accept(isSingleCharMatcherVisitor)) {
+            if (matcher.accept(visitor)) {
                 if (!prepareErrorLocation(context) || !matcher.match(context))
                     return false;
 
