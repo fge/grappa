@@ -165,10 +165,13 @@ public class InstructionGroupCreator
         final List<InstructionGraphNode> nodes = group.getNodes();
         final int sizeMinus1 = nodes.size() - 1;
 
-        // verify all instruction except for the last one (which must be the root)
+        // verify all instruction except for the last one (which must be the
+        // root)
         Preconditions.checkState(nodes.get(sizeMinus1) == group.getRoot());
+
+        InstructionGraphNode node;
         for (int i = 0; i < sizeMinus1; i++) {
-            final InstructionGraphNode node = nodes.get(i);
+            node = nodes.get(i);
             Checks.ensure(!node.isXStore(),
                 "An ACTION or Var initializer in rule method '%s' "
                 + "contains illegal writes to a local variable or parameter",
@@ -176,11 +179,9 @@ public class InstructionGroupCreator
             verifyAccess(node);
         }
 
-        Checks.ensure(getIndexOfLastInsn(group) - getIndexOfFirstInsn(group)
-            == sizeMinus1,
-            "Error during bytecode analysis of rule method '%s': " +
-            "discontinuous group block",
-            method.name);
+        final int i = getIndexOfLastInsn(group) - getIndexOfFirstInsn(group);
+        Checks.ensure(i == sizeMinus1, "Error during bytecode analysis of" +
+            " rule method '%s': discontinuous group block", method.name);
     }
 
     private void verifyAccess(final InstructionGraphNode node)
@@ -202,8 +203,8 @@ public class InstructionGroupCreator
             case INVOKESTATIC:
             case INVOKESPECIAL:
             case INVOKEINTERFACE:
-                final MethodInsnNode calledMethod = (MethodInsnNode) node
-                    .getInstruction();
+                final MethodInsnNode calledMethod
+                    = (MethodInsnNode) node.getInstruction();
                 Checks.ensure(!isPrivate(calledMethod.owner, calledMethod.name,
                     calledMethod.desc),
                     "Rule method '%s' contains an illegal call to private" +
@@ -289,6 +290,7 @@ public class InstructionGroupCreator
         {
             this.instructions = Preconditions.checkNotNull(instructions);
         }
+
         @Override
         public int compare(final InstructionGraphNode o1,
             final InstructionGraphNode o2)
