@@ -18,12 +18,8 @@ package org.parboiled.support;
 
 import com.github.parboiled1.grappa.annotations.DoNotUse;
 import com.github.parboiled1.grappa.annotations.WillBeFinal;
-import com.github.parboiled1.grappa.annotations.WillBeRemoved;
-import com.github.parboiled1.grappa.misc.SupplierAdapter;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
-import com.google.common.base.Supplier;
-import com.google.common.base.Suppliers;
 import com.google.common.collect.Lists;
 import org.parboiled.common.Factory;
 import org.parboiled.common.Reference;
@@ -56,7 +52,7 @@ import java.util.Deque;
 public class Var<T>
     extends Reference<T>
 {
-    private final Supplier<T> supplier;
+    private final Factory<T> factory;
     private final Deque<T> stack = Lists.newLinkedList();
     private int level;
     private String name;
@@ -78,17 +74,15 @@ public class Var<T>
     public Var(@Nullable final T value)
     {
         super(value);
-        supplier = Suppliers.ofInstance(value);
-    }
-
-    /**
-     * Initialize a new {@code Var} with an initial value supplier
-     *
-     * @param supplier supplier of initial values
-     */
-    public Var(@Nonnull final Supplier<T> supplier)
-    {
-        this.supplier = Preconditions.checkNotNull(supplier);
+        factory = new Factory<T>()
+        {
+            @Nullable
+            @Override
+            public T create()
+            {
+                return value;
+            }
+        };
     }
 
     /**
@@ -97,13 +91,10 @@ public class Var<T>
      *
      * @param factory the factory used to create the initial value for a rule execution frame
      *
-     * @deprecated use {@link Var#Var(Supplier)} instead
      */
-    @Deprecated
-    @WillBeRemoved(version = "1.1")
     public Var(@Nonnull final Factory<T> factory)
     {
-        supplier = new SupplierAdapter<T>(factory);
+        this.factory = Preconditions.checkNotNull(factory);
     }
 
     /**
@@ -154,7 +145,7 @@ public class Var<T>
     {
         if (level++ > 0)
             stack.add(get());
-        return set(supplier.get());
+        return set(factory.create());
     }
 
     /**
