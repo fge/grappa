@@ -25,6 +25,7 @@ package org.parboiled.transform.process;
 import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.transform.asm.AsmHelper;
 import com.google.common.base.Preconditions;
+import me.qmx.jitescript.util.CodegenUtils;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.FieldInsnNode;
@@ -34,6 +35,7 @@ import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
+import org.parboiled.common.Factory;
 import org.parboiled.transform.InstructionGraphNode;
 import org.parboiled.transform.InstructionGroup;
 import org.parboiled.transform.ParserClassNode;
@@ -56,9 +58,8 @@ public class RuleMethodRewriter
     implements RuleMethodProcessor
 {
     private RuleMethod method;
-    private InstructionGroup instructionGroup;
-    private int actionNr;
-    private int varInitNr;
+    private int actionNr = 0;
+    private int varInitNr = 0;
 
     @Override
     public boolean appliesTo(@Nonnull final ParserClassNode classNode,
@@ -79,68 +80,67 @@ public class RuleMethodRewriter
         varInitNr = 0;
 
         for (final InstructionGroup group: method.getGroups()) {
-            // TODO: remove that!! Make it a parameter to other methods
-            instructionGroup = group;
-            createNewGroupClassInstance();
-            initializeFields();
+            createNewGroupClassInstance(group);
+            initializeFields(group);
 
             final InstructionGraphNode root = group.getRoot();
             if (root.isActionRoot()) {
-                removeGroupRootInstruction();
+                removeGroupRootInstruction(group);
             } else { // if (root.isVarInitRoot())
+                // TODO: replace with Supplier
                 ((MethodInsnNode) root.getInstruction()).desc
-                    = "(Lorg/parboiled/common/Factory;)V";
+                    = CodegenUtils.sig(void.class, Factory.class);
             }
         }
         method.setBodyRewritten();
     }
 
-    private void createNewGroupClassInstance()
+    private void createNewGroupClassInstance(final InstructionGroup group)
     {
         final String internalName
-            = instructionGroup.getGroupClassType().getInternalName();
-        final InstructionGraphNode root = instructionGroup.getRoot();
-        insert(new TypeInsnNode(NEW, internalName));
-        insert(new InsnNode(DUP));
-        insert(new LdcInsnNode(
+            = group.getGroupClassType().getInternalName();
+        final InstructionGraphNode root = group.getRoot();
+        insert(group, new TypeInsnNode(NEW, internalName));
+        insert(group, new InsnNode(DUP));
+        insert(group, new LdcInsnNode(
             method.name + (root.isActionRoot() ? "_Action" + ++actionNr
                 : "_VarInit" + ++varInitNr)));
-        insert(new MethodInsnNode(INVOKESPECIAL, internalName, "<init>",
-            "(Ljava/lang/String;)V", false));
+        insert(group, new MethodInsnNode(INVOKESPECIAL, internalName, "<init>",
+            CodegenUtils.sig(void.class, String.class), false));
 
         if (root.isActionRoot()
             && method.hasSkipActionsInPredicatesAnnotation()) {
-            insert(new InsnNode(DUP));
-            insert(new MethodInsnNode(INVOKEVIRTUAL, internalName,
-                "setSkipInPredicates", "()V", false));
+            insert(group, new InsnNode(DUP));
+            insert(group, new MethodInsnNode(INVOKEVIRTUAL, internalName,
+                "setSkipInPredicates", CodegenUtils.sig(void.class), false));
         }
     }
 
-    private void initializeFields()
+    private void initializeFields(final InstructionGroup group)
     {
         final String internalName
-            = instructionGroup.getGroupClassType().getInternalName();
-        for (final FieldNode field : instructionGroup.getFields()) {
-            insert(new InsnNode(DUP));
-            // the FieldNodes access and value members have been reused for the var index / Type respectively!
-            insert(new VarInsnNode(AsmHelper.loadingOpcodeFor(
-                (Type) field.value), field.access));
-            insert(new FieldInsnNode(PUTFIELD, internalName, field.name,
+            = group.getGroupClassType().getInternalName();
+        for (final FieldNode field: group.getFields()) {
+            insert(group, new InsnNode(DUP));
+            // the FieldNodes access and value members have been reused for the
+            // var index / Type respectively!
+            final int opcode = AsmHelper.loadingOpcodeFor((Type) field.value);
+            insert(group, new VarInsnNode(opcode, field.access));
+            insert(group, new FieldInsnNode(PUTFIELD, internalName, field.name,
                 field.desc));
         }
     }
 
-    private void insert(final AbstractInsnNode insn)
+    private void insert(final InstructionGroup group,
+        final AbstractInsnNode insn)
     {
-        method.instructions.insertBefore(
-            instructionGroup.getRoot().getInstruction(),
-            insn
-        );
+        method.instructions.insertBefore(group.getRoot().getInstruction(),
+            insn);
     }
 
-    private void removeGroupRootInstruction()
+    private void removeGroupRootInstruction(final InstructionGroup group)
     {
-        method.instructions.remove(instructionGroup.getRoot().getInstruction());
+        method.instructions.remove(group.getRoot().getInstruction());
     }
 }
 
