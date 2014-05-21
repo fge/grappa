@@ -18,7 +18,7 @@ package com.github.parboiled1.grappa.misc;
 
 import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 import com.google.common.io.CharSink;
-import org.parboiled.annotations.ForBackwardsCompatibilityOnly;
+import com.github.parboiled1.grappa.annotations.ForBackwardsCompatibilityOnly;
 import org.parboiled.common.Sink;
 
 import java.io.IOException;

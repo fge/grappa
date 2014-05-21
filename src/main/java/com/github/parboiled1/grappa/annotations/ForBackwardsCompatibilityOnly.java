@@ -1,4 +1,4 @@
-package org.parboiled.annotations;
+package com.github.parboiled1.grappa.annotations;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
