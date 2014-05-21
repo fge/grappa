@@ -16,8 +16,6 @@
 
 package com.github.parboiled1.grappa.transform.asm;
 
-import com.github.parboiled1.grappa.annotations.DoNotUse;
-import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
@@ -27,7 +25,7 @@ import org.objectweb.asm.Type;
 import javax.annotation.Nonnull;
 import java.util.Map;
 
-public final class AsmHelper
+public final class LoadingOpcode
 {
     private static final Map<Integer, Integer> LOADING_OPCODES;
 
@@ -49,19 +47,11 @@ public final class AsmHelper
         LOADING_OPCODES = builder.build();
     }
 
-    private AsmHelper()
+    private LoadingOpcode()
     {
     }
 
-    @Deprecated
-    @DoNotUse
-    @WillBeRemoved(version = "1.1")
-    public static ClassHelper classHelper(@Nonnull final Class<?> c)
-    {
-        return new ClassHelper(c);
-    }
-
-    public static int loadingOpcodeFor(@Nonnull final Type type)
+    public static int forType(@Nonnull final Type type)
     {
         Preconditions.checkNotNull(type);
         // Will throw IllegalStateException if optional .isAbsent()

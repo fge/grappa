@@ -195,10 +195,6 @@ public abstract class GroupClassGenerator
                 instructions.insertBefore(insn, new InsnNode(DUP));
             }
             instructions.insertBefore(insn, new VarInsnNode(ALOAD, 1));
-            /*
-             * FIXME: this is where MethodDescriptor can really help, but in
-             * the meanwhile...
-             */
             final MethodInsnNode insnNode = new MethodInsnNode(INVOKEINTERFACE,
                 CodegenUtils.p(ContextAware.class), "setContext",
                 CodegenUtils.sig(void.class, Context.class), true);

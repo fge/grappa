@@ -25,7 +25,7 @@ package org.parboiled.transform;
 import com.github.parboiled1.grappa.annotations.DoNotUse;
 import com.github.parboiled1.grappa.annotations.Unused;
 import com.github.parboiled1.grappa.annotations.WillBeRemoved;
-import com.github.parboiled1.grappa.transform.asm.AsmHelper;
+import com.github.parboiled1.grappa.transform.asm.LoadingOpcode;
 import com.google.common.base.Preconditions;
 import me.qmx.jitescript.util.CodegenUtils;
 import org.objectweb.asm.ClassReader;
@@ -356,7 +356,7 @@ public final class AsmUtils
         VarInsnNode node;
 
         for (int i = 0; i < types.length; i++) {
-            opcode = AsmHelper.loadingOpcodeFor(types[i]);
+            opcode = LoadingOpcode.forType(types[i]);
             node = new VarInsnNode(opcode, i + 1);
             instructions.add(node);
         }
@@ -369,7 +369,7 @@ public final class AsmUtils
      * @param argType type
      * @return matching load opcode
      *
-     * @deprecated use {@link AsmHelper#loadingOpcodeFor(Type)} instead; will
+     * @deprecated use {@link LoadingOpcode#forType(Type)} instead; will
      * be removed in 1.1.
      */
     @Deprecated

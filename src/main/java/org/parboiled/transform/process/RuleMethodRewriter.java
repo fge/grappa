@@ -23,7 +23,7 @@
 package org.parboiled.transform.process;
 
 import com.github.parboiled1.grappa.annotations.WillBeFinal;
-import com.github.parboiled1.grappa.transform.asm.AsmHelper;
+import com.github.parboiled1.grappa.transform.asm.LoadingOpcode;
 import com.google.common.base.Preconditions;
 import me.qmx.jitescript.util.CodegenUtils;
 import org.objectweb.asm.Type;
@@ -124,7 +124,7 @@ public class RuleMethodRewriter
             insert(group, new InsnNode(DUP));
             // the FieldNodes access and value members have been reused for the
             // var index / Type respectively!
-            final int opcode = AsmHelper.loadingOpcodeFor((Type) field.value);
+            final int opcode = LoadingOpcode.forType((Type) field.value);
             insert(group, new VarInsnNode(opcode, field.access));
             insert(group, new FieldInsnNode(PUTFIELD, internalName, field.name,
                 field.desc));
