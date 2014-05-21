@@ -40,8 +40,8 @@ public abstract class ParboiledTest<V> {
         }
 
         public TestResult<V> hasNoErrors() {
-//            resultAssert.hasMatch();
-            if (result.hasMatch())
+//            resultAssert.isSuccess();
+            if (result.isSuccess())
                 return this;
             fail("\n--- ParseErrors ---\n" +
                     printParseErrors(result) +

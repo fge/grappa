@@ -44,7 +44,7 @@ public final class BasicParseRunnerTest
     @Test
     public void basicParseRunnerCanReliablyReportErrors()
     {
-        assertThat(runner.run("bbb").hasMatch()).as("errors are reported")
+        assertThat(runner.run("bbb").isSuccess()).as("errors are reported")
             .isFalse();
     }
 }

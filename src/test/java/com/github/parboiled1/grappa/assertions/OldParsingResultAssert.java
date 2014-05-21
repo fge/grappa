@@ -42,7 +42,7 @@ public final class OldParsingResultAssert<V>
 
     public OldParsingResultAssert<V> hasMatch()
     {
-        assertThat(actual.hasMatch()).overridingErrorMessage(
+        assertThat(actual.isSuccess()).overridingErrorMessage(
             "parsing result should not have any errors!"
         ).isFalse();
         return this;

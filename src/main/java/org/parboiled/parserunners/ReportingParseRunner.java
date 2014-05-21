@@ -69,14 +69,14 @@ public class ReportingParseRunner<V>
 
         // first, run a basic match
         ParsingResult<V> result = runBasicMatch(inputBuffer);
-        if (result.hasMatch())
+        if (result.isSuccess())
             return result; // all good
 
         // ok, we have a parse error, so determine the error location
         resetValueStack();
         result = runLocatingMatch(inputBuffer);
         // we failed before so we should really be failing again
-        Preconditions.checkState(!result.hasMatch());
+        Preconditions.checkState(!result.isSuccess());
         // may be more than one in case of custom ActionExceptions
         Preconditions.checkState(result.hasCollectedParseErrors());
 
@@ -85,7 +85,7 @@ public class ReportingParseRunner<V>
         result = runReportingMatch(inputBuffer,
             result.getParseErrors().get(0).getStartIndex());
         // we failed before so we should really be failing again
-        Preconditions.checkState(!result.hasMatch());
+        Preconditions.checkState(!result.isSuccess());
         return result;
     }
 

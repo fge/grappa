@@ -62,7 +62,7 @@ public final class ParsingResultVerifier<V>
     public void verify(@Nonnull final SoftAssertions soft,
         @Nonnull final ParsingResult<V> toVerify)
     {
-        soft.assertThat(toVerify.hasMatch()).as("rule matches/does not match")
+        soft.assertThat(toVerify.isSuccess()).as("rule matches/does not match")
             .isEqualTo(hasMatch);
         parseTree.setBuffer(buffer).verify(soft, toVerify.getParseTree());
         soft.assertThat(toVerify.getParseErrors().size())

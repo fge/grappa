@@ -40,7 +40,7 @@ public class ParsingResult<V>
     /**
      * DO NOT USE DIRECTLY!
      *
-     * <p>Use {@link #hasMatch()} instead</p>
+     * <p>Use {@link #isSuccess()} instead</p>
      */
     @WillBePrivate(version = "1.1")
     public final boolean matched;
@@ -117,7 +117,7 @@ public class ParsingResult<V>
      *
      * @return see description
      */
-    public final boolean hasMatch()
+    public final boolean isSuccess()
     {
         return matched;
     }
@@ -167,7 +167,7 @@ public class ParsingResult<V>
      * any parsing errors.</p>
      *
      * @return see description
-     * @see #hasMatch()
+     * @see #isSuccess()
      */
     @Nonnull
     public final List<ParseError> getParseErrors()
@@ -190,7 +190,7 @@ public class ParsingResult<V>
      * Has this result collected any parse errors?
      *
      * <p><strong>note</strong>: this method does not guarantee that the result
-     * is a success; for this use {@link #hasMatch()} instead.</p>
+     * is a success; for this use {@link #isSuccess()} instead.</p>
      *
      * @return true if the parse error list is not empty
      */
@@ -203,7 +203,7 @@ public class ParsingResult<V>
     /**
      * @return true if this parsing result contains parsing errors.
      *
-     * @deprecated name is confusing; use {@link #hasMatch()} to see if this
+     * @deprecated name is confusing; use {@link #isSuccess()} to see if this
      * result is a match and {@link #hasCollectedParseErrors()} if this result
      * has collected parse errors.
      */
