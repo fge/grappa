@@ -18,15 +18,16 @@ package org.parboiled.transform.process;
 
 import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Preconditions;
+import me.qmx.jitescript.util.CodegenUtils;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.LabelNode;
 import org.objectweb.asm.tree.MethodInsnNode;
+import org.parboiled.Rule;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
-import org.parboiled.transform.Types;
 
 import javax.annotation.Nonnull;
 
@@ -48,10 +49,10 @@ public class FlagMarkingGenerator
     {
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
-        return method.hasSuppressNodeAnnotation() || method
-            .hasSuppressSubnodesAnnotation() ||
-            method.hasSkipNodeAnnotation() || method
-            .hasMemoMismatchesAnnotation();
+        return method.hasSuppressNodeAnnotation()
+            || method.hasSuppressSubnodesAnnotation()
+            || method.hasSkipNodeAnnotation()
+            || method.hasMemoMismatchesAnnotation();
     }
 
     @Override
@@ -96,8 +97,8 @@ public class FlagMarkingGenerator
         final AbstractInsnNode ret, final String call)
     {
         final MethodInsnNode insn = new MethodInsnNode(INVOKEINTERFACE,
-            Types.RULE.getInternalName(), call,
-            "()" + Types.RULE.getDescriptor(), true);
+            CodegenUtils.p(Rule.class), call,
+            CodegenUtils.sig(Rule.class), true);
         instructions.insertBefore(ret, insn);
     }
 }

@@ -17,8 +17,8 @@
 package org.parboiled.transform.process;
 
 import com.github.parboiled1.grappa.annotations.WillBeFinal;
-import com.github.parboiled1.grappa.transform.asm.MethodDescriptor;
 import com.google.common.base.Preconditions;
+import me.qmx.jitescript.util.CodegenUtils;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -31,12 +31,12 @@ import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
 import org.parboiled.Context;
+import org.parboiled.ContextAware;
 import org.parboiled.transform.AsmUtils;
 import org.parboiled.transform.InstructionGraphNode;
 import org.parboiled.transform.InstructionGroup;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
-import org.parboiled.transform.Types;
 
 import javax.annotation.Nonnull;
 
@@ -73,11 +73,9 @@ public abstract class GroupClassGenerator
         this.classNode = Preconditions.checkNotNull(classNode, "classNode");
         this.method = Preconditions.checkNotNull(method, "method");
 
-        for (final InstructionGroup group : method.getGroups()) {
-            if (appliesTo(group.getRoot())) {
+        for (final InstructionGroup group: method.getGroups())
+            if (appliesTo(group.getRoot()))
                 loadGroupClass(group);
-            }
-        }
     }
 
     protected abstract boolean appliesTo(InstructionGraphNode group);
@@ -104,18 +102,22 @@ public abstract class GroupClassGenerator
     private void createGroupClassType(final InstructionGroup group)
     {
         final String s = classNode.name;
+        /*
+         * If the parser has no package, the group will be an embedded class
+         * to the parser class
+         */
         final int lastSlash = classNode.name.lastIndexOf('/');
-        final String groupClassInternalName =
-            (lastSlash >= 0 ? s.substring(0, lastSlash) : s) + '/' + group
-                .getName();
+        final String groupName = group.getName();
+        final String pkg = lastSlash >= 0 ? s.substring(0, lastSlash) : s;
+        final String groupClassInternalName = pkg  + '/' + groupName;
         group.setGroupClassType(Type.getObjectType(groupClassInternalName));
     }
 
     @WillBeFinal(version = "1.1")
     protected byte[] generateGroupClassCode(final InstructionGroup group)
     {
-        final ClassWriter classWriter = new ClassWriter(
-            ClassWriter.COMPUTE_MAXS);
+        final ClassWriter classWriter
+            = new ClassWriter(ClassWriter.COMPUTE_MAXS);
         generateClassBasics(group, classWriter);
         generateFields(group, classWriter);
         generateConstructor(classWriter);
@@ -150,13 +152,12 @@ public abstract class GroupClassGenerator
 
     private void generateConstructor(final ClassWriter cw)
     {
-        final MethodVisitor mv
-            = cw.visitMethod(ACC_PUBLIC, "<init>", "(Ljava/lang/String;)V",
-            null, null);
+        final MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "<init>",
+            CodegenUtils.sig(void.class, String.class), null, null);
         mv.visitVarInsn(ALOAD, 0);
         mv.visitVarInsn(ALOAD, 1);
         mv.visitMethodInsn(INVOKESPECIAL, getBaseType().getInternalName(),
-            "<init>", "(Ljava/lang/String;)V", false);
+            "<init>", CodegenUtils.sig(void.class, String.class), false);
         mv.visitInsn(RETURN);
         mv.visitMaxs(0, 0); // trigger automatic computing
     }
@@ -168,7 +169,7 @@ public abstract class GroupClassGenerator
         int localVarIx)
     {
         final InsnList instructions = group.getInstructions();
-        for (final InstructionGraphNode node : group.getNodes()) {
+        for (final InstructionGraphNode node: group.getNodes()) {
             if (!node.isCallOnContextAware())
                 continue;
 
@@ -178,15 +179,15 @@ public abstract class GroupClassGenerator
                 // store the target of the call in a new local variable
                 final AbstractInsnNode loadTarget = node.getPredecessors()
                     .get(0).getInstruction();
-                instructions
-                    .insert(loadTarget, new VarInsnNode(ASTORE, ++localVarIx));
+                instructions.insert(loadTarget, new VarInsnNode(ASTORE,
+                    ++localVarIx));
                 // the DUP is inserted BEFORE the ASTORE
                 instructions.insert(loadTarget, new InsnNode(DUP));
 
                 // immediately before the call get the target from the local var
                 // and set the context on it
-                instructions
-                    .insertBefore(insn, new VarInsnNode(ALOAD, localVarIx));
+                instructions.insertBefore(insn, new VarInsnNode(ALOAD,
+                    localVarIx));
             } else {
                 // if we have only one predecessor the call does not take any
                 // parameters and we can skip the storing and loading of the
@@ -198,11 +199,9 @@ public abstract class GroupClassGenerator
              * FIXME: this is where MethodDescriptor can really help, but in
              * the meanwhile...
              */
-            final MethodDescriptor descriptor = MethodDescriptor.newBuilder()
-                .addArgument(Context.class).build();
             final MethodInsnNode insnNode = new MethodInsnNode(INVOKEINTERFACE,
-                Types.CONTEXT_AWARE.getInternalName(), "setContext",
-                descriptor.getSignature(), true);
+                CodegenUtils.p(ContextAware.class), "setContext",
+                CodegenUtils.sig(void.class, Context.class), true);
             instructions.insertBefore(insn, insnNode);
         }
     }
