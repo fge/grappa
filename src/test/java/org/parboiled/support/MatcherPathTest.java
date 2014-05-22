@@ -48,13 +48,13 @@ public class MatcherPathTest {
                 new MatcherPath(new MatcherPath.Element((Matcher)parser.A(), 0, 2),
                 new MatcherPath(new MatcherPath.Element((Matcher)parser.B(), 0, 1),
                 new MatcherPath(new MatcherPath.Element((Matcher)parser.C(), 0, 0), null)));
-        final MatcherPath path2 = path1.parent;
+        final MatcherPath path2 = path1.getParent();
 
         assertEquals(path1.toString(), "C/B/A");
         assertEquals(path2.toString(), "C/B");
         assertTrue(path2.isPrefixOf(path1));
         assertTrue(path1.contains((Matcher)parser.B()));
-        assertEquals(path1.getElementAtLevel(0).matcher.toString(), "C");
+        assertEquals(path1.getElementAtLevel(0).getMatcher().toString(), "C");
     }
 
 }

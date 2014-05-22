@@ -331,7 +331,8 @@ public class RecoveringParseRunner<V>
         int bestNextErrorIndex = -1;
         Character bestChar = '\u0000'; // non-null default
         for (final MatcherPath path: currentError.getFailedMatchers()) {
-            final Character starterChar = path.element.matcher.accept(visitor);
+            final Character starterChar
+                = path.getElement().getMatcher().accept(visitor);
             // we should only have single character matchers
             Preconditions.checkState(starterChar != null);
             // we should never conjure up an EOI character (that would be

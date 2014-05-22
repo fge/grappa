@@ -193,7 +193,7 @@ public class TracingParseRunner<V>
         if (prefix != null && prefix.length() > 1)
             log.write("..(" + (prefix.length() - 1) + ")../");
 
-        log.write(path.toString(prefix != null ? prefix.parent : null));
+        log.write(path.toString(prefix != null ? prefix.getParent() : null));
 
         final String line = context.getInputBuffer().extractLine(pos.line);
         log.write(", " + (matched ? "matched" : "failed") + ", cursor at "

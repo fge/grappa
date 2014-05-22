@@ -38,7 +38,9 @@ public class MatcherPath
     {
         @WillBePrivate(version = "1.1")
         public final Matcher matcher;
+        @WillBePrivate(version = "1.1")
         public final int startIndex;
+        @WillBePrivate(version = "1.1")
         public final int level;
 
         public Element(final Matcher matcher, final int startIndex,
@@ -47,6 +49,21 @@ public class MatcherPath
             this.matcher = matcher;
             this.startIndex = startIndex;
             this.level = level;
+        }
+
+        public final Matcher getMatcher()
+        {
+            return matcher;
+        }
+
+        public final int getStartIndex()
+        {
+            return startIndex;
+        }
+
+        public int getLevel()
+        {
+            return level;
         }
     }
 
@@ -76,7 +93,7 @@ public class MatcherPath
      */
     public int length()
     {
-        return element.level + 1;
+        return element.getLevel() + 1;
     }
 
     /**
@@ -88,11 +105,26 @@ public class MatcherPath
     public boolean isPrefixOf(final MatcherPath that)
     {
         Preconditions.checkNotNull(that, "that");
-        if (element.level <= that.element.level && this == that)
+        if (element.getLevel() <= that.getElement().getLevel() && this == that)
             return true;
-        if (that.parent == null)
+        if (!that.hasParent())
             return false;
-        return isPrefixOf(that.parent);
+        return isPrefixOf(that.getParent());
+    }
+
+    public final Element getElement()
+    {
+        return element;
+    }
+
+    public final MatcherPath getParent()
+    {
+        return parent;
+    }
+
+    public final boolean hasParent()
+    {
+        return parent != null;
     }
 
     /**
@@ -105,9 +137,9 @@ public class MatcherPath
     public Element getElementAtLevel(final int level)
     {
         Preconditions.checkArgument(level >= 0);
-        if (level > element.level)
+        if (level > element.getLevel())
             return null;
-        if (level < element.level)
+        if (level < element.getLevel())
             return parent.getElementAtLevel(level);
         return element;
     }
@@ -122,14 +154,14 @@ public class MatcherPath
     public MatcherPath commonPrefix(final MatcherPath that)
     {
         Preconditions.checkNotNull(that, "that");
-        if (element.level > that.element.level)
+        if (element.getLevel() > that.getElement().getLevel())
             return parent.commonPrefix(that);
-        if (element.level < that.element.level)
-            return commonPrefix(that.parent);
+        if (element.getLevel() < that.getElement().getLevel())
+            return commonPrefix(that.getParent());
         if (this == that)
             return this;
-        return parent != null && that.parent != null
-            ? parent.commonPrefix(that.parent)
+        return hasParent() && that.hasParent()
+            ? parent.commonPrefix(that.getParent())
             : null;
     }
 
@@ -141,7 +173,7 @@ public class MatcherPath
      */
     public boolean contains(final Matcher matcher)
     {
-        if (element.matcher == matcher)
+        if (element.getMatcher() == matcher)
             return true;
         if (parent == null)
             return false;
@@ -164,6 +196,7 @@ public class MatcherPath
         final MatcherPath skipPrefix)
     {
         return (parent == skipPrefix ? sb
-            : parent.print(sb, skipPrefix).append('/')).append(element.matcher);
+            : parent.print(sb, skipPrefix).append('/'))
+                .append(element.getMatcher());
     }
 }

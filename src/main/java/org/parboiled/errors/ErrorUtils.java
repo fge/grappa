@@ -89,15 +89,16 @@ public final class ErrorUtils
         final int errorIndex)
     {
         Preconditions.checkNotNull(path, "path");
-        final Matcher found = path.parent != null
-            ? findProperLabelMatcher0(path.parent, errorIndex)
+        final Matcher found = path.hasParent()
+            ? findProperLabelMatcher0(path.getParent(), errorIndex)
             : null;
         if (found != null)
             return found;
-        final Matcher m = path.element.matcher;
+        final Matcher m = path.getElement().getMatcher();
         if (m instanceof TestNotMatcher)
             throw REMOVE_THAT_DAMNIT; // TODO...
-        if (path.element.startIndex == errorIndex && m.hasCustomLabel())
+        if (path.getElement().getStartIndex() == errorIndex
+            && m.hasCustomLabel())
             return m;
         return null;
     }
