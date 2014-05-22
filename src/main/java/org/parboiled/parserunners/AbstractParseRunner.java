@@ -23,6 +23,7 @@ import com.github.parboiled1.grappa.annotations.WillBeProtected;
 import com.github.parboiled1.grappa.stack.DefaultValueStack;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import org.parboiled.DefaultMatcherContext;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
@@ -138,7 +139,7 @@ public abstract class AbstractParseRunner<V>
     protected MatcherContext<V> createRootContext(final InputBuffer inputBuffer,
         final MatchHandler matchHandler, final boolean fastStringMatching)
     {
-        return new MatcherContext<V>(inputBuffer, valueStack,
+        return new DefaultMatcherContext<V>(inputBuffer, valueStack,
             parseErrors, matchHandler, rootMatcher, fastStringMatching);
     }
 

@@ -18,6 +18,7 @@ package com.github.parboiled1.grappa.util;
 
 import com.github.parboiled1.grappa.stack.DefaultValueStack;
 import com.google.common.base.Preconditions;
+import org.parboiled.DefaultMatcherContext;
 import org.parboiled.MatcherContext;
 import org.parboiled.buffers.CharSequenceInputBuffer;
 import org.parboiled.buffers.InputBuffer;
@@ -60,7 +61,7 @@ public final class MatcherContextBuilder
 
     public MatcherContext<Object> build()
     {
-        return new MatcherContext<Object>(buffer, STACK, ERRORS,
+        return new DefaultMatcherContext<Object>(buffer, STACK, ERRORS,
             SimpleMatchHandler.INSTANCE, matcher, fastStringMatching);
     }
 }
