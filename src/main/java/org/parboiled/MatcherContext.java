@@ -16,16 +16,7 @@
 
 package org.parboiled;
 
-import org.parboiled.buffers.InputBuffer;
-import org.parboiled.errors.ParseError;
 import org.parboiled.matchers.Matcher;
-import org.parboiled.support.IndexRange;
-import org.parboiled.support.MatcherPath;
-import org.parboiled.support.Position;
-import org.parboiled.support.ValueStack;
-
-import javax.annotation.Nonnull;
-import java.util.List;
 
 public interface MatcherContext<V>
     extends Context<V>
@@ -33,80 +24,22 @@ public interface MatcherContext<V>
     @Override
     MatcherContext<V> getParent();
 
-    @Nonnull
-    @Override
-    InputBuffer getInputBuffer();
-
-    @Override
-    int getStartIndex();
-
-    @Override
-    Matcher getMatcher();
-
-    @Override
-    char getCurrentChar();
-
-    @Override
-    List<ParseError> getParseErrors();
-
-    @Override
-    int getCurrentIndex();
-
-    @Override
-    MatcherPath getPath();
-
-    @Override
-    int getLevel();
-
-    @Override
-    boolean fastStringMatching();
-
-    @Override
-    @Nonnull
-    List<Node<V>> getSubNodes();
-
-    @Override
-    boolean inPredicate();
-
-    @Override
-    boolean inErrorRecovery();
-
-    @Override
-    boolean isNodeSuppressed();
-
-    @Override
-    boolean hasError();
-
-    @Override
-    String getMatch();
-
-    @Override
-    char getFirstMatchChar();
-
-    @Override
-    int getMatchStartIndex();
-
-    @Override
-    int getMatchEndIndex();
-
-    @Override
-    int getMatchLength();
-
-    @Override
-    Position getPosition();
-
-    @Override
-    IndexRange getMatchRange();
-
-    @Override
-    ValueStack<V> getValueStack();
-
+    /*
+     * TODO! Only used in ActionMatcher, MemoMismatchesMatcher,
+     * VarFramingMatcher
+     */
     void setMatcher(Matcher matcher);
 
+    /*
+     * TODO: only used from RecoveringParseRunner.Handler
+     */
     void setStartIndex(int startIndex);
 
     void setCurrentIndex(int currentIndex);
 
+    /*
+     * TODO: only used from RecoveringParseRunner.Handler
+     */
     void setInErrorRecovery(boolean flag);
 
     void advanceIndex(int delta);
@@ -117,10 +50,19 @@ public interface MatcherContext<V>
 
     void setIntTag(int intTag);
 
+    /*
+     * TODO: only used from RecoveringParseRunner.Handler
+     */
     void markError();
 
+    /*
+     * TODO: only used from MemoMismatchesMatcher
+     */
     Boolean hasMismatched();
 
+    /*
+     * TODO: only used from MemoMismatchesMatcher
+     */
     void memoizeMismatch();
 
     void createNode();

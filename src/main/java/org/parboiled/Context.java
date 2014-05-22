@@ -16,6 +16,7 @@
 
 package org.parboiled;
 
+import com.github.parboiled1.grappa.annotations.Unused;
 import org.parboiled.annotations.SuppressNode;
 import org.parboiled.annotations.SuppressSubnodes;
 import org.parboiled.buffers.InputBuffer;
@@ -44,6 +45,8 @@ public interface Context<V>
      *
      * @return the parent context
      */
+    // TODO: only used in ActionMatcher, FollowMatchersVisitor,
+    // ErrorLocatingParseRunner, RecoveringParseRunner.Handler
     Context<V> getParent();
 
     /**
@@ -92,6 +95,7 @@ public interface Context<V>
      */
     @Nonnull
     // TODO: make that annotation above actually obeyed
+    // TODO: only used from ActionMatcher!
     List<ParseError> getParseErrors();
 
     /**
@@ -103,10 +107,12 @@ public interface Context<V>
     MatcherPath getPath();
 
     /**
-     * Returns the current matcher level, with 0 being the root level, 1 being one level below the root and so on.
+     * Returns the current matcher level, with 0 being the root level, 1 being
+     * one level below the root and so on.
      *
      * @return the current matcher level
      */
+    @Unused
     int getLevel();
 
     /**
@@ -126,6 +132,9 @@ public interface Context<V>
      * @return true if fast string matching is enabled during the current
      * parsing run
      */
+    /*
+     * TODO: only used from FirstOfStringsMatcher, StringMatcher
+     */
     boolean fastStringMatching();
 
     /**
@@ -133,7 +142,8 @@ public interface Context<V>
      * scope.
      * Note that the returned list is immutable.
      *
-     * @return the parse tree subnodes already created in the current context scope
+     * @return the parse tree subnodes already created in the current context
+     * scope
      */
     @Nonnull
     List<Node<V>> getSubNodes();
@@ -142,7 +152,8 @@ public interface Context<V>
      * Determines if the current rule is running somewhere underneath a
      * Test/TestNot rule.
      *
-     * @return true if the current context has a parent which corresponds to a Test/TestNot rule
+     * @return true if the current context has a parent which corresponds to a
+     * Test/TestNot rule
      */
     boolean inPredicate();
 

@@ -205,6 +205,7 @@ public class DefaultMatcherContext<V>
         return currentChar;
     }
 
+    @Nonnull
     @Override
     public List<ParseError> getParseErrors()
     {
@@ -217,6 +218,7 @@ public class DefaultMatcherContext<V>
         return currentIndex;
     }
 
+    @Nonnull
     @Override
     public MatcherPath getPath()
     {

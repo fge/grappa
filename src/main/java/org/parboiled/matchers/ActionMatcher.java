@@ -137,10 +137,10 @@ public class ActionMatcher
             context.setCurrentIndex(parentContext.getCurrentIndex());
             return true;
         } catch (ActionException e) {
-            context.getParseErrors().add(
-                new ActionError(context.getInputBuffer(),
-                    context.getCurrentIndex(), e.getMessage(),
-                    context.getPath(), e));
+            final ActionError error = new ActionError(context.getInputBuffer(),
+                context.getCurrentIndex(), e.getMessage(), context.getPath(),
+                e);
+            context.getParseErrors().add(error);
             return false;
         }
     }

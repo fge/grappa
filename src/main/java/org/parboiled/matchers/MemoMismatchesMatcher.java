@@ -25,7 +25,8 @@ import org.parboiled.matchervisitors.MatcherVisitor;
 import java.util.List;
 
 /**
- * Special wrapping matcher that performs memoization of the last mismatch of the wrapped sub rule.
+ * Special wrapping matcher that performs memoization of the last mismatch of
+ * the wrapped sub rule.
  */
 // TODO: use delegate pattern?
 @WillBeFinal(version = "1.1")
