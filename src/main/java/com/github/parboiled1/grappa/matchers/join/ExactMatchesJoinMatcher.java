@@ -17,7 +17,6 @@
 package com.github.parboiled1.grappa.matchers.join;
 
 import com.google.common.annotations.Beta;
-import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
 
 /*
@@ -37,37 +36,15 @@ public final class ExactMatchesJoinMatcher
         this.nrCycles = nrCycles;
     }
 
-    /**
-     * Tries a match on the given MatcherContext.
-     *
-     * @param context the MatcherContext
-     * @return true if the match was successful
-     */
     @Override
-    public <V> boolean match(final MatcherContext<V> context)
+    protected boolean runAgain(final int cycles)
     {
-        /*
-         * We know here that at least two cycles are required; JoinedRuleBuilder
-         * will have returned an EmptyMatcher for "exactly 0 cycles" and the
-         * joined rule itself for "exactly one cycle".
-         */
-        if (!joined.getSubContext(context).runMatcher())
-            return false;
+        return cycles < nrCycles;
+    }
 
-        int cycles = 1;
-        int beforeCycle = context.getCurrentIndex();
-
-        while (cycles < nrCycles && matchCycle(context, beforeCycle)) {
-            beforeCycle = context.getCurrentIndex();
-            cycles++;
-        }
-
-        context.setCurrentIndex(beforeCycle);
-
-        if (cycles != nrCycles)
-            return false;
-
-        context.createNode();
-        return true;
+    @Override
+    protected boolean enoughCycles(final int cycles)
+    {
+        return cycles == nrCycles;
     }
 }

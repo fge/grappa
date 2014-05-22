@@ -17,7 +17,6 @@
 package com.github.parboiled1.grappa.matchers.join;
 
 import com.google.common.annotations.Beta;
-import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
 
 /*
@@ -36,39 +35,15 @@ public final class BoundedUpJoinMatcher
         this.maxCycles = maxCycles;
     }
 
-    /**
-     * Tries a match on the given MatcherContext.
-     *
-     * @param context the MatcherContext
-     * @return true if the match was successful
-     */
     @Override
-    public <V> boolean match(final MatcherContext<V> context)
+    protected boolean runAgain(final int cycles)
     {
-        /*
-         * TODO! Check logic
-         *
-         * Here we are bounded up ONLY, which means the lower bound is 0; as
-         * such, if the joining rule can match empty and we do not trigger the
-         * joining rule at all due to this step failing, the fact that it may
-         * match empty will go UNNOTICED!
-         */
-        if (!joined.getSubContext(context).runMatcher()) {
-            context.createNode();
-            return true;
-        }
+        return cycles < maxCycles;
+    }
 
-        int cycles = 1;
-        int beforeCycle = context.getCurrentIndex();
-
-        while (cycles < maxCycles && matchCycle(context, beforeCycle)) {
-            beforeCycle = context.getCurrentIndex();
-            cycles++;
-        }
-
-        context.setCurrentIndex(beforeCycle);
-
-        context.createNode();
+    @Override
+    protected boolean enoughCycles(final int cycles)
+    {
         return true;
     }
 }

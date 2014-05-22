@@ -108,16 +108,53 @@ public abstract class JoinMatcher
         return visitor.visit(this);
     }
 
-    protected final <V> boolean matchJoining(final MatcherContext<V> context,
-        final int beforeCycle)
+    /**
+     * Tries a match on the given MatcherContext.
+     *
+     * @param context the MatcherContext
+     * @return true if the match was successful
+     */
+    @Override
+    public final <V> boolean match(final MatcherContext<V> context)
     {
-        if (!joining.getSubContext(context).runMatcher())
+        /*
+         * TODO! Check logic
+         *
+         * At this point, if we have enough cycles, we can't determined whether
+         * our joining rule would match empty... Which is illegal.
+         */
+        int cycles = 0;
+        if (!joined.getSubContext(context).runMatcher()) {
+            if (!enoughCycles(cycles))
+                return false;
+            context.createNode();
+            return true;
+        }
+
+        cycles++;
+
+        Object snapshot = context.getValueStack().takeSnapshot();
+        int beforeCycle = context.getCurrentIndex();
+
+        while (runAgain(cycles) && matchCycle(context, beforeCycle)) {
+            beforeCycle = context.getCurrentIndex();
+            snapshot = context.getValueStack().takeSnapshot();
+            cycles++;
+        }
+
+        context.getValueStack().restoreSnapshot(snapshot);
+        context.setCurrentIndex(beforeCycle);
+
+        if (!enoughCycles(cycles))
             return false;
-        if (context.getCurrentIndex() == beforeCycle)
-            throw new GrammarException("joining rule (%s) of a JoinMatcher" +
-                " cannot match an empty character sequence!", joining);
+
+        context.createNode();
         return true;
     }
+
+    protected abstract boolean runAgain(final int cycles);
+
+    protected abstract boolean enoughCycles(final int cycles);
 
     protected final <V> boolean matchCycle(final MatcherContext<V> context,
         final int beforeCycle)

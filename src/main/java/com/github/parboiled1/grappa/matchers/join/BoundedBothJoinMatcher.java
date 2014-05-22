@@ -17,7 +17,6 @@
 package com.github.parboiled1.grappa.matchers.join;
 
 import com.google.common.annotations.Beta;
-import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
 
 /*
@@ -38,36 +37,15 @@ public final class BoundedBothJoinMatcher
         this.maxCycles = maxCycles;
     }
 
-    /**
-     * Tries a match on the given MatcherContext.
-     *
-     * @param context the MatcherContext
-     * @return true if the match was successful
-     */
     @Override
-    public <V> boolean match(final MatcherContext<V> context)
+    protected boolean runAgain(final int cycles)
     {
-        /*
-         * We know that minCycles cannot be 0; if we don't match the first
-         * joined, this is a failure.
-         */
-        if  (!joined.getSubContext(context).runMatcher())
-            return false;
+        return cycles < maxCycles;
+    }
 
-        int cycles = 1;
-        int beforeCycle = context.getCurrentIndex();
-
-        while (cycles < maxCycles && matchCycle(context, beforeCycle)) {
-            beforeCycle = context.getCurrentIndex();
-            cycles++;
-        }
-
-        context.setCurrentIndex(beforeCycle);
-
-        if (cycles < minCycles)
-            return false;
-
-        context.createNode();
-        return true;
+    @Override
+    protected boolean enoughCycles(final int cycles)
+    {
+        return cycles >= minCycles;
     }
 }
