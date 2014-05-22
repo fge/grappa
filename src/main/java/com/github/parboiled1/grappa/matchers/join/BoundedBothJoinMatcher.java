@@ -54,44 +54,17 @@ public final class BoundedBothJoinMatcher
         if  (!joined.getSubContext(context).runMatcher())
             return false;
 
-        /*
-         * First cycle...
-         */
-        int beforeCycle;
+        int cycles = 1;
+        int beforeCycle = context.getCurrentIndex();
 
-        beforeCycle = context.getCurrentIndex();
-
-        if (!matchJoining(context, beforeCycle)) {
-            context.setCurrentIndex(beforeCycle);
-            if (minCycles != 1)
-                return false;
-        }
-
-        /*
-         * We have completed at least two cycles
-         */
-
-        int nrCycles = 2;
-
-        /*
-         * Try and go up to the maximum number of cycles
-         */
-        while (nrCycles < maxCycles) {
+        while (cycles < maxCycles && matchCycle(context, beforeCycle)) {
             beforeCycle = context.getCurrentIndex();
-            if (matchJoining(context, beforeCycle)
-                && joined.getSubContext(context).runMatcher()) {
-                nrCycles++;
-                continue;
-            }
-            context.setCurrentIndex(beforeCycle);
-            break;
+            cycles++;
         }
 
-        /*
-         * Success if and only if the number of cycles completed is greater than
-         * or equal to the minimum required number of cycles
-         */
-        if (nrCycles < minCycles)
+        context.setCurrentIndex(beforeCycle);
+
+        if (cycles < minCycles)
             return false;
 
         context.createNode();

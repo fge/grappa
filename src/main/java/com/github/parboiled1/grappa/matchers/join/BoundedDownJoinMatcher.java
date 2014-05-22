@@ -61,33 +61,17 @@ public final class BoundedDownJoinMatcher
             return true;
         }
 
-        /*
-         * TODO: fix that...
-         *
-         * The "joining rule must not match empty" rule can only be checked
-         * here. Unfortunately, it cannot be checked at parser class generation
-         * time.
-         *
-         * Theoretically, we would have to "waste" the start of every second
-         * cycle each time so as to detect whether the joining rule matches
-         * empty... But we don't bother if only one cycle was required.
-         */
-
-        int completedCycles = 1;
+        int cycles = 1;
         int beforeCycle = context.getCurrentIndex();
 
         while (matchCycle(context, beforeCycle)) {
             beforeCycle = context.getCurrentIndex();
-            completedCycles++;
+            cycles++;
         }
 
         context.setCurrentIndex(beforeCycle);
 
-        /*
-         * OK, we cannot anymore, so check how much we have matched so far; if
-         * it is less than what is required, we fail. Otherwise, success.
-         */
-        if (completedCycles < minCycles)
+        if (cycles < minCycles)
             return false;
 
         context.createNode();

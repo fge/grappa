@@ -58,48 +58,15 @@ public final class BoundedUpJoinMatcher
             return true;
         }
 
-        /*
-         * TODO: fix that...
-         *
-         * As a virtue of the constructor (JoinMatcherBuilder), in this
-         * particular implementation we know that we have to match 2 or more (if
-         * 1, an OptionalMatcher(joinedRule) is returned). We have to try at
-         * least one more cycle.
-         *
-         * Unfortunately, we have to "waste" that second cycle to check whether
-         * the joining rule can match an empty sequence :/ This is the same
-         * story with ZeroOrMoreMatcher and OneOrMoreMatcher; due to
-         * ProxyMatcher, this cannot be done before this point. It can all be
-         * solved if we use a builder system instead!
-         */
+        int cycles = 1;
+        int beforeCycle = context.getCurrentIndex();
 
-        int beforeCycle;
-        beforeCycle = context.getCurrentIndex();
-        if (!matchJoining(context, beforeCycle)) {
-            context.setCurrentIndex(beforeCycle);
-            return true;
-        }
-
-        /*
-         * We did; so, at least two cycles completed.
-         */
-        int cycles = 2;
-
-        /*
-         * We still try and match as much as possible however; so continue to
-         * cycle through "joining, joined"; we must not, however, match _more_
-         * than the maximum we are allocated.
-         */
-        while (cycles < maxCycles) {
+        while (cycles < maxCycles && matchCycle(context, beforeCycle)) {
             beforeCycle = context.getCurrentIndex();
-            if (matchJoining(context, beforeCycle)
-                && joined.getSubContext(context).runMatcher()) {
-                cycles++;
-                continue;
-            }
-            context.setCurrentIndex(beforeCycle);
-            break;
+            cycles++;
         }
+
+        context.setCurrentIndex(beforeCycle);
 
         context.createNode();
         return true;

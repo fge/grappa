@@ -54,47 +54,18 @@ public final class ExactMatchesJoinMatcher
         if (!joined.getSubContext(context).runMatcher())
             return false;
 
-        /*
-         * TODO: fix that...
-         *
-         * Unfortunately, we have to "waste" that cycle each time so as to
-         * detect whether the joining rule matches empty :/
-         *
-         * This is the same story with ZeroOrMoreMatcher and OneOrMoreMatcher;
-         * unfortunately, due to ProxyMatcher, this cannot be done before this
-         * point. It can all be solved if we use a builder system instead!
-         */
+        int cycles = 1;
+        int beforeCycle = context.getCurrentIndex();
 
-        int beforeCycle;
-        beforeCycle = context.getCurrentIndex();
-        if (!matchJoining(context, beforeCycle)) {
-            context.setCurrentIndex(beforeCycle);
-            return false;
-        }
-
-        /*
-         * OK, we have at least two cycles completed.
-         */
-        int cycles = 2;
-
-        /*
-         * We go on until we have reached the number of required cycles, or
-         * until we fail...
-         */
-        while (cycles < nrCycles) {
+        while (cycles < nrCycles && matchCycle(context, beforeCycle)) {
             beforeCycle = context.getCurrentIndex();
-            if (matchJoining(context, beforeCycle)
-                && joined.getSubContext(context).runMatcher()) {
-                cycles++;
-                continue;
-            }
-            /*
-             * We fail if we reach this point; since we entered the loop it
-             * means we didn't reach the number of required cycles.
-             */
-            context.setCurrentIndex(beforeCycle);
-            return false;
+            cycles++;
         }
+
+        context.setCurrentIndex(beforeCycle);
+
+        if (cycles != nrCycles)
+            return false;
 
         context.createNode();
         return true;
