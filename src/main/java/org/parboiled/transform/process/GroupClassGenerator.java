@@ -50,8 +50,6 @@ import static org.objectweb.asm.Opcodes.GETFIELD;
 import static org.objectweb.asm.Opcodes.INVOKEINTERFACE;
 import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
 import static org.objectweb.asm.Opcodes.RETURN;
-import static org.parboiled.transform.AsmUtils.findLoadedClass;
-import static org.parboiled.transform.AsmUtils.loadClass;
 
 public abstract class GroupClassGenerator
     implements RuleMethodProcessor
@@ -89,12 +87,12 @@ public abstract class GroupClassGenerator
 
         final Class<?> groupClass;
         synchronized (AsmUtils.class) {
-            groupClass = findLoadedClass(className, classLoader);
+            groupClass = AsmUtils.findLoadedClass(className, classLoader);
             if (groupClass == null || forceCodeBuilding) {
                 final byte[] groupClassCode = generateGroupClassCode(group);
                 group.setGroupClassCode(groupClassCode);
                 if (groupClass == null)
-                    loadClass(className, groupClassCode, classLoader);
+                    AsmUtils.loadClass(className, groupClassCode, classLoader);
             }
         }
     }

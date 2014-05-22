@@ -24,10 +24,12 @@ package org.parboiled.transform;
 
 import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Range;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.analysis.BasicValue;
 import org.objectweb.asm.util.Printer;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -45,17 +47,17 @@ import static org.objectweb.asm.Opcodes.ISTORE;
 public class InstructionGraphNode
     extends BasicValue
 {
+    private static final Range<Integer> ILOAD_INSN_RANGE
+        = Range.closedOpen(ILOAD, IALOAD);
+    private static final Range<Integer> ISTORE_INSN_RANGE
+        = Range.closedOpen(ISTORE, IASTORE);
 
-    private AbstractInsnNode instruction;
     private final BasicValue resultValue;
     private final List<InstructionGraphNode> predecessors
         = new ArrayList<InstructionGraphNode>();
-    private boolean isActionRoot;
-    private final boolean isVarInitRoot;
-    private final boolean isCallOnContextAware;
-    private final boolean isXLoad;
-    private final boolean isXStore;
+    private AbstractInsnNode instruction;
     private InstructionGroup group;
+    private boolean isActionRoot;
 
     public InstructionGraphNode(final AbstractInsnNode instruction,
         final BasicValue resultValue)
@@ -64,12 +66,6 @@ public class InstructionGraphNode
         this.instruction = instruction;
         this.resultValue = resultValue;
         isActionRoot = AsmUtils.isActionRoot(instruction);
-        isVarInitRoot = AsmUtils.isVarRoot(instruction);
-        isCallOnContextAware = AsmUtils.isCallOnContextAware(instruction);
-        isXLoad = ILOAD <= instruction.getOpcode()
-            && instruction.getOpcode() < IALOAD;
-        isXStore = ISTORE <= instruction.getOpcode()
-            && instruction.getOpcode() < IASTORE;
     }
 
     @Override
@@ -103,7 +99,7 @@ public class InstructionGraphNode
         return group;
     }
 
-    public void setGroup(final InstructionGroup newGroup)
+    public void setGroup(@Nullable final InstructionGroup newGroup)
     {
         if (newGroup == group)
             return;
@@ -128,30 +124,30 @@ public class InstructionGraphNode
 
     public boolean isVarInitRoot()
     {
-        return isVarInitRoot;
+        return AsmUtils.isVarRoot(instruction);
     }
 
     public boolean isCallOnContextAware()
     {
-        return isCallOnContextAware;
+        return AsmUtils.isCallOnContextAware(instruction);
     }
 
     public boolean isXLoad()
     {
-        return isXLoad;
+        return ILOAD_INSN_RANGE.contains(instruction.getOpcode());
     }
 
     public boolean isXStore()
     {
-        return isXStore;
+        return ISTORE_INSN_RANGE.contains(instruction.getOpcode());
     }
 
-    public void addPredecessors(final Collection<BasicValue> preds)
+    public void addPredecessors(@Nonnull final Collection<BasicValue> preds)
     {
         Preconditions.checkNotNull(preds, "preds");
-        for (final BasicValue pred : preds)
+        for (final BasicValue pred: preds)
             if (pred instanceof InstructionGraphNode)
-                addPredecessor(((InstructionGraphNode) pred));
+                addPredecessor((InstructionGraphNode) pred);
     }
 
     public void addPredecessor(final InstructionGraphNode node)

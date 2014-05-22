@@ -17,17 +17,23 @@
 package org.parboiled;
 
 import org.parboiled.matchers.SequenceMatcher;
+import org.parboiled.transform.InstructionGroup;
+import org.parboiled.transform.process.GroupClassGenerator;
 
 /**
  * Interface that can be implemented by classes containing action methods.
- * If the class containing action methods implements this interface parboiled
- * will use it to inform the instance of the current context, immediately before
- * an action call.
+ *
+ * <p>If a class implementing this interface is used in a parser, the generated
+ * parser will use this interface  to inform the instance of the current
+ * context. This applies to {@link Action}s but also to parsers within parsers.
+ * </p>
  *
  * <p>Note that implementing this interface currently will not prevent you from
  * suffering the limits of actions; that is, if you are not the second or more
  * member of a {@link SequenceMatcher}, you won't get a context (it will be
  * null in this case).</p>
+ *
+ * @see GroupClassGenerator#insertSetContextCalls(InstructionGroup, int)
  */
 public interface ContextAware<V>
 {

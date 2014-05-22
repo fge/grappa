@@ -17,6 +17,7 @@
 package org.parboiled;
 
 import com.github.parboiled1.grappa.annotations.WillBeFinal;
+import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 import com.google.common.base.Preconditions;
 import org.parboiled.annotations.SuppressNode;
 import org.parboiled.annotations.SuppressSubnodes;
@@ -25,6 +26,7 @@ import org.parboiled.errors.GrammarException;
 import org.parboiled.support.Checks;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.Position;
+import org.parboiled.support.ValueStack;
 
 /**
  * Convenience context aware base class defining a number of useful helper methods.
@@ -398,17 +400,37 @@ public abstract class BaseActions<V>
     }
 
     /**
+     * Reverse the order of the top n elements of this context's value stack
+     *
+     * @param n the number of elements to swap
+     * @return always true
+     * @throws GrammarException stack does not contain enough elements
+     *
+     * @see ValueStack#swap(int)
+     */
+    public boolean swap(final int n)
+    {
+        check();
+        context.getValueStack().swap(n);
+        return true;
+    }
+
+    /**
      * Reverses the order of the top 3 value stack elements.
      *
      * @return true
      *
      * @throws GrammarException if the stack does not contain at least 3
      * elements
+     *
+     * @deprecated use {@link #swap(int)} instead
      */
+    @Deprecated
+    @WillBeRemoved(version = "1.1")
     public boolean swap3()
     {
         check();
-        context.getValueStack().swap3();
+        context.getValueStack().swap(3);
         return true;
     }
 
@@ -419,11 +441,15 @@ public abstract class BaseActions<V>
      *
      * @throws GrammarException if the stack does not contain at least 4
      * elements
+     *
+     * @deprecated use {@link #swap(int)} instead
      */
+    @Deprecated
+    @WillBeRemoved(version = "1.1")
     public boolean swap4()
     {
         check();
-        context.getValueStack().swap4();
+        context.getValueStack().swap(4);
         return true;
     }
 
@@ -434,11 +460,15 @@ public abstract class BaseActions<V>
      *
      * @throws GrammarException if the stack does not contain at least 5
      * elements
+     *
+     * @deprecated use {@link #swap(int)} instead
      */
+    @Deprecated
+    @WillBeRemoved(version = "1.1")
     public boolean swap5()
     {
         check();
-        context.getValueStack().swap5();
+        context.getValueStack().swap(5);
         return true;
     }
 
@@ -449,11 +479,15 @@ public abstract class BaseActions<V>
      *
      * @throws GrammarException if the stack does not contain at least 6
      * elements
+     *
+     * @deprecated use {@link #swap(int)} instead
      */
+    @Deprecated
+    @WillBeRemoved(version = "1.1")
     public boolean swap6()
     {
         check();
-        context.getValueStack().swap6();
+        context.getValueStack().swap(6);
         return true;
     }
 
