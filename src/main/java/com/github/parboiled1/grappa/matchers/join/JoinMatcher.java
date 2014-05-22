@@ -116,6 +116,17 @@ public abstract class JoinMatcher
         if (context.getCurrentIndex() == beforeCycle)
             throw new GrammarException("joining rule (%s) of a JoinMatcher" +
                 " cannot match an empty character sequence!", joining);
+        return true;
+    }
+
+    protected final <V> boolean matchCycle(final MatcherContext<V> context,
+        final int beforeCycle)
+    {
+        if (!joining.getSubContext(context).runMatcher())
+            return false;
+        if (context.getCurrentIndex() == beforeCycle)
+            throw new GrammarException("joining rule (%s) of a JoinMatcher" +
+                " cannot match an empty character sequence!", joining);
         return joined.getSubContext(context).runMatcher();
     }
 }

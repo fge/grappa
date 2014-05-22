@@ -73,41 +73,21 @@ public final class BoundedDownJoinMatcher
          * empty... But we don't bother if only one cycle was required.
          */
 
-        int beforeCycle;
+        int completedCycles = 1;
+        int beforeCycle = context.getCurrentIndex();
 
-        beforeCycle = context.getCurrentIndex();
-        if (!matchJoining(context, beforeCycle)) {
-            context.setCurrentIndex(beforeCycle);
-            if (minCycles > 1)
-                return false;
-            context.createNode();
-            return true;
-        }
-
-        /*
-         * From this point on we have at least two matches.
-         */
-        int cycles = 2;
-
-        /*
-         * Keep on matching joining/joined until we cannot...
-         */
-        while (true) {
+        while (matchCycle(context, beforeCycle)) {
             beforeCycle = context.getCurrentIndex();
-            if (matchJoining(context, beforeCycle)
-                && joined.getSubContext(context).runMatcher()) {
-                cycles++;
-                continue;
-            }
-            context.setCurrentIndex(beforeCycle);
-            break;
+            completedCycles++;
         }
+
+        context.setCurrentIndex(beforeCycle);
 
         /*
          * OK, we cannot anymore, so check how much we have matched so far; if
          * it is less than what is required, we fail. Otherwise, success.
          */
-        if (cycles < minCycles)
+        if (completedCycles < minCycles)
             return false;
 
         context.createNode();
