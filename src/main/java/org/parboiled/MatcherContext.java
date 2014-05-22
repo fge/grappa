@@ -59,7 +59,7 @@ public interface MatcherContext<V>
     /*
      * TODO: only used from MemoMismatchesMatcher
      */
-    Boolean hasMismatched();
+    boolean hasMismatched();
 
     /*
      * TODO: only used from MemoMismatchesMatcher

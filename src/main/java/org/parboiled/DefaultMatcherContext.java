@@ -452,7 +452,7 @@ public class DefaultMatcherContext<V>
     }
 
     @Override
-    public Boolean hasMismatched()
+    public boolean hasMismatched()
     {
         return memoizedMismatches.contains(MatcherPosition.at(matcher,
             currentIndex));
