@@ -17,6 +17,7 @@
 package org.parboiled;
 
 import com.github.parboiled1.grappa.annotations.Unused;
+import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 import org.parboiled.annotations.SuppressNode;
 import org.parboiled.annotations.SuppressSubnodes;
 import org.parboiled.buffers.InputBuffer;
@@ -44,9 +45,14 @@ public interface Context<V>
      * parent matcher.
      *
      * @return the parent context
+     *
+     * @deprecated unused; see {@link MatcherContext#getParent()}
      */
     // TODO: only used in ActionMatcher, FollowMatchersVisitor,
     // ErrorLocatingParseRunner, RecoveringParseRunner.Handler
+    @Deprecated
+    @Unused
+    @WillBeRemoved(version = "1.1")
     Context<V> getParent();
 
     /**
