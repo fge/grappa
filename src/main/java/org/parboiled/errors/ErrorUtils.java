@@ -52,8 +52,9 @@ public final class ErrorUtils
     }
 
     /**
-     * Finds the Matcher in the given failedMatcherPath whose label is best for presentation in "expected" strings
-     * of parse error messages, given the provided lastMatchPath.
+     * Finds the Matcher in the given failedMatcherPath whose label is best for
+     * presentation in "expected" strings of parse error messages, given the
+     * provided lastMatchPath.
      *
      * @param path the path to the failed matcher
      * @param errorIndex the start index of the respective parse error
@@ -83,12 +84,14 @@ public final class ErrorUtils
             }
         };
 
+    @Nullable
     private static Matcher findProperLabelMatcher0(final MatcherPath path,
         final int errorIndex)
     {
         Preconditions.checkNotNull(path, "path");
-        final Matcher found = path.parent != null ? findProperLabelMatcher0(
-            path.parent, errorIndex) : null;
+        final Matcher found = path.parent != null
+            ? findProperLabelMatcher0(path.parent, errorIndex)
+            : null;
         if (found != null)
             return found;
         final Matcher m = path.element.matcher;

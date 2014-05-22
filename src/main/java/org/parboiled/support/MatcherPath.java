@@ -25,9 +25,10 @@ import org.parboiled.matchers.Matcher;
 import javax.annotation.Nullable;
 
 /**
- * Holds a snapshot of the current {@link Matcher} stack at a certain point during the parsing process.
- * Implemented as a specialized, immutable single-linked list of Element objects with the deepest stack Element
- * in the first position and the root at the end.
+ * Holds a snapshot of the current {@link Matcher} stack at a certain point
+ * during the parsing process.
+ * Implemented as a specialized, immutable single-linked list of Element objects
+ * with the deepest stack Element in the first position and the root at the end.
  */
 @WillBeFinal(version = "1.1")
 public class MatcherPath
@@ -56,14 +57,15 @@ public class MatcherPath
 
     /**
      * Constructs a new MatcherPath wrapping the given elements.
-     * Normally you don't construct a MatcherPath directly but rather call {@link Context#getPath()} to
-     * get one.
+     * Normally you don't construct a MatcherPath directly but rather call
+     * {@link Context#getPath()} to get one.
      *
      * @param element the last element of this path
      * @param parent the parent path
      */
     // TODO: get rid of null parent!
-    public MatcherPath(final Element element, final MatcherPath parent)
+    public MatcherPath(final Element element,
+        @Nullable final MatcherPath parent)
     {
         this.element = Preconditions.checkNotNull(element, "element");
         this.parent = parent;
@@ -99,6 +101,7 @@ public class MatcherPath
      * @param level the level to get the element from
      * @return the element
      */
+    @Nullable
     public Element getElementAtLevel(final int level)
     {
         Preconditions.checkArgument(level >= 0);

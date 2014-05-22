@@ -179,6 +179,7 @@ public class MatcherContext<V>
         return parent;
     }
 
+    @Nonnull
     @Override
     public InputBuffer getInputBuffer()
     {

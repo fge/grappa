@@ -22,6 +22,7 @@ import org.parboiled.matchers.Matcher;
 import org.parboiled.support.CharsEscaper;
 import org.parboiled.trees.ImmutableTreeNode;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -40,7 +41,7 @@ public final class DefaultParsingNode<V>
 
     public DefaultParsingNode(final Matcher matcher,
         final List<Node<V>> children, final int startIndex,
-        final int endIndex, final V value, final boolean hasError)
+        final int endIndex, @Nullable final V value, final boolean hasError)
     {
         super(children);
         this.matcher = Preconditions.checkNotNull(matcher, "matcher");
