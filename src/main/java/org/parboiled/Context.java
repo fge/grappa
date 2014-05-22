@@ -78,6 +78,7 @@ public interface Context<V>
      *
      * @return the start index
      */
+    // TODO: only used from one matcher: ActionMatcher -- again
     int getStartIndex();
 
     /**

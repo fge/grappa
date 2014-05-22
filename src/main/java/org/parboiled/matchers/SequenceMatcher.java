@@ -60,10 +60,6 @@ public class SequenceMatcher
             if (!matcher.getSubContext(context).runMatcher()) {
                 // rule failed, so invalidate all stack actions the rule might
                 // have done
-                /*
-                 * TODO: only valid for this very matcher implementation; and
-                 * that sucks
-                 */
                 context.getValueStack().restoreSnapshot(valueStackSnapshot);
                 return false;
             }
