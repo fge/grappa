@@ -29,5 +29,5 @@ public interface MatchHandler
      * @param context the MatcherContext
      * @return true if matched
      */
-    boolean match(MatcherContext<?> context);
+    <V> boolean match(MatcherContext<V> context);
 }

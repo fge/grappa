@@ -99,7 +99,8 @@ public final class JoinMatcherMatchTest
         final MatcherContext<Object> context = builder.withInput(INPUT1)
             .withMatcher(matcher).build();
 
-        final boolean actualMatch = SimpleMatchHandler.INSTANCE.match(context);
+        final boolean actualMatch
+            = SimpleMatchHandler.INSTANCE.match(context);
 
         assertThat(actualMatch).as("match/no match is correct")
             .isEqualTo(match);

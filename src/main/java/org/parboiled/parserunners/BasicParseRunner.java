@@ -83,7 +83,7 @@ public class BasicParseRunner<V>
     }
 
     @Override
-    public boolean match(final MatcherContext<?> context)
+    public <V> boolean match(final MatcherContext<V> context)
     {
         return context.getMatcher().match(context);
     }

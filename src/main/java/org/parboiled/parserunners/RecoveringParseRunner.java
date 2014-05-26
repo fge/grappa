@@ -393,7 +393,7 @@ public class RecoveringParseRunner<V>
         private MatcherPath lastMatchPath;
 
         @Override
-        public boolean match(final MatcherContext<?> context)
+        public <V> boolean match(final MatcherContext<V> context)
         {
             final Matcher matcher = context.getMatcher();
             if (matcher.accept(visitor)) {

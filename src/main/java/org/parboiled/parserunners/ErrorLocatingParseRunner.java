@@ -86,7 +86,7 @@ public class ErrorLocatingParseRunner<V>
     }
 
     @Override
-    public boolean match(final MatcherContext<?> context)
+    public <V> boolean match(final MatcherContext<V> context)
     {
         final boolean condition = inner == null
             ? context.getMatcher().match(context)

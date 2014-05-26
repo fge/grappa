@@ -102,7 +102,7 @@ public class ErrorReportingParseRunner<V>
     }
 
     @Override
-    public boolean match(final MatcherContext<?> context)
+    public <V> boolean match(final MatcherContext<V> context)
     {
         final boolean matched = inner == null
             ? context.getMatcher().match(context)

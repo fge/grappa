@@ -161,7 +161,7 @@ public class TracingParseRunner<V>
 
     @Override
     @SuppressWarnings("unchecked")
-    public boolean match(final MatcherContext<?> context)
+    public <V> boolean match(final MatcherContext<V> context)
     {
         final Matcher matcher = context.getMatcher();
         final boolean matched = matcher.match(context);

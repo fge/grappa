@@ -19,21 +19,18 @@ package com.github.parboiled1.grappa.util;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
 
-public enum SimpleMatchHandler
+public final class SimpleMatchHandler
     implements MatchHandler
 {
-    INSTANCE
+    public static final MatchHandler INSTANCE = new SimpleMatchHandler();
+
+    private SimpleMatchHandler()
     {
-        /**
-         * Runs the given MatcherContext.
-         *
-         * @param context the MatcherContext
-         * @return true if matched
-         */
-        @Override
-        public boolean match(final MatcherContext<?> context)
-        {
-            return context.getMatcher().match(context);
-        }
+    }
+
+    @Override
+    public <V> boolean match(final MatcherContext<V> context)
+    {
+        return context.getMatcher().match(context);
     }
 }
