@@ -97,13 +97,48 @@ public abstract class EventBusParser<V>
     /**
      * Register a listener to the event bus
      *
+     * <p>The canonical use of this method is to register a listener
+     * once you have created your parser, as in:</p>
+     *
+     * <pre>
+     *     final MyParser parser = Parboiled.createParser(MyParser.class);
+     *     parser.register(myListener);
+     * </pre>
+     *
+     * <p>It is also usable as an action; you can write rules such as:</p>
+     *
+     * <pre>
+     *     Rule myRule()
+     *     {
+     *         return sequence(other(), register(...));
+     *     }
+     * </pre>
+     *
      * @param listener the listener
+     * @return always true
      *
      * @see EventBus#register(Object)
      */
-    public final void register(@Nonnull final Object listener)
+
+    public final boolean register(@Nonnull final Object listener)
     {
         bus.register(Preconditions.checkNotNull(listener));
+        return true;
+    }
+
+    /**
+     * Unregister a listener from this parser's {@link EventBus}
+     *
+     * <p>In a similar fashion as {@link #register(Object)}, you can use this
+     * method as an action.</p>
+     *
+     * @param listener the listener to remove
+     * @return always true
+     */
+    public final boolean unregister(@Nonnull final Object listener)
+    {
+        bus.unregister(Preconditions.checkNotNull(listener));
+        return true;
     }
 
     /**
