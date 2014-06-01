@@ -16,17 +16,21 @@
 
 package org.parboiled.buffers;
 
+import com.github.parboiled1.grappa.buffers.LineCounter;
 import com.google.common.base.Preconditions;
-import org.parboiled.common.IntArrayStack;
+import com.google.common.collect.Range;
+import com.google.common.util.concurrent.Futures;
 import org.parboiled.support.Chars;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.Position;
 
 import javax.annotation.Nonnull;
-import javax.annotation.concurrent.GuardedBy;
 import javax.annotation.concurrent.Immutable;
-import java.util.Arrays;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.nio.CharBuffer;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -46,16 +50,28 @@ import java.util.regex.Pattern;
 public final class CharSequenceInputBuffer
     implements InputBuffer
 {
+    private static final ExecutorService EXECUTOR_SERVICE
+        = Executors.newCachedThreadPool();
     private final CharSequence charSequence;
-
-    private final AtomicBoolean newlinesAreBuilt
-        = new AtomicBoolean(false);
-    @GuardedBy("newlinesAreBuilt")
-    private int[] newlines;
+    private final Future<LineCounter> lineCounter;
 
     public CharSequenceInputBuffer(@Nonnull final CharSequence charSequence)
     {
         this.charSequence = Preconditions.checkNotNull(charSequence);
+        lineCounter = EXECUTOR_SERVICE.submit(new Callable<LineCounter>()
+        {
+            @Override
+            public LineCounter call()
+                throws Exception
+            {
+                return new LineCounter(charSequence);
+            }
+        });
+    }
+
+    public CharSequenceInputBuffer(@Nonnull final char[] chars)
+    {
+        this(CharBuffer.wrap(Preconditions.checkNotNull(chars)));
     }
 
     @Override
@@ -94,12 +110,7 @@ public final class CharSequenceInputBuffer
     @Override
     public Position getPosition(final int index)
     {
-        if (!newlinesAreBuilt.getAndSet(true))
-            buildNewlines();
-        final int line = getLineNumber(newlines, index);
-        final int column = line == 0 ? index + 1
-            : index - newlines[line - 1];
-        return new Position(line + 1, column);
+        return Futures.getUnchecked(lineCounter).toPosition(index);
     }
 
     @Override
@@ -111,40 +122,21 @@ public final class CharSequenceInputBuffer
     @Override
     public String extractLine(final int lineNumber)
     {
-        if (!newlinesAreBuilt.getAndSet(true))
-            buildNewlines();
         Preconditions.checkArgument(lineNumber > 0, "line number is negative");
-        Preconditions.checkArgument(lineNumber <= newlines.length + 1,
-            "line index out of range");
-        final int start = lineNumber > 1 ? newlines[lineNumber - 2] + 1 : 0;
-        int end = lineNumber <= newlines.length ? newlines[lineNumber - 1]
-            : charSequence.length();
-        if (charAt(end - 1) == '\r') end--;
+        final LineCounter counter = Futures.getUnchecked(lineCounter);
+        final Range<Integer> range = counter.getLineRange(lineNumber);
+        final int start = range.lowerEndpoint();
+        int end = range.upperEndpoint();
+        if (charAt(end - 1) == '\n')
+            end--;
+        if (charAt(end - 1) == '\r')
+            end--;
         return extract(start, end);
     }
 
     @Override
     public int getLineCount()
     {
-        if (!newlinesAreBuilt.getAndSet(true))
-            buildNewlines();
-        return newlines.length + 1;
-    }
-
-    // TODO: replace implementation with a List<Range>
-    private void buildNewlines()
-    {
-        final IntArrayStack stack = new IntArrayStack();
-        for (int i = 0; i < charSequence.length(); i++)
-            if (charSequence.charAt(i) == '\n')
-                stack.push(i);
-        newlines = new int[stack.size()];
-        stack.getElements(newlines, 0);
-    }
-
-    private static int getLineNumber(final int[] newlines, final int index)
-    {
-        final int ret = Arrays.binarySearch(newlines, index);
-        return ret >= 0 ? ret : -(ret + 1);
+        return Futures.getUnchecked(lineCounter).getNrLines();
     }
 }
