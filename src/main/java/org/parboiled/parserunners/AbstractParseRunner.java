@@ -28,7 +28,6 @@ import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
 import org.parboiled.buffers.CharSequenceInputBuffer;
-import org.parboiled.buffers.DefaultInputBuffer;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.errors.ParseError;
 import org.parboiled.matchers.Matcher;
@@ -126,7 +125,7 @@ public abstract class AbstractParseRunner<V>
     public ParsingResult<V> run(final char[] input)
     {
         Preconditions.checkNotNull(input, "input");
-        return run(new DefaultInputBuffer(input));
+        return run(new CharSequenceInputBuffer(input));
     }
 
     @WillBeFinal(version = "1.1")

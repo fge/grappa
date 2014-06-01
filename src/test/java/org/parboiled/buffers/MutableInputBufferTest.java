@@ -25,7 +25,7 @@ public class MutableInputBufferTest {
 
     @Test
     public void testMutableInputBuffer() {
-        final MutableInputBuffer buf = new MutableInputBuffer(new DefaultInputBuffer(("" +
+        final MutableInputBuffer buf = new MutableInputBuffer(new CharSequenceInputBuffer(("" +
                 "abcd\n" +
                 "ef\r\n" +
                 "\n" +

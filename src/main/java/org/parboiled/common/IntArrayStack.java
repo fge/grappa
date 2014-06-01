@@ -16,9 +16,12 @@
 
 package org.parboiled.common;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
+import com.github.parboiled1.grappa.annotations.Unused;
+import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 
-@WillBeFinal(version = "1.1.0")
+@Deprecated
+@Unused
+@WillBeRemoved(version = "1.1")
 public class IntArrayStack
 {
     private static final int INITIAL_CAPACITY = 16;
@@ -128,7 +131,6 @@ public class IntArrayStack
         array = newArray;
     }
 
-    @WillBeFinal(version = "1.1.0")
     public static class UnderflowException
         extends RuntimeException
     {

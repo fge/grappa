@@ -16,6 +16,7 @@
 
 package org.parboiled.buffers;
 
+import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 import com.google.common.base.Preconditions;
 import org.parboiled.common.IntArrayStack;
 import org.parboiled.errors.ParserRuntimeException;
@@ -23,13 +24,17 @@ import org.parboiled.support.Chars;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.Position;
 
-import javax.annotation.concurrent.Immutable;
+import javax.annotation.concurrent.NotThreadSafe;
 import java.util.Arrays;
 
 /**
  * Immutable default implementation of an InputBuffer.
+ *
+ * @deprecated use {@link CharSequenceInputBuffer} instead
  */
-@Immutable
+@NotThreadSafe
+@Deprecated
+@WillBeRemoved(version = "1.1")
 public final class DefaultInputBuffer
     implements InputBuffer
 {
