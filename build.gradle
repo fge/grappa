@@ -45,19 +45,19 @@ repositories {
 
 dependencies {
     provided(group: "com.google.code.findbugs", name: "jsr305",
-        version: "2.0.1");
-    compile(group: "org.ow2.asm", name: "asm-debug-all", version: "5.0.2");
-    compile(group: "com.google.guava", name: "guava", version: "17.0");
+        version: "3.0.0");
+    compile(group: "org.ow2.asm", name: "asm-debug-all", version: "5.0.3");
+    compile(group: "com.google.guava", name: "guava", version: "18.0");
     compile(group: "me.qmx.jitescript", name: "jitescript", version: "0.4.0");
-    testCompile(group: "org.testng", name: "testng", version: "6.8.7") {
+    testCompile(group: "org.testng", name: "testng", version: "6.8.8") {
         exclude(group: "junit", module: "junit");
         exclude(group: "org.beanshell", module: "bsh");
         exclude(group: "org.yaml", module: "snakeyaml");
     };
-    testCompile(group: "org.mockito", name: "mockito-core", version: "1.9.5");
-    testCompile(group: "org.assertj", name: "assertj-core", version: "1.6.0");
+    testCompile(group: "org.mockito", name: "mockito-core", version: "1.10.13");
+    testCompile(group: "org.assertj", name: "assertj-core", version: "1.7.0");
     testCompile(group: "com.fasterxml.jackson.core", name: "jackson-databind",
-        version: "2.3.3");
+        version: "2.4.3");
 }
 
 javadoc.options.links("http://docs.oracle.com/javase/6/docs/api/");
