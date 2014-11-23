@@ -8,6 +8,8 @@
   is deprecated as well.
 * Use a Guava LoadingCache to load classes from internal names; deprecate old AsmUtils synchronized
   cache.
+* Update all dependencies.
+* Upgrade gradle (1.12 -> 2.2).
 
 ### 1.0.0-beta.9
 
