@@ -1,3 +1,14 @@
+### 1.0.0-beta.10 (IN PROGRESS)
+
+* Completely refactor the event-based parser.
+* Depend on, and use, jitescript.
+* ParsingResult: introduce .isSuccess().
+* Bug fixes in join() rule.
+* Deprecated DefaultInputBuffer in favor of CharSequenceInputBuffer; as a consequence, IntArrayStack
+  is deprecated as well.
+* Use a Guava LoadingCache to load classes from internal names; deprecate old AsmUtils synchronized
+  cache.
+
 ### 1.0.0-beta.9
 
 * BaseParser: make trie() public...
