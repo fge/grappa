@@ -15,9 +15,9 @@ buildscript {
     }
     dependencies {
         classpath(group: "org.springframework.build.gradle", 
-            name: "propdeps-plugin", version: "0.0.6");
+            name: "propdeps-plugin", version: "0.0.7");
         classpath(group: "info.solidsoft.gradle.pitest",
-            name: "gradle-pitest-plugin", version: "0.33.0");
+            name: "gradle-pitest-plugin", version: "1.1.1");
     }
 }
 
@@ -31,7 +31,7 @@ apply(plugin: "propdeps");
 apply(plugin: "propdeps-maven");
 apply(plugin: "propdeps-idea");
 apply(plugin: "propdeps-eclipse");
-apply(plugin: "pitest");
+apply(plugin: "info.solidsoft.pitest");
 
 
 repositories {
@@ -79,7 +79,7 @@ pitest {
     // Since for now it is org.parboiled, we cannot leave the default.
     // By default it is ${project.group}.
     targetClasses = [ "org.parboiled.*", "com.github.parboiled1.*" ];
-    pitestVersion = "0.34-SNAPSHOT";
+    pitestVersion = "1.1.2"; // see https://github.com/hcoles/pitest/issues/150
 }
 
 /*
