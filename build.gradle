@@ -57,7 +57,7 @@ dependencies {
 javadoc.options.links("http://docs.oracle.com/javase/6/docs/api/");
 javadoc.options.links("http://jsr-305.googlecode.com/svn/trunk/javadoc/");
 javadoc.options.links("http://asm.ow2.org/asm50/javadoc/user/");
-javadoc.options.links("http://docs.guava-libraries.googlecode.com/git-history/v17.0/javadoc/");
+javadoc.options.links("http://docs.guava-libraries.googlecode.com/git-history/v18.0/javadoc/");
 
 compileJava {
     options.compilerArgs = [ "-Xlint:unchecked" ];
@@ -83,15 +83,6 @@ task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = "sources";
     from sourceSets.main.allSource;
 }
-
-/*
- * Javadoc: we need to tell where the overview.html is, it will not pick it up
- * automatically...
- */
-
-//javadoc {
-//    options.overview = "src/main/java/overview.html";
-//}
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier = "javadoc";
