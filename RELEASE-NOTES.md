@@ -1,3 +1,7 @@
+### 1.0.0-beta.11 (IN PROGRESS)
+
+* Recompile with JDK 6 :/
+
 ### 1.0.0-beta.10
 
 * Completely refactor the event-based parser.
