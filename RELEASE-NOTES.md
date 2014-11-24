@@ -10,6 +10,7 @@
   cache.
 * Update all dependencies.
 * Upgrade gradle (1.12 -> 2.2).
+* Make name, description appear in repository pom.
 
 ### 1.0.0-beta.9
 
