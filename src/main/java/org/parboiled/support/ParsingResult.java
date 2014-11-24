@@ -127,7 +127,7 @@ public class ParsingResult<V>
      *
      * <p>Only a {@link ReportingParseRunner} will generate a parse tree.</p>
      *
-     * @return the tree, or (unfortunately) {@link null} if no tree
+     * @return the tree, or (unfortunately) {@code null} if no tree
      */
     @Nullable
     public final Node<V> getParseTree()
