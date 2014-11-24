@@ -1,13 +1,4 @@
 
-group = "com.github.parboiled1";
-version = "1.0.0-beta.10-SNAPSHOT";
-
-project.ext {
-    description = "Write parsers in pure Java";
-    sourceCompatibility = "1.6";
-    targetCompatibility = "1.6"; // defaults to sourceCompatibility
-};
-
 buildscript {
     repositories {
         maven { url "http://repo.spring.io/plugins-release" };
@@ -32,6 +23,12 @@ apply(plugin: "propdeps-maven");
 apply(plugin: "propdeps-idea");
 apply(plugin: "propdeps-eclipse");
 apply(plugin: "info.solidsoft.pitest");
+
+group = "com.github.parboiled1";
+description = "Write parsers in pure Java";
+version = "1.0.0-beta.10-SNAPSHOT";
+sourceCompatibility = "1.6";
+targetCompatibility = "1.6"; // defaults to sourceCompatibility
 
 
 repositories {
@@ -178,9 +175,9 @@ uploadArchives {
     uploadArchives.repositories.mavenDeployer
 ]*.pom*.whenConfigured { pom ->
     pom.project {
-        name "${name}";
+        name "${project.name}";
+        description "${project.description}";
         packaging "jar";
-        description "${description}";
         url "${projectURL}";
 
         scm {
