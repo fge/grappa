@@ -35,9 +35,6 @@ repositories {
     mavenCentral();
     mavenLocal();
     jcenter();
-    maven {
-        url "http://oss.sonatype.org/content/repositories/snapshots/"
-    };
 }
 
 dependencies {
