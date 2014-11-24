@@ -1,4 +1,4 @@
-### 1.0.0-beta.11 (IN PROGRESS)
+### 1.0.0-beta.11
 
 * Recompile with JDK 6 :/
 
