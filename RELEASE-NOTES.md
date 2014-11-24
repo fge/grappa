@@ -1,4 +1,4 @@
-### 1.0.0-beta.10 (IN PROGRESS)
+### 1.0.0-beta.10
 
 * Completely refactor the event-based parser.
 * Depend on, and use, jitescript.

@@ -17,7 +17,7 @@ dedicated Google groups: [grappa-users](http://groups.google.com/d/forum/grappa-
 [grappa-devel](http://groups.google.com/d/forum/grappa-devel). They are also available to post by
 email.
 
-The current version is **1.0.0-beta.9** (released May 16, 2014).
+The current version is **1.0.0-beta.10** (released November 24, 2014).
 
 **Feedback needed**: there are plans for 1.0.0 and further; please comment on [the relevant
 issues](https://github.com/parboiled1/grappa/issues?labels=planned&state=open).
