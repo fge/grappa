@@ -30,6 +30,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Predicates;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import org.parboiled.annotations.Cached;
 import org.parboiled.annotations.DontExtend;
 import org.parboiled.annotations.DontLabel;
@@ -575,8 +576,12 @@ public abstract class BaseParser<V>
         @Nonnull final Object rule2, @Nonnull final Object... moreRules)
     {
         Preconditions.checkNotNull(moreRules, "moreRules");
-        final Object[] rules = ImmutableList.builder().add(rule).add(rule2)
-            .add(moreRules).build().toArray();
+        /*
+         * From issue #17: this was first built using an ImmutableList.Builder;
+         * however the error message would then differ from what parboiled
+         * produced (an NPE instead of a GrammarException).
+         */
+        final Object[] rules = Lists.asList(rule, rule2, moreRules).toArray();
         return sequence(rules);
     }
 
