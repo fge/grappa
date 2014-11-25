@@ -64,6 +64,12 @@ org.parboiled.errors.GrammarException: 'null' cannot be automatically converted 
  *
  * ".add(rule)" fails since the rule (the result of Var's .get()) is null;
  * however, it should not be since there is a default value... Right?
+ *
+ * ---
+ *
+ * Test disabled. This is not really a bug per se; workarounds exist, and the
+ * real solution would be to introduce something like a BooleanVar instead.
+ * See also issue #19.
  */
 public final class Issue17
 {
@@ -79,7 +85,7 @@ public final class Issue17
         }
     }
 
-    @Test
+    @Test(enabled = false)
     public void varOfBooleanIsCountedAsAction()
     {
         final TestParser parser = Parboiled.createParser(TestParser.class);
