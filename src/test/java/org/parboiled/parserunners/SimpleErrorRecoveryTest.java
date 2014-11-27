@@ -78,7 +78,7 @@ public class SimpleErrorRecoveryTest extends ParboiledTest<Object>
             "  [Subject] 'Alice'\n" +
             "    [Name] 'Alice'\n" +
             "      [\"Alice\"] 'Alice'\n" +
-            "    [ZeroOrMore]\n" +
+            "    [zeroOrMore]\n" +
             "  [Verb] ' has '\n" +
             "    [\" has \"] ' has '\n" +
             "  [Object]E 'animals'\n" +
@@ -103,7 +103,7 @@ public class SimpleErrorRecoveryTest extends ParboiledTest<Object>
                         "  [Subject] 'Alice'\n" +
                         "    [Name] 'Alice'\n" +
                         "      [\"Alice\"] 'Alice'\n" +
-                        "    [ZeroOrMore]\n" +
+                        "    [zeroOrMore]\n" +
                         "  [Verb] ' has '\n" +
                         "    [\" has \"] ' has '\n" +
                         "  [Object]E 'animals'\n" +
@@ -119,7 +119,7 @@ public class SimpleErrorRecoveryTest extends ParboiledTest<Object>
             "  [Subject]E 'Ali'\n" +
             "    [Name]E 'Ali'\n" +
             "      [\"Alice\"]E 'Ali'\n" +
-            "    [ZeroOrMore]\n" +
+            "    [zeroOrMore]\n" +
             "  [Verb] ' has '\n" +
             "    [\" has \"] ' has '\n" +
             "  [Object] 'animals'\n" +
@@ -139,7 +139,7 @@ public class SimpleErrorRecoveryTest extends ParboiledTest<Object>
                 "  [Subject] 'Alice'\n" +
                 "    [Name] 'Alice'\n" +
                 "      [\"Alice\"] 'Alice'\n" +
-                "    [ZeroOrMore]\n"
+                "    [zeroOrMore]\n"
             );
 
         testWithRecovery(parser.Clause(), "Alize has animals")
@@ -152,7 +152,7 @@ public class SimpleErrorRecoveryTest extends ParboiledTest<Object>
                 "  [Subject]E 'Alice'\n" +
                 "    [Name]E 'Alice'\n" +
                 "      [\"Alice\"]E 'Alice'\n" +
-                "    [ZeroOrMore]\n" +
+                "    [zeroOrMore]\n" +
                 "  [Verb] ' has '\n" +
                 "    [\" has \"] ' has '\n" +
                 "  [Object] 'animals'\n" +
@@ -169,7 +169,7 @@ public class SimpleErrorRecoveryTest extends ParboiledTest<Object>
                 "  [Subject] 'Alice'\n" +
                 "    [Name] 'Alice'\n" +
                 "      [\"Alice\"] 'Alice'\n" +
-                "    [ZeroOrMore]\n" +
+                "    [zeroOrMore]\n" +
                 "  [Verb]E ' loves '\n" +
                 "    [\" loves \"]E ' loves '\n" +
                 "  [Object] 'animals'\n" +
@@ -198,7 +198,7 @@ public class SimpleErrorRecoveryTest extends ParboiledTest<Object>
                         "  [Subject]E 'Alice and Emilio'\n" +
                         "    [Name]E 'Alice'\n" +
                         "      [\"Alice\"]E 'Alice'\n" +
-                        "    [ZeroOrMore]E ' and Emilio'\n" +
+                        "    [zeroOrMore]E ' and Emilio'\n" +
                         "      [sequence]E ' and Emilio'\n" +
                         "        [firstOf] ' and '\n" +
                         "          [\" and \"] ' and '\n" +
@@ -222,7 +222,7 @@ public class SimpleErrorRecoveryTest extends ParboiledTest<Object>
                         "  [Subject] 'Alice'\n" +
                         "    [Name] 'Alice'\n" +
                         "      [\"Alice\"] 'Alice'\n" +
-                        "    [ZeroOrMore]\n" +
+                        "    [zeroOrMore]\n" +
                         "  [Verb] ' has '\n" +
                         "    [\" has \"] ' has '\n" +
                         "  [Object] 'cars'\n" +

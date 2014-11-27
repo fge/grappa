@@ -58,7 +58,7 @@ public class ActionVar2Test extends ParboiledTest<Object>
                         "      [0..9] '2'\n" +
                         "    ['}'] '}'\n" +
                         "  [Chars] 'abcdefghijkl'\n" +
-                        "    [ZeroOrMore] 'abcdefghijkl'\n" +
+                        "    [zeroOrMore] 'abcdefghijkl'\n" +
                         "      [sequence] 'a'\n" +
                         "        [ANY] 'a'\n" +
                         "      [sequence] 'b'\n" +

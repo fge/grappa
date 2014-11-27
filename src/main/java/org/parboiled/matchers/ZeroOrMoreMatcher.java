@@ -36,7 +36,7 @@ public class ZeroOrMoreMatcher
 
     public ZeroOrMoreMatcher(final Rule subRule)
     {
-        super(Preconditions.checkNotNull(subRule, "subRule"), "ZeroOrMore");
+        super(Preconditions.checkNotNull(subRule, "subRule"), "zeroOrMore");
         subMatcher = getChildren().get(0);
     }
 
@@ -49,7 +49,7 @@ public class ZeroOrMoreMatcher
             final int currentLocation = context.getCurrentIndex();
             if (currentLocation == lastIndex) {
                 throw new GrammarException(
-                    "The inner rule of ZeroOrMore rule '%s' must not allow empty matches",
+                    "The inner rule of zeroOrMore rule '%s' must not allow empty matches",
                     context.getPath());
             }
             lastIndex = currentLocation;
