@@ -6,7 +6,7 @@
         "match": "abcdabcd",
         "children": [
             {
-                "label": "OneOrMore",
+                "label": "oneOrMore",
                 "match": "abcdabcd",
                 "children": [
                     {

@@ -53,7 +53,7 @@ public class ActionVar2Test extends ParboiledTest<Object>
                         "[Clause] '{12}abcdefghijkl\\n'\n" +
                         "  [CharCount] '{12}'\n" +
                         "    ['{'] '{'\n" +
-                        "    [OneOrMore] '12'\n" +
+                        "    [oneOrMore] '12'\n" +
                         "      [0..9] '1'\n" +
                         "      [0..9] '2'\n" +
                         "    ['}'] '}'\n" +

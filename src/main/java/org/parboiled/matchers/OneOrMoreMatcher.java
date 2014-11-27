@@ -37,7 +37,7 @@ public class OneOrMoreMatcher
 
     public OneOrMoreMatcher(final Rule subRule)
     {
-        super(Preconditions.checkNotNull(subRule, "subRule"), "OneOrMore");
+        super(Preconditions.checkNotNull(subRule, "subRule"), "oneOrMore");
         subMatcher = getChildren().get(0);
     }
 

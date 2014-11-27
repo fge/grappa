@@ -28,7 +28,7 @@
                 "match": "b"
             },
             {
-                "label": "OneOrMore",
+                "label": "oneOrMore",
                 "match": "x",
                 "children": [
                     {
