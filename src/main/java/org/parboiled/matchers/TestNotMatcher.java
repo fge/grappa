@@ -36,7 +36,7 @@ public class TestNotMatcher
 
     public TestNotMatcher(final Rule subRule)
     {
-        super(Preconditions.checkNotNull(subRule, "subRule"), "TestNot");
+        super(Preconditions.checkNotNull(subRule, "subRule"), "testNot");
         subMatcher = getChildren().get(0);
     }
 
