@@ -31,7 +31,7 @@ public class FirstOfMatcher
 {
     public FirstOfMatcher(final Rule[] subRules)
     {
-        super(Preconditions.checkNotNull(subRules, "subRules"), "FirstOf");
+        super(Preconditions.checkNotNull(subRules, "subRules"), "firstOf");
     }
 
     @Override
