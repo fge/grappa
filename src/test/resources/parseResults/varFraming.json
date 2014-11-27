@@ -7,7 +7,7 @@
         "match": "1+2+3",
         "children": [
             {
-                "label": "Optional",
+                "label": "optional",
                 "value": 1,
                 "match": "+2+3",
                 "children": [
@@ -27,7 +27,7 @@
                                 "match": "2+3",
                                 "children": [
                                     {
-                                        "label": "Optional",
+                                        "label": "optional",
                                         "value": 2,
                                         "match": "+3",
                                         "children": [
@@ -47,7 +47,7 @@
                                                         "match": "3",
                                                         "children": [
                                                             {
-                                                                "label": "Optional",
+                                                                "label": "optional",
                                                                 "value": 3
                                                             }
 

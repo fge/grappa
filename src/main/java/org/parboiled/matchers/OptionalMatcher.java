@@ -35,7 +35,7 @@ public class OptionalMatcher
 
     public OptionalMatcher(final Rule subRule)
     {
-        super(Preconditions.checkNotNull(subRule, "subRule"), "Optional");
+        super(Preconditions.checkNotNull(subRule, "subRule"), "optional");
         subMatcher = getChildren().get(0);
     }
 

@@ -53,19 +53,19 @@ public class ActionVarTest extends ParboiledTest<Integer>
                 .hasParseTree("" +
                         "[A, {1}] 'aaaa'\n" +
                         "  ['a'] 'a'\n" +
-                        "  [Optional, {1}] 'aaa'\n" +
+                        "  [optional, {1}] 'aaa'\n" +
                         "    [Sequence, {1}] 'aaa'\n" +
                         "      [A, {1}] 'aaa'\n" +
                         "        ['a'] 'a'\n" +
-                        "        [Optional, {1}] 'aa'\n" +
+                        "        [optional, {1}] 'aa'\n" +
                         "          [Sequence, {1}] 'aa'\n" +
                         "            [A, {1}] 'aa'\n" +
                         "              ['a'] 'a'\n" +
-                        "              [Optional, {1}] 'a'\n" +
+                        "              [optional, {1}] 'a'\n" +
                         "                [Sequence, {1}] 'a'\n" +
                         "                  [A] 'a'\n" +
                         "                    ['a'] 'a'\n" +
-                        "                    [Optional]\n");
+                        "                    [optional]\n");
     }
 
 }

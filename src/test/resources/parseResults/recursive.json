@@ -10,7 +10,7 @@
                 "match": "A"
             },
             {
-                "label": "Optional",
+                "label": "optional",
                 "match": "aA",
                 "children": [
                     {
@@ -22,7 +22,7 @@
                                 "match": "a"
                             },
                             {
-                                "label": "Optional",
+                                "label": "optional",
                                 "match": "A",
                                 "children": [
                                     {
@@ -34,7 +34,7 @@
                                                 "match": "A"
                                             },
                                             {
-                                                "label": "Optional",
+                                                "label": "optional",
                                                 "match": ""
                                             }
                                         ]
