@@ -766,7 +766,12 @@ public abstract class BaseParser<V>
      * @param rule the sub rule to match repeatedly.
      * @param separator the separator to match, see description
      * @return a new rule
+     *
+     * @deprecated use {@link BaseParser#join(Object)} instead
      */
+    @Deprecated
+    @DoNotUse
+    @WillBeRemoved(version = "1.1")
     @Cached
     @DontLabel
     public Rule nTimes(final int repetitions, @Nonnull final Object rule,
