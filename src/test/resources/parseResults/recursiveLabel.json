@@ -6,7 +6,7 @@
         "match": "bbaaa",
         "children": [
             {
-                "label": "Sequence",
+                "label": "sequence",
                 "match": "bbaaa",
                 "children": [
                     {
@@ -18,7 +18,7 @@
                         "match": "baa",
                         "children": [
                             {
-                                "label": "Sequence",
+                                "label": "sequence",
                                 "match": "baa",
                                 "children": [
                                     {

@@ -199,7 +199,7 @@ public class SimpleErrorRecoveryTest extends ParboiledTest<Object>
                         "    [Name]E 'Alice'\n" +
                         "      [\"Alice\"]E 'Alice'\n" +
                         "    [ZeroOrMore]E ' and Emilio'\n" +
-                        "      [Sequence]E ' and Emilio'\n" +
+                        "      [sequence]E ' and Emilio'\n" +
                         "        [firstOf] ' and '\n" +
                         "          [\" and \"] ' and '\n" +
                         "        [Name]E 'Emilio'\n" +

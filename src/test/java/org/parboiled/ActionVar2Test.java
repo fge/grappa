@@ -59,29 +59,29 @@ public class ActionVar2Test extends ParboiledTest<Object>
                         "    ['}'] '}'\n" +
                         "  [Chars] 'abcdefghijkl'\n" +
                         "    [ZeroOrMore] 'abcdefghijkl'\n" +
-                        "      [Sequence] 'a'\n" +
+                        "      [sequence] 'a'\n" +
                         "        [ANY] 'a'\n" +
-                        "      [Sequence] 'b'\n" +
+                        "      [sequence] 'b'\n" +
                         "        [ANY] 'b'\n" +
-                        "      [Sequence] 'c'\n" +
+                        "      [sequence] 'c'\n" +
                         "        [ANY] 'c'\n" +
-                        "      [Sequence] 'd'\n" +
+                        "      [sequence] 'd'\n" +
                         "        [ANY] 'd'\n" +
-                        "      [Sequence] 'e'\n" +
+                        "      [sequence] 'e'\n" +
                         "        [ANY] 'e'\n" +
-                        "      [Sequence] 'f'\n" +
+                        "      [sequence] 'f'\n" +
                         "        [ANY] 'f'\n" +
-                        "      [Sequence] 'g'\n" +
+                        "      [sequence] 'g'\n" +
                         "        [ANY] 'g'\n" +
-                        "      [Sequence] 'h'\n" +
+                        "      [sequence] 'h'\n" +
                         "        [ANY] 'h'\n" +
-                        "      [Sequence] 'i'\n" +
+                        "      [sequence] 'i'\n" +
                         "        [ANY] 'i'\n" +
-                        "      [Sequence] 'j'\n" +
+                        "      [sequence] 'j'\n" +
                         "        [ANY] 'j'\n" +
-                        "      [Sequence] 'k'\n" +
+                        "      [sequence] 'k'\n" +
                         "        [ANY] 'k'\n" +
-                        "      [Sequence] 'l'\n" +
+                        "      [sequence] 'l'\n" +
                         "        [ANY] 'l'\n" +
                         "  ['\\n'] '\\n'\n");
     }

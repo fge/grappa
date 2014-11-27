@@ -54,15 +54,15 @@ public class ActionVarTest extends ParboiledTest<Integer>
                         "[A, {1}] 'aaaa'\n" +
                         "  ['a'] 'a'\n" +
                         "  [optional, {1}] 'aaa'\n" +
-                        "    [Sequence, {1}] 'aaa'\n" +
+                        "    [sequence, {1}] 'aaa'\n" +
                         "      [A, {1}] 'aaa'\n" +
                         "        ['a'] 'a'\n" +
                         "        [optional, {1}] 'aa'\n" +
-                        "          [Sequence, {1}] 'aa'\n" +
+                        "          [sequence, {1}] 'aa'\n" +
                         "            [A, {1}] 'aa'\n" +
                         "              ['a'] 'a'\n" +
                         "              [optional, {1}] 'a'\n" +
-                        "                [Sequence, {1}] 'a'\n" +
+                        "                [sequence, {1}] 'a'\n" +
                         "                  [A] 'a'\n" +
                         "                    ['a'] 'a'\n" +
                         "                    [optional]\n");

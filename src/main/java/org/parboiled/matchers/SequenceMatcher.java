@@ -39,7 +39,7 @@ public class SequenceMatcher
 
     public SequenceMatcher(final Rule[] subRules)
     {
-        super(Preconditions.checkNotNull(subRules, "subRules"), "Sequence");
+        super(Preconditions.checkNotNull(subRules, "subRules"), "sequence");
     }
 
     @Override

@@ -12,7 +12,7 @@
                 "match": "+2+3",
                 "children": [
                     {
-                        "label": "Sequence",
+                        "label": "sequence",
                         "match": "+2+3",
                         "value": 1,
                         "children": [
@@ -32,7 +32,7 @@
                                         "match": "+3",
                                         "children": [
                                             {
-                                                "label": "Sequence",
+                                                "label": "sequence",
                                                 "match": "+3",
                                                 "value": 2,
                                                 "children": [
