@@ -80,7 +80,7 @@ public abstract class JoinMatcher
 
     protected JoinMatcher(final Rule joined, final Rule joining)
     {
-        super(new Rule[] { joined, joining }, "Join");
+        super(new Rule[] { joined, joining }, "join");
         this.joined = getChildren().get(JOINED_CHILD_INDEX);
         this.joining = getChildren().get(JOINING_CHILD_INDEX);
     }
