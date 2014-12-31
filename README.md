@@ -19,11 +19,6 @@ email.
 
 The current version is **1.0.0-beta.11** (released November 24, 2014).
 
-**Feedback needed**: there are plans for 1.0.0 and further; please comment on [the relevant
-issues](https://github.com/parboiled1/grappa/issues?labels=planned&state=open).
-
-See also the [grappa-support project](https://github.com/parboiled1/grappa-support).
-
 ## Motivation
 
 This is a fork of the original [parboiled](https://github.com/sirthias/parboiled). Its author,
@@ -43,8 +38,8 @@ like the [drink of the same name](http://www.istitutograppa.org/))
 
 ## Comparison with parboiled
 
-Backwards compatibility is ensured for the 1.0.x timeline. **2.0.x and greater will introduce
-incompatible changes**, however these changes will be documented.
+Backwards compatibility with parboiled 1 is ensured for the 1.0.x timeline. **1.1.x and greater
+will introduce incompatible changes**, however these changes will be documented.
 
 See [this
 page](https://github.com/parboiled1/grappa/wiki/Overview:-grappa-1.0.x-vs-parboiled-java) for an
@@ -61,18 +56,8 @@ repositories {
 }
 
 dependencies {
-    compile(group: "com.github.parboiled1", name: "grappa", version: "1.0.0-beta.9");
+    compile(group: "com.github.parboiled1", name: "grappa", version: "1.0.0-beta.11");
 }
-```
-
-With Maven:
-
-```xml
-<dependency>
-    <groupId>com.github.parboiled1</groupId>
-    <artifactId>grappa</artifactId>
-    <version>1.0.0-beta.7</version>
-</dependency>
 ```
 
 ## Example grammars
