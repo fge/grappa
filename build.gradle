@@ -33,7 +33,6 @@ targetCompatibility = "1.6"; // defaults to sourceCompatibility
 
 repositories {
     mavenCentral();
-    jcenter();
 }
 
 dependencies {
