@@ -19,6 +19,9 @@ email.
 
 The current version is **1.0.0** (released December 31, 2014).
 
+Work has started on 1.1.x. See [here](https://github.com/parboiled1/grappa/wiki/Work-on-1.1.x) for
+the current items being worked on, the plans etc.
+
 ## Motivation
 
 This is a fork of the original [parboiled](https://github.com/sirthias/parboiled). Its author,
