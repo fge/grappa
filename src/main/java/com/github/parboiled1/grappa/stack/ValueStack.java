@@ -16,27 +16,29 @@
 
 package com.github.parboiled1.grappa.stack;
 
-import com.github.parboiled1.grappa.annotations.ThrownExceptionsWillChange;
 import org.parboiled.errors.GrammarException;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
- * A ValueStack is a stack implementation for parser values. The current state
- * of the stack can be saved and restored with the methods {@link
- * #takeSnapshot()} and {@link #restoreSnapshot(Object)} ()}, whose
- * implementations should be super efficient since they are being used
- * extensively during a parsing run. A ValueStack also serves as an Iterable
- * over the current stack values (the values are being provided with the last
- * value (on top of the stack) first).
+ * Stack implementation for use in parsers
+ *
+ * <p>A stack state can be saved and restored using {@link #takeSnapshot()} and
+ * {@link #restoreSnapshot(Object)}.</p>
+ *
+ * <p>Stacks do not accept null values; if a null value is inserted, a {@link
+ * NullPointerException} will be thrown.</p>
+ *
+ * <p>Any attempt to pop/swap values on a stack with not enough elements will
+ * throw an {@link IllegalStateException}.</p>
  *
  * @param <V> the type of the value objects
  */
+@ParametersAreNonnullByDefault
 public interface ValueStack<V>
     extends Iterable<V>
 {
-
     /**
      * Determines whether the stack is empty.
      *
@@ -61,7 +63,7 @@ public interface ValueStack<V>
      *
      * @return an object representing the current state of the stack
      */
-    @Nullable
+    @Nonnull
     Object takeSnapshot();
 
     /**
@@ -71,14 +73,14 @@ public interface ValueStack<V>
      * @param snapshot a snapshot object previously returned by {@link
      * #takeSnapshot()}
      */
-    void restoreSnapshot(@Nullable Object snapshot);
+    void restoreSnapshot(Object snapshot);
 
     /**
      * Pushes the given value onto the stack. Equivalent to push(0, value).
      *
      * @param value the value
      */
-    void push(@Nullable V value);
+    void push(V value);
 
     /**
      * Inserts the given value a given number of elements below the current top
@@ -87,12 +89,8 @@ public interface ValueStack<V>
      * @param down the number of elements to skip before inserting the value (0
      * being equivalent to push(value))
      * @param value the value
-     * @throws IllegalArgumentException if the stack does not contain enough
-     * elements to perform this operation
      */
-    @ThrownExceptionsWillChange(version = "1.1",
-        to = IllegalStateException.class)
-    void push(int down, @Nullable V value);
+    void push(int down, V value);
 
     /**
      * Pushes all given elements onto the stack (in the order as given).
@@ -100,27 +98,14 @@ public interface ValueStack<V>
      * @param firstValue the first value
      * @param moreValues the other values
      */
-    void pushAll(@Nullable V firstValue, @Nullable V... moreValues);
-
-    /**
-     * Pushes all given elements onto the stack (in the order as given).
-     *
-     * @param values the values
-     */
-    // TODO: overload of varargs! Doesn't really work well
-    @Deprecated
-    void pushAll(@Nonnull Iterable<V> values);
+    void pushAll(V firstValue, V... moreValues);
 
     /**
      * Removes the value at the top of the stack and returns it.
      *
      * @return the current top value
-     *
-     * @throws IllegalArgumentException if the stack is empty
      */
-    @ThrownExceptionsWillChange(version = "1.1",
-        to = IllegalStateException.class)
-    @Nullable
+    @Nonnull
     V pop();
 
     /**
@@ -129,25 +114,16 @@ public interface ValueStack<V>
      * @param down the number of elements to skip before removing the value (0
      * being equivalent to pop())
      * @return the value
-     *
-     * @throws IllegalArgumentException if the stack does not contain enough
-     * elements to perform this operation
      */
-    @ThrownExceptionsWillChange(version = "1.1",
-        to = IllegalStateException.class)
-    @Nullable
+    @Nonnull
     V pop(int down);
 
     /**
      * Returns the value at the top of the stack without removing it.
      *
      * @return the current top value
-     *
-     * @throws IllegalArgumentException if the stack is empty
      */
-    @ThrownExceptionsWillChange(version = "1.1",
-        to = IllegalStateException.class)
-    @Nullable
+    @Nonnull
     V peek();
 
     /**
@@ -156,13 +132,8 @@ public interface ValueStack<V>
      *
      * @param down the number of elements to skip (0 being equivalent to peek())
      * @return the value
-     *
-     * @throws IllegalArgumentException if the stack does not contain enough
-     * elements to perform this operation
      */
-    @ThrownExceptionsWillChange(version = "1.1",
-        to = IllegalStateException.class)
-    @Nullable
+    @Nonnull
     V peek(int down);
 
     /**
@@ -170,11 +141,8 @@ public interface ValueStack<V>
      * poke(0, value).
      *
      * @param value the value
-     * @throws IllegalArgumentException if the stack is empty
      */
-    @ThrownExceptionsWillChange(version = "1.1",
-        to = IllegalStateException.class)
-    void poke(@Nullable V value);
+    void poke(@Nonnull V value);
 
     /**
      * Replaces the element the given number of elements below the current top
@@ -183,29 +151,18 @@ public interface ValueStack<V>
      * @param down the number of elements to skip before replacing the value (0
      * being equivalent to poke(value))
      * @param value the value to replace with
-     * @throws IllegalArgumentException if the stack does not contain enough
-     * elements to perform this operation
      */
-    @ThrownExceptionsWillChange(version = "1.1",
-        to = IllegalStateException.class)
-    void poke(int down, @Nullable V value);
+    void poke(int down, V value);
 
     /**
      * Duplicates the top value. Equivalent to push(peek()).
-     *
-     * @throws IllegalArgumentException if the stack is empty
      */
-    @ThrownExceptionsWillChange(version = "1.1",
-        to = IllegalStateException.class)
     void dup();
 
     /**
      * Reverses the order of the top n stack values
      *
      * @param n the number of elements to reverse
-     * @throws IllegalArgumentException {@code n} is less than 2
-     * @throws IllegalStateException the stack does not contain at least n
-     * elements
      */
     void swap(int n);
 
@@ -215,7 +172,5 @@ public interface ValueStack<V>
      * @throws GrammarException if the stack does not contain at least two
      * elements
      */
-    @ThrownExceptionsWillChange(version = "1.1",
-        to = IllegalStateException.class)
     void swap();
 }

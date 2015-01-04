@@ -18,22 +18,21 @@ package com.github.parboiled1.grappa.stack;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterators;
-import com.google.common.collect.Lists;
-import org.parboiled.errors.GrammarException;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 // TODO: 1.1: change thrown exceptions!
+@ParametersAreNonnullByDefault
 public final class DefaultValueStack<V>
     implements ValueStack<V>
 {
-    private List<V> stack = new ArrayList<V>();
+    private List<V> stack = new ArrayList<>();
 
     @Override
     public boolean isEmpty()
@@ -53,22 +52,18 @@ public final class DefaultValueStack<V>
         stack.clear();
     }
 
+    @Nonnull
     @Override
     public Object takeSnapshot()
     {
-        return new ArrayList<V>(stack);
+        return new ArrayList<>(stack);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public void restoreSnapshot(final Object snapshot)
     {
-        // FIXME: should not happen, but...
-        // TODO: when old implementation is out, make snapshot arg @Nonnull
-        if (snapshot == null) {
-            stack = new ArrayList<V>();
-            return;
-        }
+        Preconditions.checkNotNull(snapshot);
         Preconditions.checkState(snapshot.getClass() == ArrayList.class);
         stack = (List<V>) snapshot;
     }
@@ -86,102 +81,74 @@ public final class DefaultValueStack<V>
          * It is legal to append at the end! We must therefore check that the
          * index - 1 is strictly less than size, not the index itself
          */
-        try {
-            checkSize(down - 1);
-            stack.add(down, value);
-        } catch (IllegalStateException e) {
-            throw new IllegalArgumentException(e.getMessage());
-        }
+        checkAvailableIndex(down - 1);
+        stack.add(down, Objects.requireNonNull(value));
     }
 
+    @SafeVarargs
     @Override
-    public void pushAll(@Nullable final V firstValue,
-        @Nullable final V... moreValues)
+    public final void pushAll(final V firstValue, final V... moreValues)
     {
-        // FIXME: hackish :/ Can throw ClassCastException all right
-        if (firstValue instanceof Iterable
-            && moreValues != null
-            && moreValues.length == 0) {
-            @SuppressWarnings("unchecked")
-            final Iterable<V> values = (Iterable<V>) firstValue;
-            pushAll(values);
-            return;
-        }
-        final List<V> temp = new ArrayList<V>();
-        temp.add(firstValue);
-        if (moreValues == null)
-            temp.add(null);
-        else
-            temp.addAll(Arrays.asList(moreValues));
-        pushAll(temp);
-    }
+        final int newSize = stack.size() + 1 + moreValues.length;
+        final List<V> newStack = new ArrayList<>(newSize);
 
-    @Override
-    public void pushAll(@Nonnull final Iterable<V> values)
-    {
-        final List<V> newStack = Lists.newArrayList(values);
+        newStack.add(Objects.requireNonNull(firstValue));
+        for (final V value: moreValues)
+            newStack.add(Objects.requireNonNull(value));
         newStack.addAll(stack);
+
         stack = newStack;
     }
 
+    @Nonnull
     @Override
     public V pop()
     {
-        Preconditions.checkArgument(!stack.isEmpty(), "stack is empty");
+        checkAvailableIndex(0);
         return stack.remove(0);
     }
 
+    @Nonnull
     @Override
     public V pop(final int down)
     {
-        try {
-            checkSize(down);
-            return stack.remove(down);
-        } catch (IllegalStateException e) {
-            throw new IllegalArgumentException(e.getMessage());
-        }
+        checkAvailableIndex(down);
+        return stack.remove(down);
     }
 
+    @Nonnull
     @Override
     public V peek()
     {
-        Preconditions.checkArgument(!stack.isEmpty(), "stack is empty");
+        checkAvailableIndex(0);
         return stack.get(0);
     }
 
+    @Nonnull
     @Override
     public V peek(final int down)
     {
-        try {
-            checkSize(down);
-            return stack.get(down);
-        } catch (IllegalStateException e) {
-            throw new IllegalArgumentException(e.getMessage());
-        }
+        checkAvailableIndex(down);
+        return stack.get(down);
     }
 
     @Override
-    public void poke(@Nullable final V value)
+    public void poke(final V value)
     {
-        Preconditions.checkArgument(!stack.isEmpty(), "stack is empty");
         poke(0, value);
     }
 
     @Override
-    public void poke(final int down, @Nullable final V value)
+    public void poke(final int down, final V value)
     {
-        try {
-            checkSize(down);
-            stack.set(down, value);
-        } catch (IllegalStateException e) {
-            throw new IllegalArgumentException(e.getMessage());
-        }
+        checkAvailableIndex(down);
+        stack.set(down, Objects.requireNonNull(value));
     }
 
     @Override
     public void dup()
     {
-        Preconditions.checkArgument(!stack.isEmpty(), "stack is empty");
+        checkAvailableIndex(0);
         final V element = stack.get(0);
         stack.add(0, element);
     }
@@ -189,23 +156,19 @@ public final class DefaultValueStack<V>
     @Override
     public void swap(final int n)
     {
-        Preconditions.checkArgument(n >= 2, "illegal argument to swap() (" +
+        Preconditions.checkState(n >= 2, "illegal argument to swap() (" +
             n + "), must be 2 or greater");
         /*
          * As for .push(n, value), we need to check for n - 1 here
          */
-        checkSize(n - 1);
+        checkAvailableIndex(n - 1);
         Collections.reverse(stack.subList(0, n));
     }
 
     @Override
     public void swap()
     {
-        try {
-            swap(2);
-        } catch (IllegalStateException e) {
-            throw new GrammarException(e.getMessage());
-        }
+        swap(2);
     }
 
     @Override
@@ -221,7 +184,7 @@ public final class DefaultValueStack<V>
         return stack.toString();
     }
 
-    private void checkSize(final int index)
+    private void checkAvailableIndex(final int index)
     {
         Preconditions.checkState(index < stack.size(),
             "not enough elements in stack");

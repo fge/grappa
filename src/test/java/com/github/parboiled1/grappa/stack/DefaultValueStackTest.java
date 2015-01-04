@@ -52,30 +52,26 @@ public final class DefaultValueStackTest
     {
         try {
             stack.peek();
-            failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
-        } catch (IllegalArgumentException e) {
-            assertThat(e).hasMessage("stack is empty");
+            failBecauseExceptionWasNotThrown(IllegalStateException.class);
+        } catch (IllegalStateException ignored) {
         }
 
         try {
             stack.pop();
-            failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
-        } catch (IllegalArgumentException e) {
-            assertThat(e).hasMessage("stack is empty");
+            failBecauseExceptionWasNotThrown(IllegalStateException.class);
+        } catch (IllegalStateException ignored) {
         }
 
         try {
             stack.poke(new Object());
-            failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
-        } catch (IllegalArgumentException e) {
-            assertThat(e).hasMessage("stack is empty");
+            failBecauseExceptionWasNotThrown(IllegalStateException.class);
+        } catch (IllegalStateException ignored) {
         }
 
         try {
             stack.dup();
-            failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
-        } catch (IllegalArgumentException e) {
-            assertThat(e).hasMessage("stack is empty");
+            failBecauseExceptionWasNotThrown(IllegalStateException.class);
+        } catch (IllegalStateException ignored) {
         }
     }
 
@@ -158,7 +154,7 @@ public final class DefaultValueStackTest
             .as("elements are in the correct order after multi element push")
             .containsExactly(3, "helo", 1);
 
-        stack.pushAll(Arrays.asList("harry", "sally"));
+        stack.pushAll("harry", "sally");
         soft.assertThat(stack.size()).as("stack has the correct size")
             .isEqualTo(5);
         soft.assertThat(stack)
@@ -194,30 +190,26 @@ public final class DefaultValueStackTest
 
         try {
             stack.pop(3);
-            failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
-        } catch (IllegalArgumentException e) {
-            assertThat(e).hasMessage("not enough elements in stack");
+            failBecauseExceptionWasNotThrown(IllegalStateException.class);
+        } catch (IllegalStateException ignored) {
         }
 
         try {
             stack.poke(3, new Object());
-            failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
-        } catch (IllegalArgumentException e) {
-            assertThat(e).hasMessage("not enough elements in stack");
+            failBecauseExceptionWasNotThrown(IllegalStateException.class);
+        } catch (IllegalStateException ignored) {
         }
 
         try {
             stack.peek(3);
-            failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
-        } catch (IllegalArgumentException e) {
-            assertThat(e).hasMessage("not enough elements in stack");
+            failBecauseExceptionWasNotThrown(IllegalStateException.class);
+        } catch (IllegalStateException ignored) {
         }
 
         try {
             stack.push(4, new Object());
-            failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
-        } catch (IllegalArgumentException e) {
-            assertThat(e).hasMessage("not enough elements in stack");
+            failBecauseExceptionWasNotThrown(IllegalStateException.class);
+        } catch (IllegalStateException ignored) {
         }
     }
 

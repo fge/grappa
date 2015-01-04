@@ -35,6 +35,7 @@ import org.parboiled.support.ParsingResult;
 import com.github.parboiled1.grappa.stack.ValueStack;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractParseRunner<V>
@@ -131,6 +132,9 @@ public abstract class AbstractParseRunner<V>
     @WillBeFinal(version = "1.1")
     protected void resetValueStack()
     {
+        // FIXME: hack
+        if (initialValueStackSnapshot == null)
+            initialValueStackSnapshot = new ArrayList<>();
         valueStack.restoreSnapshot(initialValueStackSnapshot);
     }
 
