@@ -22,7 +22,7 @@ import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.errors.ParseError;
 import org.parboiled.support.ParsingResult;
-import org.parboiled.support.ValueStack;
+import com.github.parboiled1.grappa.stack.ValueStack;
 
 import java.nio.CharBuffer;
 import java.util.List;

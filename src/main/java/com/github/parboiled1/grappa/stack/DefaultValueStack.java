@@ -20,7 +20,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import org.parboiled.errors.GrammarException;
-import org.parboiled.support.ValueStack;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -204,46 +203,6 @@ public final class DefaultValueStack<V>
     {
         try {
             swap(2);
-        } catch (IllegalStateException e) {
-            throw new GrammarException(e.getMessage());
-        }
-    }
-
-    @Override
-    public void swap3()
-    {
-        try {
-            swap(3);
-        } catch (IllegalStateException e) {
-            throw new GrammarException(e.getMessage());
-        }
-    }
-
-    @Override
-    public void swap4()
-    {
-        try {
-            swap(4);
-        } catch (IllegalStateException e) {
-            throw new GrammarException(e.getMessage());
-        }
-    }
-
-    @Override
-    public void swap5()
-    {
-        try {
-            swap(5);
-        } catch (IllegalStateException e) {
-            throw new GrammarException(e.getMessage());
-        }
-    }
-
-    @Override
-    public void swap6()
-    {
-        try {
-            swap(6);
         } catch (IllegalStateException e) {
             throw new GrammarException(e.getMessage());
         }

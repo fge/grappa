@@ -26,7 +26,7 @@ import org.parboiled.errors.GrammarException;
 import org.parboiled.support.Checks;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.Position;
-import org.parboiled.support.ValueStack;
+import com.github.parboiled1.grappa.stack.ValueStack;
 
 /**
  * Convenience context aware base class defining a number of useful helper methods.

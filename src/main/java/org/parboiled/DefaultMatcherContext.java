@@ -40,7 +40,7 @@ import org.parboiled.support.MatcherPath;
 import org.parboiled.support.MatcherPosition;
 import org.parboiled.support.ParseTreeUtils;
 import org.parboiled.support.Position;
-import org.parboiled.support.ValueStack;
+import com.github.parboiled1.grappa.stack.ValueStack;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

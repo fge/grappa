@@ -18,8 +18,6 @@ package com.github.parboiled1.grappa.stack;
 
 import com.google.common.collect.Lists;
 import org.assertj.core.api.SoftAssertions;
-import org.parboiled.errors.GrammarException;
-import org.parboiled.support.ValueStack;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -112,39 +110,6 @@ public final class DefaultValueStackTest
         stack.poke(0, element);
         soft.assertThat(stack.pop()).as("poke(0) is the same as poke()")
             .isSameAs(element);
-
-        soft.assertAll();
-    }
-
-    @Test
-    public void nullInsertionsAreCorrectlyHandled()
-    {
-        final SoftAssertions soft = new SoftAssertions();
-
-        stack.push(null);
-        soft.assertThat(stack.isEmpty()).as("inserting null is OK").isFalse();
-        soft.assertThat(stack).as("size of a single null element stack is 1")
-            .hasSize(1);
-
-        assertThat(stack.pop()).as("pop() of null returns null").isNull();
-
-        stack.pushAll(null, null);
-        soft.assertThat(stack).as("inserting two nulls gives size 2")
-            .hasSize(2);
-        soft.assertThat(stack).containsExactly(null, null);
-
-        stack.clear();
-        stack.pushAll(Arrays.asList(null, null));
-        soft.assertThat(stack).as("inserting list of two nulls gives size 2")
-            .hasSize(2);
-        soft.assertThat(stack).containsExactly(null, null);
-
-        final Object nonNull = new Object();
-        stack.clear();
-        stack.pushAll(null, nonNull, null);
-        soft.assertThat(stack).as("mixing nulls and non nulls work")
-            .hasSize(3);
-        soft.assertThat(stack).containsExactly(null, nonNull, null);
 
         soft.assertAll();
     }
@@ -248,14 +213,6 @@ public final class DefaultValueStackTest
             assertThat(e).hasMessage("not enough elements in stack");
         }
 
-        // TODO: hack! See interface description
-        try {
-            stack.swap4();
-            failBecauseExceptionWasNotThrown(GrammarException.class);
-        } catch (GrammarException e) {
-            assertThat(e).hasMessage("not enough elements in stack");
-        }
-
         try {
             stack.push(4, new Object());
             failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
@@ -303,11 +260,11 @@ public final class DefaultValueStackTest
 
         stack.pushAll(1, 2, 3, 4, 5, 6);
 
-        ((DefaultValueStack<Object>) stack).swap(n);
+        stack.swap(n);
         soft.assertThat(stack).as("swap of " + n + " works correctly")
             .containsExactlyElementsOf(expected);
 
-        ((DefaultValueStack<Object>) stack).swap(n);
+        stack.swap(n);
         soft.assertThat(stack)
             .as("double swap of " + n + " gives back the original")
             .containsExactlyElementsOf(orig);

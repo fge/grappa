@@ -16,8 +16,6 @@
 
 package com.github.parboiled1.grappa.stack;
 
-import org.parboiled.support.ValueStack;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Iterator;

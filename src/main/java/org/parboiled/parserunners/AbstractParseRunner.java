@@ -32,7 +32,7 @@ import org.parboiled.buffers.InputBuffer;
 import org.parboiled.errors.ParseError;
 import org.parboiled.matchers.Matcher;
 import org.parboiled.support.ParsingResult;
-import org.parboiled.support.ValueStack;
+import com.github.parboiled1.grappa.stack.ValueStack;
 
 import javax.annotation.Nonnull;
 import java.util.List;

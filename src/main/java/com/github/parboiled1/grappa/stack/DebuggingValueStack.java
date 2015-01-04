@@ -19,7 +19,6 @@ package com.github.parboiled1.grappa.stack;
 import com.github.parboiled1.grappa.misc.SystemOutCharSink;
 import com.google.common.base.Joiner;
 import com.google.common.io.CharSink;
-import org.parboiled.support.ValueStack;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

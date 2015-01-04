@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package org.parboiled.support;
+package com.github.parboiled1.grappa.stack;
 
 import com.github.parboiled1.grappa.annotations.ThrownExceptionsWillChange;
-import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 import org.parboiled.errors.GrammarException;
 
 import javax.annotation.Nonnull;
@@ -219,52 +218,4 @@ public interface ValueStack<V>
     @ThrownExceptionsWillChange(version = "1.1",
         to = IllegalStateException.class)
     void swap();
-
-    /**
-     * Reverses the order of the top 3 stack values.
-     *
-     * @throws GrammarException if the stack does not contain at least 3
-     * elements
-     *
-     * @deprecated use {@link #swap(int)} instead
-     */
-    @Deprecated
-    @WillBeRemoved(version = "1.1")
-    void swap3();
-
-    /**
-     * Reverses the order of the top 4 stack values.
-     *
-     * @throws GrammarException if the stack does not contain at least 4
-     * elements
-     *
-     * @deprecated use {@link #swap(int)} instead
-     */
-    @Deprecated
-    @WillBeRemoved(version = "1.1")
-    void swap4();
-
-    /**
-     * Reverses the order of the top 5 stack values.
-     *
-     * @throws GrammarException if the stack does not contain at least 5
-     * elements
-     *
-     * @deprecated use {@link #swap(int)} instead
-     */
-    @Deprecated
-    @WillBeRemoved(version = "1.1")
-    void swap5();
-
-    /**
-     * Reverses the order of the top 6 stack values.
-     *
-     * @throws GrammarException if the stack does not contain at least 6
-     * elements
-     *
-     * @deprecated use {@link #swap(int)} instead
-     */
-    @Deprecated
-    @WillBeRemoved(version = "1.1")
-    void swap6();
 }
