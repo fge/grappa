@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package org.parboiled.buffers;
+package com.github.parboiled1.grappa.buffers;
 
-import com.github.parboiled1.grappa.buffers.LineCounter;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
 import com.google.common.util.concurrent.Futures;

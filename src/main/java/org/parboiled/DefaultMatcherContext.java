@@ -16,11 +16,11 @@
 
 package org.parboiled;
 
+import com.github.parboiled1.grappa.buffers.InputBuffer;
 import com.github.parboiled1.grappa.stack.ValueStack;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
-import org.parboiled.buffers.InputBuffer;
 import org.parboiled.errors.BasicParseError;
 import org.parboiled.errors.GrammarException;
 import org.parboiled.errors.ParseError;

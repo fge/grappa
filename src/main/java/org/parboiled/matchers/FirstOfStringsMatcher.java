@@ -17,11 +17,11 @@
 package org.parboiled.matchers;
 
 import com.github.parboiled1.grappa.annotations.WillBePrivate;
+import com.github.parboiled1.grappa.buffers.InputBuffer;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
-import org.parboiled.buffers.InputBuffer;
 import org.parboiled.errors.GrammarException;
 
 import java.util.HashSet;

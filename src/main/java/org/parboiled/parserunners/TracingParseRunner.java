@@ -16,6 +16,7 @@
 
 package org.parboiled.parserunners;
 
+import com.github.parboiled1.grappa.buffers.InputBuffer;
 import com.github.parboiled1.grappa.misc.SystemOutCharSink;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
@@ -25,7 +26,6 @@ import org.parboiled.Context;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
-import org.parboiled.buffers.InputBuffer;
 import org.parboiled.common.Tuple2;
 import org.parboiled.matchers.Matcher;
 import org.parboiled.support.MatcherPath;

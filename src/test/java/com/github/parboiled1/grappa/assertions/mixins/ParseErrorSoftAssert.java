@@ -19,8 +19,8 @@ package com.github.parboiled1.grappa.assertions.mixins;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.parboiled1.grappa.buffers.InputBuffer;
 import org.assertj.core.api.SoftAssertions;
-import org.parboiled.buffers.InputBuffer;
 import org.parboiled.errors.ParseError;
 
 public final class ParseErrorSoftAssert

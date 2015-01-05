@@ -17,6 +17,7 @@
 package org.parboiled.parserunners;
 
 import com.github.parboiled1.grappa.annotations.WillBePrivate;
+import com.github.parboiled1.grappa.buffers.InputBuffer;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.primitives.Ints;
@@ -24,7 +25,6 @@ import com.google.common.primitives.Longs;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
-import org.parboiled.buffers.InputBuffer;
 import org.parboiled.matchers.Matcher;
 import org.parboiled.matchervisitors.DoWithMatcherVisitor;
 import org.parboiled.support.ParsingResult;

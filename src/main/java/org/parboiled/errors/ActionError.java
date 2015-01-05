@@ -16,8 +16,8 @@
 
 package org.parboiled.errors;
 
+import com.github.parboiled1.grappa.buffers.InputBuffer;
 import com.google.common.base.Preconditions;
-import org.parboiled.buffers.InputBuffer;
 import org.parboiled.support.MatcherPath;
 
 /**

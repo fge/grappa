@@ -18,11 +18,11 @@ package com.github.parboiled1.grappa.assertions.verify;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.parboiled1.grappa.assertions.NodeAssert;
+import com.github.parboiled1.grappa.buffers.InputBuffer;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import org.assertj.core.api.SoftAssertions;
 import org.parboiled.Node;
-import org.parboiled.buffers.InputBuffer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package org.parboiled.buffers;
+package com.github.parboiled1.grappa.buffers;
 
+import org.parboiled.buffers.MutableInputBuffer;
 import org.parboiled.support.Chars;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.Position;

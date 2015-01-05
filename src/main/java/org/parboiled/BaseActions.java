@@ -16,11 +16,11 @@
 
 package org.parboiled;
 
+import com.github.parboiled1.grappa.buffers.InputBuffer;
 import com.github.parboiled1.grappa.stack.ValueStack;
 import com.google.common.base.Preconditions;
 import org.parboiled.annotations.SuppressNode;
 import org.parboiled.annotations.SuppressSubnodes;
-import org.parboiled.buffers.InputBuffer;
 import org.parboiled.errors.GrammarException;
 import org.parboiled.support.Checks;
 import org.parboiled.support.IndexRange;

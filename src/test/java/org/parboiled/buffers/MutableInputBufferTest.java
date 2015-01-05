@@ -16,6 +16,7 @@
 
 package org.parboiled.buffers;
 
+import com.github.parboiled1.grappa.buffers.CharSequenceInputBuffer;
 import org.parboiled.support.Position;
 import org.testng.annotations.Test;
 

@@ -19,13 +19,13 @@ package com.github.parboiled1.grappa.profiling;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.parboiled1.grappa.assertions.mixins.GrappaModule;
 import com.github.parboiled1.grappa.assertions.soft.ProfilingReportSoftAssert;
+import com.github.parboiled1.grappa.buffers.CharSequenceInputBuffer;
+import com.github.parboiled1.grappa.buffers.InputBuffer;
 import com.github.parboiled1.grappa.testparsers.TestParser;
 import com.google.common.base.Preconditions;
 import com.google.common.io.Closer;
 import org.assertj.core.api.SoftAssertions;
 import org.parboiled.Parboiled;
-import org.parboiled.buffers.CharSequenceInputBuffer;
-import org.parboiled.buffers.InputBuffer;
 import org.parboiled.parserunners.ProfilingParseRunner;
 import org.testng.annotations.Test;
 

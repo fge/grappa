@@ -16,10 +16,10 @@
 
 package com.github.parboiled1.grappa.assertions;
 
+import com.github.parboiled1.grappa.buffers.InputBuffer;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.SoftAssertions;
 import org.parboiled.Node;
-import org.parboiled.buffers.InputBuffer;
 
 import javax.annotation.Nullable;
 

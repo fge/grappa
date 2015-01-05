@@ -18,8 +18,8 @@ package org.parboiled.parserunners;
 
 import com.github.parboiled1.grappa.annotations.Dangerous;
 import com.github.parboiled1.grappa.annotations.DoNotUse;
+import com.github.parboiled1.grappa.buffers.InputBuffer;
 import com.github.parboiled1.grappa.stack.ValueStack;
-import org.parboiled.buffers.InputBuffer;
 import org.parboiled.errors.ParseError;
 import org.parboiled.support.ParsingResult;
 

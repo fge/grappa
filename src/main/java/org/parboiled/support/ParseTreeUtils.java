@@ -16,12 +16,12 @@
 
 package org.parboiled.support;
 
+import com.github.parboiled1.grappa.buffers.InputBuffer;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.base.Strings;
 import org.parboiled.Node;
-import org.parboiled.buffers.InputBuffer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

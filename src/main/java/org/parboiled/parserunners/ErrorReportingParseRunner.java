@@ -16,11 +16,11 @@
 
 package org.parboiled.parserunners;
 
+import com.github.parboiled1.grappa.buffers.InputBuffer;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
-import org.parboiled.buffers.InputBuffer;
 import org.parboiled.errors.InvalidInputError;
 import org.parboiled.matchervisitors.IsSingleCharMatcherVisitor;
 import org.parboiled.support.MatcherPath;

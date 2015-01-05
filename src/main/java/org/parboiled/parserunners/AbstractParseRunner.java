@@ -17,6 +17,8 @@
 package org.parboiled.parserunners;
 
 import com.github.parboiled1.grappa.annotations.WillBeProtected;
+import com.github.parboiled1.grappa.buffers.CharSequenceInputBuffer;
+import com.github.parboiled1.grappa.buffers.InputBuffer;
 import com.github.parboiled1.grappa.stack.DefaultValueStack;
 import com.github.parboiled1.grappa.stack.ValueStack;
 import com.google.common.base.Preconditions;
@@ -25,8 +27,6 @@ import org.parboiled.DefaultMatcherContext;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
-import org.parboiled.buffers.CharSequenceInputBuffer;
-import org.parboiled.buffers.InputBuffer;
 import org.parboiled.errors.ParseError;
 import org.parboiled.matchers.Matcher;
 import org.parboiled.support.ParsingResult;

@@ -16,10 +16,10 @@
 
 package com.github.parboiled1.grappa.assertions.verify;
 
+import com.github.parboiled1.grappa.buffers.CharSequenceInputBuffer;
+import com.github.parboiled1.grappa.buffers.InputBuffer;
 import com.google.common.collect.Lists;
 import org.assertj.core.api.SoftAssertions;
-import org.parboiled.buffers.CharSequenceInputBuffer;
-import org.parboiled.buffers.InputBuffer;
 import org.parboiled.support.ParsingResult;
 
 import javax.annotation.Nonnull;

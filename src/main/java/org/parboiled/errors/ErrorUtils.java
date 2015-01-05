@@ -16,11 +16,11 @@
 
 package org.parboiled.errors;
 
+import com.github.parboiled1.grappa.buffers.InputBuffer;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
-import org.parboiled.buffers.InputBuffer;
 import org.parboiled.common.Formatter;
 import org.parboiled.matchers.Matcher;
 import org.parboiled.matchers.TestNotMatcher;

@@ -17,10 +17,10 @@
 package org.parboiled.support;
 
 import com.github.parboiled1.grappa.annotations.WillBePrivate;
+import com.github.parboiled1.grappa.buffers.InputBuffer;
 import com.github.parboiled1.grappa.stack.ValueStack;
 import com.google.common.base.Preconditions;
 import org.parboiled.Node;
-import org.parboiled.buffers.InputBuffer;
 import org.parboiled.errors.ParseError;
 import org.parboiled.parserunners.BasicParseRunner;
 import org.parboiled.parserunners.ReportingParseRunner;
