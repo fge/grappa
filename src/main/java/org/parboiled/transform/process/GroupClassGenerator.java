@@ -17,6 +17,7 @@
 package org.parboiled.transform.process;
 
 import com.github.parboiled1.grappa.annotations.WillBeFinal;
+import com.github.parboiled1.grappa.transform.CodeBlock;
 import com.google.common.base.Preconditions;
 import me.qmx.jitescript.util.CodegenUtils;
 import org.objectweb.asm.ClassWriter;
@@ -28,7 +29,6 @@ import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.InsnNode;
-import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
 import org.parboiled.Context;
 import org.parboiled.ContextAware;
@@ -44,10 +44,8 @@ import static org.objectweb.asm.Opcodes.ACC_FINAL;
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.ACC_SYNTHETIC;
 import static org.objectweb.asm.Opcodes.ALOAD;
-import static org.objectweb.asm.Opcodes.ASTORE;
 import static org.objectweb.asm.Opcodes.DUP;
 import static org.objectweb.asm.Opcodes.GETFIELD;
-import static org.objectweb.asm.Opcodes.INVOKEINTERFACE;
 import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
 import static org.objectweb.asm.Opcodes.RETURN;
 
@@ -167,6 +165,8 @@ public abstract class GroupClassGenerator
         int localVarIx)
     {
         final InsnList instructions = group.getInstructions();
+        final CodeBlock block = CodeBlock.newCodeBlock();
+
         for (final InstructionGraphNode node: group.getNodes()) {
             if (!node.isCallOnContextAware())
                 continue;
@@ -177,10 +177,9 @@ public abstract class GroupClassGenerator
                 // store the target of the call in a new local variable
                 final AbstractInsnNode loadTarget = node.getPredecessors()
                     .get(0).getInstruction();
-                instructions.insert(loadTarget, new VarInsnNode(ASTORE,
-                    ++localVarIx));
-                // the DUP is inserted BEFORE the ASTORE
-                instructions.insert(loadTarget, new InsnNode(DUP));
+
+                block.clear().dup().astore(++localVarIx);
+                instructions.insert(loadTarget, block.getInstructionList());
 
                 // immediately before the call get the target from the local var
                 // and set the context on it
@@ -192,30 +191,37 @@ public abstract class GroupClassGenerator
                 // invocation target
                 instructions.insertBefore(insn, new InsnNode(DUP));
             }
-            instructions.insertBefore(insn, new VarInsnNode(ALOAD, 1));
-            final MethodInsnNode insnNode = new MethodInsnNode(INVOKEINTERFACE,
-                CodegenUtils.p(ContextAware.class), "setContext",
-                CodegenUtils.sig(void.class, Context.class), true);
-            instructions.insertBefore(insn, insnNode);
+
+            block.clear()
+                .aload(1)
+                .invokeinterface(CodegenUtils.p(ContextAware.class),
+                    "setContext", CodegenUtils.sig(void.class, Context.class));
+
+            instructions.insertBefore(insn, block.getInstructionList());
         }
     }
 
     protected static void convertXLoads(final InstructionGroup group)
     {
         final String owner = group.getGroupClassType().getInternalName();
+
+        InsnList insnList;
+
         for (final InstructionGraphNode node : group.getNodes()) {
             if (!node.isXLoad())
                 continue;
 
             final VarInsnNode insn = (VarInsnNode) node.getInstruction();
             final FieldNode field = group.getFields().get(insn.var);
+            final FieldInsnNode fieldNode = new FieldInsnNode(GETFIELD, owner,
+                field.name, field.desc);
+
+            insnList = group.getInstructions();
 
             // insert the correct GETFIELD after the xLoad
-            group.getInstructions().insert(insn,
-                new FieldInsnNode(GETFIELD, owner, field.name, field.desc));
-
+            insnList.insert(insn, fieldNode);
             // change the load to ALOAD 0
-            group.getInstructions().set(insn, new VarInsnNode(ALOAD, 0));
+            insnList.set(insn, new VarInsnNode(ALOAD, 0));
         }
     }
 }

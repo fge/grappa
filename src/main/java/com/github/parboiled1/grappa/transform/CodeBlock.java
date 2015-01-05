@@ -1424,4 +1424,15 @@ public final class CodeBlock
     {
         return returns;
     }
+
+    public CodeBlock clear()
+    {
+        instructionList.clear();
+        tryCatchBlockList.clear();
+        localVariableList.clear();
+        annotations.clear();
+        arity = 0;
+        returns = false;
+        return this;
+    }
 }
