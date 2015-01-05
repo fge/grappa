@@ -37,7 +37,7 @@ public final class OldParsingResultAssert<V>
     public static <E> OldParsingResultAssert<E> assertResult(
         final ParsingResult<E> actual)
     {
-        return new OldParsingResultAssert<E>(actual);
+        return new OldParsingResultAssert<>(actual);
     }
 
     public OldParsingResultAssert<V> hasMatch()

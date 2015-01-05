@@ -49,7 +49,7 @@ public final class JoinMatcherTest
         final CharSequence input = "aaaabaaaaxaaa";
         final MyParser parser = Parboiled.createParser(MyParser.class);
         final ParseRunner<Object> runner
-            = new BasicParseRunner<Object>(parser.rule());
+            = new BasicParseRunner<>(parser.rule());
         final String expectedMessage = "joining rule (foo) of a JoinMatcher" +
             " cannot match an empty character sequence!";
 

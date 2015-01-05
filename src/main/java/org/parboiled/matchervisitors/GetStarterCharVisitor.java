@@ -46,7 +46,7 @@ public final class GetStarterCharVisitor
     @Override
     public Character visit(final AnyOfMatcher matcher)
     {
-        final Characters characters = matcher.characters;
+        final Characters characters = matcher.getCharacters();
         if (!characters.isSubtractive())
             return characters.getChars()[0];
 

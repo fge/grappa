@@ -55,7 +55,7 @@ public final class InstructionGroupCreator
     implements RuleMethodProcessor
 {
     private final Map<String, Integer> memberModifiers
-        = new HashMap<String, Integer>();
+        = new HashMap<>();
     private RuleMethod method;
 
     @Override

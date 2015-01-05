@@ -39,9 +39,9 @@ public final class ParserClassNode
 
     private final Class<?> parentClass;
     private final Type parentType;
-    private final List<MethodNode> constructors = new ArrayList<MethodNode>();
+    private final List<MethodNode> constructors = new ArrayList<>();
     private final Map<String, RuleMethod> ruleMethods
-        = new TreeMap<String, RuleMethod>();
+        = new TreeMap<>();
     private byte[] classCode;
     private Class<?> extendedClass;
 

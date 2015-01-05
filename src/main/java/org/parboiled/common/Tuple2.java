@@ -16,22 +16,29 @@
 
 package org.parboiled.common;
 
-import com.github.parboiled1.grappa.annotations.WillBePrivate;
-import com.google.common.base.Objects;
-
 import javax.annotation.Nullable;
+import java.util.Objects;
 
 public final class Tuple2<A, B>
 {
-    @WillBePrivate(version = "1.1")
-    public final A a;
-    @WillBePrivate(version = "1.1")
-    public final B b;
+    private final A first;
+    private final B second;
 
-    public Tuple2(final A a, final B b)
+    public Tuple2(final A first, final B second)
     {
-        this.a = a;
-        this.b = b;
+        this.first = first;
+        this.second = second;
+    }
+
+    public A getFirst()
+    {
+        return first;
+    }
+
+    // TODO: unused
+    public B getSecond()
+    {
+        return second;
     }
 
     @Override
@@ -42,19 +49,19 @@ public final class Tuple2<A, B>
         if (this == obj)
             return true;
         final Tuple2<?, ?> other = (Tuple2<?, ?>) obj;
-        return Objects.equal(a, other.a) && Objects.equal(b, other.b);
+        return Objects.equals(first, other.first)
+            && Objects.equals(second, other.second);
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hashCode(a, b);
+        return Objects.hash(first, second);
     }
 
     @Override
     public String toString()
     {
-        return Objects.toStringHelper(getClass())
-            .add("a", a).add("b", b).toString();
+        return "first: " + first + "; second: " + second;
     }
 }

@@ -47,7 +47,7 @@ public final class ImplicitActionsConverter
     implements RuleMethodProcessor
 {
     private final Set<InstructionGraphNode> covered
-        = new HashSet<InstructionGraphNode>();
+        = new HashSet<>();
     private RuleMethod method;
 
     @Override

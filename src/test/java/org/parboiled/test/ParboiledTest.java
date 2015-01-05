@@ -69,14 +69,14 @@ public abstract class ParboiledTest<V> {
     }
 
     public TestResult<V> test(final Rule rule, final String input) {
-        return new TestResult<V>(new ReportingParseRunner<V>(rule).run(input));
+        return new TestResult<>(new ReportingParseRunner<V>(rule).run(input));
     }
     
     public TestResult<V> test(final Rule rule, final InputBuffer inputBuffer) {
-        return new TestResult<V>(new ReportingParseRunner<V>(rule).run(inputBuffer));
+        return new TestResult<>(new ReportingParseRunner<V>(rule).run(inputBuffer));
     }
 
     public TestResult<V> testWithRecovery(final Rule rule, final String input) {
-        return new TestResult<V>(new RecoveringParseRunner<V>(rule).run(input));
+        return new TestResult<>(new RecoveringParseRunner<V>(rule).run(input));
     }
 }

@@ -131,13 +131,13 @@ public final class ParserStatistics
     private int totalRules;
 
     private final Map<Class<?>, MatcherStats<?>> regularMatcherStats
-        = new LinkedHashMap<Class<?>, MatcherStats<?>>();
+        = new LinkedHashMap<>();
 
     private final Map<Class<?>, MatcherStats<?>> specialMatcherStats
-        = new LinkedHashMap<Class<?>, MatcherStats<?>>();
+        = new LinkedHashMap<>();
 
-    private final Set<Action<?>> actions = new HashSet<Action<?>>();
-    private final Set<Class<?>> actionClasses = new HashSet<Class<?>>();
+    private final Set<Action<?>> actions = new HashSet<>();
+    private final Set<Class<?>> actionClasses = new HashSet<>();
 
     public static ParserStatistics generateFor(final Rule rule)
     {
@@ -186,9 +186,10 @@ public final class ParserStatistics
     @Override
     public ParserStatistics visit(final ActionMatcher matcher)
     {
-        if (actions.add(matcher.action)) {
+        final Action<?> action = matcher.getAction();
+        if (actions.add(action)) {
             totalRules++;
-            actionClasses.add(matcher.action.getClass());
+            actionClasses.add(action.getClass());
         }
         return this;
     }
@@ -386,7 +387,7 @@ public final class ParserStatistics
 
     private List<String> printActionClassLines()
     {
-        final List<String> lines = new ArrayList<String>();
+        final List<String> lines = new ArrayList<>();
         int anonymous = 0;
         for (final Class<?> c : actionClasses) {
             final String name = c.getSimpleName();
@@ -405,7 +406,7 @@ public final class ParserStatistics
 
     private List<String> printActionClassInstances(final Class<?> actionClass)
     {
-        final List<String> actionNames = new ArrayList<String>();
+        final List<String> actionNames = new ArrayList<>();
         for (final Action<?> action: actions)
             if (action.getClass().equals(actionClass))
                 actionNames.add(action.toString());
@@ -417,12 +418,12 @@ public final class ParserStatistics
     public static final class MatcherStats<T extends Matcher>
     {
         private final String name;
-        private final Set<Matcher> instances = new HashSet<Matcher>();
+        private final Set<Matcher> instances = new HashSet<>();
 
         private static <M extends Matcher> MatcherStats<M> forClass(
             final Class<M> matcherClass, final boolean special)
         {
-            return new MatcherStats<M>(matcherClass, special);
+            return new MatcherStats<>(matcherClass, special);
         }
 
         private MatcherStats(final Class<T> matcherClass, final boolean special)

@@ -30,10 +30,10 @@ public final class InstructionGroup
 {
 
     private final List<InstructionGraphNode> nodes
-        = new ArrayList<InstructionGraphNode>();
+        = new ArrayList<>();
     private final InsnList instructions = new InsnList();
     private final InstructionGraphNode root;
-    private final List<FieldNode> fields = new ArrayList<FieldNode>();
+    private final List<FieldNode> fields = new ArrayList<>();
     private String name;
     private Type groupClassType;
     private byte[] groupClassCode;

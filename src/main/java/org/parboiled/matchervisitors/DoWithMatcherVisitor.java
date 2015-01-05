@@ -46,7 +46,7 @@ public final class DoWithMatcherVisitor
     }
 
     private final Action action;
-    private final Set<Matcher> visited = new HashSet<Matcher>();
+    private final Set<Matcher> visited = new HashSet<>();
 
     public DoWithMatcherVisitor(final Action action)
     {

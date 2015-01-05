@@ -16,7 +16,6 @@
 
 package org.parboiled.matchers;
 
-import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import org.parboiled.Action;
@@ -37,12 +36,9 @@ import java.util.List;
 public final class ActionMatcher
     extends AbstractMatcher
 {
-    @WillBePrivate(version = "1.1")
-    public final Action<?> action;
-    @WillBePrivate(version = "1.1")
-    public final List<ContextAware<?>> contextAwares = Lists.newArrayList();
-    @WillBePrivate(version = "1.1")
-    public final boolean skipInPredicates;
+    private final Action<?> action;
+    private final List<ContextAware<?>> contextAwares = Lists.newArrayList();
+    private final boolean skipInPredicates;
 
     public ActionMatcher(final Action<?> action)
     {
@@ -88,6 +84,12 @@ public final class ActionMatcher
                 field.setAccessible(false);
             }
         }
+    }
+
+    // TODO: only used from ParserStatistics
+    public Action<?> getAction()
+    {
+        return action;
     }
 
     @Override

@@ -468,7 +468,7 @@ public final class DefaultMatcherContext<V>
         if (nodeSuppressed)
             return;
 
-        node = new DefaultParsingNode<V>(matcher, getSubNodes(), startIndex,
+        node = new DefaultParsingNode<>(matcher, getSubNodes(), startIndex,
             currentIndex, valueStack.isEmpty() ? null : valueStack.peek(),
             hasError);
         if (parent != null) {
@@ -481,7 +481,7 @@ public final class DefaultMatcherContext<V>
     {
         if (subContext == null) {
             // init new level
-            subContext = new DefaultMatcherContext<V>(inputBuffer, valueStack,
+            subContext = new DefaultMatcherContext<>(inputBuffer, valueStack,
                 parseErrors, matchHandler, this, level + 1, fastStringMatching,
                 memoizedMismatches);
         } else {

@@ -78,7 +78,7 @@ public final class Issue17
     {
         public Rule someRule()
         {
-            final Var<Boolean> guard = new Var<Boolean>(false);
+            final Var<Boolean> guard = new Var<>(false);
             return sequence(optional('@', guard.set(true)), "some text",
                 optional(guard.get(), // fail if this does not start with @
                     "some other text"));
@@ -90,7 +90,7 @@ public final class Issue17
     {
         final TestParser parser = Parboiled.createParser(TestParser.class);
         final BasicParseRunner<Object> runner
-            = new BasicParseRunner<Object>(parser.someRule());
+            = new BasicParseRunner<>(parser.someRule());
 
         assertThat(runner.run("some text").isSuccess()).isTrue();
     }

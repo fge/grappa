@@ -598,7 +598,7 @@ public abstract class BaseParser<V>
     public final JoinMatcherBootstrap<V, BaseParser<V>> join(
         final Object joined)
     {
-        return new JoinMatcherBootstrap<V, BaseParser<V>>(this, joined);
+        return new JoinMatcherBootstrap<>(this, joined);
     }
 
     /*

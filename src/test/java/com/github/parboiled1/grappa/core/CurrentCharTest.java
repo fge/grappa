@@ -56,7 +56,7 @@ public final class CurrentCharTest
     {
         final Dummy dummy = spy(new Dummy());
         final Parser parser = Parboiled.createParser(Parser.class, dummy);
-        new BasicParseRunner<Object>(parser.rule()).run("a");
+        new BasicParseRunner<>(parser.rule()).run("a");
         verify(dummy).store('a');
     }
 }

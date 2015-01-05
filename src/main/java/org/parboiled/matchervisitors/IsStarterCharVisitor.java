@@ -99,7 +99,7 @@ public final class IsStarterCharVisitor
     @Override
     public Boolean visit(final AnyOfMatcher matcher)
     {
-        return matcher.characters.contains(starterChar);
+        return matcher.getCharacters().contains(starterChar);
     }
 
     @Override

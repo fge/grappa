@@ -48,6 +48,6 @@ public class BugIn101Test {
         final Parser parser = Parboiled.createParser(Parser.class);
 
         // threw "java.lang.NoSuchFieldError: field$1" in 1.0.1
-        new ReportingParseRunner<Object>(parser.B()).run("b");
+        new ReportingParseRunner<>(parser.B()).run("b");
     }
 }

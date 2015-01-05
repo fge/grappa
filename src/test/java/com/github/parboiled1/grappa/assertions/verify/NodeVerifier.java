@@ -73,7 +73,7 @@ public final class NodeVerifier<V>
             soft.assertThat(toVerify).as("parse tree is not null").isNotNull();
             return;
         }
-        final NodeAssert<V> nodeAssert = new NodeAssert<V>(toVerify, buffer);
+        final NodeAssert<V> nodeAssert = new NodeAssert<>(toVerify, buffer);
         if (label != null)
             nodeAssert.hasLabel(soft, label);
         if (match != null)

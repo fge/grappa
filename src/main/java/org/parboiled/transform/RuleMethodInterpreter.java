@@ -38,7 +38,7 @@ public final class RuleMethodInterpreter
     extends BasicInterpreter
 {
     private final RuleMethod method;
-    private final List<Edge> additionalEdges = new ArrayList<Edge>();
+    private final List<Edge> additionalEdges = new ArrayList<>();
 
     public RuleMethodInterpreter(final RuleMethod method)
     {

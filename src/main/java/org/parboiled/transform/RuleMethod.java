@@ -72,8 +72,8 @@ public class RuleMethod
 
 
     private final List<InstructionGroup> groups
-        = new ArrayList<InstructionGroup>();
-    private final List<LabelNode> usedLabels = new ArrayList<LabelNode>();
+        = new ArrayList<>();
+    private final List<LabelNode> usedLabels = new ArrayList<>();
     private final Set<ParserAnnotation> annotations
         = EnumSet.noneOf(ParserAnnotation.class);
 

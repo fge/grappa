@@ -659,7 +659,7 @@ public class RecoveringParseRunner<V>
                 = Queues.newArrayDeque(path);
             path.push(matcher);
 
-            final List<ActionMatcher> actions = new ArrayList<ActionMatcher>();
+            final List<ActionMatcher> actions = new ArrayList<>();
             List<ActionMatcher> subActions;
             for (final Matcher sub: matcher.getChildren()) {
                 subActions = sub.accept(this);

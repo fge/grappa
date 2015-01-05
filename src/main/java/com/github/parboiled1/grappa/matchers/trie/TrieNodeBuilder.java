@@ -39,7 +39,7 @@ public final class TrieNodeBuilder
     private boolean fullWord = false;
 
     private final Map<Character, TrieNodeBuilder> subnodes
-        = new TreeMap<Character, TrieNodeBuilder>();
+        = new TreeMap<>();
 
     TrieNodeBuilder addWord(final String word)
     {

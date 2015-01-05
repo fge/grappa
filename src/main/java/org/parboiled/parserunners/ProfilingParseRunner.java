@@ -52,7 +52,7 @@ public final class ProfilingParseRunner<V>
     implements MatchHandler
 {
     private final Map<Rule, RuleReport> ruleReports
-        = new HashMap<Rule, RuleReport>();
+        = new HashMap<>();
     private int runMatches;
     private int totalRuns;
     private int totalMatches;
@@ -141,7 +141,7 @@ public final class ProfilingParseRunner<V>
     {
         return new Report(totalRuns, totalMatches, totalMismatches,
             totalRematches, totalRemismatches, totalNanoTime,
-            new ArrayList<RuleReport>(ruleReports.values()));
+            new ArrayList<>(ruleReports.values()));
     }
 
     @Override
@@ -216,7 +216,7 @@ public final class ProfilingParseRunner<V>
         // an entry of 0 for a position means that the rule matched as well as failed at the position (should happen
         // only for "strange" action rules)
         private final Map<Integer, Integer> positionMatches
-            = new HashMap<Integer, Integer>();
+            = new HashMap<>();
 
         private void clear()
         {

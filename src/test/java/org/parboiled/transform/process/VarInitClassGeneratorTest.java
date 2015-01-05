@@ -52,7 +52,7 @@ public class VarInitClassGeneratorTest extends TransformationTest {
         @SuppressWarnings("UnusedDeclaration")
         public Rule A() {
             final Var<List<String>> list = new Var<List<String>>(new ArrayList<String>());
-            final Var<Integer> i = new Var<Integer>(26);
+            final Var<Integer> i = new Var<>(26);
             return sequence('a', list.get().add(match()));
         }
 

@@ -33,9 +33,9 @@ import java.util.List;
 public final class MatcherContextBuilder
 {
     private static final ValueStack<Object> STACK
-        = new DefaultValueStack<Object>();
+        = new DefaultValueStack<>();
     private static final List<ParseError> ERRORS
-        = new ArrayList<ParseError>();
+        = new ArrayList<>();
 
     private InputBuffer buffer = null;
     private boolean fastStringMatching = true;
@@ -61,7 +61,7 @@ public final class MatcherContextBuilder
 
     public MatcherContext<Object> build()
     {
-        return new DefaultMatcherContext<Object>(buffer, STACK, ERRORS,
+        return new DefaultMatcherContext<>(buffer, STACK, ERRORS,
             SimpleMatchHandler.INSTANCE, matcher, fastStringMatching);
     }
 }

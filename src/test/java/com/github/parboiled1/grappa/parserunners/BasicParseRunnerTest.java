@@ -39,7 +39,7 @@ public final class BasicParseRunnerTest
     private final SimpleParser parser
         = Parboiled.createParser(SimpleParser.class);
     private final ParseRunner<Object> runner
-        = new BasicParseRunner<Object>(parser.rule());
+        = new BasicParseRunner<>(parser.rule());
 
     @Test
     public void basicParseRunnerCanReliablyReportErrors()

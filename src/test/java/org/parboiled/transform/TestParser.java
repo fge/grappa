@@ -71,14 +71,14 @@ public class TestParser extends BaseParser<Integer> {
 
     public Rule RuleWithComplexActionSetup(final int param) {
         int i = 26, j = 18;
-        final Var<String> string = new Var<String>("text");
+        final Var<String> string = new Var<>("text");
         i += param;
         j -= i;
         return sequence('a' + i, i > param + j, string, ACTION(integer + param < string.get().length() - i - j));
     }
 
     public Rule BugIn0990() {
-        final Var<Integer> var = new Var<Integer>();
+        final Var<Integer> var = new Var<>();
         return firstOf("10", "2");
     }
 

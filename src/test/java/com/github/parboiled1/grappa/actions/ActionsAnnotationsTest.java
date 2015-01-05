@@ -82,7 +82,7 @@ public final class ActionsAnnotationsTest
     {
         final Parser parser
             = Parboiled.createParser(Parser.class, dummy);
-        new BasicParseRunner<Object>(parser.rule1()).run("f");
+        new BasicParseRunner<>(parser.rule1()).run("f");
         verify(dummy).dummy();
     }
 
@@ -91,7 +91,7 @@ public final class ActionsAnnotationsTest
     {
         final Parser parser
             = Parboiled.createParser(Parser.class, dummy);
-        new BasicParseRunner<Object>(parser.rule2()).run("f");
+        new BasicParseRunner<>(parser.rule2()).run("f");
         verify(dummy, never()).dummy();
     }
 }

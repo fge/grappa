@@ -83,7 +83,7 @@ public final class DefaultInvalidInputErrorFormatter
         final int pathStartIndex = error.getStartIndex() - error
             .getIndexDelta();
 
-        final List<String> labelList = new ArrayList<String>();
+        final List<String> labelList = new ArrayList<>();
         for (final MatcherPath path : error.getFailedMatchers()) {
             final Matcher labelMatcher = ErrorUtils
                 .findProperLabelMatcher(path, pathStartIndex);
@@ -117,7 +117,7 @@ public final class DefaultInvalidInputErrorFormatter
             return byDefault;
 
         final AnyOfMatcher anyOfMatcher = (AnyOfMatcher) matcher;
-        final Characters characters = anyOfMatcher.characters;
+        final Characters characters = anyOfMatcher.getCharacters();
 
         if (!characters.toString().equals(label))
             return byDefault;

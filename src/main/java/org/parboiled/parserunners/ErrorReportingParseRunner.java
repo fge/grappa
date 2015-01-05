@@ -46,7 +46,7 @@ public final class ErrorReportingParseRunner<V>
     private final int errorIndex;
     private final MatchHandler inner;
     private final List<MatcherPath> failedMatchers
-        = new ArrayList<MatcherPath>();
+        = new ArrayList<>();
     private boolean seeking;
 
     /**

@@ -16,7 +16,6 @@
 
 package org.parboiled.matchers;
 
-import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.matchervisitors.MatcherVisitor;
@@ -28,14 +27,18 @@ import org.parboiled.support.Characters;
 public final class AnyOfMatcher
     extends AbstractMatcher
 {
-    @WillBePrivate(version = "1.1")
-    public final Characters characters;
+    private final Characters characters;
 
     public AnyOfMatcher(final Characters characters)
     {
         super(Preconditions.checkNotNull(characters, "characters").toString());
         Preconditions.checkArgument(!characters.equals(Characters.NONE));
         this.characters = characters;
+    }
+
+    public Characters getCharacters()
+    {
+        return characters;
     }
 
     @Override

@@ -27,9 +27,9 @@ public class PrevCallsParser
     @SuppressSubnodes
     public Rule mainRule()
     {
-        final Reference<Integer> a = new Reference<Integer>();
-        final Reference<Character> op = new Reference<Character>();
-        final Reference<Integer> b = new Reference<Integer>();
+        final Reference<Integer> a = new Reference<>();
+        final Reference<Character> op = new Reference<>();
+        final Reference<Integer> b = new Reference<>();
         return sequence(
             digits(), a.set(pop()),
             operator(), op.set(matchedChar()),

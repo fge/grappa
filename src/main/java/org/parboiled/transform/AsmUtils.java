@@ -60,7 +60,7 @@ public final class AsmUtils
     }
 
     private static final Map<String, Class<?>> classForDesc
-        = new HashMap<String, Class<?>>();
+        = new HashMap<>();
 
     /**
      * Get the class equivalent to an ASM {@link Type}

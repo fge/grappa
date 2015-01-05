@@ -79,9 +79,9 @@ public final class ParserExtensionVerificationTest {
     @DataProvider
     public Iterator<Object[]> getInstructionGroups()
     {
-        final List<Object[]> list = new ArrayList<Object[]>();
+        final List<Object[]> list = new ArrayList<>();
 
-        final Set<String> internalNames = new HashSet<String>();
+        final Set<String> internalNames = new HashSet<>();
         final Iterable<RuleMethod> methods
             = classNode.getRuleMethods().values();
 

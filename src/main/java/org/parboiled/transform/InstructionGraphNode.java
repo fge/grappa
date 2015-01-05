@@ -52,7 +52,7 @@ public final class InstructionGraphNode
 
     private final BasicValue resultValue;
     private final List<InstructionGraphNode> predecessors
-        = new ArrayList<InstructionGraphNode>();
+        = new ArrayList<>();
     private AbstractInsnNode instruction;
     private InstructionGroup group;
     private boolean isActionRoot;

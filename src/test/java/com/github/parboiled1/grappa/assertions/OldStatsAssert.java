@@ -57,12 +57,12 @@ public final class OldStatsAssert
     private OldStatsAssert(final ParserStatistics actual)
     {
         super(actual, OldStatsAssert.class);
-        regularMatcherStats  = new HashMap<Class<?>, MatcherStats<?>>(
+        regularMatcherStats  = new HashMap<>(
             actual.getRegularMatcherStats());
-        specialMatcherStats = new HashMap<Class<?>, MatcherStats<?>>(
+        specialMatcherStats = new HashMap<>(
             actual.getSpecialMatcherStats());
-        actions = new HashSet<Action<?>>(actual.getActions());
-        actionClasses = new HashSet<Class<?>>(actual.getActionClasses());
+        actions = new HashSet<>(actual.getActions());
+        actionClasses = new HashSet<>(actual.getActionClasses());
         totalRules = actual.getTotalRules();
     }
 
@@ -123,7 +123,7 @@ public final class OldStatsAssert
 
     private OldStatsAssert noMatchersLeft()
     {
-        final List<String> mishaps = new ArrayList<String>();
+        final List<String> mishaps = new ArrayList<>();
         final String fmt = "matcher class %s: recorded %d instances";
 
         int count;

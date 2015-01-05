@@ -28,7 +28,7 @@ public class ActionVar2Test extends ParboiledTest<Object>
     static class Parser extends BaseParser<Object> {
 
         Rule Clause() {
-            final Reference<Integer> count = new Reference<Integer>();
+            final Reference<Integer> count = new Reference<>();
             return sequence(CharCount(count), Chars(count), '\n');
         }
 

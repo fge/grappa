@@ -36,7 +36,7 @@ public final class DefaultValueStackTest
     @BeforeMethod
     public void initStack()
     {
-        stack = new DefaultValueStack<Object>();
+        stack = new DefaultValueStack<>();
     }
 
     @Test

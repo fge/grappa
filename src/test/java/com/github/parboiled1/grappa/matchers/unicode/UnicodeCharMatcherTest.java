@@ -68,7 +68,7 @@ public final class UnicodeCharMatcherTest
     @DataProvider
     public Iterator<Object[]> getClassInfo()
     {
-        final List<Object[]> list = new ArrayList<Object[]>();
+        final List<Object[]> list = new ArrayList<>();
 
         list.add(new Object[] { (int) 'b', BmpCharMatcher.class });
         list.add(new Object[] { 0x1f4e3, SupplementaryCharMatcher.class });

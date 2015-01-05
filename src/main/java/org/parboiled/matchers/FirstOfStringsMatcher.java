@@ -118,7 +118,7 @@ loop:
     static Record createRecord(final int pos, final char[][] strings)
     {
         final Map<Character, Set<char[]>> map
-            = new TreeMap<Character, Set<char[]>>();
+            = new TreeMap<>();
         boolean complete = false;
         for (final char[] s : strings) {
             if (s.length == pos)
@@ -128,7 +128,7 @@ loop:
             final char c = s[pos];
             Set<char[]> charStrings = map.get(c);
             if (charStrings == null) {
-                charStrings = new HashSet<char[]>();
+                charStrings = new HashSet<>();
                 map.put(c, charStrings);
             }
             charStrings.add(s);

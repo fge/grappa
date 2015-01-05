@@ -16,7 +16,6 @@
 
 package org.parboiled.parserunners;
 
-import com.github.parboiled1.grappa.annotations.WillBeProtected;
 import com.github.parboiled1.grappa.buffers.CharSequenceInputBuffer;
 import com.github.parboiled1.grappa.buffers.InputBuffer;
 import com.github.parboiled1.grappa.stack.DefaultValueStack;
@@ -41,11 +40,10 @@ public abstract class AbstractParseRunner<V>
     protected final Matcher rootMatcher;
     // TODO: make final
     protected List<ParseError> parseErrors = Lists.newArrayList();
-    protected ValueStack<V> valueStack = new DefaultValueStack<V>();
+    protected ValueStack<V> valueStack = new DefaultValueStack<>();
     protected Object initialValueStackSnapshot;
 
-    @WillBeProtected(version = "1.1")
-    public AbstractParseRunner(@Nonnull final Rule rule)
+    protected AbstractParseRunner(@Nonnull final Rule rule)
     {
         rootMatcher = Preconditions.checkNotNull((Matcher) rule, "rule");
     }
@@ -118,14 +116,14 @@ public abstract class AbstractParseRunner<V>
         final InputBuffer inputBuffer, final MatchHandler matchHandler,
         final boolean fastStringMatching)
     {
-        return new DefaultMatcherContext<V>(inputBuffer, valueStack,
+        return new DefaultMatcherContext<>(inputBuffer, valueStack,
             parseErrors, matchHandler, rootMatcher, fastStringMatching);
     }
 
     protected final ParsingResult<V> createParsingResult(final boolean matched,
         final MatcherContext<V> rootContext)
     {
-        return new ParsingResult<V>(matched, rootContext.getNode(), valueStack,
+        return new ParsingResult<>(matched, rootContext.getNode(), valueStack,
             parseErrors, rootContext.getInputBuffer());
     }
 }

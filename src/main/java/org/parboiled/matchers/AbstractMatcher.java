@@ -16,7 +16,6 @@
 
 package org.parboiled.matchers;
 
-import com.github.parboiled1.grappa.annotations.WillBeProtected;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
@@ -37,21 +36,18 @@ public abstract class AbstractMatcher
     private boolean nodeSkipped;
     private Object tag;
 
-    @WillBeProtected(version = "1.1.0")
-    public AbstractMatcher(final String label)
+    protected AbstractMatcher(final String label)
     {
         this(new Rule[0], label);
     }
 
-    @WillBeProtected(version = "1.1.0")
-    public AbstractMatcher(final Rule subRule, final String label)
+    protected AbstractMatcher(final Rule subRule, final String label)
     {
         this(new Rule[]{ Preconditions.checkNotNull(subRule, "subRule") },
             label);
     }
 
-    @WillBeProtected(version = "1.1.0")
-    public AbstractMatcher(final Rule[] subRules, final String label)
+    protected AbstractMatcher(final Rule[] subRules, final String label)
     {
         super(ImmutableList.copyOf(
                 toMatchers(Preconditions.checkNotNull(subRules))

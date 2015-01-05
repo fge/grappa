@@ -55,7 +55,7 @@ public final class JoinMatcherBootstrap<V, P extends BaseParser<V>>
     static <T, E extends BaseParser<T>> JoinMatcherBootstrap<T, E> create(
         final E parser, final Object joined)
     {
-        return new JoinMatcherBootstrap<T, E>(parser, joined);
+        return new JoinMatcherBootstrap<>(parser, joined);
     }
 
     public JoinMatcherBootstrap(@Nonnull final P parser,

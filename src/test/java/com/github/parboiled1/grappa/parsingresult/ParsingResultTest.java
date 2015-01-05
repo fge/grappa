@@ -63,7 +63,7 @@ public abstract class ParsingResultTest<P extends TestParser<V>, V>
 
         final TestParser<V> parser = Parboiled.createParser(c);
         final ParseRunner<V> runner
-            = new ReportingParseRunner<V>(parser.mainRule());
+            = new ReportingParseRunner<>(parser.mainRule());
         result = runner.run(data.getBuffer());
     }
 

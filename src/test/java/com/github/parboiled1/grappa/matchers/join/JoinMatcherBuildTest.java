@@ -73,7 +73,7 @@ public final class JoinMatcherBuildTest<V>
     {
         final String expected = "range must not be null";
         try {
-            new JoinMatcherBootstrap<V, BaseParser<V>>(parser, joined)
+            new JoinMatcherBootstrap<>(parser, joined)
                 .using(joining).range(null);
             fail("No exception thrown!!");
         } catch (NullPointerException e) {
@@ -93,7 +93,7 @@ public final class JoinMatcherBuildTest<V>
             + ": should not be empty after intersection with "
             + Range.atLeast(0);
         try {
-            new JoinMatcherBootstrap<V, BaseParser<V>>(parser, joined)
+            new JoinMatcherBootstrap<>(parser, joined)
                 .using(joining).range(range);
             fail("No exception thrown!!");
         } catch (IllegalArgumentException e) {

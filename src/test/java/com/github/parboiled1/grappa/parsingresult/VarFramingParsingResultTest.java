@@ -35,7 +35,7 @@ public final class VarFramingParsingResultTest
         @Override
         public Rule mainRule()
         {
-            final Var<Integer> a = new Var<Integer>(-1);
+            final Var<Integer> a = new Var<>(-1);
             return sequence(
                 digits(),
                 a.set(peek()),

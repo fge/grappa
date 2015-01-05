@@ -55,7 +55,7 @@ public abstract class ProfilingReportTest<P extends TestParser<V>, V>
         final InputBuffer buffer = new CharSequenceInputBuffer(input);
         final P parser = Parboiled.createParser(c);
         final ProfilingParseRunner<V> runner
-            = new ProfilingParseRunner<V>(parser.mainRule());
+            = new ProfilingParseRunner<>(parser.mainRule());
         runner.run(buffer);
         actualReport = runner.getReport();
 
