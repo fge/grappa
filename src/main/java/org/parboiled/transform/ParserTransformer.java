@@ -30,7 +30,6 @@ import org.parboiled.transform.process.InstructionGraphCreator;
 import org.parboiled.transform.process.InstructionGroupCreator;
 import org.parboiled.transform.process.InstructionGroupPreparer;
 import org.parboiled.transform.process.LabellingGenerator;
-import org.parboiled.transform.process.ReturnInstructionUnifier;
 import org.parboiled.transform.process.RuleMethodProcessor;
 import org.parboiled.transform.process.RuleMethodRewriter;
 import org.parboiled.transform.process.SuperCallRewriter;
@@ -133,7 +132,6 @@ public class ParserTransformer
     {
         return ImmutableList.of(
             new UnusedLabelsRemover(),
-            new ReturnInstructionUnifier(),
             new InstructionGraphCreator(),
             new ImplicitActionsConverter(),
             new InstructionGroupCreator(),
