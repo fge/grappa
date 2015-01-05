@@ -16,17 +16,13 @@
 
 package org.parboiled.transform.process;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
+import com.github.parboiled1.grappa.transform.CodeBlock;
 import com.google.common.base.Preconditions;
 import me.qmx.jitescript.util.CodegenUtils;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.AnnotationNode;
 import org.objectweb.asm.tree.InsnList;
-import org.objectweb.asm.tree.InsnNode;
-import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.LabelNode;
-import org.objectweb.asm.tree.LdcInsnNode;
-import org.objectweb.asm.tree.MethodInsnNode;
 import org.parboiled.Rule;
 import org.parboiled.annotations.Label;
 import org.parboiled.transform.ParserClassNode;
@@ -35,15 +31,11 @@ import org.parboiled.transform.RuleMethod;
 import javax.annotation.Nonnull;
 
 import static org.objectweb.asm.Opcodes.ARETURN;
-import static org.objectweb.asm.Opcodes.DUP;
-import static org.objectweb.asm.Opcodes.IFNULL;
-import static org.objectweb.asm.Opcodes.INVOKEINTERFACE;
 
 /**
  * Adds automatic labelling code before the return instruction.
  */
-@WillBeFinal(version = "1.1")
-public class LabellingGenerator
+public final class LabellingGenerator
     implements RuleMethodProcessor
 {
 
@@ -68,25 +60,20 @@ public class LabellingGenerator
 
         final InsnList instructions = method.instructions;
 
-        AbstractInsnNode ret = instructions.getLast();
-        while (ret.getOpcode() != ARETURN)
-            ret = ret.getPrevious();
+        AbstractInsnNode retInsn = instructions.getLast();
+        while (retInsn.getOpcode() != ARETURN)
+            retInsn = retInsn.getPrevious();
 
+        final LabelNode label = new LabelNode();
+        final CodeBlock block = CodeBlock.newCodeBlock()
+            .dup()
+            .ifnull(label)
+            .ldc(getLabelText(method))
+            .invokeinterface(CodegenUtils.p(Rule.class), "label",
+                CodegenUtils.sig(Rule.class, String.class))
+            .label(label);
 
-        final LabelNode isNullLabel = new LabelNode();
-        // stack: <rule>
-        instructions.insertBefore(ret, new InsnNode(DUP));
-        // stack: <rule> :: <rule>
-        instructions.insertBefore(ret, new JumpInsnNode(IFNULL, isNullLabel));
-        // stack: <rule>
-        instructions.insertBefore(ret, new LdcInsnNode(getLabelText(method)));
-        // stack: <rule> :: <labelText>
-        instructions.insertBefore(ret, new MethodInsnNode(INVOKEINTERFACE,
-            CodegenUtils.p(Rule.class), "label",
-            CodegenUtils.sig(Rule.class, String.class), true));
-        // stack: <rule>
-        instructions.insertBefore(ret, isNullLabel);
-        // stack: <rule>
+        instructions.insertBefore(retInsn, block.getInstructionList());
     }
 
     public static String getLabelText(final RuleMethod method) {
@@ -94,16 +81,21 @@ public class LabellingGenerator
             return method.name;
 
         AnnotationNode annotation;
+
         for (final Object annotationObj: method.visibleAnnotations) {
             annotation = (AnnotationNode) annotationObj;
+
             if (!annotation.desc.equals(CodegenUtils.ci(Label.class)))
                 continue;
+
             if (annotation.values == null)
                 continue;
+
             Preconditions.checkState("value".equals(annotation.values.get(0)));
             final String labelValue = (String) annotation.values.get(1);
             return labelValue.isEmpty() ? method.name : labelValue;
         }
+        
         return method.name;
     }
 }
