@@ -17,7 +17,7 @@
 package org.parboiled;
 
 import com.github.parboiled1.grappa.annotations.Unused;
-import com.github.parboiled1.grappa.annotations.WillBeRemoved;
+import com.github.parboiled1.grappa.stack.ValueStack;
 import org.parboiled.annotations.SuppressNode;
 import org.parboiled.annotations.SuppressSubnodes;
 import org.parboiled.buffers.InputBuffer;
@@ -28,7 +28,6 @@ import org.parboiled.parserunners.ReportingParseRunner;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.MatcherPath;
 import org.parboiled.support.Position;
-import com.github.parboiled1.grappa.stack.ValueStack;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -50,9 +49,6 @@ public interface Context<V>
      */
     // TODO: only used in ActionMatcher, FollowMatchersVisitor,
     // ErrorLocatingParseRunner, RecoveringParseRunner.Handler
-    @Deprecated
-    @Unused
-    @WillBeRemoved(version = "1.1")
     Context<V> getParent();
 
     /**

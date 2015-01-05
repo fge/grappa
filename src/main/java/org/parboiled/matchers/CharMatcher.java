@@ -49,8 +49,6 @@ public final class CharMatcher
             case Chars.RESYNC_START:
             case Chars.RESYNC_END:
             case Chars.RESYNC_EOI:
-            case Chars.INDENT:
-            case Chars.DEDENT:
             case Chars.EOI:
                 return escape(c);
             default:
