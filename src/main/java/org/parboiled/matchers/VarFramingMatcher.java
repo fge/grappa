@@ -16,7 +16,6 @@
 
 package org.parboiled.matchers;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
@@ -29,8 +28,7 @@ import java.util.List;
  * Special wrapping matcher that manages the creation and destruction of execution frames for a number of action vars.
  */
 // TODO: use delegation pattern
-@WillBeFinal(version = "1.1")
-public class VarFramingMatcher
+public final class VarFramingMatcher
     implements Matcher
 {
     private final Matcher inner;

@@ -16,7 +16,6 @@
 
 package org.parboiled.parserunners;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
@@ -34,8 +33,7 @@ import javax.annotation.Nullable;
  * It never causes the parser to perform more than one parsing run and is rarely used directly.
  * Instead its functionality is relied upon by the {@link ReportingParseRunner} and {@link RecoveringParseRunner} classes.
  */
-@WillBeFinal(version = "1.1")
-public class ErrorLocatingParseRunner<V>
+public final class ErrorLocatingParseRunner<V>
     extends AbstractParseRunner<V>
     implements MatchHandler
 {

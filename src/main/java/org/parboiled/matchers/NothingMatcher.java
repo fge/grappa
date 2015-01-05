@@ -16,7 +16,6 @@
 
 package org.parboiled.matchers;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.matchervisitors.MatcherVisitor;
@@ -24,8 +23,7 @@ import org.parboiled.matchervisitors.MatcherVisitor;
 /**
  * A {@link Matcher} that never matches anything.
  */
-@WillBeFinal(version = "1.1")
-public class NothingMatcher
+public final class NothingMatcher
     extends AbstractMatcher
 {
 

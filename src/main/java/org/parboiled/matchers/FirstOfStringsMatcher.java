@@ -16,7 +16,6 @@
 
 package org.parboiled.matchers;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
@@ -35,12 +34,9 @@ import java.util.TreeMap;
  * FirstOfMatcher. If fast string matching is enabled this matcher uses a prebuilt character tree to efficiently
  * determine whether the next input characters match the rule expression.
  */
-// TODO: Trie?
-@WillBeFinal(version = "1.1")
-public class FirstOfStringsMatcher
+public final class FirstOfStringsMatcher
     extends FirstOfMatcher
 {
-
     // a node in the character tree
     @VisibleForTesting
     static class Record

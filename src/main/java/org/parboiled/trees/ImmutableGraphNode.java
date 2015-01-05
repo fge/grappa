@@ -16,7 +16,6 @@
 
 package org.parboiled.trees;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 
@@ -62,8 +61,7 @@ public class ImmutableGraphNode<T extends GraphNode<T>>
     }
 
     @Override
-    @WillBeFinal(version = "1.1")
-    public List<T> getChildren()
+    public final List<T> getChildren()
     {
         return children;
     }

@@ -17,7 +17,6 @@
 package org.parboiled.parserunners;
 
 import com.github.parboiled1.grappa.annotations.Unused;
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 import com.google.common.base.Preconditions;
@@ -50,9 +49,8 @@ import java.util.Map;
  *
  * @param <V>
  */
-@WillBeFinal(version = "1.1")
 // TODO: rewrite
-public class ProfilingParseRunner<V>
+public final class ProfilingParseRunner<V>
     extends AbstractParseRunner<V>
     implements MatchHandler
 {
@@ -236,8 +234,7 @@ public class ProfilingParseRunner<V>
         }
     }
 
-    @WillBeFinal(version = "1.1")
-    public static class Report
+    public static final class Report
     {
         @WillBeRemoved(version = "1.1")
         @Unused

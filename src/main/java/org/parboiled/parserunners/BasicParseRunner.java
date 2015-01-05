@@ -16,7 +16,6 @@
 
 package org.parboiled.parserunners;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatchHandler;
@@ -34,15 +33,15 @@ import org.parboiled.support.ParsingResult;
  * more than one parsing run and is the fastest way to determine whether a given
  * input conforms to the rule grammar.
  */
-@WillBeFinal(version = "1.1")
-public class BasicParseRunner<V>
+public final class BasicParseRunner<V>
     extends AbstractParseRunner<V>
     implements MatchHandler
 {
 
     /**
      * Create a new BasicParseRunner instance with the given rule and input text
-     * and returns the result of its {@link #run(String)} method invocation.
+     * and returns the result of its {@link #run(CharSequence)} method
+     * invocation.
      *
      * @param rule the parser rule to run
      * @param input the input text to run on

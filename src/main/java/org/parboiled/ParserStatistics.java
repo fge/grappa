@@ -16,7 +16,6 @@
 
 package org.parboiled;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.matchers.join.JoinMatcher;
 import com.github.parboiled1.grappa.matchers.trie.TrieMatcher;
 import com.github.parboiled1.grappa.matchers.unicode.UnicodeCharMatcher;
@@ -59,8 +58,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-@WillBeFinal(version = "1.1")
-public class ParserStatistics
+public final class ParserStatistics
     implements MatcherVisitor<ParserStatistics>
 {
     private static final Joiner NEWLINE = Joiner.on('\n');

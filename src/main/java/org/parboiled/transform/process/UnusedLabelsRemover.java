@@ -16,7 +16,6 @@
 
 package org.parboiled.transform.process;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.parboiled.transform.ParserClassNode;
@@ -27,7 +26,6 @@ import javax.annotation.Nonnull;
 /**
  * Removes all unused labels.
  */
-@WillBeFinal(version = "1.1")
 public final class UnusedLabelsRemover
     implements RuleMethodProcessor
 {

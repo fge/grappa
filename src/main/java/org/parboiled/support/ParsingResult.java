@@ -17,7 +17,6 @@
 package org.parboiled.support;
 
 import com.github.parboiled1.grappa.annotations.Unused;
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import com.github.parboiled1.grappa.stack.ValueStack;
 import com.google.common.base.Preconditions;
@@ -34,8 +33,7 @@ import java.util.List;
 /**
  * A simple container encapsulating the result of a parsing run.
  */
-@WillBeFinal(version = "1.1")
-public class ParsingResult<V>
+public final class ParsingResult<V>
 {
 
     /**

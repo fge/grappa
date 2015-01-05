@@ -16,7 +16,6 @@
 
 package org.parboiled.parserunners;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
@@ -38,8 +37,7 @@ import java.util.List;
  * directly. Instead its functionality is relied upon by the {@link
  * ReportingParseRunner} and {@link RecoveringParseRunner} classes.
  */
-@WillBeFinal(version = "1.1")
-public class ErrorReportingParseRunner<V>
+public final class ErrorReportingParseRunner<V>
     extends AbstractParseRunner<V>
     implements MatchHandler
 {

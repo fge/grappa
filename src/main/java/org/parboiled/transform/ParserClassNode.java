@@ -22,7 +22,6 @@
 
 package org.parboiled.transform;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -34,8 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-@WillBeFinal(version = "1.1")
-public class ParserClassNode
+public final class ParserClassNode
     extends ClassNode
 {
 

@@ -16,7 +16,6 @@
 
 package org.parboiled.support;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Predicate;
 import org.parboiled.Node;
 
@@ -28,8 +27,7 @@ import javax.annotation.Nullable;
  *
  * @param <V> the type of the value field of a parse tree node
  */
-@WillBeFinal(version = "1.1")
-public class LabelPrefixPredicate<V>
+public final class LabelPrefixPredicate<V>
     implements Predicate<Node<V>>
 {
     private final String labelPrefix;

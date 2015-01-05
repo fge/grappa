@@ -16,7 +16,6 @@
 
 package org.parboiled.support;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Preconditions;
 
 import java.util.Arrays;
@@ -25,9 +24,8 @@ import java.util.Arrays;
  * An immutable, set-like aggregation of (relatively few) characters that allows
  * for an inverted semantic ("all chars except these few").
  */
-@WillBeFinal(version = "1.1")
 // TODO: replace with a sorted array
-public class Characters
+public final class Characters
 {
     private static final char[] NO_CHARS = new char[0];
 

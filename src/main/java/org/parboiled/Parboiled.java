@@ -16,8 +16,6 @@
 
 package org.parboiled;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
-import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import com.google.common.base.Preconditions;
 import org.parboiled.errors.GrammarException;
 import org.parboiled.parserunners.ParseRunner;
@@ -29,12 +27,11 @@ import java.lang.reflect.Constructor;
 /**
  * Main class providing the high-level entry point into the parboiled library.
  */
-@WillBeFinal(version = "1.1")
-public class Parboiled
+public final class Parboiled
 {
-    @WillBePrivate(version = "1.1")
-    protected Parboiled()
+    private Parboiled()
     {
+        throw new Error("nice try!");
     }
 
     /**

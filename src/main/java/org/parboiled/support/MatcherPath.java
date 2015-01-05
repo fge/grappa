@@ -16,7 +16,6 @@
 
 package org.parboiled.support;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import com.google.common.base.Preconditions;
 import org.parboiled.Context;
@@ -30,11 +29,9 @@ import javax.annotation.Nullable;
  * Implemented as a specialized, immutable single-linked list of Element objects
  * with the deepest stack Element in the first position and the root at the end.
  */
-@WillBeFinal(version = "1.1")
-public class MatcherPath
+public final class MatcherPath
 {
-    @WillBeFinal(version = "1.1")
-    public static class Element
+    public static final class Element
     {
         @WillBePrivate(version = "1.1")
         public final Matcher matcher;

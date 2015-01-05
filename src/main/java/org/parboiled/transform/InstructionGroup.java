@@ -16,7 +16,6 @@
 
 package org.parboiled.transform;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.InsnList;
@@ -27,8 +26,7 @@ import java.util.List;
 /**
  * A group of instructions belonging to a ACTION or Var initializer
  */
-@WillBeFinal(version = "1.1")
-public class InstructionGroup
+public final class InstructionGroup
 {
 
     private final List<InstructionGraphNode> nodes

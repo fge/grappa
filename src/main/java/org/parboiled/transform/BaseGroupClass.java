@@ -17,7 +17,6 @@
 package org.parboiled.transform;
 
 import com.github.parboiled1.grappa.annotations.VisibleForDocumentation;
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import com.google.common.base.Preconditions;
 
@@ -36,8 +35,7 @@ public abstract class BaseGroupClass
 
     @Override
     @Nonnull
-    @WillBeFinal(version = "1.1")
-    public String toString()
+    public final String toString()
     {
         return name;
     }

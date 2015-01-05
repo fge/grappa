@@ -17,7 +17,6 @@
 package org.parboiled.common;
 
 import com.github.parboiled1.grappa.annotations.DoNotUse;
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 import com.google.common.base.Optional;
 
@@ -55,8 +54,7 @@ public class Reference<T>
      *
      * @return true
      */
-    @WillBeFinal(version = "1.1.0")
-    public boolean clear()
+    public final boolean clear()
     {
         return set(null);
     }
@@ -67,8 +65,7 @@ public class Reference<T>
      * @param value the value
      * @return true
      */
-    @WillBeFinal(version = "1.1.0")
-    public boolean set(@Nullable final T value)
+    public final boolean set(@Nullable final T value)
     {
         this.value = value;
         return true;
@@ -80,8 +77,7 @@ public class Reference<T>
      * @return the target
      */
     @Nullable
-    @WillBeFinal(version = "1.1.0")
-    public T get()
+    public final T get()
     {
         return value;
     }
@@ -127,8 +123,7 @@ public class Reference<T>
      * @param value the new value
      * @return the previous value
      */
-    @WillBeFinal(version = "1.1")
-    public T getAndSet(final T value)
+    public final T getAndSet(final T value)
     {
         final T ret = this.value;
         this.value = value;
@@ -152,8 +147,7 @@ public class Reference<T>
     /**
      * @return true if this Reference holds a non-null value
      */
-    @WillBeFinal(version = "1.1")
-    public boolean isSet()
+    public final boolean isSet()
     {
         return value != null;
     }

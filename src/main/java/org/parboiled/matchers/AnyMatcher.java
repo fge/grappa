@@ -16,7 +16,6 @@
 
 package org.parboiled.matchers;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.matchervisitors.MatcherVisitor;
@@ -25,8 +24,7 @@ import org.parboiled.support.Chars;
 /**
  * A {@link Matcher} matching any single character except EOI.
  */
-@WillBeFinal(version = "1.1")
-public class AnyMatcher
+public final class AnyMatcher
     extends AbstractMatcher
 {
 

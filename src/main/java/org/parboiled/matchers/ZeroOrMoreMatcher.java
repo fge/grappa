@@ -16,7 +16,6 @@
 
 package org.parboiled.matchers;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
@@ -27,8 +26,7 @@ import org.parboiled.matchervisitors.MatcherVisitor;
 /**
  * A {@link Matcher} that repeatedly tries its submatcher against the input. Always succeeds.
  */
-@WillBeFinal(version = "1.1")
-public class ZeroOrMoreMatcher
+public final class ZeroOrMoreMatcher
     extends CustomDefaultLabelMatcher<ZeroOrMoreMatcher>
 {
     @WillBePrivate(version = "1.1")

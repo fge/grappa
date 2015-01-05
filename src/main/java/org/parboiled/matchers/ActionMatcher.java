@@ -16,7 +16,6 @@
 
 package org.parboiled.matchers;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -35,8 +34,7 @@ import java.util.List;
 /**
  * A {@link Matcher} that not actually matches input but runs a given parser {@link Action}.
  */
-@WillBeFinal(version = "1.1")
-public class ActionMatcher
+public final class ActionMatcher
     extends AbstractMatcher
 {
     @WillBePrivate(version = "1.1")

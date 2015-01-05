@@ -22,7 +22,6 @@
 
 package org.parboiled.transform;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
@@ -35,8 +34,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@WillBeFinal(version = "1.1")
-public class RuleMethodInterpreter
+public final class RuleMethodInterpreter
     extends BasicInterpreter
 {
     private final RuleMethod method;

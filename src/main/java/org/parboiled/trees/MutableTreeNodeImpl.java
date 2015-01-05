@@ -17,7 +17,6 @@
 package org.parboiled.trees;
 
 import com.github.parboiled1.grappa.annotations.Unused;
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 import com.google.common.base.Preconditions;
 
@@ -47,15 +46,13 @@ public class MutableTreeNodeImpl<T extends MutableTreeNode<T>>
     private T parent;
 
     @Override
-    @WillBeFinal(version = "1.1")
-    public T getParent()
+    public final T getParent()
     {
         return parent;
     }
 
     @Override
-    @WillBeFinal(version = "1.1")
-    public List<T> getChildren()
+    public final List<T> getChildren()
     {
         return childrenView;
     }
@@ -80,7 +77,7 @@ public class MutableTreeNodeImpl<T extends MutableTreeNode<T>>
     }
 
     @Override
-    public void setChild(final int index, final T child)
+    public final void setChild(final int index, final T child)
     {
         Preconditions.checkElementIndex(index, children.size());
 

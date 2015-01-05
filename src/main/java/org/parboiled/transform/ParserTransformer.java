@@ -16,7 +16,6 @@
 
 package org.parboiled.transform;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
@@ -43,8 +42,7 @@ import static org.parboiled.transform.AsmUtils.findLoadedClass;
 import static org.parboiled.transform.AsmUtils.getExtendedParserClassName;
 import static org.parboiled.transform.AsmUtils.loadClass;
 
-@WillBeFinal(version = "1.1")
-public class ParserTransformer
+public final class ParserTransformer
 {
     private ParserTransformer()
     {

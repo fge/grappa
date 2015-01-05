@@ -16,7 +16,6 @@
 
 package org.parboiled.transform;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Preconditions;
 import me.qmx.jitescript.util.CodegenUtils;
 import org.objectweb.asm.ClassWriter;
@@ -31,8 +30,7 @@ import static org.objectweb.asm.Opcodes.ARETURN;
 import static org.parboiled.transform.Types.BASE_VAR_INIT;
 
 // TODO: move to transform/ subpackage?
-@WillBeFinal(version = "1.1")
-public class VarInitClassGenerator
+public final class VarInitClassGenerator
     extends GroupClassGenerator
 {
     public VarInitClassGenerator(final boolean forceCodeBuilding)

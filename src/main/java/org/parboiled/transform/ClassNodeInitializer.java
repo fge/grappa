@@ -22,7 +22,6 @@
 
 package org.parboiled.transform;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.transform.method.ParserAnnotation;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
@@ -55,8 +54,7 @@ import static org.parboiled.transform.AsmUtils.getExtendedParserClassName;
 /**
  * Initializes the basic ParserClassNode fields and collects all methods.
  */
-@WillBeFinal(version = "1.1")
-public class ClassNodeInitializer
+public final class ClassNodeInitializer
     extends ClassVisitor
 {
     private static final Set<ParserAnnotation> CLASS_FLAGS_CLEAR = EnumSet.of(

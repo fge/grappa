@@ -16,7 +16,6 @@
 
 package org.parboiled.matchers;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
@@ -28,8 +27,7 @@ import org.parboiled.matchervisitors.MatcherVisitor;
  * A {@link Matcher} that repeatedly tries its submatcher against the input.
  * Succeeds if its submatcher succeeds at least once.
  */
-@WillBeFinal(version = "1.1")
-public class OneOrMoreMatcher
+public final class OneOrMoreMatcher
     extends CustomDefaultLabelMatcher<OneOrMoreMatcher>
 {
     @WillBePrivate(version = "1.1")

@@ -16,7 +16,6 @@
 
 package org.parboiled.transform;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Preconditions;
 import me.qmx.jitescript.util.CodegenUtils;
 import org.objectweb.asm.ClassWriter;
@@ -30,9 +29,8 @@ import javax.annotation.Nonnull;
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.IRETURN;
 
-@WillBeFinal(version = "1.1")
 // TODO: move to process/ subpackage
-public class ActionClassGenerator
+public final class ActionClassGenerator
     extends GroupClassGenerator
 {
     public ActionClassGenerator(final boolean forceCodeBuilding)

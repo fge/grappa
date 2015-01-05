@@ -16,7 +16,6 @@
 
 package org.parboiled.matchers;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
@@ -29,8 +28,7 @@ import java.util.List;
  * the wrapped sub rule.
  */
 // TODO: use delegate pattern?
-@WillBeFinal(version = "1.1")
-public class MemoMismatchesMatcher
+public final class MemoMismatchesMatcher
     implements Matcher
 {
     private final Matcher inner;

@@ -16,7 +16,6 @@
 
 package org.parboiled.support;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.parboiled.Node;
 import org.parboiled.buffers.InputBuffer;
@@ -29,8 +28,7 @@ import javax.annotation.Nonnull;
  * tree
  * nodes.
  */
-@WillBeFinal(version = "1.1")
-public class NodeFormatter<V>
+public final class NodeFormatter<V>
     implements Formatter<Node<V>>
 {
 

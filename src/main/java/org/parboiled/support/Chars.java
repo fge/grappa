@@ -16,7 +16,6 @@
 
 package org.parboiled.support;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
 import org.parboiled.buffers.IndentDedentInputBuffer;
@@ -24,9 +23,7 @@ import org.parboiled.buffers.IndentDedentInputBuffer;
 import java.util.Arrays;
 import java.util.Map;
 
-//TODO: make final
-@WillBeFinal(version = "1.1")
-public class Chars
+public final class Chars
 {
     /**
      * Special non-character used during error recovery. Signals that an illegal input character was skipped at this

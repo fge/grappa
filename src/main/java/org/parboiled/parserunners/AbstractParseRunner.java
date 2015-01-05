@@ -18,9 +18,9 @@ package org.parboiled.parserunners;
 
 import com.github.parboiled1.grappa.annotations.Dangerous;
 import com.github.parboiled1.grappa.annotations.DoNotUse;
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.annotations.WillBeProtected;
 import com.github.parboiled1.grappa.stack.DefaultValueStack;
+import com.github.parboiled1.grappa.stack.ValueStack;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import org.parboiled.DefaultMatcherContext;
@@ -32,7 +32,6 @@ import org.parboiled.buffers.InputBuffer;
 import org.parboiled.errors.ParseError;
 import org.parboiled.matchers.Matcher;
 import org.parboiled.support.ParsingResult;
-import com.github.parboiled1.grappa.stack.ValueStack;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -53,16 +52,15 @@ public abstract class AbstractParseRunner<V>
         rootMatcher = Preconditions.checkNotNull((Matcher) rule, "rule");
     }
 
-    @WillBeFinal(version = "1.1")
-    public Matcher getRootMatcher()
+    public final Matcher getRootMatcher()
     {
         return rootMatcher;
     }
 
     @Override
     // TODO: for now, parseErrors is @Nullable here
-    @WillBeFinal(version = "1.1")
-    public ParseRunner<V> withParseErrors(final List<ParseError> parseErrors)
+    public final ParseRunner<V> withParseErrors(
+        final List<ParseError> parseErrors)
     {
         /*
          * TODO: figure out why the below is true... That really, really sucks
@@ -85,14 +83,13 @@ public abstract class AbstractParseRunner<V>
     @Dangerous
     @DoNotUse
     @Deprecated
-    public List<ParseError> getParseErrors()
+    public final List<ParseError> getParseErrors()
     {
         return parseErrors;
     }
 
     @Override
-    @WillBeFinal(version = "1.1")
-    public ParseRunner<V> withValueStack(
+    public final ParseRunner<V> withValueStack(
         @Nonnull final ValueStack<V> valueStack)
     {
         this.valueStack = Preconditions.checkNotNull(valueStack, "valueStack");
@@ -100,30 +97,26 @@ public abstract class AbstractParseRunner<V>
         return this;
     }
 
-    @WillBeFinal(version = "1.1")
-    public ValueStack<V> getValueStack()
+    public final ValueStack<V> getValueStack()
     {
         return valueStack;
     }
 
     @Override
-    @WillBeFinal(version = "1.1")
-    public ParsingResult<V> run(final CharSequence input)
+    public final ParsingResult<V> run(final CharSequence input)
     {
         Preconditions.checkNotNull(input, "input");
         return run(new CharSequenceInputBuffer(input));
     }
 
     @Override
-    @WillBeFinal(version = "1.1")
-    public ParsingResult<V> run(final char[] input)
+    public final ParsingResult<V> run(final char[] input)
     {
         Preconditions.checkNotNull(input, "input");
         return run(new CharSequenceInputBuffer(input));
     }
 
-    @WillBeFinal(version = "1.1")
-    protected void resetValueStack()
+    protected final void resetValueStack()
     {
         // FIXME: hack
         if (initialValueStackSnapshot == null)
@@ -131,16 +124,15 @@ public abstract class AbstractParseRunner<V>
         valueStack.restoreSnapshot(initialValueStackSnapshot);
     }
 
-    @WillBeFinal(version = "1.1")
-    protected MatcherContext<V> createRootContext(final InputBuffer inputBuffer,
-        final MatchHandler matchHandler, final boolean fastStringMatching)
+    protected final MatcherContext<V> createRootContext(
+        final InputBuffer inputBuffer, final MatchHandler matchHandler,
+        final boolean fastStringMatching)
     {
         return new DefaultMatcherContext<V>(inputBuffer, valueStack,
             parseErrors, matchHandler, rootMatcher, fastStringMatching);
     }
 
-    @WillBeFinal(version = "1.1")
-    protected ParsingResult<V> createParsingResult(final boolean matched,
+    protected final ParsingResult<V> createParsingResult(final boolean matched,
         final MatcherContext<V> rootContext)
     {
         return new ParsingResult<V>(matched, rootContext.getNode(), valueStack,

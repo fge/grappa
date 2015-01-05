@@ -17,7 +17,6 @@
 package org.parboiled.trees;
 
 import com.github.parboiled1.grappa.annotations.Unused;
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 
 import java.util.List;
@@ -54,15 +53,13 @@ public class ImmutableTreeNode<T extends TreeNode<T>>
     }
 
     @Override
-    @WillBeFinal(version = "1.1")
-    public T getParent()
+    public final T getParent()
     {
         return parent;
     }
 
-    @WillBeFinal(version = "1.1")
     // TODO: make generic! Looks like a chore...
-    protected void acquireChildren()
+    protected final void acquireChildren()
     {
         final List<T> children = getChildren();
         for (final T child : children)

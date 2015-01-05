@@ -17,7 +17,6 @@
 package org.parboiled.support;
 
 import com.github.parboiled1.grappa.annotations.DoNotUse;
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -102,8 +101,7 @@ public class Var<T>
      *
      * @return the name
      */
-    @WillBeFinal(version = "1.1")
-    public String getName()
+    public final String getName()
     {
         return name;
     }
@@ -113,8 +111,7 @@ public class Var<T>
      *
      * @param name the name
      */
-    @WillBeFinal(version = "1.1")
-    public void setName(final String name)
+    public final void setName(final String name)
     {
         this.name = name;
     }
@@ -125,8 +122,7 @@ public class Var<T>
      *
      * @return the current level
      */
-    @WillBeFinal(version = "1.1")
-    public int getLevel()
+    public final int getLevel()
     {
         return level;
     }
@@ -140,8 +136,7 @@ public class Var<T>
      * @return true
      */
     @DoNotUse
-    @WillBeFinal(version = "1.1")
-    public boolean enterFrame()
+    public final boolean enterFrame()
     {
         if (level++ > 0)
             stack.add(get());
@@ -156,8 +151,7 @@ public class Var<T>
      * @return true
      */
     @DoNotUse
-    @WillBeFinal(version = "1.1")
-    public boolean exitFrame()
+    public final boolean exitFrame()
     {
         if (--level > 0)
             set(stack.removeLast());
@@ -165,7 +159,7 @@ public class Var<T>
     }
 
     @Override
-    public String toString()
+    public final String toString()
     {
         return Optional.fromNullable(name).or(super.toString());
     }

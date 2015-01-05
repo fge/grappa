@@ -16,14 +16,12 @@
 
 package org.parboiled.errors;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.parboiled.buffers.InputBuffer;
 
 /**
  * A basic {@link ParseError} implementation for a one-char parse error with an optional error message.
  */
-@WillBeFinal(version = "1.1")
 public class BasicParseError
     implements ParseError
 {
@@ -43,40 +41,40 @@ public class BasicParseError
     }
 
     @Override
-    public InputBuffer getInputBuffer()
+    public final InputBuffer getInputBuffer()
     {
         return inputBuffer;
     }
 
     @Override
-    public int getStartIndex()
+    public final int getStartIndex()
     {
         return startIndex + indexDelta;
     }
 
     @Override
-    public int getEndIndex()
+    public final int getEndIndex()
     {
         return endIndex + indexDelta;
     }
 
-    public void setEndIndex(final int endIndex)
+    public final void setEndIndex(final int endIndex)
     {
         this.endIndex = endIndex - indexDelta;
     }
 
     @Override
-    public String getErrorMessage()
+    public final String getErrorMessage()
     {
         return errorMessage;
     }
 
-    public int getIndexDelta()
+    public final int getIndexDelta()
     {
         return indexDelta;
     }
 
-    public void shiftIndexDeltaBy(final int delta)
+    public final void shiftIndexDeltaBy(final int delta)
     {
         indexDelta += delta;
     }

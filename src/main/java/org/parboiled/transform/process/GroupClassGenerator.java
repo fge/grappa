@@ -16,7 +16,6 @@
 
 package org.parboiled.transform.process;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.transform.CodeBlock;
 import com.google.common.base.Preconditions;
 import me.qmx.jitescript.util.CodegenUtils;
@@ -62,8 +61,7 @@ public abstract class GroupClassGenerator
     }
 
     @Override
-    @WillBeFinal(version = "1.1")
-    public void process(@Nonnull final ParserClassNode classNode,
+    public final void process(@Nonnull final ParserClassNode classNode,
         @Nonnull final RuleMethod method)
     {
         this.classNode = Preconditions.checkNotNull(classNode, "classNode");
@@ -109,8 +107,7 @@ public abstract class GroupClassGenerator
         group.setGroupClassType(Type.getObjectType(groupClassInternalName));
     }
 
-    @WillBeFinal(version = "1.1")
-    protected byte[] generateGroupClassCode(final InstructionGroup group)
+    protected final byte[] generateGroupClassCode(final InstructionGroup group)
     {
         final ClassWriter classWriter
             = new ClassWriter(ClassWriter.COMPUTE_MAXS);

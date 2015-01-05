@@ -16,7 +16,6 @@
 
 package org.parboiled.matchers;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
@@ -27,8 +26,7 @@ import org.parboiled.matchervisitors.MatcherVisitor;
  * A special {@link Matcher} not actually matching any input but rather trying its submatcher against the current input
  * position. Succeeds if the submatcher would succeed.
  */
-@WillBeFinal(version = "1.1")
-public class TestMatcher
+public final class TestMatcher
     extends CustomDefaultLabelMatcher<TestMatcher>
 {
     @WillBePrivate(version = "1.1")

@@ -16,8 +16,8 @@
 
 package org.parboiled;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.annotations.WillBeRemoved;
+import com.github.parboiled1.grappa.stack.ValueStack;
 import com.google.common.base.Preconditions;
 import org.parboiled.annotations.SuppressNode;
 import org.parboiled.annotations.SuppressSubnodes;
@@ -26,7 +26,6 @@ import org.parboiled.errors.GrammarException;
 import org.parboiled.support.Checks;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.Position;
-import com.github.parboiled1.grappa.stack.ValueStack;
 
 /**
  * Convenience context aware base class defining a number of useful helper methods.
@@ -44,8 +43,7 @@ public abstract class BaseActions<V>
      *
      * @return the current context
      */
-    @WillBeFinal(version = "1.1")
-    public Context<V> getContext()
+    public final Context<V> getContext()
     {
         return context;
     }
@@ -56,8 +54,7 @@ public abstract class BaseActions<V>
      * @param context the context
      */
     @Override
-    @WillBeFinal(version = "1.1")
-    public void setContext(final Context<V> context)
+    public final void setContext(final Context<V> context)
     {
         this.context = Preconditions.checkNotNull(context, "context");
     }
@@ -67,8 +64,7 @@ public abstract class BaseActions<V>
      *
      * @return the current index
      */
-    @WillBeFinal(version = "1.1")
-    public int currentIndex()
+    public final int currentIndex()
     {
         check();
         return context.getCurrentIndex();

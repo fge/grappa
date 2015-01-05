@@ -16,7 +16,6 @@
 
 package org.parboiled.matchers;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
@@ -25,7 +24,6 @@ import org.parboiled.matchervisitors.MatcherVisitor;
 /**
  * A {@link Matcher} trying all of its submatchers in sequence and succeeding when the first submatcher succeeds.
  */
-@WillBeFinal(version = "1.1")
 public class FirstOfMatcher
     extends CustomDefaultLabelMatcher<FirstOfMatcher>
 {

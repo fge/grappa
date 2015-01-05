@@ -15,12 +15,10 @@
  */
 package org.parboiled.support;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import org.parboiled.matchers.Matcher;
 
-@WillBeFinal(version = "1.1")
-public class MatcherPosition
+public final class MatcherPosition
 {
     private final Matcher matcher;
     private final int index;

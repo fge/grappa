@@ -16,7 +16,6 @@
 
 package org.parboiled.matchers;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.annotations.WillBeProtected;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
@@ -70,35 +69,30 @@ public abstract class AbstractMatcher
     }
 
     @Override
-    @WillBeFinal(version = "1.1.0")
-    public boolean isNodeSuppressed()
+    public final boolean isNodeSuppressed()
     {
         return nodeSuppressed;
     }
 
     @Override
-    @WillBeFinal(version = "1.1.0")
-    public boolean areSubnodesSuppressed()
+    public final boolean areSubnodesSuppressed()
     {
         return subnodesSuppressed;
     }
 
     @Override
-    @WillBeFinal(version = "1.1.0")
-    public boolean isNodeSkipped()
+    public final boolean isNodeSkipped()
     {
         return nodeSkipped;
     }
 
     @Override
-    @WillBeFinal(version = "1.1.0")
-    public boolean areMismatchesMemoed()
+    public final boolean areMismatchesMemoed()
     {
         return false;
     }
 
     @Override
-    @WillBeFinal(version = "1.1.0")
     public String getLabel()
     {
         return label;
@@ -113,15 +107,13 @@ public abstract class AbstractMatcher
     }
 
     @Override
-    @WillBeFinal(version = "1.1.0")
-    public String toString()
+    public final String toString()
     {
         return getLabel();
     }
 
     @Override
-    @WillBeFinal(version = "1.1.0")
-    public AbstractMatcher label(final String label)
+    public final AbstractMatcher label(final String label)
     {
         if (Objects.equal(label, this.label))
             return this;
@@ -141,8 +133,7 @@ public abstract class AbstractMatcher
     }
 
     @Override
-    @WillBeFinal(version = "1.1.0")
-    public Rule suppressSubnodes()
+    public final Rule suppressSubnodes()
     {
         if (subnodesSuppressed)
             return this;
@@ -152,8 +143,7 @@ public abstract class AbstractMatcher
     }
 
     @Override
-    @WillBeFinal(version = "1.1.0")
-    public Rule skipNode()
+    public final Rule skipNode()
     {
         if (nodeSkipped)
             return this;
@@ -163,22 +153,19 @@ public abstract class AbstractMatcher
     }
 
     @Override
-    @WillBeFinal(version = "1.1.0")
-    public Rule memoMismatches()
+    public final Rule memoMismatches()
     {
         return new MemoMismatchesMatcher(this);
     }
 
     @Override
-    @WillBeFinal(version = "1.1.0")
-    public Object getTag()
+    public final Object getTag()
     {
         return tag;
     }
 
     @Override
-    @WillBeFinal(version = "1.1.0")
-    public void setTag(final Object tagObject)
+    public final void setTag(final Object tagObject)
     {
         tag = tagObject;
     }

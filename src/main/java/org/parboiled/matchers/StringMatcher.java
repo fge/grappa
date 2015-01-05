@@ -16,7 +16,6 @@
 
 package org.parboiled.matchers;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
@@ -26,8 +25,7 @@ import org.parboiled.Rule;
  * A {@link SequenceMatcher} specialization for sequences of CharMatchers. Performs fast string matching if the
  * current context has it enabled.
  */
-@WillBeFinal(version = "1.1")
-public class StringMatcher
+public final class StringMatcher
     extends SequenceMatcher
 {
     @WillBePrivate(version = "1.1")

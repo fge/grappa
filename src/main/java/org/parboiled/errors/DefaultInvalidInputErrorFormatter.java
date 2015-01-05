@@ -16,7 +16,6 @@
 
 package org.parboiled.errors;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Joiner;
 import com.google.common.escape.Escaper;
 import org.parboiled.common.Formatter;
@@ -34,8 +33,7 @@ import java.util.List;
  * A {@link Formatter} for {@link InvalidInputError}s that automatically creates the correct "expected" text
  * for the error.
  */
-@WillBeFinal(version = "1.1")
-public class DefaultInvalidInputErrorFormatter
+public final class DefaultInvalidInputErrorFormatter
     implements Formatter<InvalidInputError>
 {
     private static final Escaper ESCAPER = CharsEscaper.INSTANCE;

@@ -16,7 +16,7 @@
 
 package org.parboiled;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
+import com.github.parboiled1.grappa.stack.ValueStack;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
@@ -40,7 +40,6 @@ import org.parboiled.support.MatcherPath;
 import org.parboiled.support.MatcherPosition;
 import org.parboiled.support.ParseTreeUtils;
 import org.parboiled.support.Position;
-import com.github.parboiled1.grappa.stack.ValueStack;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -84,8 +83,7 @@ import static org.parboiled.matchers.MatcherUtils.unwrap;
  * #getMatcher()} call it has been retired (is invalid) and is waiting to be
  * reinitialized with a new Matcher by its parent</p>
  */
-@WillBeFinal(version = "1.1")
-public class DefaultMatcherContext<V>
+public final class DefaultMatcherContext<V>
     implements MatcherContext<V>
 {
     private final InputBuffer inputBuffer;

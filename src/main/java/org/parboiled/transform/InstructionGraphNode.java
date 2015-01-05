@@ -22,7 +22,6 @@
 
 package org.parboiled.transform;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
 import org.objectweb.asm.tree.AbstractInsnNode;
@@ -43,8 +42,7 @@ import static org.objectweb.asm.Opcodes.ISTORE;
 /**
  * A node in the instruction dependency graph.
  */
-@WillBeFinal(version = "1.1")
-public class InstructionGraphNode
+public final class InstructionGraphNode
     extends BasicValue
 {
     private static final Range<Integer> ILOAD_INSN_RANGE
