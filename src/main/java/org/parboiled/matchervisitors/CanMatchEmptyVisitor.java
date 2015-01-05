@@ -140,7 +140,7 @@ public final class CanMatchEmptyVisitor
     @Override
     public Boolean visit(final OneOrMoreMatcher matcher)
     {
-        final Matcher m = matcher.subMatcher;
+        final Matcher m = matcher.getSubMatcher();
         Checks.ensure(!m.accept(this), "A OneOrMore matcher cannot have an " +
             "embedded rule accepting empty matches (culprit rule: '%s')", m);
         return false;

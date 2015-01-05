@@ -16,7 +16,6 @@
 
 package org.parboiled.matchers;
 
-import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
@@ -28,13 +27,17 @@ import org.parboiled.matchervisitors.MatcherVisitor;
 public final class OptionalMatcher
     extends CustomDefaultLabelMatcher<OptionalMatcher>
 {
-    @WillBePrivate(version = "1.1")
-    public final Matcher subMatcher;
+    private final Matcher subMatcher;
 
     public OptionalMatcher(final Rule subRule)
     {
         super(Preconditions.checkNotNull(subRule, "subRule"), "optional");
         subMatcher = getChildren().get(0);
+    }
+
+    public Matcher getSubMatcher()
+    {
+        return subMatcher;
     }
 
     @Override

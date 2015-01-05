@@ -16,7 +16,6 @@
 
 package org.parboiled.parserunners;
 
-import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import com.github.parboiled1.grappa.buffers.InputBuffer;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
@@ -84,25 +83,15 @@ import static org.parboiled.support.Chars.RESYNC_START;
  * input potentially many more runs are performed to properly report all errors
  * and test the various recovery strategies.</p>
  */
-public class RecoveringParseRunner<V>
+public final class RecoveringParseRunner<V>
     extends AbstractParseRunner<V>
 {
     public static class TimeoutException
         extends RuntimeException
     {
-        @WillBePrivate(version = "1.1")
-        public final Rule rule;
-        @WillBePrivate(version = "1.1")
-        public final InputBuffer inputBuffer;
-        @WillBePrivate(version = "1.1")
-        public final ParsingResult<?> lastParsingResult;
-
-        public TimeoutException(final Rule rule, final InputBuffer inputBuffer,
-            final ParsingResult<?> lastParsingResult)
+        public TimeoutException(final Rule rule)
         {
-            this.rule = rule;
-            this.inputBuffer = inputBuffer;
-            this.lastParsingResult = lastParsingResult;
+            super("for rule: " + rule);
         }
     }
 
@@ -407,8 +396,7 @@ public class RecoveringParseRunner<V>
             // check for timeout only on failures of sequences so as to not add
             // too much overhead
             if (System.currentTimeMillis() - startTimeStamp > timeout)
-                throw new TimeoutException(rootMatcher, buffer,
-                    lastParsingResult);
+                throw new TimeoutException(rootMatcher);
 
             return false;
         }
@@ -642,7 +630,7 @@ public class RecoveringParseRunner<V>
         @Override
         public List<ActionMatcher> visit(final OneOrMoreMatcher matcher)
         {
-            return matcher.subMatcher.accept(this);
+            return matcher.getSubMatcher().accept(this);
         }
 
         /*

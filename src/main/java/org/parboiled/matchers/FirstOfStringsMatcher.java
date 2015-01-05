@@ -16,7 +16,6 @@
 
 package org.parboiled.matchers;
 
-import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import com.github.parboiled1.grappa.buffers.InputBuffer;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
@@ -57,14 +56,11 @@ public final class FirstOfStringsMatcher
     }
 
     private final Record root; // the root of the character tree
-    @WillBePrivate(version = "1.1")
-    public final char[][] strings;
 
     public FirstOfStringsMatcher(final Rule[] subRules, final char[][] strings)
     {
         super(Preconditions.checkNotNull(subRules, "subRules"));
         verify(strings);
-        this.strings = strings;
         root = createRecord(0, strings);
     }
 

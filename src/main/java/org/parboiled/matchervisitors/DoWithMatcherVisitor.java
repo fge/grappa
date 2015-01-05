@@ -91,7 +91,7 @@ public final class DoWithMatcherVisitor
     public Void visit(final OneOrMoreMatcher matcher)
     {
         if (visited.add(matcher)) {
-            matcher.subMatcher.accept(this);
+            matcher.getSubMatcher().accept(this);
             action.process(matcher);
         }
         return null;
@@ -101,7 +101,7 @@ public final class DoWithMatcherVisitor
     public Void visit(final OptionalMatcher matcher)
     {
         if (visited.add(matcher)) {
-            matcher.subMatcher.accept(this);
+            matcher.getSubMatcher().accept(this);
             action.process(matcher);
         }
         return null;

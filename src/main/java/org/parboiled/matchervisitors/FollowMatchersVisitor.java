@@ -57,7 +57,7 @@ public final class FollowMatchersVisitor
     @Override
     public Boolean visit(final OneOrMoreMatcher matcher)
     {
-        builder.add(matcher.subMatcher);
+        builder.add(matcher.getSubMatcher());
         return false;
     }
 

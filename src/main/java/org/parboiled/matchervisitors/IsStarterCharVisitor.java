@@ -147,13 +147,13 @@ public final class IsStarterCharVisitor
     @Override
     public Boolean visit(final OneOrMoreMatcher matcher)
     {
-        return matcher.subMatcher.accept(this);
+        return matcher.getSubMatcher().accept(this);
     }
 
     @Override
     public Boolean visit(final OptionalMatcher matcher)
     {
-        return matcher.subMatcher.accept(this);
+        return matcher.getSubMatcher().accept(this);
     }
 
     @Override
