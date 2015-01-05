@@ -16,7 +16,6 @@
 
 package org.parboiled.support;
 
-import com.github.parboiled1.grappa.annotations.Unused;
 import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import com.github.parboiled1.grappa.stack.ValueStack;
 import com.google.common.base.Preconditions;
@@ -116,7 +115,7 @@ public final class ParsingResult<V>
      *
      * @return see description
      */
-    public final boolean isSuccess()
+    public boolean isSuccess()
     {
         return matched;
     }
@@ -129,7 +128,7 @@ public final class ParsingResult<V>
      * @return the tree, or (unfortunately) {@code null} if no tree
      */
     @Nullable
-    public final Node<V> getParseTree()
+    public Node<V> getParseTree()
     {
         return parseTreeRoot;
     }
@@ -143,7 +142,7 @@ public final class ParsingResult<V>
      * @return see description
      */
     @Nullable
-    public final V getTopStackValue()
+    public V getTopStackValue()
     {
         return resultValue;
     }
@@ -154,7 +153,7 @@ public final class ParsingResult<V>
      * @return the value stack used during the parsing run
      */
     @Nonnull
-    public final ValueStack<V> getValueStack()
+    public ValueStack<V> getValueStack()
     {
         return valueStack;
     }
@@ -169,7 +168,7 @@ public final class ParsingResult<V>
      * @see #isSuccess()
      */
     @Nonnull
-    public final List<ParseError> getParseErrors()
+    public List<ParseError> getParseErrors()
     {
         return parseErrors;
     }
@@ -180,7 +179,7 @@ public final class ParsingResult<V>
      * @return see description
      */
     @Nonnull
-    public final InputBuffer getInputBuffer()
+    public InputBuffer getInputBuffer()
     {
         return inputBuffer;
     }
@@ -194,22 +193,8 @@ public final class ParsingResult<V>
      * @return true if the parse error list is not empty
      */
     // TODO: not clear whether parseErrors can be null
-    public final boolean hasCollectedParseErrors()
+    public boolean hasCollectedParseErrors()
     {
         return !parseErrors.isEmpty();
-    }
-
-    /**
-     * @return true if this parsing result contains parsing errors.
-     *
-     * @deprecated name is confusing; use {@link #isSuccess()} to see if this
-     * result is a match and {@link #hasCollectedParseErrors()} if this result
-     * has collected parse errors.
-     */
-    @Deprecated
-    @Unused
-    public boolean hasErrors()
-    {
-        return hasCollectedParseErrors();
     }
 }

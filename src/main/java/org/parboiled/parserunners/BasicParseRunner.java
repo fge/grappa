@@ -16,7 +16,6 @@
 
 package org.parboiled.parserunners;
 
-import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
@@ -37,28 +36,6 @@ public final class BasicParseRunner<V>
     extends AbstractParseRunner<V>
     implements MatchHandler
 {
-
-    /**
-     * Create a new BasicParseRunner instance with the given rule and input text
-     * and returns the result of its {@link #run(CharSequence)} method
-     * invocation.
-     *
-     * @param rule the parser rule to run
-     * @param input the input text to run on
-     * @return the ParsingResult for the parsing run
-     *
-     * @deprecated As of 0.11.0 you should use the "regular" constructor and one
-     * of the "run" methods rather than this static method.
-     */
-    @Deprecated
-    @WillBeRemoved(version = "1.1")
-    public static <V> ParsingResult<V> run(final Rule rule, final String input)
-    {
-        Preconditions.checkNotNull(rule, "rule");
-        Preconditions.checkNotNull(input, "input");
-        return new BasicParseRunner<V>(rule).run(input);
-    }
-
     /**
      * Creates a new BasicParseRunner instance for the given rule.
      *

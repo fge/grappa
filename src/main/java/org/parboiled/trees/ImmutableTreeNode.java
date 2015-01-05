@@ -16,9 +16,6 @@
 
 package org.parboiled.trees;
 
-import com.github.parboiled1.grappa.annotations.Unused;
-import com.github.parboiled1.grappa.annotations.WillBeRemoved;
-
 import java.util.List;
 
 /**
@@ -37,13 +34,6 @@ public class ImmutableTreeNode<T extends TreeNode<T>>
     // their children and vice versa. So we design this for a bottom up tree construction strategy were children
     // are created first and then "acquired" by their parents
     private T parent;
-
-    @Deprecated
-    @Unused
-    @WillBeRemoved(version = "1.1")
-    public ImmutableTreeNode()
-    {
-    }
 
     public ImmutableTreeNode(final List<T> children)
     {

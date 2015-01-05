@@ -27,6 +27,7 @@ import java.nio.CharBuffer;
 /**
  * A {@link CharSink} over {@code System.out}
  */
+// TODO: only one user (TracingParseRunner)
 public final class SystemOutCharSink
     extends CharSink
 {

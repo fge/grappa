@@ -16,10 +16,6 @@
 
 package org.parboiled.parserunners;
 
-import com.github.parboiled1.grappa.annotations.DoNotUse;
-import com.github.parboiled1.grappa.annotations.Unused;
-import com.github.parboiled1.grappa.annotations.WillBeRemoved;
-import com.github.parboiled1.grappa.misc.SinkAdapter;
 import com.github.parboiled1.grappa.misc.SystemOutCharSink;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
@@ -30,7 +26,6 @@ import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
 import org.parboiled.buffers.InputBuffer;
-import org.parboiled.common.Sink;
 import org.parboiled.common.Tuple2;
 import org.parboiled.matchers.Matcher;
 import org.parboiled.support.MatcherPath;
@@ -52,7 +47,7 @@ public class TracingParseRunner<V>
 {
     private Predicate<Tuple2<Context<?>, Boolean>> filter
         = Predicates.alwaysTrue();
-    private CharSink log = SystemOutCharSink.INSTANCE;
+    private final CharSink log = SystemOutCharSink.INSTANCE;
     private MatcherPath lastPath;
 
     /**
@@ -79,32 +74,6 @@ public class TracingParseRunner<V>
         @Nonnull final Predicate<Tuple2<Context<?>, Boolean>> filter)
     {
         this.filter = Preconditions.checkNotNull(filter, "filter");
-        return this;
-    }
-
-    @Deprecated
-    @Unused
-    @DoNotUse
-    @WillBeRemoved(version = "1.1")
-    public Predicate<Tuple2<Context<?>, Boolean>> getFilter()
-    {
-        return filter;
-    }
-
-    /**
-     * Attaches the given log to this TracingParseRunner instance.
-     *
-     * @param log the log to use
-     * @return this instance
-     */
-    @Deprecated
-    @DoNotUse
-    @Unused
-    @WillBeRemoved(version = "1.1")
-    public TracingParseRunner<V> withLog(@Nonnull final Sink<String> log)
-    {
-        Preconditions.checkNotNull(log);
-        this.log = new SinkAdapter(log);
         return this;
     }
 

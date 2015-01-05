@@ -17,8 +17,6 @@
 package org.parboiled.trees;
 
 import com.github.parboiled1.grappa.annotations.DoNotUse;
-import com.github.parboiled1.grappa.annotations.Unused;
-import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
@@ -50,45 +48,6 @@ public final class GraphUtils
     public static boolean hasChildren(@Nullable final GraphNode<?> node)
     {
         return node != null && !node.getChildren().isEmpty();
-    }
-
-    /**
-     * Returns the first child node of the given node or null if node is null or
-     * does not have any children.
-     *
-     * @param node a node
-     * @return the first child node of the given node or null if node is null or
-     * does not have any children
-     */
-    @Nullable
-    @Deprecated
-    @Unused
-    @WillBeRemoved(version = "1.1")
-    // TODO: null! again!
-    public static <T extends GraphNode<T>> T getFirstChild(
-        @Nullable final T node)
-    {
-        return hasChildren(node) ? node.getChildren().get(0) : null;
-    }
-
-    /**
-     * Returns the last child node of the given node or null if node is null or
-     * does not have any children.
-     *
-     * @param node a node
-     * @return the last child node of the given node or null if node is null or does not have any children
-     */
-    @Nullable
-    @Deprecated
-    @Unused
-    @WillBeRemoved(version = "1.1")
-    // TODO: null! again!
-    public static <T extends GraphNode<T>> T getLastChild(
-        @Nullable final T node)
-    {
-        return hasChildren(node)
-            ? node.getChildren().get(node.getChildren().size() - 1)
-            : null;
     }
 
     /**

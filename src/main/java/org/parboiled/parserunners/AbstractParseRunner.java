@@ -16,8 +16,6 @@
 
 package org.parboiled.parserunners;
 
-import com.github.parboiled1.grappa.annotations.Dangerous;
-import com.github.parboiled1.grappa.annotations.DoNotUse;
 import com.github.parboiled1.grappa.annotations.WillBeProtected;
 import com.github.parboiled1.grappa.stack.DefaultValueStack;
 import com.github.parboiled1.grappa.stack.ValueStack;
@@ -78,14 +76,6 @@ public abstract class AbstractParseRunner<V>
          */
         this.parseErrors = parseErrors;
         return this;
-    }
-
-    @Dangerous
-    @DoNotUse
-    @Deprecated
-    public final List<ParseError> getParseErrors()
-    {
-        return parseErrors;
     }
 
     @Override

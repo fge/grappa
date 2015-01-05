@@ -22,14 +22,10 @@
 
 package org.parboiled.transform;
 
-import com.github.parboiled1.grappa.annotations.DoNotUse;
-import com.github.parboiled1.grappa.annotations.Unused;
-import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 import com.github.parboiled1.grappa.transform.asm.LoadingOpcode;
 import com.github.parboiled1.grappa.transform.cache.ClassCache;
 import com.google.common.base.Preconditions;
 import me.qmx.jitescript.util.CodegenUtils;
-import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
@@ -41,9 +37,6 @@ import org.parboiled.ContextAware;
 import org.parboiled.support.Var;
 
 import javax.annotation.Nullable;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -59,32 +52,6 @@ public final class AsmUtils
     {
     }
 
-    /**
-     * DO NOT USE
-     *
-     * @param c the class
-     * @return a class reader
-     * @throws IOException cannot obtain reader
-     *
-     * @deprecated unused; will be removed in 1.1.
-     */
-    @Deprecated
-    @Unused
-    @WillBeRemoved(version = "1.1")
-    public static ClassReader createClassReader(final Class<?> c)
-        throws IOException
-    {
-        Preconditions.checkNotNull(c);
-        final String classFilename = c.getName().replace('.', '/') + ".class";
-        InputStream inputStream = c.getClassLoader()
-            .getResourceAsStream(classFilename);
-        if (inputStream == null) {
-            inputStream = Thread.currentThread().getContextClassLoader()
-                .getResourceAsStream(classFilename);
-        }
-        return new ClassReader(inputStream);
-    }
-
     public static String getExtendedParserClassName(
         final String parserClassName)
     {
@@ -94,50 +61,6 @@ public final class AsmUtils
 
     private static final Map<String, Class<?>> classForDesc
         = new HashMap<String, Class<?>>();
-
-    /**
-     * Deprecated!
-     *
-     * @param classDesc class descriptor (as viewed by the JVM)
-     * @return a class
-     * @throws RuntimeException failed to load the class
-     *
-     * @deprecated use {@link ClassCache#loadClass(String)
-     * ClassCache.INSTANCE.loadClass()} instead
-     */
-    @Deprecated
-    @Unused
-    @WillBeRemoved(version = "1.1")
-    public static synchronized Class<?> getClassForInternalName(
-        final String classDesc)
-    {
-        Preconditions.checkNotNull(classDesc, "classDesc");
-        Class<?> c = classForDesc.get(classDesc);
-        if (c != null)
-            return c;
-
-        if (classDesc.charAt(0) == '[') {
-            final Class<?> compType
-                = getClassForType(Type.getType(classDesc.substring(1)));
-            c = Array.newInstance(compType, 0).getClass();
-        } else {
-            final String className = classDesc.replace('/', '.');
-            try {
-                c = AsmUtils.class.getClassLoader().loadClass(className);
-            } catch (ClassNotFoundException ignored) {
-                // If class not found trying the context classLoader
-                try {
-                    c = Thread.currentThread().getContextClassLoader()
-                        .loadClass(className);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException("Error loading class '"
-                        + className + "' for rule method analysis", e);
-                }
-            }
-        }
-        classForDesc.put(classDesc, c);
-        return c;
-    }
 
     /**
      * Get the class equivalent to an ASM {@link Type}
@@ -386,42 +309,6 @@ public final class AsmUtils
             instructions.add(node);
         }
         return instructions;
-    }
-
-    /**
-     * DO NOT USE!
-     *
-     * @param argType type
-     * @return matching load opcode
-     *
-     * @deprecated use {@link LoadingOpcode#forType(Type)} instead; will
-     * be removed in 1.1.
-     */
-    @Deprecated
-    @DoNotUse
-    @WillBeRemoved(version = "1.1")
-    public static int getLoadingOpcode(final Type argType)
-    {
-        Preconditions.checkNotNull(argType, "argType");
-        switch (argType.getSort()) {
-            case Type.BOOLEAN:
-            case Type.BYTE:
-            case Type.CHAR:
-            case Type.SHORT:
-            case Type.INT:
-                return Opcodes.ILOAD;
-            case Type.DOUBLE:
-                return Opcodes.DLOAD;
-            case Type.FLOAT:
-                return Opcodes.FLOAD;
-            case Type.LONG:
-                return Opcodes.LLOAD;
-            case Type.OBJECT:
-            case Type.ARRAY:
-                return Opcodes.ALOAD;
-            default:
-                throw new IllegalStateException();
-        }
     }
 
     /**

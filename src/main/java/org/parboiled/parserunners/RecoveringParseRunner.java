@@ -17,7 +17,6 @@
 package org.parboiled.parserunners;
 
 import com.github.parboiled1.grappa.annotations.WillBePrivate;
-import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Queues;
@@ -115,28 +114,6 @@ public class RecoveringParseRunner<V>
     private ParsingResult<V> lastParsingResult;
     // the root matcher with parse tree building disabled
     private Matcher rootMatcherNoTreeBuild;
-
-    /**
-     * Create a new RecoveringParseRunner instance with the given rule and input
-     * text and returns the result of its {@link #run(String)} method
-     * invocation.
-     *
-     * @param rule the parser rule to run
-     * @param input the input text to run on
-     * @return the ParsingResult for the parsing run
-     *
-     * @deprecated As of 0.11.0 you should use the "regular" constructor and
-     * one of the "run" methods rather than this static method. This method will
-     * be removed in one of the coming releases.
-     */
-    @Deprecated
-    @WillBeRemoved(version = "1.1")
-    public static <V> ParsingResult<V> run(final Rule rule, final String input)
-    {
-        Preconditions.checkNotNull(rule, "rule");
-        Preconditions.checkNotNull(input, "input");
-        return new RecoveringParseRunner<V>(rule).run(input);
-    }
 
     /**
      * Creates a new RecoveringParseRunner instance for the given rule.
