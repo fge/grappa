@@ -16,7 +16,6 @@
 
 package org.parboiled;
 
-import com.github.parboiled1.grappa.annotations.Unused;
 import com.github.parboiled1.grappa.stack.ValueStack;
 import org.parboiled.annotations.SuppressNode;
 import org.parboiled.annotations.SuppressSubnodes;
@@ -115,7 +114,6 @@ public interface Context<V>
      *
      * @return the current matcher level
      */
-    @Unused
     int getLevel();
 
     /**

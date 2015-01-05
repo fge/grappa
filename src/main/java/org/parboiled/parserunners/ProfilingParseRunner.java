@@ -16,9 +16,7 @@
 
 package org.parboiled.parserunners;
 
-import com.github.parboiled1.grappa.annotations.Unused;
 import com.github.parboiled1.grappa.annotations.WillBePrivate;
-import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.primitives.Ints;
@@ -31,7 +29,6 @@ import org.parboiled.matchers.Matcher;
 import org.parboiled.matchervisitors.DoWithMatcherVisitor;
 import org.parboiled.support.ParsingResult;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -236,22 +233,6 @@ public final class ProfilingParseRunner<V>
 
     public static final class Report
     {
-        @WillBeRemoved(version = "1.1")
-        @Unused
-        private static final DecimalFormat fmt = new DecimalFormat("0.###");
-
-        @WillBeRemoved(version = "1.1")
-        @Unused
-        public static final Predicate<RuleReport> allRules
-            = new Predicate<RuleReport>()
-        {
-            @Override
-            public boolean apply(final RuleReport input)
-            {
-                return true;
-            }
-        };
-
         public static final Predicate<RuleReport> namedRules
             = new Predicate<RuleReport>()
         {
@@ -302,34 +283,6 @@ public final class ProfilingParseRunner<V>
                 / (double) totalInvocations;
             this.totalNanoTime = totalNanoTime;
             this.ruleReports = ruleReports;
-        }
-
-        @Unused
-        public String print()
-        {
-            final StringBuilder sb = new StringBuilder();
-            sb.append("Profiling Report\n");
-            sb.append("----------------\n");
-            sb.append(printBasics());
-            sb.append("\n");
-            sb.append("Top 20 named rules by invocations:\n");
-            sb.append(sortByInvocations().printTopRules(20, namedRules));
-            sb.append("\n");
-            sb.append("Top 20 named rules by sub-invocations:\n");
-            sb.append(sortBySubInvocations().printTopRules(20, namedRules));
-            sb.append("\n");
-            sb.append("Top 20 named rules by re-invocations:\n");
-            sb.append(sortByReinvocations().printTopRules(20, namedRules));
-            sb.append("\n");
-            sb.append("Top 20 named rules by re-sub-invocations:\n");
-            sb.append(sortByResubinvocations().printTopRules(20, namedRules));
-            sb.append("\n");
-            sb.append("Top 20 named rules by re-mismatches:\n");
-            sb.append(sortByRemismatches().printTopRules(20, namedRules));
-            sb.append("\n");
-            sb.append("Top 20 named rules by re-sub-mismatches:\n");
-            sb.append(sortByResubmismatches().printTopRules(20, namedRules));
-            return sb.toString();
         }
 
         public String printBasics()
