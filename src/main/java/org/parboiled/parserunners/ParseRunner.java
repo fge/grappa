@@ -18,11 +18,10 @@ package org.parboiled.parserunners;
 
 import com.github.parboiled1.grappa.annotations.Dangerous;
 import com.github.parboiled1.grappa.annotations.DoNotUse;
-import com.github.parboiled1.grappa.annotations.WillBeRemoved;
+import com.github.parboiled1.grappa.stack.ValueStack;
 import org.parboiled.buffers.InputBuffer;
 import org.parboiled.errors.ParseError;
 import org.parboiled.support.ParsingResult;
-import com.github.parboiled1.grappa.stack.ValueStack;
 
 import java.nio.CharBuffer;
 import java.util.List;
@@ -66,22 +65,6 @@ public interface ParseRunner<V>
     @DoNotUse
     @Dangerous
     ParseRunner<V> withValueStack(ValueStack<V> valueStack);
-
-    /**
-     * Not needed! See description
-     *
-     * <p>You should use {@link #run(CharSequence)} instead ({@code String}
-     * implements {@code CharSequence}); {@link AbstractParseRunner} delegates
-     * to this method.</p>
-     *
-     * @param input see above
-     * @return a parsing result
-     *
-     * @deprecated see description
-     */
-    @Deprecated
-    @WillBeRemoved(version = "1.1")
-    ParsingResult<V> run(String input);
 
     /**
      * Performs the actual parse and creates a corresponding ParsingResult instance.

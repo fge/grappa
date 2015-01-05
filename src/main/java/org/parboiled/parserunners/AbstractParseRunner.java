@@ -108,13 +108,6 @@ public abstract class AbstractParseRunner<V>
 
     @Override
     @WillBeFinal(version = "1.1")
-    public ParsingResult<V> run(final String input)
-    {
-        return run((CharSequence) input);
-    }
-
-    @Override
-    @WillBeFinal(version = "1.1")
     public ParsingResult<V> run(final CharSequence input)
     {
         Preconditions.checkNotNull(input, "input");
