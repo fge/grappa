@@ -28,7 +28,8 @@ import org.parboiled.matchers.CharRangeMatcher;
  * such a code point and a {@code char}, so what this does is simply delegate
  * the job to a {@link CharRangeMatcher}.</p>
  */
-public class BmpRangeMatcher
+@SuppressWarnings("ImplicitNumericConversion")
+public final class BmpRangeMatcher
     extends UnicodeRangeMatcher
 {
     private final CharRangeMatcher matcher;
@@ -54,13 +55,14 @@ public class BmpRangeMatcher
     @Override
     public boolean isStarterChar(final char c)
     {
-        return c >= matcher.cLow && c <= matcher.cHigh;
+        return c >= matcher.getLowerBound()
+            && c <= matcher.getUpperBound();
     }
 
     @Override
     public char getStarterChar()
     {
-        return matcher.cLow;
+        return matcher.getLowerBound();
     }
 
     @Override

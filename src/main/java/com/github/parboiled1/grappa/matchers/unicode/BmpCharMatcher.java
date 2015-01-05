@@ -54,13 +54,13 @@ public class BmpCharMatcher
     @Override
     public boolean isStarterChar(final char c)
     {
-        return c == matcher.character;
+        return c == matcher.getCharacter();
     }
 
     @Override
     public char getStarterChar()
     {
-        return matcher.character;
+        return matcher.getCharacter();
     }
 
     @Override

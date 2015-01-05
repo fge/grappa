@@ -16,7 +16,6 @@
 
 package org.parboiled.matchers;
 
-import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.matchervisitors.MatcherVisitor;
@@ -30,13 +29,17 @@ import static org.parboiled.support.Chars.escape;
 public final class CharMatcher
     extends AbstractMatcher
 {
-    @WillBePrivate(version = "1.1")
-    public final char character;
+    private final char character;
 
     public CharMatcher(final char character)
     {
         super(getLabel(character));
         this.character = character;
+    }
+
+    public char getCharacter()
+    {
+        return character;
     }
 
     // TODO: remove...

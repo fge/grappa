@@ -16,7 +16,6 @@
 
 package org.parboiled.matchers;
 
-import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.matchervisitors.MatcherVisitor;
@@ -29,25 +28,33 @@ import static org.parboiled.support.Chars.escape;
 public final class CharIgnoreCaseMatcher
     extends AbstractMatcher
 {
-    @WillBePrivate(version = "1.1")
-    public final char charLow;
-    @WillBePrivate(version = "1.1")
-    public final char charUp;
+    private final char lowerBound;
+    private final char upperBound;
 
     public CharIgnoreCaseMatcher(final char character)
     {
         super('\'' + escape(Character.toLowerCase(character))
             + '/' + escape(Character.toUpperCase(character)) + '\''
         );
-        charLow = Character.toLowerCase(character);
-        charUp = Character.toUpperCase(character);
+        lowerBound = Character.toLowerCase(character);
+        upperBound = Character.toUpperCase(character);
+    }
+
+    public char getLowerBound()
+    {
+        return lowerBound;
+    }
+
+    public char getUpperBound()
+    {
+        return upperBound;
     }
 
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
         final char c = context.getCurrentChar();
-        if (c != charLow && c != charUp)
+        if (c != lowerBound && c != upperBound)
             return false;
         context.advanceIndex(1);
         context.createNode();

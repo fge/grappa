@@ -36,7 +36,8 @@ import org.parboiled.matchers.CharRangeMatcher;
  * because Java allows to create a "string" with only a lead surrogate as a
  * single {@code char} (which is invalid Unicode).</p>
  */
-public class CombinedUnicodeRangeMatcher
+@SuppressWarnings("ImplicitNumericConversion")
+public final class CombinedUnicodeRangeMatcher
     extends UnicodeRangeMatcher
 {
     final UnicodeRangeMatcher supplementary;
@@ -65,14 +66,15 @@ public class CombinedUnicodeRangeMatcher
     @Override
     public boolean isStarterChar(final char c)
     {
-        return c >= bmp.cLow && c <= bmp.cHigh
+        return c >= bmp.getLowerBound() && c <= bmp.getUpperBound()
             || supplementary.isStarterChar(c);
     }
 
     @Override
     public char getStarterChar()
     {
-        return (char) Math.min(bmp.cLow, supplementary.getStarterChar());
+        return (char) Math.min(bmp.getLowerBound(),
+            supplementary.getStarterChar());
     }
 
     @Override

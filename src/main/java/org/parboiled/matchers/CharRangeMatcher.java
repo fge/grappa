@@ -16,7 +16,6 @@
 
 package org.parboiled.matchers;
 
-import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.matchervisitors.MatcherVisitor;
@@ -26,27 +25,36 @@ import static org.parboiled.support.Chars.escape;
 /**
  * A {@link Matcher} matching a single character out of a given range of characters.
  */
+@SuppressWarnings("ImplicitNumericConversion")
 public final class CharRangeMatcher
     extends AbstractMatcher
 {
-    @WillBePrivate(version = "1.1")
-    public final char cLow;
-    @WillBePrivate(version = "1.1")
-    public final char cHigh;
+    private final char lowerBound;
+    private final char upperBound;
 
-    public CharRangeMatcher(final char cLow, final char cHigh)
+    public CharRangeMatcher(final char lowerBound, final char upperBound)
     {
-        super(escape(cLow) + ".." + escape(cHigh));
-        Preconditions.checkArgument(cLow < cHigh);
-        this.cLow = cLow;
-        this.cHigh = cHigh;
+        super(escape(lowerBound) + ".." + escape(upperBound));
+        Preconditions.checkArgument(lowerBound < upperBound);
+        this.lowerBound = lowerBound;
+        this.upperBound = upperBound;
+    }
+
+    public char getLowerBound()
+    {
+        return lowerBound;
+    }
+
+    public char getUpperBound()
+    {
+        return upperBound;
     }
 
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
         final char c = context.getCurrentChar();
-        if (c < cLow || c > cHigh)
+        if (c < lowerBound || c > upperBound)
             return false;
 
         context.advanceIndex(1);

@@ -69,13 +69,14 @@ public final class IsStarterCharVisitor
     @Override
     public Boolean visit(final CharIgnoreCaseMatcher matcher)
     {
-        return matcher.charLow == starterChar || matcher.charUp == starterChar;
+        return matcher.getLowerBound() == starterChar
+            || matcher.getUpperBound() == starterChar;
     }
 
     @Override
     public Boolean visit(final CharMatcher matcher)
     {
-        return matcher.character == starterChar;
+        return matcher.getCharacter() == starterChar;
     }
 
     @Override
@@ -84,10 +85,12 @@ public final class IsStarterCharVisitor
         return matcher.isStarterChar(starterChar);
     }
 
+    @SuppressWarnings("ImplicitNumericConversion")
     @Override
     public Boolean visit(final CharRangeMatcher matcher)
     {
-        return matcher.cLow <= starterChar && starterChar <= matcher.cHigh;
+        return matcher.getLowerBound() <= starterChar
+            && starterChar <= matcher.getUpperBound();
     }
 
     @Override

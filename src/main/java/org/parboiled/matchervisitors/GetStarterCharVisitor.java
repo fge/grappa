@@ -61,19 +61,19 @@ public final class GetStarterCharVisitor
     @Override
     public Character visit(final CharIgnoreCaseMatcher matcher)
     {
-        return matcher.charLow;
+        return matcher.getLowerBound();
     }
 
     @Override
     public Character visit(final CharMatcher matcher)
     {
-        return matcher.character;
+        return matcher.getCharacter();
     }
 
     @Override
     public Character visit(final CharRangeMatcher matcher)
     {
-        return matcher.cLow;
+        return matcher.getLowerBound();
     }
 
     @Override
