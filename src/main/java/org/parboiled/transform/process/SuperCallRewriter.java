@@ -16,7 +16,6 @@
 
 package org.parboiled.transform.process;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
@@ -34,8 +33,7 @@ import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
 /**
  * Replaces the method code with a simple call to the super method.
  */
-@WillBeFinal(version = "1.1")
-public class SuperCallRewriter
+public final class SuperCallRewriter
     implements RuleMethodProcessor
 {
     @Override

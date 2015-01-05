@@ -28,8 +28,7 @@ import javax.annotation.Nonnull;
  * Removes all unused labels.
  */
 @WillBeFinal(version = "1.1")
-// TODO: is it really useful?
-public class UnusedLabelsRemover
+public final class UnusedLabelsRemover
     implements RuleMethodProcessor
 {
 
