@@ -55,9 +55,7 @@ import org.parboiled.matchervisitors.MatcherVisitor;
  * used).</p>
  *
  * <p>This matcher is not built directly; its build is initiated by a {@link
- * JoinMatcherBootstrap}. Using the {@code JoinParser} base parser mentioned
- * above, here is how you would, for instance, build a rule where you want a
- * sequence of three digits separated by dots:</p>
+ * JoinMatcherBootstrap}. Example:</p>
  *
  * <pre>
  *     Rule threeDigitsExactly()

@@ -16,7 +16,6 @@
 
 package org.parboiled;
 
-import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 import com.github.parboiled1.grappa.stack.ValueStack;
 import com.google.common.base.Preconditions;
 import org.parboiled.annotations.SuppressNode;
@@ -408,82 +407,6 @@ public abstract class BaseActions<V>
     {
         check();
         context.getValueStack().swap(n);
-        return true;
-    }
-
-    /**
-     * Reverses the order of the top 3 value stack elements.
-     *
-     * @return true
-     *
-     * @throws GrammarException if the stack does not contain at least 3
-     * elements
-     *
-     * @deprecated use {@link #swap(int)} instead
-     */
-    @Deprecated
-    @WillBeRemoved(version = "1.1")
-    public boolean swap3()
-    {
-        check();
-        context.getValueStack().swap(3);
-        return true;
-    }
-
-    /**
-     * Reverses the order of the top 4 value stack elements.
-     *
-     * @return true
-     *
-     * @throws GrammarException if the stack does not contain at least 4
-     * elements
-     *
-     * @deprecated use {@link #swap(int)} instead
-     */
-    @Deprecated
-    @WillBeRemoved(version = "1.1")
-    public boolean swap4()
-    {
-        check();
-        context.getValueStack().swap(4);
-        return true;
-    }
-
-    /**
-     * Reverses the order of the top 5 value stack elements.
-     *
-     * @return true
-     *
-     * @throws GrammarException if the stack does not contain at least 5
-     * elements
-     *
-     * @deprecated use {@link #swap(int)} instead
-     */
-    @Deprecated
-    @WillBeRemoved(version = "1.1")
-    public boolean swap5()
-    {
-        check();
-        context.getValueStack().swap(5);
-        return true;
-    }
-
-    /**
-     * Reverses the order of the top 6 value stack elements.
-     *
-     * @return true
-     *
-     * @throws GrammarException if the stack does not contain at least 6
-     * elements
-     *
-     * @deprecated use {@link #swap(int)} instead
-     */
-    @Deprecated
-    @WillBeRemoved(version = "1.1")
-    public boolean swap6()
-    {
-        check();
-        context.getValueStack().swap(6);
         return true;
     }
 
