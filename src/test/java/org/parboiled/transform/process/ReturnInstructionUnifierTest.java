@@ -26,13 +26,11 @@ import java.util.List;
 
 import static org.parboiled.transform.AsmTestUtils.assertTraceDumpEquality;
 
-public class ImplicitActionsConverterTest extends TransformationTest {
+public class ReturnInstructionUnifierTest extends TransformationTest {
 
     private final List<RuleMethodProcessor> processors = ImmutableList.of(
             new UnusedLabelsRemover(),
-            new ReturnInstructionUnifier(),
-            new InstructionGraphCreator(),
-            new ImplicitActionsConverter()
+            new ReturnInstructionUnifier()
     );
 
     @BeforeClass
@@ -43,57 +41,69 @@ public class ImplicitActionsConverterTest extends TransformationTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testReturnInstructionUnification() throws Exception {
-        assertTraceDumpEquality(processMethod("RuleWithIndirectImplicitAction", processors), "" +
-                "    ALOAD 0\n" +
-                "    BIPUSH 97\n" +
-                "    INVOKESTATIC java/lang/Character.valueOf (C)Ljava/lang/Character;\n" +
-                "    BIPUSH 98\n" +
-                "    INVOKESTATIC java/lang/Character.valueOf (C)Ljava/lang/Character;\n" +
-                "    ICONST_1\n" +
-                "    ANEWARRAY java/lang/Object\n" +
-                "    DUP\n" +
-                "    ICONST_0\n" +
-                "    ALOAD 0\n" +
-                "    INVOKEVIRTUAL org/parboiled/transform/TestParser.action ()Z\n" +
-                "    IFNE L0\n" +
-                "    ALOAD 0\n" +
-                "    GETFIELD org/parboiled/transform/TestParser.integer : I\n" +
-                "    ICONST_5\n" +
-                "    IF_ICMPNE L1\n" +
+        assertTraceDumpEquality(processMethod("RuleWithSwitchAndAction", processors), "" +
+                "    ILOAD 1\n" +
+                "    LOOKUPSWITCH\n" +
+                "      0: L0\n" +
+                "      default: L1\n" +
                 "   L0\n" +
+                "    ALOAD 0\n" +
+                "    GETSTATIC org/parboiled/transform/TestParser.EMPTY : Lorg/parboiled/Rule;\n" +
+                "    ALOAD 0\n" +
                 "    ICONST_1\n" +
+                "    INVOKESTATIC java/lang/Integer.valueOf (I)Ljava/lang/Integer;\n" +
+                "    INVOKEVIRTUAL org/parboiled/transform/TestParser.push (Ljava/lang/Object;)Z\n" +
+                "    INVOKESTATIC java/lang/Boolean.valueOf (Z)Ljava/lang/Boolean;\n" +
+                "    ICONST_0\n" +
+                "    ANEWARRAY java/lang/Object\n" +
+                "    INVOKEVIRTUAL org/parboiled/transform/TestParser.sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lorg/parboiled/Rule;\n" +
                 "    GOTO L2\n" +
                 "   L1\n" +
-                "    ICONST_0\n" +
+                "    ACONST_NULL\n" +
                 "   L2\n" +
-                "    INVOKESTATIC org/parboiled/BaseParser.ACTION (Z)Lorg/parboiled/Action;\n" +
-                "    AASTORE\n" +
-                "    INVOKEVIRTUAL org/parboiled/transform/TestParser.sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lorg/parboiled/Rule;\n" +
                 "    ARETURN\n");
 
-        assertTraceDumpEquality(processMethod("RuleWithDirectImplicitAction", processors), "" +
+        assertTraceDumpEquality(processMethod("RuleWith2Returns", processors), "" +
+                "    ILOAD 1\n" +
+                "    ALOAD 0\n" +
+                "    GETFIELD org/parboiled/transform/TestParser.integer : I\n" +
+                "    IF_ICMPNE L0\n" +
                 "    ALOAD 0\n" +
                 "    BIPUSH 97\n" +
                 "    INVOKESTATIC java/lang/Character.valueOf (C)Ljava/lang/Character;\n" +
                 "    ALOAD 0\n" +
+                "    INVOKEVIRTUAL org/parboiled/transform/TestParser.action ()Z\n" +
+                "    INVOKESTATIC org/parboiled/transform/TestParser.ACTION (Z)Lorg/parboiled/Action;\n" +
+                "    ICONST_0\n" +
+                "    ANEWARRAY java/lang/Object\n" +
+                "    INVOKEVIRTUAL org/parboiled/transform/TestParser.sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lorg/parboiled/Rule;\n" +
+                "    GOTO L1\n" +
+                "   L0\n" +
+                "    GETSTATIC org/parboiled/transform/TestParser.EOI : Lorg/parboiled/Rule;\n" +
+                "   L1\n" +
+                "    ARETURN\n");
+
+        assertTraceDumpEquality(processMethod("RuleWithDirectExplicitAction", processors), "" +
+                "    ALOAD 0\n" +
+                "    BIPUSH 97\n" +
+                "    INVOKESTATIC java/lang/Character.valueOf (C)Ljava/lang/Character;\n" +
+                "    ALOAD 0\n" +
+                "    INVOKEVIRTUAL org/parboiled/transform/TestParser.action ()Z\n" +
+                "    IFEQ L0\n" +
+                "    ALOAD 0\n" +
                 "    GETFIELD org/parboiled/transform/TestParser.integer : I\n" +
-                "    IFNE L0\n" +
+                "    IFLE L0\n" +
                 "    ICONST_1\n" +
                 "    GOTO L1\n" +
                 "   L0\n" +
                 "    ICONST_0\n" +
                 "   L1\n" +
-                "    INVOKESTATIC org/parboiled/BaseParser.ACTION (Z)Lorg/parboiled/Action;\n" +
-                "    ICONST_2\n" +
+                "    INVOKESTATIC org/parboiled/transform/TestParser.ACTION (Z)Lorg/parboiled/Action;\n" +
+                "    ICONST_1\n" +
                 "    ANEWARRAY java/lang/Object\n" +
                 "    DUP\n" +
                 "    ICONST_0\n" +
                 "    BIPUSH 98\n" +
-                "    INVOKESTATIC java/lang/Character.valueOf (C)Ljava/lang/Character;\n" +
-                "    AASTORE\n" +
-                "    DUP\n" +
-                "    ICONST_1\n" +
-                "    BIPUSH 99\n" +
                 "    INVOKESTATIC java/lang/Character.valueOf (C)Ljava/lang/Character;\n" +
                 "    AASTORE\n" +
                 "    INVOKEVIRTUAL org/parboiled/transform/TestParser.sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lorg/parboiled/Rule;\n" +

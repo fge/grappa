@@ -35,6 +35,7 @@ public class ActionClassGeneratorTest extends TransformationTest {
 
     private final List<RuleMethodProcessor> processors = ImmutableList.of(
             new UnusedLabelsRemover(),
+            new ReturnInstructionUnifier(),
             new InstructionGraphCreator(),
             new ImplicitActionsConverter(),
             new InstructionGroupCreator(),
