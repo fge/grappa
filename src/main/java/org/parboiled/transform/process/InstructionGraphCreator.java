@@ -22,7 +22,6 @@
 
 package org.parboiled.transform.process;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.tree.analysis.Analyzer;
 import org.objectweb.asm.tree.analysis.BasicValue;
@@ -35,8 +34,7 @@ import javax.annotation.Nonnull;
 /**
  * Performs data/control flow analysis and constructs the instructions graph.
  */
-@WillBeFinal(version = "1.1")
-public class InstructionGraphCreator
+public final class InstructionGraphCreator
     implements RuleMethodProcessor
 {
     @Override
@@ -56,38 +54,39 @@ public class InstructionGraphCreator
         throws Exception
     {
         Preconditions.checkNotNull(method, "method");
+
         final RuleMethodInterpreter interpreter
             = new RuleMethodInterpreter(method);
         final RuleMethodAnalyzer analyzer = new RuleMethodAnalyzer(interpreter);
-        analyzer.analyze(classNode.name, method);
-        interpreter.finish();
 
+        analyzer.analyze(classNode.name, method);
+
+        interpreter.finish();
     }
 
     // TODO: probably needs a rewrite; I have a hunch this is a gross hack
     private static final class RuleMethodAnalyzer
         extends Analyzer<BasicValue>
     {
-        private final RuleMethodInterpreter rmi;
+        private final RuleMethodInterpreter interpreter;
 
-        private RuleMethodAnalyzer(final RuleMethodInterpreter rmi)
+        private RuleMethodAnalyzer(final RuleMethodInterpreter interpreter)
         {
-            super(Preconditions.checkNotNull(rmi));
-            this.rmi = rmi;
+            super(Preconditions.checkNotNull(interpreter));
+            this.interpreter = interpreter;
         }
 
         @Override
-        protected void newControlFlowEdge(final int insn,
-            final int successor)
+        protected void newControlFlowEdge(final int insn, final int successor)
         {
-            rmi.newControlFlowEdge(insn, successor);
+            interpreter.newControlFlowEdge(insn, successor);
         }
 
         @Override
         protected boolean newControlFlowExceptionEdge(final int insn,
             final int successor)
         {
-            rmi.newControlFlowEdge(insn, successor);
+            interpreter.newControlFlowEdge(insn, successor);
             return true;
         }
     }

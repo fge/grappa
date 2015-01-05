@@ -16,7 +16,6 @@
 
 package org.parboiled.transform.process;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import me.qmx.jitescript.util.CodegenUtils;
@@ -44,8 +43,7 @@ import static org.parboiled.transform.AsmUtils.isBooleanValueOfZ;
 /**
  * Makes all implicit action expressions in a rule method explicit.
  */
-@WillBeFinal(version = "1.1")
-public class ImplicitActionsConverter
+public final class ImplicitActionsConverter
     implements RuleMethodProcessor
 {
 
@@ -78,6 +76,7 @@ public class ImplicitActionsConverter
     {
         if (covered.contains(node))
             return;
+
         covered.add(node);
 
         if (isImplicitAction(node)) {
@@ -85,6 +84,7 @@ public class ImplicitActionsConverter
             method.setContainsExplicitActions(true);
             return;
         }
+
         if (node.isActionRoot())
             return;
 
@@ -134,7 +134,9 @@ public class ImplicitActionsConverter
         // an Object parameter ?
         final Type[] argTypes = Type.getArgumentTypes(methodNode.desc);
         final int argIndex = getArgumentIndex(dependent, node);
+
         Preconditions.checkState(argIndex < argTypes.length);
+
         final String typeName = argTypes[argIndex].getInternalName();
         return CodegenUtils.p(Object.class).equals(typeName);
     }
@@ -148,12 +150,15 @@ public class ImplicitActionsConverter
 
         // Does this instruction store into an array of Object ?
         final List<InstructionGraphNode> dependents = getDependents(node);
+
         // an AASTORE instruction should have exactly one dependent
         Preconditions.checkState(dependents.size() == 1);
+
         final AbstractInsnNode newArrayInsn
             = dependents.get(0).getInstruction();
         // which should be a n ANEWARRAY instruction
         Preconditions.checkState(newArrayInsn.getOpcode() == ANEWARRAY);
+
         final String desc = ((TypeInsnNode) newArrayInsn).desc;
         return CodegenUtils.p(Object.class).equals(desc);
     }
@@ -163,12 +168,15 @@ public class ImplicitActionsConverter
     {
         final int startIndex
             = callNode.getInstruction().getOpcode() == INVOKESTATIC ? 0 : 1;
+
         InstructionGraphNode argumentNode;
+
         for (int i = startIndex; i < callNode.getPredecessors().size(); i++) {
             argumentNode = callNode.getPredecessors().get(i);
             if (predecessor.equals(argumentNode))
                 return i - startIndex;
         }
+
         throw new IllegalStateException();
     }
 
@@ -176,6 +184,7 @@ public class ImplicitActionsConverter
         final InstructionGraphNode predecessor)
     {
         final List<InstructionGraphNode> dependents = Lists.newArrayList();
+
         for (final InstructionGraphNode node: method.getGraphNodes())
             if (node.getPredecessors().contains(predecessor))
                 dependents.add(node);

@@ -22,10 +22,8 @@
 
 package org.parboiled.transform.process;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.transform.cache.ClassCache;
 import com.google.common.base.Preconditions;
-import com.google.common.primitives.Ints;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.MethodInsnNode;
@@ -53,8 +51,7 @@ import static org.parboiled.transform.AsmUtils.getClassConstructor;
 import static org.parboiled.transform.AsmUtils.getClassField;
 import static org.parboiled.transform.AsmUtils.getClassMethod;
 
-@WillBeFinal(version = "1.1")
-public class InstructionGroupCreator
+public final class InstructionGroupCreator
     implements RuleMethodProcessor
 {
     private final Map<String, Integer> memberModifiers
@@ -95,9 +92,11 @@ public class InstructionGroupCreator
     private void createGroups()
     {
         InstructionGroup group;
+
         for (final InstructionGraphNode node: method.getGraphNodes()) {
             if (!(node.isActionRoot() || node.isVarInitRoot()))
                 continue;
+
             group = new InstructionGroup(node);
             markGroup(node, group);
             method.getGroups().add(group);
@@ -106,10 +105,10 @@ public class InstructionGroupCreator
 
     private void markGroup(
         final InstructionGraphNode node, final InstructionGroup group) {
-        Checks.ensure(node == group.getRoot()
-            || (!node.isActionRoot() && !node.isVarInitRoot()),
-            "Method '%s' contains illegal nesting of ACTION and/or Var" +
-            " initializer constructs", method.name);
+        final boolean condition = node == group.getRoot()
+            || !node.isActionRoot() && !node.isVarInitRoot();
+        Checks.ensure(condition, "Method '%s' contains illegal nesting of "
+            + "ACTION and/or Var initializer constructs", method.name);
 
         if (node.getGroup() != null)
             return; // already visited
@@ -143,11 +142,13 @@ public class InstructionGroupCreator
         boolean keepGoing;
         List<InstructionGraphNode> graphNodes;
         int startIndex, endIndex;
+
         do {
             keepGoing = false;
             graphNodes = method.getGraphNodes();
             startIndex = getIndexOfFirstInsn(group);
             endIndex = getIndexOfLastInsn(group);
+
             for (int i = startIndex; i < endIndex; i++) {
                 node = graphNodes.get(i);
                 if (node.getGroup() != null)
@@ -170,16 +171,18 @@ public class InstructionGroupCreator
         Preconditions.checkState(nodes.get(sizeMinus1) == group.getRoot());
 
         InstructionGraphNode node;
+
         for (int i = 0; i < sizeMinus1; i++) {
             node = nodes.get(i);
-            Checks.ensure(!node.isXStore(),
-                "An ACTION or Var initializer in rule method '%s' "
-                + "contains illegal writes to a local variable or parameter",
+            Checks.ensure(!node.isXStore(), "An ACTION or Var initializer in "
+                + "rule method '%s' contains illegal writes to a local variable"
+                + " or parameter",
                 method.name);
             verifyAccess(node);
         }
 
         final int i = getIndexOfLastInsn(group) - getIndexOfFirstInsn(group);
+
         Checks.ensure(i == sizeMinus1, "Error during bytecode analysis of" +
             " rule method '%s': discontinuous group block", method.name);
     }
@@ -298,7 +301,7 @@ public class InstructionGroupCreator
         {
             final int i1 = instructions.indexOf(o1.getInstruction());
             final int i2 = instructions.indexOf(o2.getInstruction());
-            return Ints.compare(i1, i2);
+            return Integer.compare(i1, i2);
         }
     }
 }
