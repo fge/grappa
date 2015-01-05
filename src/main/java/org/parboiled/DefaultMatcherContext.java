@@ -533,6 +533,7 @@ public final class DefaultMatcherContext<V>
                 e);
             final BasicParseError error = new BasicParseError(inputBuffer,
                 currentIndex, CharsEscaper.INSTANCE.escape(msg));
+            // TODO: UGLY
             throw new ParserRuntimeException(e, printParseError(error));
         }
     }
