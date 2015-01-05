@@ -1409,6 +1409,12 @@ public final class CodeBlock
         return this;
     }
 
+    public CodeBlock addAll(final InsnList insnList)
+    {
+        instructionList.add(insnList);
+        return this;
+    }
+
     public int arity()
     {
         return arity;

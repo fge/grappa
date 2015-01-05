@@ -17,18 +17,14 @@
 package org.parboiled.transform.process;
 
 import com.github.parboiled1.grappa.annotations.WillBeFinal;
+import com.github.parboiled1.grappa.transform.CodeBlock;
 import com.google.common.base.Preconditions;
-import org.objectweb.asm.tree.InsnNode;
-import org.objectweb.asm.tree.MethodInsnNode;
-import org.objectweb.asm.tree.VarInsnNode;
+import org.objectweb.asm.tree.InsnList;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
 
 import javax.annotation.Nonnull;
 
-import static org.objectweb.asm.Opcodes.ALOAD;
-import static org.objectweb.asm.Opcodes.ARETURN;
-import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
 import static org.parboiled.transform.AsmUtils.createArgumentLoaders;
 
 /**
@@ -60,12 +56,15 @@ public class BodyWithSuperCallReplacer
         Preconditions.checkNotNull(classNode, "classNode");
         Preconditions.checkNotNull(method, "method");
         // replace all method code with a simple call to the super method
+        final String parentDesc = classNode.getParentType().getInternalName();
+        final InsnList argumentLoaders = createArgumentLoaders(method.desc);
+        final CodeBlock block = CodeBlock.newCodeBlock()
+            .aload(0)
+            .addAll(argumentLoaders)
+            // TODO: create .invokeSpecial with MethodNode argument?
+            .invokespecial(parentDesc, method.name, method.desc)
+            .areturn();
         method.instructions.clear();
-        method.instructions.add(new VarInsnNode(ALOAD, 0));
-        method.instructions.add(createArgumentLoaders(method.desc));
-        method.instructions.add(new MethodInsnNode(INVOKESPECIAL,
-            classNode.getParentType().getInternalName(), method.name,
-            method.desc, false));
-        method.instructions.add(new InsnNode(ARETURN));
+        method.instructions.add(block.getInstructionList());
     }
 }
