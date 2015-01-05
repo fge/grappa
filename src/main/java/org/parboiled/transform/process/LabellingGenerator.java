@@ -95,7 +95,7 @@ public final class LabellingGenerator
             final String labelValue = (String) annotation.values.get(1);
             return labelValue.isEmpty() ? method.name : labelValue;
         }
-        
+
         return method.name;
     }
 }
