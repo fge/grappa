@@ -3,4 +3,5 @@
 * ValueStacks: remove .swap[3456]() methods, .put(Iterable).
 * ValueStacks: null values are no more allowed.
 * Use a modified version of jitescript's CodeBlock in bytecode rewriters
+* A lot of classes/methods/variables are final
 
