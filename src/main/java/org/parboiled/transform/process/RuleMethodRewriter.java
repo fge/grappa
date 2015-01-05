@@ -23,6 +23,7 @@
 package org.parboiled.transform.process;
 
 import com.github.parboiled1.grappa.annotations.WillBeFinal;
+import com.github.parboiled1.grappa.transform.CodeBlock;
 import com.github.parboiled1.grappa.transform.asm.LoadingOpcode;
 import com.google.common.base.Preconditions;
 import me.qmx.jitescript.util.CodegenUtils;
@@ -30,10 +31,9 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.FieldNode;
+import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.InsnNode;
-import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
-import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
 import org.parboiled.common.Factory;
 import org.parboiled.transform.InstructionGraphNode;
@@ -44,9 +44,6 @@ import org.parboiled.transform.RuleMethod;
 import javax.annotation.Nonnull;
 
 import static org.objectweb.asm.Opcodes.DUP;
-import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
-import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
-import static org.objectweb.asm.Opcodes.NEW;
 import static org.objectweb.asm.Opcodes.PUTFIELD;
 
 /**
@@ -84,14 +81,16 @@ public class RuleMethodRewriter
             initializeFields(group);
 
             final InstructionGraphNode root = group.getRoot();
-            if (root.isActionRoot()) {
-                removeGroupRootInstruction(group);
-            } else { // if (root.isVarInitRoot())
+            final AbstractInsnNode rootInsn = root.getInstruction();
+
+            if (root.isActionRoot())
+                method.instructions.remove(rootInsn);
+            else  // if (root.isVarInitRoot())
                 // TODO: replace with Supplier
-                ((MethodInsnNode) root.getInstruction()).desc
-                    = CodegenUtils.sig(void.class, Factory.class);
-            }
+                ((MethodInsnNode) rootInsn).desc = CodegenUtils.sig(void.class,
+                    Factory.class);
         }
+
         method.setBodyRewritten();
     }
 
@@ -100,47 +99,55 @@ public class RuleMethodRewriter
         final String internalName
             = group.getGroupClassType().getInternalName();
         final InstructionGraphNode root = group.getRoot();
-        insert(group, new TypeInsnNode(NEW, internalName));
-        insert(group, new InsnNode(DUP));
-        insert(group, new LdcInsnNode(
-            method.name + (root.isActionRoot() ? "_Action" + ++actionNr
-                : "_VarInit" + ++varInitNr)));
-        insert(group, new MethodInsnNode(INVOKESPECIAL, internalName, "<init>",
-            CodegenUtils.sig(void.class, String.class), false));
+        final AbstractInsnNode rootInsn = root.getInstruction();
+        final InsnList insnList = method.instructions;
+        final String constant = method.name + (root.isActionRoot() ? "_Action"
+            + ++actionNr : "_VarInit" + ++varInitNr);
+
+        final CodeBlock block = CodeBlock.newCodeBlock();
+
+        block.newobj(internalName)
+            .dup()
+            .ldc(constant)
+            .invokespecial(internalName, "<init>",
+                CodegenUtils.sig(void.class, String.class));
+
+
 
         if (root.isActionRoot()
-            && method.hasSkipActionsInPredicatesAnnotation()) {
-            insert(group, new InsnNode(DUP));
-            insert(group, new MethodInsnNode(INVOKEVIRTUAL, internalName,
-                "setSkipInPredicates", CodegenUtils.sig(void.class), false));
-        }
+            && method.hasSkipActionsInPredicatesAnnotation())
+            block.dup().invokevirtual(internalName, "setSkipInPredicates",
+                CodegenUtils.sig(void.class));
+
+        insnList.insertBefore(rootInsn, block.getInstructionList());
     }
 
     private void initializeFields(final InstructionGroup group)
     {
         final String internalName
             = group.getGroupClassType().getInternalName();
+
+        InsnList insnList;
+        AbstractInsnNode rootInsn;
+        int opcode;
+        VarInsnNode varNode;
+        FieldInsnNode fieldNode;
+
         for (final FieldNode field: group.getFields()) {
-            insert(group, new InsnNode(DUP));
+            insnList = method.instructions;
+            rootInsn = group.getRoot().getInstruction();
+            // TODO: replace with method in CodeBlock?
+            opcode = LoadingOpcode.forType((Type) field.value);
+            varNode = new VarInsnNode(opcode, field.access);
+            fieldNode = new FieldInsnNode(PUTFIELD, internalName, field.name,
+                field.desc);
+
+            insnList.insertBefore(rootInsn, new InsnNode(DUP));
             // the FieldNodes access and value members have been reused for the
             // var index / Type respectively!
-            final int opcode = LoadingOpcode.forType((Type) field.value);
-            insert(group, new VarInsnNode(opcode, field.access));
-            insert(group, new FieldInsnNode(PUTFIELD, internalName, field.name,
-                field.desc));
+            insnList.insertBefore(rootInsn, varNode);
+            insnList.insertBefore(rootInsn, fieldNode);
         }
-    }
-
-    private void insert(final InstructionGroup group,
-        final AbstractInsnNode insn)
-    {
-        method.instructions.insertBefore(group.getRoot().getInstruction(),
-            insn);
-    }
-
-    private void removeGroupRootInstruction(final InstructionGroup group)
-    {
-        method.instructions.remove(group.getRoot().getInstruction());
     }
 }
 
