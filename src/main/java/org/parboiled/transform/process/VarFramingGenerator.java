@@ -39,7 +39,6 @@ import static org.objectweb.asm.Opcodes.ARETURN;
 public final class VarFramingGenerator
     implements RuleMethodProcessor
 {
-
     @Override
     public boolean appliesTo(@Nonnull final ParserClassNode classNode,
         @Nonnull final RuleMethod method)

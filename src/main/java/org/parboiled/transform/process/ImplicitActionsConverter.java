@@ -46,7 +46,6 @@ import static org.parboiled.transform.AsmUtils.isBooleanValueOfZ;
 public final class ImplicitActionsConverter
     implements RuleMethodProcessor
 {
-
     private final Set<InstructionGraphNode> covered
         = new HashSet<InstructionGraphNode>();
     private RuleMethod method;

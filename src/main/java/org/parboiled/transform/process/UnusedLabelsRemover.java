@@ -31,7 +31,6 @@ import javax.annotation.Nonnull;
 public final class UnusedLabelsRemover
     implements RuleMethodProcessor
 {
-
     @Override
     public boolean appliesTo(@Nonnull final ParserClassNode classNode,
         @Nonnull final RuleMethod method)
