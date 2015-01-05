@@ -22,7 +22,6 @@
 
 package org.parboiled.transform.process;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.transform.CodeBlock;
 import com.github.parboiled1.grappa.transform.asm.LoadingOpcode;
 import com.google.common.base.Preconditions;
@@ -50,8 +49,7 @@ import static org.objectweb.asm.Opcodes.PUTFIELD;
  * Inserts action group class instantiation code at the groups respective
  * placeholders.
  */
-@WillBeFinal(version = "1.1")
-public class RuleMethodRewriter
+public final class RuleMethodRewriter
     implements RuleMethodProcessor
 {
     private RuleMethod method;
@@ -111,8 +109,6 @@ public class RuleMethodRewriter
             .ldc(constant)
             .invokespecial(internalName, "<init>",
                 CodegenUtils.sig(void.class, String.class));
-
-
 
         if (root.isActionRoot()
             && method.hasSkipActionsInPredicatesAnnotation())
