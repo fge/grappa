@@ -33,7 +33,6 @@ import org.parboiled.annotations.DontLabel;
 import org.parboiled.annotations.SkipActionsInPredicates;
 import org.parboiled.annotations.SuppressNode;
 import org.parboiled.annotations.SuppressSubnodes;
-import org.parboiled.buffers.IndentDedentInputBuffer;
 import org.parboiled.errors.GrammarException;
 import org.parboiled.matchers.ActionMatcher;
 import org.parboiled.matchers.AnyMatcher;
@@ -75,18 +74,6 @@ public abstract class BaseParser<V>
      * Matches the {@link Chars#EOI} (end of input) character.
      */
     public static final Rule EOI = new CharMatcher(Chars.EOI);
-
-    /**
-     * Matches the special {@link Chars#INDENT} character produced by an {@link
-     * IndentDedentInputBuffer}
-     */
-    public static final Rule INDENT = new CharMatcher(Chars.INDENT);
-
-    /**
-     * Matches the special {@link Chars#DEDENT} character produced by an {@link
-     * IndentDedentInputBuffer}
-     */
-    public static final Rule DEDENT = new CharMatcher(Chars.DEDENT);
 
     /**
      * Matches any character except {@link Chars#EOI}.

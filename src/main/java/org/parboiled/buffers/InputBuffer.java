@@ -78,11 +78,9 @@ public interface InputBuffer
 
     /**
      * Translates the given index from the scope of this InputBuffer to the
-     * scope of the original, underlying char array. The {@link
-     * DefaultInputBuffer} implementation simply returns the given index, but
-     * other implementations like {@link IndentDedentInputBuffer} or {@link
-     * MutableInputBuffer} need to "undo" all compressions and index shiftings
-     * performed internally in order to return the underlying index.
+     * scope of the original, underlying char array.
+     *
+     * <p>This method is currently only used by {@link MutableInputBuffer}.</p>
      *
      * @param index the index relative to this InputBuffer
      * @return the index relative to the underlying string or char array

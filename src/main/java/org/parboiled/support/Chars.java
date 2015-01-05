@@ -18,7 +18,6 @@ package org.parboiled.support;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
-import org.parboiled.buffers.IndentDedentInputBuffer;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -64,18 +63,6 @@ public final class Chars
      */
     public static final char EOI = '\uFFFF';
 
-    /**
-     * Special non-character used by the {@link IndentDedentInputBuffer}.
-     */
-    @Deprecated
-    public static final char INDENT = '\uFDD0';
-
-    /**
-     * Special non-character used by the {@link IndentDedentInputBuffer}.
-     */
-    @Deprecated
-    public static final char DEDENT = '\uFDD1';
-
     private static final Map<Character, String> ESCAPE_MAP
         = ImmutableMap.<Character, String>builder()
         .put('\r', "\\r")
@@ -88,8 +75,6 @@ public final class Chars
         .put(RESYNC_START, "RESYNC_START")
         .put(RESYNC_END, "RESYNC_END")
         .put(RESYNC_EOI, "RESYNC_EOI")
-        .put(INDENT, "INDENT")
-        .put(DEDENT, "DEDENT")
         .put(EOI, "EOI")
         .build();
 
