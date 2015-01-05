@@ -16,8 +16,6 @@
 
 package org.parboiled.common;
 
-import com.github.parboiled1.grappa.annotations.DoNotUse;
-import com.github.parboiled1.grappa.annotations.WillBeRemoved;
 import com.google.common.base.Optional;
 
 import javax.annotation.Nonnull;
@@ -100,24 +98,6 @@ public class Reference<T>
 
 
     /**
-     * DO NOT USE
-     *
-     * Retrieves this references value field and clears it.
-     * Equivalent to getAndSet(null).
-     *
-     * @return the target
-     *
-     * @deprecated not used!
-     */
-    @DoNotUse
-    @Deprecated
-    @WillBeRemoved(version = "1.1")
-    public T getAndClear()
-    {
-        return getAndSet(null);
-    }
-
-    /**
      * Replaces this references value with the given one.
      *
      * @param value the new value
@@ -131,35 +111,10 @@ public class Reference<T>
     }
 
     /**
-     * Replaces this references value with the given one.
-     *
-     * @param value the new value
-     * @return the new value
-     */
-    @DoNotUse
-    @Deprecated
-    @WillBeRemoved(version = "1.1")
-    public T setAndGet(final T value)
-    {
-        return this.value = value;
-    }
-
-    /**
      * @return true if this Reference holds a non-null value
      */
     public final boolean isSet()
     {
         return value != null;
-    }
-
-    /**
-     * @return true if this Reference holds a null value
-     */
-    @Deprecated
-    @DoNotUse
-    @WillBeRemoved(version = "1.1")
-    public boolean isNotSet()
-    {
-        return value == null;
     }
 }
