@@ -319,9 +319,9 @@ public final class CodeBlock
         return this;
     }
 
-    public CodeBlock newobj(final String arg0)
+    public CodeBlock newobj(final String desc)
     {
-        instructionList.add(new TypeInsnNode(NEW, arg0));
+        instructionList.add(new TypeInsnNode(NEW, desc));
         return this;
     }
 

@@ -22,23 +22,15 @@
 
 package org.parboiled.transform.process;
 
-import com.github.parboiled1.grappa.annotations.DoNotUse;
 import com.github.parboiled1.grappa.annotations.WillBeFinal;
-import com.github.parboiled1.grappa.annotations.WillBePrivate;
+import com.github.parboiled1.grappa.transform.CodeBlock;
 import com.google.common.base.Preconditions;
 import me.qmx.jitescript.util.CodegenUtils;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
-import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.InsnList;
-import org.objectweb.asm.tree.InsnNode;
-import org.objectweb.asm.tree.IntInsnNode;
-import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.LabelNode;
-import org.objectweb.asm.tree.MethodInsnNode;
-import org.objectweb.asm.tree.TypeInsnNode;
-import org.objectweb.asm.tree.VarInsnNode;
 import org.parboiled.Rule;
 import org.parboiled.matchers.Matcher;
 import org.parboiled.matchers.ProxyMatcher;
@@ -49,31 +41,8 @@ import org.parboiled.transform.RuleMethod;
 import javax.annotation.Nonnull;
 import java.util.HashMap;
 
-import static org.objectweb.asm.Opcodes.AASTORE;
 import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
-import static org.objectweb.asm.Opcodes.ALOAD;
-import static org.objectweb.asm.Opcodes.ANEWARRAY;
 import static org.objectweb.asm.Opcodes.ARETURN;
-import static org.objectweb.asm.Opcodes.ASTORE;
-import static org.objectweb.asm.Opcodes.BIPUSH;
-import static org.objectweb.asm.Opcodes.CHECKCAST;
-import static org.objectweb.asm.Opcodes.DLOAD;
-import static org.objectweb.asm.Opcodes.DUP;
-import static org.objectweb.asm.Opcodes.DUP_X1;
-import static org.objectweb.asm.Opcodes.DUP_X2;
-import static org.objectweb.asm.Opcodes.FLOAD;
-import static org.objectweb.asm.Opcodes.GETFIELD;
-import static org.objectweb.asm.Opcodes.IFNONNULL;
-import static org.objectweb.asm.Opcodes.IFNULL;
-import static org.objectweb.asm.Opcodes.ILOAD;
-import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
-import static org.objectweb.asm.Opcodes.INVOKESTATIC;
-import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
-import static org.objectweb.asm.Opcodes.LLOAD;
-import static org.objectweb.asm.Opcodes.NEW;
-import static org.objectweb.asm.Opcodes.POP;
-import static org.objectweb.asm.Opcodes.PUTFIELD;
-import static org.objectweb.asm.Opcodes.SWAP;
 
 /**
  * Wraps the method code with caching and proxying constructs.
@@ -85,7 +54,7 @@ public class CachingGenerator
     private ParserClassNode classNode;
     private RuleMethod method;
     private InsnList instructions;
-    private AbstractInsnNode current;
+    private AbstractInsnNode retInsn;
     private String cacheFieldName;
 
     @Override
@@ -110,35 +79,41 @@ public class CachingGenerator
         this.classNode = classNode;
         this.method = method;
         instructions = method.instructions;
-        current = instructions.getFirst();
+        retInsn = instructions.getLast();
 
-        generateCacheHitReturn();
-        generateStoreNewProxyMatcher();
-        seekToReturnInstruction();
-        generateArmProxyMatcher();
-        generateStoreInCache();
+        while (retInsn.getOpcode() != ARETURN)
+            retInsn = retInsn.getPrevious();
+
+        CodeBlock block;
+
+        block = CodeBlock.newCodeBlock();
+        generateCacheHitReturn(block);
+        generateStoreNewProxyMatcher(block);
+
+        instructions.insert(block.getInstructionList());
+
+        block = CodeBlock.newCodeBlock();
+        generateArmProxyMatcher(block);
+        generateStoreInCache(block);
+
+        instructions.insertBefore(retInsn, block.getInstructionList());
     }
 
     // if (<cache> != null) return <cache>;
-    private void generateCacheHitReturn()
+    private void generateCacheHitReturn(final CodeBlock block)
     {
-        // stack:
-        generateGetFromCache();
-        // stack: <cachedValue>
-        insert(new InsnNode(DUP));
-        // stack: <cachedValue> :: <cachedValue>
-        final LabelNode cacheMissLabel = new LabelNode();
-        insert(new JumpInsnNode(IFNULL, cacheMissLabel));
-        // stack: <cachedValue>
-        insert(new InsnNode(ARETURN));
-        // stack: <null>
-        insert(cacheMissLabel);
-        // stack: <null>
-        insert(new InsnNode(POP));
-        // stack:
+        generateGetFromCache(block);
+
+        final LabelNode cacheMiss = new LabelNode();
+
+        block.dup()
+            .ifnull(cacheMiss)
+            .areturn()
+            .label(cacheMiss)
+            .pop();
     }
 
-    private void generateGetFromCache()
+    private void generateGetFromCache(final CodeBlock block)
     {
         final Type[] paramTypes = Type.getArgumentTypes(method.desc);
         cacheFieldName = findUnusedCacheFieldName();
@@ -150,46 +125,27 @@ public class CachingGenerator
             : CodegenUtils.ci(HashMap.class);
         final FieldNode field = new FieldNode(ACC_PRIVATE, cacheFieldName,
             cacheFieldDesc, null, null);
-        final FieldInsnNode insn = new FieldInsnNode(GETFIELD,
-            classNode.name, cacheFieldName, cacheFieldDesc);
 
         classNode.fields.add(field);
 
-        // stack:
-        insert(new VarInsnNode(ALOAD, 0));
-        // stack: <this>
-        insert(insn);
-        // stack: <cache>
+        block.aload(0).getfield(classNode.name, cacheFieldName, cacheFieldDesc);
 
         if (paramTypes.length == 0)
             return; // if we have no parameters we are done
 
         // generate: if (<cache> == null) <cache> = new HashMap<Object, Rule>();
 
-        // stack: <hashMap>
-        insert(new InsnNode(DUP));
-        // stack: <hashMap> :: <hashMap>
         final LabelNode alreadyInitialized = new LabelNode();
-        insert(new JumpInsnNode(IFNONNULL, alreadyInitialized));
-        // stack: <null>
-        insert(new InsnNode(POP));
-        // stack:
-        insert(new VarInsnNode(ALOAD, 0));
-        // stack: <this>
-        insert(new TypeInsnNode(NEW, CodegenUtils.p(HashMap.class)));
-        // stack: <this> :: <hashMap>
-        insert(new InsnNode(DUP_X1));
-        // stack: <hashMap> :: <this> :: <hashMap>
-        insert(new InsnNode(DUP));
-        // stack: <hashMap> :: <this> :: <hashMap> :: <hashMap>
-        insert(new MethodInsnNode(INVOKESPECIAL, CodegenUtils.p(HashMap.class),
-            "<init>", CodegenUtils.sig(void.class), false));
-        // stack: <hashMap> :: <this> :: <hashMap>
-        insert(new FieldInsnNode(PUTFIELD, classNode.name, cacheFieldName,
-            cacheFieldDesc));
-        // stack: <hashMap>
-        insert(alreadyInitialized);
-        // stack: <hashMap>
+
+        block.dup()
+            .ifnonnull(alreadyInitialized)
+            .pop()
+            .aload(0)
+            .newobj(CodegenUtils.p(HashMap.class)).dup_x1().dup()
+            .invokespecial(CodegenUtils.p(HashMap.class), "<init>",
+                CodegenUtils.sig(void.class))
+            .putfield(classNode.name, cacheFieldName, cacheFieldDesc)
+            .label(alreadyInitialized);
 
         // if we have more than one parameter or the parameter is an array we
         // have to wrap with our Arguments class since we need to unroll all
@@ -198,35 +154,21 @@ public class CachingGenerator
         if (paramTypes.length > 1 || paramTypes[0].getSort() == Type.ARRAY) {
             // generate: push new Arguments(new Object[] {<params>})
 
-            // stack: <hashMap>
-            insert(new TypeInsnNode(NEW, CodegenUtils.p(CacheArguments.class)));
-            // stack: <hashMap> :: <arguments>
-            insert(new InsnNode(DUP));
-            // stack: <hashMap> :: <arguments> :: <arguments>
-            generatePushNewParameterObjectArray(paramTypes);
-            // stack: <hashMap> :: <arguments> :: <arguments> :: <array>
-            insert(new MethodInsnNode(INVOKESPECIAL,
-                CodegenUtils.p(CacheArguments.class), "<init>",
-                CodegenUtils.sig(void.class, Object[].class), false));
-            // stack: <hashMap> :: <arguments>
+            block.newobj(CodegenUtils.p(CacheArguments.class)).dup();
+
+            generatePushNewParameterObjectArray(block, paramTypes);
+
+            block.invokespecial(CodegenUtils.p(CacheArguments.class), "<init>",
+                CodegenUtils.sig(void.class, Object[].class));
         } else {
-            // stack: <hashMap>
-            generatePushParameterAsObject(paramTypes, 0);
-            // stack: <hashMap> :: <param>
+            generatePushParameterAsObject(block, paramTypes, 0);
         }
 
         // generate: <hashMap>.get(...)
 
-        // stack: <hashMap> :: <mapKey>
-        insert(new InsnNode(DUP));
-        // stack: <hashMap> :: <mapKey> :: <mapKey>
-        insert(new VarInsnNode(ASTORE, method.maxLocals));
-        // stack: <hashMap> :: <mapKey>
-        insert(new MethodInsnNode(INVOKEVIRTUAL, CodegenUtils.p(HashMap.class),
-            "get", CodegenUtils.sig(Object.class, Object.class), false));
-        // stack: <object>
-        insert(new TypeInsnNode(CHECKCAST, CodegenUtils.p(Rule.class)));
-        // stack: <rule>
+        block.dup().astore(method.maxLocals)
+            .invokevirtual(CodegenUtils.p(HashMap.class), "get",
+                CodegenUtils.sig(Object.class, Object.class));
     }
 
     private String findUnusedCacheFieldName()
@@ -238,9 +180,7 @@ public class CachingGenerator
         return name;
     }
 
-    @DoNotUse
-    @WillBePrivate(version = "1.1")
-    public boolean hasField(final String fieldName)
+    private boolean hasField(final String fieldName)
     {
         for (final Object field : classNode.fields)
             if (fieldName.equals(((FieldNode) field).name))
@@ -249,83 +189,65 @@ public class CachingGenerator
         return false;
     }
 
-    private void generatePushNewParameterObjectArray(final Type[] paramTypes)
+    private void generatePushNewParameterObjectArray(final CodeBlock block,
+        final Type[] paramTypes)
     {
-        // stack: ...
-        insert(new IntInsnNode(BIPUSH, paramTypes.length));
-        // stack: ... :: <length>
-        insert(new TypeInsnNode(ANEWARRAY, CodegenUtils.p(Object.class)));
-        // stack: ... :: <array>
+        block.bipush(paramTypes.length).anewarray(CodegenUtils.p(Object.class));
 
         for (int i = 0; i < paramTypes.length; i++) {
-            // stack: ... :: <array>
-            insert(new InsnNode(DUP));
-            // stack: ... :: <array> :: <array>
-            insert(new IntInsnNode(BIPUSH, i));
-            // stack: ... :: <array> :: <array> :: <index>
-            generatePushParameterAsObject(paramTypes, i);
-            // stack: ... :: <array> :: <array> :: <index> :: <param>
-            insert(new InsnNode(AASTORE));
-            // stack: ... :: <array>
+            block.dup().bipush(i);
+            generatePushParameterAsObject(block, paramTypes, i);
+            block.aastore();
         }
-        // stack: ... :: <array>
     }
 
-    private void generatePushParameterAsObject(final Type[] paramTypes,
-        int parameterNr)
+    private void generatePushParameterAsObject(final CodeBlock block,
+        final Type[] paramTypes, int parameterNr)
     {
         switch (paramTypes[parameterNr++].getSort()) {
             case Type.BOOLEAN:
-                insert(new VarInsnNode(ILOAD, parameterNr));
-                insert(new MethodInsnNode(INVOKESTATIC,
-                    CodegenUtils.p(Boolean.class), "valueOf",
-                    CodegenUtils.sig(Boolean.class, boolean.class), false));
+                block.iload(parameterNr)
+                    .invokestatic(CodegenUtils.p(Boolean.class), "valueOf",
+                        CodegenUtils.sig(Boolean.class, boolean.class));
                 return;
             case Type.CHAR:
-                insert(new VarInsnNode(ILOAD, parameterNr));
-                insert(new MethodInsnNode(INVOKESTATIC,
-                    CodegenUtils.p(Character.class), "valueOf",
-                    CodegenUtils.sig(Character.class, char.class), false));
+                block.iload(parameterNr)
+                    .invokestatic(CodegenUtils.p(Character.class), "valueOf",
+                    CodegenUtils.sig(Character.class, char.class));
                 return;
             case Type.BYTE:
-                insert(new VarInsnNode(ILOAD, parameterNr));
-                insert(new MethodInsnNode(INVOKESTATIC,
-                    CodegenUtils.p(Byte.class), "valueOf",
-                    CodegenUtils.sig(Byte.class, byte.class), false));
+                block.iload(parameterNr)
+                    .invokestatic(CodegenUtils.p(Byte.class), "valueOf",
+                    CodegenUtils.sig(Byte.class, byte.class));
                 return;
             case Type.SHORT:
-                insert(new VarInsnNode(ILOAD, parameterNr));
-                insert(new MethodInsnNode(INVOKESTATIC,
-                    CodegenUtils.p(Short.class), "valueOf",
-                    CodegenUtils.sig(Short.class, short.class), false));
+                block.iload(parameterNr)
+                    .invokestatic(CodegenUtils.p(Short.class), "valueOf",
+                    CodegenUtils.sig(Short.class, short.class));
                 return;
             case Type.INT:
-                insert(new VarInsnNode(ILOAD, parameterNr));
-                insert(new MethodInsnNode(INVOKESTATIC,
-                    CodegenUtils.p(Integer.class), "valueOf",
-                    CodegenUtils.sig(Integer.class, int.class), false));
+                block.iload(parameterNr)
+                    .invokestatic(CodegenUtils.p(Integer.class), "valueOf",
+                    CodegenUtils.sig(Integer.class, int.class));
                 return;
             case Type.FLOAT:
-                insert(new VarInsnNode(FLOAD, parameterNr));
-                insert(new MethodInsnNode(INVOKESTATIC,
-                    CodegenUtils.p(Float.class), "valueOf",
-                    CodegenUtils.sig(Float.class, float.class), false));
+                block.fload(parameterNr)
+                    .invokestatic(CodegenUtils.p(Float.class), "valueOf",
+                    CodegenUtils.sig(Float.class, float.class));
                 return;
             case Type.LONG:
-                insert(new VarInsnNode(LLOAD, parameterNr));
-                insert(new MethodInsnNode(INVOKESTATIC,
-                    CodegenUtils.p(Long.class), "valueOf",
-                    CodegenUtils.sig(Long.class, long.class), false));
+                block.lload(parameterNr)
+                    .invokestatic(CodegenUtils.p(Long.class), "valueOf",
+                    CodegenUtils.sig(Long.class, long.class));
                 return;
             case Type.DOUBLE:
-                insert(new VarInsnNode(DLOAD, parameterNr));
-                insert(new MethodInsnNode(INVOKESTATIC,
-                    CodegenUtils.p(Double.class), "valueOf",
-                    CodegenUtils.sig(Double.class, double.class), false));
+                block.dload(parameterNr)
+                    .invokestatic(CodegenUtils.p(Double.class), "valueOf",
+                    CodegenUtils.sig(Double.class, double.class));
                 return;
             case Type.ARRAY:
             case Type.OBJECT:
-                insert(new VarInsnNode(ALOAD, parameterNr));
+                block.aload(parameterNr);
                 return;
             case Type.VOID:
             default:
@@ -334,85 +256,48 @@ public class CachingGenerator
     }
 
     // <cache> = new ProxyMatcher();
-    private void generateStoreNewProxyMatcher()
+    private void generateStoreNewProxyMatcher(final CodeBlock block)
     {
-        // stack:
-        insert(new TypeInsnNode(NEW, CodegenUtils.p(ProxyMatcher.class)));
-        // stack: <proxyMatcher>
-        insert(new InsnNode(DUP));
-        // stack: <proxyMatcher> :: <proxyMatcher>
-        insert(new MethodInsnNode(INVOKESPECIAL,
-            CodegenUtils.p(ProxyMatcher.class), "<init>",
-            CodegenUtils.sig(void.class), false));
-        // stack: <proxyMatcher>
-        generateStoreInCache();
-        // stack: <proxyMatcher>
-    }
+        block.newobj(CodegenUtils.p(ProxyMatcher.class))
+            .dup()
+            .invokespecial(CodegenUtils.p(ProxyMatcher.class), "<init>",
+                CodegenUtils.sig(void.class));
 
-    private void seekToReturnInstruction()
-    {
-        while (current.getOpcode() != ARETURN)
-            current = current.getNext();
+        generateStoreInCache(block);
     }
 
     // <proxyMatcher>.arm(<rule>)
-    private void generateArmProxyMatcher()
+    private void generateArmProxyMatcher(final CodeBlock block)
     {
-        // stack: <proxyMatcher> :: <rule>
-        insert(new InsnNode(DUP_X1));
-        // stack: <rule> :: <proxyMatcher> :: <rule>
-        insert(new TypeInsnNode(CHECKCAST, CodegenUtils.p(Matcher.class)));
-        // stack: <rule> :: <proxyMatcher> :: <matcher>
-        insert(new MethodInsnNode(INVOKEVIRTUAL,
-            CodegenUtils.p(ProxyMatcher.class), "arm",
-            CodegenUtils.sig(void.class, Matcher.class), false));
-        // stack: <rule>
+        block.dup_x1()
+            .checkcast(CodegenUtils.p(Matcher.class))
+            .invokevirtual(CodegenUtils.p(ProxyMatcher.class), "arm",
+                CodegenUtils.sig(void.class, Matcher.class));
     }
 
-    private void generateStoreInCache()
+    private void generateStoreInCache(final CodeBlock block)
     {
         final Type[] paramTypes = Type.getArgumentTypes(method.desc);
 
-        // stack: <rule>
-        insert(new InsnNode(DUP));
-        // stack: <rule> :: <rule>
+        block.dup();
 
         if (paramTypes.length == 0) {
-            // stack: <rule> :: <rule>
-            insert(new VarInsnNode(ALOAD, 0));
-            // stack: <rule> :: <rule> :: <this>
-            insert(new InsnNode(SWAP));
-            // stack: <rule> :: <this> :: <rule>
-            insert(new FieldInsnNode(PUTFIELD, classNode.name, cacheFieldName,
-                CodegenUtils.ci(Rule.class)));
-            // stack: <rule>
+            block.aload(0)
+                .swap()
+                .putfield(classNode.name, cacheFieldName,
+                    CodegenUtils.ci(Rule.class));
             return;
         }
 
-        // stack: <rule> :: <rule>
-        insert(new VarInsnNode(ALOAD, method.maxLocals));
-        // stack: <rule> :: <rule> :: <mapKey>
-        insert(new InsnNode(SWAP));
-        // stack: <rule> :: <mapKey> :: <rule>
-        insert(new VarInsnNode(ALOAD, 0));
-        // stack: <rule> :: <mapKey> :: <rule> :: <this>
-        insert(new FieldInsnNode(GETFIELD, classNode.name, cacheFieldName,
-            CodegenUtils.ci(HashMap.class)));
-        // stack: <rule> :: <mapKey> :: <rule> :: <hashMap>
-        insert(new InsnNode(DUP_X2));
-        // stack: <rule> :: <hashMap> :: <mapKey> :: <rule> :: <hashMap>
-        insert(new InsnNode(POP));
-        // stack: <rule> :: <hashMap> :: <mapKey> :: <rule>
-        insert(new MethodInsnNode(INVOKEVIRTUAL,
-            CodegenUtils.p(HashMap.class), "put",
-            CodegenUtils.sig(Object.class, Object.class, Object.class), false));
-        // stack: <rule> :: <null>
-        insert(new InsnNode(POP));
-        // stack: <rule>
-    }
-
-    private void insert(final AbstractInsnNode instruction)
-    {
-        instructions.insertBefore(current, instruction);
+        block.aload(method.maxLocals)
+            .swap()
+            .aload(0)
+            .getfield(classNode.name, cacheFieldName,
+                CodegenUtils.ci(HashMap.class))
+            .dup_x2()
+            .pop()
+            .invokevirtual(CodegenUtils.p(HashMap.class), "put",
+                CodegenUtils.sig(Object.class, Object.class, Object.class))
+            .pop();
     }
 }
