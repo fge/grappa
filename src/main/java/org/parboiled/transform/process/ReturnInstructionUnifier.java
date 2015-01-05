@@ -16,7 +16,6 @@
 
 package org.parboiled.transform.process;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
@@ -34,9 +33,7 @@ import static org.objectweb.asm.Opcodes.GOTO;
  * last return instruction. If a method contains only one return instruction
  * the transformer does nothing.
  */
-@WillBeFinal(version = "1.1")
-// TODO: remove! This is outright useless; in fact, this slows down the code
-public class ReturnInstructionUnifier
+public final class ReturnInstructionUnifier
     implements RuleMethodProcessor
 {
     @Override
@@ -71,10 +68,9 @@ public class ReturnInstructionUnifier
             if (current.getOpcode() != ARETURN)
                 continue;
 
-            final JumpInsnNode gotoInstruction
-                = new JumpInsnNode(GOTO, lastReturnLabel);
-            method.instructions.set(current, gotoInstruction);
-            current = gotoInstruction;
+            final JumpInsnNode insn = new JumpInsnNode(GOTO, lastReturnLabel);
+            method.instructions.set(current, insn);
+            current = insn;
         }
     }
 }
