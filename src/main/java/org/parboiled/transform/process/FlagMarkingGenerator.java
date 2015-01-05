@@ -16,15 +16,12 @@
 
 package org.parboiled.transform.process;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
+import com.github.parboiled1.grappa.transform.CodeBlock;
 import com.google.common.base.Preconditions;
 import me.qmx.jitescript.util.CodegenUtils;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.InsnList;
-import org.objectweb.asm.tree.InsnNode;
-import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.LabelNode;
-import org.objectweb.asm.tree.MethodInsnNode;
 import org.parboiled.Rule;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
@@ -32,15 +29,11 @@ import org.parboiled.transform.RuleMethod;
 import javax.annotation.Nonnull;
 
 import static org.objectweb.asm.Opcodes.ARETURN;
-import static org.objectweb.asm.Opcodes.DUP;
-import static org.objectweb.asm.Opcodes.IFNULL;
-import static org.objectweb.asm.Opcodes.INVOKEINTERFACE;
 
 /**
  * Adds the required flag marking calls before the return instruction.
  */
-@WillBeFinal(version = "1.1")
-public class FlagMarkingGenerator
+public final class FlagMarkingGenerator
     implements RuleMethodProcessor
 {
     @Override
@@ -71,34 +64,25 @@ public class FlagMarkingGenerator
         while (ret.getOpcode() != ARETURN)
             ret = ret.getPrevious();
 
+        final CodeBlock block = CodeBlock.newCodeBlock();
 
-        // stack: <rule>
-        instructions.insertBefore(ret, new InsnNode(DUP));
-        // stack: <rule> :: <rule>
-        final LabelNode isNullLabel = new LabelNode();
-        instructions.insertBefore(ret, new JumpInsnNode(IFNULL, isNullLabel));
-        // stack: <rule>
+        final LabelNode label = new LabelNode();
+        block.dup().ifnull(label);
 
         if (method.hasSuppressNodeAnnotation())
-            generateMarkerCall(instructions, ret, "suppressNode");
+            block.invokeinterface(CodegenUtils.p(Rule.class), "suppressNode",
+                CodegenUtils.sig(Rule.class));
         if (method.hasSuppressSubnodesAnnotation())
-            generateMarkerCall(instructions, ret, "suppressSubnodes");
+            block.invokeinterface(CodegenUtils.p(Rule.class),
+                "suppressSubnodes", CodegenUtils.sig(Rule.class));
         if (method.hasSkipNodeAnnotation())
-            generateMarkerCall(instructions, ret, "skipNode");
+            block.invokeinterface(CodegenUtils.p(Rule.class), "skipNode",
+                CodegenUtils.sig(Rule.class));
         if (method.hasMemoMismatchesAnnotation())
-            generateMarkerCall(instructions, ret, "memoMismatches");
+            block.invokeinterface(CodegenUtils.p(Rule.class), "memoMismatches",
+                CodegenUtils.sig(Rule.class));
 
-        // stack: <rule>
-        instructions.insertBefore(ret, isNullLabel);
-        // stack: <rule>
-    }
-
-    private static void generateMarkerCall(final InsnList instructions,
-        final AbstractInsnNode ret, final String call)
-    {
-        final MethodInsnNode insn = new MethodInsnNode(INVOKEINTERFACE,
-            CodegenUtils.p(Rule.class), call,
-            CodegenUtils.sig(Rule.class), true);
-        instructions.insertBefore(ret, insn);
+        block.label(label);
+        instructions.insertBefore(ret, block.getInstructionList());
     }
 }

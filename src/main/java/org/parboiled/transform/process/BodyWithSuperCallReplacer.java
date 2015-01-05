@@ -16,7 +16,6 @@
 
 package org.parboiled.transform.process;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.transform.CodeBlock;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.tree.InsnList;
@@ -30,9 +29,7 @@ import static org.parboiled.transform.AsmUtils.createArgumentLoaders;
 /**
  * Replaces the method code with a simple call to the super method.
  */
-//TODO: final in 1.1
-@WillBeFinal(version = "1.1")
-public class BodyWithSuperCallReplacer
+public final class BodyWithSuperCallReplacer
     implements RuleMethodProcessor
 {
     @Override

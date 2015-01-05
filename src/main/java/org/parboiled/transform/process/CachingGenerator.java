@@ -22,7 +22,6 @@
 
 package org.parboiled.transform.process;
 
-import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.transform.CodeBlock;
 import com.google.common.base.Preconditions;
 import me.qmx.jitescript.util.CodegenUtils;
@@ -47,8 +46,7 @@ import static org.objectweb.asm.Opcodes.ARETURN;
 /**
  * Wraps the method code with caching and proxying constructs.
  */
-@WillBeFinal(version = "1.1")
-public class CachingGenerator
+public final class CachingGenerator
     implements RuleMethodProcessor
 {
     private ParserClassNode classNode;
@@ -201,7 +199,7 @@ public class CachingGenerator
         }
     }
 
-    private void generatePushParameterAsObject(final CodeBlock block,
+    private static void generatePushParameterAsObject(final CodeBlock block,
         final Type[] paramTypes, int parameterNr)
     {
         switch (paramTypes[parameterNr++].getSort()) {
@@ -267,7 +265,7 @@ public class CachingGenerator
     }
 
     // <proxyMatcher>.arm(<rule>)
-    private void generateArmProxyMatcher(final CodeBlock block)
+    private static void generateArmProxyMatcher(final CodeBlock block)
     {
         block.dup_x1()
             .checkcast(CodegenUtils.p(Matcher.class))
