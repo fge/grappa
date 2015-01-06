@@ -22,7 +22,7 @@ import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
 import org.parboiled.errors.BasicParseError;
-import org.parboiled.matchers.TestNotMatcher;
+import com.github.parboiled1.grappa.matchers.predicates.TestNotMatcher;
 import org.parboiled.support.ParsingResult;
 
 import javax.annotation.Nullable;

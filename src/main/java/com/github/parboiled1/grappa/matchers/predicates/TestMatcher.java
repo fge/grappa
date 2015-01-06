@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.parboiled.matchers;
+package com.github.parboiled1.grappa.matchers.predicates;
 
 import com.github.parboiled1.grappa.matchers.CustomDefaultLabelMatcher;
 import com.github.parboiled1.grappa.matchers.Matcher;
@@ -25,16 +25,16 @@ import org.parboiled.matchervisitors.MatcherVisitor;
 
 /**
  * A special {@link Matcher} not actually matching any input but rather trying its submatcher against the current input
- * position. Succeeds if the submatcher would fail.
+ * position. Succeeds if the submatcher would succeed.
  */
-public final class TestNotMatcher
-    extends CustomDefaultLabelMatcher<TestNotMatcher>
+public final class TestMatcher
+    extends CustomDefaultLabelMatcher<TestMatcher>
 {
     private final Matcher subMatcher;
 
-    public TestNotMatcher(final Rule subRule)
+    public TestMatcher(final Rule subRule)
     {
-        super(Preconditions.checkNotNull(subRule, "subRule"), "testNot");
+        super(Preconditions.checkNotNull(subRule, "subRule"), "test");
         subMatcher = getChildren().get(0);
     }
 
@@ -50,7 +50,7 @@ public final class TestNotMatcher
         final Object valueStackSnapshot
             = context.getValueStack().takeSnapshot();
 
-        if (subMatcher.getSubContext(context).runMatcher())
+        if (!subMatcher.getSubContext(context).runMatcher())
             return false;
 
         // reset location, Test matchers never advance
@@ -67,4 +67,5 @@ public final class TestNotMatcher
         Preconditions.checkNotNull(visitor, "visitor");
         return visitor.visit(this);
     }
+
 }

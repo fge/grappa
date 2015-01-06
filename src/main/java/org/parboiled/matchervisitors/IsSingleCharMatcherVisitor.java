@@ -33,8 +33,8 @@ import com.github.parboiled1.grappa.matchers.NothingMatcher;
 import org.parboiled.matchers.OneOrMoreMatcher;
 import org.parboiled.matchers.OptionalMatcher;
 import org.parboiled.matchers.SequenceMatcher;
-import org.parboiled.matchers.TestMatcher;
-import org.parboiled.matchers.TestNotMatcher;
+import com.github.parboiled1.grappa.matchers.predicates.TestMatcher;
+import com.github.parboiled1.grappa.matchers.predicates.TestNotMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
 
 /**
