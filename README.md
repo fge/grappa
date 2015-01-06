@@ -19,8 +19,7 @@ email.
 
 The current version is **1.0.0** (released December 31, 2014).
 
-Work has started on 1.1.x. See [here](https://github.com/parboiled1/grappa/wiki/Work-on-1.1.x) for
-the current items being worked on, the plans etc.
+Work is now focused on 2.0.x. Note that 2.0.x will require Java 7.
 
 ## Motivation
 
@@ -32,7 +31,8 @@ But parboiled does not deserve to be left stranded, nor its users. It is just to
 package allows you to write grammars entirely in Java... And what is more, it performs really well.
 This package is therefore dedicated to continuing its development.
 
-Grappa 1.0.x requires Java 6 or later. **Starting with version 1.1.x, Grappa will require Java 7**.
+Grappa 1.0.x requires Java 6 or later. No further development other than bug fixes will occur on
+this version.
 
 ### And, uh, the name?
 
@@ -41,8 +41,8 @@ like the [drink of the same name](http://www.istitutograppa.org/))
 
 ## Comparison with parboiled
 
-Backwards compatibility with parboiled 1 is ensured for the 1.0.x timeline. **1.1.x and greater
-will introduce incompatible changes**, however these changes will be documented.
+Backwards compatibility with parboiled 1 is ensured for the 1.0.x timeline. **2.0.x and greater will
+introduce incompatible changes**.
 
 See [this
 page](https://github.com/parboiled1/grappa/wiki/Overview:-grappa-1.0.x-vs-parboiled-java) for an
@@ -59,7 +59,7 @@ repositories {
 }
 
 dependencies {
-    compile(group: "com.github.parboiled1", name: "grappa", version: "1.0.0-beta.11");
+    compile(group: "com.github.parboiled1", name: "grappa", version: "1.0.0");
 }
 ```
 
