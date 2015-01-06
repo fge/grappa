@@ -37,10 +37,6 @@ public interface MatcherContext<V>
 
     Node<V> getNode();
 
-    int getIntTag();
-
-    void setIntTag(int intTag);
-
     /*
      * TODO: only used from MemoMismatchesMatcher
      */

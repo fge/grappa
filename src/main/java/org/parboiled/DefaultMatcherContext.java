@@ -106,7 +106,6 @@ public final class DefaultMatcherContext<V>
     private int intTag;
     private boolean hasError;
     private boolean nodeSuppressed;
-    private boolean inErrorRecovery;
 
     /**
      * Initializes a new root MatcherContext.
@@ -283,12 +282,6 @@ public final class DefaultMatcherContext<V>
     }
 
     @Override
-    public boolean inErrorRecovery()
-    {
-        return inErrorRecovery;
-    }
-
-    @Override
     public boolean isNodeSuppressed()
     {
         return nodeSuppressed;
@@ -416,18 +409,6 @@ public final class DefaultMatcherContext<V>
     public Node<V> getNode()
     {
         return node;
-    }
-
-    @Override
-    public int getIntTag()
-    {
-        return intTag;
-    }
-
-    @Override
-    public void setIntTag(final int intTag)
-    {
-        this.intTag = intTag;
     }
 
     @Override

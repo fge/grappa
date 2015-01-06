@@ -146,15 +146,6 @@ public interface Context<V>
     boolean inPredicate();
 
     /**
-     * Determines if the action calling this method is run during the
-     * resynchronization phase of an error recovery.
-     *
-     * @return true if the action calling this method is run during the
-     * resynchronization phase of an error recovery
-     */
-    boolean inErrorRecovery();
-
-    /**
      * Determines if the current context is for or below a rule marked
      * {@link SuppressNode} or below one marked {@link SuppressSubnodes}
      *
