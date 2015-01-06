@@ -18,7 +18,6 @@ package com.github.parboiled1.grappa.matchers.trie;
 
 import com.google.common.annotations.Beta;
 import org.parboiled.matchers.FirstOfStringsMatcher;
-import org.parboiled.matchervisitors.IsStarterCharVisitor;
 
 import javax.annotation.concurrent.Immutable;
 
@@ -76,17 +75,6 @@ public final class Trie
     public int getMaxLength()
     {
         return maxLength;
-    }
-
-    /**
-     * Only necessary for {@link IsStarterCharVisitor}
-     *
-     * @param c the character to test
-     * @return true if the root {@link TrieNode} can match the character
-     */
-    public boolean trieHasStart(final char c)
-    {
-        return node.hasNextChar(c);
     }
 
     /**

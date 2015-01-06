@@ -21,7 +21,6 @@ import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.matchers.AbstractMatcher;
 import org.parboiled.matchers.FirstOfStringsMatcher;
-import org.parboiled.matchervisitors.IsStarterCharVisitor;
 import org.parboiled.matchervisitors.MatcherVisitor;
 
 import javax.annotation.concurrent.Immutable;
@@ -80,17 +79,6 @@ public final class TrieMatcher
          */
         context.advanceIndex(ret);
         return true;
-    }
-
-    /**
-     * Only necessary for {@link IsStarterCharVisitor}
-     *
-     * @param c the character to test
-     * @return true if the root {@link TrieNode} can match the character
-     */
-    public boolean trieHasStart(final char c)
-    {
-        return trie.trieHasStart(c);
     }
 
     /**

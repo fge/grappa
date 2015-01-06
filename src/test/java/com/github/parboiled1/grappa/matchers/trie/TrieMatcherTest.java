@@ -121,16 +121,4 @@ public final class TrieMatcherTest
 
         soft.assertAll();
     }
-
-    @Test
-    public void startingCharIsCorrectlyDetected()
-    {
-        // Hardcoded for the matcher we have, but ohwell
-        final SoftAssertions soft = new SoftAssertions();
-
-        soft.assertThat(matcher.trieHasStart('z'))
-            .as("non starting character of the trie").isFalse();
-        soft.assertThat(matcher.trieHasStart('a'))
-            .as("starting character of the trie").isTrue();
-    }
 }

@@ -17,7 +17,6 @@
 package com.github.parboiled1.grappa.matchers.trie;
 
 import com.google.common.annotations.Beta;
-import org.parboiled.matchervisitors.IsStarterCharVisitor;
 
 import javax.annotation.concurrent.Immutable;
 import java.nio.CharBuffer;
@@ -60,17 +59,6 @@ public final class TrieNode
     public int search(final String needle)
     {
         return doSearch(CharBuffer.wrap(needle), fullWord ? 0 : -1, 0);
-    }
-
-    /**
-     * Only necessary for {@link IsStarterCharVisitor}
-     *
-     * @param c the character to test
-     * @return true if this node has this character as a possible followup
-     */
-    public boolean hasNextChar(final char c)
-    {
-        return Arrays.binarySearch(nextChars, c) >= 0;
     }
 
     /**

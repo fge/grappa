@@ -23,7 +23,6 @@ import org.parboiled.Rule;
 import org.parboiled.errors.GrammarException;
 import org.parboiled.matchers.CustomDefaultLabelMatcher;
 import org.parboiled.matchers.Matcher;
-import org.parboiled.matchervisitors.CanMatchEmptyVisitor;
 import org.parboiled.matchervisitors.MatcherVisitor;
 
 /**
@@ -51,8 +50,7 @@ import org.parboiled.matchervisitors.MatcherVisitor;
  *
  * <p>It is <strong>forbidden</strong> for the "joining" matcher to match an
  * empty sequence. Unfortunately, due to current limitations, this can only
- * be detected at runtime (but also by the {@link CanMatchEmptyVisitor} when
- * used).</p>
+ * be detected at runtime.</p>
  *
  * <p>This matcher is not built directly; its build is initiated by a {@link
  * JoinMatcherBootstrap}. Example:</p>
