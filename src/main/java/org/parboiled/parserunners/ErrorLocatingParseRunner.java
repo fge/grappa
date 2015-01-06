@@ -28,10 +28,13 @@ import org.parboiled.support.ParsingResult;
 import javax.annotation.Nullable;
 
 /**
- * A {@link ParseRunner} implementation that creates a simple {@link BasicParseError} for the first error found in the
- * input and adds it to the list of ParseErrors.
- * It never causes the parser to perform more than one parsing run and is rarely used directly.
- * Instead its functionality is relied upon by the {@link ReportingParseRunner} and {@link RecoveringParseRunner} classes.
+ * A {@link ParseRunner} implementation that creates a simple {@link
+ * BasicParseError} for the first error found in the input and adds it to the
+ * list of ParseErrors.
+ *
+ * <p>It never causes the parser to perform more than one parsing run and is
+ * rarely used directly. Instead its functionality is relied upon by {@link
+ * ReportingParseRunner}.</p>
  */
 public final class ErrorLocatingParseRunner<V>
     extends AbstractParseRunner<V>

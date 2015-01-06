@@ -16,8 +16,6 @@
 
 package org.parboiled.annotations;
 
-import org.parboiled.parserunners.RecoveringParseRunner;
-
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -34,11 +32,6 @@ import java.lang.annotation.Target;
  * rules within the parser: namely, {@link SuppressSubnodes}, {@link SkipNode}
  * and {@link SuppressNode}. These annotations have no effect if this annotation
  * is not present.</p>
- *
- * <p>Note: if the input contains parse errors and you use a {@link
- * RecoveringParseRunner}, the generated parser will create parse tree nodes for
- * all rules that have recorded parse errors (note that this always includes
- * the root rule).</p>
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

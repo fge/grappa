@@ -51,7 +51,6 @@ import org.parboiled.matchers.StringMatcher;
 import org.parboiled.matchers.TestMatcher;
 import org.parboiled.matchers.TestNotMatcher;
 import org.parboiled.matchers.ZeroOrMoreMatcher;
-import org.parboiled.parserunners.RecoveringParseRunner;
 import org.parboiled.support.Characters;
 import org.parboiled.support.Chars;
 import org.parboiled.support.Checks;
@@ -427,11 +426,9 @@ public abstract class BaseParser<V>
      *
      * <p>When one rule matches, all others are ignored.</p>
      *
-     * <p>Note: if you are considering matching one string among many,
-     * irrespective of the order of elements, consider using {@link
-     * #trie(Collection)} instead, <strong>except</strong> if you are using a
-     * {@link RecoveringParseRunner} (since at this moment the trie rule does
-     * not support it).</p>
+     * <p>Note: if you are considering matching one string among many, consider
+     * using {@link #trie(Collection)}/{@link #trie(String, String, String...)}
+     * instead.</p>
      *
      * @param rule the first subrule
      * @param rule2 the second subrule

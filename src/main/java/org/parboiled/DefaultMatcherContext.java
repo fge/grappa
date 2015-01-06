@@ -123,9 +123,8 @@ public final class DefaultMatcherContext<V>
      * without relying on inner CharacterMatchers. Even though this can lead to
      * significant increases of parsing performance it does not play well with
      * error reporting and recovery, which relies on character level matches.
-     * Therefore the {@link ReportingParseRunner} and {@link
-     * RecoveringParseRunner} implementations only enable fast string matching
-     * during their basic first parsing run and disable it once the input has
+     * Therefore a {@link ReportingParseRunner} only enables fast string
+     * matching during the first parsing run and disables it once the input has
      * proven to contain errors.</p>
      */
     public DefaultMatcherContext(@Nonnull final InputBuffer inputBuffer,

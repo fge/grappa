@@ -20,29 +20,17 @@ import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.matchers.AbstractMatcher;
-import org.parboiled.matchers.FirstOfMatcher;
 import org.parboiled.matchers.FirstOfStringsMatcher;
 import org.parboiled.matchervisitors.IsStarterCharVisitor;
 import org.parboiled.matchervisitors.MatcherVisitor;
-import org.parboiled.parserunners.RecoveringParseRunner;
 
 import javax.annotation.concurrent.Immutable;
 
 /**
  * The trie matcher
  *
- * <p>Note that there are a few crucial differences compared to a {@link
- * FirstOfStringsMatcher}:</p>
- *
- * <ul>
- *     <li>this matcher is insensitive about the ordering of its arguments;
- *     unlike {@link FirstOfMatcher}, for instance, it doesn't care about the
- *     order of appearance of strings with a common prefix;</li>
- *     <li>at this moment, it does not play well with a {@link
- *     RecoveringParseRunner} (a {@link FirstOfStringsMatcher} keeps all
- *     submatches information by its virtue of inheriting {@link
- *     FirstOfMatcher}, which has all character subrules).</li>
- * </ul>
+ * <p>Note that unlike a {@link FirstOfStringsMatcher}, this matcher is
+ * insensitive about the ordering of its arguments.</p>
  *
  * @since 1.0.0-beta.6
  */
