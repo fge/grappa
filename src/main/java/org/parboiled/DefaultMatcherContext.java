@@ -406,12 +406,6 @@ public final class DefaultMatcherContext<V>
     }
 
     @Override
-    public void setInErrorRecovery(final boolean flag)
-    {
-        inErrorRecovery = flag;
-    }
-
-    @Override
     public void advanceIndex(final int delta)
     {
         currentIndex += delta;
@@ -434,17 +428,6 @@ public final class DefaultMatcherContext<V>
     public void setIntTag(final int intTag)
     {
         this.intTag = intTag;
-    }
-
-    @Override
-    public void markError()
-    {
-        if (hasError)
-            return;
-
-        hasError = true;
-        if (parent != null)
-            parent.markError();
     }
 
     @Override

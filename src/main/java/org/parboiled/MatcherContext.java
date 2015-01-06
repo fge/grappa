@@ -29,17 +29,9 @@ public interface MatcherContext<V>
      */
     void setMatcher(Matcher matcher);
 
-    /*
-     * TODO: only used from RecoveringParseRunner.Handler
-     */
     void setStartIndex(int startIndex);
 
     void setCurrentIndex(int currentIndex);
-
-    /*
-     * TODO: only used from RecoveringParseRunner.Handler
-     */
-    void setInErrorRecovery(boolean flag);
 
     void advanceIndex(int delta);
 
@@ -48,11 +40,6 @@ public interface MatcherContext<V>
     int getIntTag();
 
     void setIntTag(int intTag);
-
-    /*
-     * TODO: only used from RecoveringParseRunner.Handler
-     */
-    void markError();
 
     /*
      * TODO: only used from MemoMismatchesMatcher
