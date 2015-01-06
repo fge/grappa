@@ -80,6 +80,7 @@ public final class DefaultInvalidInputErrorFormatter
         // InputBuffer. However, since the failed MatcherPaths still carry the
         // "original" indices we need to unapply the IndexDelta in order to be
         // able to compare with them.
+        // TODO: remove hack
         final int pathStartIndex = error.getStartIndex() - error
             .getIndexDelta();
 
