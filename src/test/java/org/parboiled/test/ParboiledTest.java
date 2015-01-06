@@ -19,7 +19,6 @@ package org.parboiled.test;
 import com.github.parboiled1.grappa.assertions.OldParsingResultAssert;
 import com.github.parboiled1.grappa.buffers.InputBuffer;
 import org.parboiled.Rule;
-import org.parboiled.parserunners.RecoveringParseRunner;
 import org.parboiled.parserunners.ReportingParseRunner;
 import org.parboiled.support.ParsingResult;
 
@@ -74,9 +73,5 @@ public abstract class ParboiledTest<V> {
     
     public TestResult<V> test(final Rule rule, final InputBuffer inputBuffer) {
         return new TestResult<>(new ReportingParseRunner<V>(rule).run(inputBuffer));
-    }
-
-    public TestResult<V> testWithRecovery(final Rule rule, final String input) {
-        return new TestResult<>(new RecoveringParseRunner<V>(rule).run(input));
     }
 }

@@ -31,7 +31,6 @@ import org.parboiled.matchers.ProxyMatcher;
 import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.matchers.TestMatcher;
 import org.parboiled.matchers.TestNotMatcher;
-import org.parboiled.parserunners.RecoveringParseRunner;
 import org.parboiled.parserunners.ReportingParseRunner;
 import org.parboiled.support.CharsEscaper;
 import org.parboiled.support.Checks;
@@ -522,8 +521,6 @@ public final class DefaultMatcherContext<V>
             }
             return ret;
         } catch (ParserRuntimeException e) {
-            throw e; // don't wrap, just bubble up
-        } catch (RecoveringParseRunner.TimeoutException e) {
             throw e; // don't wrap, just bubble up
         } catch (Throwable e) { // TODO: Throwable? What the...
             final String msg = String.format(

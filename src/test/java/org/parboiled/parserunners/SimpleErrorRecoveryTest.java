@@ -228,10 +228,4 @@ public class SimpleErrorRecoveryTest extends ParboiledTest<Object>
                         "  [Object] 'cars'\n" +
                         "    [\"cars\"] 'cars'\n");
     }
-    
-    @Test(expectedExceptions = RecoveringParseRunner.TimeoutException.class)
-    public void testRecoveryTimeout() {
-        final Parser parser = Parboiled.createParser(Parser.class);
-        new RecoveringParseRunner<>(parser.Clause(), 0).run("AaA");
-    }
 }
