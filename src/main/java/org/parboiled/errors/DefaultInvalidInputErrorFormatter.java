@@ -19,7 +19,7 @@ package org.parboiled.errors;
 import com.google.common.base.Joiner;
 import com.google.common.escape.Escaper;
 import org.parboiled.common.Formatter;
-import org.parboiled.matchers.AnyOfMatcher;
+import com.github.parboiled1.grappa.matchers.AnyOfMatcher;
 import com.github.parboiled1.grappa.matchers.Matcher;
 import org.parboiled.support.Characters;
 import org.parboiled.support.Chars;

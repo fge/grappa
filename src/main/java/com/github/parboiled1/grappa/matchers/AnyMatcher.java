@@ -14,30 +14,43 @@
  * limitations under the License.
  */
 
-package org.parboiled.matchers;
+package com.github.parboiled1.grappa.matchers;
 
 import com.github.parboiled1.grappa.matchers.AbstractMatcher;
 import com.github.parboiled1.grappa.matchers.Matcher;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.matchervisitors.MatcherVisitor;
+import org.parboiled.support.Chars;
 
 /**
- * A {@link Matcher} that never matches anything.
+ * A {@link Matcher} matching any single character except EOI.
  */
-public final class NothingMatcher
+public final class AnyMatcher
     extends AbstractMatcher
 {
 
-    public NothingMatcher()
+    public AnyMatcher()
     {
-        super("NOTHING");
+        super("ANY");
     }
 
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
-        return false;
+        switch (context.getCurrentChar()) {
+            case Chars.DEL_ERROR:
+            case Chars.INS_ERROR:
+            case Chars.RESYNC:
+            case Chars.RESYNC_START:
+            case Chars.RESYNC_END:
+            case Chars.RESYNC_EOI:
+            case Chars.EOI:
+                return false;
+        }
+        context.advanceIndex(1);
+        context.createNode();
+        return true;
     }
 
     @Override

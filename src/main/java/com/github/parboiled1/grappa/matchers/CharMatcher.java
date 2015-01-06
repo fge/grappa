@@ -14,39 +14,57 @@
  * limitations under the License.
  */
 
-package org.parboiled.matchers;
+package com.github.parboiled1.grappa.matchers;
 
 import com.github.parboiled1.grappa.matchers.AbstractMatcher;
 import com.github.parboiled1.grappa.matchers.Matcher;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.matchervisitors.MatcherVisitor;
-import org.parboiled.support.Characters;
+import org.parboiled.support.Chars;
+
+import static org.parboiled.support.Chars.escape;
 
 /**
- * A {@link Matcher} matching a single character out of a given {@link Characters} set.
+ * A {@link Matcher} matching a single given character.
  */
-public final class AnyOfMatcher
+public final class CharMatcher
     extends AbstractMatcher
 {
-    private final Characters characters;
+    private final char character;
 
-    public AnyOfMatcher(final Characters characters)
+    public CharMatcher(final char character)
     {
-        super(Preconditions.checkNotNull(characters, "characters").toString());
-        Preconditions.checkArgument(!characters.equals(Characters.NONE));
-        this.characters = characters;
+        super(getLabel(character));
+        this.character = character;
     }
 
-    public Characters getCharacters()
+    public char getCharacter()
     {
-        return characters;
+        return character;
+    }
+
+    // TODO: remove...
+    private static String getLabel(final char c)
+    {
+        switch (c) {
+            case Chars.DEL_ERROR:
+            case Chars.INS_ERROR:
+            case Chars.RESYNC:
+            case Chars.RESYNC_START:
+            case Chars.RESYNC_END:
+            case Chars.RESYNC_EOI:
+            case Chars.EOI:
+                return escape(c);
+            default:
+                return '\'' + escape(c) + '\'';
+        }
     }
 
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
-        if (!characters.contains(context.getCurrentChar()))
+        if (context.getCurrentChar() != character)
             return false;
         context.advanceIndex(1);
         context.createNode();

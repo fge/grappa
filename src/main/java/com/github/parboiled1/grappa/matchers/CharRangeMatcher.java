@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.parboiled.matchers;
+package com.github.parboiled1.grappa.matchers;
 
 import com.github.parboiled1.grappa.matchers.AbstractMatcher;
 import com.github.parboiled1.grappa.matchers.Matcher;
@@ -22,20 +22,44 @@ import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.matchervisitors.MatcherVisitor;
 
+import static org.parboiled.support.Chars.escape;
+
 /**
- * A {@link Matcher} that always successfully matches nothing.
+ * A {@link Matcher} matching a single character out of a given range of characters.
  */
-public final class EmptyMatcher
+@SuppressWarnings("ImplicitNumericConversion")
+public final class CharRangeMatcher
     extends AbstractMatcher
 {
-    public EmptyMatcher()
+    private final char lowerBound;
+    private final char upperBound;
+
+    public CharRangeMatcher(final char lowerBound, final char upperBound)
     {
-        super("EMPTY");
+        super(escape(lowerBound) + ".." + escape(upperBound));
+        Preconditions.checkArgument(lowerBound < upperBound);
+        this.lowerBound = lowerBound;
+        this.upperBound = upperBound;
+    }
+
+    public char getLowerBound()
+    {
+        return lowerBound;
+    }
+
+    public char getUpperBound()
+    {
+        return upperBound;
     }
 
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
+        final char c = context.getCurrentChar();
+        if (c < lowerBound || c > upperBound)
+            return false;
+
+        context.advanceIndex(1);
         context.createNode();
         return true;
     }

@@ -14,57 +14,49 @@
  * limitations under the License.
  */
 
-package org.parboiled.matchers;
+package com.github.parboiled1.grappa.matchers;
 
 import com.github.parboiled1.grappa.matchers.AbstractMatcher;
 import com.github.parboiled1.grappa.matchers.Matcher;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.matchervisitors.MatcherVisitor;
-import org.parboiled.support.Chars;
 
 import static org.parboiled.support.Chars.escape;
 
 /**
- * A {@link Matcher} matching a single given character.
+ * A {@link Matcher} matching a single character case-independently.
  */
-public final class CharMatcher
+public final class CharIgnoreCaseMatcher
     extends AbstractMatcher
 {
-    private final char character;
+    private final char lowerBound;
+    private final char upperBound;
 
-    public CharMatcher(final char character)
+    public CharIgnoreCaseMatcher(final char character)
     {
-        super(getLabel(character));
-        this.character = character;
+        super('\'' + escape(Character.toLowerCase(character))
+            + '/' + escape(Character.toUpperCase(character)) + '\''
+        );
+        lowerBound = Character.toLowerCase(character);
+        upperBound = Character.toUpperCase(character);
     }
 
-    public char getCharacter()
+    public char getLowerBound()
     {
-        return character;
+        return lowerBound;
     }
 
-    // TODO: remove...
-    private static String getLabel(final char c)
+    public char getUpperBound()
     {
-        switch (c) {
-            case Chars.DEL_ERROR:
-            case Chars.INS_ERROR:
-            case Chars.RESYNC:
-            case Chars.RESYNC_START:
-            case Chars.RESYNC_END:
-            case Chars.RESYNC_EOI:
-            case Chars.EOI:
-                return escape(c);
-            default:
-                return '\'' + escape(c) + '\'';
-        }
+        return upperBound;
     }
 
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
-        if (context.getCurrentChar() != character)
+        final char c = context.getCurrentChar();
+        if (c != lowerBound && c != upperBound)
             return false;
         context.advanceIndex(1);
         context.createNode();

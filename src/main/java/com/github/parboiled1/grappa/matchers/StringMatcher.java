@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package org.parboiled.matchers;
+package com.github.parboiled1.grappa.matchers;
 
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
+import org.parboiled.matchers.SequenceMatcher;
 
 /**
  * A {@link SequenceMatcher} specialization for sequences of CharMatchers. Performs fast string matching if the

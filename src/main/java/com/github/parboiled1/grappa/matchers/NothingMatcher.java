@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.parboiled.matchers;
+package com.github.parboiled1.grappa.matchers;
 
 import com.github.parboiled1.grappa.matchers.AbstractMatcher;
 import com.github.parboiled1.grappa.matchers.Matcher;
@@ -22,45 +22,22 @@ import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.matchervisitors.MatcherVisitor;
 
-import static org.parboiled.support.Chars.escape;
-
 /**
- * A {@link Matcher} matching a single character case-independently.
+ * A {@link Matcher} that never matches anything.
  */
-public final class CharIgnoreCaseMatcher
+public final class NothingMatcher
     extends AbstractMatcher
 {
-    private final char lowerBound;
-    private final char upperBound;
 
-    public CharIgnoreCaseMatcher(final char character)
+    public NothingMatcher()
     {
-        super('\'' + escape(Character.toLowerCase(character))
-            + '/' + escape(Character.toUpperCase(character)) + '\''
-        );
-        lowerBound = Character.toLowerCase(character);
-        upperBound = Character.toUpperCase(character);
-    }
-
-    public char getLowerBound()
-    {
-        return lowerBound;
-    }
-
-    public char getUpperBound()
-    {
-        return upperBound;
+        super("NOTHING");
     }
 
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
-        final char c = context.getCurrentChar();
-        if (c != lowerBound && c != upperBound)
-            return false;
-        context.advanceIndex(1);
-        context.createNode();
-        return true;
+        return false;
     }
 
     @Override

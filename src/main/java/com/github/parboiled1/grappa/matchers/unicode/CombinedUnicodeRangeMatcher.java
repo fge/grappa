@@ -17,7 +17,7 @@
 package com.github.parboiled1.grappa.matchers.unicode;
 
 import org.parboiled.MatcherContext;
-import org.parboiled.matchers.CharRangeMatcher;
+import com.github.parboiled1.grappa.matchers.CharRangeMatcher;
 
 /**
  * A {@link UnicodeRangeMatcher} for "mixed" code point ranges

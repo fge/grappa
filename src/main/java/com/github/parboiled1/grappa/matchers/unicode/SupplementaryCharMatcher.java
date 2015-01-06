@@ -18,7 +18,7 @@ package com.github.parboiled1.grappa.matchers.unicode;
 
 import com.github.parboiled1.grappa.buffers.InputBuffer;
 import org.parboiled.MatcherContext;
-import org.parboiled.matchers.CharMatcher;
+import com.github.parboiled1.grappa.matchers.CharMatcher;
 
 /**
  * A {@link UnicodeCharMatcher} for a single, supplementary code point

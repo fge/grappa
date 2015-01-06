@@ -17,7 +17,7 @@
 package com.github.parboiled1.grappa.matchers.unicode;
 
 import com.google.common.base.Preconditions;
-import org.parboiled.matchers.CharRangeMatcher;
+import com.github.parboiled1.grappa.matchers.CharRangeMatcher;
 import com.github.parboiled1.grappa.matchers.CustomMatcher;
 import org.parboiled.matchervisitors.MatcherVisitor;
 

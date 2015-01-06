@@ -22,7 +22,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.parboiled.BaseParser;
 import org.parboiled.Rule;
-import org.parboiled.matchers.EmptyMatcher;
+import com.github.parboiled1.grappa.matchers.EmptyMatcher;
 import com.github.parboiled1.grappa.matchers.Matcher;
 import org.parboiled.matchers.OptionalMatcher;
 import org.testng.annotations.BeforeMethod;

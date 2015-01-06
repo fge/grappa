@@ -14,51 +14,40 @@
  * limitations under the License.
  */
 
-package org.parboiled.matchers;
+package com.github.parboiled1.grappa.matchers;
 
 import com.github.parboiled1.grappa.matchers.AbstractMatcher;
 import com.github.parboiled1.grappa.matchers.Matcher;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.matchervisitors.MatcherVisitor;
-
-import static org.parboiled.support.Chars.escape;
+import org.parboiled.support.Characters;
 
 /**
- * A {@link Matcher} matching a single character out of a given range of characters.
+ * A {@link Matcher} matching a single character out of a given {@link Characters} set.
  */
-@SuppressWarnings("ImplicitNumericConversion")
-public final class CharRangeMatcher
+public final class AnyOfMatcher
     extends AbstractMatcher
 {
-    private final char lowerBound;
-    private final char upperBound;
+    private final Characters characters;
 
-    public CharRangeMatcher(final char lowerBound, final char upperBound)
+    public AnyOfMatcher(final Characters characters)
     {
-        super(escape(lowerBound) + ".." + escape(upperBound));
-        Preconditions.checkArgument(lowerBound < upperBound);
-        this.lowerBound = lowerBound;
-        this.upperBound = upperBound;
+        super(Preconditions.checkNotNull(characters, "characters").toString());
+        Preconditions.checkArgument(!characters.equals(Characters.NONE));
+        this.characters = characters;
     }
 
-    public char getLowerBound()
+    public Characters getCharacters()
     {
-        return lowerBound;
-    }
-
-    public char getUpperBound()
-    {
-        return upperBound;
+        return characters;
     }
 
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
-        final char c = context.getCurrentChar();
-        if (c < lowerBound || c > upperBound)
+        if (!characters.contains(context.getCurrentChar()))
             return false;
-
         context.advanceIndex(1);
         context.createNode();
         return true;

@@ -23,7 +23,7 @@ import com.google.common.collect.DiscreteDomain;
 import com.google.common.collect.Range;
 import org.parboiled.Rule;
 import org.parboiled.annotations.Cached;
-import org.parboiled.matchers.EmptyMatcher;
+import com.github.parboiled1.grappa.matchers.EmptyMatcher;
 import org.parboiled.matchers.OptionalMatcher;
 
 import javax.annotation.Nonnull;
