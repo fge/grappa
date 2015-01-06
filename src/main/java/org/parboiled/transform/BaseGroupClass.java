@@ -17,7 +17,6 @@
 package org.parboiled.transform;
 
 import com.github.parboiled1.grappa.annotations.VisibleForDocumentation;
-import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import com.google.common.base.Preconditions;
 
 import javax.annotation.Nonnull;
@@ -25,8 +24,7 @@ import javax.annotation.Nonnull;
 @VisibleForDocumentation
 public abstract class BaseGroupClass
 {
-    @WillBePrivate(version = "1.1")
-    public final String name;
+    private final String name;
 
     protected BaseGroupClass(final String name)
     {

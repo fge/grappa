@@ -87,12 +87,12 @@ public final class FollowMatchersVisitor
     @Override
     public Boolean visit(final ZeroOrMoreMatcher matcher)
     {
-        builder.add(matcher.subMatcher);
+        builder.add(matcher.getSubMatcher());
         return false;
     }
 
     @Override
-    public Boolean defaultValue(final AbstractMatcher matcher)
+    protected Boolean defaultValue(final AbstractMatcher matcher)
     {
         return false;
     }

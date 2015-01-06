@@ -111,7 +111,7 @@ public final class DoWithMatcherVisitor
     public Void visit(final TestMatcher matcher)
     {
         if (visited.add(matcher)) {
-            matcher.subMatcher.accept(this);
+            matcher.getSubMatcher().accept(this);
             action.process(matcher);
         }
         return null;
@@ -121,7 +121,7 @@ public final class DoWithMatcherVisitor
     public Void visit(final TestNotMatcher matcher)
     {
         if (visited.add(matcher)) {
-            matcher.subMatcher.accept(this);
+            matcher.getSubMatcher().accept(this);
             action.process(matcher);
         }
         return null;
@@ -131,14 +131,14 @@ public final class DoWithMatcherVisitor
     public Void visit(final ZeroOrMoreMatcher matcher)
     {
         if (visited.add(matcher)) {
-            matcher.subMatcher.accept(this);
+            matcher.getSubMatcher().accept(this);
             action.process(matcher);
         }
         return null;
     }
 
     @Override
-    public Void defaultValue(final AbstractMatcher matcher)
+    protected Void defaultValue(final AbstractMatcher matcher)
     {
         if (visited.add(matcher))
             action.process(matcher);

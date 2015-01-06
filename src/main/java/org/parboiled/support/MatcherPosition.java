@@ -15,7 +15,6 @@
  */
 package org.parboiled.support;
 
-import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import org.parboiled.matchers.Matcher;
 
 public final class MatcherPosition
@@ -23,8 +22,7 @@ public final class MatcherPosition
     private final Matcher matcher;
     private final int index;
 
-    @WillBePrivate(version = "1.1")
-    protected MatcherPosition(final Matcher matcher, final int index)
+    private MatcherPosition(final Matcher matcher, final int index)
     {
         this.matcher = matcher;
         this.index = index;

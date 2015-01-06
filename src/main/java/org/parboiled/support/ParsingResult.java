@@ -16,7 +16,6 @@
 
 package org.parboiled.support;
 
-import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import com.github.parboiled1.grappa.buffers.InputBuffer;
 import com.github.parboiled1.grappa.stack.ValueStack;
 import com.google.common.base.Preconditions;
@@ -40,48 +39,42 @@ public final class ParsingResult<V>
      *
      * <p>Use {@link #isSuccess()} instead</p>
      */
-    @WillBePrivate(version = "1.1")
-    public final boolean matched;
+    private final boolean matched;
 
     /**
      * DO NOT USE DIRECTLY!
      *
      * <p>Use {@link #getParseTree()} instead.</p>
      */
-    @WillBePrivate(version = "1.1")
-    public final Node<V> parseTreeRoot;
+    private final Node<V> parseTreeRoot;
 
     /**
      * DO NOT USE DIRECTLY!
      *
      * <p>Use {@link #getTopStackValue()} instead</p>
      */
-    @WillBePrivate(version = "1.1")
-    public final V resultValue;
+    private final V resultValue;
 
     /**
      * DO NOT USE DIRECTLY!
      *
      * <p>Use {@link #getValueStack()} instead</p>
      */
-    @WillBePrivate(version = "1.1")
-    public final ValueStack<V> valueStack;
+    private final ValueStack<V> valueStack;
 
     /**
      * DO NOT USE DIRECTLY!
      *
      * <p>Use {@link #getParseErrors()} instead</p>
      */
-    @WillBePrivate(version = "1.1")
-    public final List<ParseError> parseErrors;
+    private final List<ParseError> parseErrors;
 
     /**
      * DO NOT USE DIRECTLY!
      *
-     * <p>Use {@link #getParseErrors()} instead</p>
+     * <p>Use {@link #getInputBuffer()} instead</p>
      */
-    @WillBePrivate(version = "1.1")
-    public final InputBuffer inputBuffer;
+    private final InputBuffer inputBuffer;
 
     /**
      * Creates a new ParsingResult.

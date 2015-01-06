@@ -16,7 +16,6 @@
 
 package org.parboiled.support;
 
-import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import com.google.common.base.Objects;
 
 /**
@@ -24,15 +23,23 @@ import com.google.common.base.Objects;
  */
 public final class Position
 {
-    @WillBePrivate(version = "1.1")
-    public final int line;
-    @WillBePrivate(version = "1.1")
-    public final int column;
+    private final int line;
+    private final int column;
 
     public Position(final int line, final int column)
     {
         this.line = line;
         this.column = column;
+    }
+
+    public int getLine()
+    {
+        return line;
+    }
+
+    public int getColumn()
+    {
+        return column;
     }
 
     @Override

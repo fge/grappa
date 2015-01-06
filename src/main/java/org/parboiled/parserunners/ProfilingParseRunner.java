@@ -16,7 +16,6 @@
 
 package org.parboiled.parserunners;
 
-import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import com.github.parboiled1.grappa.buffers.InputBuffer;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
@@ -243,28 +242,17 @@ public final class ProfilingParseRunner<V>
             }
         };
 
-        @WillBePrivate(version = "1.1")
-        public final int totalRuns;
-        @WillBePrivate(version = "1.1")
-        public final int totalInvocations;
-        @WillBePrivate(version = "1.1")
-        public final int totalMatches;
-        @WillBePrivate(version = "1.1")
-        public final int totalMismatches;
-        @WillBePrivate(version = "1.1")
-        public final double matchShare;
-        @WillBePrivate(version = "1.1")
-        public final int reinvocations;
-        @WillBePrivate(version = "1.1")
-        public final int rematches;
-        @WillBePrivate(version = "1.1")
-        public final int remismatches;
-        @WillBePrivate(version = "1.1")
-        public final double reinvocationShare;
-        @WillBePrivate(version = "1.1")
-        public final long totalNanoTime;
-        @WillBePrivate(version = "1.1")
-        public final List<RuleReport> ruleReports;
+        private final int totalRuns;
+        private final int totalInvocations;
+        private final int totalMatches;
+        private final int totalMismatches;
+        private final double matchShare;
+        private final int reinvocations;
+        private final int rematches;
+        private final int remismatches;
+        private final double reinvocationShare;
+        private final long totalNanoTime;
+        private final List<RuleReport> ruleReports;
 
         public Report(final int totalRuns, final int totalMatches,
             final int totalMismatches, final int rematches,
@@ -283,6 +271,36 @@ public final class ProfilingParseRunner<V>
                 / (double) totalInvocations;
             this.totalNanoTime = totalNanoTime;
             this.ruleReports = ruleReports;
+        }
+
+        public int getTotalRuns()
+        {
+            return totalRuns;
+        }
+
+        public int getTotalMatches()
+        {
+            return totalMatches;
+        }
+
+        public int getTotalMismatches()
+        {
+            return totalMismatches;
+        }
+
+        public int getRematches()
+        {
+            return rematches;
+        }
+
+        public int getRemismatches()
+        {
+            return remismatches;
+        }
+
+        public List<RuleReport> getRuleReports()
+        {
+            return ruleReports;
         }
 
         public String printBasics()

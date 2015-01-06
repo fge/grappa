@@ -438,7 +438,7 @@ public final class ParseTreeUtils
         Preconditions.checkNotNull(nodeFilter, "nodeFilter");
         Preconditions.checkNotNull(subTreeFilter, "subTreeFilter");
         return printTree(parsingResult.getParseTree(),
-            new NodeFormatter<V>(parsingResult.inputBuffer), nodeFilter,
+            new NodeFormatter<V>(parsingResult.getInputBuffer()), nodeFilter,
             subTreeFilter);
     }
 }

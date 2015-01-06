@@ -16,7 +16,6 @@
 
 package org.parboiled.support;
 
-import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import com.google.common.base.Preconditions;
 import org.parboiled.Context;
 import org.parboiled.matchers.Matcher;
@@ -33,12 +32,9 @@ public final class MatcherPath
 {
     public static final class Element
     {
-        @WillBePrivate(version = "1.1")
-        public final Matcher matcher;
-        @WillBePrivate(version = "1.1")
-        public final int startIndex;
-        @WillBePrivate(version = "1.1")
-        public final int level;
+        private final Matcher matcher;
+        private final int startIndex;
+        private final int level;
 
         public Element(final Matcher matcher, final int startIndex,
             final int level)
@@ -48,12 +44,12 @@ public final class MatcherPath
             this.level = level;
         }
 
-        public final Matcher getMatcher()
+        public Matcher getMatcher()
         {
             return matcher;
         }
 
-        public final int getStartIndex()
+        public int getStartIndex()
         {
             return startIndex;
         }
@@ -64,10 +60,8 @@ public final class MatcherPath
         }
     }
 
-    @WillBePrivate(version = "1.1")
-    public final Element element;
-    @WillBePrivate(version = "1.1")
-    public final MatcherPath parent;
+    private final Element element;
+    private final MatcherPath parent;
 
     /**
      * Constructs a new MatcherPath wrapping the given elements.
@@ -109,17 +103,17 @@ public final class MatcherPath
         return isPrefixOf(that.getParent());
     }
 
-    public final Element getElement()
+    public Element getElement()
     {
         return element;
     }
 
-    public final MatcherPath getParent()
+    public MatcherPath getParent()
     {
         return parent;
     }
 
-    public final boolean hasParent()
+    public boolean hasParent()
     {
         return parent != null;
     }

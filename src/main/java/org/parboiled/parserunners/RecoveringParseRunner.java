@@ -661,7 +661,7 @@ public final class RecoveringParseRunner<V>
         }
 
         @Override
-        public List<ActionMatcher> defaultValue(final AbstractMatcher matcher)
+        protected List<ActionMatcher> defaultValue(final AbstractMatcher matcher)
         {
             return ImmutableList.of();
         }

@@ -129,10 +129,10 @@ public class TracingParseRunner<V>
 
         log.write(path.toString(prefix != null ? prefix.getParent() : null));
 
-        final String line = context.getInputBuffer().extractLine(pos.line);
+        final String line = context.getInputBuffer().extractLine(pos.getLine());
         log.write(", " + (matched ? "matched" : "failed") + ", cursor at "
-            + pos.line + ':' + pos.column + " after \""
-            + line.substring(0, Math.min(line.length(), pos.column - 1))
+            + pos.getLine() + ':' + pos.getColumn() + " after \""
+            + line.substring(0, Math.min(line.length(), pos.getColumn() - 1))
             + "\"\n"
         );
         lastPath = path;

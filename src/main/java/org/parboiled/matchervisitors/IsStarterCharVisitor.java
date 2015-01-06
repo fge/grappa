@@ -171,7 +171,7 @@ public final class IsStarterCharVisitor
     @Override
     public Boolean visit(final TestMatcher matcher)
     {
-        return matcher.subMatcher.accept(this);
+        return matcher.getSubMatcher().accept(this);
     }
 
     @Override
@@ -183,6 +183,6 @@ public final class IsStarterCharVisitor
     @Override
     public Boolean visit(final ZeroOrMoreMatcher matcher)
     {
-        return matcher.subMatcher.accept(this);
+        return matcher.getSubMatcher().accept(this);
     }
 }

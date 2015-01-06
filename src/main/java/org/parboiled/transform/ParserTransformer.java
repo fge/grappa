@@ -16,7 +16,6 @@
 
 package org.parboiled.transform;
 
-import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
@@ -126,8 +125,7 @@ public final class ParserTransformer
         }
     }
 
-    @WillBePrivate(version = "1.1")
-    static List<RuleMethodProcessor> createRuleMethodProcessors()
+    private static List<RuleMethodProcessor> createRuleMethodProcessors()
     {
         return ImmutableList.of(
             new UnusedLabelsRemover(),

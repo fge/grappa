@@ -473,7 +473,7 @@ public abstract class BaseParser<V>
             rule = convertedRules[i];
             if (!(rule instanceof StringMatcher))
                 return new FirstOfMatcher(convertedRules);
-            chars[i] = ((StringMatcher) rule).characters;
+            chars[i] = ((StringMatcher) rule).getCharacters();
         }
         return new FirstOfStringsMatcher(convertedRules, chars);
     }

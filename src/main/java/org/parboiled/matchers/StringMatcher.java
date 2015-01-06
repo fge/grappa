@@ -16,7 +16,6 @@
 
 package org.parboiled.matchers;
 
-import com.github.parboiled1.grappa.annotations.WillBePrivate;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
@@ -28,13 +27,17 @@ import org.parboiled.Rule;
 public final class StringMatcher
     extends SequenceMatcher
 {
-    @WillBePrivate(version = "1.1")
-    public final char[] characters;
+    private final char[] characters;
 
     public StringMatcher(final Rule[] charMatchers, final char[] characters)
     {
         super(Preconditions.checkNotNull(charMatchers, "charMatchers"));
         this.characters = characters;
+    }
+
+    public char[] getCharacters()
+    {
+        return characters;
     }
 
     @Override

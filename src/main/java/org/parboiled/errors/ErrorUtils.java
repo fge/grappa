@@ -200,17 +200,18 @@ public final class ErrorUtils
         Preconditions.checkNotNull(inputBuffer, "inputBuffer");
         Preconditions.checkArgument(startIndex <= endIndex);
         final Position pos = inputBuffer.getPosition(startIndex);
-        final StringBuilder sb = new StringBuilder(
-            String.format(format, errorMessage, pos.line, pos.column));
+        final StringBuilder sb = new StringBuilder(String.format(format,
+            errorMessage, pos.getLine(), pos.getColumn()));
         sb.append('\n');
 
-        final String line = inputBuffer.extractLine(pos.line);
+        final String line = inputBuffer.extractLine(pos.getLine());
         sb.append(line);
         sb.append('\n');
 
         final int charCount = Math.max(
-            Math.min(endIndex - startIndex, line.length() - pos.column + 2), 1);
-        for (int i = 0; i < pos.column - 1; i++)
+            Math.min(endIndex - startIndex,
+                line.length() - pos.getColumn() + 2), 1);
+        for (int i = 0; i < pos.getColumn() - 1; i++)
             sb.append(' ');
         for (int i = 0; i < charCount; i++)
             sb.append('^');

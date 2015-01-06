@@ -37,7 +37,7 @@ public final class ProfilingReportSoftAssert
 
     public ProfilingReportSoftAssert hasTotalRuns(final int expected)
     {
-        soft.assertThat(report.totalRuns)
+        soft.assertThat(report.getTotalRuns())
             .as("profiling report: total runs")
             .isEqualTo(expected);
         return this;
@@ -45,7 +45,7 @@ public final class ProfilingReportSoftAssert
 
     public ProfilingReportSoftAssert hasMatches(final int expected)
     {
-        soft.assertThat(report.totalMatches)
+        soft.assertThat(report.getTotalMatches())
             .as("profiling report: number of matches")
             .isEqualTo(expected);
         return this;
@@ -53,7 +53,7 @@ public final class ProfilingReportSoftAssert
 
     public ProfilingReportSoftAssert hasMismatches(final int expected)
     {
-        soft.assertThat(report.totalMismatches)
+        soft.assertThat(report.getTotalMismatches())
             .as("profiling report: number of mismatches")
             .isEqualTo(expected);
         return this;
@@ -61,7 +61,7 @@ public final class ProfilingReportSoftAssert
 
     public ProfilingReportSoftAssert hasRematches(final int expected)
     {
-        soft.assertThat(report.rematches)
+        soft.assertThat(report.getRematches())
             .as("profiling report: number of rematches")
             .isEqualTo(expected);
         return this;
@@ -69,7 +69,7 @@ public final class ProfilingReportSoftAssert
 
     public ProfilingReportSoftAssert hasRemismatches(final int expected)
     {
-        soft.assertThat(report.remismatches)
+        soft.assertThat(report.getRemismatches())
             .as("profiling report: number of remismatches")
             .isEqualTo(expected);
         return this;
@@ -77,7 +77,7 @@ public final class ProfilingReportSoftAssert
 
     public ProfilingReportSoftAssert hasNumberOfRuleReports(final int expected)
     {
-        soft.assertThat(report.ruleReports)
+        soft.assertThat(report.getRuleReports())
             .as("profiling report: number of rule reports")
             .hasSize(expected);
         return this;
@@ -85,11 +85,11 @@ public final class ProfilingReportSoftAssert
 
     public ProfilingReportSoftAssert matchesReport(final Report other)
     {
-        return hasTotalRuns(other.totalRuns)
-            .hasMatches(other.totalMatches)
-            .hasMismatches(other.totalMismatches)
-            .hasRematches(other.rematches)
-            .hasRemismatches(other.remismatches)
-            .hasNumberOfRuleReports(other.ruleReports.size());
+        return hasTotalRuns(other.getTotalRuns())
+            .hasMatches(other.getTotalMatches())
+            .hasMismatches(other.getTotalMismatches())
+            .hasRematches(other.getRematches())
+            .hasRemismatches(other.getRemismatches())
+            .hasNumberOfRuleReports(other.getRuleReports().size());
     }
 }
