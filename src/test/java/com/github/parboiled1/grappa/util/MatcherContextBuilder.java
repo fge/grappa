@@ -24,7 +24,7 @@ import com.google.common.base.Preconditions;
 import org.parboiled.DefaultMatcherContext;
 import org.parboiled.MatcherContext;
 import org.parboiled.errors.ParseError;
-import org.parboiled.matchers.Matcher;
+import com.github.parboiled1.grappa.matchers.Matcher;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;

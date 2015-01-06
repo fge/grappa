@@ -15,7 +15,7 @@
  */
 package org.parboiled.support;
 
-import org.parboiled.matchers.Matcher;
+import com.github.parboiled1.grappa.matchers.Matcher;
 
 public final class MatcherPosition
 {

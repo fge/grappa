@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package org.parboiled.matchers;
+package com.github.parboiled1.grappa.matchers;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
+import org.parboiled.matchers.MemoMismatchesMatcher;
 import org.parboiled.trees.ImmutableGraphNode;
 
 /**

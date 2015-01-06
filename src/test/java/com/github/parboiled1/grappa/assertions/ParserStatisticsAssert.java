@@ -21,7 +21,7 @@ import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.SoftAssertions;
 import org.parboiled.Action;
 import org.parboiled.ParserStatistics;
-import org.parboiled.matchers.Matcher;
+import com.github.parboiled1.grappa.matchers.Matcher;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;

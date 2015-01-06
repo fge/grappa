@@ -24,7 +24,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import org.assertj.core.api.SoftAssertions;
 import org.parboiled.ParserStatistics;
-import org.parboiled.matchers.Matcher;
+import com.github.parboiled1.grappa.matchers.Matcher;
 
 import javax.annotation.Nonnull;
 import java.util.Map;

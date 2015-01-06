@@ -26,7 +26,7 @@ import org.parboiled.matchers.AnyOfMatcher;
 import org.parboiled.matchers.CharIgnoreCaseMatcher;
 import org.parboiled.matchers.CharMatcher;
 import org.parboiled.matchers.CharRangeMatcher;
-import org.parboiled.matchers.CustomMatcher;
+import com.github.parboiled1.grappa.matchers.CustomMatcher;
 import org.parboiled.matchers.EmptyMatcher;
 import org.parboiled.matchers.FirstOfMatcher;
 import org.parboiled.matchers.NothingMatcher;

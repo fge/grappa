@@ -17,7 +17,7 @@
 package org.parboiled;
 
 import org.parboiled.annotations.BuildParseTree;
-import org.parboiled.matchers.Matcher;
+import com.github.parboiled1.grappa.matchers.Matcher;
 import org.parboiled.support.Var;
 import org.parboiled.test.ParboiledTest;
 import org.testng.annotations.Test;

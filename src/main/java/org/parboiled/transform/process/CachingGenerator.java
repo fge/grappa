@@ -31,7 +31,7 @@ import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.LabelNode;
 import org.parboiled.Rule;
-import org.parboiled.matchers.Matcher;
+import com.github.parboiled1.grappa.matchers.Matcher;
 import org.parboiled.matchers.ProxyMatcher;
 import org.parboiled.transform.CacheArguments;
 import org.parboiled.transform.ParserClassNode;

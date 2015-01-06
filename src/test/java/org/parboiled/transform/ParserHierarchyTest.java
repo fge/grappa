@@ -113,8 +113,8 @@ public class ParserHierarchyTest {
                 "25     INVOKEINTERFACE org/parboiled/Rule.label (Ljava/lang/String;)Lorg/parboiled/Rule;\n" +
                 "26    L1\n" +
                 "27     DUP_X1\n" +
-                "28     CHECKCAST org/parboiled/matchers/Matcher\n" +
-                "29     INVOKEVIRTUAL org/parboiled/matchers/ProxyMatcher.arm (Lorg/parboiled/matchers/Matcher;)V\n" +
+                "28     CHECKCAST com/github/parboiled1/grappa/matchers/Matcher\n" +
+                "29     INVOKEVIRTUAL org/parboiled/matchers/ProxyMatcher.arm (Lcom/github/parboiled1/grappa/matchers/Matcher;)V\n" +
                 "30     DUP\n" +
                 "31     ALOAD 0\n" +
                 "32     SWAP\n" +
@@ -178,8 +178,8 @@ public class ParserHierarchyTest {
                 "35     INVOKEINTERFACE org/parboiled/Rule.label (Ljava/lang/String;)Lorg/parboiled/Rule;\n" +
                 "36    L1\n" +
                 "37     DUP_X1\n" +
-                "38     CHECKCAST org/parboiled/matchers/Matcher\n" +
-                "39     INVOKEVIRTUAL org/parboiled/matchers/ProxyMatcher.arm (Lorg/parboiled/matchers/Matcher;)V\n" +
+                "38     CHECKCAST com/github/parboiled1/grappa/matchers/Matcher\n" +
+                "39     INVOKEVIRTUAL org/parboiled/matchers/ProxyMatcher.arm (Lcom/github/parboiled1/grappa/matchers/Matcher;)V\n" +
                 "40     DUP\n" +
                 "41     ALOAD 0\n" +
                 "42     SWAP\n" +
@@ -233,8 +233,8 @@ public class ParserHierarchyTest {
                 "25     INVOKEINTERFACE org/parboiled/Rule.label (Ljava/lang/String;)Lorg/parboiled/Rule;\n" +
                 "26    L1\n" +
                 "27     DUP_X1\n" +
-                "28     CHECKCAST org/parboiled/matchers/Matcher\n" +
-                "29     INVOKEVIRTUAL org/parboiled/matchers/ProxyMatcher.arm (Lorg/parboiled/matchers/Matcher;)V\n" +
+                "28     CHECKCAST com/github/parboiled1/grappa/matchers/Matcher\n" +
+                "29     INVOKEVIRTUAL org/parboiled/matchers/ProxyMatcher.arm (Lcom/github/parboiled1/grappa/matchers/Matcher;)V\n" +
                 "30     DUP\n" +
                 "31     ALOAD 0\n" +
                 "32     SWAP\n" +

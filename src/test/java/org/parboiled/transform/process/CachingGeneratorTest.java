@@ -66,8 +66,8 @@ public class CachingGeneratorTest extends TransformationTest {
                 "    INVOKEINTERFACE org/parboiled/Rule.label (Ljava/lang/String;)Lorg/parboiled/Rule;\n" +
                 "   L1\n" +
                 "    DUP_X1\n" +
-                "    CHECKCAST org/parboiled/matchers/Matcher\n" +
-                "    INVOKEVIRTUAL org/parboiled/matchers/ProxyMatcher.arm (Lorg/parboiled/matchers/Matcher;)V\n" +
+                "    CHECKCAST com/github/parboiled1/grappa/matchers/Matcher\n" +
+                "    INVOKEVIRTUAL org/parboiled/matchers/ProxyMatcher.arm (Lcom/github/parboiled1/grappa/matchers/Matcher;)V\n" +
                 "    DUP\n" +
                 "    ALOAD 0\n" +
                 "    SWAP\n" +
@@ -98,8 +98,8 @@ public class CachingGeneratorTest extends TransformationTest {
                 "    INVOKEINTERFACE org/parboiled/Rule.label (Ljava/lang/String;)Lorg/parboiled/Rule;\n" +
                 "   L1\n" +
                 "    DUP_X1\n" +
-                "    CHECKCAST org/parboiled/matchers/Matcher\n" +
-                "    INVOKEVIRTUAL org/parboiled/matchers/ProxyMatcher.arm (Lorg/parboiled/matchers/Matcher;)V\n" +
+                "    CHECKCAST com/github/parboiled1/grappa/matchers/Matcher\n" +
+                "    INVOKEVIRTUAL org/parboiled/matchers/ProxyMatcher.arm (Lcom/github/parboiled1/grappa/matchers/Matcher;)V\n" +
                 "    DUP\n" +
                 "    ALOAD 0\n" +
                 "    SWAP\n" +
@@ -133,8 +133,8 @@ public class CachingGeneratorTest extends TransformationTest {
                 "    INVOKEINTERFACE org/parboiled/Rule.suppressNode ()Lorg/parboiled/Rule;\n" +
                 "   L2\n" +
                 "    DUP_X1\n" +
-                "    CHECKCAST org/parboiled/matchers/Matcher\n" +
-                "    INVOKEVIRTUAL org/parboiled/matchers/ProxyMatcher.arm (Lorg/parboiled/matchers/Matcher;)V\n" +
+                "    CHECKCAST com/github/parboiled1/grappa/matchers/Matcher\n" +
+                "    INVOKEVIRTUAL org/parboiled/matchers/ProxyMatcher.arm (Lcom/github/parboiled1/grappa/matchers/Matcher;)V\n" +
                 "    DUP\n" +
                 "    ALOAD 0\n" +
                 "    SWAP\n" +

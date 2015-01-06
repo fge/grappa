@@ -22,7 +22,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
 import org.parboiled.common.Formatter;
-import org.parboiled.matchers.Matcher;
+import com.github.parboiled1.grappa.matchers.Matcher;
 import org.parboiled.matchers.TestNotMatcher;
 import org.parboiled.support.MatcherPath;
 import org.parboiled.support.ParsingResult;

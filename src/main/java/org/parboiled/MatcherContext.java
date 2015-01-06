@@ -16,7 +16,7 @@
 
 package org.parboiled;
 
-import org.parboiled.matchers.Matcher;
+import com.github.parboiled1.grappa.matchers.Matcher;
 
 public interface MatcherContext<V>
     extends Context<V>

@@ -16,6 +16,8 @@
 
 package org.parboiled.matchers;
 
+import com.github.parboiled1.grappa.matchers.Matcher;
+
 public final class MatcherUtils
 {
 

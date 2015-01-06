@@ -17,7 +17,7 @@
 package com.github.parboiled1.grappa.assertions.mixins;
 
 import org.parboiled.MatcherContext;
-import org.parboiled.matchers.CustomMatcher;
+import com.github.parboiled1.grappa.matchers.CustomMatcher;
 
 final class DummyMatcher
     extends CustomMatcher

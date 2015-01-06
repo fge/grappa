@@ -23,7 +23,7 @@ import org.mockito.stubbing.Answer;
 import org.parboiled.BaseParser;
 import org.parboiled.Rule;
 import org.parboiled.matchers.EmptyMatcher;
-import org.parboiled.matchers.Matcher;
+import com.github.parboiled1.grappa.matchers.Matcher;
 import org.parboiled.matchers.OptionalMatcher;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;

@@ -21,7 +21,7 @@ import com.github.parboiled1.grappa.stack.ValueStack;
 import org.parboiled.annotations.SuppressNode;
 import org.parboiled.annotations.SuppressSubnodes;
 import org.parboiled.errors.ParseError;
-import org.parboiled.matchers.Matcher;
+import com.github.parboiled1.grappa.matchers.Matcher;
 import org.parboiled.parserunners.ReportingParseRunner;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.MatcherPath;

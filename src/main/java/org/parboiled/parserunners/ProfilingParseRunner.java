@@ -24,7 +24,7 @@ import com.google.common.primitives.Longs;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
-import org.parboiled.matchers.Matcher;
+import com.github.parboiled1.grappa.matchers.Matcher;
 import org.parboiled.matchervisitors.DoWithMatcherVisitor;
 import org.parboiled.support.ParsingResult;
 

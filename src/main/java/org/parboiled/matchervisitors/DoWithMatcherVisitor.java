@@ -18,9 +18,9 @@ package org.parboiled.matchervisitors;
 
 import com.github.parboiled1.grappa.matchers.join.JoinMatcher;
 import com.google.common.base.Preconditions;
-import org.parboiled.matchers.AbstractMatcher;
+import com.github.parboiled1.grappa.matchers.AbstractMatcher;
 import org.parboiled.matchers.FirstOfMatcher;
-import org.parboiled.matchers.Matcher;
+import com.github.parboiled1.grappa.matchers.Matcher;
 import org.parboiled.matchers.OneOrMoreMatcher;
 import org.parboiled.matchers.OptionalMatcher;
 import org.parboiled.matchers.SequenceMatcher;
