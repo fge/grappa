@@ -50,7 +50,13 @@ public class SequenceMatcher
 
         final List<Matcher> children = getChildren();
         final int size = children.size();
-        for (final Matcher matcher: children) {
+        for (int i = 0; i < size; i++) {
+            final Matcher matcher = children.get(i);
+
+            // remember the current index in the context, so we can access it
+            // for building the current follower set
+            context.setIntTag(i);
+
             if (!matcher.getSubContext(context).runMatcher()) {
                 // rule failed, so invalidate all stack actions the rule might
                 // have done

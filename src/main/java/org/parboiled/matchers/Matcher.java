@@ -95,7 +95,6 @@ public interface Matcher
      *
      * @return the tag object or null if none set
      */
-    // TODO: only used from ProfilingParseRunner
     Object getTag();
 
     /**
