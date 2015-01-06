@@ -39,18 +39,6 @@ import java.util.List;
 public interface Context<V>
 {
     /**
-     * Returns the parent context, i.e. the context for the currently running
-     * parent matcher.
-     *
-     * @return the parent context
-     *
-     * @deprecated unused; see {@link MatcherContext#getParent()}
-     */
-    // TODO: only used in ActionMatcher, FollowMatchersVisitor,
-    // ErrorLocatingParseRunner, RecoveringParseRunner.Handler
-    Context<V> getParent();
-
-    /**
      * Returns the InputBuffer the parser is currently running against
      *
      * @return the InputBuffer

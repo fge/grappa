@@ -16,7 +16,7 @@
 
 package org.parboiled.support;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 
 /**
  * Simple container class for a line/column position in the input text.
@@ -63,7 +63,7 @@ public final class Position
     @Override
     public String toString()
     {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
             .add("line", line)
             .add("column", column)
             .toString();
