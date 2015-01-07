@@ -366,6 +366,7 @@ public final class DefaultMatcherContext<V>
     private void checkActionContext()
     {
         // make sure all the constraints are met
+        // TODO: why is intTag required to be > 0 at all?
         final boolean condition = unwrap(matcher) instanceof SequenceMatcher
             && intTag > 0
             && subContext.matcher instanceof ActionMatcher;
