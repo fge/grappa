@@ -17,6 +17,9 @@
 package org.parboiled.matchers;
 
 import com.github.parboiled1.grappa.matchers.Matcher;
+import com.github.parboiled1.grappa.matchers.wrap.MemoMismatchesMatcher;
+import com.github.parboiled1.grappa.matchers.wrap.ProxyMatcher;
+import com.github.parboiled1.grappa.matchers.wrap.VarFramingMatcher;
 
 public final class MatcherUtils
 {

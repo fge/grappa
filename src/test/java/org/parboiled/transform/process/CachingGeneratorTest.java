@@ -51,9 +51,9 @@ public class CachingGeneratorTest extends TransformationTest {
                 "    ARETURN\n" +
                 "   L0\n" +
                 "    POP\n" +
-                "    NEW org/parboiled/matchers/ProxyMatcher\n" +
+                "    NEW com/github/parboiled1/grappa/matchers/wrap/ProxyMatcher\n" +
                 "    DUP\n" +
-                "    INVOKESPECIAL org/parboiled/matchers/ProxyMatcher.<init> ()V\n" +
+                "    INVOKESPECIAL com/github/parboiled1/grappa/matchers/wrap/ProxyMatcher.<init> ()V\n" +
                 "    DUP\n" +
                 "    ALOAD 0\n" +
                 "    SWAP\n" +
@@ -67,7 +67,7 @@ public class CachingGeneratorTest extends TransformationTest {
                 "   L1\n" +
                 "    DUP_X1\n" +
                 "    CHECKCAST com/github/parboiled1/grappa/matchers/Matcher\n" +
-                "    INVOKEVIRTUAL org/parboiled/matchers/ProxyMatcher.arm (Lcom/github/parboiled1/grappa/matchers/Matcher;)V\n" +
+                "    INVOKEVIRTUAL com/github/parboiled1/grappa/matchers/wrap/ProxyMatcher.arm (Lcom/github/parboiled1/grappa/matchers/Matcher;)V\n" +
                 "    DUP\n" +
                 "    ALOAD 0\n" +
                 "    SWAP\n" +
@@ -83,9 +83,9 @@ public class CachingGeneratorTest extends TransformationTest {
                 "    ARETURN\n" +
                 "   L0\n" +
                 "    POP\n" +
-                "    NEW org/parboiled/matchers/ProxyMatcher\n" +
+                "    NEW com/github/parboiled1/grappa/matchers/wrap/ProxyMatcher\n" +
                 "    DUP\n" +
-                "    INVOKESPECIAL org/parboiled/matchers/ProxyMatcher.<init> ()V\n" +
+                "    INVOKESPECIAL com/github/parboiled1/grappa/matchers/wrap/ProxyMatcher.<init> ()V\n" +
                 "    DUP\n" +
                 "    ALOAD 0\n" +
                 "    SWAP\n" +
@@ -99,7 +99,7 @@ public class CachingGeneratorTest extends TransformationTest {
                 "   L1\n" +
                 "    DUP_X1\n" +
                 "    CHECKCAST com/github/parboiled1/grappa/matchers/Matcher\n" +
-                "    INVOKEVIRTUAL org/parboiled/matchers/ProxyMatcher.arm (Lcom/github/parboiled1/grappa/matchers/Matcher;)V\n" +
+                "    INVOKEVIRTUAL com/github/parboiled1/grappa/matchers/wrap/ProxyMatcher.arm (Lcom/github/parboiled1/grappa/matchers/Matcher;)V\n" +
                 "    DUP\n" +
                 "    ALOAD 0\n" +
                 "    SWAP\n" +
@@ -114,9 +114,9 @@ public class CachingGeneratorTest extends TransformationTest {
                 "    ARETURN\n" +
                 "   L0\n" +
                 "    POP\n" +
-                "    NEW org/parboiled/matchers/ProxyMatcher\n" +
+                "    NEW com/github/parboiled1/grappa/matchers/wrap/ProxyMatcher\n" +
                 "    DUP\n" +
-                "    INVOKESPECIAL org/parboiled/matchers/ProxyMatcher.<init> ()V\n" +
+                "    INVOKESPECIAL com/github/parboiled1/grappa/matchers/wrap/ProxyMatcher.<init> ()V\n" +
                 "    DUP\n" +
                 "    ALOAD 0\n" +
                 "    SWAP\n" +
@@ -134,7 +134,7 @@ public class CachingGeneratorTest extends TransformationTest {
                 "   L2\n" +
                 "    DUP_X1\n" +
                 "    CHECKCAST com/github/parboiled1/grappa/matchers/Matcher\n" +
-                "    INVOKEVIRTUAL org/parboiled/matchers/ProxyMatcher.arm (Lcom/github/parboiled1/grappa/matchers/Matcher;)V\n" +
+                "    INVOKEVIRTUAL com/github/parboiled1/grappa/matchers/wrap/ProxyMatcher.arm (Lcom/github/parboiled1/grappa/matchers/Matcher;)V\n" +
                 "    DUP\n" +
                 "    ALOAD 0\n" +
                 "    SWAP\n" +

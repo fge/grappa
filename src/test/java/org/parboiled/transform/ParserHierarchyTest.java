@@ -92,9 +92,9 @@ public class ParserHierarchyTest {
                 " 4     ARETURN\n" +
                 " 5    L0\n" +
                 " 6     POP\n" +
-                " 7     NEW org/parboiled/matchers/ProxyMatcher\n" +
+                " 7     NEW com/github/parboiled1/grappa/matchers/wrap/ProxyMatcher\n" +
                 " 8     DUP\n" +
-                " 9     INVOKESPECIAL org/parboiled/matchers/ProxyMatcher.<init> ()V\n" +
+                " 9     INVOKESPECIAL com/github/parboiled1/grappa/matchers/wrap/ProxyMatcher.<init> ()V\n" +
                 "10     DUP\n" +
                 "11     ALOAD 0\n" +
                 "12     SWAP\n" +
@@ -114,7 +114,7 @@ public class ParserHierarchyTest {
                 "26    L1\n" +
                 "27     DUP_X1\n" +
                 "28     CHECKCAST com/github/parboiled1/grappa/matchers/Matcher\n" +
-                "29     INVOKEVIRTUAL org/parboiled/matchers/ProxyMatcher.arm (Lcom/github/parboiled1/grappa/matchers/Matcher;)V\n" +
+                "29     INVOKEVIRTUAL com/github/parboiled1/grappa/matchers/wrap/ProxyMatcher.arm (Lcom/github/parboiled1/grappa/matchers/Matcher;)V\n" +
                 "30     DUP\n" +
                 "31     ALOAD 0\n" +
                 "32     SWAP\n" +
@@ -147,9 +147,9 @@ public class ParserHierarchyTest {
                 " 4     ARETURN\n" +
                 " 5    L0\n" +
                 " 6     POP\n" +
-                " 7     NEW org/parboiled/matchers/ProxyMatcher\n" +
+                " 7     NEW com/github/parboiled1/grappa/matchers/wrap/ProxyMatcher\n" +
                 " 8     DUP\n" +
-                " 9     INVOKESPECIAL org/parboiled/matchers/ProxyMatcher.<init> ()V\n" +
+                " 9     INVOKESPECIAL com/github/parboiled1/grappa/matchers/wrap/ProxyMatcher.<init> ()V\n" +
                 "10     DUP\n" +
                 "11     ALOAD 0\n" +
                 "12     SWAP\n" +
@@ -179,7 +179,7 @@ public class ParserHierarchyTest {
                 "36    L1\n" +
                 "37     DUP_X1\n" +
                 "38     CHECKCAST com/github/parboiled1/grappa/matchers/Matcher\n" +
-                "39     INVOKEVIRTUAL org/parboiled/matchers/ProxyMatcher.arm (Lcom/github/parboiled1/grappa/matchers/Matcher;)V\n" +
+                "39     INVOKEVIRTUAL com/github/parboiled1/grappa/matchers/wrap/ProxyMatcher.arm (Lcom/github/parboiled1/grappa/matchers/Matcher;)V\n" +
                 "40     DUP\n" +
                 "41     ALOAD 0\n" +
                 "42     SWAP\n" +
@@ -212,9 +212,9 @@ public class ParserHierarchyTest {
                 " 4     ARETURN\n" +
                 " 5    L0\n" +
                 " 6     POP\n" +
-                " 7     NEW org/parboiled/matchers/ProxyMatcher\n" +
+                " 7     NEW com/github/parboiled1/grappa/matchers/wrap/ProxyMatcher\n" +
                 " 8     DUP\n" +
-                " 9     INVOKESPECIAL org/parboiled/matchers/ProxyMatcher.<init> ()V\n" +
+                " 9     INVOKESPECIAL com/github/parboiled1/grappa/matchers/wrap/ProxyMatcher.<init> ()V\n" +
                 "10     DUP\n" +
                 "11     ALOAD 0\n" +
                 "12     SWAP\n" +
@@ -234,7 +234,7 @@ public class ParserHierarchyTest {
                 "26    L1\n" +
                 "27     DUP_X1\n" +
                 "28     CHECKCAST com/github/parboiled1/grappa/matchers/Matcher\n" +
-                "29     INVOKEVIRTUAL org/parboiled/matchers/ProxyMatcher.arm (Lcom/github/parboiled1/grappa/matchers/Matcher;)V\n" +
+                "29     INVOKEVIRTUAL com/github/parboiled1/grappa/matchers/wrap/ProxyMatcher.arm (Lcom/github/parboiled1/grappa/matchers/Matcher;)V\n" +
                 "30     DUP\n" +
                 "31     ALOAD 0\n" +
                 "32     SWAP\n" +

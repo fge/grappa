@@ -21,7 +21,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
-import org.parboiled.matchers.MemoMismatchesMatcher;
+import com.github.parboiled1.grappa.matchers.wrap.MemoMismatchesMatcher;
 import org.parboiled.trees.ImmutableGraphNode;
 
 /**

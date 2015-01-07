@@ -46,7 +46,7 @@ public class ActionVarTest extends ParboiledTest<Integer>
         final Parser parser = Parboiled.createParser(Parser.class);
         final Matcher rule = (Matcher) parser.A();
 
-        assertEquals(rule.getClass().getName(), "org.parboiled.matchers.VarFramingMatcher");
+        assertEquals(rule.getClass().getName(), "com.github.parboiled1.grappa.matchers.wrap.VarFramingMatcher");
 
         test(rule, "aaaa")
                 .hasNoErrors()

@@ -27,7 +27,7 @@ import org.parboiled.errors.ParseError;
 import org.parboiled.errors.ParserRuntimeException;
 import org.parboiled.matchers.ActionMatcher;
 import com.github.parboiled1.grappa.matchers.Matcher;
-import org.parboiled.matchers.ProxyMatcher;
+import com.github.parboiled1.grappa.matchers.wrap.ProxyMatcher;
 import org.parboiled.matchers.SequenceMatcher;
 import com.github.parboiled1.grappa.matchers.predicates.TestMatcher;
 import com.github.parboiled1.grappa.matchers.predicates.TestNotMatcher;

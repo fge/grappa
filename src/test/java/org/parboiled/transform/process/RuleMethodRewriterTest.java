@@ -144,7 +144,7 @@ public class RuleMethodRewriterTest extends TransformationTest {
                 "64     PUTFIELD org/parboiled/transform/Action$XXXXXXXXXXXXXXXX.field$4 : I\n" +
                 "65     AASTORE\n" +
                 "66     INVOKEVIRTUAL org/parboiled/transform/TestParser.sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lorg/parboiled/Rule;\n" +
-                "67     NEW org/parboiled/matchers/VarFramingMatcher\n" +
+                "67     NEW com/github/parboiled1/grappa/matchers/wrap/VarFramingMatcher\n" +
                 "68     DUP_X1\n" +
                 "69     SWAP\n" +
                 "70     BIPUSH 1\n" +
@@ -156,7 +156,7 @@ public class RuleMethodRewriterTest extends TransformationTest {
                 "76     LDC \"RuleWithComplexActionSetup:string\"\n" +
                 "77     INVOKEVIRTUAL org/parboiled/support/Var.setName (Ljava/lang/String;)V\n" +
                 "78     AASTORE\n" +
-                "79     INVOKESPECIAL org/parboiled/matchers/VarFramingMatcher.<init> (Lorg/parboiled/Rule;[Lorg/parboiled/support/Var;)V\n" +
+                "79     INVOKESPECIAL com/github/parboiled1/grappa/matchers/wrap/VarFramingMatcher.<init> (Lorg/parboiled/Rule;[Lorg/parboiled/support/Var;)V\n" +
                 "80     ARETURN\n");
     }
 
