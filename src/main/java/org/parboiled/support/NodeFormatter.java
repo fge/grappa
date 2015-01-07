@@ -20,6 +20,7 @@ import com.github.parboiled1.grappa.buffers.InputBuffer;
 import com.google.common.base.Preconditions;
 import org.parboiled.Node;
 import org.parboiled.common.Formatter;
+import org.parboiled.trees.ParseTreeUtils;
 
 import javax.annotation.Nonnull;
 

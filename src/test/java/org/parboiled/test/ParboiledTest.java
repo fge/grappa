@@ -24,7 +24,7 @@ import org.parboiled.support.ParsingResult;
 
 import static org.assertj.core.api.Fail.fail;
 import static org.parboiled.errors.ErrorUtils.printParseErrors;
-import static org.parboiled.support.ParseTreeUtils.printNodeTree;
+import static org.parboiled.trees.ParseTreeUtils.printNodeTree;
 import static org.testng.Assert.assertEquals;
 
 public abstract class ParboiledTest<V> {

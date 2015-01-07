@@ -18,6 +18,7 @@ package org.parboiled.support;
 
 import com.google.common.base.Predicate;
 import org.parboiled.Node;
+import org.parboiled.trees.ParseTreeUtils;
 
 import javax.annotation.Nullable;
 

@@ -25,76 +25,15 @@ import org.parboiled.common.Formatter;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.HashSet;
 
 /**
  * General utility methods for operating on directed graphs (consisting of
  * {@link GraphNode}s).
  */
-public final class GraphUtils
+final class GraphUtils
 {
     private GraphUtils()
     {
-    }
-
-    /**
-     * Returns true if this node is not null and has at least one child node.
-     *
-     * @param node a node
-     * @return true if this node is not null and has at least one child node.
-     */
-    // TODO: null! Again!
-    public static boolean hasChildren(@Nullable final GraphNode<?> node)
-    {
-        return node != null && !node.getChildren().isEmpty();
-    }
-
-    /**
-     * Counts all distinct nodes in the graph reachable from the given node.
-     * This method can properly deal with cycles in the graph.
-     *
-     * @param node the root node
-     * @return the number of distinct nodes
-     */
-    // TODO: null! Again!
-    @DoNotUse
-    public static <T extends GraphNode<T>> int countAllDistinct(
-        @Nullable final T node)
-    {
-        if (node == null)
-            return 0;
-        return collectAllNodes(node, new HashSet<T>()).size();
-    }
-
-    /**
-     * Collects all nodes from the graph reachable from the given node in the
-     * given collection. This method can properly deal with cycles in the graph.
-     *
-     * @param node the root node
-     * @param collection the collection to collect into
-     * @return the same collection passed as a parameter
-     */
-    @Nonnull
-    // TODO: null! again!
-    public static <T extends GraphNode<T>, C extends Collection<T>> C
-    collectAllNodes(@Nullable final T node, @Nonnull final C collection)
-    {
-        // we don't recurse if the collecion already contains the node
-        // this costs a bit of performance but prevents infinite recursion in
-        // the case of graph cycles
-        Preconditions.checkNotNull(collection);
-        if (node == null)
-            return collection;
-
-        if (collection.contains(node))
-            return collection;
-
-        collection.add(node);
-        for (final T child : node.getChildren())
-            collectAllNodes(child, collection);
-
-        return collection;
     }
 
     /**
@@ -107,7 +46,7 @@ public final class GraphUtils
      */
     @VisibleForTesting
     @DoNotUse
-    public static <T extends GraphNode<T>> String printTree(final T node,
+    static <T extends GraphNode<T>> String printTree(final T node,
         final Formatter<T> formatter)
     {
         Preconditions.checkNotNull(formatter, "formatter");
@@ -129,7 +68,7 @@ public final class GraphUtils
      */
     @Nonnull
     // TODO: null! again!
-    public static <T extends GraphNode<T>> String printTree(
+    static <T extends GraphNode<T>> String printTree(
         @Nullable final T node, @Nonnull final Formatter<T> formatter,
         @Nonnull final Predicate<T> nodeFilter,
         @Nonnull final Predicate<T> subTreeFilter)
@@ -153,7 +92,7 @@ public final class GraphUtils
         if (nodeFilter.apply(node)) {
             final String line = formatter.format(node);
             if (line != null) {
-                sb.append(indent).append(line).append("\n");
+                sb.append(indent).append(line).append('\n');
                 indent += "  ";
             }
         }

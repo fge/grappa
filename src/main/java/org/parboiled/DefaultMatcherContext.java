@@ -37,7 +37,7 @@ import org.parboiled.support.Checks;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.MatcherPath;
 import org.parboiled.support.MatcherPosition;
-import org.parboiled.support.ParseTreeUtils;
+import org.parboiled.trees.ParseTreeUtils;
 import org.parboiled.support.Position;
 
 import javax.annotation.Nonnull;

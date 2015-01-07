@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.parboiled.support;
+package org.parboiled.trees;
 
 import com.github.parboiled1.grappa.buffers.InputBuffer;
 import com.google.common.base.Preconditions;
@@ -22,13 +22,16 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.base.Strings;
 import org.parboiled.Node;
+import org.parboiled.support.Chars;
+import org.parboiled.support.LabelPrefixPredicate;
+import org.parboiled.support.NodeFormatter;
+import org.parboiled.support.ParsingResult;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
 
-import static org.parboiled.trees.GraphUtils.hasChildren;
 import static org.parboiled.trees.GraphUtils.printTree;
 
 /**
@@ -440,6 +443,18 @@ public final class ParseTreeUtils
         return printTree(parsingResult.getParseTree(),
             new NodeFormatter<V>(parsingResult.getInputBuffer()), nodeFilter,
             subTreeFilter);
+    }
+
+    /**
+     * Returns true if this node is not null and has at least one child node.
+     *
+     * @param node a node
+     * @return true if this node is not null and has at least one child node.
+     */
+    // TODO: null! Again!
+    static boolean hasChildren(@Nullable final GraphNode<?> node)
+    {
+        return node != null && !node.getChildren().isEmpty();
     }
 }
 
