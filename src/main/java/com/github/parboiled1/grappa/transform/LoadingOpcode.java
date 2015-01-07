@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.parboiled1.grappa.transform.asm;
+package com.github.parboiled1.grappa.transform;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;

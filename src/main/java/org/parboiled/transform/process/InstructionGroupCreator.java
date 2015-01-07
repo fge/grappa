@@ -22,7 +22,7 @@
 
 package org.parboiled.transform.process;
 
-import com.github.parboiled1.grappa.transform.cache.ClassCache;
+import com.github.parboiled1.grappa.transform.ClassCache;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.InsnList;

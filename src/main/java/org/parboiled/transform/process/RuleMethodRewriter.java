@@ -23,7 +23,7 @@
 package org.parboiled.transform.process;
 
 import com.github.parboiled1.grappa.transform.CodeBlock;
-import com.github.parboiled1.grappa.transform.asm.LoadingOpcode;
+import com.github.parboiled1.grappa.transform.LoadingOpcode;
 import com.google.common.base.Preconditions;
 import me.qmx.jitescript.util.CodegenUtils;
 import org.objectweb.asm.Type;

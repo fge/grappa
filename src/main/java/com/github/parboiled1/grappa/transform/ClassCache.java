@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.parboiled1.grappa.transform.cache;
+package com.github.parboiled1.grappa.transform;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;

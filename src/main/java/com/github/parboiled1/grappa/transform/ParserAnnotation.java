@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.parboiled1.grappa.transform.method;
+package com.github.parboiled1.grappa.transform;
 
 import com.google.common.collect.ImmutableMap;
 import org.objectweb.asm.Type;
