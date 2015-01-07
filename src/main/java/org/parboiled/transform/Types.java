@@ -17,9 +17,6 @@
 package org.parboiled.transform;
 
 import com.github.parboiled1.grappa.annotations.DoNotUse;
-import org.objectweb.asm.Type;
-import org.parboiled.BaseParser;
-import org.parboiled.Rule;
 
 /**
  * DON'T USE
@@ -27,8 +24,4 @@ import org.parboiled.Rule;
 @DoNotUse
 public interface Types
 {
-    Type BASE_ACTION = Type.getType(BaseAction.class);
-    Type BASE_VAR_INIT = Type.getType(BaseVarInit.class);
-    Type BASE_PARSER = Type.getType(BaseParser.class);
-    Type RULE = Type.getType(Rule.class);
 }

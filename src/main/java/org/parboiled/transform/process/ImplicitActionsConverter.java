@@ -25,10 +25,10 @@ import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.parboiled.Action;
 import org.parboiled.BaseParser;
+import org.parboiled.Rule;
 import org.parboiled.transform.InstructionGraphNode;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
-import org.parboiled.transform.Types;
 
 import javax.annotation.Nonnull;
 import java.util.HashSet;
@@ -126,7 +126,8 @@ public final class ImplicitActionsConverter
 
         // Does this method call return a Rule ?
         final MethodInsnNode methodNode = (MethodInsnNode) insn;
-        if (!Types.RULE.equals(Type.getReturnType(methodNode.desc)))
+        if (!Type.getType(Rule.class).equals(Type.getReturnType(
+            methodNode.desc)))
             return false;
 
         // Does the result of the Boolean.valueOf(boolean) call correspond to

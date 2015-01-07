@@ -28,6 +28,7 @@ import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.analysis.AnalyzerException;
 import org.objectweb.asm.tree.analysis.BasicInterpreter;
 import org.objectweb.asm.tree.analysis.BasicValue;
+import org.parboiled.Rule;
 import org.parboiled.support.Checks;
 
 import java.util.ArrayList;
@@ -117,8 +118,10 @@ public final class RuleMethodInterpreter
         throws AnalyzerException
     {
         Preconditions.checkState(insn.getOpcode() == ARETURN);
-        Preconditions.checkState(unwrap(value).getType().equals(Types.RULE));
-        Preconditions.checkState(unwrap(expected).getType().equals(Types.RULE));
+        Preconditions.checkState(unwrap(value).getType().equals(
+            Type.getType(Rule.class)));
+        Preconditions.checkState(unwrap(expected).getType().equals(
+            Type.getType(Rule.class)));
         Preconditions.checkState(method.getReturnInstructionNode() == null);
         method.setReturnInstructionNode(createNode(insn, null, value));
     }

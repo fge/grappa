@@ -288,6 +288,13 @@ public final class CodeBlock
         return this;
     }
 
+    public CodeBlock rawReturn()
+    {
+        returns = true;
+        instructionList.add(new InsnNode(RETURN));
+        return this;
+    }
+
     public CodeBlock areturn()
     {
         returns = true;

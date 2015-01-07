@@ -55,7 +55,7 @@ public final class ActionClassGenerator
     @Override
     protected Type getBaseType()
     {
-        return Types.BASE_ACTION;
+        return Type.getType(BaseAction.class);
     }
 
     @Override

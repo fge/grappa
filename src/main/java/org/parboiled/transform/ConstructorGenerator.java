@@ -17,24 +17,24 @@
 package org.parboiled.transform;
 
 import com.github.parboiled1.grappa.annotations.VisibleForDocumentation;
+import com.github.parboiled1.grappa.transform.CodeBlock;
 import com.google.common.base.Preconditions;
+import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.TypeInsnNode;
-import org.objectweb.asm.tree.VarInsnNode;
+import org.parboiled.BaseParser;
 import org.parboiled.support.Checks;
 
 import java.util.List;
 
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-import static org.objectweb.asm.Opcodes.ALOAD;
 import static org.objectweb.asm.Opcodes.ARETURN;
 import static org.objectweb.asm.Opcodes.DUP;
 import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
 import static org.objectweb.asm.Opcodes.NEW;
-import static org.objectweb.asm.Opcodes.RETURN;
 import static org.parboiled.transform.AsmUtils.createArgumentLoaders;
 
 /**
@@ -66,21 +66,27 @@ public final class ConstructorGenerator
         );
 
         final InsnList instructions = newConstructor.instructions;
-        instructions.add(new VarInsnNode(ALOAD, 0));
-        instructions.add(createArgumentLoaders(constructor.desc));
-        instructions.add(new MethodInsnNode(INVOKESPECIAL,
-            classNode.getParentType().getInternalName(), "<init>",
-            constructor.desc, false));
-        instructions.add(new InsnNode(RETURN));
+
+        final CodeBlock block = CodeBlock.newCodeBlock()
+            .aload(0)
+            .addAll(createArgumentLoaders(constructor.desc))
+            .invokespecial(classNode.getParentType().getInternalName(),
+                "<init>", constructor.desc)
+            .rawReturn();
+
+        instructions.add(block.getInstructionList());
 
         classNode.methods.add(newConstructor);
     }
 
     private static void createNewInstanceMethod(final ParserClassNode classNode)
     {
+        final String desc = "()L" + Type.getType(BaseParser.class)
+            .getInternalName() + ';';
         final MethodNode method = new MethodNode(ACC_PUBLIC, "newInstance",
-            "()L" + Types.BASE_PARSER.getInternalName() + ';', null, null);
+            desc, null, null);
         final InsnList instructions = method.instructions;
+
         instructions.add(new TypeInsnNode(NEW, classNode.name));
         instructions.add(new InsnNode(DUP));
         instructions.add(new MethodInsnNode(INVOKESPECIAL, classNode.name,

@@ -27,7 +27,6 @@ import javax.annotation.Nonnull;
 
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.ARETURN;
-import static org.parboiled.transform.Types.BASE_VAR_INIT;
 
 // TODO: move to transform/ subpackage?
 public final class VarInitClassGenerator
@@ -55,7 +54,7 @@ public final class VarInitClassGenerator
     @Override
     protected Type getBaseType()
     {
-        return BASE_VAR_INIT;
+        return Type.getType(BaseVarInit.class);
     }
 
     @Override
