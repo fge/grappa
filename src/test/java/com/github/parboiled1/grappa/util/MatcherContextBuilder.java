@@ -18,13 +18,13 @@ package com.github.parboiled1.grappa.util;
 
 import com.github.parboiled1.grappa.buffers.CharSequenceInputBuffer;
 import com.github.parboiled1.grappa.buffers.InputBuffer;
+import com.github.parboiled1.grappa.matchers.base.Matcher;
 import com.github.parboiled1.grappa.stack.DefaultValueStack;
 import com.github.parboiled1.grappa.stack.ValueStack;
 import com.google.common.base.Preconditions;
 import org.parboiled.DefaultMatcherContext;
 import org.parboiled.MatcherContext;
 import org.parboiled.errors.ParseError;
-import com.github.parboiled1.grappa.matchers.Matcher;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;

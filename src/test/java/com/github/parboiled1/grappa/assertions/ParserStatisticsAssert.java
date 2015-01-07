@@ -16,12 +16,12 @@
 
 package com.github.parboiled1.grappa.assertions;
 
+import com.github.parboiled1.grappa.matchers.base.Matcher;
 import com.google.common.base.Joiner;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.SoftAssertions;
 import org.parboiled.Action;
 import org.parboiled.ParserStatistics;
-import com.github.parboiled1.grappa.matchers.Matcher;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;

@@ -16,8 +16,8 @@
 
 package com.github.parboiled1.grappa.matchers;
 
-import com.github.parboiled1.grappa.matchers.AbstractMatcher;
-import com.github.parboiled1.grappa.matchers.Matcher;
+import com.github.parboiled1.grappa.matchers.base.AbstractMatcher;
+import com.github.parboiled1.grappa.matchers.base.Matcher;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.matchervisitors.MatcherVisitor;

@@ -16,7 +16,7 @@
 
 package org.parboiled;
 
-import com.github.parboiled1.grappa.matchers.Matcher;
+import com.github.parboiled1.grappa.matchers.base.Matcher;
 import org.parboiled.trees.TreeNode;
 
 /**

@@ -16,11 +16,11 @@
 
 package org.parboiled.errors;
 
+import com.github.parboiled1.grappa.matchers.AnyOfMatcher;
+import com.github.parboiled1.grappa.matchers.base.Matcher;
 import com.google.common.base.Joiner;
 import com.google.common.escape.Escaper;
 import org.parboiled.common.Formatter;
-import com.github.parboiled1.grappa.matchers.AnyOfMatcher;
-import com.github.parboiled1.grappa.matchers.Matcher;
 import org.parboiled.support.Characters;
 import org.parboiled.support.Chars;
 import org.parboiled.support.CharsEscaper;

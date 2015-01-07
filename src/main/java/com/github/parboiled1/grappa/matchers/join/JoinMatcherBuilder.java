@@ -16,6 +16,8 @@
 
 package com.github.parboiled1.grappa.matchers.join;
 
+import com.github.parboiled1.grappa.matchers.EmptyMatcher;
+import com.github.parboiled1.grappa.matchers.delegate.OptionalMatcher;
 import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.BoundType;
@@ -23,8 +25,6 @@ import com.google.common.collect.DiscreteDomain;
 import com.google.common.collect.Range;
 import org.parboiled.Rule;
 import org.parboiled.annotations.Cached;
-import com.github.parboiled1.grappa.matchers.EmptyMatcher;
-import org.parboiled.matchers.OptionalMatcher;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;

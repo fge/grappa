@@ -16,13 +16,13 @@
 
 package com.github.parboiled1.grappa.matchers.join;
 
+import com.github.parboiled1.grappa.matchers.base.CustomDefaultLabelMatcher;
+import com.github.parboiled1.grappa.matchers.base.Matcher;
 import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
 import org.parboiled.errors.GrammarException;
-import com.github.parboiled1.grappa.matchers.CustomDefaultLabelMatcher;
-import com.github.parboiled1.grappa.matchers.Matcher;
 import org.parboiled.matchervisitors.MatcherVisitor;
 
 /**

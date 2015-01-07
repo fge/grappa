@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.parboiled.matchers;
+package com.github.parboiled1.grappa.matchers;
 
-import com.github.parboiled1.grappa.matchers.Matcher;
+import com.github.parboiled1.grappa.matchers.base.Matcher;
 import com.github.parboiled1.grappa.matchers.wrap.MemoMismatchesMatcher;
 import com.github.parboiled1.grappa.matchers.wrap.ProxyMatcher;
 import com.github.parboiled1.grappa.matchers.wrap.VarFramingMatcher;

@@ -19,7 +19,7 @@ package com.github.parboiled1.grappa.assertions.mixins;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.parboiled1.grappa.matchers.Matcher;
+import com.github.parboiled1.grappa.matchers.base.Matcher;
 
 public abstract class RuleReportMixin
 {

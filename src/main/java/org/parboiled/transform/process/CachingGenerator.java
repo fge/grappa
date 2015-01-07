@@ -22,6 +22,8 @@
 
 package org.parboiled.transform.process;
 
+import com.github.parboiled1.grappa.matchers.base.Matcher;
+import com.github.parboiled1.grappa.matchers.wrap.ProxyMatcher;
 import com.github.parboiled1.grappa.transform.CodeBlock;
 import com.google.common.base.Preconditions;
 import me.qmx.jitescript.util.CodegenUtils;
@@ -31,8 +33,6 @@ import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.LabelNode;
 import org.parboiled.Rule;
-import com.github.parboiled1.grappa.matchers.Matcher;
-import com.github.parboiled1.grappa.matchers.wrap.ProxyMatcher;
 import org.parboiled.transform.CacheArguments;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;

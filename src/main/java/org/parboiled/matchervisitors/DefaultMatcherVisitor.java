@@ -16,27 +16,27 @@
 
 package org.parboiled.matchervisitors;
 
-import com.github.parboiled1.grappa.matchers.join.JoinMatcher;
-import com.github.parboiled1.grappa.matchers.trie.TrieMatcher;
-import com.github.parboiled1.grappa.matchers.unicode.UnicodeCharMatcher;
-import com.github.parboiled1.grappa.matchers.unicode.UnicodeRangeMatcher;
-import com.github.parboiled1.grappa.matchers.AbstractMatcher;
-import org.parboiled.matchers.ActionMatcher;
+import com.github.parboiled1.grappa.matchers.ActionMatcher;
 import com.github.parboiled1.grappa.matchers.AnyMatcher;
 import com.github.parboiled1.grappa.matchers.AnyOfMatcher;
 import com.github.parboiled1.grappa.matchers.CharIgnoreCaseMatcher;
 import com.github.parboiled1.grappa.matchers.CharMatcher;
 import com.github.parboiled1.grappa.matchers.CharRangeMatcher;
-import com.github.parboiled1.grappa.matchers.CustomMatcher;
 import com.github.parboiled1.grappa.matchers.EmptyMatcher;
-import org.parboiled.matchers.FirstOfMatcher;
+import com.github.parboiled1.grappa.matchers.FirstOfMatcher;
 import com.github.parboiled1.grappa.matchers.NothingMatcher;
-import org.parboiled.matchers.OneOrMoreMatcher;
-import org.parboiled.matchers.OptionalMatcher;
-import org.parboiled.matchers.SequenceMatcher;
+import com.github.parboiled1.grappa.matchers.base.AbstractMatcher;
+import com.github.parboiled1.grappa.matchers.base.CustomMatcher;
+import com.github.parboiled1.grappa.matchers.delegate.OneOrMoreMatcher;
+import com.github.parboiled1.grappa.matchers.delegate.OptionalMatcher;
+import com.github.parboiled1.grappa.matchers.delegate.SequenceMatcher;
+import com.github.parboiled1.grappa.matchers.delegate.ZeroOrMoreMatcher;
+import com.github.parboiled1.grappa.matchers.join.JoinMatcher;
 import com.github.parboiled1.grappa.matchers.predicates.TestMatcher;
 import com.github.parboiled1.grappa.matchers.predicates.TestNotMatcher;
-import org.parboiled.matchers.ZeroOrMoreMatcher;
+import com.github.parboiled1.grappa.matchers.trie.TrieMatcher;
+import com.github.parboiled1.grappa.matchers.unicode.UnicodeCharMatcher;
+import com.github.parboiled1.grappa.matchers.unicode.UnicodeRangeMatcher;
 
 /**
  * A basic {@link MatcherVisitor} implementation that delegates all visiting methods to one default value method.

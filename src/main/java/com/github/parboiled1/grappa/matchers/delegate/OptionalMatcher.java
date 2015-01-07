@@ -14,36 +14,40 @@
  * limitations under the License.
  */
 
-package org.parboiled.matchers;
+package com.github.parboiled1.grappa.matchers.delegate;
 
-import com.github.parboiled1.grappa.matchers.CustomDefaultLabelMatcher;
-import com.github.parboiled1.grappa.matchers.Matcher;
+import com.github.parboiled1.grappa.matchers.base.CustomDefaultLabelMatcher;
+import com.github.parboiled1.grappa.matchers.base.Matcher;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
 import org.parboiled.matchervisitors.MatcherVisitor;
 
 /**
- * A {@link Matcher} trying all of its submatchers in sequence and succeeding when the first submatcher succeeds.
+ * A {@link Matcher} that tries its submatcher once against the input and always succeeds.
  */
-public class FirstOfMatcher
-    extends CustomDefaultLabelMatcher<FirstOfMatcher>
+public final class OptionalMatcher
+    extends CustomDefaultLabelMatcher<OptionalMatcher>
 {
-    public FirstOfMatcher(final Rule[] subRules)
+    private final Matcher subMatcher;
+
+    public OptionalMatcher(final Rule subRule)
     {
-        super(Preconditions.checkNotNull(subRules, "subRules"), "firstOf");
+        super(Preconditions.checkNotNull(subRule, "subRule"), "optional");
+        subMatcher = getChildren().get(0);
+    }
+
+    public Matcher getSubMatcher()
+    {
+        return subMatcher;
     }
 
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
-        for (final Matcher matcher: getChildren()) {
-            if (!matcher.getSubContext(context).runMatcher())
-                continue;
-            context.createNode();
-            return true;
-        }
-        return false;
+        subMatcher.getSubContext(context).runMatcher();
+        context.createNode();
+        return true;
     }
 
     @Override

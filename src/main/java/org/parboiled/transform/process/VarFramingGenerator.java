@@ -16,6 +16,7 @@
 
 package org.parboiled.transform.process;
 
+import com.github.parboiled1.grappa.matchers.wrap.VarFramingMatcher;
 import com.github.parboiled1.grappa.transform.CodeBlock;
 import com.google.common.base.Preconditions;
 import me.qmx.jitescript.util.CodegenUtils;
@@ -23,7 +24,6 @@ import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.LocalVariableNode;
 import org.parboiled.Rule;
-import com.github.parboiled1.grappa.matchers.wrap.VarFramingMatcher;
 import org.parboiled.support.Var;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;

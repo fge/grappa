@@ -16,17 +16,17 @@
 
 package org.parboiled.matchervisitors;
 
+import com.github.parboiled1.grappa.matchers.FirstOfMatcher;
+import com.github.parboiled1.grappa.matchers.base.AbstractMatcher;
+import com.github.parboiled1.grappa.matchers.base.Matcher;
+import com.github.parboiled1.grappa.matchers.delegate.OneOrMoreMatcher;
+import com.github.parboiled1.grappa.matchers.delegate.OptionalMatcher;
+import com.github.parboiled1.grappa.matchers.delegate.SequenceMatcher;
+import com.github.parboiled1.grappa.matchers.delegate.ZeroOrMoreMatcher;
 import com.github.parboiled1.grappa.matchers.join.JoinMatcher;
-import com.google.common.base.Preconditions;
-import com.github.parboiled1.grappa.matchers.AbstractMatcher;
-import org.parboiled.matchers.FirstOfMatcher;
-import com.github.parboiled1.grappa.matchers.Matcher;
-import org.parboiled.matchers.OneOrMoreMatcher;
-import org.parboiled.matchers.OptionalMatcher;
-import org.parboiled.matchers.SequenceMatcher;
 import com.github.parboiled1.grappa.matchers.predicates.TestMatcher;
 import com.github.parboiled1.grappa.matchers.predicates.TestNotMatcher;
-import org.parboiled.matchers.ZeroOrMoreMatcher;
+import com.google.common.base.Preconditions;
 
 import java.util.HashSet;
 import java.util.Set;

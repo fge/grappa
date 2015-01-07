@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package org.parboiled.matchers;
+package com.github.parboiled1.grappa.matchers.delegate;
 
-import com.github.parboiled1.grappa.matchers.CustomDefaultLabelMatcher;
-import com.github.parboiled1.grappa.matchers.Matcher;
+import com.github.parboiled1.grappa.matchers.base.CustomDefaultLabelMatcher;
+import com.github.parboiled1.grappa.matchers.base.Matcher;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
@@ -25,16 +25,17 @@ import org.parboiled.errors.GrammarException;
 import org.parboiled.matchervisitors.MatcherVisitor;
 
 /**
- * A {@link Matcher} that repeatedly tries its submatcher against the input. Always succeeds.
+ * A {@link Matcher} that repeatedly tries its submatcher against the input.
+ * Succeeds if its submatcher succeeds at least once.
  */
-public final class ZeroOrMoreMatcher
-    extends CustomDefaultLabelMatcher<ZeroOrMoreMatcher>
+public final class OneOrMoreMatcher
+    extends CustomDefaultLabelMatcher<OneOrMoreMatcher>
 {
     private final Matcher subMatcher;
 
-    public ZeroOrMoreMatcher(final Rule subRule)
+    public OneOrMoreMatcher(final Rule subRule)
     {
-        super(Preconditions.checkNotNull(subRule, "subRule"), "zeroOrMore");
+        super(Preconditions.checkNotNull(subRule, "subRule"), "oneOrMore");
         subMatcher = getChildren().get(0);
     }
 
@@ -46,16 +47,22 @@ public final class ZeroOrMoreMatcher
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
-        Preconditions.checkNotNull(context, "context");
-        int lastIndex = context.getCurrentIndex();
+        final boolean matched = subMatcher.getSubContext(context).runMatcher();
+        if (!matched)
+            return false;
+
+        // collect all further matches as well
+        // TODO: "optimize" first cyle away; also relevant for ZeroOrMoreMatcher
+        int beforeMatch = context.getCurrentIndex();
+        int afterMatch;
         while (subMatcher.getSubContext(context).runMatcher()) {
-            final int currentLocation = context.getCurrentIndex();
-            if (currentLocation == lastIndex) {
-                throw new GrammarException(
-                    "The inner rule of zeroOrMore rule '%s' must not allow empty matches",
-                    context.getPath());
+            afterMatch = context.getCurrentIndex();
+            if (afterMatch != beforeMatch) {
+                beforeMatch = afterMatch;
+                continue;
             }
-            lastIndex = currentLocation;
+            throw new GrammarException("The inner rule of OneOrMore rule"
+                + " '%s' must not allow empty matches", context.getPath());
         }
 
         context.createNode();

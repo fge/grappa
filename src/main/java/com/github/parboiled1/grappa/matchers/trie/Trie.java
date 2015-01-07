@@ -16,8 +16,8 @@
 
 package com.github.parboiled1.grappa.matchers.trie;
 
+import com.github.parboiled1.grappa.matchers.FirstOfStringsMatcher;
 import com.google.common.annotations.Beta;
-import org.parboiled.matchers.FirstOfStringsMatcher;
 
 import javax.annotation.concurrent.Immutable;
 

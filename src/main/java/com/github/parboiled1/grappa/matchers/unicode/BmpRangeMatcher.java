@@ -16,8 +16,8 @@
 
 package com.github.parboiled1.grappa.matchers.unicode;
 
-import org.parboiled.MatcherContext;
 import com.github.parboiled1.grappa.matchers.CharRangeMatcher;
+import org.parboiled.MatcherContext;
 
 /**
  * A {@link UnicodeRangeMatcher} for characters inside the basic multilingual

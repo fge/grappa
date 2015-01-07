@@ -17,12 +17,12 @@
 package org.parboiled.parserunners;
 
 import com.github.parboiled1.grappa.buffers.InputBuffer;
+import com.github.parboiled1.grappa.matchers.predicates.TestNotMatcher;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
 import org.parboiled.errors.BasicParseError;
-import com.github.parboiled1.grappa.matchers.predicates.TestNotMatcher;
 import org.parboiled.support.ParsingResult;
 
 import javax.annotation.Nullable;

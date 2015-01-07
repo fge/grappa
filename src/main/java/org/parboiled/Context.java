@@ -17,11 +17,11 @@
 package org.parboiled;
 
 import com.github.parboiled1.grappa.buffers.InputBuffer;
+import com.github.parboiled1.grappa.matchers.base.Matcher;
 import com.github.parboiled1.grappa.stack.ValueStack;
 import org.parboiled.annotations.SuppressNode;
 import org.parboiled.annotations.SuppressSubnodes;
 import org.parboiled.errors.ParseError;
-import com.github.parboiled1.grappa.matchers.Matcher;
 import org.parboiled.parserunners.ReportingParseRunner;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.MatcherPath;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.parboiled.matchers;
+package com.github.parboiled1.grappa.matchers;
 
 import org.parboiled.BaseParser;
 import org.parboiled.Parboiled;
@@ -48,16 +48,9 @@ public class FirstOfStringsMatcherTest extends ParboiledTest<Object>
     @Test
     public void testCreateRecords() {
         final StringBuilder sb = new StringBuilder();
-        printRecord(FirstOfStringsMatcher.createRecord(0, toArrayOfCharArray("" +
-                "Alpha",
-                "Beta",
-                "Bertram",
-                "Claudia",
-                "ClaudiaVon",
-                "Charlie",
-                "Delta",
-                "Delto",
-                "x")), "", sb);
+        printRecord(FirstOfStringsMatcher.createRecord(0, toArrayOfCharArray(
+            "" + "Alpha", "Beta", "Bertram", "Claudia", "ClaudiaVon", "Charlie",
+            "Delta", "Delto", "x")), "", sb);
         assertEquals(sb.toString(), "\n" +
                 "Alpha\n" +
                 "Be\n" +

@@ -17,10 +17,10 @@
 package org.parboiled;
 
 import com.github.parboiled1.grappa.assertions.OldStatsAssert;
+import com.github.parboiled1.grappa.matchers.CharMatcher;
+import com.github.parboiled1.grappa.matchers.delegate.SequenceMatcher;
 import org.parboiled.annotations.BuildParseTree;
 import org.parboiled.annotations.Label;
-import com.github.parboiled1.grappa.matchers.CharMatcher;
-import org.parboiled.matchers.SequenceMatcher;
 import org.parboiled.test.ParboiledTest;
 import org.testng.annotations.Test;
 

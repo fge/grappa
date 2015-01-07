@@ -16,6 +16,7 @@
 
 package com.github.parboiled1.grappa.matchers.join;
 
+import com.github.parboiled1.grappa.matchers.base.Matcher;
 import com.github.parboiled1.grappa.parsers.EventBusParser;
 import com.github.parboiled1.grappa.util.MatcherContextBuilder;
 import com.github.parboiled1.grappa.util.SimpleMatchHandler;
@@ -24,7 +25,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Range;
 import org.parboiled.MatcherContext;
 import org.parboiled.Parboiled;
-import com.github.parboiled1.grappa.matchers.Matcher;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 

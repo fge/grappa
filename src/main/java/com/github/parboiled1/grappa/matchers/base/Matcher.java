@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.parboiled1.grappa.matchers;
+package com.github.parboiled1.grappa.matchers.base;
 
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;

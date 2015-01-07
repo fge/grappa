@@ -17,6 +17,12 @@
 package org.parboiled;
 
 import com.github.parboiled1.grappa.buffers.InputBuffer;
+import com.github.parboiled1.grappa.matchers.ActionMatcher;
+import com.github.parboiled1.grappa.matchers.base.Matcher;
+import com.github.parboiled1.grappa.matchers.delegate.SequenceMatcher;
+import com.github.parboiled1.grappa.matchers.predicates.TestMatcher;
+import com.github.parboiled1.grappa.matchers.predicates.TestNotMatcher;
+import com.github.parboiled1.grappa.matchers.wrap.ProxyMatcher;
 import com.github.parboiled1.grappa.stack.ValueStack;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -25,12 +31,6 @@ import org.parboiled.errors.BasicParseError;
 import org.parboiled.errors.GrammarException;
 import org.parboiled.errors.ParseError;
 import org.parboiled.errors.ParserRuntimeException;
-import org.parboiled.matchers.ActionMatcher;
-import com.github.parboiled1.grappa.matchers.Matcher;
-import com.github.parboiled1.grappa.matchers.wrap.ProxyMatcher;
-import org.parboiled.matchers.SequenceMatcher;
-import com.github.parboiled1.grappa.matchers.predicates.TestMatcher;
-import com.github.parboiled1.grappa.matchers.predicates.TestNotMatcher;
 import org.parboiled.parserunners.ReportingParseRunner;
 import org.parboiled.support.CharsEscaper;
 import org.parboiled.support.Checks;
@@ -48,8 +48,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static com.github.parboiled1.grappa.matchers.MatcherUtils.unwrap;
 import static org.parboiled.errors.ErrorUtils.printParseError;
-import static org.parboiled.matchers.MatcherUtils.unwrap;
 
 /**
  * <p>The Context implementation orchestrating most of the matching process.</p>

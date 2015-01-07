@@ -16,15 +16,15 @@
 
 package com.github.parboiled1.grappa.matchers.join;
 
+import com.github.parboiled1.grappa.matchers.EmptyMatcher;
+import com.github.parboiled1.grappa.matchers.base.Matcher;
+import com.github.parboiled1.grappa.matchers.delegate.OptionalMatcher;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Range;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.parboiled.BaseParser;
 import org.parboiled.Rule;
-import com.github.parboiled1.grappa.matchers.EmptyMatcher;
-import com.github.parboiled1.grappa.matchers.Matcher;
-import org.parboiled.matchers.OptionalMatcher;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;

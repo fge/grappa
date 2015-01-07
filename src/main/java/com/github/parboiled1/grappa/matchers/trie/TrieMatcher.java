@@ -16,11 +16,11 @@
 
 package com.github.parboiled1.grappa.matchers.trie;
 
+import com.github.parboiled1.grappa.matchers.FirstOfStringsMatcher;
+import com.github.parboiled1.grappa.matchers.base.AbstractMatcher;
 import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
-import com.github.parboiled1.grappa.matchers.AbstractMatcher;
-import org.parboiled.matchers.FirstOfStringsMatcher;
 import org.parboiled.matchervisitors.MatcherVisitor;
 
 import javax.annotation.concurrent.Immutable;

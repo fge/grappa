@@ -17,13 +17,13 @@
 package org.parboiled.errors;
 
 import com.github.parboiled1.grappa.buffers.InputBuffer;
+import com.github.parboiled1.grappa.matchers.base.Matcher;
+import com.github.parboiled1.grappa.matchers.predicates.TestNotMatcher;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
 import org.parboiled.common.Formatter;
-import com.github.parboiled1.grappa.matchers.Matcher;
-import com.github.parboiled1.grappa.matchers.predicates.TestNotMatcher;
 import org.parboiled.support.MatcherPath;
 import org.parboiled.support.ParsingResult;
 import org.parboiled.support.Position;
