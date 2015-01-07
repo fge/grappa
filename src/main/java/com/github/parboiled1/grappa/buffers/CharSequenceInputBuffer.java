@@ -113,12 +113,6 @@ public final class CharSequenceInputBuffer
     }
 
     @Override
-    public int getOriginalIndex(final int index)
-    {
-        return index;
-    }
-
-    @Override
     public String extractLine(final int lineNumber)
     {
         Preconditions.checkArgument(lineNumber > 0, "line number is negative");

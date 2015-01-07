@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.parboiled.buffers;
+package com.github.parboiled1.grappa.buffers;
 
 import com.github.parboiled1.grappa.buffers.CharSequenceInputBuffer;
 import com.github.parboiled1.grappa.buffers.InputBuffer;

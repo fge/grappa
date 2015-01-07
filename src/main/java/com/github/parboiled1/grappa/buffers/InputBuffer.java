@@ -16,7 +16,6 @@
 
 package com.github.parboiled1.grappa.buffers;
 
-import org.parboiled.buffers.MutableInputBuffer;
 import org.parboiled.support.Chars;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.Position;
@@ -76,17 +75,6 @@ public interface InputBuffer
      * @return the line number
      */
     Position getPosition(int index);
-
-    /**
-     * Translates the given index from the scope of this InputBuffer to the
-     * scope of the original, underlying char array.
-     *
-     * <p>This method is currently only used by {@link MutableInputBuffer}.</p>
-     *
-     * @param index the index relative to this InputBuffer
-     * @return the index relative to the underlying string or char array
-     */
-    int getOriginalIndex(int index);
 
     /**
      * Constructs a new {@link String} containing all characters with the given
