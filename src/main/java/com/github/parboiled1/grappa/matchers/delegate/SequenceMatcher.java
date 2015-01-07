@@ -57,6 +57,7 @@ public class SequenceMatcher
 
             // remember the current index in the context, so we can access it
             // for building the current follower set
+            // TODO: removing this makes a parse run fail!
             context.setIntTag(i);
 
             if (!matcher.getSubContext(context).runMatcher()) {

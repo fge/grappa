@@ -419,12 +419,6 @@ public final class DefaultMatcherContext<V>
     }
 
     @Override
-    public int getIntTag()
-    {
-        return intTag;
-    }
-
-    @Override
     public void setIntTag(final int intTag)
     {
         this.intTag = intTag;
