@@ -16,8 +16,6 @@
 
 package com.github.parboiled1.grappa.stack;
 
-import org.parboiled.errors.GrammarException;
-
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -168,9 +166,6 @@ public interface ValueStack<V>
 
     /**
      * Swaps the top two stack values.
-     *
-     * @throws GrammarException if the stack does not contain at least two
-     * elements
      */
     void swap();
 }
