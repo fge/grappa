@@ -35,6 +35,29 @@ import java.util.List;
  * {@link CharSequence} (and so does {@link CharBuffer}; see also <a
  * href="https://github.com/fge/largetext">for large files</a>).</p>
  */
+/*
+ * TODO: separation of concerns
+ *
+ * The problem here is that a MatcherContext, as currently defined, mixes
+ * pure parsing data (input buffer, getting data from it etc) and semantics
+ * (the value stack, for instance).
+ *
+ * And to make matters worse, a MatcherContext is the argument of a Matcher's
+ * .match() method :/ See also Matcher's .getSubcontext(), which is an eyesore.
+ * Its result is only ever different for an ActionMatcher!!
+ *
+ * The matching process (probably the "controller" as defined by the book)
+ * should probably be the one here to distinguish between the different "rule
+ * types" that we have; for instance, the fact that a Rule is in fact an Action,
+ * and that when in a Sequence, the first rule, if an Action, may not call
+ * certain methods.
+ *
+ * Of course, there remains a more fundamental problem, in that at this moment
+ * what is considered to be the "semantic output" of a parsing run is the top
+ * value of a parser's ValueStack; this, in itself, is a mistake. If that is to
+ * change, a lot of bytecode generation routines will have to change as well.
+ * Great.
+ */
 public interface ParseRunner<V>
 {
 
