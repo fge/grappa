@@ -27,10 +27,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
-// TODO: 1.1: change thrown exceptions!
 @ParametersAreNonnullByDefault
 public final class DefaultValueStack<V>
-    implements ValueStack<V>
+    extends ValueStackBase<V>
 {
     private List<V> stack = new ArrayList<>();
 
@@ -69,20 +68,9 @@ public final class DefaultValueStack<V>
     }
 
     @Override
-    public void push(final V value)
+    protected void doPush(final int down, final V value)
     {
-        push(0, value);
-    }
-
-    @Override
-    public void push(final int down, final V value)
-    {
-        /*
-         * It is legal to append at the end! We must therefore check that the
-         * index - 1 is strictly less than size, not the index itself
-         */
-        checkAvailableIndex(down - 1);
-        stack.add(down, Objects.requireNonNull(value));
+        stack.add(down, value);
     }
 
     @SafeVarargs
@@ -102,73 +90,35 @@ public final class DefaultValueStack<V>
 
     @Nonnull
     @Override
-    public V pop()
+    protected V doPop(final int down)
     {
-        checkAvailableIndex(0);
-        return stack.remove(0);
-    }
-
-    @Nonnull
-    @Override
-    public V pop(final int down)
-    {
-        checkAvailableIndex(down);
         return stack.remove(down);
     }
 
     @Nonnull
     @Override
-    public V peek()
+    protected V doPeek(final int down)
     {
-        checkAvailableIndex(0);
-        return stack.get(0);
-    }
-
-    @Nonnull
-    @Override
-    public V peek(final int down)
-    {
-        checkAvailableIndex(down);
         return stack.get(down);
     }
 
     @Override
-    public void poke(final V value)
+    protected void doPoke(final int down, final V value)
     {
-        poke(0, value);
+        stack.set(down, value);
     }
 
     @Override
-    public void poke(final int down, final V value)
+    protected void doDup()
     {
-        checkAvailableIndex(down);
-        stack.set(down, Objects.requireNonNull(value));
-    }
-
-    @Override
-    public void dup()
-    {
-        checkAvailableIndex(0);
         final V element = stack.get(0);
         stack.add(0, element);
     }
 
     @Override
-    public void swap(final int n)
+    protected void doSwap(final int n)
     {
-        Preconditions.checkState(n >= 2, "illegal argument to swap() (" +
-            n + "), must be 2 or greater");
-        /*
-         * As for .push(n, value), we need to check for n - 1 here
-         */
-        checkAvailableIndex(n - 1);
         Collections.reverse(stack.subList(0, n));
-    }
-
-    @Override
-    public void swap()
-    {
-        swap(2);
     }
 
     @Override
@@ -184,7 +134,8 @@ public final class DefaultValueStack<V>
         return stack.toString();
     }
 
-    private void checkAvailableIndex(final int index)
+    @Override
+    protected void checkIndex(final int index)
     {
         Preconditions.checkState(index < stack.size(),
             "not enough elements in stack");

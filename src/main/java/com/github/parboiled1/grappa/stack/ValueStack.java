@@ -31,6 +31,9 @@ import javax.annotation.ParametersAreNonnullByDefault;
  * <p>Any attempt to pop/swap values on a stack with not enough elements will
  * throw an {@link IllegalStateException}.</p>
  *
+ * <p>You probably want to extend {@link ValueStackBase} instead of directly
+ * implementing this interface.</p>
+ *
  * @param <V> the type of the value objects
  */
 @ParametersAreNonnullByDefault
@@ -117,6 +120,27 @@ public interface ValueStack<V>
     V pop(int down);
 
     /**
+     * Removes and casts the value at the top of the stack, and returns it
+     *
+     * @param type the type to cast to
+     * @param <T> type parameter
+     * @return the value
+     */
+    @Nonnull
+    <T extends V> T popAs(Class<T> type);
+
+    /**
+     * Removes and casts the value at a given index in the stack, and returns it
+     *
+     * @param type the type to cast to
+     * @param down the index
+     * @param <T> type parameter
+     * @return the value
+     */
+    @Nonnull
+    <T extends V> T popAs(Class<T> type, int down);
+
+    /**
      * Returns the value at the top of the stack without removing it.
      *
      * @return the current top value
@@ -133,6 +157,28 @@ public interface ValueStack<V>
      */
     @Nonnull
     V peek(int down);
+
+    /**
+     * Casts and returns the value at the top of the stack without removing it
+     *
+     * @param type the type to cast to
+     * @param <T> type parameter
+     * @return the value
+     */
+    @Nonnull
+    <T extends V> T peekAs(Class<T> type);
+
+    /**
+     * Casts and returns the value at a given index in the stack without
+     * removing it
+     *
+     * @param type the type to cast to
+     * @param down the index in the stack
+     * @param <T> type parameter
+     * @return the value
+     */
+    @Nonnull
+    <T extends V> T peekAs(Class<T> type, int down);
 
     /**
      * Replaces the current top value with the given value. Equivalent to
