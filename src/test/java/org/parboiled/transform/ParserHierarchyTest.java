@@ -63,7 +63,7 @@ public class ParserHierarchyTest {
         }
         @SuppressWarnings("UnusedDeclaration")
         Rule D() {
-            return sequence(super.A(), super.B(), B(), dup());
+            return sequence(A(), super.B(), B(), dup());
         }
     }
 
