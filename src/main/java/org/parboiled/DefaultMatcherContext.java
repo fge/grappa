@@ -453,7 +453,7 @@ public final class DefaultMatcherContext<V>
     }
 
     @Override
-    public final MatcherContext<V> getBasicSubContext()
+    public MatcherContext<V> getBasicSubContext()
     {
         if (subContext == null) {
             // init new level
@@ -468,11 +468,11 @@ public final class DefaultMatcherContext<V>
     }
 
     @Override
-    public final MatcherContext<V> getSubContext(final Matcher matcher)
+    public MatcherContext<V> getSubContext(final Matcher matcher)
     {
         final DefaultMatcherContext<V> sc
             = (DefaultMatcherContext<V>) getBasicSubContext();
-        sc.setMatcher(matcher);
+        sc.matcher = matcher;
         sc.setStartIndex(currentIndex);
         sc.setCurrentIndex(currentIndex);
         sc.currentChar = currentChar;
