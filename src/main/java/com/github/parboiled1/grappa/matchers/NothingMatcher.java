@@ -18,9 +18,7 @@ package com.github.parboiled1.grappa.matchers;
 
 import com.github.parboiled1.grappa.matchers.base.AbstractMatcher;
 import com.github.parboiled1.grappa.matchers.base.Matcher;
-import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
-import org.parboiled.matchervisitors.MatcherVisitor;
 
 /**
  * A {@link Matcher} that never matches anything.
@@ -38,12 +36,5 @@ public final class NothingMatcher
     public <V> boolean match(final MatcherContext<V> context)
     {
         return false;
-    }
-
-    @Override
-    public <R> R accept(final MatcherVisitor<R> visitor)
-    {
-        Preconditions.checkNotNull(visitor, "visitor");
-        return visitor.visit(this);
     }
 }

@@ -21,7 +21,6 @@ import com.github.parboiled1.grappa.matchers.base.Matcher;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
-import org.parboiled.matchervisitors.MatcherVisitor;
 
 /**
  * A {@link Matcher} trying all of its submatchers in sequence and succeeding when the first submatcher succeeds.
@@ -44,12 +43,5 @@ public class FirstOfMatcher
             return true;
         }
         return false;
-    }
-
-    @Override
-    public <R> R accept(final MatcherVisitor<R> visitor)
-    {
-        Preconditions.checkNotNull(visitor, "visitor");
-        return visitor.visit(this);
     }
 }

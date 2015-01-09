@@ -18,7 +18,6 @@ package com.github.parboiled1.grappa.matchers.base;
 
 import com.google.common.base.Preconditions;
 import org.parboiled.Rule;
-import org.parboiled.matchervisitors.MatcherVisitor;
 
 /**
  * Base class of custom matcher implementations. If you want to implement custom matchers they have to be derived
@@ -75,11 +74,4 @@ public abstract class CustomMatcher
      * @return a starter char
      */
     public abstract char getStarterChar();
-
-    @Override
-    public <R> R accept(final MatcherVisitor<R> visitor)
-    {
-        Preconditions.checkNotNull(visitor, "visitor");
-        return visitor.visit(this);
-    }
 }

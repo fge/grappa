@@ -21,7 +21,6 @@ import com.github.parboiled1.grappa.matchers.base.AbstractMatcher;
 import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
-import org.parboiled.matchervisitors.MatcherVisitor;
 
 import javax.annotation.concurrent.Immutable;
 
@@ -79,17 +78,5 @@ public final class TrieMatcher
          */
         context.advanceIndex(ret);
         return true;
-    }
-
-    /**
-     * Accepts the given matcher visitor.
-     *
-     * @param visitor the visitor
-     * @return the value returned by the given visitor
-     */
-    @Override
-    public <R> R accept(final MatcherVisitor<R> visitor)
-    {
-        return null;
     }
 }

@@ -19,11 +19,9 @@ package com.github.parboiled1.grappa.matchers.join;
 import com.github.parboiled1.grappa.matchers.base.CustomDefaultLabelMatcher;
 import com.github.parboiled1.grappa.matchers.base.Matcher;
 import com.google.common.annotations.Beta;
-import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
 import org.parboiled.errors.GrammarException;
-import org.parboiled.matchervisitors.MatcherVisitor;
 
 /**
  * A joining matcher
@@ -89,19 +87,6 @@ public abstract class JoinMatcher
     public final Matcher getJoining()
     {
         return joining;
-    }
-
-    /**
-     * Accepts the given matcher visitor.
-     *
-     * @param visitor the visitor
-     * @return the value returned by the given visitor
-     */
-    @Override
-    public final <R> R accept(final MatcherVisitor<R> visitor)
-    {
-        Preconditions.checkNotNull(visitor);
-        return visitor.visit(this);
     }
 
     /**

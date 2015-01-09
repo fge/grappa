@@ -21,7 +21,6 @@ import com.github.parboiled1.grappa.matchers.base.Matcher;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
-import org.parboiled.matchervisitors.MatcherVisitor;
 
 /**
  * A special {@link Matcher} not actually matching any input but rather trying its submatcher against the current input
@@ -59,12 +58,5 @@ public final class TestNotMatcher
         // erase all value stack changes the the submatcher could have made
         context.getValueStack().restoreSnapshot(valueStackSnapshot);
         return true;
-    }
-
-    @Override
-    public <R> R accept(final MatcherVisitor<R> visitor)
-    {
-        Preconditions.checkNotNull(visitor, "visitor");
-        return visitor.visit(this);
     }
 }

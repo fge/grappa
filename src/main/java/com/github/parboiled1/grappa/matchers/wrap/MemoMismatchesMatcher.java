@@ -20,7 +20,6 @@ import com.github.parboiled1.grappa.matchers.base.Matcher;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
-import org.parboiled.matchervisitors.MatcherVisitor;
 
 import java.util.List;
 
@@ -150,13 +149,6 @@ public final class MemoMismatchesMatcher
         // we need to inject ourselves here otherwise we get cut out
         subContext.setMatcher(this);
         return subContext;
-    }
-
-    @Override
-    public <R> R accept(final MatcherVisitor<R> visitor)
-    {
-        Preconditions.checkNotNull(visitor, "visitor");
-        return inner.accept(visitor);
     }
 
     @Override

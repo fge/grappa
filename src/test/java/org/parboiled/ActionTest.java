@@ -16,15 +16,10 @@
 
 package org.parboiled;
 
-import com.github.parboiled1.grappa.assertions.OldStatsAssert;
-import com.github.parboiled1.grappa.matchers.CharMatcher;
-import com.github.parboiled1.grappa.matchers.delegate.SequenceMatcher;
 import org.parboiled.annotations.BuildParseTree;
 import org.parboiled.annotations.Label;
 import org.parboiled.test.ParboiledTest;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertEquals;
 
 public class ActionTest extends ParboiledTest<Integer>
 {
@@ -110,28 +105,6 @@ public class ActionTest extends ParboiledTest<Integer>
                         "      ['c', {74}] 'c'\n" +
                         "      [Last, {2}] 'd'\n" +
                         "        ['d', {74}] 'd'\n");
-
-        OldStatsAssert.assertStatsForRule(parser.A())
-            .hasCountedTotal(17).hasCountedActions(9)
-            .hasCounted(4, CharMatcher.class)
-            .hasCounted(4, SequenceMatcher.class)
-            .hasCountedActionClasses(8)
-            .hasCountedNothingElse();
-
-        final ParserStatistics stats = ParserStatistics.generateFor(parser.A());
-
-        // TODO: replace printActionClassInstances with something else here
-        assertEquals(stats.printActionClassInstances()
-            .replaceAll("(?<=\\$)[A-Za-z0-9]{16}", "XXXXXXXXXXXXXXXX"), "" +
-            "Action classes and their instances for rule 'A':\n" +
-            "    Action$XXXXXXXXXXXXXXXX : D_Action1\n" +
-            "    Action$XXXXXXXXXXXXXXXX : A_Action2\n" +
-            "    Action$XXXXXXXXXXXXXXXX : B_Action1\n" +
-            "    Action$XXXXXXXXXXXXXXXX : D_Action3\n" +
-            "    Action$XXXXXXXXXXXXXXXX : B_Action2, C_Action1\n" +
-            "    Action$XXXXXXXXXXXXXXXX : A_Action1\n" +
-            "    Action$XXXXXXXXXXXXXXXX : D_Action2\n" +
-            "    and 1 anonymous instance(s)\n");
     }
 
 }

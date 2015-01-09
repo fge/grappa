@@ -20,7 +20,6 @@ import com.github.parboiled1.grappa.matchers.base.AbstractMatcher;
 import com.github.parboiled1.grappa.matchers.base.Matcher;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
-import org.parboiled.matchervisitors.MatcherVisitor;
 
 import static org.parboiled.support.Chars.escape;
 
@@ -62,12 +61,5 @@ public final class CharRangeMatcher
         context.advanceIndex(1);
         context.createNode();
         return true;
-    }
-
-    @Override
-    public <R> R accept(final MatcherVisitor<R> visitor)
-    {
-        Preconditions.checkNotNull(visitor, "visitor");
-        return visitor.visit(this);
     }
 }

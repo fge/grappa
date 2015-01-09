@@ -27,7 +27,6 @@ import org.parboiled.Rule;
 import org.parboiled.SkippableAction;
 import org.parboiled.errors.ActionError;
 import org.parboiled.errors.ActionException;
-import org.parboiled.matchervisitors.MatcherVisitor;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -88,7 +87,6 @@ public final class ActionMatcher
         }
     }
 
-    // TODO: only used from ParserStatistics
     public Action<?> getAction()
     {
         return action;
@@ -151,12 +149,5 @@ public final class ActionMatcher
     public Rule suppressNode()
     {
         return this; // actions are already "suppressNode"
-    }
-
-    @Override
-    public <R> R accept(final MatcherVisitor<R> visitor)
-    {
-        Preconditions.checkNotNull(visitor, "visitor");
-        return visitor.visit(this);
     }
 }

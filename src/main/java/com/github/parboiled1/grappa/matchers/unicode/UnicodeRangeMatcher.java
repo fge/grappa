@@ -18,8 +18,6 @@ package com.github.parboiled1.grappa.matchers.unicode;
 
 import com.github.parboiled1.grappa.matchers.CharRangeMatcher;
 import com.github.parboiled1.grappa.matchers.base.CustomMatcher;
-import com.google.common.base.Preconditions;
-import org.parboiled.matchervisitors.MatcherVisitor;
 
 /**
  * Base implementation of a Unicode code point range matcher
@@ -74,12 +72,5 @@ public abstract class UnicodeRangeMatcher
             ? new SingleLeadSurrogateRangeMatcher(label, lowChars[0],
                 lowChars[1], highChars[1])
             : new GenericSupplementaryRangeMatcher(label, lowChars, highChars);
-    }
-
-    @Override
-    public <R> R accept(final MatcherVisitor<R> visitor)
-    {
-        Preconditions.checkNotNull(visitor, "visitor");
-        return visitor.visit(this);
     }
 }

@@ -21,7 +21,6 @@ import com.github.parboiled1.grappa.matchers.base.Matcher;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
-import org.parboiled.matchervisitors.MatcherVisitor;
 
 import java.util.List;
 
@@ -69,12 +68,5 @@ public class SequenceMatcher
         }
         context.createNode();
         return true;
-    }
-
-    @Override
-    public <R> R accept(final MatcherVisitor<R> visitor)
-    {
-        Preconditions.checkNotNull(visitor, "visitor");
-        return visitor.visit(this);
     }
 }

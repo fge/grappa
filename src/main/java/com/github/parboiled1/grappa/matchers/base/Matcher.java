@@ -18,7 +18,6 @@ package com.github.parboiled1.grappa.matchers.base;
 
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
-import org.parboiled.matchervisitors.MatcherVisitor;
 import org.parboiled.trees.GraphNode;
 
 /**
@@ -96,12 +95,4 @@ public interface Matcher
      * @return the tag object or null if none set
      */
     Object getTag();
-
-    /**
-     * Accepts the given matcher visitor.
-     *
-     * @param visitor the visitor
-     * @return the value returned by the given visitor
-     */
-    <R> R accept(MatcherVisitor<R> visitor);
 }

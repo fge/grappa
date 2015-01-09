@@ -16,9 +16,7 @@
 
 package com.github.parboiled1.grappa.matchers.unicode;
 
-import com.github.parboiled1.grappa.assertions.OldStatsAssert;
 import org.parboiled.BaseParser;
-import org.parboiled.Parboiled;
 import org.parboiled.Rule;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -40,29 +38,6 @@ public final class UnicodeCharMatcherTest
         {
             return unicodeChar(codePoint);
         }
-    }
-
-    @Test
-    public void statsShowCorrectMatcherClassesForNonBMPChar()
-    {
-        final TestGrammar testGrammar
-            = Parboiled.createParser(TestGrammar.class);
-
-        final Rule rule = testGrammar.rule(PILE_OF_POO);
-        OldStatsAssert.assertStatsForRule(rule)
-            .hasCounted(1, UnicodeCharMatcher.class)
-            .hasCountedNothingElse();
-    }
-
-    @Test
-    public void statsShowCorrectMatcherClassesForBMPChar()
-    {
-        final TestGrammar testGrammar
-            = Parboiled.createParser(TestGrammar.class);
-
-        OldStatsAssert.assertStatsForRule(testGrammar.rule('a'))
-            .hasCounted(1, UnicodeCharMatcher.class)
-            .hasCountedNothingElse();
     }
 
     @DataProvider

@@ -17,8 +17,6 @@
 package com.github.parboiled1.grappa.matchers.unicode;
 
 import com.github.parboiled1.grappa.matchers.base.CustomMatcher;
-import com.google.common.base.Preconditions;
-import org.parboiled.matchervisitors.MatcherVisitor;
 
 /**
  * Base implementation of a Unicode code point matcher
@@ -47,12 +45,5 @@ public abstract class UnicodeCharMatcher
     protected UnicodeCharMatcher(final String label)
     {
         super(label);
-    }
-
-    @Override
-    public <R> R accept(final MatcherVisitor<R> visitor)
-    {
-        Preconditions.checkNotNull(visitor, "visitor");
-        return visitor.visit(this);
     }
 }
