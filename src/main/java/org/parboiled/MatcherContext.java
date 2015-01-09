@@ -52,10 +52,11 @@ public interface MatcherContext<V>
     void createNode();
 
     /*
-     * TODO! Only called from ActionMatcher :(
+     * TODO! Only called from ActionMatcher and DefaultMatcherContext
      */
     MatcherContext<V> getBasicSubContext();
 
+    // TODO: only overriden in ActionMatcher and AbstractMatcher
     MatcherContext<V> getSubContext(Matcher matcher);
 
     boolean runMatcher();
