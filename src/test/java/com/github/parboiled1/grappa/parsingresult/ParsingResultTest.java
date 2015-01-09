@@ -23,8 +23,8 @@ import com.github.parboiled1.grappa.testparsers.TestParser;
 import com.google.common.io.Closer;
 import org.assertj.core.api.SoftAssertions;
 import org.parboiled.Parboiled;
+import org.parboiled.parserunners.BasicParseRunner;
 import org.parboiled.parserunners.ParseRunner;
-import org.parboiled.parserunners.ReportingParseRunner;
 import org.parboiled.support.ParsingResult;
 import org.testng.annotations.Test;
 
@@ -63,7 +63,7 @@ public abstract class ParsingResultTest<P extends TestParser<V>, V>
 
         final TestParser<V> parser = Parboiled.createParser(c);
         final ParseRunner<V> runner
-            = new ReportingParseRunner<>(parser.mainRule());
+            = new BasicParseRunner<>(parser.mainRule());
         result = runner.run(data.getBuffer());
     }
 

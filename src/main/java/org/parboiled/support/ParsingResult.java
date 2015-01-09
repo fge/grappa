@@ -22,7 +22,6 @@ import com.google.common.base.Preconditions;
 import org.parboiled.Node;
 import org.parboiled.errors.ParseError;
 import org.parboiled.parserunners.BasicParseRunner;
-import org.parboiled.parserunners.ReportingParseRunner;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -115,8 +114,6 @@ public final class ParsingResult<V>
 
     /**
      * Gets the generated parse tree, if any
-     *
-     * <p>Only a {@link ReportingParseRunner} will generate a parse tree.</p>
      *
      * @return the tree, or (unfortunately) {@code null} if no tree
      */

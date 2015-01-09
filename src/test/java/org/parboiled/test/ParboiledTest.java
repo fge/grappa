@@ -19,7 +19,7 @@ package org.parboiled.test;
 import com.github.parboiled1.grappa.assertions.OldParsingResultAssert;
 import com.github.parboiled1.grappa.buffers.InputBuffer;
 import org.parboiled.Rule;
-import org.parboiled.parserunners.ReportingParseRunner;
+import org.parboiled.parserunners.BasicParseRunner;
 import org.parboiled.support.ParsingResult;
 
 import static org.assertj.core.api.Fail.fail;
@@ -45,13 +45,7 @@ public abstract class ParboiledTest<V> {
             fail("\n--- ParseErrors ---\n" +
                     printParseErrors(result) +
                     "\n--- ParseTree ---\n" +
-                    printNodeTree(result)
-            );
-            return this;
-        }
-
-        public TestResult<V> hasErrors(final String expectedErrors) {
-            assertEquals(printParseErrors(result), expectedErrors);
+                    printNodeTree(result));
             return this;
         }
 
@@ -59,19 +53,13 @@ public abstract class ParboiledTest<V> {
             assertEquals(printNodeTree(result), expectedTree);
             return this;
         }
-
-        public TestResult<V> hasResult(final V... expectedResults) {
-            // TODO: why are lists reversed? Seems unnatural
-            resultAssert.hasStack(expectedResults);
-            return this;
-        }
     }
 
     public TestResult<V> test(final Rule rule, final String input) {
-        return new TestResult<>(new ReportingParseRunner<V>(rule).run(input));
+        return new TestResult<>(new BasicParseRunner<V>(rule).run(input));
     }
     
     public TestResult<V> test(final Rule rule, final InputBuffer inputBuffer) {
-        return new TestResult<>(new ReportingParseRunner<V>(rule).run(inputBuffer));
+        return new TestResult<>(new BasicParseRunner<V>(rule).run(inputBuffer));
     }
 }

@@ -31,14 +31,13 @@ import org.parboiled.errors.BasicParseError;
 import org.parboiled.errors.GrammarException;
 import org.parboiled.errors.ParseError;
 import org.parboiled.errors.ParserRuntimeException;
-import org.parboiled.parserunners.ReportingParseRunner;
 import org.parboiled.support.CharsEscaper;
 import org.parboiled.support.Checks;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.MatcherPath;
 import org.parboiled.support.MatcherPosition;
-import org.parboiled.trees.ParseTreeUtils;
 import org.parboiled.support.Position;
+import org.parboiled.trees.ParseTreeUtils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -122,9 +121,7 @@ public final class DefaultMatcherContext<V>
      * without relying on inner CharacterMatchers. Even though this can lead to
      * significant increases of parsing performance it does not play well with
      * error reporting and recovery, which relies on character level matches.
-     * Therefore a {@link ReportingParseRunner} only enables fast string
-     * matching during the first parsing run and disables it once the input has
-     * proven to contain errors.</p>
+     * </p>
      */
     public DefaultMatcherContext(@Nonnull final InputBuffer inputBuffer,
         @Nonnull final ValueStack<V> valueStack,

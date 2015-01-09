@@ -19,7 +19,7 @@ package org.parboiled.transform;
 import org.parboiled.BaseParser;
 import org.parboiled.Parboiled;
 import org.parboiled.Rule;
-import org.parboiled.parserunners.ReportingParseRunner;
+import org.parboiled.parserunners.BasicParseRunner;
 import org.testng.annotations.Test;
 
 public class BugIn101Test {
@@ -48,6 +48,6 @@ public class BugIn101Test {
         final Parser parser = Parboiled.createParser(Parser.class);
 
         // threw "java.lang.NoSuchFieldError: field$1" in 1.0.1
-        new ReportingParseRunner<>(parser.B()).run("b");
+        new BasicParseRunner<>(parser.B()).run("b");
     }
 }

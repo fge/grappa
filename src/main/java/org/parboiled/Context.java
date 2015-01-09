@@ -22,7 +22,6 @@ import com.github.parboiled1.grappa.stack.ValueStack;
 import org.parboiled.annotations.SuppressNode;
 import org.parboiled.annotations.SuppressSubnodes;
 import org.parboiled.errors.ParseError;
-import org.parboiled.parserunners.ReportingParseRunner;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.MatcherPath;
 import org.parboiled.support.Position;
@@ -112,10 +111,7 @@ public interface Context<V>
      * matching is enabled strings are matched at once, without relying on inner
      * CharMatchers. Even though this can lead to significant increases of
      * parsing performance it does not play well with error reporting, which
-     * relies on character level matches. Therefore a {@link
-     * ReportingParseRunner} only enables fast string matching during the first
-     * parsing run and disables it once the input has proven to contain errors.
-     * </p>
+     * relies on character level matches.</p>
      *
      * @return true if fast string matching is enabled during the current
      * parsing run
