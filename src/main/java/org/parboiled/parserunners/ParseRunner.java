@@ -16,15 +16,10 @@
 
 package org.parboiled.parserunners;
 
-import com.github.parboiled1.grappa.annotations.Dangerous;
-import com.github.parboiled1.grappa.annotations.DoNotUse;
 import com.github.parboiled1.grappa.buffers.InputBuffer;
-import com.github.parboiled1.grappa.stack.ValueStack;
-import org.parboiled.errors.ParseError;
 import org.parboiled.support.ParsingResult;
 
 import java.nio.CharBuffer;
-import java.util.List;
 
 /**
  * A ParseRunner performs the actual parsing run of a given parser rule on a
@@ -60,35 +55,6 @@ import java.util.List;
  */
 public interface ParseRunner<V>
 {
-
-    /**
-     * Initializes the parse runner with the given error list.
-     *
-     * <p><strong>Don't use it</strong>: this method is only really used
-     * internally by parse runners but at this moment they don't use a proper
-     * builder pattern.</p>
-     *
-     * @param parseErrors the error list to start off with
-     * @return this instance
-     */
-    @DoNotUse
-    @Dangerous
-    ParseRunner<V> withParseErrors(List<ParseError> parseErrors);
-
-    /**
-     * Initializes the parse runner with the given ValueStack instance.
-     *
-     * <p><strong>Don't use it</strong>: this method is only really used
-     * internally by parse runners but at this moment they don't use a proper
-     * builder pattern.</p>
-     *
-     * @param valueStack the ValueStack to use
-     * @return this instance
-     */
-    @DoNotUse
-    @Dangerous
-    ParseRunner<V> withValueStack(ValueStack<V> valueStack);
-
     /**
      * Performs the actual parse and creates a corresponding ParsingResult instance.
      *
