@@ -16,7 +16,6 @@
 
 package com.github.parboiled1.grappa.matchers.trie;
 
-import com.github.parboiled1.grappa.matchers.FirstOfStringsMatcher;
 import com.google.common.annotations.Beta;
 
 import javax.annotation.concurrent.Immutable;
@@ -31,8 +30,7 @@ import javax.annotation.concurrent.Immutable;
  * <p>It is a rather "naïve" implementation in that it is only a trie and not
  * a much more sophisticated <a href="http://en.wikipedia.org/wiki/Radix_tree"
  * target="_blank">radix tree</a>, but it is efficient enough that searching
- * for a string among a series of strings is very fast (more so than {@link
- * FirstOfStringsMatcher}, especially with large dictionaries).</p>
+ * for a string among a series of strings is very fast.</p>
  *
  * <p>The core of the trie search algorithm is implemented by {@link
  * TrieNode}.</p>

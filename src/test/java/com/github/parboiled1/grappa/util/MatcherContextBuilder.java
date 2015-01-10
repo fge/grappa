@@ -38,18 +38,11 @@ public final class MatcherContextBuilder
         = new ArrayList<>();
 
     private InputBuffer buffer = null;
-    private boolean fastStringMatching = true;
     private Matcher matcher = null;
 
     public MatcherContextBuilder withInput(@Nonnull final String input)
     {
         buffer = new CharSequenceInputBuffer(input);
-        return this;
-    }
-
-    public MatcherContextBuilder withFastStringMatching(final boolean fsm)
-    {
-        fastStringMatching = fsm;
         return this;
     }
 
@@ -62,6 +55,6 @@ public final class MatcherContextBuilder
     public MatcherContext<Object> build()
     {
         return new DefaultMatcherContext<>(buffer, STACK, ERRORS,
-            SimpleMatchHandler.INSTANCE, matcher, fastStringMatching);
+            SimpleMatchHandler.INSTANCE, matcher);
     }
 }

@@ -76,11 +76,10 @@ public abstract class AbstractParseRunner<V>
     }
 
     protected final MatcherContext<V> createRootContext(
-        final InputBuffer inputBuffer, final MatchHandler matchHandler,
-        final boolean fastStringMatching)
+        final InputBuffer inputBuffer, final MatchHandler matchHandler)
     {
         return new DefaultMatcherContext<>(inputBuffer, valueStack,
-            parseErrors, matchHandler, rootMatcher, fastStringMatching);
+            parseErrors, matchHandler, rootMatcher);
     }
 
     protected final ParsingResult<V> createParsingResult(final boolean matched,

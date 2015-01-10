@@ -89,7 +89,6 @@ public final class DefaultMatcherContext<V>
     private final MatchHandler matchHandler;
     private final DefaultMatcherContext<V> parent;
     private final int level;
-    private final boolean fastStringMatching;
     private final Set<MatcherPosition> memoizedMismatches;
 
     private DefaultMatcherContext<V> subContext;
@@ -113,26 +112,19 @@ public final class DefaultMatcherContext<V>
      * @param parseErrors the parse error list to create ParseError objects in
      * @param matchHandler the MatcherHandler to use for the parsing run
      * @param matcher the root matcher
-     * @param fastStringMatching <p>Fast string matching "short-circuits" the
-     * default practice of treating string rules as simple Sequence of character
-     * rules. When fast string matching is enabled strings are matched at once,
-     * without relying on inner CharacterMatchers. Even though this can lead to
-     * significant increases of parsing performance it does not play well with
-     * error reporting and recovery, which relies on character level matches.
-     * </p>
      */
     public DefaultMatcherContext(@Nonnull final InputBuffer inputBuffer,
         @Nonnull final ValueStack<V> valueStack,
         @Nonnull final List<ParseError> parseErrors,
         @Nonnull final MatchHandler matchHandler,
-        @Nonnull final Matcher matcher, final boolean fastStringMatching)
+        @Nonnull final Matcher matcher)
     {
 
         this(Preconditions.checkNotNull(inputBuffer, "inputBuffer"),
             Preconditions.checkNotNull(valueStack, "valueStack"),
             Preconditions.checkNotNull(parseErrors, "parseErrors"),
             Preconditions.checkNotNull(matchHandler, "matchHandler"), null, 0,
-            fastStringMatching, new HashSet<MatcherPosition>());
+            new HashSet<MatcherPosition>());
         currentChar = inputBuffer.charAt(0);
         Preconditions.checkNotNull(matcher);
         // TODO: what the...
@@ -144,8 +136,7 @@ public final class DefaultMatcherContext<V>
         final ValueStack<V> valueStack, final List<ParseError> parseErrors,
         final MatchHandler matchHandler,
         @Nullable final DefaultMatcherContext<V> parent,
-        final int level, final boolean fastStringMatching,
-        final Set<MatcherPosition> memoizedMismatches)
+        final int level, final Set<MatcherPosition> memoizedMismatches)
     {
         this.inputBuffer = inputBuffer;
         this.valueStack = valueStack;
@@ -153,7 +144,6 @@ public final class DefaultMatcherContext<V>
         this.matchHandler = matchHandler;
         this.parent = parent;
         this.level = level;
-        this.fastStringMatching = fastStringMatching;
         this.memoizedMismatches = memoizedMismatches;
     }
 
@@ -225,12 +215,6 @@ public final class DefaultMatcherContext<V>
     public int getLevel()
     {
         return level;
-    }
-
-    @Override
-    public boolean fastStringMatching()
-    {
-        return fastStringMatching;
     }
 
     @Override
@@ -447,8 +431,7 @@ public final class DefaultMatcherContext<V>
         if (subContext == null) {
             // init new level
             subContext = new DefaultMatcherContext<>(inputBuffer, valueStack,
-                parseErrors, matchHandler, this, level + 1, fastStringMatching,
-                memoizedMismatches);
+                parseErrors, matchHandler, this, level + 1, memoizedMismatches);
         } else {
             // we always need to reset the MatcherPath, even for actions
             subContext.path = null;
@@ -465,7 +448,6 @@ public final class DefaultMatcherContext<V>
         sc.setStartIndex(currentIndex);
         sc.setCurrentIndex(currentIndex);
         sc.currentChar = currentChar;
-        //sc.node = null;
         sc.subNodes = Lists.newArrayList();
         sc.nodeSuppressed = nodeSuppressed
             || this.matcher.areSubnodesSuppressed()

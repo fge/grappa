@@ -103,25 +103,6 @@ public interface Context<V>
     int getLevel();
 
     /**
-     * <p>Returns true if fast string matching is enabled for this parsing run.
-     * </p>
-     *
-     * <p>Fast string matching "short-circuits" the default practice of treating
-     * string rules as simple sequence of character rules. When fast string
-     * matching is enabled strings are matched at once, without relying on inner
-     * CharMatchers. Even though this can lead to significant increases of
-     * parsing performance it does not play well with error reporting, which
-     * relies on character level matches.</p>
-     *
-     * @return true if fast string matching is enabled during the current
-     * parsing run
-     */
-    /*
-     * TODO: only used from FirstOfStringsMatcher, StringMatcher
-     */
-    boolean fastStringMatching();
-
-    /**
      * Returns the parse tree subnodes already created in the current context
      * scope.
      * Note that the returned list is immutable.

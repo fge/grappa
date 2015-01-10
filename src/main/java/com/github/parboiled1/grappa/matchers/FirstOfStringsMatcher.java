@@ -67,9 +67,6 @@ public final class FirstOfStringsMatcher
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
-        if (!context.fastStringMatching())
-            return super.match(context);
-
         Record rec = root;
         int ix = context.getCurrentIndex();
         final InputBuffer buffer = context.getInputBuffer();

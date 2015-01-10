@@ -53,7 +53,7 @@ public final class BasicParseRunner<V>
         resetValueStack();
 
         final MatcherContext<V> rootContext
-            = createRootContext(inputBuffer, this, true);
+            = createRootContext(inputBuffer, this);
         final boolean matched = rootContext.runMatcher();
         return createParsingResult(matched, rootContext);
     }

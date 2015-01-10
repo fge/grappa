@@ -16,7 +16,6 @@
 
 package com.github.parboiled1.grappa.matchers.trie;
 
-import com.github.parboiled1.grappa.matchers.FirstOfStringsMatcher;
 import com.github.parboiled1.grappa.matchers.base.AbstractMatcher;
 import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
@@ -26,9 +25,6 @@ import javax.annotation.concurrent.Immutable;
 
 /**
  * The trie matcher
- *
- * <p>Note that unlike a {@link FirstOfStringsMatcher}, this matcher is
- * insensitive about the ordering of its arguments.</p>
  *
  * @since 1.0.0-beta.6
  */

@@ -58,11 +58,8 @@ public final class StringMatcher
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
-        if (!context.fastStringMatching())
-            return super.match(context);
-
-        if (!context.getInputBuffer()
-            .test(context.getCurrentIndex(), characters))
+        if (!context.getInputBuffer().test(context.getCurrentIndex(),
+            characters))
             return false;
         context.advanceIndex(characters.length);
         context.createNode();
