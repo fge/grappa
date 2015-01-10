@@ -133,18 +133,6 @@ public final class VarFramingMatcher
     }
 
     @Override
-    public void setTag(final Object tagObject)
-    {
-        inner.setTag(tagObject);
-    }
-
-    @Override
-    public Object getTag()
-    {
-        return inner.getTag();
-    }
-
-    @Override
     public <V> MatcherContext<V> getSubContext(final MatcherContext<V> context)
     {
         final MatcherContext<V> subContext = inner.getSubContext(context);

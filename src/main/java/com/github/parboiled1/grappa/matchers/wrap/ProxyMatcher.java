@@ -145,22 +145,6 @@ public class ProxyMatcher
     }
 
     @Override
-    public void setTag(final Object tagObject)
-    {
-        if (dirty)
-            apply();
-        target.setTag(tagObject);
-    }
-
-    @Override
-    public Object getTag()
-    {
-        if (dirty)
-            apply();
-        return target.getTag();
-    }
-
-    @Override
     public String toString()
     {
         if (target == null)

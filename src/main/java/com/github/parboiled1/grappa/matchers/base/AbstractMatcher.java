@@ -155,18 +155,6 @@ public abstract class AbstractMatcher
         return new MemoMismatchesMatcher(this);
     }
 
-    @Override
-    public final Object getTag()
-    {
-        return tag;
-    }
-
-    @Override
-    public final void setTag(final Object tagObject)
-    {
-        tag = tagObject;
-    }
-
     // default implementation is to simply delegate to the context
     @Override
     public <V> MatcherContext<V> getSubContext(final MatcherContext<V> context)

@@ -76,23 +76,4 @@ public interface Matcher
      * @return true if the match was successful
      */
     <V> boolean match(MatcherContext<V> context);
-
-    /**
-     * Associates an arbitrary object with this matcher. Used for example during
-     * profiling and packrat parsing. The matcher implementations themselves
-     * completely ignore the contents of this property. It purely serves as a
-     * performance optimization for ParseRunners and/or MatchHandlers and saves
-     * these from the need to use Map&lt;Matcher, XYZ&gt; structures for
-     * associating internal objects with matchers.
-     *
-     * @param tagObject the tag object
-     */
-    void setTag(Object tagObject);
-
-    /**
-     * Retrieves a previously set tag object.
-     *
-     * @return the tag object or null if none set
-     */
-    Object getTag();
 }
