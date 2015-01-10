@@ -52,32 +52,6 @@ public final class CombinedUnicodeRangeMatcher
     }
 
     @Override
-    public boolean isSingleCharMatcher()
-    {
-        return false;
-    }
-
-    @Override
-    public boolean canMatchEmpty()
-    {
-        return false;
-    }
-
-    @Override
-    public boolean isStarterChar(final char c)
-    {
-        return c >= bmp.getLowerBound() && c <= bmp.getUpperBound()
-            || supplementary.isStarterChar(c);
-    }
-
-    @Override
-    public char getStarterChar()
-    {
-        return (char) Math.min(bmp.getLowerBound(),
-            supplementary.getStarterChar());
-    }
-
-    @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
         /*

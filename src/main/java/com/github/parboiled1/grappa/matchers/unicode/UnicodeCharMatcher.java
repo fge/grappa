@@ -16,7 +16,7 @@
 
 package com.github.parboiled1.grappa.matchers.unicode;
 
-import com.github.parboiled1.grappa.matchers.base.CustomMatcher;
+import com.github.parboiled1.grappa.matchers.base.AbstractMatcher;
 
 /**
  * Base implementation of a Unicode code point matcher
@@ -31,7 +31,7 @@ import com.github.parboiled1.grappa.matchers.base.CustomMatcher;
  * </ul>
  */
 public abstract class UnicodeCharMatcher
-    extends CustomMatcher
+    extends AbstractMatcher
 {
     public static UnicodeCharMatcher forCodePoint(final int codePoint)
     {

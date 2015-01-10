@@ -35,7 +35,6 @@ public abstract class AbstractMatcher
     private boolean nodeSuppressed;
     private boolean subnodesSuppressed;
     private boolean nodeSkipped;
-    private Object tag;
 
     protected AbstractMatcher(final String label)
     {

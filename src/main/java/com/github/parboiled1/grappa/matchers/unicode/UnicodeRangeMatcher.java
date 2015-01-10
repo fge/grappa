@@ -17,7 +17,7 @@
 package com.github.parboiled1.grappa.matchers.unicode;
 
 import com.github.parboiled1.grappa.matchers.CharRangeMatcher;
-import com.github.parboiled1.grappa.matchers.base.CustomMatcher;
+import com.github.parboiled1.grappa.matchers.base.AbstractMatcher;
 
 /**
  * Base implementation of a Unicode code point range matcher
@@ -29,7 +29,7 @@ import com.github.parboiled1.grappa.matchers.base.CustomMatcher;
  * GenericSupplementaryRangeMatcher}.</p>
  */
 public abstract class UnicodeRangeMatcher
-    extends CustomMatcher
+    extends AbstractMatcher
 {
     private static final char[] MIN_SUPPLEMENTARY = Character.toChars(0x10000);
 

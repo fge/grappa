@@ -40,30 +40,6 @@ public class BmpCharMatcher
     }
 
     @Override
-    public boolean isSingleCharMatcher()
-    {
-        return true;
-    }
-
-    @Override
-    public boolean canMatchEmpty()
-    {
-        return false;
-    }
-
-    @Override
-    public boolean isStarterChar(final char c)
-    {
-        return c == matcher.getCharacter();
-    }
-
-    @Override
-    public char getStarterChar()
-    {
-        return matcher.getCharacter();
-    }
-
-    @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
         return matcher.match(context);

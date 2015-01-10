@@ -48,30 +48,6 @@ public class SingleLeadSurrogateRangeMatcher
     }
 
     @Override
-    public boolean isSingleCharMatcher()
-    {
-        return false;
-    }
-
-    @Override
-    public boolean canMatchEmpty()
-    {
-        return false;
-    }
-
-    @Override
-    public boolean isStarterChar(final char c)
-    {
-        return c == lead;
-    }
-
-    @Override
-    public char getStarterChar()
-    {
-        return lead;
-    }
-
-    @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
         char tested;

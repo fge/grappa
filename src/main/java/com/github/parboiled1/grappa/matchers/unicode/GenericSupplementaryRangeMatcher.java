@@ -46,30 +46,6 @@ public class GenericSupplementaryRangeMatcher
     }
 
     @Override
-    public boolean isSingleCharMatcher()
-    {
-        return false;
-    }
-
-    @Override
-    public boolean canMatchEmpty()
-    {
-        return false;
-    }
-
-    @Override
-    public boolean isStarterChar(final char c)
-    {
-        return c >= lowChars[0] && c <= highChars[0];
-    }
-
-    @Override
-    public char getStarterChar()
-    {
-        return lowChars[0];
-    }
-
-    @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
         final int index = context.getCurrentIndex();

@@ -49,30 +49,6 @@ public class SupplementaryCharMatcher
     }
 
     @Override
-    public boolean isSingleCharMatcher()
-    {
-        return false;
-    }
-
-    @Override
-    public boolean canMatchEmpty()
-    {
-        return false;
-    }
-
-    @Override
-    public boolean isStarterChar(final char c)
-    {
-        return c == chars[0];
-    }
-
-    @Override
-    public char getStarterChar()
-    {
-        return chars[0];
-    }
-
-    @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
         final InputBuffer buffer = context.getInputBuffer();
