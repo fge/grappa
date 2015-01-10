@@ -48,43 +48,6 @@ public abstract class AbstractParseRunner<V>
         rootMatcher = Preconditions.checkNotNull((Matcher) rule, "rule");
     }
 
-    public final Matcher getRootMatcher()
-    {
-        return rootMatcher;
-    }
-
-    @Override
-    // TODO: for now, parseErrors is @Nullable here
-    public final ParseRunner<V> withParseErrors(
-        final List<ParseError> parseErrors)
-    {
-        /*
-         * TODO: figure out why the below is true... That really, really sucks
-         *
-         * The code below IS NOT equivalent to:
-         *
-         *     this.parseErrors.clear();
-         *     this.parseErrors.addAll(parseErrors);
-         *
-         * No idea why :/
-         *
-         * Note that this event stands true for:
-         *
-         *     this.parseErrors.allAll(parseErrors);
-         */
-        this.parseErrors = parseErrors;
-        return this;
-    }
-
-    @Override
-    public final ParseRunner<V> withValueStack(
-        @Nonnull final ValueStack<V> valueStack)
-    {
-        this.valueStack = Preconditions.checkNotNull(valueStack, "valueStack");
-        initialValueStackSnapshot = valueStack.takeSnapshot();
-        return this;
-    }
-
     public final ValueStack<V> getValueStack()
     {
         return valueStack;

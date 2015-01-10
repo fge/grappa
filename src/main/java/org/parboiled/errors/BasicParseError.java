@@ -19,6 +19,8 @@ package org.parboiled.errors;
 import com.github.parboiled1.grappa.buffers.InputBuffer;
 import com.google.common.base.Preconditions;
 
+import javax.annotation.Nonnull;
+
 /**
  * A basic {@link ParseError} implementation for a one-char parse error with an optional error message.
  */
@@ -29,7 +31,6 @@ public class BasicParseError
     private final int startIndex;
     private final String errorMessage;
     private int endIndex;
-    private int indexDelta;
 
     public BasicParseError(final InputBuffer inputBuffer, final int errorIndex,
         final String errorMessage)
@@ -49,18 +50,13 @@ public class BasicParseError
     @Override
     public final int getStartIndex()
     {
-        return startIndex + indexDelta;
+        return startIndex;
     }
 
     @Override
     public final int getEndIndex()
     {
-        return endIndex + indexDelta;
-    }
-
-    public final void setEndIndex(final int endIndex)
-    {
-        this.endIndex = endIndex - indexDelta;
+        return endIndex;
     }
 
     @Override
@@ -69,13 +65,10 @@ public class BasicParseError
         return errorMessage;
     }
 
-    public final int getIndexDelta()
+    @Nonnull
+    @Override
+    public final String toString()
     {
-        return indexDelta;
-    }
-
-    public final void shiftIndexDeltaBy(final int delta)
-    {
-        indexDelta += delta;
+        return errorMessage;
     }
 }

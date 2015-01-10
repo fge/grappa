@@ -81,8 +81,7 @@ public final class DefaultInvalidInputErrorFormatter
         // "original" indices we need to unapply the IndexDelta in order to be
         // able to compare with them.
         // TODO: remove hack
-        final int pathStartIndex = error.getStartIndex() - error
-            .getIndexDelta();
+        final int pathStartIndex = error.getStartIndex();
 
         final List<String> labelList = new ArrayList<>();
         for (final MatcherPath path : error.getFailedMatchers()) {

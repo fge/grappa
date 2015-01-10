@@ -169,25 +169,6 @@ public final class ErrorUtils
      * @param format the format string, must include three placeholders for a string
      * (the error message) and two integers (the error line / column respectively)
      * @param errorMessage the error message
-     * @param errorIndex the error location as an index into the inputBuffer
-     * @param inputBuffer the underlying InputBuffer
-     * @return the error message including the relevant line from the underlying input plus location indicator
-     */
-    public static String printErrorMessage(final String format,
-        final String errorMessage, final int errorIndex,
-        final InputBuffer inputBuffer)
-    {
-        Preconditions.checkNotNull(inputBuffer, "inputBuffer");
-        return printErrorMessage(format, errorMessage, errorIndex,
-            errorIndex + 1, inputBuffer);
-    }
-
-    /**
-     * Prints an error message showing a location in the given InputBuffer.
-     *
-     * @param format the format string, must include three placeholders for a string
-     * (the error message) and two integers (the error line / column respectively)
-     * @param errorMessage the error message
      * @param startIndex the start location of the error as an index into the inputBuffer
      * @param endIndex the end location of the error as an index into the inputBuffer
      * @param inputBuffer the underlying InputBuffer

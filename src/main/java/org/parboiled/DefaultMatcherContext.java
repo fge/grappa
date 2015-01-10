@@ -48,7 +48,6 @@ import java.util.List;
 import java.util.Set;
 
 import static com.github.parboiled1.grappa.matchers.MatcherUtils.unwrap;
-import static org.parboiled.errors.ErrorUtils.printParseError;
 
 /**
  * <p>The Context implementation orchestrating most of the matching process.</p>
@@ -498,7 +497,7 @@ public final class DefaultMatcherContext<V>
             final BasicParseError error = new BasicParseError(inputBuffer,
                 currentIndex, CharsEscaper.INSTANCE.escape(msg));
             // TODO: UGLY
-            throw new ParserRuntimeException(e, printParseError(error));
+            throw new ParserRuntimeException(e, error.toString());
         }
     }
 }
