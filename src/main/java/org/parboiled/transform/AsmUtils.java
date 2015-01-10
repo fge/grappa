@@ -22,8 +22,8 @@
 
 package org.parboiled.transform;
 
-import com.github.parboiled1.grappa.transform.LoadingOpcode;
 import com.github.parboiled1.grappa.transform.ClassCache;
+import com.github.parboiled1.grappa.transform.LoadingOpcode;
 import com.google.common.base.Preconditions;
 import me.qmx.jitescript.util.CodegenUtils;
 import org.objectweb.asm.Opcodes;
@@ -41,8 +41,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
 
 public final class AsmUtils
 {
@@ -58,9 +56,6 @@ public final class AsmUtils
         Preconditions.checkNotNull(parserClassName, "parserClassName");
         return parserClassName + "$$parboiled";
     }
-
-    private static final Map<String, Class<?>> classForDesc
-        = new HashMap<>();
 
     /**
      * Get the class equivalent to an ASM {@link Type}

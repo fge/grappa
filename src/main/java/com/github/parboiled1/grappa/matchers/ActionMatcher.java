@@ -87,11 +87,6 @@ public final class ActionMatcher
         }
     }
 
-    public Action<?> getAction()
-    {
-        return action;
-    }
-
     @Override
     public <V> MatcherContext<V> getSubContext(final MatcherContext<V> context)
     {
