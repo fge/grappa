@@ -29,6 +29,7 @@ import java.util.List;
 @ParametersAreNonnullByDefault
 public final class LineCounter
 {
+    // TODO: replace with IntRange from largetext
     private final List<Range<Integer>> lines = Lists.newArrayList();
     private final int nrLines;
     private final int len;
