@@ -105,7 +105,6 @@ public final class DefaultMatcherContext<V>
     private int intTag;
     private boolean hasError;
     private boolean nodeSuppressed;
-    private boolean inErrorRecovery;
 
     /**
      * Initializes a new root MatcherContext.
@@ -277,12 +276,6 @@ public final class DefaultMatcherContext<V>
             return false;
 
         return parent.inPredicate();
-    }
-
-    @Override
-    public boolean inErrorRecovery()
-    {
-        return inErrorRecovery;
     }
 
     @Override
