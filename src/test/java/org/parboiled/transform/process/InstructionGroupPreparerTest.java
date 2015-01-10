@@ -68,5 +68,4 @@ public class InstructionGroupPreparerTest extends TransformationTest {
         assertEquals(group.getFields().get(3).desc, "I");
         assertEquals(group.getFields().get(4).desc, "I");
     }
-
 }

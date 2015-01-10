@@ -319,7 +319,7 @@ public final class DefaultMatcherContext<V>
     public int getMatchLength()
     {
         checkActionContext();
-        return subContext.currentIndex - subContext.getStartIndex();
+        return subContext.currentIndex - subContext.startIndex;
     }
 
     @Override

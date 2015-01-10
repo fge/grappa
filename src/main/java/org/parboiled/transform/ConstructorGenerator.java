@@ -81,6 +81,7 @@ public final class ConstructorGenerator
 
     private static void createNewInstanceMethod(final ParserClassNode classNode)
     {
+        // TODO: replace with Code{Block,GenUtils}
         final String desc = "()L" + Type.getType(BaseParser.class)
             .getInternalName() + ';';
         final MethodNode method = new MethodNode(ACC_PUBLIC, "newInstance",

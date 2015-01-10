@@ -22,7 +22,6 @@ import org.parboiled.support.Position;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.Tainted;
-import java.nio.CharBuffer;
 import java.util.List;
 
 // TODO: get rid of edge cases
@@ -48,11 +47,6 @@ public final class LineCounter
         }
         lines.add(Range.closedOpen(lowerBound, index));
         nrLines = lines.size();
-    }
-
-    public LineCounter(final char[] chars)
-    {
-        this(CharBuffer.wrap(chars));
     }
 
     public int getNrLines()

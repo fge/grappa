@@ -96,11 +96,11 @@ public final class MatcherPath
     public boolean isPrefixOf(final MatcherPath that)
     {
         Preconditions.checkNotNull(that, "that");
-        if (element.getLevel() <= that.getElement().getLevel() && this == that)
+        if (element.getLevel() <= that.element.getLevel() && this == that)
             return true;
         if (!that.hasParent())
             return false;
-        return isPrefixOf(that.getParent());
+        return isPrefixOf(that.parent);
     }
 
     public Element getElement()
@@ -145,14 +145,14 @@ public final class MatcherPath
     public MatcherPath commonPrefix(final MatcherPath that)
     {
         Preconditions.checkNotNull(that, "that");
-        if (element.getLevel() > that.getElement().getLevel())
+        if (element.getLevel() > that.element.getLevel())
             return parent.commonPrefix(that);
-        if (element.getLevel() < that.getElement().getLevel())
-            return commonPrefix(that.getParent());
+        if (element.getLevel() < that.element.getLevel())
+            return commonPrefix(that.parent);
         if (this == that)
             return this;
         return hasParent() && that.hasParent()
-            ? parent.commonPrefix(that.getParent())
+            ? parent.commonPrefix(that.parent)
             : null;
     }
 
