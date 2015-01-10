@@ -21,9 +21,9 @@ import com.github.parboiled1.grappa.matchers.wrap.MemoMismatchesMatcher;
 import com.github.parboiled1.grappa.matchers.wrap.ProxyMatcher;
 import com.github.parboiled1.grappa.matchers.wrap.VarFramingMatcher;
 
+// TODO: fucking UGLY; only used from DefaultMatcherContext
 public final class MatcherUtils
 {
-
     private MatcherUtils()
     {
     }
