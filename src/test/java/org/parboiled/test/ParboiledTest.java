@@ -22,7 +22,6 @@ import org.parboiled.parserunners.BasicParseRunner;
 import org.parboiled.support.ParsingResult;
 
 import static org.assertj.core.api.Fail.fail;
-import static org.parboiled.errors.ErrorUtils.printParseErrors;
 import static org.parboiled.trees.ParseTreeUtils.printNodeTree;
 import static org.testng.Assert.assertEquals;
 
@@ -39,10 +38,7 @@ public abstract class ParboiledTest<V> {
 //            resultAssert.isSuccess();
             if (result.isSuccess())
                 return this;
-            fail("\n--- ParseErrors ---\n" +
-                    printParseErrors(result) +
-                    "\n--- ParseTree ---\n" +
-                    printNodeTree(result));
+            fail("Errors detected");
             return this;
         }
 
