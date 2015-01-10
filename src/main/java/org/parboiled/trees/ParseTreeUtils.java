@@ -352,22 +352,8 @@ public final class ParseTreeUtils
         for (int i = node.getStartIndex(); i < node.getEndIndex(); i++) {
             final char c = inputBuffer.charAt(i);
             switch (c) {
-                case Chars.DEL_ERROR:
-                    i++;
-                    break;
-                case Chars.INS_ERROR:
                 case Chars.EOI:
                     break;
-                case Chars.RESYNC_START:
-                    i++;
-                    while (inputBuffer.charAt(i) != Chars.RESYNC_END)
-                        i++;
-                    break;
-                case Chars.RESYNC_END:
-                case Chars.RESYNC_EOI:
-                case Chars.RESYNC:
-                    // we should only see proper RESYNC_START / RESYNC_END blocks
-                    throw new IllegalStateException();
                 default:
                     sb.append(c);
             }

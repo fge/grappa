@@ -46,12 +46,6 @@ public final class CharMatcher
     private static String getLabel(final char c)
     {
         switch (c) {
-            case Chars.DEL_ERROR:
-            case Chars.INS_ERROR:
-            case Chars.RESYNC:
-            case Chars.RESYNC_START:
-            case Chars.RESYNC_END:
-            case Chars.RESYNC_EOI:
             case Chars.EOI:
                 return escape(c);
             default:

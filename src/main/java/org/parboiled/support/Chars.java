@@ -25,40 +25,6 @@ import java.util.Map;
 public final class Chars
 {
     /**
-     * Special non-character used during error recovery. Signals that an illegal input character was skipped at this
-     * input location.
-     */
-    public static final char DEL_ERROR = '\uFDEA';
-
-    /**
-     * Special non-character used during error recovery. Signals that the character at the following input location
-     * was expected but not present in the input buffer.
-     */
-    public static final char INS_ERROR = '\uFDEB';
-
-    /**
-     * Special non-character used during error recovery. Signals that a rule resynchronization has to be performed
-     * at the current input location.
-     */
-    public static final char RESYNC = '\uFDEC';
-
-    /**
-     * Special non-character used during error recovery. Signals that all characters up to the RESYNC_END
-     * character need to be skipped as part of a resynchronization.
-     */
-    public static final char RESYNC_START = '\uFDED';
-
-    /**
-     * Special non-character used during error recovery. Signals the end of a resynchronization block.
-     */
-    public static final char RESYNC_END = '\uFDEE';
-
-    /**
-     * Special non-character used during error recovery. Signals a resynchronization at EOI.
-     */
-    public static final char RESYNC_EOI = '\uFDEF';
-
-    /**
      * The End-of-Input non-character.
      */
     public static final char EOI = '\uFFFF';
@@ -69,12 +35,6 @@ public final class Chars
         .put('\n', "\\n")
         .put('\t', "\\t")
         .put('\f', "\\f")
-        .put(DEL_ERROR, "DEL_ERROR")
-        .put(INS_ERROR, "INS_ERROR")
-        .put(RESYNC, "RESYNC")
-        .put(RESYNC_START, "RESYNC_START")
-        .put(RESYNC_END, "RESYNC_END")
-        .put(RESYNC_EOI, "RESYNC_EOI")
         .put(EOI, "EOI")
         .build();
 

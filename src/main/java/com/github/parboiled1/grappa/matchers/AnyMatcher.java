@@ -37,12 +37,6 @@ public final class AnyMatcher
     public <V> boolean match(final MatcherContext<V> context)
     {
         switch (context.getCurrentChar()) {
-            case Chars.DEL_ERROR:
-            case Chars.INS_ERROR:
-            case Chars.RESYNC:
-            case Chars.RESYNC_START:
-            case Chars.RESYNC_END:
-            case Chars.RESYNC_EOI:
             case Chars.EOI:
                 return false;
         }
