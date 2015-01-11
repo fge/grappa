@@ -26,4 +26,9 @@ public abstract class MatchEvent<V>
     {
         this.context = context;
     }
+
+    public final MatcherContext<V> getContext()
+    {
+        return context;
+    }
 }
