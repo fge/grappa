@@ -16,6 +16,7 @@
 
 package com.github.parboiled1.grappa.trace;
 
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.parboiled1.grappa.buffers.InputBuffer;
 import com.github.parboiled1.grappa.run.MatchFailureEvent;
@@ -53,7 +54,13 @@ public final class TracingParseRunnerListener<V>
 {
     private static final Map<String, ?> ZIPFS_ENV
         = Collections.singletonMap("create", "true");
-    private static final ObjectMapper MAPPER = new ObjectMapper();
+    /*
+     * We have to do that, otherwise a corrupt zip file is created :(
+     *
+     * See https://github.com/FasterXML/jackson-databind/issues/680
+     */
+    private static final ObjectMapper MAPPER = new ObjectMapper()
+        .disable(JsonGenerator.Feature.AUTO_CLOSE_TARGET);
     private static final int BUFSIZE = 16384;
 
     @WillCloseWhenClosed
@@ -121,18 +128,11 @@ public final class TracingParseRunnerListener<V>
     {
         final ParsingRunTrace trace = new ParsingRunTrace(startDate, events);
         final Path path = zipfs.getPath("/trace.json");
-        final Path tmpfile;
 
-        //noinspection OverlyBroadCatchBlock
-        try {
-            tmpfile = Files.createTempFile("trace", "xxx");
-            //noinspection NestedTryStatement
-            try (
-                final OutputStream out = Files.newOutputStream(tmpfile);
-            ) {
-                MAPPER.writeValue(out, trace);
-            }
-            Files.move(tmpfile, path);
+        try (
+            final OutputStream out = Files.newOutputStream(path);
+        ) {
+            MAPPER.writeValue(out, trace);
         } catch (IOException oops) {
             throw new RuntimeException("failed to write trace file", oops);
         }
