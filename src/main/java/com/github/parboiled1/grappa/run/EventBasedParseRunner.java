@@ -67,8 +67,12 @@ public final class EventBasedParseRunner<V>
 
         final MatcherContext<V> rootContext
             = createRootContext(inputBuffer, this);
+        bus.post(new PreParseEvent<>(rootContext));
         final boolean matched = rootContext.runMatcher();
-        return createParsingResult(matched, rootContext);
+        final ParsingResult<V> result
+            = createParsingResult(matched, rootContext);
+        bus.post(new PostParseEvent<>(result));
+        return result;
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -83,7 +87,7 @@ public final class EventBasedParseRunner<V>
 
         final boolean match = matcher.match(context);
 
-        final MatchEvent<T> postMatchEvent = match
+        final MatchContextEvent<T> postMatchEvent = match
             ? new MatchSuccessEvent<>(context)
             : new MatchFailureEvent<>(context);
         bus.post(postMatchEvent);

@@ -19,7 +19,7 @@ package com.github.parboiled1.grappa.run;
 import org.parboiled.MatcherContext;
 
 public final class MatchFailureEvent<V>
-    extends MatchEvent<V>
+    extends MatchContextEvent<V>
 {
     public MatchFailureEvent(final MatcherContext<V> context)
     {

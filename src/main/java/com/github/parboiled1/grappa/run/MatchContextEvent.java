@@ -18,11 +18,17 @@ package com.github.parboiled1.grappa.run;
 
 import org.parboiled.MatcherContext;
 
-public final class MatchSuccessEvent<V>
-    extends MatchContextEvent<V>
+public abstract class MatchContextEvent<V>
 {
-    public MatchSuccessEvent(final MatcherContext<V> context)
+    protected final MatcherContext<V> context;
+
+    protected MatchContextEvent(final MatcherContext<V> context)
     {
-        super(context);
+        this.context = context;
+    }
+
+    public final MatcherContext<V> getContext()
+    {
+        return context;
     }
 }

@@ -16,19 +16,19 @@
 
 package com.github.parboiled1.grappa.run;
 
-import org.parboiled.MatcherContext;
+import org.parboiled.support.ParsingResult;
 
-public abstract class MatchEvent<V>
+public final class PostParseEvent<V>
 {
-    protected final MatcherContext<V> context;
+    private final ParsingResult<V> result;
 
-    protected MatchEvent(final MatcherContext<V> context)
+    public PostParseEvent(final ParsingResult<V> result)
     {
-        this.context = context;
+        this.result = result;
     }
 
-    public final MatcherContext<V> getContext()
+    public ParsingResult<V> getResult()
     {
-        return context;
+        return result;
     }
 }
