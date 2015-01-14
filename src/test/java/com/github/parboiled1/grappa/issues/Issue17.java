@@ -16,10 +16,11 @@
 
 package com.github.parboiled1.grappa.issues;
 
+import com.github.parboiled1.grappa.run.EventBasedParseRunner;
+import com.github.parboiled1.grappa.run.ParseRunner;
 import org.parboiled.BaseParser;
 import org.parboiled.Parboiled;
 import org.parboiled.Rule;
-import org.parboiled.parserunners.BasicParseRunner;
 import org.parboiled.support.Var;
 import org.testng.annotations.Test;
 
@@ -89,8 +90,8 @@ public final class Issue17
     public void varOfBooleanIsCountedAsAction()
     {
         final TestParser parser = Parboiled.createParser(TestParser.class);
-        final BasicParseRunner<Object> runner
-            = new BasicParseRunner<>(parser.someRule());
+        final ParseRunner<Object> runner
+            = new EventBasedParseRunner<>(parser.someRule());
 
         assertThat(runner.run("some text").isSuccess()).isTrue();
     }

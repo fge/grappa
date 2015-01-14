@@ -19,12 +19,12 @@ package com.github.parboiled1.grappa.parsingresult;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.parboiled1.grappa.assertions.verify.ParsingResultVerifier;
+import com.github.parboiled1.grappa.run.EventBasedParseRunner;
+import com.github.parboiled1.grappa.run.ParseRunner;
 import com.github.parboiled1.grappa.testparsers.TestParser;
 import com.google.common.io.Closer;
 import org.assertj.core.api.SoftAssertions;
 import org.parboiled.Parboiled;
-import org.parboiled.parserunners.BasicParseRunner;
-import com.github.parboiled1.grappa.run.ParseRunner;
 import org.parboiled.support.ParsingResult;
 import org.testng.annotations.Test;
 
@@ -63,7 +63,7 @@ public abstract class ParsingResultTest<P extends TestParser<V>, V>
 
         final TestParser<V> parser = Parboiled.createParser(c);
         final ParseRunner<V> runner
-            = new BasicParseRunner<>(parser.mainRule());
+            = new EventBasedParseRunner<>(parser.mainRule());
         result = runner.run(data.getBuffer());
     }
 

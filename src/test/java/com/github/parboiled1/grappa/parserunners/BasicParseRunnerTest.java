@@ -16,11 +16,11 @@
 
 package com.github.parboiled1.grappa.parserunners;
 
+import com.github.parboiled1.grappa.run.EventBasedParseRunner;
+import com.github.parboiled1.grappa.run.ParseRunner;
 import org.parboiled.BaseParser;
 import org.parboiled.Parboiled;
 import org.parboiled.Rule;
-import org.parboiled.parserunners.BasicParseRunner;
-import com.github.parboiled1.grappa.run.ParseRunner;
 import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,7 +39,7 @@ public final class BasicParseRunnerTest
     private final SimpleParser parser
         = Parboiled.createParser(SimpleParser.class);
     private final ParseRunner<Object> runner
-        = new BasicParseRunner<>(parser.rule());
+        = new EventBasedParseRunner<>(parser.rule());
 
     @Test
     public void basicParseRunnerCanReliablyReportErrors()

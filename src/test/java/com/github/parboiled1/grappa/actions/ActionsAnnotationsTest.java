@@ -16,11 +16,11 @@
 
 package com.github.parboiled1.grappa.actions;
 
+import com.github.parboiled1.grappa.run.EventBasedParseRunner;
 import org.parboiled.BaseParser;
 import org.parboiled.Parboiled;
 import org.parboiled.Rule;
 import org.parboiled.annotations.SkipActionsInPredicates;
-import org.parboiled.parserunners.BasicParseRunner;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -82,7 +82,7 @@ public final class ActionsAnnotationsTest
     {
         final Parser parser
             = Parboiled.createParser(Parser.class, dummy);
-        new BasicParseRunner<>(parser.rule1()).run("f");
+        new EventBasedParseRunner<>(parser.rule1()).run("f");
         verify(dummy).dummy();
     }
 
@@ -91,7 +91,7 @@ public final class ActionsAnnotationsTest
     {
         final Parser parser
             = Parboiled.createParser(Parser.class, dummy);
-        new BasicParseRunner<>(parser.rule2()).run("f");
+        new EventBasedParseRunner<>(parser.rule2()).run("f");
         verify(dummy, never()).dummy();
     }
 }

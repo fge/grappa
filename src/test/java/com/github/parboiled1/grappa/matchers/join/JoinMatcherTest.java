@@ -16,6 +16,8 @@
 
 package com.github.parboiled1.grappa.matchers.join;
 
+import com.github.parboiled1.grappa.run.EventBasedParseRunner;
+import com.github.parboiled1.grappa.run.ParseRunner;
 import org.assertj.core.api.SoftAssertions;
 import org.parboiled.BaseParser;
 import org.parboiled.Parboiled;
@@ -23,8 +25,6 @@ import org.parboiled.Rule;
 import org.parboiled.annotations.SuppressNode;
 import org.parboiled.errors.GrammarException;
 import org.parboiled.errors.ParserRuntimeException;
-import org.parboiled.parserunners.BasicParseRunner;
-import com.github.parboiled1.grappa.run.ParseRunner;
 import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.fail;
@@ -49,7 +49,7 @@ public final class JoinMatcherTest
         final CharSequence input = "aaaabaaaaxaaa";
         final MyParser parser = Parboiled.createParser(MyParser.class);
         final ParseRunner<Object> runner
-            = new BasicParseRunner<>(parser.rule());
+            = new EventBasedParseRunner<>(parser.rule());
         final String expectedMessage = "joining rule (foo) of a JoinMatcher" +
             " cannot match an empty character sequence!";
 

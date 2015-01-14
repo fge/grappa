@@ -16,10 +16,10 @@
 
 package com.github.parboiled1.grappa.core;
 
+import com.github.parboiled1.grappa.run.EventBasedParseRunner;
 import org.parboiled.BaseParser;
 import org.parboiled.Parboiled;
 import org.parboiled.Rule;
-import org.parboiled.parserunners.BasicParseRunner;
 import org.testng.annotations.Test;
 
 import static org.mockito.Mockito.spy;
@@ -56,7 +56,7 @@ public final class CurrentCharTest
     {
         final Dummy dummy = spy(new Dummy());
         final Parser parser = Parboiled.createParser(Parser.class, dummy);
-        new BasicParseRunner<>(parser.rule()).run("a");
+        new EventBasedParseRunner<>(parser.rule()).run("a");
         verify(dummy).store('a');
     }
 }

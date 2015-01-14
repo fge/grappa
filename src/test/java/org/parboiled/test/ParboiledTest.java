@@ -17,8 +17,9 @@
 package org.parboiled.test;
 
 import com.github.parboiled1.grappa.buffers.InputBuffer;
+import com.github.parboiled1.grappa.run.EventBasedParseRunner;
+import com.github.parboiled1.grappa.run.ParseRunner;
 import org.parboiled.Rule;
-import org.parboiled.parserunners.BasicParseRunner;
 import org.parboiled.support.ParsingResult;
 
 import static org.assertj.core.api.Fail.fail;
@@ -49,10 +50,13 @@ public abstract class ParboiledTest<V> {
     }
 
     public TestResult<V> test(final Rule rule, final String input) {
-        return new TestResult<>(new BasicParseRunner<V>(rule).run(input));
+        final ParseRunner<V> runner
+            = new EventBasedParseRunner<>(rule);
+        return new TestResult<>(runner.run(input));
     }
     
     public TestResult<V> test(final Rule rule, final InputBuffer inputBuffer) {
-        return new TestResult<>(new BasicParseRunner<V>(rule).run(inputBuffer));
+        final ParseRunner<V> runner = new EventBasedParseRunner<>(rule);
+        return new TestResult<>(runner.run(inputBuffer));
     }
 }
