@@ -91,4 +91,6 @@ public interface InputBuffer
      * @return number of lines in the input buffer.
      */
     int getLineCount();
+
+    int length();
 }

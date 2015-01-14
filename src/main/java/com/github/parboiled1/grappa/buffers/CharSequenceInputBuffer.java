@@ -132,4 +132,10 @@ public final class CharSequenceInputBuffer
     {
         return Futures.getUnchecked(lineCounter).getNrLines();
     }
+
+    @Override
+    public int length()
+    {
+        return charSequence.length();
+    }
 }
