@@ -65,7 +65,7 @@ public final class EventBasedParseRunnerTest
             .when(parseRunner).createParsingResult(anyBoolean(), same(context));
 
         final InOrder inOrder = inOrder(listener);
-        
+
         final ArgumentCaptor<PreParseEvent> preParse
             = ArgumentCaptor.forClass(PreParseEvent.class);
         final ArgumentCaptor<PostParseEvent> postParse
@@ -85,7 +85,6 @@ public final class EventBasedParseRunnerTest
     @Test
     public void failingMatchRunTriggersPreAndFailedMatchEvents()
     {
-        context = mock(MatcherContext.class);
         when(context.getMatcher()).thenReturn(matcher);
         // This is the default, but let's make it explicit
         when(matcher.match(context)).thenReturn(false);
@@ -111,7 +110,6 @@ public final class EventBasedParseRunnerTest
     @Test
     public void successfulMatchRunTriggersPreAndFailedMatchEvents()
     {
-        final MatcherContext<Object> context = mock(MatcherContext.class);
         when(context.getMatcher()).thenReturn(matcher);
         // This is the default, but let's make it explicit
         when(matcher.match(context)).thenReturn(true);
