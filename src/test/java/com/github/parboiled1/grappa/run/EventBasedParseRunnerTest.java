@@ -111,7 +111,6 @@ public final class EventBasedParseRunnerTest
     public void successfulMatchRunTriggersPreAndFailedMatchEvents()
     {
         when(context.getMatcher()).thenReturn(matcher);
-        // This is the default, but let's make it explicit
         when(matcher.match(context)).thenReturn(true);
 
         assertThat(parseRunner.match(context)).isTrue();
