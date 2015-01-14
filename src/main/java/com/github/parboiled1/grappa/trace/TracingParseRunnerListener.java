@@ -28,8 +28,8 @@ import com.github.parboiled1.grappa.run.PreParseEvent;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.WillCloseWhenClosed;
 import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystem;
@@ -121,12 +121,18 @@ public final class TracingParseRunnerListener<V>
     {
         final ParsingRunTrace trace = new ParsingRunTrace(startDate, events);
         final Path path = zipfs.getPath("/trace.json");
+        final Path tmpfile;
+
         //noinspection OverlyBroadCatchBlock
         try {
-            final ByteArrayOutputStream out = new ByteArrayOutputStream();
-            MAPPER.writeValue(out, trace);
-            out.close();
-            Files.write(path, out.toByteArray());
+            tmpfile = Files.createTempFile("trace", "xxx");
+            //noinspection NestedTryStatement
+            try (
+                final OutputStream out = Files.newOutputStream(tmpfile);
+            ) {
+                MAPPER.writeValue(out, trace);
+            }
+            Files.move(tmpfile, path);
         } catch (IOException oops) {
             throw new RuntimeException("failed to write trace file", oops);
         }
