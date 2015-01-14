@@ -75,7 +75,6 @@ public final class EventBasedParseRunner<V>
         return result;
     }
 
-    @SuppressWarnings("ConstantConditions")
     @Override
     public <T> boolean match(final MatcherContext<T> context)
     {
@@ -85,6 +84,8 @@ public final class EventBasedParseRunner<V>
             = new PreMatchEvent<>(context);
         bus.post(preMatchEvent);
 
+        // FIXME: is there any case at all where context.getMatcher() is null?
+        @SuppressWarnings("ConstantConditions")
         final boolean match = matcher.match(context);
 
         final MatchContextEvent<T> postMatchEvent = match
