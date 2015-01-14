@@ -24,7 +24,7 @@ import org.parboiled.annotations.SuppressNode;
 import org.parboiled.errors.GrammarException;
 import org.parboiled.errors.ParserRuntimeException;
 import org.parboiled.parserunners.BasicParseRunner;
-import org.parboiled.parserunners.ParseRunner;
+import com.github.parboiled1.grappa.run.ParseRunner;
 import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.fail;

@@ -24,7 +24,7 @@ import com.google.common.io.Closer;
 import org.assertj.core.api.SoftAssertions;
 import org.parboiled.Parboiled;
 import org.parboiled.parserunners.BasicParseRunner;
-import org.parboiled.parserunners.ParseRunner;
+import com.github.parboiled1.grappa.run.ParseRunner;
 import org.parboiled.support.ParsingResult;
 import org.testng.annotations.Test;
 

@@ -17,6 +17,7 @@
 package org.parboiled.support;
 
 import com.github.parboiled1.grappa.buffers.InputBuffer;
+import com.github.parboiled1.grappa.internal.NonFinalForTesting;
 import com.github.parboiled1.grappa.stack.ValueStack;
 import com.google.common.base.Preconditions;
 import org.parboiled.Node;
@@ -30,7 +31,8 @@ import java.util.List;
 /**
  * A simple container encapsulating the result of a parsing run.
  */
-public final class ParsingResult<V>
+@NonFinalForTesting
+public class ParsingResult<V>
 {
 
     /**

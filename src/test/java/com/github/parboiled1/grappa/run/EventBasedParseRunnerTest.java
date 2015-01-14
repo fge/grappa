@@ -16,91 +16,121 @@
 
 package com.github.parboiled1.grappa.run;
 
+import com.github.parboiled1.grappa.buffers.InputBuffer;
 import com.github.parboiled1.grappa.matchers.base.Matcher;
-import com.google.common.eventbus.Subscribe;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InOrder;
 import org.parboiled.MatcherContext;
+import org.parboiled.support.ParsingResult;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.anyBoolean;
+import static org.mockito.Matchers.same;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 public final class EventBasedParseRunnerTest
 {
-    private interface DummyListener
-    {
-        @Subscribe
-        void pre(PreMatchEvent<?> event);
-
-        @Subscribe
-        void success(MatchSuccessEvent<?> event);
-
-        @Subscribe
-        void failure(MatchFailureEvent<?> event);
-    }
-
     private MatcherContext<Object> context;
     private Matcher matcher;
-    private DummyListener listener;
-    private EventBasedParseRunner<Object> runner;
+    private EventBasedParseRunner<Object> parseRunner;
+    private ParseRunnerListener<Object> listener;
 
-    @SuppressWarnings("unchecked")
     @BeforeMethod
     public void init()
     {
+        //noinspection unchecked
+        context = mock(MatcherContext.class);
         matcher = mock(Matcher.class);
+        parseRunner = spy(new EventBasedParseRunner<>(matcher));
+        listener = spy(new ParseRunnerListener<>());
+        parseRunner.registerListener(listener);
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @Test
+    public void parsingRunTriggersPreAndPostParse()
+    {
+        final InputBuffer buffer = mock(InputBuffer.class);
+        final ParsingResult<Object> result = mock(ParsingResult.class);
+
+        doReturn(context)
+            .when(parseRunner).createRootContext(buffer, parseRunner);
+        doReturn(result)
+            .when(parseRunner).createParsingResult(anyBoolean(), same(context));
+
+        final InOrder inOrder = inOrder(listener);
+        
+        final ArgumentCaptor<PreParseEvent> preParse
+            = ArgumentCaptor.forClass(PreParseEvent.class);
+        final ArgumentCaptor<PostParseEvent> postParse
+            = ArgumentCaptor.forClass(PostParseEvent.class);
+
+        parseRunner.run(buffer);
+
+        inOrder.verify(listener).beforeParse(preParse.capture());
+        inOrder.verify(listener).afterParse(postParse.capture());
+        inOrder.verifyNoMoreInteractions();
+
+        assertThat(preParse.getValue().getContext()).isSameAs(context);
+        assertThat(postParse.getValue().getResult()).isSameAs(result);
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @Test
+    public void failingMatchRunTriggersPreAndFailedMatchEvents()
+    {
         context = mock(MatcherContext.class);
         when(context.getMatcher()).thenReturn(matcher);
-        listener = mock(DummyListener.class);
-        runner = new EventBasedParseRunner<>(matcher);
-        runner.registerListener(listener);
-    }
-
-    @Test
-    public void preAndFailEventsAreDispatched()
-    {
-        final ArgumentCaptor<PreMatchEvent> pre
-            = ArgumentCaptor.forClass(PreMatchEvent.class);
-        final ArgumentCaptor<MatchFailureEvent> failure
-            = ArgumentCaptor.forClass(MatchFailureEvent.class);
-        final InOrder inOrder = inOrder(listener);
-
-        // This is the default but let's make that explicit
+        // This is the default, but let's make it explicit
         when(matcher.match(context)).thenReturn(false);
 
-        assertThat(runner.match(context)).isFalse();
+        assertThat(parseRunner.match(context)).isFalse();
 
-        inOrder.verify(listener).pre(pre.capture());
-        inOrder.verify(listener).failure(failure.capture());
-        inOrder.verifyNoMoreInteractions();
-
-        assertThat(pre.getValue().context).isSameAs(context);
-        assertThat(failure.getValue().context).isSameAs(context);
-    }
-
-    @Test
-    public void preAndSuccessEventsAreDispatched()
-    {
-        final ArgumentCaptor<PreMatchEvent> pre
-            = ArgumentCaptor.forClass(PreMatchEvent.class);
-        final ArgumentCaptor<MatchSuccessEvent> success
-            = ArgumentCaptor.forClass(MatchSuccessEvent.class);
         final InOrder inOrder = inOrder(listener);
 
+        final ArgumentCaptor<PreMatchEvent> preMatch
+            = ArgumentCaptor.forClass(PreMatchEvent.class);
+        final ArgumentCaptor<MatchFailureEvent> postMatch
+            = ArgumentCaptor.forClass(MatchFailureEvent.class);
+
+
+        inOrder.verify(listener).beforeMatch(preMatch.capture());
+        inOrder.verify(listener).matchFailure(postMatch.capture());
+
+        assertThat(preMatch.getValue().getContext()).isSameAs(context);
+        assertThat(postMatch.getValue().getContext()).isSameAs(context);
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @Test
+    public void successfulMatchRunTriggersPreAndFailedMatchEvents()
+    {
+        final MatcherContext<Object> context = mock(MatcherContext.class);
+        when(context.getMatcher()).thenReturn(matcher);
+        // This is the default, but let's make it explicit
         when(matcher.match(context)).thenReturn(true);
 
-        assertThat(runner.match(context)).isTrue();
+        assertThat(parseRunner.match(context)).isTrue();
 
-        inOrder.verify(listener).pre(pre.capture());
-        inOrder.verify(listener).success(success.capture());
+        final InOrder inOrder = inOrder(listener);
+
+        final ArgumentCaptor<PreMatchEvent> preMatch
+            = ArgumentCaptor.forClass(PreMatchEvent.class);
+        final ArgumentCaptor<MatchSuccessEvent> postMatch
+            = ArgumentCaptor.forClass(MatchSuccessEvent.class);
+
+
+        inOrder.verify(listener).beforeMatch(preMatch.capture());
+        inOrder.verify(listener).matchSuccess(postMatch.capture());
         inOrder.verifyNoMoreInteractions();
 
-        assertThat(pre.getValue().context).isSameAs(context);
-        assertThat(success.getValue().context).isSameAs(context);
-
+        assertThat(preMatch.getValue().getContext()).isSameAs(context);
+        assertThat(postMatch.getValue().getContext()).isSameAs(context);
     }
 }

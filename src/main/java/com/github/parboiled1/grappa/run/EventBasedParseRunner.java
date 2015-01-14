@@ -17,14 +17,13 @@
 package com.github.parboiled1.grappa.run;
 
 import com.github.parboiled1.grappa.buffers.InputBuffer;
+import com.github.parboiled1.grappa.internal.NonFinalForTesting;
 import com.github.parboiled1.grappa.matchers.base.Matcher;
 import com.google.common.base.Preconditions;
 import com.google.common.eventbus.EventBus;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
-import org.parboiled.parserunners.AbstractParseRunner;
-import org.parboiled.parserunners.ParseRunner;
 import org.parboiled.support.ParsingResult;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -38,8 +37,10 @@ import javax.annotation.ParametersAreNonnullByDefault;
  * more than one parsing run and is the fastest way to determine whether a given
  * input conforms to the rule grammar.
  */
+@SuppressWarnings("DesignForExtension")
 @ParametersAreNonnullByDefault
-public final class EventBasedParseRunner<V>
+@NonFinalForTesting
+public class EventBasedParseRunner<V>
     extends AbstractParseRunner<V>
     implements MatchHandler
 {
@@ -54,7 +55,7 @@ public final class EventBasedParseRunner<V>
         super(rule);
     }
 
-    public void registerListener(final ParseRunnerListener<V> listener)
+    public final void registerListener(final ParseRunnerListener<V> listener)
     {
         bus.register(listener);
     }
@@ -80,8 +81,7 @@ public final class EventBasedParseRunner<V>
     {
         final Matcher matcher = context.getMatcher();
 
-        final PreMatchEvent<T> preMatchEvent
-            = new PreMatchEvent<>(context);
+        final PreMatchEvent<T> preMatchEvent = new PreMatchEvent<>(context);
         bus.post(preMatchEvent);
 
         // FIXME: is there any case at all where context.getMatcher() is null?

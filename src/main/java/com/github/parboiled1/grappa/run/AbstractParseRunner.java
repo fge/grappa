@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package org.parboiled.parserunners;
+package com.github.parboiled1.grappa.run;
 
 import com.github.parboiled1.grappa.buffers.CharSequenceInputBuffer;
 import com.github.parboiled1.grappa.buffers.InputBuffer;
+import com.github.parboiled1.grappa.internal.NonFinalForTesting;
 import com.github.parboiled1.grappa.matchers.base.Matcher;
 import com.github.parboiled1.grappa.stack.DefaultValueStack;
 import com.github.parboiled1.grappa.stack.ValueStack;
@@ -75,14 +76,16 @@ public abstract class AbstractParseRunner<V>
         valueStack.restoreSnapshot(initialValueStackSnapshot);
     }
 
-    protected final MatcherContext<V> createRootContext(
+    @NonFinalForTesting
+    protected MatcherContext<V> createRootContext(
         final InputBuffer inputBuffer, final MatchHandler matchHandler)
     {
         return new DefaultMatcherContext<>(inputBuffer, valueStack,
             parseErrors, matchHandler, rootMatcher);
     }
 
-    protected final ParsingResult<V> createParsingResult(final boolean matched,
+    @NonFinalForTesting
+    protected ParsingResult<V> createParsingResult(final boolean matched,
         final MatcherContext<V> rootContext)
     {
         return new ParsingResult<>(matched, rootContext.getNode(), valueStack,

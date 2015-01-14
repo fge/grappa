@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.parboiled.parserunners;
+package com.github.parboiled1.grappa.run;
 
 import com.github.parboiled1.grappa.buffers.InputBuffer;
 import org.parboiled.support.ParsingResult;

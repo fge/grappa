@@ -17,6 +17,8 @@
 package org.parboiled.parserunners;
 
 import com.github.parboiled1.grappa.buffers.InputBuffer;
+import com.github.parboiled1.grappa.run.AbstractParseRunner;
+import com.github.parboiled1.grappa.run.ParseRunner;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;

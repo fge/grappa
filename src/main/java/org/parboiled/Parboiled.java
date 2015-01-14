@@ -18,7 +18,7 @@ package org.parboiled;
 
 import com.google.common.base.Preconditions;
 import org.parboiled.errors.GrammarException;
-import org.parboiled.parserunners.ParseRunner;
+import com.github.parboiled1.grappa.run.ParseRunner;
 import org.parboiled.transform.ParserTransformer;
 
 import javax.annotation.Nonnull;

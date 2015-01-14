@@ -20,7 +20,7 @@ import org.parboiled.BaseParser;
 import org.parboiled.Parboiled;
 import org.parboiled.Rule;
 import org.parboiled.parserunners.BasicParseRunner;
-import org.parboiled.parserunners.ParseRunner;
+import com.github.parboiled1.grappa.run.ParseRunner;
 import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
