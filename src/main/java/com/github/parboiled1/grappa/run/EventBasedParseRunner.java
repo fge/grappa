@@ -54,7 +54,7 @@ public final class EventBasedParseRunner<V>
         super(rule);
     }
 
-    public void registerListener(final Object listener)
+    public void registerListener(final ParseRunnerListener<V> listener)
     {
         bus.register(listener);
     }
