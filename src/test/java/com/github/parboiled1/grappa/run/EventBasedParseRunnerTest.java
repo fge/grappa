@@ -83,7 +83,7 @@ public final class EventBasedParseRunnerTest
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
-    public void failingMatchRunTriggersPreAndFailedMatchEvents()
+    public void failingMatchRunTriggersPreThenFailedMatchEvents()
     {
         when(context.getMatcher()).thenReturn(matcher);
         // This is the default, but let's make it explicit
@@ -108,7 +108,7 @@ public final class EventBasedParseRunnerTest
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
-    public void successfulMatchRunTriggersPreAndFailedMatchEvents()
+    public void successfulMatchRunTriggersPreThenSuccessMatchEvents()
     {
         when(context.getMatcher()).thenReturn(matcher);
         when(matcher.match(context)).thenReturn(true);
