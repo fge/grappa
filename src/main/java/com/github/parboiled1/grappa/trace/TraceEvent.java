@@ -36,7 +36,7 @@ public final class TraceEvent
     private final int level;
 
     @JsonCreator
-    TraceEvent(@JsonProperty("type") final TraceEventType type,
+    public TraceEvent(@JsonProperty("type") final TraceEventType type,
         @JsonProperty("nanoseconds") final long nanoseconds,
         @JsonProperty("index") final int index,
         @JsonProperty("matcher") final String matcher,
