@@ -43,10 +43,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static com.github.parboiled1.grappa.trace.TraceEventType.BEFORE_MATCH;
-import static com.github.parboiled1.grappa.trace.TraceEventType.MATCH_FAILURE;
-import static com.github.parboiled1.grappa.trace.TraceEventType.MATCH_SUCCESS;
-
 @ParametersAreNonnullByDefault
 public final class TracingParseRunnerListener<V>
     extends ParseRunnerListener<V>
@@ -108,19 +104,27 @@ public final class TracingParseRunnerListener<V>
     @Override
     public void beforeMatch(final PreMatchEvent<V> event)
     {
-        events.add(new TraceEvent(BEFORE_MATCH, event.getContext()));
+        final TraceEvent traceEvent = TraceEvent.before(event.getContext());
+        events.add(traceEvent);
+        traceEvent.setNanoseconds(System.nanoTime());
     }
 
     @Override
     public void matchSuccess(final MatchSuccessEvent<V> event)
     {
-        events.add(new TraceEvent(MATCH_SUCCESS, event.getContext()));
+        final long nanos = System.nanoTime();
+        final TraceEvent traceEvent = TraceEvent.success(event.getContext());
+        traceEvent.setNanoseconds(nanos);
+        events.add(traceEvent);
     }
 
     @Override
     public void matchFailure(final MatchFailureEvent<V> event)
     {
-        events.add(new TraceEvent(MATCH_FAILURE, event.getContext()));
+        final long nanos = System.nanoTime();
+        final TraceEvent traceEvent = TraceEvent.failure(event.getContext());
+        traceEvent.setNanoseconds(nanos);
+        events.add(traceEvent);
     }
 
     @Override

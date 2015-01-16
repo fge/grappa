@@ -29,11 +29,32 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public final class TraceEvent
 {
     private final TraceEventType type;
-    private final long nanoseconds;
+    private long nanoseconds;
     private final int index;
     private final String matcher;
     private final String path;
     private final int level;
+
+    public static TraceEvent before(final MatcherContext<?> context)
+    {
+        return new TraceEvent(TraceEventType.BEFORE_MATCH,
+            context.getCurrentIndex(), context.getMatcher().toString(),
+            context.getPath().toString(), context.getLevel());
+    }
+
+    public static TraceEvent failure(final MatcherContext<?> context)
+    {
+        return new TraceEvent(TraceEventType.MATCH_FAILURE,
+            context.getCurrentIndex(), context.getMatcher().toString(),
+            context.getPath().toString(), context.getLevel());
+    }
+
+    public static TraceEvent success(final MatcherContext<?> context)
+    {
+        return new TraceEvent(TraceEventType.MATCH_SUCCESS,
+            context.getCurrentIndex(), context.getMatcher().toString(),
+            context.getPath().toString(), context.getLevel());
+    }
 
     @JsonCreator
     public TraceEvent(@JsonProperty("type") final TraceEventType type,
@@ -45,6 +66,17 @@ public final class TraceEvent
     {
         this.type = type;
         this.nanoseconds = nanoseconds;
+        this.index = index;
+        this.matcher = matcher;
+        this.path = path;
+        this.level = level;
+    }
+
+    @JsonIgnore
+    private TraceEvent(final TraceEventType type, final int index,
+        final String matcher, final String path, final int level)
+    {
+        this.type = type;
         this.index = index;
         this.matcher = matcher;
         this.path = path;
@@ -72,6 +104,11 @@ public final class TraceEvent
     public long getNanoseconds()
     {
         return nanoseconds;
+    }
+
+    void setNanoseconds(final long nanoseconds)
+    {
+        this.nanoseconds = nanoseconds;
     }
 
     public int getIndex()
