@@ -41,13 +41,12 @@ like the [drink of the same name](http://www.istitutograppa.org/))
 
 ## Comparison with parboiled
 
-Backwards compatibility with parboiled 1 is ensured for the 1.0.x timeline. **2.0.x and greater will
-introduce incompatible changes**.
+Backwards compatibility with parboiled 1 is ensured for the 1.0.x versions. 2.0.x will be quite
+different.
 
 See [this
-page](https://github.com/parboiled1/grappa/wiki/Overview:-grappa-1.0.x-vs-parboiled-java) for an
-overview of the changes; if you want the nitty gritty details, you can read the [release
-notes](https://github.com/parboiled1/grappa/blob/master/RELEASE-NOTES.md) as well.
+page](https://github.com/fge/grappa/wiki/Overview:-grappa-1.0.x-vs-parboiled-java) for an
+overview of the changes.
 
 ## Gradle/maven artifacts
 
@@ -65,13 +64,12 @@ dependencies {
 
 ## Example grammars
 
-You can have a look at the [examples
-package](https://github.com/parboiled1/grappa-examples). Note however that these
-examples do not make use of the latest developments available in this project.
+You can have a look at the [examples package](https://github.com/fge/grappa-examples). Note however
+that these examples do not make use of the latest developments available in this project.
 
-## How to build
+## How to build the current HEAD
 
-You will need a JDK 6 or greater use this command to build and install into your local repository:
+You will need a JDK 7 or greater use this command to build and install into your local repository:
 
 ```
 # Unix systems: Linux, MacOSX, *BSD
