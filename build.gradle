@@ -48,8 +48,8 @@ dependencies {
         exclude(group: "org.beanshell", module: "bsh");
         exclude(group: "org.yaml", module: "snakeyaml");
     };
-    testCompile(group: "org.mockito", name: "mockito-core", version: "1.10.17");
-    testCompile(group: "org.assertj", name: "assertj-core", version: "1.7.0");
+    testCompile(group: "org.mockito", name: "mockito-core", version: "1.10.19");
+    testCompile(group: "org.assertj", name: "assertj-core", version: "1.7.1");
 }
 
 javadoc.options.links("http://docs.oracle.com/javase/6/docs/api/");
