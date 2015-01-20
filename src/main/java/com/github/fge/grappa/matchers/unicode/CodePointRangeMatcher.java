@@ -16,30 +16,27 @@
 
 package com.github.fge.grappa.matchers.unicode;
 
+import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.matchers.MatcherType;
+import com.github.fge.grappa.matchers.base.AbstractMatcher;
 import org.parboiled.MatcherContext;
 
 /**
- * Generic {@link UnicodeRangeMatcher} for a code point range outside the BMP
+ * Matcher for a range of Unicode code points
  *
- * <p>This matcher is used as a code point range matcher if the lower bound's
- * lead surrogate and the upper bound's lead surrogate are different (otherwise
- * a {@link SingleLeadSurrogateRangeMatcher} is used).</p>
- *
- * @see SupplementaryCharMatcher
+ * @see InputBuffer#codePointAt(int)
  */
-public final class GenericSupplementaryRangeMatcher
-    extends UnicodeRangeMatcher
+public final class CodePointRangeMatcher
+    extends AbstractMatcher
 {
     private final int low;
     private final int high;
 
-    GenericSupplementaryRangeMatcher(final String label, final char[] lowChars,
-        final char[] highChars)
+    public CodePointRangeMatcher(final int low, final int high)
     {
-        super(label);
-        low = Character.toCodePoint(lowChars[0], lowChars[1]);
-        high = Character.toCodePoint(highChars[0], highChars[1]);
+        super(String.format("U+%04X-U+%04X", low, high));
+        this.low = low;
+        this.high = high;
     }
 
     @Override
@@ -51,18 +48,14 @@ public final class GenericSupplementaryRangeMatcher
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
-        final int index = context.getCurrentIndex();
-        final String tmp = context.getInputBuffer().extract(index, index + 2);
+        final int codePoint
+            = context.getInputBuffer().codePointAt(context.getCurrentIndex());
 
-        /*
-         * This method will return a supplementary code point iif the two next
-         * chars are a lead and trail surrogate
-         */
-        final int tested = Character.codePointAt(tmp, 0);
-        if (tested < low || tested > high)
+        if (codePoint < low || codePoint > high)
             return false;
 
-        context.advanceIndex(2);
+        context.advanceIndex(codePoint < Character.MIN_SUPPLEMENTARY_CODE_POINT
+            ? 1 : 2);
         context.createNode();
         return true;
     }

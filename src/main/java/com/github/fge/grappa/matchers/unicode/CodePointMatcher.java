@@ -16,29 +16,28 @@
 
 package com.github.fge.grappa.matchers.unicode;
 
-import com.github.fge.grappa.matchers.CharRangeMatcher;
+import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.matchers.MatcherType;
+import com.github.fge.grappa.matchers.base.AbstractMatcher;
 import org.parboiled.MatcherContext;
 
 /**
- * A {@link UnicodeRangeMatcher} for characters inside the basic multilingual
- * plane
+ * A single Unicode code point matcher
  *
- * <p>The basic multilingual plane includes all code points in the range U+0000
- * to U+FFFF, as far as Java is concerned, there is a one-to-one match between
- * such a code point and a {@code char}, so what this does is simply delegate
- * the job to a {@link CharRangeMatcher}.</p>
+ * @see InputBuffer#codePointAt(int)
  */
-@SuppressWarnings("ImplicitNumericConversion")
-public final class BmpRangeMatcher
-    extends UnicodeRangeMatcher
+public final class CodePointMatcher
+    extends AbstractMatcher
 {
-    private final CharRangeMatcher matcher;
+    private final int codePoint;
+    private final int codePointLength;
 
-    BmpRangeMatcher(final String label, final char low, final char high)
+    public CodePointMatcher(final int codePoint)
     {
-        super(label);
-        matcher = new CharRangeMatcher(low, high);
+        super(String.format("U+%04X", codePoint));
+        this.codePoint = codePoint;
+        codePointLength = codePoint < Character.MIN_SUPPLEMENTARY_CODE_POINT
+            ? 1 : 2;
     }
 
     @Override
@@ -50,6 +49,12 @@ public final class BmpRangeMatcher
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
-        return matcher.match(context);
+        if (codePoint != context.getInputBuffer()
+            .codePointAt(context.getCurrentIndex()))
+            return false;
+
+        context.advanceIndex(codePointLength);
+        context.createNode();
+        return true;
     }
 }

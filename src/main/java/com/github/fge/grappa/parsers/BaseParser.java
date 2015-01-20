@@ -39,8 +39,8 @@ import com.github.fge.grappa.matchers.trie.Trie;
 import com.github.fge.grappa.matchers.trie.TrieBuilder;
 import com.github.fge.grappa.matchers.trie.TrieMatcher;
 import com.github.fge.grappa.matchers.trie.TrieNode;
-import com.github.fge.grappa.matchers.unicode.UnicodeCharMatcher;
-import com.github.fge.grappa.matchers.unicode.UnicodeRangeMatcher;
+import com.github.fge.grappa.matchers.unicode.CodePointMatcher;
+import com.github.fge.grappa.matchers.unicode.CodePointRangeMatcher;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -151,7 +151,7 @@ public abstract class BaseParser<V>
     {
         Preconditions.checkArgument(Character.isValidCodePoint(codePoint),
             "invalid code point " + codePoint);
-        return UnicodeCharMatcher.forCodePoint(codePoint);
+        return new CodePointMatcher(codePoint);
     }
 
     /**
@@ -175,8 +175,8 @@ public abstract class BaseParser<V>
             "invalid code point " + high);
         Preconditions.checkArgument(low <= high,
             "invalid range: " + low + " > " + high);
-        return low == high ? UnicodeCharMatcher.forCodePoint(low)
-            : UnicodeRangeMatcher.forRange(low, high);
+        return low == high ? new CodePointMatcher(low)
+            : new CodePointRangeMatcher(low, high);
     }
 
     /**

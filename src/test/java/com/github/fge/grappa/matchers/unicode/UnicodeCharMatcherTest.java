@@ -16,50 +16,9 @@
 
 package com.github.fge.grappa.matchers.unicode;
 
-import com.github.fge.grappa.parsers.BaseParser;
-import org.parboiled.Rule;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
 public final class UnicodeCharMatcherTest
 {
     private static final int PILE_OF_POO = 0x1f4a9;
 
-    static class TestGrammar
-        extends BaseParser<Void>
-    {
-        public Rule rule(final int codePoint)
-        {
-            return unicodeChar(codePoint);
-        }
-    }
-
-    @DataProvider
-    public Iterator<Object[]> getClassInfo()
-    {
-        final List<Object[]> list = new ArrayList<>();
-
-        list.add(new Object[] { (int) 'b', BmpCharMatcher.class });
-        list.add(new Object[] { 0x1f4e3, SupplementaryCharMatcher.class });
-
-        return list.iterator();
-    }
-
-    @Test(dataProvider = "getClassInfo")
-    public void generatedMatcherClassIsWhatIsExpected(final int codePoint,
-        final Class<? extends UnicodeCharMatcher> expected)
-    {
-        final Class<? extends UnicodeCharMatcher> actual
-            = UnicodeCharMatcher.forCodePoint(codePoint).getClass();
-
-        assertThat(actual).overridingErrorMessage(
-            "Classes differ! Expected %s, got %s", expected, actual
-        ).isSameAs(expected);
-    }
+    // TODO!
 }
