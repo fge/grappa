@@ -37,6 +37,12 @@ public final class CharMatcher
         this.character = character;
     }
 
+    @Override
+    public MatcherType getType()
+    {
+        return MatcherType.TERMINAL;
+    }
+
     public char getCharacter()
     {
         return character;

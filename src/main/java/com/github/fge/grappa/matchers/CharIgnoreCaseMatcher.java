@@ -40,6 +40,12 @@ public final class CharIgnoreCaseMatcher
         upperBound = Character.toUpperCase(character);
     }
 
+    @Override
+    public MatcherType getType()
+    {
+        return MatcherType.TERMINAL;
+    }
+
     public char getLowerBound()
     {
         return lowerBound;

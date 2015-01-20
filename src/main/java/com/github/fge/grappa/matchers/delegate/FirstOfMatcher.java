@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package com.github.fge.grappa.matchers;
+package com.github.fge.grappa.matchers.delegate;
 
+import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.CustomDefaultLabelMatcher;
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.google.common.base.Preconditions;
@@ -31,6 +32,12 @@ public class FirstOfMatcher
     public FirstOfMatcher(final Rule[] subRules)
     {
         super(Preconditions.checkNotNull(subRules, "subRules"), "firstOf");
+    }
+
+    @Override
+    public MatcherType getType()
+    {
+        return MatcherType.COMPOSITE;
     }
 
     @Override

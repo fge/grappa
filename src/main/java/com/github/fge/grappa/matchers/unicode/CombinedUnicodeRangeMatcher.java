@@ -17,6 +17,7 @@
 package com.github.fge.grappa.matchers.unicode;
 
 import com.github.fge.grappa.matchers.CharRangeMatcher;
+import com.github.fge.grappa.matchers.MatcherType;
 import org.parboiled.MatcherContext;
 
 /**
@@ -49,6 +50,12 @@ public final class CombinedUnicodeRangeMatcher
         super(label);
         this.bmp = bmp;
         this.supplementary = supplementary;
+    }
+
+    @Override
+    public MatcherType getType()
+    {
+        return MatcherType.COMPOSITE;
     }
 
     @Override

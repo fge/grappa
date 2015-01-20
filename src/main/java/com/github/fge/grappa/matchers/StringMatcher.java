@@ -35,6 +35,12 @@ public final class StringMatcher
         super(Preconditions.checkNotNull(charMatchers, "charMatchers"));
         this.characters = characters;
     }
+    
+    @Override
+    public MatcherType getType()
+    {
+        return MatcherType.TERMINAL;
+    }
 
     public char[] getCharacters()
     {

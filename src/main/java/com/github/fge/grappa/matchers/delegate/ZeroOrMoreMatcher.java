@@ -16,6 +16,7 @@
 
 package com.github.fge.grappa.matchers.delegate;
 
+import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.CustomDefaultLabelMatcher;
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.google.common.base.Preconditions;
@@ -40,6 +41,12 @@ public final class ZeroOrMoreMatcher
     public Matcher getSubMatcher()
     {
         return subMatcher;
+    }
+
+    @Override
+    public MatcherType getType()
+    {
+        return MatcherType.COMPOSITE;
     }
 
     @Override

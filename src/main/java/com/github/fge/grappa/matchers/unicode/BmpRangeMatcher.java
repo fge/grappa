@@ -17,6 +17,7 @@
 package com.github.fge.grappa.matchers.unicode;
 
 import com.github.fge.grappa.matchers.CharRangeMatcher;
+import com.github.fge.grappa.matchers.MatcherType;
 import org.parboiled.MatcherContext;
 
 /**
@@ -38,6 +39,12 @@ public final class BmpRangeMatcher
     {
         super(label);
         matcher = new CharRangeMatcher(low, high);
+    }
+
+    @Override
+    public MatcherType getType()
+    {
+        return MatcherType.TERMINAL;
     }
 
     @Override

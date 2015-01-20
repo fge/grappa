@@ -23,7 +23,7 @@ import com.github.fge.grappa.matchers.CharIgnoreCaseMatcher;
 import com.github.fge.grappa.matchers.CharMatcher;
 import com.github.fge.grappa.matchers.CharRangeMatcher;
 import com.github.fge.grappa.matchers.EmptyMatcher;
-import com.github.fge.grappa.matchers.FirstOfMatcher;
+import com.github.fge.grappa.matchers.delegate.FirstOfMatcher;
 import com.github.fge.grappa.matchers.FirstOfStringsMatcher;
 import com.github.fge.grappa.matchers.NothingMatcher;
 import com.github.fge.grappa.matchers.StringMatcher;

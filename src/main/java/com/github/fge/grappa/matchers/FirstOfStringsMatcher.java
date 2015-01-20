@@ -17,6 +17,7 @@
 package com.github.fge.grappa.matchers;
 
 import com.github.fge.grappa.buffers.InputBuffer;
+import com.github.fge.grappa.matchers.delegate.FirstOfMatcher;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
@@ -62,6 +63,12 @@ public final class FirstOfStringsMatcher
         super(Preconditions.checkNotNull(subRules, "subRules"));
         verify(strings);
         root = createRecord(0, strings);
+    }
+
+    @Override
+    public MatcherType getType()
+    {
+        return MatcherType.TERMINAL;
     }
 
     @Override

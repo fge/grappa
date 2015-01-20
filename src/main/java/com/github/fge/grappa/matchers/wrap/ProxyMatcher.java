@@ -16,6 +16,7 @@
 
 package com.github.fge.grappa.matchers.wrap;
 
+import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
@@ -28,7 +29,7 @@ import java.util.List;
  * It can also hold a label and a leaf marker and lazily apply these to the underlying {@link Matcher} once it is available.
  */
 // TODO: REMOVE!! It is THE pain point in generation today
-public class ProxyMatcher
+public final class ProxyMatcher
     implements Matcher, Cloneable
 {
     private Matcher target;
@@ -38,6 +39,14 @@ public class ProxyMatcher
     private boolean nodeSkipped;
     private boolean memoMismatches;
     private boolean dirty;
+
+    @Override
+    public MatcherType getType()
+    {
+        if (dirty)
+            apply();
+        return target.getType();
+    }
 
     @Override
     public List<Matcher> getChildren()

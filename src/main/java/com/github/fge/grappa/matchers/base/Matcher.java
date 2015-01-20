@@ -16,6 +16,7 @@
 
 package com.github.fge.grappa.matchers.base;
 
+import com.github.fge.grappa.matchers.MatcherType;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
 import org.parboiled.trees.GraphNode;
@@ -28,6 +29,14 @@ import org.parboiled.trees.GraphNode;
 public interface Matcher
     extends Rule, GraphNode<Matcher>
 {
+    /**
+     * Returns the type of this matcher
+     *
+     * @return the type
+     *
+     * @see MatcherType
+     */
+    MatcherType getType();
 
     /**
      * @return the label of the matcher (which is identical to the label of the

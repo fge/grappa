@@ -37,6 +37,12 @@ public final class AnyOfMatcher
         this.characters = characters;
     }
 
+    @Override
+    public MatcherType getType()
+    {
+        return MatcherType.TERMINAL;
+    }
+
     public Characters getCharacters()
     {
         return characters;

@@ -26,6 +26,11 @@ import org.parboiled.MatcherContext;
 public final class NothingMatcher
     extends AbstractMatcher
 {
+    @Override
+    public MatcherType getType()
+    {
+        return MatcherType.TERMINAL;
+    }
 
     public NothingMatcher()
     {

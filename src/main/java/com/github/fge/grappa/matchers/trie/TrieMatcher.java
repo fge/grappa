@@ -16,6 +16,7 @@
 
 package com.github.fge.grappa.matchers.trie;
 
+import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.AbstractMatcher;
 import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
@@ -40,6 +41,12 @@ public final class TrieMatcher
         super("Trie (" + Preconditions.checkNotNull(trie).getNrWords()
             + " strings)");
         this.trie = trie;
+    }
+
+    @Override
+    public MatcherType getType()
+    {
+        return MatcherType.TERMINAL;
     }
 
     /**

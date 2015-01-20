@@ -32,6 +32,12 @@ public final class EmptyMatcher
     }
 
     @Override
+    public MatcherType getType()
+    {
+        return MatcherType.TERMINAL;
+    }
+
+    @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
         context.createNode();

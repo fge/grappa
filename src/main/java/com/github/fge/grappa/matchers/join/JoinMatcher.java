@@ -16,6 +16,7 @@
 
 package com.github.fge.grappa.matchers.join;
 
+import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.CustomDefaultLabelMatcher;
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.google.common.annotations.Beta;
@@ -77,6 +78,12 @@ public abstract class JoinMatcher
         super(new Rule[] { joined, joining }, "join");
         this.joined = getChildren().get(JOINED_CHILD_INDEX);
         this.joining = getChildren().get(JOINING_CHILD_INDEX);
+    }
+
+    @Override
+    public final MatcherType getType()
+    {
+        return MatcherType.COMPOSITE;
     }
 
     public final Matcher getJoined()

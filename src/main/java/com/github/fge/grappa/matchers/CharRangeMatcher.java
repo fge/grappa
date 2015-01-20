@@ -41,6 +41,12 @@ public final class CharRangeMatcher
         this.upperBound = upperBound;
     }
 
+    @Override
+    public MatcherType getType()
+    {
+        return MatcherType.TERMINAL;
+    }
+
     public char getLowerBound()
     {
         return lowerBound;

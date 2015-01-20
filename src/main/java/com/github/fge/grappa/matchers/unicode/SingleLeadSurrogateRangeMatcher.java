@@ -16,6 +16,7 @@
 
 package com.github.fge.grappa.matchers.unicode;
 
+import com.github.fge.grappa.matchers.MatcherType;
 import org.parboiled.MatcherContext;
 
 /**
@@ -31,7 +32,7 @@ import org.parboiled.MatcherContext;
  * </ul>
  *
  */
-public class SingleLeadSurrogateRangeMatcher
+public final class SingleLeadSurrogateRangeMatcher
     extends UnicodeRangeMatcher
 {
     private final char lead;
@@ -45,6 +46,12 @@ public class SingleLeadSurrogateRangeMatcher
         this.lead = lead;
         this.lowTrail = lowTrail;
         this.highTrail = highTrail;
+    }
+
+    @Override
+    public MatcherType getType()
+    {
+        return MatcherType.TERMINAL;
     }
 
     @Override

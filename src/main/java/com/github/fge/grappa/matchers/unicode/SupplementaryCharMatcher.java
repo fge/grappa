@@ -37,7 +37,7 @@ import org.parboiled.MatcherContext;
  * <p>For more information, see <a href="http://en.wikipedia.org/wiki/UTF-16"
  * target="_blank">the Wikipedia article on UTF-16</a>.</p>
  */
-public class SupplementaryCharMatcher
+public final class SupplementaryCharMatcher
     extends UnicodeCharMatcher
 {
     private final char[] chars;

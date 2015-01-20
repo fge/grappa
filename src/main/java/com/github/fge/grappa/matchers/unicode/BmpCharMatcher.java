@@ -28,7 +28,7 @@ import org.parboiled.MatcherContext;
  * such a code point and a {@code char}, so what this does is simply delegate
  * the job to a {@link CharMatcher}.</p>
  */
-public class BmpCharMatcher
+public final class BmpCharMatcher
     extends UnicodeCharMatcher
 {
     private final CharMatcher matcher;

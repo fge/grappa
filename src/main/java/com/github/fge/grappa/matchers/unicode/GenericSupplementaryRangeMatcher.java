@@ -16,6 +16,7 @@
 
 package com.github.fge.grappa.matchers.unicode;
 
+import com.github.fge.grappa.matchers.MatcherType;
 import org.parboiled.MatcherContext;
 
 /**
@@ -27,11 +28,9 @@ import org.parboiled.MatcherContext;
  *
  * @see SupplementaryCharMatcher
  */
-public class GenericSupplementaryRangeMatcher
+public final class GenericSupplementaryRangeMatcher
     extends UnicodeRangeMatcher
 {
-    private final char[] lowChars;
-    private final char[] highChars;
     private final int low;
     private final int high;
 
@@ -39,10 +38,14 @@ public class GenericSupplementaryRangeMatcher
         final char[] highChars)
     {
         super(label);
-        this.lowChars = lowChars;
-        this.highChars = highChars;
         low = Character.toCodePoint(lowChars[0], lowChars[1]);
         high = Character.toCodePoint(highChars[0], highChars[1]);
+    }
+
+    @Override
+    public MatcherType getType()
+    {
+        return MatcherType.TERMINAL;
     }
 
     @Override

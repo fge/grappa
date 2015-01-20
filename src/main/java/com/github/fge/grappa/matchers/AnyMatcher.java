@@ -34,6 +34,12 @@ public final class AnyMatcher
     }
 
     @Override
+    public MatcherType getType()
+    {
+        return MatcherType.TERMINAL;
+    }
+
+    @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
         switch (context.getCurrentChar()) {

@@ -88,6 +88,12 @@ public final class ActionMatcher
     }
 
     @Override
+    public MatcherType getType()
+    {
+        return MatcherType.ACTION;
+    }
+
+    @Override
     public <V> MatcherContext<V> getSubContext(final MatcherContext<V> context)
     {
         final MatcherContext<V> subContext = context.getBasicSubContext();

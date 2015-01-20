@@ -16,6 +16,7 @@
 
 package com.github.fge.grappa.matchers.unicode;
 
+import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.AbstractMatcher;
 
 /**
@@ -45,5 +46,11 @@ public abstract class UnicodeCharMatcher
     protected UnicodeCharMatcher(final String label)
     {
         super(label);
+    }
+
+    @Override
+    public final MatcherType getType()
+    {
+        return MatcherType.TERMINAL;
     }
 }
