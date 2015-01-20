@@ -20,7 +20,6 @@ import com.github.fge.grappa.annotations.Experimental;
 import com.github.fge.grappa.helpers.ValueBuilder;
 import com.google.common.base.Preconditions;
 import com.google.common.eventbus.EventBus;
-import org.parboiled.BaseParser;
 import org.parboiled.support.Var;
 
 import javax.annotation.Nonnull;

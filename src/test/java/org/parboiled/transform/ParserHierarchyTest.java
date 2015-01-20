@@ -16,7 +16,7 @@
 
 package org.parboiled.transform;
 
-import org.parboiled.BaseParser;
+import com.github.fge.grappa.parsers.BaseParser;
 import org.parboiled.Rule;
 import org.parboiled.annotations.BuildParseTree;
 import org.parboiled.annotations.MemoMismatches;

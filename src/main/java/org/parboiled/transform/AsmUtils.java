@@ -22,6 +22,7 @@
 
 package org.parboiled.transform;
 
+import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.transform.ClassCache;
 import com.github.fge.grappa.transform.LoadingOpcode;
 import com.google.common.base.Preconditions;
@@ -32,7 +33,6 @@ import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
-import org.parboiled.BaseParser;
 import org.parboiled.ContextAware;
 import org.parboiled.support.Var;
 

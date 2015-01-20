@@ -16,6 +16,7 @@
 
 package org.parboiled.transform.process;
 
+import com.github.fge.grappa.parsers.BaseParser;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import me.qmx.jitescript.util.CodegenUtils;
@@ -24,7 +25,6 @@ import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.parboiled.Action;
-import org.parboiled.BaseParser;
 import org.parboiled.Rule;
 import org.parboiled.transform.InstructionGraphNode;
 import org.parboiled.transform.ParserClassNode;

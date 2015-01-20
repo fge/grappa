@@ -16,6 +16,7 @@
 
 package org.parboiled;
 
+import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.run.ParseRunner;
 import com.google.common.base.Preconditions;
 import org.parboiled.errors.GrammarException;

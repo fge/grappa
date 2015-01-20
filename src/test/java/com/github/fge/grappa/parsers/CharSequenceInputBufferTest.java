@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package com.github.fge.grappa.buffers;
+package com.github.fge.grappa.parsers;
 
+import com.github.fge.grappa.buffers.CharSequenceInputBuffer;
+import com.github.fge.grappa.buffers.InputBuffer;
 import org.parboiled.support.Chars;
 import org.parboiled.support.Position;
 import org.testng.annotations.DataProvider;

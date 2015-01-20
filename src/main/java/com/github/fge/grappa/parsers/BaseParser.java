@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.parboiled;
+package com.github.fge.grappa.parsers;
 
 import com.github.fge.grappa.matchers.ActionMatcher;
 import com.github.fge.grappa.matchers.AnyMatcher;
@@ -23,10 +23,10 @@ import com.github.fge.grappa.matchers.CharIgnoreCaseMatcher;
 import com.github.fge.grappa.matchers.CharMatcher;
 import com.github.fge.grappa.matchers.CharRangeMatcher;
 import com.github.fge.grappa.matchers.EmptyMatcher;
-import com.github.fge.grappa.matchers.delegate.FirstOfMatcher;
 import com.github.fge.grappa.matchers.FirstOfStringsMatcher;
 import com.github.fge.grappa.matchers.NothingMatcher;
 import com.github.fge.grappa.matchers.StringMatcher;
+import com.github.fge.grappa.matchers.delegate.FirstOfMatcher;
 import com.github.fge.grappa.matchers.delegate.OneOrMoreMatcher;
 import com.github.fge.grappa.matchers.delegate.OptionalMatcher;
 import com.github.fge.grappa.matchers.delegate.SequenceMatcher;
@@ -44,6 +44,9 @@ import com.github.fge.grappa.matchers.unicode.UnicodeRangeMatcher;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import org.parboiled.Action;
+import org.parboiled.Parboiled;
+import org.parboiled.Rule;
 import org.parboiled.annotations.Cached;
 import org.parboiled.annotations.DontExtend;
 import org.parboiled.annotations.DontLabel;

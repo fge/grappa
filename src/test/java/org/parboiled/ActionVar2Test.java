@@ -16,6 +16,7 @@
 
 package org.parboiled;
 
+import com.github.fge.grappa.parsers.BaseParser;
 import org.parboiled.annotations.BuildParseTree;
 import org.parboiled.common.Reference;
 import org.parboiled.test.ParboiledTest;
@@ -25,7 +26,8 @@ public class ActionVar2Test extends ParboiledTest<Object>
 {
 
     @BuildParseTree
-    static class Parser extends BaseParser<Object> {
+    static class Parser extends BaseParser<Object>
+    {
 
         Rule Clause() {
             final Reference<Integer> count = new Reference<>();

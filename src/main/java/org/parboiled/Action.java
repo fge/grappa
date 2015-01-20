@@ -17,6 +17,7 @@
 package org.parboiled;
 
 import com.github.fge.grappa.matchers.delegate.SequenceMatcher;
+import com.github.fge.grappa.parsers.BaseActions;
 
 /**
  * Instances of classes implementing this interface can be used directly in a

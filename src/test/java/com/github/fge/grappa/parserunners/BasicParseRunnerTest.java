@@ -16,9 +16,9 @@
 
 package com.github.fge.grappa.parserunners;
 
+import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.run.EventBasedParseRunner;
 import com.github.fge.grappa.run.ParseRunner;
-import org.parboiled.BaseParser;
 import org.parboiled.Parboiled;
 import org.parboiled.Rule;
 import org.testng.annotations.Test;

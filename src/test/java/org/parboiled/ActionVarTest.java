@@ -17,6 +17,7 @@
 package org.parboiled;
 
 import com.github.fge.grappa.matchers.base.Matcher;
+import com.github.fge.grappa.parsers.BaseParser;
 import org.parboiled.annotations.BuildParseTree;
 import org.parboiled.support.Var;
 import org.parboiled.test.ParboiledTest;
@@ -31,7 +32,8 @@ public class ActionVarTest extends ParboiledTest<Integer>
 {
 
     @BuildParseTree
-    static class Parser extends BaseParser<Integer> {
+    static class Parser extends BaseParser<Integer>
+    {
 
         @SuppressWarnings("InfiniteRecursion")
         public Rule A() {

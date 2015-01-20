@@ -16,6 +16,8 @@
 
 package org.parboiled;
 
+import com.github.fge.grappa.parsers.BaseActions;
+import com.github.fge.grappa.parsers.BaseParser;
 import org.parboiled.annotations.BuildParseTree;
 import org.parboiled.annotations.Label;
 import org.parboiled.test.ParboiledTest;
@@ -24,7 +26,8 @@ import org.testng.annotations.Test;
 public class ActionTest extends ParboiledTest<Integer>
 {
 
-    public static class Actions extends BaseActions<Integer> {
+    public static class Actions extends BaseActions<Integer>
+    {
 
         public boolean addOne() {
             final Integer i = getContext().getValueStack().pop();
@@ -34,7 +37,8 @@ public class ActionTest extends ParboiledTest<Integer>
     }
 
     @BuildParseTree
-    public static class Parser extends BaseParser<Integer> {
+    public static class Parser extends BaseParser<Integer>
+    {
 
         final Actions actions = new Actions();
 

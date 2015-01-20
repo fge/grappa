@@ -16,7 +16,7 @@
 
 package com.github.fge.grappa.matchers.unicode;
 
-import org.parboiled.BaseParser;
+import com.github.fge.grappa.parsers.BaseParser;
 import org.parboiled.Rule;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;

@@ -16,7 +16,7 @@
 
 package com.github.fge.grappa.testparsers;
 
-import org.parboiled.BaseActions;
+import com.github.fge.grappa.parsers.BaseActions;
 import org.parboiled.Rule;
 import org.parboiled.annotations.Label;
 

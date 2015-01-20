@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package org.parboiled;
+package com.github.fge.grappa.parsers;
 
 import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.stack.ValueStack;
 import com.google.common.base.Preconditions;
+import org.parboiled.Context;
+import org.parboiled.ContextAware;
 import org.parboiled.annotations.SuppressNode;
 import org.parboiled.annotations.SuppressSubnodes;
 import org.parboiled.errors.GrammarException;

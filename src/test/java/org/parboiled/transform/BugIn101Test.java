@@ -16,8 +16,8 @@
 
 package org.parboiled.transform;
 
+import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.run.EventBasedParseRunner;
-import org.parboiled.BaseParser;
 import org.parboiled.Parboiled;
 import org.parboiled.Rule;
 import org.testng.annotations.Test;

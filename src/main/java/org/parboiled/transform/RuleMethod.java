@@ -22,6 +22,7 @@
 
 package org.parboiled.transform;
 
+import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.transform.ParserAnnotation;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -34,7 +35,6 @@ import org.objectweb.asm.tree.LabelNode;
 import org.objectweb.asm.tree.LocalVariableNode;
 import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.analysis.BasicValue;
-import org.parboiled.BaseParser;
 import org.parboiled.support.Var;
 
 import java.util.ArrayList;
@@ -45,13 +45,17 @@ import java.util.Set;
 import static com.github.fge.grappa.transform.ParserAnnotation.CACHED;
 import static com.github.fge.grappa.transform.ParserAnnotation.DONT_EXTEND;
 import static com.github.fge.grappa.transform.ParserAnnotation.DONT_LABEL;
-import static com.github.fge.grappa.transform.ParserAnnotation.DONT_SKIP_ACTIONS_IN_PREDICATES;
-import static com.github.fge.grappa.transform.ParserAnnotation.EXPLICIT_ACTIONS_ONLY;
+import static com.github.fge.grappa.transform.ParserAnnotation
+    .DONT_SKIP_ACTIONS_IN_PREDICATES;
+import static com.github.fge.grappa.transform.ParserAnnotation
+    .EXPLICIT_ACTIONS_ONLY;
 import static com.github.fge.grappa.transform.ParserAnnotation.MEMO_MISMATCHES;
-import static com.github.fge.grappa.transform.ParserAnnotation.SKIP_ACTIONS_IN_PREDICATES;
+import static com.github.fge.grappa.transform.ParserAnnotation
+    .SKIP_ACTIONS_IN_PREDICATES;
 import static com.github.fge.grappa.transform.ParserAnnotation.SKIP_NODE;
 import static com.github.fge.grappa.transform.ParserAnnotation.SUPPRESS_NODE;
-import static com.github.fge.grappa.transform.ParserAnnotation.SUPPRESS_SUBNODES;
+import static com.github.fge.grappa.transform.ParserAnnotation
+    .SUPPRESS_SUBNODES;
 import static com.github.fge.grappa.transform.ParserAnnotation.moveTo;
 import static com.github.fge.grappa.transform.ParserAnnotation.recordAnnotation;
 import static org.objectweb.asm.Opcodes.ARETURN;

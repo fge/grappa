@@ -16,9 +16,9 @@
 
 package com.github.fge.grappa.issues;
 
+import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.run.EventBasedParseRunner;
 import com.github.fge.grappa.run.ParseRunner;
-import org.parboiled.BaseParser;
 import org.parboiled.Parboiled;
 import org.parboiled.Rule;
 import org.parboiled.support.Var;
@@ -43,7 +43,7 @@ java.lang.NullPointerException
  *
 org.parboiled.errors.GrammarException: 'null' cannot be automatically converted to a parser Rule
  at com.github.parboiled1.grappa.issues.Issue17$TestParser$$parboiled.toRule(Unknown Source)
- at org.parboiled.BaseParser.toRules(BaseParser.java:1835)
+ at com.github.fge.grappa.parsers.BaseParser.toRules(BaseParser.java:1835)
  at com.github.parboiled1.grappa.issues.Issue17$TestParser$$parboiled.Sequence(Unknown Source)
  at com.github.parboiled1.grappa.issues.Issue17$TestParser$$parboiled.Sequence(Unknown Source)
  at com.github.parboiled1.grappa.issues.Issue17$TestParser$$parboiled.Optional(Unknown Source)

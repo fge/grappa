@@ -16,7 +16,7 @@
 
 package com.github.fge.grappa.testparsers;
 
-import org.parboiled.BaseParser;
+import com.github.fge.grappa.parsers.BaseParser;
 import org.parboiled.Parboiled;
 import org.parboiled.Rule;
 import org.parboiled.annotations.BuildParseTree;

@@ -16,8 +16,8 @@
 
 package org.parboiled.transform.process;
 
+import com.github.fge.grappa.parsers.BaseParser;
 import com.google.common.collect.ImmutableList;
-import org.parboiled.BaseParser;
 import org.parboiled.Rule;
 import org.parboiled.transform.ActionClassGenerator;
 import org.testng.annotations.Test;

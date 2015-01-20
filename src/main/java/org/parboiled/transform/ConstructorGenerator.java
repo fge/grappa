@@ -17,6 +17,7 @@
 package org.parboiled.transform;
 
 import com.github.fge.grappa.annotations.VisibleForDocumentation;
+import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.transform.CodeBlock;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.Type;
@@ -25,7 +26,6 @@ import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.TypeInsnNode;
-import org.parboiled.BaseParser;
 import org.parboiled.support.Checks;
 
 import java.util.List;
