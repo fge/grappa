@@ -26,7 +26,7 @@ apply(plugin: "info.solidsoft.pitest");
 
 group = "com.github.fge";
 description = "Write parsers in pure Java";
-version = "2.0.0-alpha.1";
+version = "2.0.0-alpha.2-SNAPSHOT";
 sourceCompatibility = "1.7";
 targetCompatibility = "1.7"; // defaults to sourceCompatibility
 
