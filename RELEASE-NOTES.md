@@ -1,3 +1,12 @@
+### 2.0.0-alpha.2 (IN PROGRESS)
+
+* InputBuffer: new method .codePointAt().
+* InputBuffer: .charAt(), .codePointAt() throw IAE if index is negative.
+* Code pruning: nearly 10k lines of code removed.
+* Add a .getType() method to Matcher with 4 types: TERMINAL, COMPOSITE, ACTION,
+  PREDICATE.
+* Change package to com.github.fge.
+
 ### 2.0.0-alpha.1
 
 * ValueStacks: remove .swap[3456]() methods, .put(Iterable).
