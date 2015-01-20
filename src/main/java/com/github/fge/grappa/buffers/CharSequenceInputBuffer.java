@@ -19,6 +19,7 @@ package com.github.fge.grappa.buffers;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
 import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.parboiled.support.Chars;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.Position;
@@ -30,6 +31,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadFactory;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,8 +51,14 @@ import java.util.regex.Pattern;
 public final class CharSequenceInputBuffer
     implements InputBuffer
 {
-    private static final ExecutorService EXECUTOR_SERVICE
-        = Executors.newCachedThreadPool();
+    private static final ExecutorService EXECUTOR_SERVICE;
+
+    static {
+        final ThreadFactory factory = new ThreadFactoryBuilder()
+            .setDaemon(true).setNameFormat("linecounter-thread-%d").build();
+        EXECUTOR_SERVICE = Executors.newCachedThreadPool(factory);
+    }
+
     private final CharSequence charSequence;
     private final Future<LineCounter> lineCounter;
 
