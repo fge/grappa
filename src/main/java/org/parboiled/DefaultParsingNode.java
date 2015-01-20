@@ -16,8 +16,8 @@
 
 package org.parboiled;
 
-import com.github.parboiled1.grappa.annotations.VisibleForDocumentation;
-import com.github.parboiled1.grappa.matchers.base.Matcher;
+import com.github.fge.grappa.annotations.VisibleForDocumentation;
+import com.github.fge.grappa.matchers.base.Matcher;
 import com.google.common.base.Preconditions;
 import org.parboiled.support.CharsEscaper;
 import org.parboiled.trees.ImmutableTreeNode;

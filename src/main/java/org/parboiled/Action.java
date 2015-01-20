@@ -16,7 +16,7 @@
 
 package org.parboiled;
 
-import com.github.parboiled1.grappa.matchers.delegate.SequenceMatcher;
+import com.github.fge.grappa.matchers.delegate.SequenceMatcher;
 
 /**
  * Instances of classes implementing this interface can be used directly in a

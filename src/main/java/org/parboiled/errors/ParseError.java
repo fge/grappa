@@ -16,7 +16,7 @@
 
 package org.parboiled.errors;
 
-import com.github.parboiled1.grappa.buffers.InputBuffer;
+import com.github.fge.grappa.buffers.InputBuffer;
 
 /**
  * Common interface of all parboiled parse error implementations.

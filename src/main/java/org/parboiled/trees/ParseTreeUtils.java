@@ -16,7 +16,7 @@
 
 package org.parboiled.trees;
 
-import com.github.parboiled1.grappa.buffers.InputBuffer;
+import com.github.fge.grappa.buffers.InputBuffer;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;

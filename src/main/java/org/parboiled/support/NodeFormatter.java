@@ -16,7 +16,7 @@
 
 package org.parboiled.support;
 
-import com.github.parboiled1.grappa.buffers.InputBuffer;
+import com.github.fge.grappa.buffers.InputBuffer;
 import com.google.common.base.Preconditions;
 import org.parboiled.Node;
 import org.parboiled.common.Formatter;

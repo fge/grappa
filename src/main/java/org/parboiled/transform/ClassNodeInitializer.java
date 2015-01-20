@@ -22,7 +22,7 @@
 
 package org.parboiled.transform;
 
-import com.github.parboiled1.grappa.transform.ParserAnnotation;
+import com.github.fge.grappa.transform.ParserAnnotation;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.io.Closer;
@@ -42,8 +42,8 @@ import java.io.InputStream;
 import java.util.EnumSet;
 import java.util.Set;
 
-import static com.github.parboiled1.grappa.transform.ParserAnnotation.BUILD_PARSE_TREE;
-import static com.github.parboiled1.grappa.transform.ParserAnnotation.recordAnnotation;
+import static com.github.fge.grappa.transform.ParserAnnotation.BUILD_PARSE_TREE;
+import static com.github.fge.grappa.transform.ParserAnnotation.recordAnnotation;
 import static org.objectweb.asm.Opcodes.ACC_ABSTRACT;
 import static org.objectweb.asm.Opcodes.ACC_FINAL;
 import static org.objectweb.asm.Opcodes.ACC_NATIVE;

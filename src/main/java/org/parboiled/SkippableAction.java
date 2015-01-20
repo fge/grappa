@@ -16,8 +16,8 @@
 
 package org.parboiled;
 
-import com.github.parboiled1.grappa.matchers.predicates.TestMatcher;
-import com.github.parboiled1.grappa.matchers.predicates.TestNotMatcher;
+import com.github.fge.grappa.matchers.predicates.TestMatcher;
+import com.github.fge.grappa.matchers.predicates.TestNotMatcher;
 
 /**
  * An action that can optionally be skipped when run underneath a predicate

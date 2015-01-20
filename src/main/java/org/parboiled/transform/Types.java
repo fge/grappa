@@ -16,7 +16,7 @@
 
 package org.parboiled.transform;
 
-import com.github.parboiled1.grappa.annotations.DoNotUse;
+import com.github.fge.grappa.annotations.DoNotUse;
 
 /**
  * DON'T USE

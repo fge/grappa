@@ -22,7 +22,7 @@
 
 package org.parboiled.transform;
 
-import com.github.parboiled1.grappa.transform.ParserAnnotation;
+import com.github.fge.grappa.transform.ParserAnnotation;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import org.objectweb.asm.AnnotationVisitor;
@@ -42,18 +42,18 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.github.parboiled1.grappa.transform.ParserAnnotation.CACHED;
-import static com.github.parboiled1.grappa.transform.ParserAnnotation.DONT_EXTEND;
-import static com.github.parboiled1.grappa.transform.ParserAnnotation.DONT_LABEL;
-import static com.github.parboiled1.grappa.transform.ParserAnnotation.DONT_SKIP_ACTIONS_IN_PREDICATES;
-import static com.github.parboiled1.grappa.transform.ParserAnnotation.EXPLICIT_ACTIONS_ONLY;
-import static com.github.parboiled1.grappa.transform.ParserAnnotation.MEMO_MISMATCHES;
-import static com.github.parboiled1.grappa.transform.ParserAnnotation.SKIP_ACTIONS_IN_PREDICATES;
-import static com.github.parboiled1.grappa.transform.ParserAnnotation.SKIP_NODE;
-import static com.github.parboiled1.grappa.transform.ParserAnnotation.SUPPRESS_NODE;
-import static com.github.parboiled1.grappa.transform.ParserAnnotation.SUPPRESS_SUBNODES;
-import static com.github.parboiled1.grappa.transform.ParserAnnotation.moveTo;
-import static com.github.parboiled1.grappa.transform.ParserAnnotation.recordAnnotation;
+import static com.github.fge.grappa.transform.ParserAnnotation.CACHED;
+import static com.github.fge.grappa.transform.ParserAnnotation.DONT_EXTEND;
+import static com.github.fge.grappa.transform.ParserAnnotation.DONT_LABEL;
+import static com.github.fge.grappa.transform.ParserAnnotation.DONT_SKIP_ACTIONS_IN_PREDICATES;
+import static com.github.fge.grappa.transform.ParserAnnotation.EXPLICIT_ACTIONS_ONLY;
+import static com.github.fge.grappa.transform.ParserAnnotation.MEMO_MISMATCHES;
+import static com.github.fge.grappa.transform.ParserAnnotation.SKIP_ACTIONS_IN_PREDICATES;
+import static com.github.fge.grappa.transform.ParserAnnotation.SKIP_NODE;
+import static com.github.fge.grappa.transform.ParserAnnotation.SUPPRESS_NODE;
+import static com.github.fge.grappa.transform.ParserAnnotation.SUPPRESS_SUBNODES;
+import static com.github.fge.grappa.transform.ParserAnnotation.moveTo;
+import static com.github.fge.grappa.transform.ParserAnnotation.recordAnnotation;
 import static org.objectweb.asm.Opcodes.ARETURN;
 import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
 import static org.objectweb.asm.Opcodes.INVOKESTATIC;

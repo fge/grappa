@@ -162,7 +162,7 @@ public final class RuleMethodInterpreter
     {
         final String errorMessage = "Internal error during analysis of rule" +
             " method '" + method.name + "', please report this error to" +
-            " https://github.com/parboiled1/grappa/issues! Thank you!";
+            " https://github.com/fge/grappa/issues! Thank you!";
         Checks.ensure(value instanceof InstructionGraphNode, errorMessage);
         InstructionGraphNode node = (InstructionGraphNode) value;
         while (true) {

@@ -16,7 +16,7 @@
 
 package org.parboiled.transform.process;
 
-import com.github.parboiled1.grappa.transform.hash.InstructionGroupHasher;
+import com.github.fge.grappa.transform.hash.InstructionGroupHasher;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;

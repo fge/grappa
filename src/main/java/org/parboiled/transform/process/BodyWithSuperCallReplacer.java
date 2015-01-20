@@ -16,7 +16,7 @@
 
 package org.parboiled.transform.process;
 
-import com.github.parboiled1.grappa.transform.CodeBlock;
+import com.github.fge.grappa.transform.CodeBlock;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.tree.InsnList;
 import org.parboiled.transform.ParserClassNode;

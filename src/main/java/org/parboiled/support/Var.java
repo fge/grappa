@@ -16,7 +16,7 @@
 
 package org.parboiled.support;
 
-import com.github.parboiled1.grappa.annotations.DoNotUse;
+import com.github.fge.grappa.annotations.DoNotUse;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;

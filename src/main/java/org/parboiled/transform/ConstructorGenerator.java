@@ -16,8 +16,8 @@
 
 package org.parboiled.transform;
 
-import com.github.parboiled1.grappa.annotations.VisibleForDocumentation;
-import com.github.parboiled1.grappa.transform.CodeBlock;
+import com.github.fge.grappa.annotations.VisibleForDocumentation;
+import com.github.fge.grappa.transform.CodeBlock;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.InsnList;

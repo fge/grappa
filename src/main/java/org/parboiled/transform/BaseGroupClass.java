@@ -16,7 +16,7 @@
 
 package org.parboiled.transform;
 
-import com.github.parboiled1.grappa.annotations.VisibleForDocumentation;
+import com.github.fge.grappa.annotations.VisibleForDocumentation;
 import com.google.common.base.Preconditions;
 
 import javax.annotation.Nonnull;

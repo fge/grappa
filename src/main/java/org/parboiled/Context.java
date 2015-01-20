@@ -16,9 +16,9 @@
 
 package org.parboiled;
 
-import com.github.parboiled1.grappa.buffers.InputBuffer;
-import com.github.parboiled1.grappa.matchers.base.Matcher;
-import com.github.parboiled1.grappa.stack.ValueStack;
+import com.github.fge.grappa.buffers.InputBuffer;
+import com.github.fge.grappa.matchers.base.Matcher;
+import com.github.fge.grappa.stack.ValueStack;
 import org.parboiled.annotations.SuppressNode;
 import org.parboiled.annotations.SuppressSubnodes;
 import org.parboiled.errors.ParseError;

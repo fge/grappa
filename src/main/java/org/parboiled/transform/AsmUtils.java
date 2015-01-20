@@ -22,8 +22,8 @@
 
 package org.parboiled.transform;
 
-import com.github.parboiled1.grappa.transform.ClassCache;
-import com.github.parboiled1.grappa.transform.LoadingOpcode;
+import com.github.fge.grappa.transform.ClassCache;
+import com.github.fge.grappa.transform.LoadingOpcode;
 import com.google.common.base.Preconditions;
 import me.qmx.jitescript.util.CodegenUtils;
 import org.objectweb.asm.Opcodes;

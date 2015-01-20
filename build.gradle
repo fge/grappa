@@ -102,9 +102,9 @@ task pom << {
  */
 
 project.ext {
-    gitrwscm = sprintf("git@github.com:parboiled1/%s", name);
-    gitroscm = sprintf("https://github.com/parboiled1/%s.git", name);
-    projectURL = sprintf("https://github.com/parboiled1/%s", name);
+    gitrwscm = sprintf("git@github.com:fge/%s", name);
+    gitroscm = sprintf("https://github.com/fge/%s.git", name);
+    projectURL = sprintf("https://github.com/fge/%s", name);
     sonatypeStaging = "https://oss.sonatype.org/service/local/staging/deploy/maven2/";
     sonatypeSnapshots = "https://oss.sonatype.org/content/repositories/snapshots/";
 };

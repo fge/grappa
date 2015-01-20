@@ -16,7 +16,7 @@
 
 package org.parboiled;
 
-import com.github.parboiled1.grappa.matchers.delegate.SequenceMatcher;
+import com.github.fge.grappa.matchers.delegate.SequenceMatcher;
 import org.parboiled.transform.InstructionGroup;
 import org.parboiled.transform.process.GroupClassGenerator;
 

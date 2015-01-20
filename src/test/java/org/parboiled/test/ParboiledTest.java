@@ -16,9 +16,9 @@
 
 package org.parboiled.test;
 
-import com.github.parboiled1.grappa.buffers.InputBuffer;
-import com.github.parboiled1.grappa.run.EventBasedParseRunner;
-import com.github.parboiled1.grappa.run.ParseRunner;
+import com.github.fge.grappa.buffers.InputBuffer;
+import com.github.fge.grappa.run.EventBasedParseRunner;
+import com.github.fge.grappa.run.ParseRunner;
 import org.parboiled.Rule;
 import org.parboiled.support.ParsingResult;
 

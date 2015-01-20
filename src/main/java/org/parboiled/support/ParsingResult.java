@@ -16,9 +16,9 @@
 
 package org.parboiled.support;
 
-import com.github.parboiled1.grappa.buffers.InputBuffer;
-import com.github.parboiled1.grappa.internal.NonFinalForTesting;
-import com.github.parboiled1.grappa.stack.ValueStack;
+import com.github.fge.grappa.buffers.InputBuffer;
+import com.github.fge.grappa.internal.NonFinalForTesting;
+import com.github.fge.grappa.stack.ValueStack;
 import com.google.common.base.Preconditions;
 import org.parboiled.Node;
 import org.parboiled.errors.ParseError;

@@ -16,14 +16,14 @@
 
 package org.parboiled;
 
-import com.github.parboiled1.grappa.buffers.InputBuffer;
-import com.github.parboiled1.grappa.matchers.ActionMatcher;
-import com.github.parboiled1.grappa.matchers.base.Matcher;
-import com.github.parboiled1.grappa.matchers.delegate.SequenceMatcher;
-import com.github.parboiled1.grappa.matchers.predicates.TestMatcher;
-import com.github.parboiled1.grappa.matchers.predicates.TestNotMatcher;
-import com.github.parboiled1.grappa.matchers.wrap.ProxyMatcher;
-import com.github.parboiled1.grappa.stack.ValueStack;
+import com.github.fge.grappa.buffers.InputBuffer;
+import com.github.fge.grappa.matchers.ActionMatcher;
+import com.github.fge.grappa.matchers.base.Matcher;
+import com.github.fge.grappa.matchers.delegate.SequenceMatcher;
+import com.github.fge.grappa.matchers.predicates.TestMatcher;
+import com.github.fge.grappa.matchers.predicates.TestNotMatcher;
+import com.github.fge.grappa.matchers.wrap.ProxyMatcher;
+import com.github.fge.grappa.stack.ValueStack;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
@@ -47,7 +47,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.github.parboiled1.grappa.matchers.MatcherUtils.unwrap;
+import static com.github.fge.grappa.matchers.MatcherUtils.unwrap;
 
 /**
  * <p>The Context implementation orchestrating most of the matching process.</p>

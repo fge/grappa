@@ -16,7 +16,7 @@
 
 package org.parboiled;
 
-import com.github.parboiled1.grappa.matchers.base.Matcher;
+import com.github.fge.grappa.matchers.base.Matcher;
 import org.parboiled.annotations.BuildParseTree;
 import org.parboiled.support.Var;
 import org.parboiled.test.ParboiledTest;
@@ -46,7 +46,7 @@ public class ActionVarTest extends ParboiledTest<Integer>
         final Parser parser = Parboiled.createParser(Parser.class);
         final Matcher rule = (Matcher) parser.A();
 
-        assertEquals(rule.getClass().getName(), "com.github.parboiled1.grappa.matchers.wrap.VarFramingMatcher");
+        assertEquals(rule.getClass().getName(), "com.github.fge.grappa.matchers.wrap.VarFramingMatcher");
 
         test(rule, "aaaa")
                 .hasNoErrors()

@@ -16,8 +16,8 @@
 
 package org.parboiled;
 
-import com.github.parboiled1.grappa.buffers.InputBuffer;
-import com.github.parboiled1.grappa.stack.ValueStack;
+import com.github.fge.grappa.buffers.InputBuffer;
+import com.github.fge.grappa.stack.ValueStack;
 import com.google.common.base.Preconditions;
 import org.parboiled.annotations.SuppressNode;
 import org.parboiled.annotations.SuppressSubnodes;
