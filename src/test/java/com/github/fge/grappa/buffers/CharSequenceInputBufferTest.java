@@ -19,12 +19,21 @@ package com.github.fge.grappa.buffers;
 import org.parboiled.support.Chars;
 import org.parboiled.support.Position;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.assertEquals;
 
 public final class CharSequenceInputBufferTest
 {
+    private static final String UNICODE_STRING = "abf\uD800zdji\uD800\uDD41";
+    private static final InputBuffer UNICODE_BUFFER
+        = new CharSequenceInputBuffer(UNICODE_STRING);
 
     @Test
     public void testOneliner()
@@ -79,4 +88,25 @@ public final class CharSequenceInputBufferTest
         assertEquals(buf.getPosition(13), new Position(5, 1));
     }
 
+    @DataProvider
+    public Iterator<Object[]> indicesAndCodePoints()
+    {
+        final List<Object[]> list = new ArrayList<>();
+
+        list.add(new Object[] { 0, UNICODE_STRING.codePointAt(0) });
+        list.add(new Object[] { 10, -1 });
+        list.add(new Object[] { -1, -1 });
+        list.add(new Object[] { 8, UNICODE_STRING.codePointAt(8) });
+        list.add(new Object[] { 3, UNICODE_STRING.codePointAt(3) });
+        list.add(new Object[] { 9, UNICODE_STRING.codePointAt(9) });
+
+        return list.iterator();
+    }
+
+
+    @Test(dataProvider = "indicesAndCodePoints")
+    public void codePointTest(final int index, final int codePoint)
+    {
+        assertThat(UNICODE_BUFFER.codePointAt(index)).isEqualTo(codePoint);
+    }
 }

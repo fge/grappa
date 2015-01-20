@@ -37,6 +37,17 @@ public interface InputBuffer
     char charAt(int index);
 
     /**
+     * Returns the Unicode code point starting at a given index
+     *
+     * <p>If the index is invalid, this method returns -1.</p>
+     *
+     * @param index the index
+     * @return the code point at this index, or -1 if the end of input has been
+     * reached or the index is negative
+     */
+    int codePointAt(int index);
+
+    /**
      * Determines whether the characters starting at the given index match the
      * ones from the given array (in order).
      *

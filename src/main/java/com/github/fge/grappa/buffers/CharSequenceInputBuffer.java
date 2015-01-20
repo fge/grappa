@@ -88,6 +88,25 @@ public final class CharSequenceInputBuffer
             ? charSequence.charAt(index) : Chars.EOI;
     }
 
+    @SuppressWarnings("ImplicitNumericConversion")
+    @Override
+    public int codePointAt(final int index)
+    {
+        final int length = charSequence.length();
+        if (index >= length)
+            return -1;
+        if (index < 0)
+            return -1;
+
+        final char c = charSequence.charAt(index);
+        if (!Character.isHighSurrogate(c))
+            return c;
+        if (index == length - 1)
+            return c;
+        final char c2 = charSequence.charAt(index + 1);
+        return Character.isLowSurrogate(c2) ? Character.toCodePoint(c, c2) : c;
+    }
+
     @Override
     public boolean test(final int index, final char[] characters)
     {
