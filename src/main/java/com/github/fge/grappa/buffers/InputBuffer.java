@@ -43,7 +43,9 @@ public interface InputBuffer
      *
      * @param index the index
      * @return the code point at this index, or -1 if the end of input has been
-     * reached or the index is negative
+     * reached
+     *
+     * @throws IllegalArgumentException index is negative
      */
     int codePointAt(int index);
 

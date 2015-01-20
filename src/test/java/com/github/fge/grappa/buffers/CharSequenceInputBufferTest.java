@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import static com.github.fge.grappa.util.CustomAssertions.shouldHaveThrown;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.assertEquals;
 
@@ -95,7 +96,6 @@ public final class CharSequenceInputBufferTest
 
         list.add(new Object[] { 0, UNICODE_STRING.codePointAt(0) });
         list.add(new Object[] { 10, -1 });
-        list.add(new Object[] { -1, -1 });
         list.add(new Object[] { 8, UNICODE_STRING.codePointAt(8) });
         list.add(new Object[] { 3, UNICODE_STRING.codePointAt(3) });
         list.add(new Object[] { 9, UNICODE_STRING.codePointAt(9) });
@@ -108,5 +108,16 @@ public final class CharSequenceInputBufferTest
     public void codePointTest(final int index, final int codePoint)
     {
         assertThat(UNICODE_BUFFER.codePointAt(index)).isEqualTo(codePoint);
+    }
+
+    @Test
+    public void iaeIsThrownIfIndexIsNegative()
+    {
+        try {
+            UNICODE_BUFFER.codePointAt(-1);
+            shouldHaveThrown(IllegalArgumentException.class);
+        } catch (IllegalArgumentException e) {
+            assertThat(e).hasMessage("index is negative");
+        }
     }
 }

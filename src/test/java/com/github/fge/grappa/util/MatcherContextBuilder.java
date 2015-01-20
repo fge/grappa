@@ -39,6 +39,7 @@ public final class MatcherContextBuilder
 
     private InputBuffer buffer = null;
     private Matcher matcher = null;
+    private int index = 0;
 
     public MatcherContextBuilder withInput(@Nonnull final String input)
     {
@@ -52,9 +53,18 @@ public final class MatcherContextBuilder
         return this;
     }
 
+    public MatcherContextBuilder withIndex(final int index)
+    {
+        this.index = index;
+        return this;
+    }
+
     public MatcherContext<Object> build()
     {
-        return new DefaultMatcherContext<>(buffer, STACK, ERRORS,
-            SimpleMatchHandler.INSTANCE, matcher);
+        final DefaultMatcherContext<Object> ret = new DefaultMatcherContext<>(
+            buffer, STACK, ERRORS, SimpleMatchHandler.INSTANCE, matcher);
+
+        ret.setCurrentIndex(index);
+        return ret;
     }
 }

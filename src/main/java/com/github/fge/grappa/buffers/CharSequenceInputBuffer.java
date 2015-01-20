@@ -96,7 +96,7 @@ public final class CharSequenceInputBuffer
         if (index >= length)
             return -1;
         if (index < 0)
-            return -1;
+            throw new IllegalArgumentException("index is negative");
 
         final char c = charSequence.charAt(index);
         if (!Character.isHighSurrogate(c))

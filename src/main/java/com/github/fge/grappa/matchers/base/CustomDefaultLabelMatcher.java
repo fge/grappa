@@ -22,7 +22,7 @@ import org.parboiled.Rule;
 public abstract class CustomDefaultLabelMatcher<T extends CustomDefaultLabelMatcher<T>>
     extends AbstractMatcher
 {
-    private String defaultLabel;
+    private final String defaultLabel;
 
     protected CustomDefaultLabelMatcher(final Rule subRule,
         final String defaultLabel)
