@@ -18,7 +18,6 @@ package com.github.fge.grappa.buffers;
 
 import org.parboiled.support.Chars;
 import org.parboiled.support.Position;
-import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -40,7 +39,6 @@ public final class CharSequenceInputBufferTest
     public void testOneliner()
     {
         final InputBuffer buf = new CharSequenceInputBuffer("abcdefgh");
-        Assert.assertEquals(buf.charAt(-4), Chars.EOI);
         assertEquals(buf.charAt(0), 'a');
         assertEquals(buf.charAt(7), 'h');
         assertEquals(buf.charAt(8), Chars.EOI);
@@ -87,6 +85,19 @@ public final class CharSequenceInputBufferTest
         assertEquals(buf.getPosition(11), new Position(4, 2));
         assertEquals(buf.getPosition(12), new Position(4, 3));
         assertEquals(buf.getPosition(13), new Position(5, 1));
+    }
+
+    @Test
+    public void charAtThrowsIAEOnNegativeIndex()
+    {
+        final InputBuffer buf = new CharSequenceInputBuffer("abcdefgh");
+
+        try {
+            buf.charAt(-1);
+            shouldHaveThrown(IllegalArgumentException.class);
+        } catch (IllegalArgumentException e) {
+            assertThat(e).hasMessage("index is negative");
+        }
     }
 
     @DataProvider

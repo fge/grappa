@@ -28,18 +28,23 @@ public interface InputBuffer
 {
 
     /**
-     * Returns the character at the given index. If the index is invalid the
-     * method returns {@link Chars#EOI}.
+     * Returns the character at the given index.
+     *
+     * <p>If the index is greater than, or equal to, the buffer's length, this
+     * method returns {@link Chars#EOI}.</p>
      *
      * @param index the index
      * @return the character at the given index or Chars.EOI.
+     *
+     * @throws IllegalArgumentException index is negative
      */
     char charAt(int index);
 
     /**
      * Returns the Unicode code point starting at a given index
      *
-     * <p>If the index is invalid, this method returns -1.</p>
+     * <p>If the index is greater than, or equal to, the buffer's length, this
+     * method returns -1.</p>
      *
      * @param index the index
      * @return the code point at this index, or -1 if the end of input has been

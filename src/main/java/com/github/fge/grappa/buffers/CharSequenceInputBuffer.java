@@ -84,8 +84,11 @@ public final class CharSequenceInputBuffer
     @Override
     public char charAt(final int index)
     {
-        return index >= 0 && index < charSequence.length()
-            ? charSequence.charAt(index) : Chars.EOI;
+        if (index < 0)
+            throw new IllegalArgumentException("index is negative");
+
+        return index < charSequence.length() ? charSequence.charAt(index)
+            : Chars.EOI;
     }
 
     @SuppressWarnings("ImplicitNumericConversion")
