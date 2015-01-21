@@ -27,8 +27,10 @@ apply(plugin: "info.solidsoft.pitest");
 group = "com.github.fge";
 description = "Write parsers in pure Java";
 version = "2.0.0-alpha.2-SNAPSHOT";
-sourceCompatibility = "1.7";
-targetCompatibility = "1.7"; // defaults to sourceCompatibility
+
+def javaVersion = JavaVersion.VERSION_1_7;
+sourceCompatibility = javaVersion;
+targetCompatibility = javaVersion; // defaults to sourceCompatibility
 
 
 repositories {
@@ -68,6 +70,15 @@ pitest {
     // By default it is ${project.group}.
     targetClasses = [ "org.parboiled.*", "com.github.fge.*" ];
 }
+
+task enforceVersion << {
+    def foundVersion = JavaVersion.current();
+    if (foundVersion != javaVersion)
+        throw new IllegalStateException("Wrong java version; required is " +
+            javaVersion + ", but found " + foundVersion);
+}
+
+compileJava.dependsOn(enforceVersion);
 
 /*
  * Necessary to generate the source and javadoc jars
