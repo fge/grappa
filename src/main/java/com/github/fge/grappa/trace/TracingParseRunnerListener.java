@@ -17,87 +17,88 @@
 package com.github.fge.grappa.trace;
 
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonGenerator.Feature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.run.MatchFailureEvent;
 import com.github.fge.grappa.run.MatchSuccessEvent;
+import com.github.fge.grappa.run.ParseRunInfo;
 import com.github.fge.grappa.run.ParseRunnerListener;
 import com.github.fge.grappa.run.PostParseEvent;
 import com.github.fge.grappa.run.PreMatchEvent;
 import com.github.fge.grappa.run.PreParseEvent;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import javax.annotation.WillCloseWhenClosed;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.URI;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 @ParametersAreNonnullByDefault
 public final class TracingParseRunnerListener<V>
     extends ParseRunnerListener<V>
-    implements AutoCloseable
 {
     private static final Map<String, ?> ZIPFS_ENV
         = Collections.singletonMap("create", "true");
+
     /*
-     * We have to do that, otherwise a corrupt zip file is created :(
-     *
-     * See https://github.com/FasterXML/jackson-databind/issues/680
+     * We have to do that, since we write to a temporary file
      */
     private static final ObjectMapper MAPPER = new ObjectMapper()
-        .disable(JsonGenerator.Feature.AUTO_CLOSE_TARGET);
+        .disable(Feature.AUTO_CLOSE_TARGET);
     private static final int BUFSIZE = 16384;
 
-    @WillCloseWhenClosed
-    private final FileSystem zipfs;
-    private final List<TraceEvent> events = new ArrayList<>();
+    private final Path traceFile;
+    private final BufferedWriter traceWriter;
+    private final Path zipPath;
+    private final JsonGenerator generator;
 
+    private InputBuffer inputBuffer;
     private long startDate;
+
+    public TracingParseRunnerListener(final Path zipPath)
+    {
+        if (Files.exists(zipPath, LinkOption.NOFOLLOW_LINKS))
+            throw new RuntimeException("file " + zipPath + " already exists");
+
+        this.zipPath = zipPath;
+
+        try {
+            traceFile = Files.createTempFile("trace", ".json");
+            traceWriter = Files.newBufferedWriter(traceFile, UTF_8);
+            generator = MAPPER.getFactory().createGenerator(traceWriter);
+            generator.writeStartArray();
+        } catch (IOException e) {
+            throw new RuntimeException("failed to initialize trace", e);
+        }
+    }
 
     public TracingParseRunnerListener(final String zipPath)
         throws IOException
     {
-        final Path path = Paths.get(zipPath);
-        final String uri = "jar:" + path.toUri().toString();
-        zipfs = FileSystems.newFileSystem(URI.create(uri), ZIPFS_ENV);
+        this(Paths.get(zipPath));
+    }
+
+    public TracingParseRunnerListener(final File file)
+        throws IOException
+    {
+        this(file.toPath());
     }
 
     @Override
     public void beforeParse(final PreParseEvent<V> event)
     {
-        final InputBuffer buffer = event.getContext().getInputBuffer();
-        final Path inputText = zipfs.getPath("/input.txt");
-        final int length = buffer.length();
-
-        try (
-            final BufferedWriter writer = Files.newBufferedWriter(inputText,
-                StandardCharsets.UTF_8);
-        ) {
-            int index = 0;
-            int remaining = length;
-            int toWrite;
-
-            while (remaining > 0) {
-                toWrite = Math.min(remaining, BUFSIZE);
-                writer.append(buffer.extract(index, toWrite));
-                index += toWrite;
-                remaining -= toWrite;
-            }
-
-        } catch (IOException oops) {
-            throw new RuntimeException("failed to write input text", oops);
-        }
+        inputBuffer = event.getContext().getInputBuffer();
         startDate = System.currentTimeMillis();
     }
 
@@ -105,8 +106,8 @@ public final class TracingParseRunnerListener<V>
     public void beforeMatch(final PreMatchEvent<V> event)
     {
         final TraceEvent traceEvent = TraceEvent.before(event.getContext());
-        events.add(traceEvent);
         traceEvent.setNanoseconds(System.nanoTime());
+        writeEvent(traceEvent);
     }
 
     @Override
@@ -115,7 +116,7 @@ public final class TracingParseRunnerListener<V>
         final long nanos = System.nanoTime();
         final TraceEvent traceEvent = TraceEvent.success(event.getContext());
         traceEvent.setNanoseconds(nanos);
-        events.add(traceEvent);
+        writeEvent(traceEvent);
     }
 
     @Override
@@ -124,28 +125,73 @@ public final class TracingParseRunnerListener<V>
         final long nanos = System.nanoTime();
         final TraceEvent traceEvent = TraceEvent.failure(event.getContext());
         traceEvent.setNanoseconds(nanos);
-        events.add(traceEvent);
+        writeEvent(traceEvent);
     }
 
     @Override
     public void afterParse(final PostParseEvent<V> event)
     {
-        final ParsingRunTrace trace = new ParsingRunTrace(startDate, events);
-        final Path path = zipfs.getPath("/trace.json");
+        final ParseRunInfo runInfo = new ParseRunInfo(startDate, inputBuffer);
+
+        final URI uri = URI.create("jar:" + zipPath.toUri());
 
         try (
-            final OutputStream out = Files.newOutputStream(path);
+            final FileSystem zipfs = FileSystems.newFileSystem(uri, ZIPFS_ENV);
         ) {
-            MAPPER.writeValue(out, trace);
-        } catch (IOException oops) {
-            throw new RuntimeException("failed to write trace file", oops);
+            generator.writeEndArray();
+            generator.close();
+            traceWriter.close();
+            Files.copy(traceFile, zipfs.getPath("/trace.json"));
+            Files.delete(traceFile);
+            copyRunInfo(zipfs, runInfo);
+            copyInputText(zipfs);
+        } catch (IOException e) {
+            throw new RuntimeException("failed to generate zip file", e);
         }
     }
 
-    @Override
-    public void close()
+    private void writeEvent(final TraceEvent event)
+    {
+        try {
+            generator.writeObject(event);
+        } catch (IOException e) {
+            throw new RuntimeException("failed to write event to file", e);
+        }
+    }
+
+    private void copyRunInfo(final FileSystem zipfs, final ParseRunInfo runInfo)
         throws IOException
     {
-        zipfs.close();
+        final Path path = zipfs.getPath("/info.json");
+
+        try (
+            final BufferedWriter writer = Files.newBufferedWriter(path, UTF_8);
+        ) {
+            MAPPER.writeValue(writer, runInfo);
+            writer.flush();
+        }
+    }
+
+    private void copyInputText(final FileSystem zipfs)
+        throws IOException
+    {
+        final Path path = zipfs.getPath("/input.txt");
+        final int length = inputBuffer.length();
+
+        int start = 0;
+        String s;
+
+        try (
+            final BufferedWriter writer = Files.newBufferedWriter(path, UTF_8);
+        ) {
+            while (start < length) {
+                // Note: relies on the fact that boundaries are adjusted
+                s = inputBuffer.extract(start, start + BUFSIZE);
+                writer.write(s);
+                start += BUFSIZE;
+            }
+
+            writer.flush();
+        }
     }
 }
