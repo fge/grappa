@@ -23,6 +23,7 @@ import com.github.fge.grappa.matchers.CharIgnoreCaseMatcher;
 import com.github.fge.grappa.matchers.CharMatcher;
 import com.github.fge.grappa.matchers.CharRangeMatcher;
 import com.github.fge.grappa.matchers.EmptyMatcher;
+import com.github.fge.grappa.matchers.EndOfInputMatcher;
 import com.github.fge.grappa.matchers.FirstOfStringsMatcher;
 import com.github.fge.grappa.matchers.NothingMatcher;
 import com.github.fge.grappa.matchers.StringMatcher;
@@ -71,10 +72,19 @@ import java.util.List;
 public abstract class BaseParser<V>
     extends BaseActions<V>
 {
+    /**
+     * End of input rule
+     *
+     * <p>Please don't use this directly; use {@link #eof()} instead.</p>
+     */
+    protected static final Rule END_OF_INPUT = new EndOfInputMatcher();
 
     /**
      * Matches the {@link Chars#EOI} (end of input) character.
+     *
+     * @deprecated use {@link #eof()} instead
      */
+    @Deprecated
     public static final Rule EOI = new CharMatcher(Chars.EOI);
 
     /**
@@ -111,6 +121,16 @@ public abstract class BaseParser<V>
     /*
      * CORE RULES
      */
+
+    /**
+     * Match only at the end of input
+     *
+     * @return a rule
+     */
+    public Rule eof()
+    {
+        return END_OF_INPUT;
+    }
 
     /**
      * Match one given character
