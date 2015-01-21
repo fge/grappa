@@ -19,6 +19,8 @@ package com.github.fge.grappa.trace;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.fge.grappa.matchers.MatcherType;
+import com.github.fge.grappa.matchers.base.Matcher;
 import com.google.common.base.MoreObjects;
 import org.parboiled.MatcherContext;
 
@@ -32,27 +34,29 @@ public final class TraceEvent
     private long nanoseconds;
     private final int index;
     private final String matcher;
+    private final MatcherType matcherType;
+    private final String matcherClass;
     private final String path;
     private final int level;
 
     public static TraceEvent before(final MatcherContext<?> context)
     {
         return new TraceEvent(TraceEventType.BEFORE_MATCH,
-            context.getCurrentIndex(), context.getMatcher().toString(),
+            context.getCurrentIndex(), context.getMatcher(),
             context.getPath().toString(), context.getLevel());
     }
 
     public static TraceEvent failure(final MatcherContext<?> context)
     {
         return new TraceEvent(TraceEventType.MATCH_FAILURE,
-            context.getCurrentIndex(), context.getMatcher().toString(),
+            context.getCurrentIndex(), context.getMatcher(),
             context.getPath().toString(), context.getLevel());
     }
 
     public static TraceEvent success(final MatcherContext<?> context)
     {
         return new TraceEvent(TraceEventType.MATCH_SUCCESS,
-            context.getCurrentIndex(), context.getMatcher().toString(),
+            context.getCurrentIndex(), context.getMatcher(),
             context.getPath().toString(), context.getLevel());
     }
 
@@ -61,6 +65,8 @@ public final class TraceEvent
         @JsonProperty("nanoseconds") final long nanoseconds,
         @JsonProperty("index") final int index,
         @JsonProperty("matcher") final String matcher,
+        @JsonProperty("matcherClass") final String matcherClass,
+        @JsonProperty("matcherType") final MatcherType matcherType,
         @JsonProperty("path") final String path,
         @JsonProperty("level") final int level)
     {
@@ -68,19 +74,25 @@ public final class TraceEvent
         this.nanoseconds = nanoseconds;
         this.index = index;
         this.matcher = matcher;
+        this.matcherType = matcherType;
+        this.matcherClass = matcherClass;
         this.path = path;
         this.level = level;
     }
 
     @JsonIgnore
     private TraceEvent(final TraceEventType type, final int index,
-        final String matcher, final String path, final int level)
+        final Matcher matcher, final String path, final int level)
     {
         this.type = type;
         this.index = index;
-        this.matcher = matcher;
+        this.matcher = matcher.toString();
         this.path = path;
         this.level = level;
+
+        final String name = matcher.getClass().getSimpleName();
+        matcherClass = name.isEmpty() ? "(anonymous)" : name;
+        matcherType = matcher.getType();
     }
 
     @JsonIgnore
@@ -91,7 +103,11 @@ public final class TraceEvent
         this.type = type;
         index = context.getCurrentIndex();
         // TODO: .getMatcher() normally never returns null
-        matcher = context.getMatcher().toString();
+        final Matcher m = context.getMatcher();
+        final String name = m.getClass().getSimpleName();
+        matcher = m.toString();
+        matcherClass = name.isEmpty() ? "(anonymous)" : name;
+        matcherType = m.getType();
         path = context.getPath().toString();
         level = context.getLevel();
     }
@@ -140,6 +156,8 @@ public final class TraceEvent
             .add("nanoseconds", nanoseconds)
             .add("index", index)
             .add("matcher", matcher)
+            .add("matcherClass", matcherClass)
+            .add("matcherType", matcherType)
             .add("path", path)
             .add("level", level)
             .toString();
