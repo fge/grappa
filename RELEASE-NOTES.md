@@ -1,3 +1,13 @@
+### 1.0.1 (IN PROGRESS)
+
+* Make CharSequenceInputBuffer use daemon threads for its LineCounters (fixes
+  issue #20).
+
+### 1.0.0
+
+* Convert (nearly) all rule labels to lowercase.
+* Dependency updates.
+
 ### 1.0.0-beta.11
 
 * Recompile with JDK 6 :/
