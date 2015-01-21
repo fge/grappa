@@ -86,16 +86,6 @@ public abstract class JoinMatcher
         return MatcherType.COMPOSITE;
     }
 
-    public final Matcher getJoined()
-    {
-        return joined;
-    }
-
-    public final Matcher getJoining()
-    {
-        return joining;
-    }
-
     /**
      * Tries a match on the given MatcherContext.
      *

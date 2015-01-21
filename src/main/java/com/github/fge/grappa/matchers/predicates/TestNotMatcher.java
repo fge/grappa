@@ -38,11 +38,6 @@ public final class TestNotMatcher
         subMatcher = getChildren().get(0);
     }
 
-    public Matcher getSubMatcher()
-    {
-        return subMatcher;
-    }
-
     @Override
     public MatcherType getType()
     {

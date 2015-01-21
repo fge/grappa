@@ -37,11 +37,6 @@ public final class OptionalMatcher
         subMatcher = getChildren().get(0);
     }
 
-    public Matcher getSubMatcher()
-    {
-        return subMatcher;
-    }
-
     @Override
     public MatcherType getType()
     {

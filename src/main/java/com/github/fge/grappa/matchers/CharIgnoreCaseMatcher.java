@@ -46,16 +46,6 @@ public final class CharIgnoreCaseMatcher
         return MatcherType.TERMINAL;
     }
 
-    public char getLowerBound()
-    {
-        return lowerBound;
-    }
-
-    public char getUpperBound()
-    {
-        return upperBound;
-    }
-
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
