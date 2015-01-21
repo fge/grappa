@@ -40,7 +40,7 @@ public final class EndOfInputMatcherTest
     public void initContext()
     {
         builder = new MatcherContextBuilder()
-            .withInput("hello").withMatcher(EndOfInputMatcher.INSTANCE);
+            .withInput("hello").withMatcher(new EndOfInputMatcher());
     }
 
     @DataProvider
