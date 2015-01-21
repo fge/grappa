@@ -137,6 +137,16 @@ public final class TraceEvent
         return matcher;
     }
 
+    public MatcherType getMatcherType()
+    {
+        return matcherType;
+    }
+
+    public String getMatcherClass()
+    {
+        return matcherClass;
+    }
+
     public String getPath()
     {
         return path;
