@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.run.MatchFailureEvent;
 import com.github.fge.grappa.run.MatchSuccessEvent;
-import com.github.fge.grappa.run.ParseRunInfo;
 import com.github.fge.grappa.run.ParseRunnerListener;
 import com.github.fge.grappa.run.PostParseEvent;
 import com.github.fge.grappa.run.PreMatchEvent;

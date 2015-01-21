@@ -1,4 +1,4 @@
-package com.github.fge.grappa.run;
+package com.github.fge.grappa.trace;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
