@@ -26,6 +26,7 @@ import java.nio.CharBuffer;
 import java.util.List;
 
 // TODO: get rid of edge cases
+@SuppressWarnings({ "AutoBoxing", "AutoUnboxing" })
 @ParametersAreNonnullByDefault
 public final class LineCounter
 {
@@ -67,19 +68,41 @@ public final class LineCounter
 
     public Position toPosition(@Tainted final int index)
     {
-        Range<Integer> range;
+        if (index < 0)
+            throw new IllegalStateException();
+
+        final Range<Integer> range;
+
         // Edge case: unfortunately, we can get an illegal index
         if (index >= len) {
             range = lines.get(nrLines - 1);
             return new Position(nrLines, len - range.lowerEndpoint() + 1);
         }
 
-        for (int i = 0; i < nrLines; i++) {
-            range = lines.get(i);
-            if (range.contains(index))
-                return new Position(i + 1, index - range.lowerEndpoint() + 1);
-        }
+        final int lineNr = binarySearch(index);
 
-        throw new IllegalStateException();
+        range = lines.get(lineNr);
+        return new Position(lineNr + 1, index - range.lowerEndpoint() + 1);
+    }
+
+    private int binarySearch(final int index)
+    {
+        return doBinarySearch(0, nrLines - 1, index);
+    }
+
+    private int doBinarySearch(final int low, final int high, final int index)
+    {
+        // Guaranteed to always succeed at this point
+        if (low == high)
+            return low;
+
+        final int middle = (low + high) / 2;
+        final Range<Integer> range = lines.get(middle);
+        if (range.contains(index))
+            return middle;
+
+        return index < range.lowerEndpoint()
+            ? doBinarySearch(low, middle, index)
+            : doBinarySearch(middle, high, index);
     }
 }
