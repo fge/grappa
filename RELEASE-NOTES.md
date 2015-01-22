@@ -1,4 +1,8 @@
-### 1.0.1 (IN PROGRESS)
+### 1.0.2 (IN PROGRESS)
+
+* build.gradle: enforce Java compiler version.
+
+### 1.0.1
 
 * Make CharSequenceInputBuffer use daemon threads for its LineCounters (fixes
   issue #20).

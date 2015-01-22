@@ -27,8 +27,10 @@ apply(plugin: "info.solidsoft.pitest");
 group = "com.github.parboiled1";
 description = "Write parsers in pure Java";
 version = "1.0.2-SNAPSHOT";
-sourceCompatibility = "1.6";
-targetCompatibility = "1.6"; // defaults to sourceCompatibility
+
+def javaVersion = JavaVersion.VERSION_1_6;
+sourceCompatibility = javaVersion;
+targetCompatibility = javaVersion; // defaults to sourceCompatibility
 
 
 repositories {
@@ -68,6 +70,15 @@ pitest {
     // By default it is ${project.group}.
     targetClasses = [ "org.parboiled.*", "com.github.parboiled1.*" ];
 }
+
+task enforceVersion << {
+    def foundVersion = JavaVersion.current();
+    if (foundVersion != javaVersion)
+        throw new IllegalStateException("Wrong Java version; required is "
+            + javaVersion + ", but found " + foundVersion);
+}
+
+compileJava.dependsOn(enforceVersion);
 
 /*
  * Necessary to generate the source and javadoc jars
