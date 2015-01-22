@@ -1,6 +1,7 @@
 ### 1.0.2 (IN PROGRESS)
 
 * build.gradle: enforce Java compiler version.
+* Use a binary search to get the line range for an index
 
 ### 1.0.1
 
