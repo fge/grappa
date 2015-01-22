@@ -17,7 +17,13 @@ dedicated Google groups: [grappa-users](http://groups.google.com/d/forum/grappa-
 [grappa-devel](http://groups.google.com/d/forum/grappa-devel). They are also available to post by
 email.
 
-The current version is **1.0.0** (released December 31, 2014).
+The current version is **1.0.2** (released January 22, 2015):
+
+```groovy
+dependencies {
+    compile(group: "com.github.parboiled1", name: "grappa", version: "1.0.2");
+}
+```
 
 Work is now focused on 2.0.x. Note that 2.0.x will require Java 7.
 
