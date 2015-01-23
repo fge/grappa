@@ -16,6 +16,7 @@
 
 package com.github.parboiled1.grappa.buffers;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Range;
 import org.parboiled.support.Position;
@@ -55,6 +56,14 @@ public final class LineCounter
         this(CharBuffer.wrap(chars));
     }
 
+    @VisibleForTesting
+    LineCounter(final List<Range<Integer>> ranges)
+    {
+        lines.addAll(ranges);
+        nrLines = ranges.size();
+        len = ranges.get(nrLines - 1).upperEndpoint();
+    }
+
     public int getNrLines()
     {
         return nrLines;
@@ -85,7 +94,8 @@ public final class LineCounter
         return new Position(lineNr + 1, index - range.lowerEndpoint() + 1);
     }
 
-    private int binarySearch(final int index)
+    @VisibleForTesting
+    int binarySearch(final int index)
     {
         return doBinarySearch(0, nrLines - 1, index);
     }
