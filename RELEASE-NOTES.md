@@ -1,3 +1,7 @@
+### 1.0.3
+
+* TrieMatcher: do accept visitors. Meh.
+
 ### 1.0.2
 
 * build.gradle: enforce Java compiler version.
