@@ -26,7 +26,7 @@ apply(plugin: "info.solidsoft.pitest");
 
 group = "com.github.parboiled1";
 description = "Write parsers in pure Java";
-version = "1.0.4";
+version = "1.0.5-SNAPSHOT";
 
 def javaVersion = JavaVersion.VERSION_1_6;
 sourceCompatibility = javaVersion;

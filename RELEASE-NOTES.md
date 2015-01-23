@@ -1,3 +1,7 @@
+### 1.0.4
+
+* Fix infinite loop in LineCounter's .binarySearch()
+
 ### 1.0.3
 
 * TrieMatcher: do accept visitors. Meh.
