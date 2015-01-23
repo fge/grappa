@@ -98,8 +98,8 @@ public final class LineCounter
     private int doBinarySearch(final int low, final int high, final int index)
     {
         // Guaranteed to always succeed at this point
-        if (low == high)
-            return low;
+        if (high - low <= 1)
+            return lines.get(low).contains(index) ? low : high;
 
         final int middle = (low + high) / 2;
         final Range<Integer> range = lines.get(middle);
