@@ -36,11 +36,11 @@ page](https://github.com/fge/grappa/wiki/Overview:-grappa-1.0.x-vs-parboiled-jav
 
 Requires Java 6.
 
-The current version of this branch is **1.0.2** (released January 22, 2015):
+The current version of this branch is **1.0.3** (released January 23, 2015):
 
 ```groovy
 dependencies {
-    compile(group: "com.github.parboiled1", name: "grappa", version: "1.0.2");
+    compile(group: "com.github.parboiled1", name: "grappa", version: "1.0.3");
 }
 ```
 
