@@ -2,22 +2,41 @@
 
 \[Original image courtesy of [clipartbest.com](http://www.clipartbest.com/clipart-Kin5EMyiq)\]
 
+## Read me first
+
+The license of this project is Apache 2.0.
+
 ## What this is
 
-This package allows you to write grammars (more precisely, parsing expression grammars, or
-[PEG](http://en.wikipedia.org/wiki/Parsing_expression_grammar) for short; another name is "packrat"
-grammars) entirely in Java. Unlike, for instance, ANTLR and JavaCC, parsers written with this
-package do **not** require a pre-processing phase. Yes, this means you generate your parsers at
-_runtime_. And there is no DSL.  Pure Java!
+This package allows you to write grammars entirely in Java. Unlike, for instance, ANTLR and JavaCC,
+parsers written with this package do **not** require a pre-processing phase. Yes, this means you
+generate your parsers at _runtime_.  And there is **no DSL**.  Pure Java!
 
-License is **Apache 2.0**.
+This is a fork of the original [parboiled](https://github.com/sirthias/parboiled). See also the
+[debugger package](https://github.com/fge/grappa-debuffer).
 
-This project has an IRC channel (`#grappa` on Freenode; server: `irc.freenode.net`) and two
-dedicated Google groups: [grappa-users](http://groups.google.com/d/forum/grappa-users) and
-[grappa-devel](http://groups.google.com/d/forum/grappa-devel). They are also available to post by
-email.
+### And, uh, the name?
 
-The current version is **1.0.2** (released January 22, 2015):
+Well, you write <i>gra</i>mmars and can then generate <i>pa</i>rsers for them. (I also happen to
+like the [drink of the same name](http://www.istitutograppa.org/))
+
+## Example grammars
+
+TODO!
+
+## Versions
+
+There are two major versions: 1.0.x and 2.0.x.
+
+### 1.0.x
+
+The 1.0.x branch is entirely compatible with parboiled, but with some added rules and other (mostly)
+technical differences; see [this
+page](https://github.com/fge/grappa/wiki/Overview:-grappa-1.0.x-vs-parboiled-java) for more details.
+
+Requires Java 6.
+
+The current version of this branch is **1.0.2** (released January 22, 2015):
 
 ```groovy
 dependencies {
@@ -25,62 +44,24 @@ dependencies {
 }
 ```
 
-Work is now focused on 2.0.x. Note that 2.0.x will require Java 7.
+### 2.0.x
 
-## Motivation
+This version is in development; it will require Java 7. No "official" version is out for now, but if
+you are curious, you can have a look at the [release
+notes](https://github.com/fge/grappa/blob/master/RELEASE-NOTES.md).
 
-This is a fork of the original [parboiled](https://github.com/sirthias/parboiled). Its author,
-[Mathias Doenitz](https://github.com/sirthias), has since left the Java world for the Scala world
-(with [parboiled2](https://github.com/sirthias/parboiled2)).
+Its first major feature compared to 1.0.x is an event-based parse runner, which is what is used to
+collect data for the debugger; this parse runner has been [backported to
+1.0.x](https://github.com/fge/grappa-tracer-backport); which means you can also use it to analyze
+your parboiled grammars.
 
-But parboiled does not deserve to be left stranded, nor its users. It is just too good. No other
-package allows you to write grammars entirely in Java... And what is more, it performs really well.
-This package is therefore dedicated to continuing its development.
+Other features are planned; see [here](https://github.com/fge/grappa/wiki/planned-features).
+(warning: moving target!)
 
-Grappa 1.0.x requires Java 6 or later. No further development other than bug fixes will occur on
-this version.
+## Getting help
 
-### And, uh, the name?
-
-Well, you write <i>gra</i>mmars and can then generate <i>pa</i>rsers for them. (I also happen to
-like the [drink of the same name](http://www.istitutograppa.org/))
-
-## Comparison with parboiled
-
-Backwards compatibility with parboiled 1 is ensured for the 1.0.x versions. 2.0.x will be quite
-different.
-
-See [this
-page](https://github.com/fge/grappa/wiki/Overview:-grappa-1.0.x-vs-parboiled-java) for an
-overview of the changes.
-
-## Gradle/maven artifacts
-
-Grappa is available on Maven Central. With Gradle:
-
-```groovy
-repositories {
-    mavenCentral();
-}
-
-dependencies {
-    compile(group: "com.github.parboiled1", name: "grappa", version: "1.0.0");
-}
-```
-
-## Example grammars
-
-You can have a look at the [examples package](https://github.com/fge/grappa-examples). Note however
-that these examples do not make use of the latest developments available in this project.
-
-## How to build the current HEAD
-
-You will need a JDK 7 or greater use this command to build and install into your local repository:
-
-```
-# Unix systems: Linux, MacOSX, *BSD
-./gradlew clean test install
-# Windows systems
-gradlew.bat clean test install
-```
+This project has an IRC channel (`#grappa` on Freenode; server: `irc.freenode.net`) and two
+dedicated Google groups: [grappa-users](http://groups.google.com/d/forum/grappa-users) and
+[grappa-devel](http://groups.google.com/d/forum/grappa-devel). They are also available to post by
+email.
 
