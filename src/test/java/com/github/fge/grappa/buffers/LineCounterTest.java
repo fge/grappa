@@ -16,9 +16,12 @@
 
 package com.github.fge.grappa.buffers;
 
+import com.google.common.collect.ImmutableList.Builder;
 import com.google.common.collect.Range;
 import org.parboiled.support.Position;
 import org.testng.annotations.Test;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -59,5 +62,24 @@ public final class LineCounterTest
         final LineCounter lineCounter = new LineCounter("hello\nworld");
         assertThat(lineCounter.getLineRange(2)).as("range is correct")
             .isEqualTo(Range.closedOpen(6, 11));
+    }
+
+    @SuppressWarnings("AutoBoxing")
+    @Test(timeOut = 2000L)
+    public void frontierIndexDoesNotCauseEndlessLoop()
+    {
+        final int expected = 4;
+
+        final List<Range<Integer>> ranges = new Builder<Range<Integer>>()
+            .add(Range.closedOpen(0, 3))
+            .add(Range.closedOpen(3, 7))
+            .add(Range.closedOpen(7, 16))
+            .add(Range.closedOpen(16, 18))
+            .add(Range.closedOpen(18, 20))
+            .build();
+
+        final LineCounter lineCounter = new LineCounter(ranges);
+
+        assertThat(lineCounter.binarySearch(18)).isEqualTo(expected);
     }
 }
