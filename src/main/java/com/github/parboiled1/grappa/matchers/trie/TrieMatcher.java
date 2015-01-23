@@ -114,6 +114,6 @@ public final class TrieMatcher
     @Override
     public <R> R accept(final MatcherVisitor<R> visitor)
     {
-        return null;
+        return visitor.visit(this);
     }
 }
