@@ -122,7 +122,7 @@ public final class TraceEvent
         return nanoseconds;
     }
 
-    void setNanoseconds(final long nanoseconds)
+    public void setNanoseconds(final long nanoseconds)
     {
         this.nanoseconds = nanoseconds;
     }

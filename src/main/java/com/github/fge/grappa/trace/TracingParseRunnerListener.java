@@ -64,8 +64,6 @@ public final class TracingParseRunnerListener<V>
 
     private InputBuffer inputBuffer;
     private long startDate;
-    private long startNanos;
-    private boolean startNanosSet = false;
 
     public TracingParseRunnerListener(final Path zipPath)
     {
@@ -108,11 +106,7 @@ public final class TracingParseRunnerListener<V>
     {
         final TraceEvent traceEvent = TraceEvent.before(event.getContext());
         final long nanoseconds = System.nanoTime();
-        if (!startNanosSet) {
-            startNanos = nanoseconds;
-            startNanosSet = true;
-        }
-        traceEvent.setNanoseconds(nanoseconds - startNanos);
+        traceEvent.setNanoseconds(nanoseconds);
         writeEvent(traceEvent);
     }
 
@@ -121,7 +115,7 @@ public final class TracingParseRunnerListener<V>
     {
         final long nanos = System.nanoTime();
         final TraceEvent traceEvent = TraceEvent.success(event.getContext());
-        traceEvent.setNanoseconds(nanos - startNanos);
+        traceEvent.setNanoseconds(nanos);
         writeEvent(traceEvent);
     }
 
@@ -130,7 +124,7 @@ public final class TracingParseRunnerListener<V>
     {
         final long nanos = System.nanoTime();
         final TraceEvent traceEvent = TraceEvent.failure(event.getContext());
-        traceEvent.setNanoseconds(nanos - startNanos);
+        traceEvent.setNanoseconds(nanos);
         writeEvent(traceEvent);
     }
 
