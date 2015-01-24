@@ -142,13 +142,18 @@ public final class TracingParseRunnerListener<V>
         final URI uri = URI.create("jar:" + zipPath.toUri());
 
         try (
+            final JsonGenerator gen = generator;
+        ) {
+            gen.writeEndArray();
+            traceWriter.flush();
+        } catch (IOException e) {
+            throw new RuntimeException("failed to write event file", e);
+        }
+
+        try (
             final FileSystem zipfs = FileSystems.newFileSystem(uri, ZIPFS_ENV);
         ) {
-            generator.writeEndArray();
-            generator.close();
-            traceWriter.close();
-            Files.copy(traceFile, zipfs.getPath("/trace.json"));
-            Files.delete(traceFile);
+            Files.move(traceFile, zipfs.getPath("/trace.json"));
             copyRunInfo(zipfs, runInfo);
             copyInputText(zipfs);
         } catch (IOException e) {
