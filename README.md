@@ -58,6 +58,15 @@ your parboiled grammars.
 Other features are planned; see [here](https://github.com/fge/grappa/wiki/planned-features).
 (warning: moving target!)
 
+Preliminary versions are published on Maven central if you're interested, however beware that while
+it is still `alpha`, the API may change without notice! Also, the group is not the same:
+
+```groovy
+dependencies {
+    compile(group: "com.github.fge", name: "grappa", version: "2.0.0-alpha.2");
+}
+```
+
 ## Getting help
 
 This project has an IRC channel (`#grappa` on Freenode; server: `irc.freenode.net`) and two
