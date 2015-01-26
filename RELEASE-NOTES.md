@@ -1,11 +1,13 @@
-### 2.0.0-alpha.2 (IN PROGRESS)
+### 2.0.0-alpha.2
 
-* InputBuffer: new method .codePointAt().
+* InputBuffer: new method .codePointAt(); rewrite unicode matchers.
 * InputBuffer: .charAt(), .codePointAt() throw IAE if index is negative.
 * Code pruning: nearly 10k lines of code removed.
 * Add a .getType() method to Matcher with 4 types: TERMINAL, COMPOSITE, ACTION,
   PREDICATE.
 * Change package to com.github.fge.
+* Fix bugs with CharSequenceInputBuffer (backport from 1.0.x).
+* New EndOfInputMatcher, and eof() in BaseParser to match.
 
 ### 2.0.0-alpha.1
 
