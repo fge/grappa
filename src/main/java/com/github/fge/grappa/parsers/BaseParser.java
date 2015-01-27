@@ -599,16 +599,16 @@ public abstract class BaseParser<V>
     public Rule sequence(@Nonnull final Object[] rules)
     {
         Preconditions.checkNotNull(rules, "rules");
-        if (rules.length == 1)
-            return toRule(rules[0]);
 
         final Rule[] subRules = toRules(rules);
-        //noinspection InstanceofInterfaces
+
         // TODO: that sucks but I have no choice
+        //noinspection InstanceofInterfaces
         if (subRules[0] instanceof ActionMatcher)
             throw new InvalidGrammarException("the first rule of a sequence()"
                 + " cannot be an action");
-        return new SequenceMatcher(subRules);
+
+        return rules.length == 1 ? subRules[0] : new SequenceMatcher(subRules);
     }
 
     /**
