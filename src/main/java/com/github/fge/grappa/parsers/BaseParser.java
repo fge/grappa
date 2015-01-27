@@ -59,7 +59,7 @@ import org.parboiled.support.Characters;
 import org.parboiled.support.Chars;
 import org.parboiled.support.Checks;
 
-import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -69,6 +69,7 @@ import java.util.List;
  *
  * @param <V> the type of the parser values
  */
+@ParametersAreNonnullByDefault
 public abstract class BaseParser<V>
     extends BaseActions<V>
 {
@@ -200,7 +201,7 @@ public abstract class BaseParser<V>
      * @see #anyOf(Characters)
      */
     @DontLabel
-    public Rule anyOf(@Nonnull final String characters)
+    public Rule anyOf(final String characters)
     {
         Preconditions.checkNotNull(characters, "characters");
         // TODO: see in this Characters class whether it is possible to wrap
@@ -218,7 +219,7 @@ public abstract class BaseParser<V>
      * @see #anyOf(Characters)
      */
     @DontLabel
-    public Rule anyOf(@Nonnull final char[] characters)
+    public Rule anyOf(final char[] characters)
     {
         Preconditions.checkNotNull(characters, "characters");
         Preconditions.checkArgument(characters.length > 0);
@@ -237,7 +238,7 @@ public abstract class BaseParser<V>
      */
     @Cached
     @DontLabel
-    public Rule anyOf(@Nonnull final Characters characters)
+    public Rule anyOf(final Characters characters)
     {
         Preconditions.checkNotNull(characters, "characters");
         if (!characters.isSubtractive() && characters.getChars().length == 1)
@@ -254,7 +255,7 @@ public abstract class BaseParser<V>
      * @return a rule
      */
     @DontLabel
-    public Rule noneOf(@Nonnull final String characters)
+    public Rule noneOf(final String characters)
     {
         Preconditions.checkNotNull(characters, "characters");
         return noneOf(characters.toCharArray());
@@ -268,7 +269,7 @@ public abstract class BaseParser<V>
      * @return a new rule
      */
     @DontLabel
-    public Rule noneOf(@Nonnull char[] characters)
+    public Rule noneOf(char[] characters)
     {
         Preconditions.checkNotNull(characters, "characters");
         Preconditions.checkArgument(characters.length > 0);
@@ -297,7 +298,7 @@ public abstract class BaseParser<V>
      * @return a rule
      */
     @DontLabel
-    public Rule string(@Nonnull final String string)
+    public Rule string(final String string)
     {
         Preconditions.checkNotNull(string, "string");
         return string(string.toCharArray());
@@ -312,7 +313,7 @@ public abstract class BaseParser<V>
     @Cached
     @SuppressSubnodes
     @DontLabel
-    public Rule string(@Nonnull final char... characters)
+    public Rule string(final char... characters)
     {
         if (characters.length == 1)
             return ch(characters[0]); // optimize one-char strings
@@ -329,7 +330,7 @@ public abstract class BaseParser<V>
      * @return a rule
      */
     @DontLabel
-    public Rule ignoreCase(@Nonnull final String string)
+    public Rule ignoreCase(final String string)
     {
         Preconditions.checkNotNull(string, "string");
         return ignoreCase(string.toCharArray());
@@ -344,7 +345,7 @@ public abstract class BaseParser<V>
     @Cached
     @SuppressSubnodes
     @DontLabel
-    public Rule ignoreCase(@Nonnull final char... characters)
+    public Rule ignoreCase(final char... characters)
     {
         if (characters.length == 1)
             return ignoreCase(characters[0]); // optimize one-char strings
@@ -378,7 +379,7 @@ public abstract class BaseParser<V>
     // TODO: potentially a slew of strings in a trie; so maybe it's not a good
     // idea to cache here
     @Cached
-    public Rule trie(@Nonnull final Collection<String> strings)
+    public Rule trie(final Collection<String> strings)
     {
         final List<String> list = ImmutableList.copyOf(strings);
 
@@ -404,8 +405,8 @@ public abstract class BaseParser<V>
      * @see TrieMatcher
      * @see TrieNode
      */
-    public Rule trie(@Nonnull final String first, @Nonnull final String second,
-        @Nonnull final String... others)
+    public Rule trie(final String first, final String second,
+        final String... others)
     {
         final List<String> words = ImmutableList.<String>builder().add(first)
             .add(second).add(others).build();
@@ -435,8 +436,8 @@ public abstract class BaseParser<V>
      * @return a rule
      */
     @DontLabel
-    public Rule firstOf(@Nonnull final Object rule, @Nonnull final Object rule2,
-        @Nonnull final Object... moreRules)
+    public Rule firstOf(final Object rule, final Object rule2,
+        final Object... moreRules)
     {
         Preconditions.checkNotNull(moreRules, "moreRules");
         final Object[] rules = ImmutableList.builder().add(rule).add(rule2)
@@ -454,7 +455,7 @@ public abstract class BaseParser<V>
      */
     @Cached
     @DontLabel
-    public Rule firstOf(@Nonnull final Object[] rules)
+    public Rule firstOf(final Object[] rules)
     {
         Preconditions.checkNotNull(rules, "rules");
         if (rules.length == 1)
@@ -482,7 +483,7 @@ public abstract class BaseParser<V>
      */
     @Cached
     @DontLabel
-    public Rule oneOrMore(@Nonnull final Object rule)
+    public Rule oneOrMore(final Object rule)
     {
         final Rule subRule = toRule(rule);
         if (subRule.canMatchEmpty())
@@ -500,8 +501,8 @@ public abstract class BaseParser<V>
      * @return a rule
      */
     @DontLabel
-    public Rule oneOrMore(@Nonnull final Object rule,
-        @Nonnull final Object rule2, @Nonnull final Object... moreRules)
+    public Rule oneOrMore(final Object rule, final Object rule2,
+        final Object... moreRules)
     {
         Preconditions.checkNotNull(moreRules, "moreRules");
         return oneOrMore(sequence(rule, rule2, moreRules));
@@ -517,7 +518,7 @@ public abstract class BaseParser<V>
      */
     @Cached
     @DontLabel
-    public Rule optional(@Nonnull final Object rule)
+    public Rule optional(final Object rule)
     {
         Preconditions.checkNotNull(rule);
         return new OptionalMatcher(toRule(rule));
@@ -534,8 +535,8 @@ public abstract class BaseParser<V>
      * @return a rule
      */
     @DontLabel
-    public Rule optional(@Nonnull final Object rule,
-        @Nonnull final Object rule2, @Nonnull final Object... moreRules)
+    public Rule optional(final Object rule, final Object rule2,
+        final Object... moreRules)
     {
         Preconditions.checkNotNull(moreRules, "moreRules");
         return optional(sequence(rule, rule2, moreRules));
@@ -550,8 +551,8 @@ public abstract class BaseParser<V>
      * @return a rule
      */
     @DontLabel
-    public Rule sequence(@Nonnull final Object rule,
-        @Nonnull final Object rule2, @Nonnull final Object... moreRules)
+    public Rule sequence(final Object rule, final Object rule2,
+        final Object... moreRules)
     {
         Preconditions.checkNotNull(moreRules, "moreRules");
         /*
@@ -571,7 +572,7 @@ public abstract class BaseParser<V>
      */
     @Cached
     @DontLabel
-    public Rule sequence(@Nonnull final Object[] rules)
+    public Rule sequence(final Object[] rules)
     {
         Preconditions.checkNotNull(rules, "rules");
 
@@ -598,15 +599,14 @@ public abstract class BaseParser<V>
      *
      * <p>etc. See {@link JoinMatcherBuilder} for more possible constructs.</p>
      *
-     * @param joined the joined rule (must not match an empty sequence!)
+     * @param rule the joined rule (must not match an empty sequence!)
      * @return a {@link JoinMatcherBootstrap}
      *
      * @see JoinMatcherBootstrap#using(Object)
      */
-    public final JoinMatcherBootstrap<V, BaseParser<V>> join(
-        final Object joined)
+    public final JoinMatcherBootstrap<V, BaseParser<V>> join(final Object rule)
     {
-        return new JoinMatcherBootstrap<>(this, joined);
+        return new JoinMatcherBootstrap<>(this, rule);
     }
 
     /*
@@ -631,7 +631,7 @@ public abstract class BaseParser<V>
     @Cached
     @SuppressNode
     @DontLabel
-    public Rule test(@Nonnull final Object rule)
+    public Rule test(final Object rule)
     {
         final Rule subMatcher = toRule(rule);
         return new TestMatcher(subMatcher);
@@ -648,8 +648,8 @@ public abstract class BaseParser<V>
      * @see #test(Object)
      */
     @DontLabel
-    public Rule test(@Nonnull final Object rule, @Nonnull final Object rule2,
-        @Nonnull final Object... moreRules)
+    public Rule test(final Object rule, final Object rule2,
+        final Object... moreRules)
     {
         Preconditions.checkNotNull(moreRules, "moreRules");
         return test(sequence(rule, rule2, moreRules));
@@ -667,7 +667,7 @@ public abstract class BaseParser<V>
     @Cached
     @SuppressNode
     @DontLabel
-    public Rule testNot(@Nonnull final Object rule)
+    public Rule testNot(final Object rule)
     {
         return new TestNotMatcher(toRule(rule));
     }
@@ -684,8 +684,8 @@ public abstract class BaseParser<V>
      * @see #testNot(Object)
      */
     @DontLabel
-    public Rule testNot(@Nonnull final Object rule, @Nonnull final Object rule2,
-        @Nonnull final Object... moreRules)
+    public Rule testNot(final Object rule, final Object rule2,
+        final Object... moreRules)
     {
         Preconditions.checkNotNull(moreRules, "moreRules");
         return testNot(sequence(rule, rule2, moreRules));
@@ -701,7 +701,7 @@ public abstract class BaseParser<V>
      */
     @Cached
     @DontLabel
-    public Rule zeroOrMore(@Nonnull final Object rule)
+    public Rule zeroOrMore(final Object rule)
     {
         final Rule subRule = toRule(rule);
         if (subRule.canMatchEmpty())
@@ -719,8 +719,8 @@ public abstract class BaseParser<V>
      * @return a rule
      */
     @DontLabel
-    public Rule zeroOrMore(@Nonnull final Object rule,
-        @Nonnull final Object rule2, @Nonnull final Object... moreRules)
+    public Rule zeroOrMore(final Object rule, final Object rule2,
+        final Object... moreRules)
     {
         Preconditions.checkNotNull(moreRules, "moreRules");
         return zeroOrMore(sequence(rule, rule2, moreRules));
@@ -735,7 +735,7 @@ public abstract class BaseParser<V>
      */
     @Cached
     @DontLabel
-    public Rule nTimes(final int repetitions, @Nonnull final Object rule)
+    public Rule nTimes(final int repetitions, final Object rule)
     {
         Preconditions.checkNotNull(rule, "rule");
         Preconditions.checkArgument(repetitions >= 0,
@@ -984,7 +984,7 @@ public abstract class BaseParser<V>
      * @return the rule
      */
     @DontExtend
-    protected Rule fromStringLiteral(@Nonnull final String string)
+    protected Rule fromStringLiteral(final String string)
     {
         Preconditions.checkNotNull(string, "string");
         return fromCharArray(string.toCharArray());
@@ -999,7 +999,7 @@ public abstract class BaseParser<V>
      * @return the rule
      */
     @DontExtend
-    protected Rule fromCharArray(@Nonnull final char[] array)
+    protected Rule fromCharArray(final char[] array)
     {
         Preconditions.checkNotNull(array, "array");
         return string(array);
@@ -1012,7 +1012,7 @@ public abstract class BaseParser<V>
      * @return the rules corresponding to the given objects
      */
     @DontExtend
-    public Rule[] toRules(@Nonnull final Object... objects)
+    public Rule[] toRules(final Object... objects)
     {
         Preconditions.checkNotNull(objects, "objects");
         final Rule[] rules = new Rule[objects.length];
@@ -1030,7 +1030,7 @@ public abstract class BaseParser<V>
      * @return the rule corresponding to the given object
      */
     @DontExtend
-    public Rule toRule(@Nonnull final Object obj)
+    public Rule toRule(final Object obj)
     {
         if (obj instanceof Rule)
             return (Rule) obj;
