@@ -18,10 +18,8 @@ package org.parboiled;
 
 import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.matchers.ActionMatcher;
+import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.Matcher;
-import com.github.fge.grappa.matchers.delegate.SequenceMatcher;
-import com.github.fge.grappa.matchers.predicates.TestMatcher;
-import com.github.fge.grappa.matchers.predicates.TestNotMatcher;
 import com.github.fge.grappa.matchers.wrap.ProxyMatcher;
 import com.github.fge.grappa.stack.ValueStack;
 import com.google.common.base.Preconditions;
@@ -32,7 +30,6 @@ import org.parboiled.errors.GrammarException;
 import org.parboiled.errors.ParseError;
 import org.parboiled.errors.ParserRuntimeException;
 import org.parboiled.support.CharsEscaper;
-import org.parboiled.support.Checks;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.MatcherPath;
 import org.parboiled.support.MatcherPosition;
@@ -46,8 +43,6 @@ import java.util.Deque;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import static com.github.fge.grappa.matchers.MatcherUtils.unwrap;
 
 /**
  * <p>The Context implementation orchestrating most of the matching process.</p>
@@ -100,7 +95,6 @@ public final class DefaultMatcherContext<V>
     // TODO! Replace!
     private List<Node<V>> subNodes = Lists.newArrayList();
     private MatcherPath path;
-    private int intTag;
     private boolean hasError;
     private boolean nodeSuppressed;
 
@@ -249,16 +243,12 @@ public final class DefaultMatcherContext<V>
     @Override
     public boolean inPredicate()
     {
-        if (matcher instanceof TestMatcher)
+        //noinspection SimplifiableIfStatement
+        if (matcher.getType() == MatcherType.PREDICATE)
             return true;
 
-        if (matcher instanceof TestNotMatcher)
-            return true;
+        return parent != null && parent.inPredicate();
 
-        if (parent == null)
-            return false;
-
-        return parent.inPredicate();
     }
 
     @Override
@@ -276,7 +266,6 @@ public final class DefaultMatcherContext<V>
     @Override
     public String getMatch()
     {
-        checkActionContext();
         final DefaultMatcherContext<V> prevContext = subContext;
         if (!hasError)
             return inputBuffer.extract(prevContext.startIndex,
@@ -291,7 +280,6 @@ public final class DefaultMatcherContext<V>
     @Override
     public char getFirstMatchChar()
     {
-        checkActionContext();
         final int index = subContext.startIndex;
         if (subContext.currentIndex > index)
             return inputBuffer.charAt(index);
@@ -304,21 +292,18 @@ public final class DefaultMatcherContext<V>
     @Override
     public int getMatchStartIndex()
     {
-        checkActionContext();
         return subContext.startIndex;
     }
 
     @Override
     public int getMatchEndIndex()
     {
-        checkActionContext();
         return subContext.currentIndex;
     }
 
     @Override
     public int getMatchLength()
     {
-        checkActionContext();
         return subContext.currentIndex - subContext.startIndex;
     }
 
@@ -331,23 +316,7 @@ public final class DefaultMatcherContext<V>
     @Override
     public IndexRange getMatchRange()
     {
-        checkActionContext();
         return new IndexRange(subContext.startIndex, subContext.currentIndex);
-    }
-
-    // TODO: pain point!
-    private void checkActionContext()
-    {
-        // make sure all the constraints are met
-        // TODO: why is intTag required to be > 0 at all?
-        final boolean condition = unwrap(matcher) instanceof SequenceMatcher
-            && intTag > 0
-            && subContext.matcher instanceof ActionMatcher;
-        Checks.ensure(condition,
-            "Illegal call to getMatch(), getMatchStartIndex()," +
-            " getMatchEndIndex() or getMatchRange(), only valid in Sequence" +
-            " rule actions that are not in first position"
-        );
     }
 
     @Override
@@ -390,12 +359,6 @@ public final class DefaultMatcherContext<V>
     public Node<V> getNode()
     {
         return node;
-    }
-
-    @Override
-    public void setIntTag(final int intTag)
-    {
-        this.intTag = intTag;
     }
 
     @Override

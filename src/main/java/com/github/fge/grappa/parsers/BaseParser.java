@@ -603,6 +603,8 @@ public abstract class BaseParser<V>
             return toRule(rules[0]);
 
         final Rule[] subRules = toRules(rules);
+        //noinspection InstanceofInterfaces
+        // TODO: that sucks but I have no choice
         if (subRules[0] instanceof ActionMatcher)
             throw new InvalidGrammarException("the first rule of a sequence()"
                 + " cannot be an action");

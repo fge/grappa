@@ -20,10 +20,9 @@ import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.CustomDefaultLabelMatcher;
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.rules.Rule;
+import com.github.fge.grappa.stack.ValueStack;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
-
-import java.util.List;
 
 /**
  * A {@link Matcher} that executes all of its submatchers in sequence and only succeeds if all submatchers succeed.
@@ -53,25 +52,15 @@ public class SequenceMatcher
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
-        final Object valueStackSnapshot = context.getValueStack()
-            .takeSnapshot();
+        final ValueStack<V> stack = context.getValueStack();
+        final Object snapshot = stack.takeSnapshot();
 
-        final List<Matcher> children = getChildren();
-        final int size = children.size();
-        for (int i = 0; i < size; i++) {
-            final Matcher matcher = children.get(i);
+        for (final Matcher matcher: getChildren()) {
+            if (matcher.getSubContext(context).runMatcher())
+                continue;
 
-            // remember the current index in the context, so we can access it
-            // for building the current follower set
-            // TODO: removing this makes a parse run fail!
-            context.setIntTag(i);
-
-            if (!matcher.getSubContext(context).runMatcher()) {
-                // rule failed, so invalidate all stack actions the rule might
-                // have done
-                context.getValueStack().restoreSnapshot(valueStackSnapshot);
-                return false;
-            }
+            stack.restoreSnapshot(snapshot);
+            return false;
         }
         context.createNode();
         return true;
