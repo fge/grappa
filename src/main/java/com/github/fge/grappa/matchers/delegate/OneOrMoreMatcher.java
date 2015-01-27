@@ -22,7 +22,6 @@ import com.github.fge.grappa.matchers.base.Matcher;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
-import org.parboiled.errors.GrammarException;
 
 /**
  * A {@link Matcher} that repeatedly tries its submatcher against the input.
@@ -48,23 +47,11 @@ public final class OneOrMoreMatcher
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
-        final boolean matched = subMatcher.getSubContext(context).runMatcher();
-        if (!matched)
+        if (!subMatcher.getSubContext(context).runMatcher())
             return false;
 
-        // collect all further matches as well
-        // TODO: "optimize" first cyle away; also relevant for ZeroOrMoreMatcher
-        int beforeMatch = context.getCurrentIndex();
-        int afterMatch;
-        while (subMatcher.getSubContext(context).runMatcher()) {
-            afterMatch = context.getCurrentIndex();
-            if (afterMatch != beforeMatch) {
-                beforeMatch = afterMatch;
-                continue;
-            }
-            throw new GrammarException("The inner rule of OneOrMore rule"
-                + " '%s' must not allow empty matches", context.getPath());
-        }
+        while (subMatcher.getSubContext(context).runMatcher())
+            ; // Nothing
 
         context.createNode();
         return true;
