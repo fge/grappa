@@ -20,12 +20,12 @@ import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.matchers.delegate.FirstOfMatcher;
 import com.github.fge.grappa.rules.Rule;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.errors.GrammarException;
 
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -60,7 +60,7 @@ public final class FirstOfStringsMatcher
 
     public FirstOfStringsMatcher(final Rule[] subRules, final char[][] strings)
     {
-        super(Preconditions.checkNotNull(subRules, "subRules"));
+        super(Objects.requireNonNull(subRules, "subRules"));
         verify(strings);
         root = createRecord(0, strings);
     }

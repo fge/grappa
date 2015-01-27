@@ -18,12 +18,12 @@ package org.parboiled;
 
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.run.ParseRunner;
-import com.google.common.base.Preconditions;
 import org.parboiled.errors.GrammarException;
 import org.parboiled.transform.ParserTransformer;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.Constructor;
+import java.util.Objects;
 
 /**
  * Main class providing the high-level entry point into the parboiled library.
@@ -60,7 +60,7 @@ public final class Parboiled
     public static <P extends BaseParser<V>, V> P createParser(
         @Nonnull final Class<P> parserClass, final Object... constructorArgs)
     {
-        Preconditions.checkNotNull(parserClass, "parserClass");
+        Objects.requireNonNull(parserClass, "parserClass");
         try {
             final Class<?> extendedClass
                 = ParserTransformer.transformParser(parserClass);

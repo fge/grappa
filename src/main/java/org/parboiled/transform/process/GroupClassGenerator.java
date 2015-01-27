@@ -17,7 +17,6 @@
 package org.parboiled.transform.process;
 
 import com.github.fge.grappa.transform.CodeBlock;
-import com.google.common.base.Preconditions;
 import me.qmx.jitescript.util.CodegenUtils;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
@@ -38,6 +37,7 @@ import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 
 import static org.objectweb.asm.Opcodes.ACC_FINAL;
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
@@ -64,8 +64,8 @@ public abstract class GroupClassGenerator
     public final void process(@Nonnull final ParserClassNode classNode,
         @Nonnull final RuleMethod method)
     {
-        this.classNode = Preconditions.checkNotNull(classNode, "classNode");
-        this.method = Preconditions.checkNotNull(method, "method");
+        this.classNode = Objects.requireNonNull(classNode, "classNode");
+        this.method = Objects.requireNonNull(method, "method");
 
         for (final InstructionGroup group: method.getGroups())
             if (appliesTo(group.getRoot()))

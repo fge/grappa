@@ -25,6 +25,7 @@ import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 
 import static org.objectweb.asm.Opcodes.ARETURN;
 import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
@@ -40,8 +41,8 @@ public final class SuperCallRewriter
     public boolean appliesTo(@Nonnull final ParserClassNode classNode,
         @Nonnull final RuleMethod method)
     {
-        Preconditions.checkNotNull(classNode, "classNode");
-        Preconditions.checkNotNull(method, "method");
+        Objects.requireNonNull(classNode, "classNode");
+        Objects.requireNonNull(method, "method");
         return method.containsPotentialSuperCalls();
     }
 
@@ -50,8 +51,8 @@ public final class SuperCallRewriter
         @Nonnull final RuleMethod method)
         throws Exception
     {
-        Preconditions.checkNotNull(classNode, "classNode");
-        Preconditions.checkNotNull(method, "method");
+        Objects.requireNonNull(classNode, "classNode");
+        Objects.requireNonNull(method, "method");
         final InsnList instructions = method.instructions;
         AbstractInsnNode insn = instructions.getFirst();
         while (insn.getOpcode() != ARETURN) {

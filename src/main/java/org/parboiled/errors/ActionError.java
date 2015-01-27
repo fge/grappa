@@ -17,8 +17,9 @@
 package org.parboiled.errors;
 
 import com.github.fge.grappa.buffers.InputBuffer;
-import com.google.common.base.Preconditions;
 import org.parboiled.support.MatcherPath;
+
+import java.util.Objects;
 
 /**
  * A {@link ParseError} wrapping an ActionException.
@@ -34,10 +35,10 @@ public final class ActionError
         final String errorMessage, final MatcherPath errorPath,
         final ActionException actionException)
     {
-        super(Preconditions.checkNotNull(inputBuffer), errorIndex,
+        super(Objects.requireNonNull(inputBuffer), errorIndex,
             errorMessage);
-        this.errorPath = Preconditions.checkNotNull(errorPath);
-        this.actionException = Preconditions.checkNotNull(actionException);
+        this.errorPath = Objects.requireNonNull(errorPath);
+        this.actionException = Objects.requireNonNull(actionException);
     }
 
     /**

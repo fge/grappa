@@ -19,10 +19,10 @@ package com.github.fge.grappa.matchers.wrap;
 import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.rules.Rule;
-import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A {@link Matcher} that delegates all {@link Rule} and {@link Matcher} interface methods to another {@link Matcher}.
@@ -276,7 +276,7 @@ public final class ProxyMatcher
      */
     public void arm(final Matcher target)
     {
-        this.target = Preconditions.checkNotNull(target, "target");
+        this.target = Objects.requireNonNull(target, "target");
     }
 
     /**

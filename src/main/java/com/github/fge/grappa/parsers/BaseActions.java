@@ -18,7 +18,6 @@ package com.github.fge.grappa.parsers;
 
 import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.stack.ValueStack;
-import com.google.common.base.Preconditions;
 import org.parboiled.Context;
 import org.parboiled.ContextAware;
 import org.parboiled.annotations.SuppressNode;
@@ -26,6 +25,8 @@ import org.parboiled.annotations.SuppressSubnodes;
 import org.parboiled.errors.GrammarException;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.Position;
+
+import java.util.Objects;
 
 /**
  * Convenience context aware base class defining a number of useful helper methods.
@@ -56,7 +57,7 @@ public abstract class BaseActions<V>
     @Override
     public final void setContext(final Context<V> context)
     {
-        this.context = Preconditions.checkNotNull(context, "context");
+        this.context = Objects.requireNonNull(context, "context");
     }
 
     /**

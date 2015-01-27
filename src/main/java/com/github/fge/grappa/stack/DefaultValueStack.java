@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 @ParametersAreNonnullByDefault
 public final class DefaultValueStack<V>
@@ -61,7 +62,7 @@ public final class DefaultValueStack<V>
     @SuppressWarnings("unchecked")
     public void restoreSnapshot(final Object snapshot)
     {
-        Preconditions.checkNotNull(snapshot);
+        Objects.requireNonNull(snapshot);
         Preconditions.checkState(snapshot.getClass() == ArrayList.class);
         stack = (List<V>) snapshot;
     }

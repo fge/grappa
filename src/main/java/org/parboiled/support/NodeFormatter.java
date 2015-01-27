@@ -17,12 +17,12 @@
 package org.parboiled.support;
 
 import com.github.fge.grappa.buffers.InputBuffer;
-import com.google.common.base.Preconditions;
 import org.parboiled.Node;
 import org.parboiled.common.Formatter;
 import org.parboiled.trees.ParseTreeUtils;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 
 /**
  * A simple Formatter&lt;Node&gt; that provides String representation for parse
@@ -43,7 +43,7 @@ public final class NodeFormatter<V>
      */
     public NodeFormatter(@Nonnull final InputBuffer inputBuffer)
     {
-        this.inputBuffer = Preconditions.checkNotNull(inputBuffer);
+        this.inputBuffer = Objects.requireNonNull(inputBuffer);
     }
 
     @Override

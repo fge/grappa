@@ -16,7 +16,6 @@
 
 package org.parboiled.transform.process;
 
-import com.google.common.base.Preconditions;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.LabelNode;
@@ -24,6 +23,7 @@ import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 
 import static org.objectweb.asm.Opcodes.ARETURN;
 import static org.objectweb.asm.Opcodes.GOTO;
@@ -48,8 +48,8 @@ public final class ReturnInstructionUnifier
         @Nonnull final RuleMethod method)
         throws Exception
     {
-        Preconditions.checkNotNull(classNode, "classNode");
-        Preconditions.checkNotNull(method, "method");
+        Objects.requireNonNull(classNode, "classNode");
+        Objects.requireNonNull(method, "method");
 
         AbstractInsnNode current = method.instructions.getLast();
 

@@ -18,11 +18,11 @@ package com.github.fge.grappa.matchers.base;
 
 import com.github.fge.grappa.matchers.wrap.MemoMismatchesMatcher;
 import com.github.fge.grappa.rules.Rule;
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import org.parboiled.MatcherContext;
 import org.parboiled.trees.ImmutableGraphNode;
+
+import java.util.Objects;
 
 /**
  * Abstract base class of most regular {@link Matcher}s.
@@ -43,14 +43,14 @@ public abstract class AbstractMatcher
 
     protected AbstractMatcher(final Rule subRule, final String label)
     {
-        this(new Rule[]{ Preconditions.checkNotNull(subRule, "subRule") },
+        this(new Rule[]{ Objects.requireNonNull(subRule, "subRule") },
             label);
     }
 
     protected AbstractMatcher(final Rule[] subRules, final String label)
     {
         super(ImmutableList.copyOf(
-                toMatchers(Preconditions.checkNotNull(subRules))
+                toMatchers(Objects.requireNonNull(subRules))
             )
         );
         this.label = label;
@@ -111,7 +111,7 @@ public abstract class AbstractMatcher
     @Override
     public final AbstractMatcher label(final String label)
     {
-        if (Objects.equal(label, this.label))
+        if (Objects.equals(label, this.label))
             return this;
         final AbstractMatcher clone = createClone();
         clone.label = label;

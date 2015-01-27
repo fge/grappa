@@ -21,6 +21,7 @@ import com.google.common.base.Preconditions;
 import org.parboiled.Context;
 
 import javax.annotation.Nullable;
+import java.util.Objects;
 
 /**
  * Holds a snapshot of the current {@link Matcher} stack at a certain point
@@ -75,7 +76,7 @@ public final class MatcherPath
     public MatcherPath(final Element element,
         @Nullable final MatcherPath parent)
     {
-        this.element = Preconditions.checkNotNull(element, "element");
+        this.element = Objects.requireNonNull(element, "element");
         this.parent = parent;
     }
 
@@ -95,7 +96,7 @@ public final class MatcherPath
      */
     public boolean isPrefixOf(final MatcherPath that)
     {
-        Preconditions.checkNotNull(that, "that");
+        Objects.requireNonNull(that, "that");
         if (element.getLevel() <= that.element.getLevel() && this == that)
             return true;
         if (!that.hasParent())
@@ -144,7 +145,7 @@ public final class MatcherPath
     @Nullable // TODO! Remove that null!
     public MatcherPath commonPrefix(final MatcherPath that)
     {
-        Preconditions.checkNotNull(that, "that");
+        Objects.requireNonNull(that, "that");
         if (element.getLevel() > that.element.getLevel())
             return parent.commonPrefix(that);
         if (element.getLevel() < that.element.getLevel())

@@ -18,12 +18,12 @@ package org.parboiled;
 
 import com.github.fge.grappa.annotations.VisibleForDocumentation;
 import com.github.fge.grappa.matchers.base.Matcher;
-import com.google.common.base.Preconditions;
 import org.parboiled.support.CharsEscaper;
 import org.parboiled.trees.ImmutableTreeNode;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * An immutable implementation of the Node interface.
@@ -44,7 +44,7 @@ public final class DefaultParsingNode<V>
         final int endIndex, @Nullable final V value, final boolean hasError)
     {
         super(children);
-        this.matcher = Preconditions.checkNotNull(matcher, "matcher");
+        this.matcher = Objects.requireNonNull(matcher, "matcher");
         this.startIndex = startIndex;
         this.endIndex = endIndex;
         this.value = value;

@@ -17,13 +17,13 @@
 package com.github.fge.grappa.transform;
 
 import com.google.common.base.Optional;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
+import java.util.Objects;
 
 public final class LoadingOpcode
 {
@@ -53,7 +53,7 @@ public final class LoadingOpcode
 
     public static int forType(@Nonnull final Type type)
     {
-        Preconditions.checkNotNull(type);
+        Objects.requireNonNull(type);
         // Will throw IllegalStateException if optional .isAbsent()
         return Optional.fromNullable(LOADING_OPCODES.get(type.getSort())).get();
     }

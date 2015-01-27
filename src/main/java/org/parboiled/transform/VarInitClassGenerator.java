@@ -16,7 +16,6 @@
 
 package org.parboiled.transform;
 
-import com.google.common.base.Preconditions;
 import me.qmx.jitescript.util.CodegenUtils;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
@@ -24,6 +23,7 @@ import org.objectweb.asm.Type;
 import org.parboiled.transform.process.GroupClassGenerator;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.ARETURN;
@@ -41,7 +41,7 @@ public final class VarInitClassGenerator
     public boolean appliesTo(@Nonnull final ParserClassNode classNode,
         @Nonnull final RuleMethod method)
     {
-        Preconditions.checkNotNull(method, "method");
+        Objects.requireNonNull(method, "method");
         return method.containsVars();
     }
 

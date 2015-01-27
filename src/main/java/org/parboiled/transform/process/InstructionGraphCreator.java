@@ -22,7 +22,6 @@
 
 package org.parboiled.transform.process;
 
-import com.google.common.base.Preconditions;
 import org.objectweb.asm.tree.analysis.Analyzer;
 import org.objectweb.asm.tree.analysis.BasicValue;
 import org.parboiled.transform.ParserClassNode;
@@ -30,6 +29,7 @@ import org.parboiled.transform.RuleMethod;
 import org.parboiled.transform.RuleMethodInterpreter;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 
 /**
  * Performs data/control flow analysis and constructs the instructions graph.
@@ -41,8 +41,8 @@ public final class InstructionGraphCreator
     public boolean appliesTo(@Nonnull final ParserClassNode classNode,
         @Nonnull final RuleMethod method)
     {
-        Preconditions.checkNotNull(classNode, "classNode");
-        Preconditions.checkNotNull(method, "method");
+        Objects.requireNonNull(classNode, "classNode");
+        Objects.requireNonNull(method, "method");
         return method.containsImplicitActions()
             || method.containsExplicitActions()
             || method.containsVars();
@@ -53,7 +53,7 @@ public final class InstructionGraphCreator
         @Nonnull final RuleMethod method)
         throws Exception
     {
-        Preconditions.checkNotNull(method, "method");
+        Objects.requireNonNull(method, "method");
 
         final RuleMethodInterpreter interpreter
             = new RuleMethodInterpreter(method);
@@ -72,7 +72,7 @@ public final class InstructionGraphCreator
 
         private RuleMethodAnalyzer(final RuleMethodInterpreter interpreter)
         {
-            super(Preconditions.checkNotNull(interpreter));
+            super(Objects.requireNonNull(interpreter));
             this.interpreter = interpreter;
         }
 

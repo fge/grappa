@@ -22,7 +22,6 @@
 
 package org.parboiled.transform;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.analysis.BasicValue;
@@ -33,6 +32,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 import static org.objectweb.asm.Opcodes.IALOAD;
 import static org.objectweb.asm.Opcodes.IASTORE;
@@ -142,7 +142,7 @@ public final class InstructionGraphNode
 
     public void addPredecessors(@Nonnull final Collection<BasicValue> preds)
     {
-        Preconditions.checkNotNull(preds, "preds");
+        Objects.requireNonNull(preds, "preds");
         for (final BasicValue pred: preds)
             if (pred instanceof InstructionGraphNode)
                 addPredecessor((InstructionGraphNode) pred);

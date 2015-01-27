@@ -21,7 +21,6 @@ import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.rules.Action;
 import com.github.fge.grappa.rules.Rule;
 import com.github.fge.grappa.rules.SkippableAction;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import org.parboiled.ContextAware;
 import org.parboiled.MatcherContext;
@@ -30,6 +29,7 @@ import org.parboiled.errors.ActionException;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A {@link Matcher} that not actually matches input but runs a given parser {@link Action}.
@@ -43,7 +43,7 @@ public final class ActionMatcher
 
     public ActionMatcher(final Action<?> action)
     {
-        super(Preconditions.checkNotNull(action).toString());
+        super(Objects.requireNonNull(action).toString());
         this.action = action;
 
         skipInPredicates = action instanceof SkippableAction

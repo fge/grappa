@@ -21,9 +21,9 @@ import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.rules.Rule;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Preconditions;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 
 /**
  * Bootstrapping a {@link JoinMatcher}
@@ -62,7 +62,7 @@ public final class JoinMatcherBootstrap<V, P extends BaseParser<V>>
     public JoinMatcherBootstrap(@Nonnull final P parser,
         @Nonnull final Object joined)
     {
-        this.parser = Preconditions.checkNotNull(parser);
+        this.parser = Objects.requireNonNull(parser);
         this.joined = parser.toRule(joined);
     }
 

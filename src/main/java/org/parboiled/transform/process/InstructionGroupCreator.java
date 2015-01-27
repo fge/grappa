@@ -40,6 +40,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static org.objectweb.asm.Opcodes.GETFIELD;
 import static org.objectweb.asm.Opcodes.GETSTATIC;
@@ -62,8 +63,8 @@ public final class InstructionGroupCreator
     public boolean appliesTo(@Nonnull final ParserClassNode classNode,
         @Nonnull final RuleMethod method)
     {
-        Preconditions.checkNotNull(classNode, "classNode");
-        Preconditions.checkNotNull(method, "method");
+        Objects.requireNonNull(classNode, "classNode");
+        Objects.requireNonNull(method, "method");
         return method.containsExplicitActions() || method.containsVars();
     }
 
@@ -71,7 +72,7 @@ public final class InstructionGroupCreator
     public void process(@Nonnull final ParserClassNode classNode,
         @Nonnull final RuleMethod method)
     {
-        this.method = Preconditions.checkNotNull(method, "method");
+        this.method = Objects.requireNonNull(method, "method");
 
         // create groups
         createGroups();
@@ -292,7 +293,7 @@ public final class InstructionGroupCreator
 
         private MethodIndexComparator(@Nonnull final InsnList instructions)
         {
-            this.instructions = Preconditions.checkNotNull(instructions);
+            this.instructions = Objects.requireNonNull(instructions);
         }
 
         @Override

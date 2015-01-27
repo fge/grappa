@@ -33,6 +33,7 @@ import org.parboiled.transform.RuleMethod;
 import javax.annotation.Nonnull;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import static org.objectweb.asm.Opcodes.AASTORE;
@@ -54,8 +55,8 @@ public final class ImplicitActionsConverter
     public boolean appliesTo(@Nonnull final ParserClassNode classNode,
         @Nonnull final RuleMethod method)
     {
-        Preconditions.checkNotNull(classNode, "classNode");
-        Preconditions.checkNotNull(method, "method");
+        Objects.requireNonNull(classNode, "classNode");
+        Objects.requireNonNull(method, "method");
         return method.containsImplicitActions();
     }
 
@@ -64,7 +65,7 @@ public final class ImplicitActionsConverter
         @Nonnull final RuleMethod method)
         throws Exception
     {
-        this.method = Preconditions.checkNotNull(method, "method");
+        this.method = Objects.requireNonNull(method, "method");
         // TODO: why? Tests pass if I comment the line below; something missing?
         covered.clear();
         walkNode(method.getReturnInstructionNode());

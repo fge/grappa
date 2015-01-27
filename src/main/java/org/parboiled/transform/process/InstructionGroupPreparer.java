@@ -17,7 +17,6 @@
 package org.parboiled.transform.process;
 
 import com.github.fge.grappa.transform.hash.InstructionGroupHasher;
-import com.google.common.base.Preconditions;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.FieldNode;
@@ -29,6 +28,7 @@ import org.parboiled.transform.RuleMethod;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.Objects;
 
 public final class InstructionGroupPreparer
     implements RuleMethodProcessor
@@ -39,8 +39,8 @@ public final class InstructionGroupPreparer
     public boolean appliesTo(@Nonnull final ParserClassNode classNode,
         @Nonnull final RuleMethod method)
     {
-        Preconditions.checkNotNull(classNode, "classNode");
-        Preconditions.checkNotNull(method, "method");
+        Objects.requireNonNull(classNode, "classNode");
+        Objects.requireNonNull(method, "method");
         return method.containsExplicitActions() || method.containsVars();
     }
 
@@ -48,7 +48,7 @@ public final class InstructionGroupPreparer
     public void process(@Nonnull final ParserClassNode classNode,
         @Nonnull final RuleMethod method)
     {
-        this.method = Preconditions.checkNotNull(method, "method");
+        this.method = Objects.requireNonNull(method, "method");
 
         // prepare groups for later stages
         for (final InstructionGroup group: method.getGroups()) {

@@ -20,8 +20,9 @@ import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.CustomDefaultLabelMatcher;
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.rules.Rule;
-import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
+
+import java.util.Objects;
 
 /**
  * A {@link Matcher} that repeatedly tries its submatcher against the input.
@@ -34,7 +35,7 @@ public final class OneOrMoreMatcher
 
     public OneOrMoreMatcher(final Rule subRule)
     {
-        super(Preconditions.checkNotNull(subRule, "subRule"), "oneOrMore");
+        super(Objects.requireNonNull(subRule, "subRule"), "oneOrMore");
         subMatcher = getChildren().get(0);
     }
 

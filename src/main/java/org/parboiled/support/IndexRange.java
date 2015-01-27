@@ -21,6 +21,7 @@ import com.google.common.base.Preconditions;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Objects;
 
 /**
  * A simple immutable container for a range of indices into an underlying
@@ -74,7 +75,7 @@ public final class IndexRange
      */
     public boolean overlapsWith(final IndexRange other)
     {
-        Preconditions.checkNotNull(other, "other");
+        Objects.requireNonNull(other, "other");
         return end > other.start && other.end > start;
     }
 
@@ -86,7 +87,7 @@ public final class IndexRange
      */
     public boolean isPrecededBy(final IndexRange other)
     {
-        Preconditions.checkNotNull(other, "other");
+        Objects.requireNonNull(other, "other");
         return other.end == start;
     }
 
@@ -98,7 +99,7 @@ public final class IndexRange
      */
     public boolean isFollowedBy(final IndexRange other)
     {
-        Preconditions.checkNotNull(other, "other");
+        Objects.requireNonNull(other, "other");
         return end == other.start;
     }
 
@@ -110,7 +111,7 @@ public final class IndexRange
      */
     public boolean touches(final IndexRange other)
     {
-        Preconditions.checkNotNull(other, "other");
+        Objects.requireNonNull(other, "other");
         return other.end == start || end == other.start;
     }
 
@@ -122,7 +123,7 @@ public final class IndexRange
      */
     public IndexRange mergedWith(final IndexRange other)
     {
-        Preconditions.checkNotNull(other, "other");
+        Objects.requireNonNull(other, "other");
         return new IndexRange(Math.min(start, other.start),
             Math.max(end, other.end));
     }

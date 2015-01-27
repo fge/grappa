@@ -17,9 +17,9 @@
 package org.parboiled.errors;
 
 import com.github.fge.grappa.buffers.InputBuffer;
-import com.google.common.base.Preconditions;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 
 /**
  * A basic {@link ParseError} implementation for a one-char parse error with an optional error message.
@@ -35,7 +35,7 @@ public class BasicParseError
     public BasicParseError(final InputBuffer inputBuffer, final int errorIndex,
         final String errorMessage)
     {
-        this.inputBuffer = Preconditions.checkNotNull(inputBuffer);
+        this.inputBuffer = Objects.requireNonNull(inputBuffer);
         startIndex = errorIndex;
         endIndex = errorIndex + 1;
         this.errorMessage = errorMessage;

@@ -20,8 +20,9 @@ import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.CustomDefaultLabelMatcher;
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.rules.Rule;
-import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
+
+import java.util.Objects;
 
 /**
  * A {@link Matcher} that repeatedly tries its submatcher against the input. Always succeeds.
@@ -33,7 +34,7 @@ public final class ZeroOrMoreMatcher
 
     public ZeroOrMoreMatcher(final Rule subRule)
     {
-        super(Preconditions.checkNotNull(subRule, "subRule"), "zeroOrMore");
+        super(Objects.requireNonNull(subRule, "subRule"), "zeroOrMore");
         subMatcher = getChildren().get(0);
     }
 
@@ -46,7 +47,7 @@ public final class ZeroOrMoreMatcher
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
-        Preconditions.checkNotNull(context, "context");
+        Objects.requireNonNull(context, "context");
         //noinspection StatementWithEmptyBody
         while (subMatcher.getSubContext(context).runMatcher())
             ; // Nothing

@@ -17,9 +17,9 @@
 package org.parboiled.transform;
 
 import com.github.fge.grappa.annotations.VisibleForDocumentation;
-import com.google.common.base.Preconditions;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 
 @VisibleForDocumentation
 public abstract class BaseGroupClass
@@ -28,7 +28,7 @@ public abstract class BaseGroupClass
 
     protected BaseGroupClass(final String name)
     {
-        this.name = Preconditions.checkNotNull(name, "name");
+        this.name = Objects.requireNonNull(name, "name");
     }
 
     @Override

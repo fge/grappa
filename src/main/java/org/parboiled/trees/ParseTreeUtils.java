@@ -17,7 +17,6 @@
 package org.parboiled.trees;
 
 import com.github.fge.grappa.buffers.InputBuffer;
-import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.base.Strings;
@@ -31,6 +30,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 import static org.parboiled.trees.GraphUtils.printTree;
 
@@ -65,7 +65,7 @@ public final class ParseTreeUtils
     public static <V> Node<V> findNodeByPath(final Node<V> parent,
         final String path)
     {
-        Preconditions.checkNotNull(path, "path");
+        Objects.requireNonNull(path, "path");
         return parent != null && hasChildren(parent)
             ? findNodeByPath(parent.getChildren(), path)
             : null;
@@ -83,7 +83,7 @@ public final class ParseTreeUtils
     @Nullable
     public static <V> Node<V> findNodeByPath(
         final List<Node<V>> parents, final String path) {
-        Preconditions.checkNotNull(path, "path");
+        Objects.requireNonNull(path, "path");
         if (parents == null)
             return null;
         if (parents.isEmpty())
@@ -122,8 +122,8 @@ public final class ParseTreeUtils
      */
     public static <V, C extends Collection<Node<V>>> C collectNodesByPath(
         final Node<V> parent, final String path, final C collection) {
-        Preconditions.checkNotNull(path, "path");
-        Preconditions.checkNotNull(collection, "collection");
+        Objects.requireNonNull(path, "path");
+        Objects.requireNonNull(collection, "collection");
         return parent != null && hasChildren(parent)
             ? collectNodesByPath(parent.getChildren(), path, collection)
             : collection;
@@ -146,8 +146,8 @@ public final class ParseTreeUtils
         @Nullable final List<Node<V>> parents, @Nonnull final String path,
         @Nonnull final C collection)
     {
-        Preconditions.checkNotNull(path, "path");
-        Preconditions.checkNotNull(collection, "collection");
+        Objects.requireNonNull(path, "path");
+        Objects.requireNonNull(collection, "collection");
         if (parents == null)
             return collection;
         if (parents.isEmpty())
@@ -183,7 +183,7 @@ public final class ParseTreeUtils
     public static <V> Node<V> findNode(@Nullable final Node<V> parent,
         @Nonnull final Predicate<Node<V>> predicate)
     {
-        Preconditions.checkNotNull(predicate, "predicate");
+        Objects.requireNonNull(predicate, "predicate");
         if (parent == null)
             return null;
         if (predicate.apply(parent))
@@ -207,7 +207,7 @@ public final class ParseTreeUtils
     public static <V> Node<V> findNode(@Nullable final List<Node<V>> parents,
         @Nonnull final Predicate<Node<V>> predicate)
     {
-        Preconditions.checkNotNull(predicate, "predicate");
+        Objects.requireNonNull(predicate, "predicate");
         if (parents == null)
             return null;
         if (parents.isEmpty())
@@ -266,7 +266,7 @@ public final class ParseTreeUtils
     public static <V> Node<V> findLastNode(@Nullable final Node<V> parent,
         @Nonnull final Predicate<Node<V>> predicate)
     {
-        Preconditions.checkNotNull(predicate, "predicate");
+        Objects.requireNonNull(predicate, "predicate");
         if (parent == null)
             return null;
         if (predicate.apply(parent))
@@ -291,7 +291,7 @@ public final class ParseTreeUtils
     public static <V> Node<V> findLastNode(
         @Nullable final List<Node<V>> parents,
         @Nonnull final Predicate<Node<V>> predicate) {
-        Preconditions.checkNotNull(predicate, "predicate");
+        Objects.requireNonNull(predicate, "predicate");
         if (parents == null)
             return null;
         if (parents.isEmpty())
@@ -323,8 +323,8 @@ public final class ParseTreeUtils
         @Nonnull final Predicate<Node<V>> predicate,
         @Nonnull final C collection)
     {
-        Preconditions.checkNotNull(predicate, "predicate");
-        Preconditions.checkNotNull(collection, "collection");
+        Objects.requireNonNull(predicate, "predicate");
+        Objects.requireNonNull(collection, "collection");
         if (parent == null)
             return collection;
         return hasChildren(parent)
@@ -342,8 +342,8 @@ public final class ParseTreeUtils
     @Nonnull
     public static String getNodeText(@Nonnull final Node<?> node,
         @Nonnull final InputBuffer inputBuffer) {
-        Preconditions.checkNotNull(node, "node");
-        Preconditions.checkNotNull(inputBuffer, "inputBuffer");
+        Objects.requireNonNull(node, "node");
+        Objects.requireNonNull(inputBuffer, "inputBuffer");
         if (!node.hasError())
             return inputBuffer.extract(node.getStartIndex(),
                 node.getEndIndex());
@@ -377,8 +377,8 @@ public final class ParseTreeUtils
         @Nonnull final Predicate<Node<V>> predicate,
         @Nonnull final C collection)
     {
-        Preconditions.checkNotNull(predicate, "predicate");
-        Preconditions.checkNotNull(collection, "collection");
+        Objects.requireNonNull(predicate, "predicate");
+        Objects.requireNonNull(collection, "collection");
         if (parents == null)
             return collection;
         if (parents.isEmpty())
@@ -401,7 +401,7 @@ public final class ParseTreeUtils
     // TODO: use Guava's TreeTraverser here, and in other places
     public static <V> String printNodeTree(final ParsingResult<V> parsingResult)
     {
-        Preconditions.checkNotNull(parsingResult, "parsingResult");
+        Objects.requireNonNull(parsingResult, "parsingResult");
         return printNodeTree(parsingResult, Predicates.<Node<V>>alwaysTrue(),
             Predicates.<Node<V>>alwaysTrue());
     }
@@ -423,9 +423,9 @@ public final class ParseTreeUtils
         @Nonnull final Predicate<Node<V>> nodeFilter,
         @Nonnull final Predicate<Node<V>> subTreeFilter)
     {
-        Preconditions.checkNotNull(parsingResult, "parsingResult");
-        Preconditions.checkNotNull(nodeFilter, "nodeFilter");
-        Preconditions.checkNotNull(subTreeFilter, "subTreeFilter");
+        Objects.requireNonNull(parsingResult, "parsingResult");
+        Objects.requireNonNull(nodeFilter, "nodeFilter");
+        Objects.requireNonNull(subTreeFilter, "subTreeFilter");
         return printTree(parsingResult.getParseTree(),
             new NodeFormatter<V>(parsingResult.getInputBuffer()), nodeFilter,
             subTreeFilter);

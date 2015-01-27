@@ -27,6 +27,7 @@ import org.parboiled.support.Position;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 import java.nio.CharBuffer;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -64,7 +65,7 @@ public final class CharSequenceInputBuffer
 
     public CharSequenceInputBuffer(@Nonnull final CharSequence charSequence)
     {
-        this.charSequence = Preconditions.checkNotNull(charSequence);
+        this.charSequence = Objects.requireNonNull(charSequence);
         lineCounter = EXECUTOR_SERVICE.submit(new Callable<LineCounter>()
         {
             @Override
@@ -78,7 +79,7 @@ public final class CharSequenceInputBuffer
 
     public CharSequenceInputBuffer(@Nonnull final char[] chars)
     {
-        this(CharBuffer.wrap(Preconditions.checkNotNull(chars)));
+        this(CharBuffer.wrap(Objects.requireNonNull(chars)));
     }
 
     @Override

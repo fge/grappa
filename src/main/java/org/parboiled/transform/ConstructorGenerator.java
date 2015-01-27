@@ -19,7 +19,6 @@ package org.parboiled.transform;
 import com.github.fge.grappa.annotations.VisibleForDocumentation;
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.transform.CodeBlock;
-import com.google.common.base.Preconditions;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.InsnNode;
@@ -29,6 +28,7 @@ import org.objectweb.asm.tree.TypeInsnNode;
 import org.parboiled.support.Checks;
 
 import java.util.List;
+import java.util.Objects;
 
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.ARETURN;
@@ -46,7 +46,7 @@ public final class ConstructorGenerator
 {
     public void process(final ParserClassNode classNode)
     {
-        Preconditions.checkNotNull(classNode, "classNode");
+        Objects.requireNonNull(classNode, "classNode");
         Checks.ensure(!classNode.getConstructors().isEmpty(),
             "Could not extend parser class '%s', no constructor visible to" +
             " derived classes found", classNode.getParentType().getClassName());

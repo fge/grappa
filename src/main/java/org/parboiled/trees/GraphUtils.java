@@ -18,13 +18,13 @@ package org.parboiled.trees;
 
 import com.github.fge.grappa.annotations.DoNotUse;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import org.parboiled.common.Formatter;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Objects;
 
 /**
  * General utility methods for operating on directed graphs (consisting of
@@ -49,7 +49,7 @@ final class GraphUtils
     static <T extends GraphNode<T>> String printTree(final T node,
         final Formatter<T> formatter)
     {
-        Preconditions.checkNotNull(formatter, "formatter");
+        Objects.requireNonNull(formatter, "formatter");
         return printTree(node, formatter, Predicates.<T>alwaysTrue(),
             Predicates.<T>alwaysTrue());
     }
@@ -73,9 +73,9 @@ final class GraphUtils
         @Nonnull final Predicate<T> nodeFilter,
         @Nonnull final Predicate<T> subTreeFilter)
     {
-        Preconditions.checkNotNull(formatter, "formatter");
-        Preconditions.checkNotNull(nodeFilter, "nodeFilter");
-        Preconditions.checkNotNull(subTreeFilter, "subTreeFilter");
+        Objects.requireNonNull(formatter, "formatter");
+        Objects.requireNonNull(nodeFilter, "nodeFilter");
+        Objects.requireNonNull(subTreeFilter, "subTreeFilter");
         if (node == null)
             return "";
         return printTree(node, formatter, "",

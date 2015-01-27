@@ -20,13 +20,13 @@ import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.internal.NonFinalForTesting;
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.rules.Rule;
-import com.google.common.base.Preconditions;
 import com.google.common.eventbus.EventBus;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
 import org.parboiled.support.ParsingResult;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Objects;
 
 /**
  * The most basic of all {@link ParseRunner} implementations. It runs a rule
@@ -63,7 +63,7 @@ public class EventBasedParseRunner<V>
     @Override
     public ParsingResult<V> run(final InputBuffer inputBuffer)
     {
-        Preconditions.checkNotNull(inputBuffer, "inputBuffer");
+        Objects.requireNonNull(inputBuffer, "inputBuffer");
         resetValueStack();
 
         final MatcherContext<V> rootContext

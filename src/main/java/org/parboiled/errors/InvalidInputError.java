@@ -17,10 +17,10 @@
 package org.parboiled.errors;
 
 import com.github.fge.grappa.buffers.InputBuffer;
-import com.google.common.base.Preconditions;
 import org.parboiled.support.MatcherPath;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A {@link ParseError} describing one or more input characters that are illegal with regard to the underlying
@@ -35,9 +35,9 @@ public final class InvalidInputError
         final int startIndex, final List<MatcherPath> failedMatchers,
         final String errorMessage)
     {
-        super(Preconditions.checkNotNull(inputBuffer, "inputBuffer"),
+        super(Objects.requireNonNull(inputBuffer, "inputBuffer"),
             startIndex, errorMessage);
-        this.failedMatchers = Preconditions.checkNotNull(failedMatchers);
+        this.failedMatchers = Objects.requireNonNull(failedMatchers);
     }
 
     /**

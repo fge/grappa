@@ -21,8 +21,9 @@ import com.github.fge.grappa.matchers.base.CustomDefaultLabelMatcher;
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.rules.Rule;
 import com.github.fge.grappa.stack.ValueStack;
-import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
+
+import java.util.Objects;
 
 /**
  * A {@link Matcher} that executes all of its submatchers in sequence and only succeeds if all submatchers succeed.
@@ -40,7 +41,7 @@ public class SequenceMatcher
 
     public SequenceMatcher(final Rule[] subRules)
     {
-        super(Preconditions.checkNotNull(subRules, "subRules"), "sequence");
+        super(Objects.requireNonNull(subRules, "subRules"), "sequence");
     }
 
     @Override

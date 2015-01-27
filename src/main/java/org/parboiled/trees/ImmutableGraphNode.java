@@ -16,11 +16,11 @@
 
 package org.parboiled.trees;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A simple, immutable {@link GraphNode} implementation.
@@ -50,7 +50,7 @@ public class ImmutableGraphNode<T extends GraphNode<T>>
     // TODO! Null! Again! I need a gun!
     public ImmutableGraphNode(@Nonnull final List<T> children)
     {
-        Preconditions.checkNotNull(children);
+        Objects.requireNonNull(children);
         /*
          * ImmutableLinkedList has no such thing as a "safe copy constructor";
          * ImmutableList (Guava's, that is) does; what is more, if the argument

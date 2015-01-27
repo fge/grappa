@@ -19,11 +19,11 @@ package com.github.fge.grappa.matchers.wrap;
 import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.rules.Rule;
-import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.support.Var;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Special wrapping matcher that manages the creation and destruction of execution frames for a number of action vars.
@@ -37,8 +37,8 @@ public final class VarFramingMatcher
 
     public VarFramingMatcher(final Rule inner, final Var<?>[] variables)
     {
-        this.inner = Preconditions.checkNotNull((Matcher) inner, "inner");
-        this.variables = Preconditions.checkNotNull(variables, "variables");
+        this.inner = Objects.requireNonNull((Matcher) inner, "inner");
+        this.variables = Objects.requireNonNull(variables, "variables");
     }
 
     @Override

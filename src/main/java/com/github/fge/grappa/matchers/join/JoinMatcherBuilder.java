@@ -28,6 +28,7 @@ import org.parboiled.annotations.Cached;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Objects;
 
 /**
  * The final step to building a {@link JoinMatcher}
@@ -173,7 +174,7 @@ public final class JoinMatcherBuilder
     @Cached
     public Rule range(@Nonnull final Range<Integer> range)
     {
-        Preconditions.checkNotNull(range, "range must not be null");
+        Objects.requireNonNull(range, "range must not be null");
         /*
          * We always intersect with that range...
          */

@@ -18,11 +18,11 @@ package com.github.fge.grappa.parsers;
 
 import com.github.fge.grappa.annotations.Experimental;
 import com.github.fge.grappa.helpers.ValueBuilder;
-import com.google.common.base.Preconditions;
 import com.google.common.eventbus.EventBus;
 import org.parboiled.support.Var;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 
 /**
  * A basic parser with an attached {@link EventBus}
@@ -121,7 +121,7 @@ public abstract class EventBusParser<V>
 
     public final boolean register(@Nonnull final Object listener)
     {
-        bus.register(Preconditions.checkNotNull(listener));
+        bus.register(Objects.requireNonNull(listener));
         return true;
     }
 
@@ -136,7 +136,7 @@ public abstract class EventBusParser<V>
      */
     public final boolean unregister(@Nonnull final Object listener)
     {
-        bus.unregister(Preconditions.checkNotNull(listener));
+        bus.unregister(Objects.requireNonNull(listener));
         return true;
     }
 
@@ -156,7 +156,7 @@ public abstract class EventBusParser<V>
      */
     public final <T> boolean post(@Nonnull final ValueBuilder<T> builder)
     {
-        Preconditions.checkNotNull(builder);
+        Objects.requireNonNull(builder);
 
         final T event = builder.build();
         bus.post(event);
@@ -183,9 +183,9 @@ public abstract class EventBusParser<V>
      */
     public final <T> boolean post(@Nonnull final Var<T> var)
     {
-        Preconditions.checkNotNull(var);
+        Objects.requireNonNull(var);
         @SuppressWarnings("ConstantConditions")
-        final T value = Preconditions.checkNotNull(var.get());
+        final T value = Objects.requireNonNull(var.get());
         bus.post(value);
         return true;
     }
@@ -201,7 +201,7 @@ public abstract class EventBusParser<V>
      */
     public final boolean postRaw(@Nonnull final Object object)
     {
-        Preconditions.checkNotNull(object);
+        Objects.requireNonNull(object);
         bus.post(object);
         return true;
     }

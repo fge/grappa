@@ -19,13 +19,13 @@ package org.parboiled.support;
 import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.internal.NonFinalForTesting;
 import com.github.fge.grappa.stack.ValueStack;
-import com.google.common.base.Preconditions;
 import org.parboiled.Node;
 import org.parboiled.errors.ParseError;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A simple container encapsulating the result of a parsing run.
@@ -92,10 +92,10 @@ public class ParsingResult<V>
     {
         this.matched = matched;
         this.parseTreeRoot = parseTreeRoot;
-        this.valueStack = Preconditions.checkNotNull(valueStack);
+        this.valueStack = Objects.requireNonNull(valueStack);
         resultValue = valueStack.isEmpty() ? null : valueStack.peek();
-        this.parseErrors = Preconditions.checkNotNull(parseErrors);
-        this.inputBuffer = Preconditions.checkNotNull(inputBuffer);
+        this.parseErrors = Objects.requireNonNull(parseErrors);
+        this.inputBuffer = Objects.requireNonNull(inputBuffer);
     }
 
 

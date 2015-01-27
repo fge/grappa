@@ -20,6 +20,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 
 /**
  * A builder for a {@link Trie}
@@ -47,7 +48,7 @@ public final class TrieBuilder
      */
     public TrieBuilder addWord(@Nonnull final String word)
     {
-        Preconditions.checkNotNull(word);
+        Objects.requireNonNull(word);
         Preconditions.checkArgument(word.length() >= 2,
             "strings in a trie must be two characters long or greater");
         nrWords++;

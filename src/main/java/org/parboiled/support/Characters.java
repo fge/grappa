@@ -16,9 +16,8 @@
 
 package org.parboiled.support;
 
-import com.google.common.base.Preconditions;
-
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * An immutable, set-like aggregation of (relatively few) characters that allows
@@ -47,7 +46,7 @@ public final class Characters
     private Characters(final boolean subtractive, final char[] chars)
     {
         this.subtractive = subtractive;
-        this.chars = Preconditions.checkNotNull(chars, "chars");
+        this.chars = Objects.requireNonNull(chars, "chars");
     }
 
     /**
@@ -111,7 +110,7 @@ public final class Characters
      */
     public Characters add(final Characters other)
     {
-        Preconditions.checkNotNull(other, "other");
+        Objects.requireNonNull(other, "other");
         if (!subtractive && !other.subtractive) {
             return addToChars(other.chars);
         }
@@ -131,7 +130,7 @@ public final class Characters
      */
     public Characters remove(final Characters other)
     {
-        Preconditions.checkNotNull(other, "other");
+        Objects.requireNonNull(other, "other");
         if (!subtractive && !other.subtractive) {
             return removeFromChars(other.chars);
         }
@@ -235,8 +234,8 @@ public final class Characters
     // order independent Array.equals()
     private static boolean equivalent(final char[] a, final char[] b)
     {
-        Preconditions.checkNotNull(a, "a");
-        Preconditions.checkNotNull(b, "b");
+        Objects.requireNonNull(a, "a");
+        Objects.requireNonNull(b, "b");
         if (a == b)
             return true;
         final int length = a.length;

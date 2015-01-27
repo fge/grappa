@@ -25,7 +25,6 @@ package org.parboiled.transform;
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.transform.ClassCache;
 import com.github.fge.grappa.transform.LoadingOpcode;
-import com.google.common.base.Preconditions;
 import me.qmx.jitescript.util.CodegenUtils;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -41,6 +40,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Objects;
 
 public final class AsmUtils
 {
@@ -53,7 +53,7 @@ public final class AsmUtils
     public static String getExtendedParserClassName(
         final String parserClassName)
     {
-        Preconditions.checkNotNull(parserClassName, "parserClassName");
+        Objects.requireNonNull(parserClassName, "parserClassName");
         return parserClassName + "$$parboiled";
     }
 
@@ -65,7 +65,7 @@ public final class AsmUtils
      */
     public static Class<?> getClassForType(final Type type)
     {
-        Preconditions.checkNotNull(type, "type");
+        Objects.requireNonNull(type, "type");
         switch (type.getSort()) {
             case Type.BOOLEAN:
                 return boolean.class;
@@ -96,8 +96,8 @@ public final class AsmUtils
     public static Field getClassField(final String classInternalName,
         final String fieldName)
     {
-        Preconditions.checkNotNull(classInternalName, "classInternalName");
-        Preconditions.checkNotNull(fieldName, "fieldName");
+        Objects.requireNonNull(classInternalName, "classInternalName");
+        Objects.requireNonNull(fieldName, "fieldName");
         final Class<?> c = CACHE.loadClass(classInternalName);
         //final Class<?> c = getClassForInternalName(classInternalName);
         Class<?> current = c;
@@ -114,9 +114,9 @@ public final class AsmUtils
     public static Method getClassMethod(final String classInternalName,
         final String methodName, final String methodDesc)
     {
-        Preconditions.checkNotNull(classInternalName, "classInternalName");
-        Preconditions.checkNotNull(methodName, "methodName");
-        Preconditions.checkNotNull(methodDesc, "methodDesc");
+        Objects.requireNonNull(classInternalName, "classInternalName");
+        Objects.requireNonNull(methodName, "methodName");
+        Objects.requireNonNull(methodDesc, "methodDesc");
 
         final Class<?> c = CACHE.loadClass(classInternalName);
         //final Class<?> c = getClassForInternalName(classInternalName);
@@ -163,8 +163,8 @@ public final class AsmUtils
     public static Constructor<?> getClassConstructor(
         final String classInternalName, final String constructorDesc)
     {
-        Preconditions.checkNotNull(classInternalName, "classInternalName");
-        Preconditions.checkNotNull(constructorDesc, "constructorDesc");
+        Objects.requireNonNull(classInternalName, "classInternalName");
+        Objects.requireNonNull(constructorDesc, "constructorDesc");
 
         final Class<?> c = CACHE.loadClass(classInternalName);
         //final Class<?> c = getClassForInternalName(classInternalName);
@@ -196,8 +196,8 @@ public final class AsmUtils
     public static Class<?> findLoadedClass(final String className,
         final ClassLoader classLoader)
     {
-        Preconditions.checkNotNull(className, "className");
-        Preconditions.checkNotNull(classLoader, "classLoader");
+        Objects.requireNonNull(className, "className");
+        Objects.requireNonNull(classLoader, "classLoader");
 
         final Class<?> c;
         final Method m;
@@ -250,9 +250,9 @@ public final class AsmUtils
     public static Class<?> loadClass(final String className, final byte[] code,
         final ClassLoader classLoader)
     {
-        Preconditions.checkNotNull(className, "className");
-        Preconditions.checkNotNull(code, "code");
-        Preconditions.checkNotNull(classLoader, "classLoader");
+        Objects.requireNonNull(className, "className");
+        Objects.requireNonNull(code, "code");
+        Objects.requireNonNull(classLoader, "classLoader");
 
         final Class<?> c;
         final Method m;
@@ -290,7 +290,7 @@ public final class AsmUtils
 
     public static InsnList createArgumentLoaders(final String methodDescriptor)
     {
-        Preconditions.checkNotNull(methodDescriptor, "methodDescriptor");
+        Objects.requireNonNull(methodDescriptor, "methodDescriptor");
 
         final InsnList instructions = new InsnList();
         final Type[] types = Type.getArgumentTypes(methodDescriptor);
@@ -316,8 +316,8 @@ public final class AsmUtils
     public static boolean isAssignableTo(final String classInternalName,
         final Class<?> type)
     {
-        Preconditions.checkNotNull(classInternalName, "classInternalName");
-        Preconditions.checkNotNull(type, "type");
+        Objects.requireNonNull(classInternalName, "classInternalName");
+        Objects.requireNonNull(type, "type");
 
         final Class<?> c = CACHE.loadClass(classInternalName);
         //final Class<?> c = getClassForInternalName(classInternalName);
@@ -326,7 +326,7 @@ public final class AsmUtils
 
     public static boolean isBooleanValueOfZ(final AbstractInsnNode insn)
     {
-        Preconditions.checkNotNull(insn, "insn");
+        Objects.requireNonNull(insn, "insn");
         if (insn.getOpcode() != Opcodes.INVOKESTATIC)
             return false;
         final MethodInsnNode mi = (MethodInsnNode) insn;
@@ -336,9 +336,9 @@ public final class AsmUtils
     public static boolean isBooleanValueOfZ(final String methodOwner,
         final String methodName, final String methodDesc)
     {
-        Preconditions.checkNotNull(methodOwner, "methodOwner");
-        Preconditions.checkNotNull(methodName, "methodName");
-        Preconditions.checkNotNull(methodDesc, "methodDesc");
+        Objects.requireNonNull(methodOwner, "methodOwner");
+        Objects.requireNonNull(methodName, "methodName");
+        Objects.requireNonNull(methodDesc, "methodDesc");
 
         return CodegenUtils.p(Boolean.class).equals(methodOwner)
             && "valueOf".equals(methodName)
@@ -348,7 +348,7 @@ public final class AsmUtils
 
     public static boolean isActionRoot(final AbstractInsnNode insn)
     {
-        Preconditions.checkNotNull(insn, "insn");
+        Objects.requireNonNull(insn, "insn");
         if (insn.getOpcode() != Opcodes.INVOKESTATIC)
             return false;
         final MethodInsnNode mi = (MethodInsnNode) insn;
@@ -358,15 +358,15 @@ public final class AsmUtils
     public static boolean isActionRoot(final String methodOwner,
         final String methodName)
     {
-        Preconditions.checkNotNull(methodOwner, "methodOwner");
-        Preconditions.checkNotNull(methodName, "methodName");
+        Objects.requireNonNull(methodOwner, "methodOwner");
+        Objects.requireNonNull(methodName, "methodName");
         return "ACTION".equals(methodName)
             && isAssignableTo(methodOwner, BaseParser.class);
     }
 
     public static boolean isVarRoot(final AbstractInsnNode insn)
     {
-        Preconditions.checkNotNull(insn, "insn");
+        Objects.requireNonNull(insn, "insn");
         if (insn.getOpcode() != Opcodes.INVOKESPECIAL)
             return false;
         final MethodInsnNode mi = (MethodInsnNode) insn;
@@ -376,9 +376,9 @@ public final class AsmUtils
     public static boolean isVarRoot(final String methodOwner,
         final String methodName, final String methodDesc)
     {
-        Preconditions.checkNotNull(methodOwner, "methodOwner");
-        Preconditions.checkNotNull(methodName, "methodName");
-        Preconditions.checkNotNull(methodDesc, "methodDesc");
+        Objects.requireNonNull(methodOwner, "methodOwner");
+        Objects.requireNonNull(methodName, "methodName");
+        Objects.requireNonNull(methodDesc, "methodDesc");
 
         return "<init>".equals(methodName)
             && CodegenUtils.sig(void.class, Object.class).equals(methodDesc)
@@ -387,7 +387,7 @@ public final class AsmUtils
 
     public static boolean isCallOnContextAware(final AbstractInsnNode insn)
     {
-        Preconditions.checkNotNull(insn, "insn");
+        Objects.requireNonNull(insn, "insn");
         if (insn.getOpcode() != Opcodes.INVOKEVIRTUAL
             && insn.getOpcode() != Opcodes.INVOKEINTERFACE)
             return false;

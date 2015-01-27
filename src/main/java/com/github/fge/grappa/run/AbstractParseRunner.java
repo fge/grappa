@@ -23,7 +23,6 @@ import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.rules.Rule;
 import com.github.fge.grappa.stack.DefaultValueStack;
 import com.github.fge.grappa.stack.ValueStack;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import org.parboiled.DefaultMatcherContext;
 import org.parboiled.MatchHandler;
@@ -34,6 +33,7 @@ import org.parboiled.support.ParsingResult;
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class AbstractParseRunner<V>
     implements ParseRunner<V>
@@ -46,7 +46,7 @@ public abstract class AbstractParseRunner<V>
 
     protected AbstractParseRunner(@Nonnull final Rule rule)
     {
-        rootMatcher = Preconditions.checkNotNull((Matcher) rule, "rule");
+        rootMatcher = Objects.requireNonNull((Matcher) rule, "rule");
     }
 
     public final ValueStack<V> getValueStack()
@@ -57,14 +57,14 @@ public abstract class AbstractParseRunner<V>
     @Override
     public final ParsingResult<V> run(final CharSequence input)
     {
-        Preconditions.checkNotNull(input, "input");
+        Objects.requireNonNull(input, "input");
         return run(new CharSequenceInputBuffer(input));
     }
 
     @Override
     public final ParsingResult<V> run(final char[] input)
     {
-        Preconditions.checkNotNull(input, "input");
+        Objects.requireNonNull(input, "input");
         return run(new CharSequenceInputBuffer(input));
     }
 

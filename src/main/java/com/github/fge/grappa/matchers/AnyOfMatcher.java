@@ -22,6 +22,8 @@ import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.support.Characters;
 
+import java.util.Objects;
+
 /**
  * A {@link Matcher} matching a single character out of a given {@link Characters} set.
  */
@@ -32,7 +34,7 @@ public final class AnyOfMatcher
 
     public AnyOfMatcher(final Characters characters)
     {
-        super(Preconditions.checkNotNull(characters, "characters").toString());
+        super(Objects.requireNonNull(characters, "characters").toString());
         Preconditions.checkArgument(!characters.equals(Characters.NONE));
         this.characters = characters;
     }

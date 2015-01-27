@@ -20,8 +20,9 @@ import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.CustomDefaultLabelMatcher;
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.rules.Rule;
-import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
+
+import java.util.Objects;
 
 /**
  * A {@link Matcher} that tries its submatcher once against the input and always succeeds.
@@ -33,7 +34,7 @@ public final class OptionalMatcher
 
     public OptionalMatcher(final Rule subRule)
     {
-        super(Preconditions.checkNotNull(subRule, "subRule"), "optional");
+        super(Objects.requireNonNull(subRule, "subRule"), "optional");
         subMatcher = getChildren().get(0);
     }
 

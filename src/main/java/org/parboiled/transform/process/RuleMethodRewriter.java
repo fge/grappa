@@ -24,7 +24,6 @@ package org.parboiled.transform.process;
 
 import com.github.fge.grappa.transform.CodeBlock;
 import com.github.fge.grappa.transform.LoadingOpcode;
-import com.google.common.base.Preconditions;
 import me.qmx.jitescript.util.CodegenUtils;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
@@ -41,6 +40,7 @@ import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 
 import static org.objectweb.asm.Opcodes.DUP;
 import static org.objectweb.asm.Opcodes.PUTFIELD;
@@ -60,8 +60,8 @@ public final class RuleMethodRewriter
     public boolean appliesTo(@Nonnull final ParserClassNode classNode,
         @Nonnull final RuleMethod method)
     {
-        Preconditions.checkNotNull(classNode, "classNode");
-        Preconditions.checkNotNull(method, "method");
+        Objects.requireNonNull(classNode, "classNode");
+        Objects.requireNonNull(method, "method");
         return method.containsExplicitActions() || method.containsVars();
     }
 
@@ -70,7 +70,7 @@ public final class RuleMethodRewriter
         @Nonnull final RuleMethod method)
         throws Exception
     {
-        this.method = Preconditions.checkNotNull(method, "method");
+        this.method = Objects.requireNonNull(method, "method");
         actionNr = 0;
         varInitNr = 0;
 

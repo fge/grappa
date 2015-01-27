@@ -27,6 +27,7 @@ import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 
 import static org.objectweb.asm.Opcodes.ARETURN;
 
@@ -40,8 +41,8 @@ public final class FlagMarkingGenerator
     public boolean appliesTo(@Nonnull final ParserClassNode classNode,
         @Nonnull final RuleMethod method)
     {
-        Preconditions.checkNotNull(classNode, "classNode");
-        Preconditions.checkNotNull(method, "method");
+        Objects.requireNonNull(classNode, "classNode");
+        Objects.requireNonNull(method, "method");
         return method.hasSuppressNodeAnnotation()
             || method.hasSuppressSubnodesAnnotation()
             || method.hasSkipNodeAnnotation()
@@ -53,8 +54,8 @@ public final class FlagMarkingGenerator
         @Nonnull final RuleMethod method)
         throws Exception
     {
-        Preconditions.checkNotNull(classNode, "classNode");
-        Preconditions.checkNotNull(method, "method");
+        Objects.requireNonNull(classNode, "classNode");
+        Objects.requireNonNull(method, "method");
         // super methods have flag moved to the overriding method
         Preconditions.checkState(!method.isSuperMethod());
 

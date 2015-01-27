@@ -40,6 +40,7 @@ import org.parboiled.support.Var;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import static com.github.fge.grappa.transform.ParserAnnotation.CACHED;
@@ -368,7 +369,7 @@ public class RuleMethod
 
     public void moveFlagsTo(final RuleMethod method)
     {
-        Preconditions.checkNotNull(method);
+        Objects.requireNonNull(method);
         moveTo(annotations, method.annotations);
     }
 

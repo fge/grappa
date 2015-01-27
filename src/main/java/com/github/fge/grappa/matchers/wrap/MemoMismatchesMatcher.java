@@ -19,10 +19,10 @@ package com.github.fge.grappa.matchers.wrap;
 import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.rules.Rule;
-import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Special wrapping matcher that performs memoization of the last mismatch of
@@ -36,7 +36,7 @@ public final class MemoMismatchesMatcher
 
     public MemoMismatchesMatcher(final Rule inner)
     {
-        this.inner = Preconditions.checkNotNull((Matcher) inner, "inner");
+        this.inner = Objects.requireNonNull((Matcher) inner, "inner");
     }
 
     @Override

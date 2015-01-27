@@ -18,8 +18,9 @@ package com.github.fge.grappa.matchers;
 
 import com.github.fge.grappa.matchers.delegate.SequenceMatcher;
 import com.github.fge.grappa.rules.Rule;
-import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
+
+import java.util.Objects;
 
 /**
  * A {@link SequenceMatcher} specialization for sequences of CharMatchers. Performs fast string matching if the
@@ -32,7 +33,7 @@ public final class StringMatcher
 
     public StringMatcher(final Rule[] charMatchers, final char[] characters)
     {
-        super(Preconditions.checkNotNull(charMatchers, "charMatchers"));
+        super(Objects.requireNonNull(charMatchers, "charMatchers"));
         this.characters = characters;
     }
     

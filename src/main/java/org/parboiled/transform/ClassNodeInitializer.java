@@ -25,7 +25,6 @@ package org.parboiled.transform;
 import com.github.fge.grappa.rules.Rule;
 import com.github.fge.grappa.transform.ParserAnnotation;
 import com.google.common.base.Optional;
-import com.google.common.base.Preconditions;
 import com.google.common.io.Closer;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassReader;
@@ -40,6 +39,7 @@ import javax.annotation.Nullable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.EnumSet;
+import java.util.Objects;
 import java.util.Set;
 
 import static com.github.fge.grappa.transform.ParserAnnotation.BUILD_PARSE_TREE;
@@ -77,7 +77,7 @@ public final class ClassNodeInitializer
     public void process(final ParserClassNode classNode)
         throws IOException
     {
-        this.classNode = Preconditions.checkNotNull(classNode, "classNode");
+        this.classNode = Objects.requireNonNull(classNode, "classNode");
 
         // walk up the parser parent class chain
         ownerClass = classNode.getParentClass();
@@ -215,7 +215,7 @@ public final class ClassNodeInitializer
 
     private static InputStream getInputStream(final Class<?> c)
     {
-        Preconditions.checkNotNull(c);
+        Objects.requireNonNull(c);
         final String name = c.getName().replace('.', '/') + ".class";
         final ClassLoader me = ClassNodeInitializer.class.getClassLoader();
         final ClassLoader context

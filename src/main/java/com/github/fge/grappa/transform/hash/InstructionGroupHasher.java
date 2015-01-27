@@ -16,7 +16,6 @@
 
 package com.github.fge.grappa.transform.hash;
 
-import com.google.common.base.Preconditions;
 import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
@@ -30,6 +29,7 @@ import org.parboiled.transform.process.InstructionGroupPreparer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
+import java.util.Objects;
 
 /**
  * Hashing for an {@link InstructionGroup}
@@ -76,8 +76,8 @@ public final class InstructionGroupHasher
         @Nonnull final String className)
     {
         super(Opcodes.ASM5);
-        this.group = Preconditions.checkNotNull(group);
-        this.className = Preconditions.checkNotNull(className);
+        this.group = Objects.requireNonNull(group);
+        this.className = Objects.requireNonNull(className);
         hasher = SHA1.newHasher();
     }
 

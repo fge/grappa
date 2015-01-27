@@ -23,7 +23,8 @@
 package org.parboiled.transform;
 
 import com.github.fge.grappa.rules.SkippableAction;
-import com.google.common.base.Preconditions;
+
+import java.util.Objects;
 
 /**
  * Base class of generated classes wrapping action expressions.
@@ -36,7 +37,7 @@ public abstract class BaseAction<V>
 
     protected BaseAction(final String name)
     {
-        super(Preconditions.checkNotNull(name, "name"));
+        super(Objects.requireNonNull(name, "name"));
     }
 
     @Override

@@ -17,7 +17,6 @@
 package org.parboiled.transform;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import org.objectweb.asm.ClassWriter;
 import org.parboiled.transform.process.BodyWithSuperCallReplacer;
@@ -36,6 +35,7 @@ import org.parboiled.transform.process.UnusedLabelsRemover;
 import org.parboiled.transform.process.VarFramingGenerator;
 
 import java.util.List;
+import java.util.Objects;
 
 import static org.parboiled.transform.AsmUtils.findLoadedClass;
 import static org.parboiled.transform.AsmUtils.getExtendedParserClassName;
@@ -53,7 +53,7 @@ public final class ParserTransformer
         final Class<T> parserClass)
         throws Exception
     {
-        Preconditions.checkNotNull(parserClass, "parserClass");
+        Objects.requireNonNull(parserClass, "parserClass");
         // first check whether we did not already create and load the extension
         // of the given parser class
         final String name

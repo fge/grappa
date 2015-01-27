@@ -17,12 +17,12 @@
 package org.parboiled.transform.process;
 
 import com.github.fge.grappa.transform.CodeBlock;
-import com.google.common.base.Preconditions;
 import org.objectweb.asm.tree.InsnList;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 
 import static org.parboiled.transform.AsmUtils.createArgumentLoaders;
 
@@ -36,8 +36,8 @@ public final class BodyWithSuperCallReplacer
     public boolean appliesTo(@Nonnull final ParserClassNode classNode,
         @Nonnull final RuleMethod method)
     {
-        Preconditions.checkNotNull(classNode, "classNode");
-        Preconditions.checkNotNull(method, "method");
+        Objects.requireNonNull(classNode, "classNode");
+        Objects.requireNonNull(method, "method");
         return !method.isBodyRewritten()
             && method.getOwnerClass() == classNode.getParentClass()
             && method.getLocalVarVariables().isEmpty();
@@ -50,8 +50,8 @@ public final class BodyWithSuperCallReplacer
         @Nonnull final RuleMethod method)
         throws Exception
     {
-        Preconditions.checkNotNull(classNode, "classNode");
-        Preconditions.checkNotNull(method, "method");
+        Objects.requireNonNull(classNode, "classNode");
+        Objects.requireNonNull(method, "method");
         // replace all method code with a simple call to the super method
         final String parentDesc = classNode.getParentType().getInternalName();
         final InsnList argumentLoaders = createArgumentLoaders(method.desc);

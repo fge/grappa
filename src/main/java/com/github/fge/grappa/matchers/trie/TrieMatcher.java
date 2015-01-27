@@ -19,10 +19,10 @@ package com.github.fge.grappa.matchers.trie;
 import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.AbstractMatcher;
 import com.google.common.annotations.Beta;
-import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 
 import javax.annotation.concurrent.Immutable;
+import java.util.Objects;
 
 /**
  * The trie matcher
@@ -38,7 +38,7 @@ public final class TrieMatcher
 
     public TrieMatcher(final Trie trie)
     {
-        super("Trie (" + Preconditions.checkNotNull(trie).getNrWords()
+        super("Trie (" + Objects.requireNonNull(trie).getNrWords()
             + " strings)");
         this.trie = trie;
     }

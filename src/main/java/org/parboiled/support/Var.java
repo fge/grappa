@@ -18,7 +18,6 @@ package org.parboiled.support;
 
 import com.github.fge.grappa.annotations.DoNotUse;
 import com.google.common.base.Optional;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import org.parboiled.common.Factory;
 import org.parboiled.common.Reference;
@@ -26,6 +25,7 @@ import org.parboiled.common.Reference;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Deque;
+import java.util.Objects;
 
 /**
  * <p>This class provides a "local variable"-like construct for action
@@ -93,7 +93,7 @@ public class Var<T>
      */
     public Var(@Nonnull final Factory<T> factory)
     {
-        this.factory = Preconditions.checkNotNull(factory);
+        this.factory = Objects.requireNonNull(factory);
     }
 
     /**

@@ -42,6 +42,7 @@ import java.util.Collections;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -114,13 +115,13 @@ public final class DefaultMatcherContext<V>
         @Nonnull final Matcher matcher)
     {
 
-        this(Preconditions.checkNotNull(inputBuffer, "inputBuffer"),
-            Preconditions.checkNotNull(valueStack, "valueStack"),
-            Preconditions.checkNotNull(parseErrors, "parseErrors"),
-            Preconditions.checkNotNull(matchHandler, "matchHandler"), null, 0,
+        this(Objects.requireNonNull(inputBuffer, "inputBuffer"),
+            Objects.requireNonNull(valueStack, "valueStack"),
+            Objects.requireNonNull(parseErrors, "parseErrors"),
+            Objects.requireNonNull(matchHandler, "matchHandler"), null, 0,
             new HashSet<MatcherPosition>());
         currentChar = inputBuffer.charAt(0);
-        Preconditions.checkNotNull(matcher);
+        Objects.requireNonNull(matcher);
         // TODO: what the...
         this.matcher = ProxyMatcher.unwrap(matcher);
         nodeSuppressed = matcher.isNodeSuppressed();
