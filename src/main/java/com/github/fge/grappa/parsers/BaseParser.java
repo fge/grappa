@@ -47,22 +47,20 @@ import com.github.fge.grappa.rules.Action;
 import com.github.fge.grappa.rules.Rule;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import org.parboiled.annotations.Cached;
 import org.parboiled.annotations.DontExtend;
 import org.parboiled.annotations.DontLabel;
 import org.parboiled.annotations.SkipActionsInPredicates;
 import org.parboiled.annotations.SuppressNode;
 import org.parboiled.annotations.SuppressSubnodes;
-import org.parboiled.errors.GrammarException;
 import org.parboiled.support.Characters;
 import org.parboiled.support.Chars;
-import org.parboiled.support.Checks;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Base class of all parboiled parsers. Defines the basic rule creation methods.
@@ -83,17 +81,17 @@ public abstract class BaseParser<V>
     /**
      * Matches any character except {@link Chars#EOI}.
      */
-    public static final Rule ANY = new AnyMatcher();
+    protected static final Rule ANY = new AnyMatcher();
 
     /**
      * Matches nothing and always succeeds.
      */
-    public static final Rule EMPTY = new EmptyMatcher();
+    protected static final Rule EMPTY = new EmptyMatcher();
 
     /**
      * Matches nothing and always fails.
      */
-    public static final Rule NOTHING = new NothingMatcher();
+    protected static final Rule NOTHING = new NothingMatcher();
 
     /*
      * CORE RULES
@@ -146,8 +144,9 @@ public abstract class BaseParser<V>
     @DontLabel
     public Rule unicodeChar(final int codePoint)
     {
-        Preconditions.checkArgument(Character.isValidCodePoint(codePoint),
-            "invalid code point " + codePoint);
+        if (!Character.isValidCodePoint(codePoint))
+            throw new InvalidGrammarException("invalid code point "
+                + codePoint);
         return new CodePointMatcher(codePoint);
     }
 
@@ -166,12 +165,13 @@ public abstract class BaseParser<V>
     @DontLabel
     public Rule unicodeRange(final int low, final int high)
     {
-        Preconditions.checkArgument(Character.isValidCodePoint(low),
-            "invalid code point " + low);
-        Preconditions.checkArgument(Character.isValidCodePoint(high),
-            "invalid code point " + high);
-        Preconditions.checkArgument(low <= high,
-            "invalid range: " + low + " > " + high);
+        if (!Character.isValidCodePoint(low))
+            throw new InvalidGrammarException("invalid code point " + low);
+        if (!Character.isValidCodePoint(high))
+            throw new InvalidGrammarException("invalid code point " + high);
+        if (low > high)
+            throw new InvalidGrammarException("invalid code point range: "
+                + low + " > " + high);
         return low == high ? new CodePointMatcher(low)
             : new CodePointRangeMatcher(low, high);
     }
@@ -203,7 +203,7 @@ public abstract class BaseParser<V>
     @DontLabel
     public Rule anyOf(final String characters)
     {
-        Preconditions.checkNotNull(characters, "characters");
+        Objects.requireNonNull(characters);
         // TODO: see in this Characters class whether it is possible to wrap
         return anyOf(characters.toCharArray());
     }
@@ -221,7 +221,7 @@ public abstract class BaseParser<V>
     @DontLabel
     public Rule anyOf(final char[] characters)
     {
-        Preconditions.checkNotNull(characters, "characters");
+        Objects.requireNonNull(characters);
         Preconditions.checkArgument(characters.length > 0);
         return characters.length == 1 ? ch(characters[0])
             : anyOf(Characters.of(characters));
@@ -240,7 +240,7 @@ public abstract class BaseParser<V>
     @DontLabel
     public Rule anyOf(final Characters characters)
     {
-        Preconditions.checkNotNull(characters, "characters");
+        Objects.requireNonNull(characters);
         if (!characters.isSubtractive() && characters.getChars().length == 1)
             return ch(characters.getChars()[0]);
         if (characters.equals(Characters.NONE))
@@ -257,7 +257,7 @@ public abstract class BaseParser<V>
     @DontLabel
     public Rule noneOf(final String characters)
     {
-        Preconditions.checkNotNull(characters, "characters");
+        Objects.requireNonNull(characters);
         return noneOf(characters.toCharArray());
     }
 
@@ -271,7 +271,7 @@ public abstract class BaseParser<V>
     @DontLabel
     public Rule noneOf(char[] characters)
     {
-        Preconditions.checkNotNull(characters, "characters");
+        Objects.requireNonNull(characters);
         Preconditions.checkArgument(characters.length > 0);
 
         // make sure to always exclude EOI as well
@@ -300,7 +300,7 @@ public abstract class BaseParser<V>
     @DontLabel
     public Rule string(final String string)
     {
-        Preconditions.checkNotNull(string, "string");
+        Objects.requireNonNull(string);
         return string(string.toCharArray());
     }
 
@@ -332,7 +332,7 @@ public abstract class BaseParser<V>
     @DontLabel
     public Rule ignoreCase(final String string)
     {
-        Preconditions.checkNotNull(string, "string");
+        Objects.requireNonNull(string);
         return ignoreCase(string.toCharArray());
     }
 
@@ -439,7 +439,7 @@ public abstract class BaseParser<V>
     public Rule firstOf(final Object rule, final Object rule2,
         final Object... moreRules)
     {
-        Preconditions.checkNotNull(moreRules, "moreRules");
+        Objects.requireNonNull(moreRules);
         final Object[] rules = ImmutableList.builder().add(rule).add(rule2)
             .add(moreRules).build().toArray();
         return firstOf(rules);
@@ -457,7 +457,7 @@ public abstract class BaseParser<V>
     @DontLabel
     public Rule firstOf(final Object[] rules)
     {
-        Preconditions.checkNotNull(rules, "rules");
+        Objects.requireNonNull(rules, "rules");
         if (rules.length == 1)
             return toRule(rules[0]);
 
@@ -504,7 +504,7 @@ public abstract class BaseParser<V>
     public Rule oneOrMore(final Object rule, final Object rule2,
         final Object... moreRules)
     {
-        Preconditions.checkNotNull(moreRules, "moreRules");
+        Objects.requireNonNull(moreRules);
         return oneOrMore(sequence(rule, rule2, moreRules));
     }
 
@@ -520,7 +520,7 @@ public abstract class BaseParser<V>
     @DontLabel
     public Rule optional(final Object rule)
     {
-        Preconditions.checkNotNull(rule);
+        Objects.requireNonNull(rule);
         return new OptionalMatcher(toRule(rule));
     }
 
@@ -538,7 +538,7 @@ public abstract class BaseParser<V>
     public Rule optional(final Object rule, final Object rule2,
         final Object... moreRules)
     {
-        Preconditions.checkNotNull(moreRules, "moreRules");
+        Objects.requireNonNull(moreRules);
         return optional(sequence(rule, rule2, moreRules));
     }
 
@@ -554,13 +554,8 @@ public abstract class BaseParser<V>
     public Rule sequence(final Object rule, final Object rule2,
         final Object... moreRules)
     {
-        Preconditions.checkNotNull(moreRules, "moreRules");
-        /*
-         * From issue #17: this was first built using an ImmutableList.Builder;
-         * however the error message would then differ from what parboiled
-         * produced (an NPE instead of a GrammarException).
-         */
-        final Object[] rules = Lists.asList(rule, rule2, moreRules).toArray();
+        final Object[] rules = ImmutableList.builder().add(rule).add(rule2)
+            .add(moreRules).build().toArray();
         return sequence(rules);
     }
 
@@ -574,7 +569,7 @@ public abstract class BaseParser<V>
     @DontLabel
     public Rule sequence(final Object[] rules)
     {
-        Preconditions.checkNotNull(rules, "rules");
+        Objects.requireNonNull(rules);
 
         final Rule[] subRules = toRules(rules);
 
@@ -651,7 +646,7 @@ public abstract class BaseParser<V>
     public Rule test(final Object rule, final Object rule2,
         final Object... moreRules)
     {
-        Preconditions.checkNotNull(moreRules, "moreRules");
+        Objects.requireNonNull(moreRules);
         return test(sequence(rule, rule2, moreRules));
     }
 
@@ -687,7 +682,7 @@ public abstract class BaseParser<V>
     public Rule testNot(final Object rule, final Object rule2,
         final Object... moreRules)
     {
-        Preconditions.checkNotNull(moreRules, "moreRules");
+        Objects.requireNonNull(moreRules);
         return testNot(sequence(rule, rule2, moreRules));
     }
 
@@ -722,7 +717,7 @@ public abstract class BaseParser<V>
     public Rule zeroOrMore(final Object rule, final Object rule2,
         final Object... moreRules)
     {
-        Preconditions.checkNotNull(moreRules, "moreRules");
+        Objects.requireNonNull(moreRules);
         return zeroOrMore(sequence(rule, rule2, moreRules));
     }
 
@@ -737,9 +732,10 @@ public abstract class BaseParser<V>
     @DontLabel
     public Rule nTimes(final int repetitions, final Object rule)
     {
-        Preconditions.checkNotNull(rule, "rule");
-        Preconditions.checkArgument(repetitions >= 0,
-            "repetitions must be non-negative");
+        Objects.requireNonNull(rule);
+        if (repetitions < 0)
+            throw new InvalidGrammarException("illegal repetition count "
+                + repetitions + ": must not be negative");
 
         final Rule theRule = toRule(rule);
         if (repetitions == 0)
@@ -955,8 +951,8 @@ public abstract class BaseParser<V>
      */
     public static <T> Action<T> ACTION(final boolean expression)
     {
-        throw new UnsupportedOperationException(
-            "ACTION(...) calls can only be used in Rule creating parser methods");
+        throw new UnsupportedOperationException("ACTION(...) calls can only be"
+            + " used in Rule creating parser methods");
     }
 
     ///************************* HELPER METHODS ***************************///
@@ -986,7 +982,7 @@ public abstract class BaseParser<V>
     @DontExtend
     protected Rule fromStringLiteral(final String string)
     {
-        Preconditions.checkNotNull(string, "string");
+        Objects.requireNonNull(string);
         return fromCharArray(string.toCharArray());
     }
 
@@ -1001,7 +997,7 @@ public abstract class BaseParser<V>
     @DontExtend
     protected Rule fromCharArray(final char[] array)
     {
-        Preconditions.checkNotNull(array, "array");
+        Objects.requireNonNull(array);
         return string(array);
     }
 
@@ -1014,8 +1010,8 @@ public abstract class BaseParser<V>
     @DontExtend
     public Rule[] toRules(final Object... objects)
     {
-        Preconditions.checkNotNull(objects, "objects");
         final Rule[] rules = new Rule[objects.length];
+
         for (int i = 0; i < objects.length; i++)
             rules[i] = toRule(objects[i]);
         return rules;
@@ -1032,6 +1028,7 @@ public abstract class BaseParser<V>
     @DontExtend
     public Rule toRule(final Object obj)
     {
+        Objects.requireNonNull(obj);
         if (obj instanceof Rule)
             return (Rule) obj;
         if (obj instanceof Character)
@@ -1044,11 +1041,10 @@ public abstract class BaseParser<V>
             final Action<?> action = (Action<?>) obj;
             return new ActionMatcher(action);
         }
-        Checks.ensure(!(obj instanceof Boolean), "Rule specification contains "
-            + "an unwrapped Boolean value, if you were trying to specify a "
-            + "parser action wrap the expression with ACTION(...)");
 
-        throw new GrammarException("'" + obj + "' cannot be automatically "
-            + "converted to a parser Rule");
+        final String errmsg = obj instanceof  Boolean
+            ? "unwrapped Boolean value in rule (wrap it with ACTION())"
+            : "'" + obj + "' cannot be automatically converted to a rule";
+        throw new InvalidGrammarException(errmsg);
     }
 }
