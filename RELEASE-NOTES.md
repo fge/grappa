@@ -1,3 +1,8 @@
+### 2.0.0-alpha.3 (IN PROGRESS)
+
+* Add .canMatchEmpty() to Rule; detect anomalous grammars at build time.
+* Create GrappaException, InvalidGrammarException.
+
 ### 2.0.0-alpha.2
 
 * InputBuffer: new method .codePointAt(); rewrite unicode matchers.
