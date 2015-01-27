@@ -1,7 +1,8 @@
 ### 2.0.0-alpha.3 (IN PROGRESS)
 
-* Add .canMatchEmpty() to Rule; detect anomalous grammars at build time.
 * Create GrappaException, InvalidGrammarException.
+* Add .canMatchEmpty() to Rule; detect anomalous grammars at build time.
+* Sequences now refuse to have an action as the first argument.
 
 ### 2.0.0-alpha.2
 
