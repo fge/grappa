@@ -87,7 +87,7 @@ public class TestParser extends BaseParser<Integer> {
         if (param == integer) {
             return sequence('a', ACTION(action()));
         } else {
-            return EOI;
+            return eof();
         }
     }
 

@@ -34,7 +34,7 @@ public class PrevCallsParser
             digits(), a.set(pop()),
             operator(), op.set(matchedChar()),
             digits(), b.set(pop()),
-            EOI,
+            eof(),
             push(op.get() == '+' ? a.get() + b.get() : a.get() - b.get()));
     }
 

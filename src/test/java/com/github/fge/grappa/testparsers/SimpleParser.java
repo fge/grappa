@@ -30,7 +30,7 @@ public class SimpleParser
             digit(),
             anyOf("abcd"),
             oneOrMore(noneOf("abcd")),
-            EOI
+            eof()
         );
     }
 

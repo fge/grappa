@@ -24,7 +24,7 @@
                 "match": "5"
             },
             {
-                "label": "EOI"
+                "label": "eof"
             }
         ]
     }

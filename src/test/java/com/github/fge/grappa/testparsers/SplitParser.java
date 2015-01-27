@@ -32,7 +32,7 @@ public class SplitParser
             digit(),
             primitives.operator(),
             primitives.digit(),
-            EOI
+            eof()
         );
     }
 

@@ -24,7 +24,7 @@ public class NoMismatchesParser
     @Override
     public Rule mainRule()
     {
-        return sequence(firstOf(zero(), one(), two()), EOI);
+        return sequence(firstOf(zero(), one(), two()), eof());
     }
 
     Rule zero()

@@ -79,7 +79,8 @@ public class ReturnInstructionUnifierTest extends TransformationTest {
                 "    INVOKEVIRTUAL org/parboiled/transform/TestParser.sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lcom/github/fge/grappa/rules/Rule;\n" +
                 "    GOTO L1\n" +
                 "   L0\n" +
-                "    GETSTATIC org/parboiled/transform/TestParser.EOI : Lcom/github/fge/grappa/rules/Rule;\n" +
+                "    ALOAD 0\n" +
+                "    INVOKEVIRTUAL org/parboiled/transform/TestParser.eof ()Lcom/github/fge/grappa/rules/Rule;\n" +
                 "   L1\n" +
                 "    ARETURN\n");
 
