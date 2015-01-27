@@ -22,7 +22,6 @@ import com.github.fge.grappa.matchers.base.Matcher;
 import com.google.common.annotations.Beta;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
-import org.parboiled.errors.GrammarException;
 
 /**
  * A joining matcher
@@ -114,7 +113,7 @@ public abstract class JoinMatcher
         Object snapshot = context.getValueStack().takeSnapshot();
         int beforeCycle = context.getCurrentIndex();
 
-        while (runAgain(cycles) && matchCycle(context, beforeCycle)) {
+        while (runAgain(cycles) && matchCycle(context)) {
             beforeCycle = context.getCurrentIndex();
             snapshot = context.getValueStack().takeSnapshot();
             cycles++;
@@ -134,14 +133,9 @@ public abstract class JoinMatcher
 
     protected abstract boolean enoughCycles(final int cycles);
 
-    protected final <V> boolean matchCycle(final MatcherContext<V> context,
-        final int beforeCycle)
+    protected final <V> boolean matchCycle(final MatcherContext<V> context)
     {
-        if (!joining.getSubContext(context).runMatcher())
-            return false;
-        if (context.getCurrentIndex() == beforeCycle)
-            throw new GrammarException("joining rule (%s) of a JoinMatcher" +
-                " cannot match an empty character sequence!", joining);
-        return joined.getSubContext(context).runMatcher();
+        return joining.getSubContext(context).runMatcher()
+            && joined.getSubContext(context).runMatcher();
     }
 }
