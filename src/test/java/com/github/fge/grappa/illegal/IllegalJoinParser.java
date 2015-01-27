@@ -6,8 +6,14 @@ public class IllegalJoinParser
     extends IllegalGrammarParser
 {
     @Override
-    Rule theRule()
+    Rule illegal()
     {
-        return join("a").using(EMPTY).times(1);
+        return join("a").using(empty()).times(1);
+    }
+
+    @Override
+    Rule legal()
+    {
+        return join("a").using(nonEmpty()).times(1);
     }
 }

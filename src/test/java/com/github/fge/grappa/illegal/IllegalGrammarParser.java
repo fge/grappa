@@ -6,5 +6,17 @@ import org.parboiled.Rule;
 public abstract class IllegalGrammarParser
     extends EventBusParser<Object>
 {
-    abstract Rule theRule();
+    abstract Rule illegal();
+
+    abstract Rule legal();
+
+    Rule empty()
+    {
+        return EMPTY;
+    }
+
+    Rule nonEmpty()
+    {
+        return ch('x');
+    }
 }

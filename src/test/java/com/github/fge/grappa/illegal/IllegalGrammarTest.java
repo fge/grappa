@@ -2,6 +2,7 @@ package com.github.fge.grappa.illegal;
 
 import com.github.fge.grappa.exceptions.InvalidGrammarException;
 import org.parboiled.Parboiled;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -18,6 +19,8 @@ public abstract class IllegalGrammarTest
     private final Class<? extends IllegalGrammarParser> parserClass;
     private final String errorMessage;
 
+    private IllegalGrammarParser parser;
+
     protected IllegalGrammarTest(
         final Class<? extends IllegalGrammarParser> parserClass,
         final String errorMessage)
@@ -26,17 +29,26 @@ public abstract class IllegalGrammarTest
         this.errorMessage = Objects.requireNonNull(errorMessage);
     }
 
+    @BeforeMethod
+    public void init()
+    {
+        parser = Parboiled.createParser(parserClass);
+    }
     @Test
     public final void illegalGrammarIsDetected()
     {
-        final IllegalGrammarParser parser = Parboiled.createParser(parserClass);
-
         try {
-            parser.theRule();
+            parser.illegal();
             shouldHaveThrown(InvalidGrammarException.class);
         } catch (InvalidGrammarException e) {
             assertThat(e).isExactlyInstanceOf(InvalidGrammarException.class)
                 .hasMessage(errorMessage);
         }
+    }
+
+    @Test
+    public final void legalGrammarDoesNotThrowAnException()
+    {
+        parser.legal();
     }
 }
