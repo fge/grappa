@@ -47,7 +47,7 @@ public final class CurrentCharTest
 
         Rule rule()
         {
-            return sequence(dummy.store(currentChar()), EOI);
+            return sequence(EMPTY, dummy.store(currentChar()), eof());
         }
     }
 

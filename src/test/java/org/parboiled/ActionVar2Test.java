@@ -26,10 +26,11 @@ import org.testng.annotations.Test;
 public class ActionVar2Test extends ParboiledTest<Object>
 {
 
+    // TODO: redo that test
+
     @BuildParseTree
     static class Parser extends BaseParser<Object>
     {
-
         Rule Clause() {
             final Reference<Integer> count = new Reference<>();
             return sequence(CharCount(count), Chars(count), '\n');
@@ -41,9 +42,8 @@ public class ActionVar2Test extends ParboiledTest<Object>
 
         Rule Chars(final Reference<Integer> count) {
             return sequence(
-                    zeroOrMore(count.get() > 0, ANY, count.set(count.get() - 1)),
-                    count.get() == 0
-            );
+                    zeroOrMore(EMPTY, count.get() > 0, ANY,
+                        count.set(count.get() - 1)), count.get() == 0);
         }
     }
 
@@ -53,40 +53,52 @@ public class ActionVar2Test extends ParboiledTest<Object>
         test(parser.Clause(), "{12}abcdefghijkl\n")
                 .hasNoErrors()
                 .hasParseTree("" +
-                        "[Clause] '{12}abcdefghijkl\\n'\n" +
-                        "  [CharCount] '{12}'\n" +
-                        "    ['{'] '{'\n" +
-                        "    [oneOrMore] '12'\n" +
-                        "      [0..9] '1'\n" +
-                        "      [0..9] '2'\n" +
-                        "    ['}'] '}'\n" +
-                        "  [Chars] 'abcdefghijkl'\n" +
-                        "    [zeroOrMore] 'abcdefghijkl'\n" +
-                        "      [sequence] 'a'\n" +
-                        "        [ANY] 'a'\n" +
-                        "      [sequence] 'b'\n" +
-                        "        [ANY] 'b'\n" +
-                        "      [sequence] 'c'\n" +
-                        "        [ANY] 'c'\n" +
-                        "      [sequence] 'd'\n" +
-                        "        [ANY] 'd'\n" +
-                        "      [sequence] 'e'\n" +
-                        "        [ANY] 'e'\n" +
-                        "      [sequence] 'f'\n" +
-                        "        [ANY] 'f'\n" +
-                        "      [sequence] 'g'\n" +
-                        "        [ANY] 'g'\n" +
-                        "      [sequence] 'h'\n" +
-                        "        [ANY] 'h'\n" +
-                        "      [sequence] 'i'\n" +
-                        "        [ANY] 'i'\n" +
-                        "      [sequence] 'j'\n" +
-                        "        [ANY] 'j'\n" +
-                        "      [sequence] 'k'\n" +
-                        "        [ANY] 'k'\n" +
-                        "      [sequence] 'l'\n" +
-                        "        [ANY] 'l'\n" +
-                        "  ['\\n'] '\\n'\n");
+                    "[Clause] '{12}abcdefghijkl\\n'\n" +
+                    "  [CharCount] '{12}'\n" +
+                    "    ['{'] '{'\n" +
+                    "    [oneOrMore] '12'\n" +
+                    "      [0..9] '1'\n" +
+                    "      [0..9] '2'\n" +
+                    "    ['}'] '}'\n" +
+                    "  [Chars] 'abcdefghijkl'\n" +
+                    "    [zeroOrMore] 'abcdefghijkl'\n" +
+                    "      [sequence] 'a'\n" +
+                    "        [EMPTY]\n" +
+                    "        [ANY] 'a'\n" +
+                    "      [sequence] 'b'\n" +
+                    "        [EMPTY]\n" +
+                    "        [ANY] 'b'\n" +
+                    "      [sequence] 'c'\n" +
+                    "        [EMPTY]\n" +
+                    "        [ANY] 'c'\n" +
+                    "      [sequence] 'd'\n" +
+                    "        [EMPTY]\n" +
+                    "        [ANY] 'd'\n" +
+                    "      [sequence] 'e'\n" +
+                    "        [EMPTY]\n" +
+                    "        [ANY] 'e'\n" +
+                    "      [sequence] 'f'\n" +
+                    "        [EMPTY]\n" +
+                    "        [ANY] 'f'\n" +
+                    "      [sequence] 'g'\n" +
+                    "        [EMPTY]\n" +
+                    "        [ANY] 'g'\n" +
+                    "      [sequence] 'h'\n" +
+                    "        [EMPTY]\n" +
+                    "        [ANY] 'h'\n" +
+                    "      [sequence] 'i'\n" +
+                    "        [EMPTY]\n" +
+                    "        [ANY] 'i'\n" +
+                    "      [sequence] 'j'\n" +
+                    "        [EMPTY]\n" +
+                    "        [ANY] 'j'\n" +
+                    "      [sequence] 'k'\n" +
+                    "        [EMPTY]\n" +
+                    "        [ANY] 'k'\n" +
+                    "      [sequence] 'l'\n" +
+                    "        [EMPTY]\n" +
+                    "        [ANY] 'l'\n" +
+                    "  ['\\n'] '\\n'\n");
     }
 
 }
