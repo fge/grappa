@@ -71,7 +71,7 @@ public class RuleMethodRewriterTest extends TransformationTest {
                 "14     ALOAD 0\n" +
                 "15     PUTFIELD org/parboiled/transform/Action$XXXXXXXXXXXXXXXX.field$0 : Lorg/parboiled/transform/TestParser$$parboiled;\n" +
                 "16     AASTORE\n" +
-                "17     INVOKEVIRTUAL org/parboiled/transform/TestParser.sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lorg/parboiled/Rule;\n" +
+                "17     INVOKEVIRTUAL org/parboiled/transform/TestParser.sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lcom/github/fge/grappa/rules/Rule;\n" +
                 "18     ARETURN\n");
 
         assertEquals(getMethodInstructionList(processMethod("RuleWithComplexActionSetup", processors))
@@ -143,7 +143,7 @@ public class RuleMethodRewriterTest extends TransformationTest {
                 "63     ILOAD 3\n" +
                 "64     PUTFIELD org/parboiled/transform/Action$XXXXXXXXXXXXXXXX.field$4 : I\n" +
                 "65     AASTORE\n" +
-                "66     INVOKEVIRTUAL org/parboiled/transform/TestParser.sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lorg/parboiled/Rule;\n" +
+                "66     INVOKEVIRTUAL org/parboiled/transform/TestParser.sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lcom/github/fge/grappa/rules/Rule;\n" +
                 "67     NEW com/github/fge/grappa/matchers/wrap/VarFramingMatcher\n" +
                 "68     DUP_X1\n" +
                 "69     SWAP\n" +
@@ -156,7 +156,7 @@ public class RuleMethodRewriterTest extends TransformationTest {
                 "76     LDC \"RuleWithComplexActionSetup:string\"\n" +
                 "77     INVOKEVIRTUAL org/parboiled/support/Var.setName (Ljava/lang/String;)V\n" +
                 "78     AASTORE\n" +
-                "79     INVOKESPECIAL com/github/fge/grappa/matchers/wrap/VarFramingMatcher.<init> (Lorg/parboiled/Rule;[Lorg/parboiled/support/Var;)V\n" +
+                "79     INVOKESPECIAL com/github/fge/grappa/matchers/wrap/VarFramingMatcher.<init> (Lcom/github/fge/grappa/rules/Rule;[Lorg/parboiled/support/Var;)V\n" +
                 "80     ARETURN\n");
     }
 

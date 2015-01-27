@@ -19,11 +19,11 @@ package com.github.fge.grappa.run;
 import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.internal.NonFinalForTesting;
 import com.github.fge.grappa.matchers.base.Matcher;
+import com.github.fge.grappa.rules.Rule;
 import com.google.common.base.Preconditions;
 import com.google.common.eventbus.EventBus;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
-import org.parboiled.Rule;
 import org.parboiled.support.ParsingResult;
 
 import javax.annotation.ParametersAreNonnullByDefault;

@@ -18,6 +18,7 @@ package org.parboiled;
 
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.parsers.BaseParser;
+import com.github.fge.grappa.rules.Rule;
 import org.parboiled.annotations.BuildParseTree;
 import org.parboiled.support.Var;
 import org.parboiled.test.ParboiledTest;

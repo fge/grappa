@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package org.parboiled;
+package com.github.fge.grappa.rules;
 
 import com.github.fge.grappa.matchers.delegate.SequenceMatcher;
 import com.github.fge.grappa.parsers.BaseActions;
+import org.parboiled.Context;
+import org.parboiled.ContextAware;
 
 /**
  * Instances of classes implementing this interface can be used directly in a

@@ -17,7 +17,7 @@
 package org.parboiled.annotations;
 
 import com.github.fge.grappa.parsers.BaseParser;
-import org.parboiled.Action;
+import com.github.fge.grappa.rules.Action;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

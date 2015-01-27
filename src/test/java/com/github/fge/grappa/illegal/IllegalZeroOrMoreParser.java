@@ -1,6 +1,6 @@
 package com.github.fge.grappa.illegal;
 
-import org.parboiled.Rule;
+import com.github.fge.grappa.rules.Rule;
 
 public class IllegalZeroOrMoreParser
     extends IllegalGrammarParser

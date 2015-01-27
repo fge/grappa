@@ -18,10 +18,10 @@ package com.github.fge.grappa.matchers.join;
 
 import com.github.fge.grappa.exceptions.InvalidGrammarException;
 import com.github.fge.grappa.parsers.BaseParser;
+import com.github.fge.grappa.rules.Rule;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
-import org.parboiled.Rule;
 
 import javax.annotation.Nonnull;
 

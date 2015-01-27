@@ -16,13 +16,13 @@
 
 package org.parboiled.transform.process;
 
+import com.github.fge.grappa.rules.Rule;
 import com.github.fge.grappa.transform.CodeBlock;
 import com.google.common.base.Preconditions;
 import me.qmx.jitescript.util.CodegenUtils;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.LabelNode;
-import org.parboiled.Rule;
 import org.parboiled.transform.ParserClassNode;
 import org.parboiled.transform.RuleMethod;
 

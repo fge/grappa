@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.parboiled;
+package com.github.fge.grappa.rules;
 
 import com.github.fge.grappa.matchers.predicates.TestMatcher;
 import com.github.fge.grappa.matchers.predicates.TestNotMatcher;

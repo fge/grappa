@@ -19,9 +19,9 @@ package com.github.fge.grappa.matchers.predicates;
 import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.CustomDefaultLabelMatcher;
 import com.github.fge.grappa.matchers.base.Matcher;
+import com.github.fge.grappa.rules.Rule;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
-import org.parboiled.Rule;
 
 /**
  * A special {@link Matcher} not actually matching any input but rather trying its submatcher against the current input

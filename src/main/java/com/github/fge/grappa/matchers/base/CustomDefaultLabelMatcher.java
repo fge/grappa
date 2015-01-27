@@ -16,7 +16,7 @@
 
 package com.github.fge.grappa.matchers.base;
 
-import org.parboiled.Rule;
+import com.github.fge.grappa.rules.Rule;
 
 // TODO: remove
 public abstract class CustomDefaultLabelMatcher<T extends CustomDefaultLabelMatcher<T>>

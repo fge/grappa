@@ -16,7 +16,7 @@
 
 package org.parboiled.annotations;
 
-import org.parboiled.Rule;
+import com.github.fge.grappa.rules.Rule;
 import org.parboiled.transform.ParserTransformer;
 
 import java.lang.annotation.Documented;

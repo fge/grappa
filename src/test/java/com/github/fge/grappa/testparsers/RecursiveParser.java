@@ -16,7 +16,7 @@
 
 package com.github.fge.grappa.testparsers;
 
-import org.parboiled.Rule;
+import com.github.fge.grappa.rules.Rule;
 
 public class RecursiveParser
     extends TestParser<Object>

@@ -16,8 +16,8 @@
 
 package com.github.fge.grappa.matchers.join;
 
+import com.github.fge.grappa.rules.Rule;
 import com.google.common.annotations.Beta;
-import org.parboiled.Rule;
 
 /*
  * A joining matcher with a minimum and maximum number of matches to perform

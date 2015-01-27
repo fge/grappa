@@ -16,7 +16,7 @@
 
 package com.github.fge.grappa.testparsers;
 
-import org.parboiled.Rule;
+import com.github.fge.grappa.rules.Rule;
 
 // TODO: find bug reference
 public class Bug101Parser

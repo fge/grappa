@@ -17,8 +17,8 @@
 package com.github.fge.grappa.matchers.base;
 
 import com.github.fge.grappa.matchers.MatcherType;
+import com.github.fge.grappa.rules.Rule;
 import org.parboiled.MatcherContext;
-import org.parboiled.Rule;
 import org.parboiled.trees.GraphNode;
 
 /**

@@ -45,7 +45,7 @@ public class CachingGeneratorTest extends TransformationTest {
     public void test() throws Exception {
         assertTraceDumpEquality(processMethod("RuleWithoutAction", processors), "" +
                 "    ALOAD 0\n" +
-                "    GETFIELD org/parboiled/transform/TestParser$$parboiled.cache$RuleWithoutAction : Lorg/parboiled/Rule;\n" +
+                "    GETFIELD org/parboiled/transform/TestParser$$parboiled.cache$RuleWithoutAction : Lcom/github/fge/grappa/rules/Rule;\n" +
                 "    DUP\n" +
                 "    IFNULL L0\n" +
                 "    ARETURN\n" +
@@ -57,13 +57,13 @@ public class CachingGeneratorTest extends TransformationTest {
                 "    DUP\n" +
                 "    ALOAD 0\n" +
                 "    SWAP\n" +
-                "    PUTFIELD org/parboiled/transform/TestParser$$parboiled.cache$RuleWithoutAction : Lorg/parboiled/Rule;\n" +
+                "    PUTFIELD org/parboiled/transform/TestParser$$parboiled.cache$RuleWithoutAction : Lcom/github/fge/grappa/rules/Rule;\n" +
                 "    ALOAD 0\n" +
-                "    INVOKESPECIAL org/parboiled/transform/TestParser.RuleWithoutAction ()Lorg/parboiled/Rule;\n" +
+                "    INVOKESPECIAL org/parboiled/transform/TestParser.RuleWithoutAction ()Lcom/github/fge/grappa/rules/Rule;\n" +
                 "    DUP\n" +
                 "    IFNULL L1\n" +
                 "    LDC \"RuleWithoutAction\"\n" +
-                "    INVOKEINTERFACE org/parboiled/Rule.label (Ljava/lang/String;)Lorg/parboiled/Rule;\n" +
+                "    INVOKEINTERFACE com/github/fge/grappa/rules/Rule.label (Ljava/lang/String;)Lcom/github/fge/grappa/rules/Rule;\n" +
                 "   L1\n" +
                 "    DUP_X1\n" +
                 "    CHECKCAST com/github/fge/grappa/matchers/base/Matcher\n" +
@@ -71,13 +71,13 @@ public class CachingGeneratorTest extends TransformationTest {
                 "    DUP\n" +
                 "    ALOAD 0\n" +
                 "    SWAP\n" +
-                "    PUTFIELD org/parboiled/transform/TestParser$$parboiled.cache$RuleWithoutAction : Lorg/parboiled/Rule;\n" +
+                "    PUTFIELD org/parboiled/transform/TestParser$$parboiled.cache$RuleWithoutAction : Lcom/github/fge/grappa/rules/Rule;\n" +
                 "    ARETURN\n");
 
         assertTraceDumpEquality(processMethod("RuleWithNamedLabel", processors), "" +
                 "  @Lorg/parboiled/annotations/Label;(value=\"harry\")\n" +
                 "    ALOAD 0\n" +
-                "    GETFIELD org/parboiled/transform/TestParser$$parboiled.cache$RuleWithNamedLabel : Lorg/parboiled/Rule;\n" +
+                "    GETFIELD org/parboiled/transform/TestParser$$parboiled.cache$RuleWithNamedLabel : Lcom/github/fge/grappa/rules/Rule;\n" +
                 "    DUP\n" +
                 "    IFNULL L0\n" +
                 "    ARETURN\n" +
@@ -89,13 +89,13 @@ public class CachingGeneratorTest extends TransformationTest {
                 "    DUP\n" +
                 "    ALOAD 0\n" +
                 "    SWAP\n" +
-                "    PUTFIELD org/parboiled/transform/TestParser$$parboiled.cache$RuleWithNamedLabel : Lorg/parboiled/Rule;\n" +
+                "    PUTFIELD org/parboiled/transform/TestParser$$parboiled.cache$RuleWithNamedLabel : Lcom/github/fge/grappa/rules/Rule;\n" +
                 "    ALOAD 0\n" +
-                "    INVOKESPECIAL org/parboiled/transform/TestParser.RuleWithNamedLabel ()Lorg/parboiled/Rule;\n" +
+                "    INVOKESPECIAL org/parboiled/transform/TestParser.RuleWithNamedLabel ()Lcom/github/fge/grappa/rules/Rule;\n" +
                 "    DUP\n" +
                 "    IFNULL L1\n" +
                 "    LDC \"harry\"\n" +
-                "    INVOKEINTERFACE org/parboiled/Rule.label (Ljava/lang/String;)Lorg/parboiled/Rule;\n" +
+                "    INVOKEINTERFACE com/github/fge/grappa/rules/Rule.label (Ljava/lang/String;)Lcom/github/fge/grappa/rules/Rule;\n" +
                 "   L1\n" +
                 "    DUP_X1\n" +
                 "    CHECKCAST com/github/fge/grappa/matchers/base/Matcher\n" +
@@ -103,12 +103,12 @@ public class CachingGeneratorTest extends TransformationTest {
                 "    DUP\n" +
                 "    ALOAD 0\n" +
                 "    SWAP\n" +
-                "    PUTFIELD org/parboiled/transform/TestParser$$parboiled.cache$RuleWithNamedLabel : Lorg/parboiled/Rule;\n" +
+                "    PUTFIELD org/parboiled/transform/TestParser$$parboiled.cache$RuleWithNamedLabel : Lcom/github/fge/grappa/rules/Rule;\n" +
                 "    ARETURN\n");
 
         assertTraceDumpEquality(processMethod("RuleWithLeaf", processors), "" +
                 "    ALOAD 0\n" +
-                "    GETFIELD org/parboiled/transform/TestParser$$parboiled.cache$RuleWithLeaf : Lorg/parboiled/Rule;\n" +
+                "    GETFIELD org/parboiled/transform/TestParser$$parboiled.cache$RuleWithLeaf : Lcom/github/fge/grappa/rules/Rule;\n" +
                 "    DUP\n" +
                 "    IFNULL L0\n" +
                 "    ARETURN\n" +
@@ -120,17 +120,17 @@ public class CachingGeneratorTest extends TransformationTest {
                 "    DUP\n" +
                 "    ALOAD 0\n" +
                 "    SWAP\n" +
-                "    PUTFIELD org/parboiled/transform/TestParser$$parboiled.cache$RuleWithLeaf : Lorg/parboiled/Rule;\n" +
+                "    PUTFIELD org/parboiled/transform/TestParser$$parboiled.cache$RuleWithLeaf : Lcom/github/fge/grappa/rules/Rule;\n" +
                 "    ALOAD 0\n" +
-                "    INVOKESPECIAL org/parboiled/transform/TestParser.RuleWithLeaf ()Lorg/parboiled/Rule;\n" +
+                "    INVOKESPECIAL org/parboiled/transform/TestParser.RuleWithLeaf ()Lcom/github/fge/grappa/rules/Rule;\n" +
                 "    DUP\n" +
                 "    IFNULL L1\n" +
                 "    LDC \"RuleWithLeaf\"\n" +
-                "    INVOKEINTERFACE org/parboiled/Rule.label (Ljava/lang/String;)Lorg/parboiled/Rule;\n" +
+                "    INVOKEINTERFACE com/github/fge/grappa/rules/Rule.label (Ljava/lang/String;)Lcom/github/fge/grappa/rules/Rule;\n" +
                 "   L1\n" +
                 "    DUP\n" +
                 "    IFNULL L2\n" +
-                "    INVOKEINTERFACE org/parboiled/Rule.suppressNode ()Lorg/parboiled/Rule;\n" +
+                "    INVOKEINTERFACE com/github/fge/grappa/rules/Rule.suppressNode ()Lcom/github/fge/grappa/rules/Rule;\n" +
                 "   L2\n" +
                 "    DUP_X1\n" +
                 "    CHECKCAST com/github/fge/grappa/matchers/base/Matcher\n" +
@@ -138,7 +138,7 @@ public class CachingGeneratorTest extends TransformationTest {
                 "    DUP\n" +
                 "    ALOAD 0\n" +
                 "    SWAP\n" +
-                "    PUTFIELD org/parboiled/transform/TestParser$$parboiled.cache$RuleWithLeaf : Lorg/parboiled/Rule;\n" +
+                "    PUTFIELD org/parboiled/transform/TestParser$$parboiled.cache$RuleWithLeaf : Lcom/github/fge/grappa/rules/Rule;\n" +
                 "    ARETURN\n");
     }
 

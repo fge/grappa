@@ -18,8 +18,8 @@ package org.parboiled.support;
 
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.parsers.BaseParser;
+import com.github.fge.grappa.rules.Rule;
 import org.parboiled.Parboiled;
-import org.parboiled.Rule;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;

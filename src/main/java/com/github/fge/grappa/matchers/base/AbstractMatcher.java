@@ -17,11 +17,11 @@
 package com.github.fge.grappa.matchers.base;
 
 import com.github.fge.grappa.matchers.wrap.MemoMismatchesMatcher;
+import com.github.fge.grappa.rules.Rule;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import org.parboiled.MatcherContext;
-import org.parboiled.Rule;
 import org.parboiled.trees.ImmutableGraphNode;
 
 /**

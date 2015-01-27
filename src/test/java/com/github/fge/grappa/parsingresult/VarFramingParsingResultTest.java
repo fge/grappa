@@ -16,9 +16,9 @@
 
 package com.github.fge.grappa.parsingresult;
 
+import com.github.fge.grappa.rules.Rule;
 import com.github.fge.grappa.testparsers.TestParser;
 import com.github.fge.grappa.testparsers.VarFramingParser;
-import org.parboiled.Rule;
 import org.parboiled.annotations.SuppressNode;
 import org.parboiled.support.Var;
 

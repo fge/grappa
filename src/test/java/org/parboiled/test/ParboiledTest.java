@@ -17,9 +17,9 @@
 package org.parboiled.test;
 
 import com.github.fge.grappa.buffers.InputBuffer;
+import com.github.fge.grappa.rules.Rule;
 import com.github.fge.grappa.run.EventBasedParseRunner;
 import com.github.fge.grappa.run.ParseRunner;
-import org.parboiled.Rule;
 import org.parboiled.support.ParsingResult;
 
 import static org.assertj.core.api.Fail.fail;

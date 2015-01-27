@@ -1,6 +1,6 @@
 import com.github.fge.grappa.parsingresult.ParsingResultTest;
+import com.github.fge.grappa.rules.Rule;
 import com.github.fge.grappa.testparsers.TestParser;
-import org.parboiled.Rule;
 import org.parboiled.annotations.BuildParseTree;
 
 import java.io.IOException;

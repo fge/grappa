@@ -6,7 +6,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-
 import java.util.Objects;
 
 import static com.github.fge.grappa.util.CustomAssertions.shouldHaveThrown;

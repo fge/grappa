@@ -16,8 +16,8 @@
 
 package com.github.fge.grappa.matchers.join;
 
+import com.github.fge.grappa.rules.Rule;
 import com.google.common.annotations.Beta;
-import org.parboiled.Rule;
 
 /*
  * A matcher which must match exactly n times. Note that n is >= 2 (otherwise

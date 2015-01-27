@@ -22,6 +22,7 @@
 
 package org.parboiled.transform;
 
+import com.github.fge.grappa.rules.Rule;
 import com.github.fge.grappa.transform.ParserAnnotation;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
@@ -33,7 +34,6 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.MethodNode;
-import org.parboiled.Rule;
 import org.parboiled.support.Checks;
 
 import javax.annotation.Nullable;

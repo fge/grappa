@@ -20,6 +20,7 @@ import com.github.fge.grappa.buffers.CharSequenceInputBuffer;
 import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.internal.NonFinalForTesting;
 import com.github.fge.grappa.matchers.base.Matcher;
+import com.github.fge.grappa.rules.Rule;
 import com.github.fge.grappa.stack.DefaultValueStack;
 import com.github.fge.grappa.stack.ValueStack;
 import com.google.common.base.Preconditions;
@@ -27,7 +28,6 @@ import com.google.common.collect.Lists;
 import org.parboiled.DefaultMatcherContext;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
-import org.parboiled.Rule;
 import org.parboiled.errors.ParseError;
 import org.parboiled.support.ParsingResult;
 

@@ -17,7 +17,7 @@
 package org.parboiled.transform;
 
 import com.github.fge.grappa.parsers.BaseParser;
-import org.parboiled.Rule;
+import com.github.fge.grappa.rules.Rule;
 import org.parboiled.annotations.BuildParseTree;
 import org.parboiled.annotations.MemoMismatches;
 import org.testng.annotations.Test;
@@ -78,15 +78,15 @@ public class ParserHierarchyTest {
         final ParserClassNode classNode = ParserTransformer.extendParserClass(Parser3.class);
         verifyIntegrity(classNode.name, classNode.getClassCode());
 
-        assertEquals(getMethodInstructionList(classNode.getRuleMethods().get("$A()Lorg/parboiled/Rule;"))
+        assertEquals(getMethodInstructionList(classNode.getRuleMethods().get("$A()Lcom/github/fge/grappa/rules/Rule;"))
             .replaceAll("(?<=\\$)[A-Za-z0-9]{16}", "XXXXXXXXXXXXXXXX"), "" +
                 "Method '$A':\n" +
-                " 0     GETSTATIC org/parboiled/transform/ParserHierarchyTest$Parser1.EMPTY : Lorg/parboiled/Rule;\n" +
+                " 0     GETSTATIC org/parboiled/transform/ParserHierarchyTest$Parser1.EMPTY : Lcom/github/fge/grappa/rules/Rule;\n" +
                 " 1     ARETURN\n");
-        assertEquals(getMethodInstructionList(classNode.getRuleMethods().get("A()Lorg/parboiled/Rule;")), "" +
+        assertEquals(getMethodInstructionList(classNode.getRuleMethods().get("A()Lcom/github/fge/grappa/rules/Rule;")), "" +
                 "Method 'A':\n" +
                 " 0     ALOAD 0\n" +
-                " 1     GETFIELD org/parboiled/transform/ParserHierarchyTest$Parser3$$parboiled.cache$A : Lorg/parboiled/Rule;\n" +
+                " 1     GETFIELD org/parboiled/transform/ParserHierarchyTest$Parser3$$parboiled.cache$A : Lcom/github/fge/grappa/rules/Rule;\n" +
                 " 2     DUP\n" +
                 " 3     IFNULL L0\n" +
                 " 4     ARETURN\n" +
@@ -98,19 +98,19 @@ public class ParserHierarchyTest {
                 "10     DUP\n" +
                 "11     ALOAD 0\n" +
                 "12     SWAP\n" +
-                "13     PUTFIELD org/parboiled/transform/ParserHierarchyTest$Parser3$$parboiled.cache$A : Lorg/parboiled/Rule;\n" +
+                "13     PUTFIELD org/parboiled/transform/ParserHierarchyTest$Parser3$$parboiled.cache$A : Lcom/github/fge/grappa/rules/Rule;\n" +
                 "14     ALOAD 0\n" +
                 "15     ALOAD 0\n" +
-                "16     INVOKESPECIAL org/parboiled/transform/ParserHierarchyTest$Parser1.A ()Lorg/parboiled/Rule;\n" +
+                "16     INVOKESPECIAL org/parboiled/transform/ParserHierarchyTest$Parser1.A ()Lcom/github/fge/grappa/rules/Rule;\n" +
                 "17     BIPUSH 65\n" +
                 "18     INVOKESTATIC java/lang/Character.valueOf (C)Ljava/lang/Character;\n" +
                 "19     ICONST_0\n" +
                 "20     ANEWARRAY java/lang/Object\n" +
-                "21     INVOKEVIRTUAL org/parboiled/transform/ParserHierarchyTest$Parser2.sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lorg/parboiled/Rule;\n" +
+                "21     INVOKEVIRTUAL org/parboiled/transform/ParserHierarchyTest$Parser2.sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lcom/github/fge/grappa/rules/Rule;\n" +
                 "22     DUP\n" +
                 "23     IFNULL L1\n" +
                 "24     LDC \"A\"\n" +
-                "25     INVOKEINTERFACE org/parboiled/Rule.label (Ljava/lang/String;)Lorg/parboiled/Rule;\n" +
+                "25     INVOKEINTERFACE com/github/fge/grappa/rules/Rule.label (Ljava/lang/String;)Lcom/github/fge/grappa/rules/Rule;\n" +
                 "26    L1\n" +
                 "27     DUP_X1\n" +
                 "28     CHECKCAST com/github/fge/grappa/matchers/base/Matcher\n" +
@@ -118,9 +118,9 @@ public class ParserHierarchyTest {
                 "30     DUP\n" +
                 "31     ALOAD 0\n" +
                 "32     SWAP\n" +
-                "33     PUTFIELD org/parboiled/transform/ParserHierarchyTest$Parser3$$parboiled.cache$A : Lorg/parboiled/Rule;\n" +
+                "33     PUTFIELD org/parboiled/transform/ParserHierarchyTest$Parser3$$parboiled.cache$A : Lcom/github/fge/grappa/rules/Rule;\n" +
                 "34     ARETURN\n");
-        assertEquals(getMethodInstructionList(classNode.getRuleMethods().get("$B()Lorg/parboiled/Rule;"))
+        assertEquals(getMethodInstructionList(classNode.getRuleMethods().get("$B()Lcom/github/fge/grappa/rules/Rule;"))
             .replaceAll("(?<=\\$)[A-Za-z0-9]{16}", "XXXXXXXXXXXXXXXX"), "" +
                 "Method '$B':\n" +
                 " 0     ALOAD 0\n" +
@@ -135,13 +135,13 @@ public class ParserHierarchyTest {
                 " 9     PUTFIELD org/parboiled/transform/Action$XXXXXXXXXXXXXXXX.field$0 : Lorg/parboiled/transform/ParserHierarchyTest$Parser3$$parboiled;\n" +
                 "10     ICONST_0\n" +
                 "11     ANEWARRAY java/lang/Object\n" +
-                "12     INVOKEVIRTUAL org/parboiled/transform/ParserHierarchyTest$Parser1.sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lorg/parboiled/Rule;\n" +
+                "12     INVOKEVIRTUAL org/parboiled/transform/ParserHierarchyTest$Parser1.sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lcom/github/fge/grappa/rules/Rule;\n" +
                 "13     ARETURN\n");
-        assertEquals(getMethodInstructionList(classNode.getRuleMethods().get("B()Lorg/parboiled/Rule;"))
+        assertEquals(getMethodInstructionList(classNode.getRuleMethods().get("B()Lcom/github/fge/grappa/rules/Rule;"))
             .replaceAll("(?<=\\$)[A-Za-z0-9]{16}", "XXXXXXXXXXXXXXXX"), "" +
                 "Method 'B':\n" +
                 " 0     ALOAD 0\n" +
-                " 1     GETFIELD org/parboiled/transform/ParserHierarchyTest$Parser3$$parboiled.cache$B : Lorg/parboiled/Rule;\n" +
+                " 1     GETFIELD org/parboiled/transform/ParserHierarchyTest$Parser3$$parboiled.cache$B : Lcom/github/fge/grappa/rules/Rule;\n" +
                 " 2     DUP\n" +
                 " 3     IFNULL L0\n" +
                 " 4     ARETURN\n" +
@@ -153,10 +153,10 @@ public class ParserHierarchyTest {
                 "10     DUP\n" +
                 "11     ALOAD 0\n" +
                 "12     SWAP\n" +
-                "13     PUTFIELD org/parboiled/transform/ParserHierarchyTest$Parser3$$parboiled.cache$B : Lorg/parboiled/Rule;\n" +
+                "13     PUTFIELD org/parboiled/transform/ParserHierarchyTest$Parser3$$parboiled.cache$B : Lcom/github/fge/grappa/rules/Rule;\n" +
                 "14     ALOAD 0\n" +
                 "15     ALOAD 0\n" +
-                "16     INVOKEVIRTUAL org/parboiled/transform/ParserHierarchyTest$Parser3$$parboiled.$B ()Lorg/parboiled/Rule;\n" +
+                "16     INVOKEVIRTUAL org/parboiled/transform/ParserHierarchyTest$Parser3$$parboiled.$B ()Lcom/github/fge/grappa/rules/Rule;\n" +
                 "17     BIPUSH 66\n" +
                 "18     INVOKESTATIC java/lang/Character.valueOf (C)Ljava/lang/Character;\n" +
                 "19     ICONST_1\n" +
@@ -171,11 +171,11 @@ public class ParserHierarchyTest {
                 "28     ALOAD 0\n" +
                 "29     PUTFIELD org/parboiled/transform/Action$XXXXXXXXXXXXXXXX.field$0 : Lorg/parboiled/transform/ParserHierarchyTest$Parser3$$parboiled;\n" +
                 "30     AASTORE\n" +
-                "31     INVOKEVIRTUAL org/parboiled/transform/ParserHierarchyTest$Parser3.sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lorg/parboiled/Rule;\n" +
+                "31     INVOKEVIRTUAL org/parboiled/transform/ParserHierarchyTest$Parser3.sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lcom/github/fge/grappa/rules/Rule;\n" +
                 "32     DUP\n" +
                 "33     IFNULL L1\n" +
                 "34     LDC \"B\"\n" +
-                "35     INVOKEINTERFACE org/parboiled/Rule.label (Ljava/lang/String;)Lorg/parboiled/Rule;\n" +
+                "35     INVOKEINTERFACE com/github/fge/grappa/rules/Rule.label (Ljava/lang/String;)Lcom/github/fge/grappa/rules/Rule;\n" +
                 "36    L1\n" +
                 "37     DUP_X1\n" +
                 "38     CHECKCAST com/github/fge/grappa/matchers/base/Matcher\n" +
@@ -183,14 +183,14 @@ public class ParserHierarchyTest {
                 "40     DUP\n" +
                 "41     ALOAD 0\n" +
                 "42     SWAP\n" +
-                "43     PUTFIELD org/parboiled/transform/ParserHierarchyTest$Parser3$$parboiled.cache$B : Lorg/parboiled/Rule;\n" +
+                "43     PUTFIELD org/parboiled/transform/ParserHierarchyTest$Parser3$$parboiled.cache$B : Lcom/github/fge/grappa/rules/Rule;\n" +
                 "44     ARETURN\n");
-        assertEquals(getMethodInstructionList(classNode.getRuleMethods().get("$C()Lorg/parboiled/Rule;"))
+        assertEquals(getMethodInstructionList(classNode.getRuleMethods().get("$C()Lcom/github/fge/grappa/rules/Rule;"))
             .replaceAll("(?<=\\$)[A-Za-z0-9]{16}", "XXXXXXXXXXXXXXXX"), "" +
                 "Method '$C':\n" +
                 " 0     ALOAD 0\n" +
                 " 1     ALOAD 0\n" +
-                " 2     INVOKESPECIAL org/parboiled/transform/ParserHierarchyTest$Parser1.C ()Lorg/parboiled/Rule;\n" +
+                " 2     INVOKESPECIAL org/parboiled/transform/ParserHierarchyTest$Parser1.C ()Lcom/github/fge/grappa/rules/Rule;\n" +
                 " 3     NEW org/parboiled/transform/Action$XXXXXXXXXXXXXXXX\n" +
                 " 4     DUP\n" +
                 " 5     LDC \"$C_Action1\"\n" +
@@ -200,13 +200,13 @@ public class ParserHierarchyTest {
                 " 9     PUTFIELD org/parboiled/transform/Action$XXXXXXXXXXXXXXXX.field$0 : Lorg/parboiled/transform/ParserHierarchyTest$Parser3$$parboiled;\n" +
                 "10     ICONST_0\n" +
                 "11     ANEWARRAY java/lang/Object\n" +
-                "12     INVOKEVIRTUAL org/parboiled/transform/ParserHierarchyTest$Parser2.sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lorg/parboiled/Rule;\n" +
+                "12     INVOKEVIRTUAL org/parboiled/transform/ParserHierarchyTest$Parser2.sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lcom/github/fge/grappa/rules/Rule;\n" +
                 "13     ARETURN\n");
-        assertEquals(getMethodInstructionList(classNode.getRuleMethods().get("C()Lorg/parboiled/Rule;"))
+        assertEquals(getMethodInstructionList(classNode.getRuleMethods().get("C()Lcom/github/fge/grappa/rules/Rule;"))
             .replaceAll("(?<=\\$)[A-Za-z0-9]{16}", "XXXXXXXXXXXXXXXX"), "" +
                 "Method 'C':\n" +
                 " 0     ALOAD 0\n" +
-                " 1     GETFIELD org/parboiled/transform/ParserHierarchyTest$Parser3$$parboiled.cache$C : Lorg/parboiled/Rule;\n" +
+                " 1     GETFIELD org/parboiled/transform/ParserHierarchyTest$Parser3$$parboiled.cache$C : Lcom/github/fge/grappa/rules/Rule;\n" +
                 " 2     DUP\n" +
                 " 3     IFNULL L0\n" +
                 " 4     ARETURN\n" +
@@ -218,19 +218,19 @@ public class ParserHierarchyTest {
                 "10     DUP\n" +
                 "11     ALOAD 0\n" +
                 "12     SWAP\n" +
-                "13     PUTFIELD org/parboiled/transform/ParserHierarchyTest$Parser3$$parboiled.cache$C : Lorg/parboiled/Rule;\n" +
+                "13     PUTFIELD org/parboiled/transform/ParserHierarchyTest$Parser3$$parboiled.cache$C : Lcom/github/fge/grappa/rules/Rule;\n" +
                 "14     ALOAD 0\n" +
                 "15     BIPUSH 67\n" +
                 "16     INVOKESTATIC java/lang/Character.valueOf (C)Ljava/lang/Character;\n" +
                 "17     ALOAD 0\n" +
-                "18     INVOKEVIRTUAL org/parboiled/transform/ParserHierarchyTest$Parser3$$parboiled.$C ()Lorg/parboiled/Rule;\n" +
+                "18     INVOKEVIRTUAL org/parboiled/transform/ParserHierarchyTest$Parser3$$parboiled.$C ()Lcom/github/fge/grappa/rules/Rule;\n" +
                 "19     ICONST_0\n" +
                 "20     ANEWARRAY java/lang/Object\n" +
-                "21     INVOKEVIRTUAL org/parboiled/transform/ParserHierarchyTest$Parser3.sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lorg/parboiled/Rule;\n" +
+                "21     INVOKEVIRTUAL org/parboiled/transform/ParserHierarchyTest$Parser3.sequence (Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Lcom/github/fge/grappa/rules/Rule;\n" +
                 "22     DUP\n" +
                 "23     IFNULL L1\n" +
                 "24     LDC \"C\"\n" +
-                "25     INVOKEINTERFACE org/parboiled/Rule.label (Ljava/lang/String;)Lorg/parboiled/Rule;\n" +
+                "25     INVOKEINTERFACE com/github/fge/grappa/rules/Rule.label (Ljava/lang/String;)Lcom/github/fge/grappa/rules/Rule;\n" +
                 "26    L1\n" +
                 "27     DUP_X1\n" +
                 "28     CHECKCAST com/github/fge/grappa/matchers/base/Matcher\n" +
@@ -238,7 +238,7 @@ public class ParserHierarchyTest {
                 "30     DUP\n" +
                 "31     ALOAD 0\n" +
                 "32     SWAP\n" +
-                "33     PUTFIELD org/parboiled/transform/ParserHierarchyTest$Parser3$$parboiled.cache$C : Lorg/parboiled/Rule;\n" +
+                "33     PUTFIELD org/parboiled/transform/ParserHierarchyTest$Parser3$$parboiled.cache$C : Lcom/github/fge/grappa/rules/Rule;\n" +
                 "34     ARETURN\n");
     }
 

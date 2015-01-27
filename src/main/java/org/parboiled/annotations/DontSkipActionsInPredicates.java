@@ -16,7 +16,7 @@
 
 package org.parboiled.annotations;
 
-import org.parboiled.Action;
+import com.github.fge.grappa.rules.Action;
 import org.parboiled.ContextAware;
 
 import java.lang.annotation.Documented;

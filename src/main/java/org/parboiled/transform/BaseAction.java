@@ -22,8 +22,8 @@
 
 package org.parboiled.transform;
 
+import com.github.fge.grappa.rules.SkippableAction;
 import com.google.common.base.Preconditions;
-import org.parboiled.SkippableAction;
 
 /**
  * Base class of generated classes wrapping action expressions.
