@@ -182,15 +182,6 @@ public final class TracingParseRunnerListener<V>
         }
     }
 
-    private void writeEvent(final TraceEvent event)
-    {
-        try {
-            generator.writeObject(event);
-        } catch (IOException e) {
-            throw new RuntimeException("failed to write event to file", e);
-        }
-    }
-
     private void copyRunInfo(final FileSystem zipfs, final ParseRunInfo runInfo)
         throws IOException
     {
