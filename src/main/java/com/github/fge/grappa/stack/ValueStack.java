@@ -94,14 +94,6 @@ public interface ValueStack<V>
     void push(int down, V value);
 
     /**
-     * Pushes all given elements onto the stack (in the order as given).
-     *
-     * @param firstValue the first value
-     * @param moreValues the other values
-     */
-    void pushAll(V firstValue, V... moreValues);
-
-    /**
      * Removes the value at the top of the stack and returns it.
      *
      * @return the current top value

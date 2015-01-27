@@ -22,7 +22,9 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -132,7 +134,8 @@ public final class DefaultValueStackTest
             .containsExactly(two, two, 1);
 
         stack.pop();
-        stack.pushAll(3, "helo");
+        stack.push("helo");
+        stack.push(3);
         soft.assertThat(stack.size()).as("stack has the correct size")
             .isEqualTo(4);
         soft.assertThat(stack)
@@ -154,7 +157,8 @@ public final class DefaultValueStackTest
             .as("elements are in the correct order after multi element push")
             .containsExactly(3, "helo", 1);
 
-        stack.pushAll("harry", "sally");
+        stack.push("sally");
+        stack.push("harry");
         soft.assertThat(stack.size()).as("stack has the correct size")
             .isEqualTo(5);
         soft.assertThat(stack)
@@ -186,7 +190,9 @@ public final class DefaultValueStackTest
     @Test
     public void wrongIndicesYieldExpectedExceptions()
     {
-        stack.pushAll(1, 2, 3);
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
 
         try {
             stack.pop(3);
@@ -250,7 +256,10 @@ public final class DefaultValueStackTest
         final List<Object> orig = Arrays.<Object>asList(1, 2, 3, 4, 5, 6);
         final SoftAssertions soft = new SoftAssertions();
 
-        stack.pushAll(1, 2, 3, 4, 5, 6);
+        final List<Object> l = new ArrayList<>(orig);
+        Collections.reverse(l);
+        for (final Object o: l)
+            stack.push(o);
 
         stack.swap(n);
         soft.assertThat(stack).as("swap of " + n + " works correctly")
@@ -286,7 +295,9 @@ public final class DefaultValueStackTest
         final List<Object> replace = Arrays.<Object>asList(4, 5, 6);
         final SoftAssertions soft = new SoftAssertions();
 
-        stack.pushAll(1, 2, 3);
+        stack.push(3);
+        stack.push(2);
+        stack.push(1);
 
         final Object snapshot = stack.takeSnapshot();
         final Object poison = Lists.newLinkedList();
@@ -298,7 +309,9 @@ public final class DefaultValueStackTest
         }
 
         stack.clear();
-        stack.pushAll(4, 5, 6);
+        stack.push(6);
+        stack.push(5);
+        stack.push(4);
 
         soft.assertThat(stack)
             .as("stack contents are correct after snapshot plus modifications")

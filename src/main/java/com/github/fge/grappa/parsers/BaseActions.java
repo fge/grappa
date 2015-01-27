@@ -216,19 +216,6 @@ public abstract class BaseActions<V>
     }
 
     /**
-     * Pushes all given elements onto the value stack (in the order as given).
-     *
-     * @param firstValue the first value
-     * @param moreValues the other values
-     * @return true
-     */
-    public boolean pushAll(final V firstValue, final V... moreValues)
-    {
-        context.getValueStack().pushAll(firstValue, moreValues);
-        return true;
-    }
-
-    /**
      * Removes the value at the top of the value stack and returns it.
      *
      * @return the current top value

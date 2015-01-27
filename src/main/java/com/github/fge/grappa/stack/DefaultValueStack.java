@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 
 @ParametersAreNonnullByDefault
 public final class DefaultValueStack<V>
@@ -71,21 +70,6 @@ public final class DefaultValueStack<V>
     protected void doPush(final int down, final V value)
     {
         stack.add(down, value);
-    }
-
-    @SafeVarargs
-    @Override
-    public final void pushAll(final V firstValue, final V... moreValues)
-    {
-        final int newSize = stack.size() + 1 + moreValues.length;
-        final List<V> newStack = new ArrayList<>(newSize);
-
-        newStack.add(Objects.requireNonNull(firstValue));
-        for (final V value: moreValues)
-            newStack.add(Objects.requireNonNull(value));
-        newStack.addAll(stack);
-
-        stack = newStack;
     }
 
     @Nonnull
