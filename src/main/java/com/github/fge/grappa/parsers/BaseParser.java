@@ -78,15 +78,7 @@ public abstract class BaseParser<V>
      *
      * <p>Please don't use this directly; use {@link #eof()} instead.</p>
      */
-    protected static final Rule END_OF_INPUT = new EndOfInputMatcher();
-
-    /**
-     * Matches the {@link Chars#EOI} (end of input) character.
-     *
-     * @deprecated use {@link #eof()} instead
-     */
-    @Deprecated
-    public static final Rule EOI = new CharMatcher(Chars.EOI);
+    protected static final Rule EOI = new EndOfInputMatcher();
 
     /**
      * Matches any character except {@link Chars#EOI}.
@@ -130,7 +122,7 @@ public abstract class BaseParser<V>
      */
     public Rule eof()
     {
-        return END_OF_INPUT;
+        return EOI;
     }
 
     /**
