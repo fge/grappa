@@ -48,7 +48,6 @@ import com.github.fge.grappa.rules.Rule;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import org.parboiled.Parboiled;
 import org.parboiled.annotations.Cached;
 import org.parboiled.annotations.DontExtend;
 import org.parboiled.annotations.DontLabel;
@@ -94,22 +93,6 @@ public abstract class BaseParser<V>
      * Matches nothing and always fails.
      */
     public static final Rule NOTHING = new NothingMatcher();
-
-    /**
-     * Creates a new instance of this parsers class using the no-arg constructor. If no no-arg constructor
-     * exists this method will fail with a java.lang.NoSuchMethodError.
-     * Using this method is faster than using {@link Parboiled#createParser(Class, Object...)} for creating
-     * new parser instances since this method does not use reflection.
-     *
-     * @param <P> the parser class
-     * @return a new parser instance
-     */
-    public <P extends BaseParser<V>> P newInstance()
-    {
-        throw new UnsupportedOperationException("Illegal parser instance, " +
-            "you have to use Parboiled.createParser(...) " +
-            "to create your parser instance!");
-    }
 
     /*
      * CORE RULES
