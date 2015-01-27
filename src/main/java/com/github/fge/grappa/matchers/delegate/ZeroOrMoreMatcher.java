@@ -62,4 +62,14 @@ public final class ZeroOrMoreMatcher
         context.createNode();
         return true;
     }
+
+    @Override
+    public boolean canMatchEmpty()
+    {
+        /*
+         * Note that the check as to whether the _inner rule_ can match empty
+         * is checked at construction time
+         */
+        return true;
+    }
 }

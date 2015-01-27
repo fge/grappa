@@ -51,4 +51,13 @@ public class FirstOfMatcher
         }
         return false;
     }
+
+    @Override
+    public boolean canMatchEmpty()
+    {
+        for (final Matcher matcher: getChildren())
+            if (matcher.canMatchEmpty())
+                return true;
+        return false;
+    }
 }

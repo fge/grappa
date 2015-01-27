@@ -56,4 +56,10 @@ public final class CharIgnoreCaseMatcher
         context.createNode();
         return true;
     }
+
+    @Override
+    public boolean canMatchEmpty()
+    {
+        return false;
+    }
 }

@@ -166,4 +166,10 @@ public final class VarFramingMatcher
             return matcher;
         return unwrap(((VarFramingMatcher) matcher).inner);
     }
+
+    @Override
+    public boolean canMatchEmpty()
+    {
+        return inner.canMatchEmpty();
+    }
 }

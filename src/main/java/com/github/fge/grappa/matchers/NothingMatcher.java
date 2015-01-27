@@ -42,4 +42,13 @@ public final class NothingMatcher
     {
         return false;
     }
+
+    @Override
+    public boolean canMatchEmpty()
+    {
+        /*
+         * We don't want this rule to provoke a grammar build failure
+         */
+        return false;
+    }
 }

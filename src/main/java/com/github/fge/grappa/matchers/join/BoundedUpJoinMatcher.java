@@ -46,4 +46,11 @@ public final class BoundedUpJoinMatcher
     {
         return true;
     }
+
+    @Override
+    public boolean canMatchEmpty()
+    {
+        // We have no lower bound...
+        return true;
+    }
 }

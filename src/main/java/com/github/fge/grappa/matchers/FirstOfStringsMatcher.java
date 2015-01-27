@@ -179,4 +179,11 @@ inner:
             }
         }
     }
+
+    @Override
+    public boolean canMatchEmpty()
+    {
+        // TODO: check, but that should be the case
+        return false;
+    }
 }

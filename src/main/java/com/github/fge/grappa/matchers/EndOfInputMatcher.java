@@ -43,4 +43,10 @@ public final class EndOfInputMatcher
         }
         return false;
     }
+
+    @Override
+    public boolean canMatchEmpty()
+    {
+        return true; // by definition
+    }
 }

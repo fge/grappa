@@ -69,4 +69,11 @@ public final class OneOrMoreMatcher
         context.createNode();
         return true;
     }
+
+    @Override
+    public boolean canMatchEmpty()
+    {
+        // Will have been checked at build time
+        return false;
+    }
 }

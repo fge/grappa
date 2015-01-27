@@ -48,4 +48,11 @@ public final class BoundedBothJoinMatcher
     {
         return cycles >= minCycles;
     }
+
+    @Override
+    public boolean canMatchEmpty()
+    {
+        // Always false; see JoinMatcherBuilder
+        return false;
+    }
 }

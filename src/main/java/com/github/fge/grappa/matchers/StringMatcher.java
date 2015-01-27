@@ -71,4 +71,11 @@ public final class StringMatcher
         context.createNode();
         return true;
     }
+
+    @Override
+    public boolean canMatchEmpty()
+    {
+        // TODO: check, but that should be the case
+        return false;
+    }
 }

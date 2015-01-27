@@ -16,6 +16,7 @@
 
 package org.parboiled;
 
+import com.github.fge.grappa.matchers.join.JoinMatcher;
 import org.parboiled.annotations.SkipNode;
 import org.parboiled.annotations.SuppressNode;
 import org.parboiled.annotations.SuppressSubnodes;
@@ -73,4 +74,15 @@ public interface Rule
      * @return this rule
      */
     Rule memoMismatches();
+
+    /**
+     * Tells whether this rule can match an empty input text
+     *
+     * <p>This method is used during rule building in other to detect anomalous
+     * situations (for instance, the joining rule of a {@link JoinMatcher} is
+     * empty).</p>
+     *
+     * @return true if the rule can match an empty input text
+     */
+    boolean canMatchEmpty();
 }

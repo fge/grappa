@@ -47,4 +47,11 @@ public final class ExactMatchesJoinMatcher
     {
         return cycles == nrCycles;
     }
+
+    @Override
+    public boolean canMatchEmpty()
+    {
+        // Always false; see JoinMatcherBuilder
+        return false;
+    }
 }

@@ -82,4 +82,11 @@ public final class TrieMatcher
         context.advanceIndex(ret);
         return true;
     }
+
+    @Override
+    public boolean canMatchEmpty()
+    {
+        // A trie builder cannot match empty, see TrieBuilder
+        return false;
+    }
 }

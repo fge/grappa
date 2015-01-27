@@ -43,4 +43,10 @@ public final class EmptyMatcher
         context.createNode();
         return true;
     }
+
+    @Override
+    public boolean canMatchEmpty()
+    {
+        return true; // by definition
+    }
 }

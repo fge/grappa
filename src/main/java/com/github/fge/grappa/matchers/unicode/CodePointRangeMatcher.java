@@ -59,4 +59,10 @@ public final class CodePointRangeMatcher
         context.createNode();
         return true;
     }
+
+    @Override
+    public boolean canMatchEmpty()
+    {
+        return false;
+    }
 }

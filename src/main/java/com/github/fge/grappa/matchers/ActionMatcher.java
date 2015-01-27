@@ -151,4 +151,11 @@ public final class ActionMatcher
     {
         return this; // actions are already "suppressNode"
     }
+
+    @Override
+    public boolean canMatchEmpty()
+    {
+        // By definition; an action has read only access to the parse context
+        return true;
+    }
 }

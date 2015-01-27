@@ -168,4 +168,10 @@ public final class MemoMismatchesMatcher
             = (MemoMismatchesMatcher) matcher;
         return unwrap(m.inner);
     }
+
+    @Override
+    public boolean canMatchEmpty()
+    {
+        return inner.canMatchEmpty();
+    }
 }
