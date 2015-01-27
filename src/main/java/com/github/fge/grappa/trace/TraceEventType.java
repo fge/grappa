@@ -16,26 +16,10 @@
 
 package com.github.fge.grappa.trace;
 
-import javax.annotation.Nonnull;
-
 public enum TraceEventType
 {
-    BEFORE_MATCH("before match"),
-    MATCH_SUCCESS("match success"),
-    MATCH_FAILURE("match failure"),
+    BEFORE_MATCH,
+    MATCH_SUCCESS,
+    MATCH_FAILURE,
     ;
-
-    private final String description;
-
-    TraceEventType(final String description)
-    {
-        this.description = description;
-    }
-
-    @Override
-    @Nonnull
-    public String toString()
-    {
-        return description;
-    }
 }
