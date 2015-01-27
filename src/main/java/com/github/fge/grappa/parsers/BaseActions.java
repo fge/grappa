@@ -24,7 +24,6 @@ import org.parboiled.ContextAware;
 import org.parboiled.annotations.SuppressNode;
 import org.parboiled.annotations.SuppressSubnodes;
 import org.parboiled.errors.GrammarException;
-import org.parboiled.support.Checks;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.Position;
 
@@ -67,7 +66,6 @@ public abstract class BaseActions<V>
      */
     public final int currentIndex()
     {
-        check();
         return context.getCurrentIndex();
     }
 
@@ -81,7 +79,6 @@ public abstract class BaseActions<V>
      */
     public String match()
     {
-        check();
         return context.getMatch();
     }
 
@@ -95,7 +92,6 @@ public abstract class BaseActions<V>
      */
     public IndexRange matchRange()
     {
-        check();
         return context.getMatchRange();
     }
 
@@ -113,7 +109,6 @@ public abstract class BaseActions<V>
      */
     public String matchOrDefault(final String defaultString)
     {
-        check();
         final String match = context.getMatch();
         return match.isEmpty() ? defaultString : match;
     }
@@ -133,7 +128,6 @@ public abstract class BaseActions<V>
     // TODO: can't return null; check what _really_ happens.
     public char matchedChar()
     {
-        check();
         return context.getFirstMatchChar();
     }
 
@@ -148,7 +142,6 @@ public abstract class BaseActions<V>
      */
     public int matchStart()
     {
-        check();
         return context.getMatchStartIndex();
     }
 
@@ -164,7 +157,6 @@ public abstract class BaseActions<V>
      */
     public int matchEnd()
     {
-        check();
         return context.getMatchEndIndex();
     }
 
@@ -178,7 +170,6 @@ public abstract class BaseActions<V>
      */
     public int matchLength()
     {
-        check();
         return context.getMatchLength();
     }
 
@@ -190,7 +181,6 @@ public abstract class BaseActions<V>
      */
     public Position position()
     {
-        check();
         return context.getPosition();
     }
 
@@ -203,7 +193,6 @@ public abstract class BaseActions<V>
      */
     public boolean push(final V value)
     {
-        check();
         context.getValueStack().push(value);
         return true;
     }
@@ -222,7 +211,6 @@ public abstract class BaseActions<V>
      */
     public boolean push(final int down, final V value)
     {
-        check();
         context.getValueStack().push(down, value);
         return true;
     }
@@ -236,7 +224,6 @@ public abstract class BaseActions<V>
      */
     public boolean pushAll(final V firstValue, final V... moreValues)
     {
-        check();
         context.getValueStack().pushAll(firstValue, moreValues);
         return true;
     }
@@ -250,7 +237,6 @@ public abstract class BaseActions<V>
      */
     public V pop()
     {
-        check();
         return context.getValueStack().pop();
     }
 
@@ -267,7 +253,6 @@ public abstract class BaseActions<V>
      */
     public V pop(final int down)
     {
-        check();
         return context.getValueStack().pop(down);
     }
 
@@ -280,7 +265,6 @@ public abstract class BaseActions<V>
      */
     public boolean drop()
     {
-        check();
         context.getValueStack().pop();
         return true;
     }
@@ -298,7 +282,6 @@ public abstract class BaseActions<V>
      */
     public boolean drop(final int down)
     {
-        check();
         context.getValueStack().pop(down);
         return true;
     }
@@ -312,7 +295,6 @@ public abstract class BaseActions<V>
      */
     public V peek()
     {
-        check();
         return context.getValueStack().peek();
     }
 
@@ -328,7 +310,6 @@ public abstract class BaseActions<V>
      */
     public V peek(final int down)
     {
-        check();
         return context.getValueStack().peek(down);
     }
 
@@ -343,7 +324,6 @@ public abstract class BaseActions<V>
      */
     public boolean poke(final V value)
     {
-        check();
         context.getValueStack().poke(value);
         return true;
     }
@@ -362,7 +342,6 @@ public abstract class BaseActions<V>
      */
     public boolean poke(final int down, final V value)
     {
-        check();
         context.getValueStack().poke(down, value);
         return true;
     }
@@ -376,7 +355,6 @@ public abstract class BaseActions<V>
      */
     public boolean dup()
     {
-        check();
         context.getValueStack().dup();
         return true;
     }
@@ -391,7 +369,6 @@ public abstract class BaseActions<V>
      */
     public boolean swap()
     {
-        check();
         context.getValueStack().swap();
         return true;
     }
@@ -407,7 +384,6 @@ public abstract class BaseActions<V>
      */
     public boolean swap(final int n)
     {
-        check();
         context.getValueStack().swap(n);
         return true;
     }
@@ -419,7 +395,6 @@ public abstract class BaseActions<V>
      */
     public Character currentChar()
     {
-        check();
         return context.getCurrentChar();
     }
 
@@ -439,7 +414,6 @@ public abstract class BaseActions<V>
      */
     public boolean inPredicate()
     {
-        check();
         return context.inPredicate();
     }
 
@@ -451,7 +425,6 @@ public abstract class BaseActions<V>
      */
     public boolean nodeSuppressed()
     {
-        check();
         return context.isNodeSuppressed();
     }
 
@@ -472,14 +445,6 @@ public abstract class BaseActions<V>
      */
     public boolean hasError()
     {
-        check();
         return context.hasError();
-    }
-
-    // TODO: pain point here
-    private void check()
-    {
-        Checks.ensure(context != null && context.getMatcher() != null,
-            "Illegal rule definition: Unwrapped action expression!");
     }
 }
