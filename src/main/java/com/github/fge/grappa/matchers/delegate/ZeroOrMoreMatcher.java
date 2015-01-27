@@ -22,7 +22,6 @@ import com.github.fge.grappa.matchers.base.Matcher;
 import com.google.common.base.Preconditions;
 import org.parboiled.MatcherContext;
 import org.parboiled.Rule;
-import org.parboiled.errors.GrammarException;
 
 /**
  * A {@link Matcher} that repeatedly tries its submatcher against the input. Always succeeds.
@@ -48,16 +47,9 @@ public final class ZeroOrMoreMatcher
     public <V> boolean match(final MatcherContext<V> context)
     {
         Preconditions.checkNotNull(context, "context");
-        int lastIndex = context.getCurrentIndex();
-        while (subMatcher.getSubContext(context).runMatcher()) {
-            final int currentLocation = context.getCurrentIndex();
-            if (currentLocation == lastIndex) {
-                throw new GrammarException(
-                    "The inner rule of zeroOrMore rule '%s' must not allow empty matches",
-                    context.getPath());
-            }
-            lastIndex = currentLocation;
-        }
+        //noinspection StatementWithEmptyBody
+        while (subMatcher.getSubContext(context).runMatcher())
+            ; // Nothing
 
         context.createNode();
         return true;
