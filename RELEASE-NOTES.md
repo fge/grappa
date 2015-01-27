@@ -3,6 +3,8 @@
 * Create GrappaException, InvalidGrammarException.
 * Add .canMatchEmpty() to Rule; detect anomalous grammars at build time.
 * Sequences now refuse to have an action as the first argument.
+* EOI is given the boot as ch(0xffff), now uses an EndOfInputMatcher().
+* Unify exceptions thrown by grammar build errors (InvalidGrammarException).
 
 ### 2.0.0-alpha.2
 
