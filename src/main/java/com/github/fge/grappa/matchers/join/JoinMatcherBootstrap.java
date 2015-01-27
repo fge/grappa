@@ -16,6 +16,7 @@
 
 package com.github.fge.grappa.matchers.join;
 
+import com.github.fge.grappa.exceptions.InvalidGrammarException;
 import com.github.fge.grappa.parsers.BaseParser;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
@@ -67,6 +68,10 @@ public final class JoinMatcherBootstrap<V, P extends BaseParser<V>>
 
     public JoinMatcherBuilder using(@Nonnull final Object joining)
     {
-        return new JoinMatcherBuilder(joined, parser.toRule(joining));
+        final Rule joiningRule = parser.toRule(joining);
+        if (joiningRule.canMatchEmpty())
+            throw new InvalidGrammarException("the joining rule of a join()"
+                + " rule cannot match an empty input");
+        return new JoinMatcherBuilder(joined, joiningRule);
     }
 }
