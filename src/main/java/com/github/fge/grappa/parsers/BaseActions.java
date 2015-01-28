@@ -20,7 +20,6 @@ import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.stack.ValueStack;
 import org.parboiled.Context;
 import org.parboiled.ContextAware;
-import org.parboiled.errors.GrammarException;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.Position;
 
@@ -350,8 +349,8 @@ public abstract class BaseActions<V>
      *
      * @return true
      *
-     * @throws GrammarException if the stack does not contain at least two
-     * elements
+     * @throws IllegalArgumentException if the stack does not contain at least
+     * two elements
      */
     public boolean swap()
     {
@@ -364,7 +363,7 @@ public abstract class BaseActions<V>
      *
      * @param n the number of elements to swap
      * @return always true
-     * @throws GrammarException stack does not contain enough elements
+     * @throws IllegalArgumentException stack does not contain enough elements
      *
      * @see ValueStack#swap(int)
      */

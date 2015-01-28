@@ -16,9 +16,9 @@
 
 package org.parboiled;
 
+import com.github.fge.grappa.exceptions.InvalidGrammarException;
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.run.ParseRunner;
-import org.parboiled.errors.GrammarException;
 import org.parboiled.transform.ParserTransformer;
 
 import javax.annotation.Nonnull;
@@ -122,8 +122,7 @@ outer:
             }
             return constructor;
         }
-        throw new GrammarException(
-            "No constructor found for %s and the given %s arguments", c,
-            arguments.length);
+        throw new InvalidGrammarException("No constructor found for " + c
+            + " and the given " + arguments.length+ " arguments");
     }
 }

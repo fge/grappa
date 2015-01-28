@@ -17,11 +17,11 @@
 package com.github.fge.grappa.matchers;
 
 import com.github.fge.grappa.buffers.InputBuffer;
+import com.github.fge.grappa.exceptions.InvalidGrammarException;
 import com.github.fge.grappa.matchers.delegate.FirstOfMatcher;
 import com.github.fge.grappa.rules.Rule;
 import com.google.common.annotations.VisibleForTesting;
 import org.parboiled.MatcherContext;
-import org.parboiled.errors.GrammarException;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -174,7 +174,7 @@ inner:
                         + sb + ", which prevents " + sb + " from ever matching!"
                         + " You should reverse the order of the two "
                         + "alternatives.";
-                throw new GrammarException(msg);
+                throw new InvalidGrammarException(msg);
             }
         }
     }

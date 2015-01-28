@@ -17,6 +17,7 @@
 package org.parboiled;
 
 import com.github.fge.grappa.buffers.InputBuffer;
+import com.github.fge.grappa.exceptions.InvalidGrammarException;
 import com.github.fge.grappa.matchers.ActionMatcher;
 import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.Matcher;
@@ -24,7 +25,6 @@ import com.github.fge.grappa.matchers.wrap.ProxyMatcher;
 import com.github.fge.grappa.stack.ValueStack;
 import com.google.common.base.Preconditions;
 import org.parboiled.errors.BasicParseError;
-import org.parboiled.errors.GrammarException;
 import org.parboiled.errors.ParseError;
 import org.parboiled.errors.ParserRuntimeException;
 import org.parboiled.support.CharsEscaper;
@@ -228,8 +228,8 @@ public final class DefaultMatcherContext<V>
             return inputBuffer.charAt(index);
 
         // TODO: figure out why it says that
-        throw new GrammarException("getFirstMatchChar called but previous rule" +
-            " did not match anything");
+        throw new InvalidGrammarException("getFirstMatchChar called "
+            + "but previous rule did not match anything");
     }
 
     @Override
