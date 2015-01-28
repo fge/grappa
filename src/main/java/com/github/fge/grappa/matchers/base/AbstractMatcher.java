@@ -31,9 +31,6 @@ public abstract class AbstractMatcher
     implements Matcher, Cloneable
 {
     private String label;
-    private boolean nodeSuppressed;
-    private boolean subnodesSuppressed;
-    private boolean nodeSkipped;
 
     protected AbstractMatcher(final String label)
     {
@@ -64,24 +61,6 @@ public abstract class AbstractMatcher
     }
 
     @Override
-    public final boolean isNodeSuppressed()
-    {
-        return nodeSuppressed;
-    }
-
-    @Override
-    public final boolean areSubnodesSuppressed()
-    {
-        return subnodesSuppressed;
-    }
-
-    @Override
-    public final boolean isNodeSkipped()
-    {
-        return nodeSkipped;
-    }
-
-    @Override
     public String getLabel()
     {
         return label;
@@ -108,36 +87,6 @@ public abstract class AbstractMatcher
             return this;
         final AbstractMatcher clone = createClone();
         clone.label = label;
-        return clone;
-    }
-
-    @Override
-    public Rule suppressNode()
-    {
-        if (nodeSuppressed)
-            return this;
-        final AbstractMatcher clone = createClone();
-        clone.nodeSuppressed = true;
-        return clone;
-    }
-
-    @Override
-    public final Rule suppressSubnodes()
-    {
-        if (subnodesSuppressed)
-            return this;
-        final AbstractMatcher clone = createClone();
-        clone.subnodesSuppressed = true;
-        return clone;
-    }
-
-    @Override
-    public final Rule skipNode()
-    {
-        if (nodeSkipped)
-            return this;
-        final AbstractMatcher clone = createClone();
-        clone.nodeSkipped = true;
         return clone;
     }
 

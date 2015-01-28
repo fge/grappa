@@ -19,7 +19,6 @@ package com.github.fge.grappa.matchers;
 import com.github.fge.grappa.matchers.base.AbstractMatcher;
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.rules.Action;
-import com.github.fge.grappa.rules.Rule;
 import com.github.fge.grappa.rules.SkippableAction;
 import com.google.common.collect.Lists;
 import org.parboiled.ContextAware;
@@ -144,12 +143,6 @@ public final class ActionMatcher
             context.getParseErrors().add(error);
             return false;
         }
-    }
-
-    @Override
-    public Rule suppressNode()
-    {
-        return this; // actions are already "suppressNode"
     }
 
     @Override

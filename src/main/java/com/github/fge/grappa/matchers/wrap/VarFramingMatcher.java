@@ -77,24 +77,6 @@ public final class VarFramingMatcher
         return new VarFramingMatcher(inner.label(label), variables);
     }
 
-    @Override
-    public Rule suppressNode()
-    {
-        return new VarFramingMatcher(inner.suppressNode(), variables);
-    }
-
-    @Override
-    public Rule suppressSubnodes()
-    {
-        return new VarFramingMatcher(inner.suppressSubnodes(), variables);
-    }
-
-    @Override
-    public Rule skipNode()
-    {
-        return new VarFramingMatcher(inner.skipNode(), variables);
-    }
-
     // Matcher
 
     @Override
@@ -107,24 +89,6 @@ public final class VarFramingMatcher
     public boolean hasCustomLabel()
     {
         return inner.hasCustomLabel();
-    }
-
-    @Override
-    public boolean isNodeSuppressed()
-    {
-        return inner.isNodeSuppressed();
-    }
-
-    @Override
-    public boolean areSubnodesSuppressed()
-    {
-        return inner.areSubnodesSuppressed();
-    }
-
-    @Override
-    public boolean isNodeSkipped()
-    {
-        return inner.isNodeSkipped();
     }
 
     @Override

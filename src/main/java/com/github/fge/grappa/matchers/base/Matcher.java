@@ -50,21 +50,6 @@ public interface Matcher
     boolean hasCustomLabel();
 
     /**
-     * @return true if this matcher has been marked with @SuppressNode
-     */
-    boolean isNodeSuppressed();
-
-    /**
-     * @return true if this matcher has been marked with @SuppressSubnodes
-     */
-    boolean areSubnodesSuppressed();
-
-    /**
-     * @return true if this matcher has been marked with @SkipNode
-     */
-    boolean isNodeSkipped();
-
-    /**
      * Creates a context for the matching of this matcher using the given parent
      * context.
      *

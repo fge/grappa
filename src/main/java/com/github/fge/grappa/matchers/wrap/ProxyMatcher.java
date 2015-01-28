@@ -34,10 +34,6 @@ public final class ProxyMatcher
 {
     private Matcher target;
     private String label;
-    private boolean nodeSuppressed;
-    private boolean subnodesSuppressed;
-    private boolean nodeSkipped;
-    private boolean memoMismatches;
     private boolean dirty;
 
     @Override
@@ -62,30 +58,6 @@ public final class ProxyMatcher
         updateDirtyFlag();
     }
 
-    private void setNodeSuppressed(final boolean nodeSuppressed)
-    {
-        this.nodeSuppressed = nodeSuppressed;
-        updateDirtyFlag();
-    }
-
-    private void setSubnodesSuppressed(final boolean subnodesSuppressed)
-    {
-        this.subnodesSuppressed = subnodesSuppressed;
-        updateDirtyFlag();
-    }
-
-    private void setNodeSkipped(final boolean nodeSkipped)
-    {
-        this.nodeSkipped = nodeSkipped;
-        updateDirtyFlag();
-    }
-
-    private void setMemoMismatches(final boolean memoMismatches)
-    {
-        this.memoMismatches = memoMismatches;
-        updateDirtyFlag();
-    }
-
     /*
      * TODO: here in particular
      *
@@ -93,8 +65,7 @@ public final class ProxyMatcher
      */
     private void updateDirtyFlag()
     {
-        dirty = label != null || nodeSuppressed || subnodesSuppressed
-            || nodeSkipped || memoMismatches;
+        dirty = label != null;
     }
 
     @Override
@@ -122,30 +93,6 @@ public final class ProxyMatcher
     }
 
     @Override
-    public boolean isNodeSuppressed()
-    {
-        if (dirty)
-            apply();
-        return target.isNodeSuppressed();
-    }
-
-    @Override
-    public boolean areSubnodesSuppressed()
-    {
-        if (dirty)
-            apply();
-        return target.areSubnodesSuppressed();
-    }
-
-    @Override
-    public boolean isNodeSkipped()
-    {
-        if (dirty)
-            apply();
-        return target.isNodeSkipped();
-    }
-
-    @Override
     public String toString()
     {
         if (target == null)
@@ -159,12 +106,6 @@ public final class ProxyMatcher
     {
         if (label != null)
             label(label);
-        if (nodeSuppressed)
-            suppressNode();
-        if (subnodesSuppressed)
-            suppressSubnodes();
-        if (nodeSkipped)
-            skipNode();
     }
 
     @Override
@@ -190,57 +131,6 @@ public final class ProxyMatcher
         target = (Matcher) inner.label(
             label); // since relabelling might change the instance we have to update it
         setLabel(null);
-        return target;
-    }
-
-    @Override
-    public Rule suppressNode()
-    {
-        if (target == null) {
-            // if we have no target yet we need to save the marker and "apply" it later
-            setNodeSuppressed(true);
-            return this;
-        }
-
-        // we already have a target to which we can directly apply the marker
-        final Rule inner = unwrap(target);
-        target = (Matcher) inner
-            .suppressNode(); // since this might change the instance we have to update it
-        setNodeSuppressed(false);
-        return target;
-    }
-
-    @Override
-    public Rule suppressSubnodes()
-    {
-        if (target == null) {
-            // if we have no target yet we need to save the marker and "apply" it later
-            setSubnodesSuppressed(true);
-            return this;
-        }
-
-        // we already have a target to which we can directly apply the marker
-        final Rule inner = unwrap(target);
-        target = (Matcher) inner
-            .suppressSubnodes(); // since this might change the instance we have to update it
-        setSubnodesSuppressed(false);
-        return target;
-    }
-
-    @Override
-    public Rule skipNode()
-    {
-        if (target == null) {
-            // if we have no target yet we need to save the marker and "apply" it later
-            setNodeSkipped(true);
-            return this;
-        }
-
-        // we already have a target to which we can directly apply the marker
-        final Rule inner = unwrap(target);
-        target = (Matcher) inner
-            .skipNode(); // since this might change the instance we have to update it
-        setNodeSkipped(false);
         return target;
     }
 

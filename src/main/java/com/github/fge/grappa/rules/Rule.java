@@ -17,10 +17,6 @@
 package com.github.fge.grappa.rules;
 
 import com.github.fge.grappa.matchers.join.JoinMatcher;
-import org.parboiled.Context;
-import org.parboiled.annotations.SkipNode;
-import org.parboiled.annotations.SuppressNode;
-import org.parboiled.annotations.SuppressSubnodes;
 
 /**
  * Describes the return values of parser rule production methods.
@@ -35,38 +31,6 @@ public interface Rule
      * @return this Rule
      */
     Rule label(String label);
-
-    /**
-     * Instructs parboiled to not create a parse tree node for this rule
-     * <b>and all subrules</b>, which can significantly increase parsing
-     * performance. Corresponds to the {@link SuppressNode} annotation.
-     *
-     * @return this Rule
-     */
-    Rule suppressNode();
-
-    /**
-     * Instructs parboiled to not create parse tree nodes for the subrules of
-     * this rule, which can significantly increase parsing performance.
-     * Corresponds to the {@link SuppressSubnodes} annotation.
-     *
-     * @return this Rule
-     */
-    Rule suppressSubnodes();
-
-    /**
-     * Instructs parboiled to not create a parse tree node for this rule. The
-     * parse tree nodes of all subrules are directly attached to the parent of
-     * this rule (or more correctly: the first ancestor not having been marked
-     * skipNode()). Note that, even though a rule marked as skipNode() does not
-     * create a parse tree node of its own and is therefore "invisible" in the
-     * parse tree, the rule still exists as a regular rule in the rule tree and
-     * is accompanied by a "regular" rule {@link Context} during rule matching.
-     * Corresponds to the {@link SkipNode} annotation.
-     *
-     * @return this Rule
-     */
-    Rule skipNode();
 
     /**
      * Tells whether this rule can match an empty input text

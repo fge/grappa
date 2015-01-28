@@ -113,7 +113,7 @@ public class TestParser extends BaseParser<Integer> {
 
     public Rule NumberRule() {
         return sequence(
-                oneOrMore(charRange('0', '9')).suppressNode(),
+                oneOrMore(charRange('0', '9')),
                 push(parseInt(match()))
         );
     }
