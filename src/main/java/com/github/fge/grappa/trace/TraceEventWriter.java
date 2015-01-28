@@ -1,6 +1,5 @@
 package com.github.fge.grappa.trace;
 
-import com.github.fge.grappa.exceptions.GrappaException;
 import com.github.fge.grappa.matchers.base.Matcher;
 import org.parboiled.MatcherContext;
 
@@ -46,6 +45,7 @@ public final class TraceEventWriter
     }
 
     public void writeBefore(final MatcherContext<?> context)
+        throws IOException
     {
         final Matcher matcher = context.getMatcher();
         @SuppressWarnings("ConstantConditions")
@@ -59,15 +59,12 @@ public final class TraceEventWriter
             .append(matcher.getType().ordinal())
             .append(name.isEmpty() ? "(anonymous)" : name).append(';');
 
-        try {
-            writer.append(sb);
-        } catch (IOException e) {
-            throw new GrappaException("failed to write trace event", e);
-        }
+        writer.append(sb);
     }
 
     public void writeAfter(final MatcherContext<?> context,
         final long start, final long end, final boolean success)
+        throws IOException
     {
         final Matcher matcher = context.getMatcher();
         @SuppressWarnings("ConstantConditions")
@@ -84,10 +81,6 @@ public final class TraceEventWriter
             .append(name.isEmpty() ? "(anonymous)" : name).append(';')
             .append(end).append('\n');
 
-        try {
-            writer.append(sb);
-        } catch (IOException e) {
-            throw new GrappaException("failed to write trace event", e);
-        }
+        writer.append(sb);
     }
 }

@@ -4,12 +4,12 @@ import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.trace.TraceEvent;
 import com.github.fge.grappa.trace.TraceEventType;
 
+import javax.annotation.Nonnull;
+
 public final class TraceEventBuilder
 {
-    private final TraceEventType[] EVENT_TYPES
-        = TraceEventType.values();
-    private final MatcherType[] MATCHER_TYPES
-        = MatcherType.values();
+    private final TraceEventType[] EVENT_TYPES = TraceEventType.values();
+    private final MatcherType[] MATCHER_TYPES = MatcherType.values();
 
     private TraceEventType type;
     private int index;
@@ -62,6 +62,7 @@ public final class TraceEventBuilder
         return true;
     }
 
+    @Nonnull
     public TraceEvent build()
     {
         return new TraceEvent(type, nanoseconds, index, matcher,

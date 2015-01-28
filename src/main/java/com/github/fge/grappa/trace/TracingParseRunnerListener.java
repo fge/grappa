@@ -16,23 +16,20 @@
 
 package com.github.fge.grappa.trace;
 
-import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonGenerator.Feature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.grappa.buffers.InputBuffer;
-import com.github.fge.grappa.matchers.MatcherType;
+import com.github.fge.grappa.exceptions.GrappaException;
 import com.github.fge.grappa.run.MatchFailureEvent;
 import com.github.fge.grappa.run.MatchSuccessEvent;
 import com.github.fge.grappa.run.ParseRunnerListener;
 import com.github.fge.grappa.run.PostParseEvent;
 import com.github.fge.grappa.run.PreMatchEvent;
 import com.github.fge.grappa.run.PreParseEvent;
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.BufferedWriter;
 import java.io.Closeable;
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.FileSystem;
@@ -43,14 +40,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.Map;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadFactory;
+import java.util.Objects;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -58,16 +48,23 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public final class TracingParseRunnerListener<V>
     extends ParseRunnerListener<V>
 {
-    private static final ThreadFactory THREAD_FACTORY
-        = new ThreadFactoryBuilder().setDaemon(true)
-        .setNameFormat("event-writer-%d").build();
+    private static final Path DEFAULT_DIRECTORY;
+
+    static {
+        final String tmpdir = System.getProperty("java.io.tmpdir", "");
+        DEFAULT_DIRECTORY = Paths.get(tmpdir).toAbsolutePath();
+
+        if (!Files.isDirectory(DEFAULT_DIRECTORY))
+            throw new ExceptionInInitializerError(tmpdir
+                + " is not a directory");
+
+        if (!Files.isWritable(DEFAULT_DIRECTORY))
+            throw new ExceptionInInitializerError("no write access to "
+                + tmpdir);
+    }
 
     private static final Map<String, ?> ZIPFS_ENV
         = Collections.singletonMap("create", "true");
-
-    private static final TraceEvent END_EVENT
-        = new TraceEvent(TraceEventType.BEFORE_MATCH, -1L, 0, "", "",
-            MatcherType.ACTION, "", -1);
 
     /*
      * We have to do that, since we write to a temporary file
@@ -76,48 +73,51 @@ public final class TracingParseRunnerListener<V>
         .disable(Feature.AUTO_CLOSE_TARGET);
     private static final int BUFSIZE = 16384;
 
-    private final ExecutorService executor;
-    private final Future<Closeable> future;
-    private final BlockingQueue<TraceEvent> eventQueue
-        = new LinkedBlockingQueue<>();
-
     private final Path traceFile;
     private final BufferedWriter traceWriter;
     private final Path zipPath;
-    private final JsonGenerator generator;
+    private final TraceEventWriter eventWriter;
 
     private InputBuffer inputBuffer;
     private long startDate;
+    private long before = 0L;
 
-    public TracingParseRunnerListener(final Path zipPath)
+    public TracingParseRunnerListener(final Path dir, final Path zipPath,
+        final boolean deleteIfExists)
     {
-        if (Files.exists(zipPath, LinkOption.NOFOLLOW_LINKS))
-            throw new RuntimeException("file " + zipPath + " already exists");
+        Objects.requireNonNull(dir);
+        Objects.requireNonNull(zipPath);
+
+        if (deleteIfExists)
+            try {
+                Files.deleteIfExists(zipPath);
+            } catch (IOException e) {
+                throw new GrappaException("cannot delete existing zip", e);
+            }
+        else if (Files.exists(zipPath, LinkOption.NOFOLLOW_LINKS))
+            throw new GrappaException("file " + zipPath + " already exists");
 
         this.zipPath = zipPath;
 
         try {
-            traceFile = Files.createTempFile("trace", ".json");
+            traceFile = Files.createTempFile(dir, "trace", ".json");
             traceWriter = Files.newBufferedWriter(traceFile, UTF_8);
-            generator = MAPPER.getFactory().createGenerator(traceWriter);
         } catch (IOException e) {
-            throw new RuntimeException("failed to initialize trace", e);
+            throw cleanup("failed to initialize trace", e);
         }
 
-        executor = Executors.newSingleThreadExecutor(THREAD_FACTORY);
-        future = executor.submit(new EventWriter(generator, eventQueue));
+        eventWriter = new TraceEventWriter(traceWriter);
     }
 
-    public TracingParseRunnerListener(final String zipPath)
-        throws IOException
+    public TracingParseRunnerListener(final Path zipPath,
+        final boolean deleteIfExists)
     {
-        this(Paths.get(zipPath));
+        this(DEFAULT_DIRECTORY, zipPath, deleteIfExists);
     }
 
-    public TracingParseRunnerListener(final File file)
-        throws IOException
+    public TracingParseRunnerListener(final Path zipPath)
     {
-        this(file.toPath());
+        this(DEFAULT_DIRECTORY, zipPath, false);
     }
 
     @Override
@@ -130,42 +130,46 @@ public final class TracingParseRunnerListener<V>
     @Override
     public void beforeMatch(final PreMatchEvent<V> event)
     {
-        final TraceEvent traceEvent = TraceEvent.before(event.getContext());
-        final long nanoseconds = System.nanoTime();
-        traceEvent.setNanoseconds(nanoseconds);
-        eventQueue.offer(traceEvent);
+        try {
+            eventWriter.writeBefore(event.getContext());
+        } catch (IOException e) {
+            throw cleanup("failed to write event", e);
+        }
+        before = System.nanoTime();
     }
 
     @Override
     public void matchSuccess(final MatchSuccessEvent<V> event)
     {
-        final long nanos = System.nanoTime();
-        final TraceEvent traceEvent = TraceEvent.success(event.getContext());
-        traceEvent.setNanoseconds(nanos);
-        eventQueue.offer(traceEvent);
+        try {
+            eventWriter.writeAfter(event.getContext(), before,
+                System.nanoTime(), true);
+        } catch (IOException e) {
+            throw cleanup("failed to write event", e);
+        }
     }
 
     @Override
     public void matchFailure(final MatchFailureEvent<V> event)
     {
-        final long nanos = System.nanoTime();
-        final TraceEvent traceEvent = TraceEvent.failure(event.getContext());
-        traceEvent.setNanoseconds(nanos);
-        eventQueue.offer(traceEvent);
+        try {
+            eventWriter.writeAfter(event.getContext(), before,
+                System.nanoTime(), false);
+        } catch (IOException e) {
+            throw cleanup("failed to write event", e);
+        }
     }
 
     @Override
     public void afterParse(final PostParseEvent<V> event)
     {
-        eventQueue.offer(END_EVENT);
-
+        //noinspection UnusedDeclaration
         try (
-            final Closeable gen = future.get();
+            final Closeable closeable = traceWriter;
         ) {
             traceWriter.flush();
-            executor.shutdown();
-        } catch (InterruptedException | ExecutionException | IOException e) {
-            throw new RuntimeException("failed to generate trace file", e);
+        } catch (IOException e) {
+            throw cleanup("failed to close trace file", e);
         }
 
         final ParseRunInfo runInfo = new ParseRunInfo(startDate, inputBuffer);
@@ -174,11 +178,11 @@ public final class TracingParseRunnerListener<V>
         try (
             final FileSystem zipfs = FileSystems.newFileSystem(uri, ZIPFS_ENV);
         ) {
-            Files.move(traceFile, zipfs.getPath("/trace.json"));
+            Files.move(traceFile, zipfs.getPath("/trace.csv"));
             copyRunInfo(zipfs, runInfo);
             copyInputText(zipfs);
         } catch (IOException e) {
-            throw new RuntimeException("failed to generate zip file", e);
+            throw cleanup("failed to generate zip file", e);
         }
     }
 
@@ -218,32 +222,14 @@ public final class TracingParseRunnerListener<V>
         }
     }
 
-    private static final class EventWriter
-        implements Callable<Closeable>
+    private GrappaException cleanup(final String msg, final Throwable throwable)
     {
-        private final JsonGenerator generator;
-        private final BlockingQueue<TraceEvent> eventQueue;
-
-        private EventWriter(final JsonGenerator generator,
-            final BlockingQueue<TraceEvent> eventQueue)
-        {
-            this.generator = generator;
-            this.eventQueue = eventQueue;
+        try {
+            Files.deleteIfExists(traceFile);
+        } catch (IOException e) {
+            throwable.addSuppressed(e);
         }
 
-        @Override
-        public Closeable call()
-            throws IOException
-        {
-            TraceEvent event;
-            generator.writeStartArray();
-            try {
-                while ((event = eventQueue.take()) != END_EVENT)
-                    generator.writeObject(event);
-                generator.writeEndArray();
-            } catch (InterruptedException ignored) {
-            }
-            return generator;
-        }
+        return new GrappaException(msg, throwable);
     }
 }
