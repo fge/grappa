@@ -16,7 +16,7 @@ import java.util.Objects;
  * - index;
  * - level;
  * - matcher;
- * - matcher type;
+ * - matcher type (the ordinal!);
  * - matcher class;
  * - nanoseconds.
  *
@@ -56,6 +56,7 @@ public final class TraceEventWriter
             .append(context.getCurrentIndex()).append(';')
             .append(context.getLevel()).append(';')
             .append(matcher.toString().replace(";", "\\;")).append(';')
+            .append(matcher.getType().ordinal())
             .append(name.isEmpty() ? "(anonymous)" : name).append(';');
 
         try {
@@ -79,6 +80,7 @@ public final class TraceEventWriter
             .append(context.getCurrentIndex()).append(';')
             .append(context.getLevel()).append(';')
             .append(matcher.toString().replace(";", "\\;")).append(';')
+            .append(matcher.getType().ordinal())
             .append(name.isEmpty() ? "(anonymous)" : name).append(';')
             .append(end).append('\n');
 

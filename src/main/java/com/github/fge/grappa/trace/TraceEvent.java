@@ -36,28 +36,27 @@ public final class TraceEvent
     private final String matcher;
     private final MatcherType matcherType;
     private final String matcherClass;
-    private final String path;
     private final int level;
 
     public static TraceEvent before(final MatcherContext<?> context)
     {
         return new TraceEvent(TraceEventType.BEFORE_MATCH,
             context.getCurrentIndex(), context.getMatcher(),
-            context.getPath().toString(), context.getLevel());
+            context.getLevel());
     }
 
     public static TraceEvent failure(final MatcherContext<?> context)
     {
         return new TraceEvent(TraceEventType.MATCH_FAILURE,
             context.getCurrentIndex(), context.getMatcher(),
-            context.getPath().toString(), context.getLevel());
+            context.getLevel());
     }
 
     public static TraceEvent success(final MatcherContext<?> context)
     {
         return new TraceEvent(TraceEventType.MATCH_SUCCESS,
             context.getCurrentIndex(), context.getMatcher(),
-            context.getPath().toString(), context.getLevel());
+            context.getLevel());
     }
 
     @JsonCreator
@@ -67,7 +66,6 @@ public final class TraceEvent
         @JsonProperty("matcher") final String matcher,
         @JsonProperty("matcherClass") final String matcherClass,
         @JsonProperty("matcherType") final MatcherType matcherType,
-        @JsonProperty("path") final String path,
         @JsonProperty("level") final int level)
     {
         this.type = type;
@@ -76,18 +74,16 @@ public final class TraceEvent
         this.matcher = matcher;
         this.matcherType = matcherType;
         this.matcherClass = matcherClass;
-        this.path = path;
         this.level = level;
     }
 
     @JsonIgnore
     private TraceEvent(final TraceEventType type, final int index,
-        final Matcher matcher, final String path, final int level)
+        final Matcher matcher, final int level)
     {
         this.type = type;
         this.index = index;
         this.matcher = matcher.toString();
-        this.path = path;
         this.level = level;
 
         final String name = matcher.getClass().getSimpleName();
@@ -108,7 +104,6 @@ public final class TraceEvent
         matcher = m.toString();
         matcherClass = name.isEmpty() ? "(anonymous)" : name;
         matcherType = m.getType();
-        path = context.getPath().toString();
         level = context.getLevel();
     }
 
@@ -147,11 +142,6 @@ public final class TraceEvent
         return matcherClass;
     }
 
-    public String getPath()
-    {
-        return path;
-    }
-
     public int getLevel()
     {
         return level;
@@ -168,7 +158,6 @@ public final class TraceEvent
             .add("matcher", matcher)
             .add("matcherClass", matcherClass)
             .add("matcherType", matcherType)
-            .add("path", path)
             .add("level", level)
             .toString();
     }
