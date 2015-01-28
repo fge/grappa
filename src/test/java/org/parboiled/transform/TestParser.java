@@ -18,18 +18,15 @@ package org.parboiled.transform;
 
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.rules.Rule;
-import org.parboiled.annotations.BuildParseTree;
 import org.parboiled.annotations.Cached;
 import org.parboiled.annotations.DontLabel;
 import org.parboiled.annotations.ExplicitActionsOnly;
 import org.parboiled.annotations.Label;
-import org.parboiled.annotations.SuppressNode;
 import org.parboiled.support.Var;
 
 import static java.lang.Integer.parseInt;
 
 @SuppressWarnings("UnusedDeclaration")
-@BuildParseTree
 public class TestParser extends BaseParser<Integer> {
 
     protected int integer;
@@ -44,7 +41,6 @@ public class TestParser extends BaseParser<Integer> {
         return sequence('a', 'b');
     }
 
-    @SuppressNode
     public Rule RuleWithLeaf() {
         return sequence('a', 'b');
     }

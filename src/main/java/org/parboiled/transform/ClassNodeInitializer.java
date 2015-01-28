@@ -42,7 +42,6 @@ import java.util.EnumSet;
 import java.util.Objects;
 import java.util.Set;
 
-import static com.github.fge.grappa.transform.ParserAnnotation.BUILD_PARSE_TREE;
 import static com.github.fge.grappa.transform.ParserAnnotation.recordAnnotation;
 import static org.objectweb.asm.Opcodes.ACC_ABSTRACT;
 import static org.objectweb.asm.Opcodes.ACC_FINAL;
@@ -102,18 +101,16 @@ public final class ClassNodeInitializer
 
         for (final RuleMethod method: classNode.getRuleMethods().values()) {
             // move all flags from the super methods to their overriding methods
-            if (method.isSuperMethod()) {
-                final RuleMethod overridingMethod = classNode.getRuleMethods()
-                    .get(method.name.substring(1) + method.desc);
-                method.moveFlagsTo(overridingMethod);
-            } else {
-                if (annotations.contains(BUILD_PARSE_TREE))
-                    // as soon as we see the first non-super method we can break
-                    // since the methods are sorted so that the super methods
-                    // precede all others
-                    break;
-                method.suppressNode();
-            }
+            if (!method.isSuperMethod())
+                continue;
+
+            final String overridingMethodName
+                = method.name.substring(1) + method.desc;
+
+            final RuleMethod overridingMethod
+                = classNode.getRuleMethods().get(overridingMethodName);
+
+            method.moveFlagsTo(overridingMethod);
         }
     }
 

@@ -1,9 +1,0 @@
-{
-    "buffer": "100+23",
-    "hasMatch": true,
-    "parseTree": {
-        "label": "mainRule",
-        "match": "100+23",
-        "value": 123
-    }
-}

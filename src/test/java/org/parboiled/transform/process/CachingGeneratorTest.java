@@ -31,7 +31,6 @@ public class CachingGeneratorTest extends TransformationTest {
     private final List<RuleMethodProcessor> processors = ImmutableList.of(
             new BodyWithSuperCallReplacer(),
             new LabellingGenerator(),
-            new FlagMarkingGenerator(),
             new CachingGenerator()
     );
 
@@ -128,10 +127,6 @@ public class CachingGeneratorTest extends TransformationTest {
                 "    LDC \"RuleWithLeaf\"\n" +
                 "    INVOKEINTERFACE com/github/fge/grappa/rules/Rule.label (Ljava/lang/String;)Lcom/github/fge/grappa/rules/Rule;\n" +
                 "   L1\n" +
-                "    DUP\n" +
-                "    IFNULL L2\n" +
-                "    INVOKEINTERFACE com/github/fge/grappa/rules/Rule.suppressNode ()Lcom/github/fge/grappa/rules/Rule;\n" +
-                "   L2\n" +
                 "    DUP_X1\n" +
                 "    CHECKCAST com/github/fge/grappa/matchers/base/Matcher\n" +
                 "    INVOKEVIRTUAL com/github/fge/grappa/matchers/wrap/ProxyMatcher.arm (Lcom/github/fge/grappa/matchers/base/Matcher;)V\n" +

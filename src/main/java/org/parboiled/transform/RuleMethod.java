@@ -52,10 +52,6 @@ import static com.github.fge.grappa.transform.ParserAnnotation
     .EXPLICIT_ACTIONS_ONLY;
 import static com.github.fge.grappa.transform.ParserAnnotation
     .SKIP_ACTIONS_IN_PREDICATES;
-import static com.github.fge.grappa.transform.ParserAnnotation.SKIP_NODE;
-import static com.github.fge.grappa.transform.ParserAnnotation.SUPPRESS_NODE;
-import static com.github.fge.grappa.transform.ParserAnnotation
-    .SUPPRESS_SUBNODES;
 import static com.github.fge.grappa.transform.ParserAnnotation.moveTo;
 import static com.github.fge.grappa.transform.ParserAnnotation.recordAnnotation;
 import static org.objectweb.asm.Opcodes.ARETURN;
@@ -180,24 +176,9 @@ public class RuleMethod
         return annotations.contains(DONT_LABEL);
     }
 
-    public boolean hasSuppressNodeAnnotation()
-    {
-        return annotations.contains(SUPPRESS_NODE);
-    }
-
-    public boolean hasSuppressSubnodesAnnotation()
-    {
-        return annotations.contains(SUPPRESS_SUBNODES);
-    }
-
     public boolean hasSkipActionsInPredicatesAnnotation()
     {
         return annotations.contains(SKIP_ACTIONS_IN_PREDICATES);
-    }
-
-    public boolean hasSkipNodeAnnotation()
-    {
-        return annotations.contains(SKIP_NODE);
     }
 
     public int getNumberOfReturns()
@@ -376,10 +357,4 @@ public class RuleMethod
     {
         skipGeneration = false;
     }
-
-    public void suppressNode()
-    {
-        annotations.add(SUPPRESS_NODE);
-    }
-
 }

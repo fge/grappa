@@ -51,8 +51,6 @@ import org.parboiled.annotations.Cached;
 import org.parboiled.annotations.DontExtend;
 import org.parboiled.annotations.DontLabel;
 import org.parboiled.annotations.SkipActionsInPredicates;
-import org.parboiled.annotations.SuppressNode;
-import org.parboiled.annotations.SuppressSubnodes;
 import org.parboiled.support.Characters;
 import org.parboiled.support.Chars;
 
@@ -311,7 +309,6 @@ public abstract class BaseParser<V>
      * @return a rule
      */
     @Cached
-    @SuppressSubnodes
     @DontLabel
     public Rule string(final char... characters)
     {
@@ -343,7 +340,6 @@ public abstract class BaseParser<V>
      * @return a rule
      */
     @Cached
-    @SuppressSubnodes
     @DontLabel
     public Rule ignoreCase(final char... characters)
     {
@@ -624,7 +620,6 @@ public abstract class BaseParser<V>
      * @return a new rule
      */
     @Cached
-    @SuppressNode
     @DontLabel
     public Rule test(final Object rule)
     {
@@ -660,7 +655,6 @@ public abstract class BaseParser<V>
      * @return a rule
      */
     @Cached
-    @SuppressNode
     @DontLabel
     public Rule testNot(final Object rule)
     {

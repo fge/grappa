@@ -21,7 +21,6 @@ import com.google.common.collect.ImmutableList;
 import org.objectweb.asm.ClassWriter;
 import org.parboiled.transform.process.BodyWithSuperCallReplacer;
 import org.parboiled.transform.process.CachingGenerator;
-import org.parboiled.transform.process.FlagMarkingGenerator;
 import org.parboiled.transform.process.ImplicitActionsConverter;
 import org.parboiled.transform.process.InstructionGraphCreator;
 import org.parboiled.transform.process.InstructionGroupCreator;
@@ -141,7 +140,6 @@ public final class ParserTransformer
             new BodyWithSuperCallReplacer(),
             new VarFramingGenerator(),
             new LabellingGenerator(),
-            new FlagMarkingGenerator(),
             new CachingGenerator()
         );
     }

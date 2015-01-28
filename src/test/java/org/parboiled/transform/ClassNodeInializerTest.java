@@ -78,12 +78,6 @@ public class ClassNodeInializerTest extends TransformationTest
                 "RuleWithDirectImplicitUpAction,RuleWithIndirectExplicitDownAction,RuleWithCapture1,RuleWithCapture2," +
                 "RuleWithCaptureInAction,RuleWithActionAccessingPrivateField,RuleWithActionAccessingPrivateMethod," +
                 "Eoi,Any,Empty");
-
-        assertEquals(join(classNode.getRuleMethods().values(), new Predicate<RuleMethod>() {
-            public boolean apply(final RuleMethod method) {
-                return method.hasSuppressNodeAnnotation();
-            }
-        }), "RuleWithLeaf");
     }
 
     private <T extends MethodNode> String join(final Collection<T> methods, final Predicate<T> predicate) {
