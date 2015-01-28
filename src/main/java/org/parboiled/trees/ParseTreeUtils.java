@@ -18,21 +18,16 @@ package org.parboiled.trees;
 
 import com.github.fge.grappa.buffers.InputBuffer;
 import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
 import com.google.common.base.Strings;
 import org.parboiled.Node;
 import org.parboiled.support.Chars;
 import org.parboiled.support.LabelPrefixPredicate;
-import org.parboiled.support.NodeFormatter;
-import org.parboiled.support.ParsingResult;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-
-import static org.parboiled.trees.GraphUtils.printTree;
 
 /**
  * General utility methods for operating on parse trees.
@@ -221,22 +216,6 @@ public final class ParseTreeUtils
     }
 
     /**
-     * Returns the first node underneath the given parent for which matches the
-     * given label prefix. If parents is null or empty or no node is found the
-     * method returns null.
-     *
-     * @param parent      the parent node
-     * @param labelPrefix the label prefix to look for
-     * @return the Node if found or null if not found
-     */
-    @Nullable // TODO! null again!
-    public static <V> Node<V> findNodeByLabel(@Nullable final Node<V> parent,
-        @Nonnull final String labelPrefix)
-    {
-        return findNode(parent, new LabelPrefixPredicate<V>(labelPrefix));
-    }
-
-    /**
      * Returns the first node underneath the given parents which matches the
      * given label prefix. If parents is null or empty or no node is found the
      * method returns null.
@@ -389,46 +368,6 @@ public final class ParseTreeUtils
             collectNodes(child, predicate, collection);
         }
         return collection;
-    }
-
-    /**
-     * Creates a readable string represenation of the parse tree in the given
-     * {@link ParsingResult} object.
-     *
-     * @param parsingResult the parsing result containing the parse tree
-     * @return a new String
-     */
-    // TODO: use Guava's TreeTraverser here, and in other places
-    public static <V> String printNodeTree(final ParsingResult<V> parsingResult)
-    {
-        Objects.requireNonNull(parsingResult, "parsingResult");
-        return printNodeTree(parsingResult, Predicates.<Node<V>>alwaysTrue(),
-            Predicates.<Node<V>>alwaysTrue());
-    }
-
-    /**
-     * Creates a readable string represenation of the parse tree in thee given
-     * {@link ParsingResult} object. The given filter predicate determines
-     * whether a particular node (incl. its subtree) is printed or not.
-     *
-     * @param parsingResult the parsing result containing the parse tree
-     * @param nodeFilter the predicate selecting the nodes to print
-     * @param subTreeFilter the predicate determining whether to descend into a
-     * given nodes subtree or not
-     * @return a new String
-     */
-    @Nonnull
-    public static <V> String printNodeTree(
-        @Nonnull final ParsingResult<V> parsingResult,
-        @Nonnull final Predicate<Node<V>> nodeFilter,
-        @Nonnull final Predicate<Node<V>> subTreeFilter)
-    {
-        Objects.requireNonNull(parsingResult, "parsingResult");
-        Objects.requireNonNull(nodeFilter, "nodeFilter");
-        Objects.requireNonNull(subTreeFilter, "subTreeFilter");
-        return printTree(parsingResult.getParseTree(),
-            new NodeFormatter<V>(parsingResult.getInputBuffer()), nodeFilter,
-            subTreeFilter);
     }
 
     /**
