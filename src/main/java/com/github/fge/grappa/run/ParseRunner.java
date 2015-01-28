@@ -66,14 +66,6 @@ public interface ParseRunner<V>
     /**
      * Performs the actual parse and creates a corresponding ParsingResult instance.
      *
-     * @param input the input text to parse
-     * @return the ParsingResult for the run
-     */
-    ParsingResult<V> run(char[] input);
-
-    /**
-     * Performs the actual parse and creates a corresponding ParsingResult instance.
-     *
      * @param inputBuffer the inputBuffer to use
      * @return the ParsingResult for the run
      */

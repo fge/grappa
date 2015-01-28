@@ -42,7 +42,7 @@ public abstract class AbstractParseRunner<V>
     // TODO: make final
     protected List<ParseError> parseErrors = Lists.newArrayList();
     protected ValueStack<V> valueStack = new DefaultValueStack<>();
-    protected Object initialValueStackSnapshot;
+    protected Object stackSnapshot;
 
     protected AbstractParseRunner(@Nonnull final Rule rule)
     {
@@ -61,19 +61,12 @@ public abstract class AbstractParseRunner<V>
         return run(new CharSequenceInputBuffer(input));
     }
 
-    @Override
-    public final ParsingResult<V> run(final char[] input)
-    {
-        Objects.requireNonNull(input, "input");
-        return run(new CharSequenceInputBuffer(input));
-    }
-
     protected final void resetValueStack()
     {
         // FIXME: hack
-        if (initialValueStackSnapshot == null)
-            initialValueStackSnapshot = new ArrayList<>();
-        valueStack.restoreSnapshot(initialValueStackSnapshot);
+        if (stackSnapshot == null)
+            stackSnapshot = new ArrayList<>();
+        valueStack.restoreSnapshot(stackSnapshot);
     }
 
     @NonFinalForTesting
