@@ -143,12 +143,9 @@ public abstract class EventBusParser<V>
     /**
      * Post a value on the bus from a {@link ValueBuilder}
      *
-     * <p>This method will {@link ValueBuilder#build() build} the value and
-     * post the result on the bus.</p>
-     *
-     * <p>Note that it <strong>will not</strong> reset the builder, that is, it
-     * will not call {@link ValueBuilder#reset()} after it has built the value;
-     * resetting the value if necessary is the responsibility of the caller.</p>
+     * <p>This method will {@link ValueBuilder#build() build} the value, post
+     * the result on the bus and then {@link ValueBuilder#reset() reset} the
+     * value builder.</p>
      *
      * @param builder the value builder
      * @param <T> the value type produced by the builder
@@ -160,6 +157,7 @@ public abstract class EventBusParser<V>
 
         final T event = builder.build();
         bus.post(event);
+        builder.reset();
         return true;
     }
 

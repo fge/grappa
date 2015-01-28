@@ -48,13 +48,14 @@ public interface ValueBuilder<T>
     T build();
 
     /**
-     * Reset this builder to a pristine state
+     * Reset this builder
      *
-     * <p>When this method has been called, all injected values are lost and
-     * cannot be relied upon anymore.</p>
+     * <p>This method is called by {@link EventBusParser#post(ValueBuilder)}
+     * after the value has been built. Since it always returns {@code true}, you
+     * may also use it as an action in a parser.</p>
      *
-     * <p>Note that this interface makes no guarantee as to how {@link #build()}
-     * behaves with an empty value builder.</p>
+     * <p>It is the responsibility of the implementations to ensure that the
+     * builder is reset to a state so that it is ready to be used again.</p>
      *
      * @return always {@code true}
      */
