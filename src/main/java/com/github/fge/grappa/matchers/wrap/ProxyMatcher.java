@@ -146,14 +146,6 @@ public final class ProxyMatcher
     }
 
     @Override
-    public boolean areMismatchesMemoed()
-    {
-        if (dirty)
-            apply();
-        return target.areMismatchesMemoed();
-    }
-
-    @Override
     public String toString()
     {
         if (target == null)
@@ -249,23 +241,6 @@ public final class ProxyMatcher
         target = (Matcher) inner
             .skipNode(); // since this might change the instance we have to update it
         setNodeSkipped(false);
-        return target;
-    }
-
-    @Override
-    public Rule memoMismatches()
-    {
-        if (target == null) {
-            // if we have no target yet we need to save the marker and "apply" it later
-            setMemoMismatches(true);
-            return this;
-        }
-
-        // we already have a target to which we can directly apply the marker
-        final Rule inner = unwrap(target);
-        target = (Matcher) inner
-            .memoMismatches(); // since this might change the instance we have to update it
-        setMemoMismatches(false);
         return target;
     }
 

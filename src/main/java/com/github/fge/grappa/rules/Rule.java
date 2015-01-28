@@ -69,14 +69,6 @@ public interface Rule
     Rule skipNode();
 
     /**
-     * Enables memoization of rule mismatches for consecutive rule applications
-     * at the same input location.
-     *
-     * @return this rule
-     */
-    Rule memoMismatches();
-
-    /**
      * Tells whether this rule can match an empty input text
      *
      * <p>This method is used during rule building in other to detect anomalous

@@ -24,7 +24,6 @@ import org.parboiled.annotations.DontExtend;
 import org.parboiled.annotations.DontLabel;
 import org.parboiled.annotations.DontSkipActionsInPredicates;
 import org.parboiled.annotations.ExplicitActionsOnly;
-import org.parboiled.annotations.MemoMismatches;
 import org.parboiled.annotations.SkipActionsInPredicates;
 import org.parboiled.annotations.SkipNode;
 import org.parboiled.annotations.SuppressNode;
@@ -50,7 +49,6 @@ public enum ParserAnnotation
     DONT_LABEL(DontLabel.class),
     DONT_EXTEND(DontExtend.class),
     DONT_SKIP_ACTIONS_IN_PREDICATES(DontSkipActionsInPredicates.class),
-    MEMO_MISMATCHES(MemoMismatches.class),
     SKIP_ACTIONS_IN_PREDICATES(SkipActionsInPredicates.class),
     SKIP_NODE(SkipNode.class),
     SUPPRESS_NODE(SuppressNode.class),
@@ -62,15 +60,14 @@ public enum ParserAnnotation
      */
     private static final Set<ParserAnnotation> FLAGS_COPY = EnumSet.of(
         CACHED, DONT_LABEL, SUPPRESS_NODE, SUPPRESS_SUBNODES,
-        SKIP_NODE, MEMO_MISMATCHES
+        SKIP_NODE
     );
 
     /**
      * @see RuleMethod#moveFlagsTo(RuleMethod)
      */
     private static final Set<ParserAnnotation> FLAGS_CLEAR = EnumSet.of(
-        CACHED, SUPPRESS_NODE, SUPPRESS_SUBNODES, SKIP_NODE,
-        MEMO_MISMATCHES
+        CACHED, SUPPRESS_NODE, SUPPRESS_SUBNODES, SKIP_NODE
     );
 
     /**

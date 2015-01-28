@@ -16,7 +16,6 @@
 
 package com.github.fge.grappa.matchers.base;
 
-import com.github.fge.grappa.matchers.wrap.MemoMismatchesMatcher;
 import com.github.fge.grappa.rules.Rule;
 import com.google.common.collect.ImmutableList;
 import org.parboiled.MatcherContext;
@@ -83,12 +82,6 @@ public abstract class AbstractMatcher
     }
 
     @Override
-    public final boolean areMismatchesMemoed()
-    {
-        return false;
-    }
-
-    @Override
     public String getLabel()
     {
         return label;
@@ -146,12 +139,6 @@ public abstract class AbstractMatcher
         final AbstractMatcher clone = createClone();
         clone.nodeSkipped = true;
         return clone;
-    }
-
-    @Override
-    public final Rule memoMismatches()
-    {
-        return new MemoMismatchesMatcher(this);
     }
 
     // default implementation is to simply delegate to the context

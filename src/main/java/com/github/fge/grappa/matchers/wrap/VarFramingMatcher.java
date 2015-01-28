@@ -95,12 +95,6 @@ public final class VarFramingMatcher
         return new VarFramingMatcher(inner.skipNode(), variables);
     }
 
-    @Override
-    public Rule memoMismatches()
-    {
-        return new VarFramingMatcher(inner.memoMismatches(), variables);
-    }
-
     // Matcher
 
     @Override
@@ -131,12 +125,6 @@ public final class VarFramingMatcher
     public boolean isNodeSkipped()
     {
         return inner.isNodeSkipped();
-    }
-
-    @Override
-    public boolean areMismatchesMemoed()
-    {
-        return inner.areMismatchesMemoed();
     }
 
     @Override

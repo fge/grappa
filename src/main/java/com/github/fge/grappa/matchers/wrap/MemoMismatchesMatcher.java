@@ -93,12 +93,6 @@ public final class MemoMismatchesMatcher
         return new MemoMismatchesMatcher(inner.skipNode());
     }
 
-    @Override
-    public Rule memoMismatches()
-    {
-        return this; // already done
-    }
-
     // Matcher
 
     @Override
@@ -129,12 +123,6 @@ public final class MemoMismatchesMatcher
     public boolean isNodeSkipped()
     {
         return inner.isNodeSkipped();
-    }
-
-    @Override
-    public boolean areMismatchesMemoed()
-    {
-        return true;
     }
 
     @Override

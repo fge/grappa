@@ -50,7 +50,6 @@ import static com.github.fge.grappa.transform.ParserAnnotation
     .DONT_SKIP_ACTIONS_IN_PREDICATES;
 import static com.github.fge.grappa.transform.ParserAnnotation
     .EXPLICIT_ACTIONS_ONLY;
-import static com.github.fge.grappa.transform.ParserAnnotation.MEMO_MISMATCHES;
 import static com.github.fge.grappa.transform.ParserAnnotation
     .SKIP_ACTIONS_IN_PREDICATES;
 import static com.github.fge.grappa.transform.ParserAnnotation.SKIP_NODE;
@@ -199,11 +198,6 @@ public class RuleMethod
     public boolean hasSkipNodeAnnotation()
     {
         return annotations.contains(SKIP_NODE);
-    }
-
-    public boolean hasMemoMismatchesAnnotation()
-    {
-        return annotations.contains(MEMO_MISMATCHES);
     }
 
     public int getNumberOfReturns()

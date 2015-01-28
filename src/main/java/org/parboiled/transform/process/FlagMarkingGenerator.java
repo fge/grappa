@@ -45,8 +45,7 @@ public final class FlagMarkingGenerator
         Objects.requireNonNull(method, "method");
         return method.hasSuppressNodeAnnotation()
             || method.hasSuppressSubnodesAnnotation()
-            || method.hasSkipNodeAnnotation()
-            || method.hasMemoMismatchesAnnotation();
+            || method.hasSkipNodeAnnotation();
     }
 
     @Override
@@ -78,9 +77,6 @@ public final class FlagMarkingGenerator
                 "suppressSubnodes", CodegenUtils.sig(Rule.class));
         if (method.hasSkipNodeAnnotation())
             block.invokeinterface(CodegenUtils.p(Rule.class), "skipNode",
-                CodegenUtils.sig(Rule.class));
-        if (method.hasMemoMismatchesAnnotation())
-            block.invokeinterface(CodegenUtils.p(Rule.class), "memoMismatches",
                 CodegenUtils.sig(Rule.class));
 
         block.label(label);

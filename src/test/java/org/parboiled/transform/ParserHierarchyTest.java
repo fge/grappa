@@ -19,7 +19,6 @@ package org.parboiled.transform;
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.rules.Rule;
 import org.parboiled.annotations.BuildParseTree;
-import org.parboiled.annotations.MemoMismatches;
 import org.testng.annotations.Test;
 
 import static org.parboiled.transform.AsmTestUtils.getMethodInstructionList;
@@ -38,7 +37,6 @@ public class ParserHierarchyTest {
         Rule C() {
             return ANY;
         }
-        @MemoMismatches
         Rule E() {
             return EMPTY;
         }
