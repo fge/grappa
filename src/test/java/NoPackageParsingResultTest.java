@@ -1,14 +1,12 @@
 import com.github.fge.grappa.parsingresult.ParsingResultTest;
 import com.github.fge.grappa.rules.Rule;
 import com.github.fge.grappa.testparsers.TestParser;
-import org.parboiled.annotations.BuildParseTree;
 
 import java.io.IOException;
 
 public final class NoPackageParsingResultTest
     extends ParsingResultTest<NoPackageParsingResultTest.Parser, Integer>
 {
-    @BuildParseTree
     public static class Parser
         extends TestParser<Integer>
     {

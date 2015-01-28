@@ -18,7 +18,6 @@ package org.parboiled;
 
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.rules.Rule;
-import org.parboiled.annotations.BuildParseTree;
 import org.parboiled.common.Reference;
 import org.parboiled.test.ParboiledTest;
 import org.testng.annotations.Test;
@@ -28,7 +27,6 @@ public class ActionVar2Test extends ParboiledTest<Object>
 
     // TODO: redo that test
 
-    @BuildParseTree
     static class Parser extends BaseParser<Object>
     {
         Rule Clause() {
