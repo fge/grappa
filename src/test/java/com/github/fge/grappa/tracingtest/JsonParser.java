@@ -147,6 +147,6 @@ public class JsonParser
     @Label("jsonText")
     Rule jsonText()
     {
-        return sequence(testNot(';'), whiteSpaces(), value(), whiteSpaces(), EOI);
+        return sequence(whiteSpaces(), value(), whiteSpaces(), EOI);
     }
 }
