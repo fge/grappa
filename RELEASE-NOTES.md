@@ -5,6 +5,7 @@
 * Sequences now refuse to have an action as the first argument.
 * EOI is given the boot as ch(0xffff), now uses an EndOfInputMatcher().
 * Unify exceptions thrown by grammar build errors (InvalidGrammarException).
+* Dump trace events in CSV format instead; use a parser to parse this CSV.
 
 ### 2.0.0-alpha.2
 
