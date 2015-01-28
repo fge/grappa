@@ -39,6 +39,9 @@ public final class TraceEventWriter
     private final Writer writer;
     private final StringBuilder sb = new StringBuilder();
 
+    private boolean startSet = false;
+    private long start = 0L;
+
     public TraceEventWriter(final Writer writer)
     {
         this.writer = Objects.requireNonNull(writer);
@@ -47,6 +50,11 @@ public final class TraceEventWriter
     public void writeBefore(final MatcherContext<?> context, final long nanos)
         throws IOException
     {
+        if (!startSet) {
+            start = nanos;
+            startSet = true;
+        }
+
         final Matcher matcher = context.getMatcher();
         @SuppressWarnings("ConstantConditions")
         final String name = matcher.getClass().getSimpleName();
@@ -58,7 +66,7 @@ public final class TraceEventWriter
             .append(matcher.toString().replace(";", "\\;")).append(';')
             .append(matcher.getType().ordinal()).append(';')
             .append(name.isEmpty() ? "(anonymous)" : name).append(';')
-            .append(nanos).append('\n');
+            .append(nanos - start).append('\n');
 
         writer.append(sb);
     }
@@ -78,7 +86,7 @@ public final class TraceEventWriter
             .append(matcher.toString().replace(";", "\\;")).append(';')
             .append(matcher.getType().ordinal()).append(';')
             .append(name.isEmpty() ? "(anonymous)" : name).append(';')
-            .append(nanos).append('\n');
+            .append(nanos - start).append('\n');
 
         writer.append(sb);
     }
@@ -98,7 +106,7 @@ public final class TraceEventWriter
             .append(matcher.toString().replace(";", "\\;")).append(';')
             .append(matcher.getType().ordinal()).append(';')
             .append(name.isEmpty() ? "(anonymous)" : name).append(';')
-            .append(nanos).append('\n');
+            .append(nanos - start).append('\n');
 
         writer.append(sb);
     }
