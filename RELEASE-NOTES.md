@@ -6,6 +6,8 @@
 * EOI is given the boot as ch(0xffff), now uses an EndOfInputMatcher().
 * Unify exceptions thrown by grammar build errors (InvalidGrammarException).
 * Dump trace events in CSV format instead; use a parser to parse this CSV.
+* Remove @BuildParseTree, @*Node{s} annotations and associated code.
+* Remove @MemoizeMismatches and associated code.
 
 ### 2.0.0-alpha.2
 
