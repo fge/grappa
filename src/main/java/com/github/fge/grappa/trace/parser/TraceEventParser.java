@@ -10,15 +10,15 @@ import java.util.Objects;
 public class TraceEventParser
     extends EventBusParser<Object>
 {
-    private final TraceEventBuilder builder = new TraceEventBuilder();
-    private final Range<Integer> range;
+    protected final TraceEventBuilder builder = new TraceEventBuilder();
+    protected final Range<Integer> range;
 
     public TraceEventParser()
     {
         this(Range.atLeast(0));
     }
 
-    public TraceEventParser(final int maxEvents)
+    public TraceEventParser(final Integer maxEvents)
     {
         if (maxEvents < 0)
             throw new IllegalArgumentException("maxEvents must be positive");
@@ -30,15 +30,13 @@ public class TraceEventParser
         this.range = Objects.requireNonNull(range);
     }
 
-    Rule traceEvents()
+    public Rule traceEvents()
     {
         return join(traceEvent()).using('\n').range(range);
     }
 
     Rule traceEvent()
     {
-        builder.reset();
-
         return sequence(
             eventType(), ';',
             index(), ';',
