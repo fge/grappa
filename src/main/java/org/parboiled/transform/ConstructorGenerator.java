@@ -16,6 +16,7 @@
 
 package org.parboiled.transform;
 
+import com.github.fge.grappa.exceptions.InvalidGrammarException;
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.transform.CodeBlock;
 import org.objectweb.asm.Type;
@@ -24,7 +25,6 @@ import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.TypeInsnNode;
-import org.parboiled.support.Checks;
 
 import java.util.List;
 import java.util.Objects;
@@ -45,10 +45,14 @@ public final class ConstructorGenerator
     public void process(final ParserClassNode classNode)
     {
         Objects.requireNonNull(classNode, "classNode");
-        Checks.ensure(!classNode.getConstructors().isEmpty(),
-            "Could not extend parser class '%s', no constructor visible to" +
-            " derived classes found", classNode.getParentType().getClassName());
-        for (final MethodNode constructor: classNode.getConstructors())
+
+        final List<MethodNode> constructors = classNode.getConstructors();
+
+        if (constructors.isEmpty())
+            throw new InvalidGrammarException("parser class \"%s\" has no "
+                + "visible constructor for derives classes");
+
+        for (final MethodNode constructor: constructors)
             createConstuctor(classNode, constructor);
 
         createNewInstanceMethod(classNode);

@@ -51,8 +51,7 @@ public final class InstructionGraphNode
         = Range.closedOpen(ISTORE, IASTORE);
 
     private final BasicValue resultValue;
-    private final List<InstructionGraphNode> predecessors
-        = new ArrayList<>();
+    private final List<InstructionGraphNode> predecessors = new ArrayList<>();
     private AbstractInsnNode instruction;
     private InstructionGroup group;
     private boolean isActionRoot;

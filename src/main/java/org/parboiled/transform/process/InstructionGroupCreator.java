@@ -22,12 +22,12 @@
 
 package org.parboiled.transform.process;
 
+import com.github.fge.grappa.exceptions.InvalidGrammarException;
 import com.github.fge.grappa.transform.ClassCache;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.MethodInsnNode;
-import org.parboiled.support.Checks;
 import org.parboiled.transform.InstructionGraphNode;
 import org.parboiled.transform.InstructionGroup;
 import org.parboiled.transform.ParserClassNode;
@@ -106,26 +106,32 @@ public final class InstructionGroupCreator
 
     private void markGroup(
         final InstructionGraphNode node, final InstructionGroup group) {
+
         final boolean condition = node == group.getRoot()
-            || !node.isActionRoot() && !node.isVarInitRoot();
-        Checks.ensure(condition, "Method '%s' contains illegal nesting of "
-            + "ACTION and/or Var initializer constructs", method.name);
+            || !(node.isActionRoot() || node.isVarInitRoot());
+
+        if (!condition)
+            throw new InvalidGrammarException("method " + method.name
+                + " contains illegal nested ACTION/Var constructs");
 
         if (node.getGroup() != null)
             return; // already visited
 
         node.setGroup(group);
+
         if (node.isXLoad())
             return;
 
-        if (node.isVarInitRoot()) {
-            Preconditions.checkState(node.getPredecessors().size() == 2);
-            // only color the second predecessor branch
-            markGroup(node.getPredecessors().get(1), group);
-        } else {
+        if (!node.isVarInitRoot()) {
             for (final InstructionGraphNode pred : node.getPredecessors())
                 markGroup(pred, group);
+            return;
         }
+
+        if (node.getPredecessors().size() != 2)
+            throw new InvalidGrammarException("FIXME: find error message");
+        // only color the second predecessor branch
+        markGroup(node.getPredecessors().get(1), group);
     }
 
     // sort the group instructions according to their method index
@@ -175,17 +181,22 @@ public final class InstructionGroupCreator
 
         for (int i = 0; i < sizeMinus1; i++) {
             node = nodes.get(i);
-            Checks.ensure(!node.isXStore(), "An ACTION or Var initializer in "
-                + "rule method '%s' contains illegal writes to a local variable"
-                + " or parameter",
-                method.name);
+
+            if (node.isXStore())
+                throw new InvalidGrammarException("An action or Var initializer"
+                    + " in method " + method.name + " contains an illegal write"
+                    + " to a local variable/parameter");
+
             verifyAccess(node);
         }
 
         final int i = getIndexOfLastInsn(group) - getIndexOfFirstInsn(group);
 
-        Checks.ensure(i == sizeMinus1, "Error during bytecode analysis of" +
-            " rule method '%s': discontinuous group block", method.name);
+        if (i == sizeMinus1)
+            return;
+
+        throw new InvalidGrammarException("error during bytecode analysis of" +
+            " rule method " + method.name + ": discontinuous group block");
     }
 
     private void verifyAccess(final InstructionGraphNode node)
@@ -195,12 +206,11 @@ public final class InstructionGroupCreator
             case GETSTATIC:
                 final FieldInsnNode field
                     = (FieldInsnNode) node.getInstruction();
-                Checks.ensure(!isPrivateField(field.owner, field.name),
-                    "Rule method '%s' contains an illegal access to private "
-                    + "field '%s'.\nMark the field protected or package-private"
-                    + " if you want to prevent public access!",
-                    method.name, field.name
-                );
+
+                if (isPrivateField(field.owner, field.name))
+                    throw new InvalidGrammarException("rule methods cannot "
+                        + "access private fields (method: " + method.name
+                        + ", field: " + field.name + ')');
                 break;
 
             case INVOKEVIRTUAL:
@@ -209,13 +219,12 @@ public final class InstructionGroupCreator
             case INVOKEINTERFACE:
                 final MethodInsnNode calledMethod
                     = (MethodInsnNode) node.getInstruction();
-                Checks.ensure(!isPrivate(calledMethod.owner, calledMethod.name,
-                    calledMethod.desc),
-                    "Rule method '%s' contains an illegal call to private" +
-                    " method '%s'.\nMark '%s' protected or "
-                    + "package-private if you want to prevent public access!",
-                    method.name, calledMethod.name, calledMethod.name
-                );
+                if (isPrivate(calledMethod.owner, calledMethod.name,
+                    calledMethod.desc))
+                    throw new InvalidGrammarException("method " + method.name
+                        + " contains an illegal call to private method "
+                        + calledMethod.name + "; make the latter protected or"
+                        + " package private");
                 break;
         }
     }

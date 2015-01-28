@@ -22,6 +22,7 @@
 
 package org.parboiled.transform;
 
+import com.github.fge.grappa.exceptions.InvalidGrammarException;
 import com.github.fge.grappa.rules.Rule;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.Type;
@@ -29,7 +30,6 @@ import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.analysis.AnalyzerException;
 import org.objectweb.asm.tree.analysis.BasicInterpreter;
 import org.objectweb.asm.tree.analysis.BasicValue;
-import org.parboiled.support.Checks;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -162,17 +162,31 @@ public final class RuleMethodInterpreter
     {
         final String errorMessage = "Internal error during analysis of rule" +
             " method '" + method.name + "', please report this error to" +
-            " https://github.com/fge/grappa/issues! Thank you!";
-        Checks.ensure(value instanceof InstructionGraphNode, errorMessage);
-        InstructionGraphNode node = (InstructionGraphNode) value;
+            " https://github.com/fge/grappa/issues";
+
+        if (!(value instanceof InstructionGraphNode))
+            throw new InvalidGrammarException(errorMessage);
+
+        InstructionGraphNode node;
+
+        node = (InstructionGraphNode) value;
+
         while (true) {
             final int opcode = node.getInstruction().getOpcode();
+
             if (opcode == ANEWARRAY || opcode == NEWARRAY
                 || opcode == MULTIANEWARRAY)
                 break;
-            Checks.ensure(node.getPredecessors().size() == 1, errorMessage);
-            node = node.getPredecessors().get(0);
+
+            final List<InstructionGraphNode> predecessors
+                = node.getPredecessors();
+
+            if (predecessors.size() != 1)
+                throw new InvalidGrammarException(errorMessage);
+
+            node = predecessors.get(0);
         }
+
         return node.getInstruction();
     }
 

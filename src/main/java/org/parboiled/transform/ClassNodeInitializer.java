@@ -22,6 +22,7 @@
 
 package org.parboiled.transform;
 
+import com.github.fge.grappa.exceptions.InvalidGrammarException;
 import com.github.fge.grappa.rules.Rule;
 import com.github.fge.grappa.transform.ParserAnnotation;
 import com.google.common.base.Optional;
@@ -33,7 +34,6 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.MethodNode;
-import org.parboiled.support.Checks;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
@@ -120,11 +120,12 @@ public final class ClassNodeInitializer
         final String[] interfaces)
     {
         if (ownerClass == classNode.getParentClass()) {
-            Checks.ensure((access & ACC_PRIVATE) == 0,
-                "Parser class '%s' must not be private", name);
-            // TODO: make this message actually show up; exception bubble up pb
-            Checks.ensure((access & ACC_FINAL) == 0,
-                "Parser class '%s' must not be final.", name);
+            if ((access & ACC_PRIVATE) != 0)
+                throw new InvalidGrammarException("a parser class cannot be "
+                    + "private");
+            if ((access & ACC_FINAL) != 0)
+                throw new InvalidGrammarException("a parser class cannot be "
+                    + "final");
             classNode.visit(V1_6, ACC_PUBLIC, getExtendedParserClassName(name),
                 null, classNode.getParentType().getInternalName(), null);
         }
@@ -180,12 +181,10 @@ public final class ClassNodeInitializer
             return null;
 
 
-        Checks.ensure((access & ACC_PRIVATE) == 0,
-            "Rule method '%s'must not be private.\n" +
-            "Mark the method protected or package-private if you want" +
-            " to prevent public access!", name);
-        Checks.ensure((access & ACC_FINAL) == 0,
-            "Rule method '%s' must not be final.", name);
+        if ((access & ACC_PRIVATE) != 0)
+            throw new InvalidGrammarException("rule methods cannot be private");
+        if ((access & ACC_FINAL) != 0)
+            throw new InvalidGrammarException("rule methods cannot be final");
 
         // check, whether we do not already have a method with that name and
         // descriptor; if we do we add the method with a "$" prefix in order
