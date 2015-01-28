@@ -16,7 +16,6 @@
 
 package com.github.fge.grappa.parsers;
 
-import com.github.fge.grappa.annotations.Experimental;
 import com.github.fge.grappa.helpers.ValueBuilder;
 import com.google.common.eventbus.EventBus;
 import org.parboiled.support.Var;
@@ -87,7 +86,6 @@ import java.util.Objects;
  *
  * @see ValueBuilder
  */
-@Experimental
 public abstract class EventBusParser<V>
     extends BaseParser<V>
 {

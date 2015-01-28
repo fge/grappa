@@ -16,7 +16,6 @@
 
 package com.github.fge.grappa.helpers;
 
-import com.github.fge.grappa.annotations.Experimental;
 import com.github.fge.grappa.parsers.EventBusParser;
 
 import javax.annotation.Nonnull;
@@ -36,7 +35,6 @@ import javax.annotation.Nonnull;
  *
  * @see EventBusParser#post(ValueBuilder)
  */
-@Experimental
 public interface ValueBuilder<T>
 {
     /**

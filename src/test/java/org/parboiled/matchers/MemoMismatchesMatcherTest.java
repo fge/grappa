@@ -43,7 +43,7 @@ public class MemoMismatchesMatcherTest extends ParboiledTest<Object>
     @Test
     public void testMatchesSubsequently() {
         final Parser parser = Parboiled.createParser(Parser.class);
-        test(parser.Test1(), "XYZ").hasNoErrors().hasParseTree("[Test1] 'XYZ'\n  [\"XYZ\"] 'XYZ'\n");
-        test(parser.Test1(), "ABC").hasNoErrors().hasParseTree("[Test1] 'ABC'\n  [FirstChoice] 'ABC'\n");
+        test(parser.Test1(), "XYZ").hasNoErrors();
+        test(parser.Test1(), "ABC").hasNoErrors();
     }
 }

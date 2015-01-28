@@ -16,7 +16,6 @@
 
 package org.parboiled.support;
 
-import com.github.fge.grappa.annotations.DoNotUse;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import org.parboiled.common.Factory;
@@ -129,13 +128,11 @@ public class Var<T>
 
     /**
      * Provides a new frame for the variable.
-     * Potentially existing previous frames are saved.
-     * Normally you do not have to call this method manually as parboiled
-     * provides for automatic Var frame management.
+     *
+     * <p>Do not use manually!</p>
      *
      * @return true
      */
-    @DoNotUse
     public final boolean enterFrame()
     {
         if (level++ > 0)
@@ -145,12 +142,11 @@ public class Var<T>
 
     /**
      * Exits a frame previously entered with {@link #enterFrame()}.
-     * Normally you do not have to call this method manually as parboiled
-     * provides for automatic Var frame management.
+     *
+     * <p>Do not use manually!</p>
      *
      * @return true
      */
-    @DoNotUse
     public final boolean exitFrame()
     {
         if (--level > 0)

@@ -50,55 +50,7 @@ public class ActionVar2Test extends ParboiledTest<Object>
     @Test
     public void test() {
         final Parser parser = Parboiled.createParser(Parser.class);
-        test(parser.Clause(), "{12}abcdefghijkl\n")
-                .hasNoErrors()
-                .hasParseTree("" +
-                    "[Clause] '{12}abcdefghijkl\\n'\n" +
-                    "  [CharCount] '{12}'\n" +
-                    "    ['{'] '{'\n" +
-                    "    [oneOrMore] '12'\n" +
-                    "      [0..9] '1'\n" +
-                    "      [0..9] '2'\n" +
-                    "    ['}'] '}'\n" +
-                    "  [Chars] 'abcdefghijkl'\n" +
-                    "    [zeroOrMore] 'abcdefghijkl'\n" +
-                    "      [sequence] 'a'\n" +
-                    "        [EMPTY]\n" +
-                    "        [ANY] 'a'\n" +
-                    "      [sequence] 'b'\n" +
-                    "        [EMPTY]\n" +
-                    "        [ANY] 'b'\n" +
-                    "      [sequence] 'c'\n" +
-                    "        [EMPTY]\n" +
-                    "        [ANY] 'c'\n" +
-                    "      [sequence] 'd'\n" +
-                    "        [EMPTY]\n" +
-                    "        [ANY] 'd'\n" +
-                    "      [sequence] 'e'\n" +
-                    "        [EMPTY]\n" +
-                    "        [ANY] 'e'\n" +
-                    "      [sequence] 'f'\n" +
-                    "        [EMPTY]\n" +
-                    "        [ANY] 'f'\n" +
-                    "      [sequence] 'g'\n" +
-                    "        [EMPTY]\n" +
-                    "        [ANY] 'g'\n" +
-                    "      [sequence] 'h'\n" +
-                    "        [EMPTY]\n" +
-                    "        [ANY] 'h'\n" +
-                    "      [sequence] 'i'\n" +
-                    "        [EMPTY]\n" +
-                    "        [ANY] 'i'\n" +
-                    "      [sequence] 'j'\n" +
-                    "        [EMPTY]\n" +
-                    "        [ANY] 'j'\n" +
-                    "      [sequence] 'k'\n" +
-                    "        [EMPTY]\n" +
-                    "        [ANY] 'k'\n" +
-                    "      [sequence] 'l'\n" +
-                    "        [EMPTY]\n" +
-                    "        [ANY] 'l'\n" +
-                    "  ['\\n'] '\\n'\n");
+        test(parser.Clause(), "{12}abcdefghijkl\n").hasNoErrors();
     }
 
 }

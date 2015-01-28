@@ -100,17 +100,7 @@ public class ActionTest extends ParboiledTest<Integer>
     @Test
     public void test() {
         final Parser parser = Parboiled.createParser(Parser.class);
-        test(parser.A(), "abcd")
-                .hasNoErrors()
-                .hasParseTree("" +
-                        "[A, {2}] 'abcd'\n" +
-                        "  ['a'] 'a'\n" +
-                        "  [B, {2}] 'bcd'\n" +
-                        "    ['b', {42}] 'b'\n" +
-                        "    [C, {2}] 'cd'\n" +
-                        "      ['c', {74}] 'c'\n" +
-                        "      [Last, {2}] 'd'\n" +
-                        "        ['d', {74}] 'd'\n");
+        test(parser.A(), "abcd").hasNoErrors();
     }
 
 }

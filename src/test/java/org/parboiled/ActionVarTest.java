@@ -51,24 +51,7 @@ public class ActionVarTest extends ParboiledTest<Integer>
 
         assertEquals(rule.getClass().getName(), "com.github.fge.grappa.matchers.wrap.VarFramingMatcher");
 
-        test(rule, "aaaa")
-                .hasNoErrors()
-                .hasParseTree("" +
-                        "[A, {1}] 'aaaa'\n" +
-                        "  ['a'] 'a'\n" +
-                        "  [optional, {1}] 'aaa'\n" +
-                        "    [sequence, {1}] 'aaa'\n" +
-                        "      [A, {1}] 'aaa'\n" +
-                        "        ['a'] 'a'\n" +
-                        "        [optional, {1}] 'aa'\n" +
-                        "          [sequence, {1}] 'aa'\n" +
-                        "            [A, {1}] 'aa'\n" +
-                        "              ['a'] 'a'\n" +
-                        "              [optional, {1}] 'a'\n" +
-                        "                [sequence, {1}] 'a'\n" +
-                        "                  [A] 'a'\n" +
-                        "                    ['a'] 'a'\n" +
-                        "                    [optional]\n");
+        test(rule, "aaaa").hasNoErrors();
     }
 
 }

@@ -16,10 +16,7 @@
 
 package org.parboiled.trees;
 
-import com.github.fge.grappa.annotations.DoNotUse;
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
 import org.parboiled.common.Formatter;
 
 import javax.annotation.Nonnull;
@@ -34,24 +31,6 @@ final class GraphUtils
 {
     private GraphUtils()
     {
-    }
-
-    /**
-     * Creates a string representation of the graph reachable from the given
-     * node using the given formatter.
-     *
-     * @param node the root node
-     * @param formatter the node formatter
-     * @return a new string
-     */
-    @VisibleForTesting
-    @DoNotUse
-    static <T extends GraphNode<T>> String printTree(final T node,
-        final Formatter<T> formatter)
-    {
-        Objects.requireNonNull(formatter, "formatter");
-        return printTree(node, formatter, Predicates.<T>alwaysTrue(),
-            Predicates.<T>alwaysTrue());
     }
 
     /**

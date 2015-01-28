@@ -23,8 +23,6 @@ import com.github.fge.grappa.run.ParseRunner;
 import org.parboiled.support.ParsingResult;
 
 import static org.assertj.core.api.Fail.fail;
-import static org.parboiled.trees.ParseTreeUtils.printNodeTree;
-import static org.testng.Assert.assertEquals;
 
 public abstract class ParboiledTest<V> {
 
@@ -42,16 +40,10 @@ public abstract class ParboiledTest<V> {
             fail("Errors detected");
             return this;
         }
-
-        public TestResult<V> hasParseTree(final String expectedTree) {
-            assertEquals(printNodeTree(result), expectedTree);
-            return this;
-        }
     }
 
     public TestResult<V> test(final Rule rule, final String input) {
-        final ParseRunner<V> runner
-            = new EventBasedParseRunner<>(rule);
+        final ParseRunner<V> runner = new EventBasedParseRunner<>(rule);
         return new TestResult<>(runner.run(input));
     }
     
