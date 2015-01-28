@@ -2,19 +2,43 @@ package com.github.fge.grappa.trace.parser;
 
 import com.github.fge.grappa.parsers.EventBusParser;
 import com.github.fge.grappa.rules.Rule;
+import com.google.common.collect.Range;
+
+import javax.annotation.Nonnull;
+import java.util.Objects;
 
 public class TraceEventParser
     extends EventBusParser<Object>
 {
-    private final TraceEventBuilder builder;
+    private final TraceEventBuilder builder = new TraceEventBuilder();
+    private final Range<Integer> range;
 
-    public TraceEventParser(final TraceEventBuilder builder)
+    public TraceEventParser()
     {
-        this.builder = builder;
+        this(Range.atLeast(0));
+    }
+
+    public TraceEventParser(final int maxEvents)
+    {
+        if (maxEvents < 0)
+            throw new IllegalArgumentException("maxEvents must be positive");
+        range = Range.atMost(maxEvents);
+    }
+
+    public TraceEventParser(@Nonnull final Range<Integer> range)
+    {
+        this.range = Objects.requireNonNull(range);
+    }
+
+    Rule traceEvents()
+    {
+        return join(traceEvent()).using('\n').range(range);
     }
 
     Rule traceEvent()
     {
+        builder.reset();
+
         return sequence(
             eventType(), ';',
             index(), ';',
@@ -22,7 +46,8 @@ public class TraceEventParser
             matcher(), ';',
             matcherType(), ';',
             matcherClass(), ';',
-            nanoSeconds(), eof()
+            nanoSeconds(),
+            post(builder)
         );
     }
 

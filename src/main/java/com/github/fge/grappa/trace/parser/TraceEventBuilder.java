@@ -1,5 +1,6 @@
 package com.github.fge.grappa.trace.parser;
 
+import com.github.fge.grappa.helpers.ValueBuilder;
 import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.trace.TraceEvent;
 import com.github.fge.grappa.trace.TraceEventType;
@@ -7,6 +8,7 @@ import com.github.fge.grappa.trace.TraceEventType;
 import javax.annotation.Nonnull;
 
 public final class TraceEventBuilder
+    implements ValueBuilder<TraceEvent>
 {
     private final TraceEventType[] EVENT_TYPES = TraceEventType.values();
     private final MatcherType[] MATCHER_TYPES = MatcherType.values();
@@ -63,9 +65,16 @@ public final class TraceEventBuilder
     }
 
     @Nonnull
+    @Override
     public TraceEvent build()
     {
         return new TraceEvent(type, nanoseconds, index, matcher,
             matcherClass, matcherType, level);
+    }
+
+    @Override
+    public boolean reset()
+    {
+        return true;
     }
 }
