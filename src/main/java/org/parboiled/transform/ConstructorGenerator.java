@@ -16,7 +16,6 @@
 
 package org.parboiled.transform;
 
-import com.github.fge.grappa.annotations.VisibleForDocumentation;
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.transform.CodeBlock;
 import org.objectweb.asm.Type;
@@ -41,7 +40,6 @@ import static org.parboiled.transform.AsmUtils.createArgumentLoaders;
  * Adds one constructor for each of the ParserClassNode.constructors,
  * which simply delegates to the respective super constructor.
  */
-@VisibleForDocumentation
 public final class ConstructorGenerator
 {
     public void process(final ParserClassNode classNode)

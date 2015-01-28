@@ -16,12 +16,9 @@
 
 package org.parboiled.transform;
 
-import com.github.fge.grappa.annotations.VisibleForDocumentation;
-
 import javax.annotation.Nonnull;
 import java.util.Objects;
 
-@VisibleForDocumentation
 public abstract class BaseGroupClass
 {
     private final String name;
