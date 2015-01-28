@@ -34,7 +34,6 @@ import org.parboiled.support.IndexRange;
 import org.parboiled.support.MatcherPath;
 import org.parboiled.support.MatcherPosition;
 import org.parboiled.support.Position;
-import org.parboiled.trees.ParseTreeUtils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -267,15 +266,8 @@ public final class DefaultMatcherContext<V>
     @Override
     public String getMatch()
     {
-        final DefaultMatcherContext<V> prevContext = subContext;
-        if (!hasError)
-            return inputBuffer.extract(prevContext.startIndex,
-                prevContext.currentIndex);
-
-        final Node<V> prevNode = prevContext.node;
-        return prevNode != null
-            ? ParseTreeUtils.getNodeText(prevNode, inputBuffer)
-            : "";
+        final DefaultMatcherContext<V> ctx = subContext;
+        return inputBuffer.extract(ctx.startIndex, ctx.currentIndex);
     }
 
     @Override
