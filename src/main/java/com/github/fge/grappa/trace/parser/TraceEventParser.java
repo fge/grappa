@@ -35,7 +35,7 @@ public class TraceEventParser
         return join(traceEvent()).using('\n').range(range);
     }
 
-    Rule traceEvent()
+    public Rule traceEvent()
     {
         return sequence(
             eventType(), ';',
