@@ -45,7 +45,6 @@ dependencies {
     compile(group: "me.qmx.jitescript", name: "jitescript", version: "0.4.0");
     compile(group: "com.fasterxml.jackson.core", name: "jackson-databind",
         version: "2.5.0");
-    compile(group: "com.github.fge", name: "largetext", version: "0.2.0");
     testCompile(group: "org.testng", name: "testng", version: "6.8.13") {
         exclude(group: "junit", module: "junit");
         exclude(group: "org.beanshell", module: "bsh");
