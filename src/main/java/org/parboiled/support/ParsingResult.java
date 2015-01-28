@@ -19,7 +19,6 @@ package org.parboiled.support;
 import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.internal.NonFinalForTesting;
 import com.github.fge.grappa.stack.ValueStack;
-import org.parboiled.Node;
 import org.parboiled.errors.ParseError;
 
 import javax.annotation.Nonnull;
@@ -40,13 +39,6 @@ public class ParsingResult<V>
      * <p>Use {@link #isSuccess()} instead</p>
      */
     private final boolean matched;
-
-    /**
-     * DO NOT USE DIRECTLY!
-     *
-     * <p>Use {@link #getParseTree()} instead.</p>
-     */
-    private final Node<V> parseTreeRoot;
 
     /**
      * DO NOT USE DIRECTLY!
@@ -80,18 +72,16 @@ public class ParsingResult<V>
      * Creates a new ParsingResult.
      *
      * @param matched true if the rule matched the input
-     * @param parseTreeRoot the parse tree root node
      * @param valueStack the value stack of the parsing run
      * @param parseErrors the list of parse errors
      * @param inputBuffer the input buffer
      */
-    public ParsingResult(final boolean matched, final Node<V> parseTreeRoot,
+    public ParsingResult(final boolean matched,
         @Nonnull final ValueStack<V> valueStack,
         @Nonnull final List<ParseError> parseErrors,
         @Nonnull final InputBuffer inputBuffer)
     {
         this.matched = matched;
-        this.parseTreeRoot = parseTreeRoot;
         this.valueStack = Objects.requireNonNull(valueStack);
         resultValue = valueStack.isEmpty() ? null : valueStack.peek();
         this.parseErrors = Objects.requireNonNull(parseErrors);
@@ -107,17 +97,6 @@ public class ParsingResult<V>
     public boolean isSuccess()
     {
         return matched;
-    }
-
-    /**
-     * Gets the generated parse tree, if any
-     *
-     * @return the tree, or (unfortunately) {@code null} if no tree
-     */
-    @Nullable
-    public Node<V> getParseTree()
-    {
-        return parseTreeRoot;
     }
 
     /**

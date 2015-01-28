@@ -63,7 +63,6 @@ public class SequenceMatcher
             stack.restoreSnapshot(snapshot);
             return false;
         }
-        context.createNode();
         return true;
     }
 

@@ -19,7 +19,6 @@ package com.github.fge.grappa.matchers;
 import com.github.fge.grappa.matchers.base.AbstractMatcher;
 import com.github.fge.grappa.matchers.base.Matcher;
 import org.parboiled.MatcherContext;
-import org.parboiled.support.Chars;
 
 /**
  * A {@link Matcher} matching any single character except EOI.
@@ -42,12 +41,7 @@ public final class AnyMatcher
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
-        switch (context.getCurrentChar()) {
-            case Chars.EOI:
-                return false;
-        }
         context.advanceIndex(1);
-        context.createNode();
         return true;
     }
 

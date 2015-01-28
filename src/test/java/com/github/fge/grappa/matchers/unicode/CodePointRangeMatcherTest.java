@@ -32,8 +32,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public final class CodePointRangeMatcherTest
@@ -107,9 +105,6 @@ public final class CodePointRangeMatcherTest
 
         assertThat(matcher.match(context)).isEqualTo(success);
 
-        final int nrTimes = success ? 1 : 0;
-
-        verify(context, times(nrTimes)).createNode();
         assertThat(index).isEqualTo(THE_ANSWER + delta);
     }
 }

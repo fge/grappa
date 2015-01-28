@@ -56,7 +56,6 @@ public final class AnyOfMatcher
         if (!characters.contains(context.getCurrentChar()))
             return false;
         context.advanceIndex(1);
-        context.createNode();
         return true;
     }
 

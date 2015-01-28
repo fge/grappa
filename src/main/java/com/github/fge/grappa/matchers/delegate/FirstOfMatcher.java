@@ -44,12 +44,9 @@ public class FirstOfMatcher
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
-        for (final Matcher matcher: getChildren()) {
-            if (!matcher.getSubContext(context).runMatcher())
-                continue;
-            context.createNode();
-            return true;
-        }
+        for (final Matcher matcher: getChildren())
+            if (matcher.getSubContext(context).runMatcher())
+                return true;
         return false;
     }
 

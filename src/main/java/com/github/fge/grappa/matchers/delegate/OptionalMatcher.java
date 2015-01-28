@@ -48,7 +48,6 @@ public final class OptionalMatcher
     public <V> boolean match(final MatcherContext<V> context)
     {
         subMatcher.getSubContext(context).runMatcher();
-        context.createNode();
         return true;
     }
 

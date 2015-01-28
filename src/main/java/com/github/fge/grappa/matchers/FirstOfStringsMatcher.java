@@ -110,7 +110,6 @@ loop:
             return false; // we matched no complete path, so fail
 
         context.advanceIndex(endIx - context.getCurrentIndex());
-        context.createNode();
         return true;
     }
 

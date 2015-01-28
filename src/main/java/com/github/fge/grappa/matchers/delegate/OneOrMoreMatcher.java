@@ -54,7 +54,6 @@ public final class OneOrMoreMatcher
         while (subMatcher.getSubContext(context).runMatcher())
             ; // Nothing
 
-        context.createNode();
         return true;
     }
 

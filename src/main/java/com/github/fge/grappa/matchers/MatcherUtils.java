@@ -17,7 +17,6 @@
 package com.github.fge.grappa.matchers;
 
 import com.github.fge.grappa.matchers.base.Matcher;
-import com.github.fge.grappa.matchers.wrap.MemoMismatchesMatcher;
 import com.github.fge.grappa.matchers.wrap.ProxyMatcher;
 import com.github.fge.grappa.matchers.wrap.VarFramingMatcher;
 
@@ -35,8 +34,6 @@ public final class MatcherUtils
             return unwrap(ProxyMatcher.unwrap(matcher));
         if (matcher instanceof VarFramingMatcher)
             return unwrap(VarFramingMatcher.unwrap(matcher));
-        if (matcher instanceof MemoMismatchesMatcher)
-            return unwrap(MemoMismatchesMatcher.unwrap(matcher));
         return matcher;
     }
 }

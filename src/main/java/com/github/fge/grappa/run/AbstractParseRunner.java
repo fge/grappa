@@ -88,7 +88,7 @@ public abstract class AbstractParseRunner<V>
     protected ParsingResult<V> createParsingResult(final boolean matched,
         final MatcherContext<V> rootContext)
     {
-        return new ParsingResult<>(matched, rootContext.getNode(), valueStack,
+        return new ParsingResult<>(matched, valueStack,
             parseErrors, rootContext.getInputBuffer());
     }
 }

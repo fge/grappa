@@ -24,8 +24,7 @@ public interface MatcherContext<V>
     MatcherContext<V> getParent();
 
     /*
-     * TODO! Only used in ActionMatcher, MemoMismatchesMatcher,
-     * VarFramingMatcher
+     * TODO! Only used in ActionMatcher, VarFramingMatcher
      */
     void setMatcher(Matcher matcher);
 
@@ -34,20 +33,6 @@ public interface MatcherContext<V>
     void setCurrentIndex(int currentIndex);
 
     void advanceIndex(int delta);
-
-    Node<V> getNode();
-
-    /*
-     * TODO: only used from MemoMismatchesMatcher
-     */
-    boolean hasMismatched();
-
-    /*
-     * TODO: only used from MemoMismatchesMatcher
-     */
-    void memoizeMismatch();
-
-    void createNode();
 
     /*
      * TODO! Only called from ActionMatcher and DefaultMatcherContext

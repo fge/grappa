@@ -19,8 +19,6 @@ package org.parboiled;
 import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.stack.ValueStack;
-import org.parboiled.annotations.SuppressNode;
-import org.parboiled.annotations.SuppressSubnodes;
 import org.parboiled.errors.ParseError;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.MatcherPath;
@@ -103,17 +101,6 @@ public interface Context<V>
     int getLevel();
 
     /**
-     * Returns the parse tree subnodes already created in the current context
-     * scope.
-     * Note that the returned list is immutable.
-     *
-     * @return the parse tree subnodes already created in the current context
-     * scope
-     */
-    @Nonnull
-    List<Node<V>> getSubNodes();
-
-    /**
      * Determines if the current rule is running somewhere underneath a
      * Test/TestNot rule.
      *
@@ -121,14 +108,6 @@ public interface Context<V>
      * Test/TestNot rule
      */
     boolean inPredicate();
-
-    /**
-     * Determines if the current context is for or below a rule marked
-     * {@link SuppressNode} or below one marked {@link SuppressSubnodes}
-     *
-     * @return see description
-     */
-    boolean isNodeSuppressed();
 
     /**
      * Determines if this context or any sub node recorded a parse error.

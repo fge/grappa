@@ -54,7 +54,6 @@ public final class CodePointMatcher
             return false;
 
         context.advanceIndex(codePointLength);
-        context.createNode();
         return true;
     }
 

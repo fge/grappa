@@ -55,7 +55,6 @@ public final class CharRangeMatcher
             return false;
 
         context.advanceIndex(1);
-        context.createNode();
         return true;
     }
 

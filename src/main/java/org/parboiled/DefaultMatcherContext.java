@@ -23,8 +23,6 @@ import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.matchers.wrap.ProxyMatcher;
 import com.github.fge.grappa.stack.ValueStack;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Queues;
 import org.parboiled.errors.BasicParseError;
 import org.parboiled.errors.GrammarException;
 import org.parboiled.errors.ParseError;
@@ -32,17 +30,12 @@ import org.parboiled.errors.ParserRuntimeException;
 import org.parboiled.support.CharsEscaper;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.MatcherPath;
-import org.parboiled.support.MatcherPosition;
 import org.parboiled.support.Position;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Collections;
-import java.util.Deque;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * <p>The Context implementation orchestrating most of the matching process.</p>
@@ -84,19 +77,14 @@ public final class DefaultMatcherContext<V>
     private final MatchHandler matchHandler;
     private final DefaultMatcherContext<V> parent;
     private final int level;
-    private final Set<MatcherPosition> memoizedMismatches;
 
     private DefaultMatcherContext<V> subContext;
     private int startIndex;
     private int currentIndex;
     private char currentChar;
     private Matcher matcher;
-    private Node<V> node;
-    // TODO! Replace!
-    private List<Node<V>> subNodes = Lists.newArrayList();
     private MatcherPath path;
     private boolean hasError;
-    private boolean nodeSuppressed;
 
     /**
      * Initializes a new root MatcherContext.
@@ -117,20 +105,18 @@ public final class DefaultMatcherContext<V>
         this(Objects.requireNonNull(inputBuffer, "inputBuffer"),
             Objects.requireNonNull(valueStack, "valueStack"),
             Objects.requireNonNull(parseErrors, "parseErrors"),
-            Objects.requireNonNull(matchHandler, "matchHandler"), null, 0,
-            new HashSet<MatcherPosition>());
+            Objects.requireNonNull(matchHandler, "matchHandler"), null, 0);
         currentChar = inputBuffer.charAt(0);
         Objects.requireNonNull(matcher);
         // TODO: what the...
         this.matcher = ProxyMatcher.unwrap(matcher);
-        nodeSuppressed = matcher.isNodeSuppressed();
     }
 
     private DefaultMatcherContext(final InputBuffer inputBuffer,
         final ValueStack<V> valueStack, final List<ParseError> parseErrors,
         final MatchHandler matchHandler,
         @Nullable final DefaultMatcherContext<V> parent,
-        final int level, final Set<MatcherPosition> memoizedMismatches)
+        final int level)
     {
         this.inputBuffer = inputBuffer;
         this.valueStack = valueStack;
@@ -138,7 +124,6 @@ public final class DefaultMatcherContext<V>
         this.matchHandler = matchHandler;
         this.parent = parent;
         this.level = level;
-        this.memoizedMismatches = memoizedMismatches;
     }
 
     @Override
@@ -212,35 +197,6 @@ public final class DefaultMatcherContext<V>
     }
 
     @Override
-    @Nonnull
-    public List<Node<V>> getSubNodes()
-    {
-        if (matcher.isNodeSkipped())
-            return subNodes;
-
-        final Deque<Node<V>> remaining = Queues.newArrayDeque(subNodes);
-
-        final List<Node<V>> ret = Lists.newArrayList();
-        collectSubNodes(remaining, ret);
-        Collections.reverse(ret);
-        return ret;
-    }
-
-    private static <E> void collectSubNodes(final Deque<Node<E>> remaining,
-        final List<Node<E>> into)
-    {
-        Node<E> head;
-        while (!remaining.isEmpty()) {
-            head = remaining.pop();
-            if (!head.getMatcher().isNodeSkipped()) {
-                into.add(head);
-                continue;
-            }
-            collectSubNodes(Queues.newArrayDeque(head.getChildren()), into);
-        }
-    }
-
-    @Override
     public boolean inPredicate()
     {
         //noinspection SimplifiableIfStatement
@@ -249,12 +205,6 @@ public final class DefaultMatcherContext<V>
 
         return parent != null && parent.inPredicate();
 
-    }
-
-    @Override
-    public boolean isNodeSuppressed()
-    {
-        return nodeSuppressed;
     }
 
     @Override
@@ -349,45 +299,12 @@ public final class DefaultMatcherContext<V>
     }
 
     @Override
-    public Node<V> getNode()
-    {
-        return node;
-    }
-
-    @Override
-    public boolean hasMismatched()
-    {
-        return memoizedMismatches.contains(MatcherPosition.at(matcher,
-            currentIndex));
-    }
-
-    @Override
-    public void memoizeMismatch()
-    {
-        memoizedMismatches.add(MatcherPosition.at(matcher, currentIndex));
-    }
-
-    @Override
-    public void createNode()
-    {
-        if (nodeSuppressed)
-            return;
-
-        node = new DefaultParsingNode<>(matcher, getSubNodes(), startIndex,
-            currentIndex, valueStack.isEmpty() ? null : valueStack.peek(),
-            hasError);
-        if (parent != null) {
-            parent.subNodes.add(0, node);
-        }
-    }
-
-    @Override
     public MatcherContext<V> getBasicSubContext()
     {
         if (subContext == null) {
             // init new level
-            subContext = new DefaultMatcherContext<>(inputBuffer, valueStack,
-                parseErrors, matchHandler, this, level + 1, memoizedMismatches);
+            subContext = new DefaultMatcherContext<V>(inputBuffer, valueStack,
+                parseErrors, matchHandler, this, level + 1);
         } else {
             // we always need to reset the MatcherPath, even for actions
             subContext.path = null;
@@ -404,10 +321,6 @@ public final class DefaultMatcherContext<V>
         sc.setStartIndex(currentIndex);
         sc.setCurrentIndex(currentIndex);
         sc.currentChar = currentChar;
-        sc.subNodes = Lists.newArrayList();
-        sc.nodeSuppressed = nodeSuppressed
-            || this.matcher.areSubnodesSuppressed()
-            || matcher.isNodeSuppressed();
         sc.hasError = false;
         return sc;
     }

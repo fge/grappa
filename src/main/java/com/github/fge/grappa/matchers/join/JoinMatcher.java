@@ -101,12 +101,8 @@ public abstract class JoinMatcher
          * our joining rule would match empty... Which is illegal.
          */
         int cycles = 0;
-        if (!joined.getSubContext(context).runMatcher()) {
-            if (!enoughCycles(cycles))
-                return false;
-            context.createNode();
-            return true;
-        }
+        if (!joined.getSubContext(context).runMatcher())
+            return enoughCycles(cycles);
 
         cycles++;
 
@@ -122,11 +118,7 @@ public abstract class JoinMatcher
         context.getValueStack().restoreSnapshot(snapshot);
         context.setCurrentIndex(beforeCycle);
 
-        if (!enoughCycles(cycles))
-            return false;
-
-        context.createNode();
-        return true;
+        return enoughCycles(cycles);
     }
 
     protected abstract boolean runAgain(final int cycles);

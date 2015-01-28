@@ -56,7 +56,6 @@ public final class CodePointRangeMatcher
 
         context.advanceIndex(codePoint < Character.MIN_SUPPLEMENTARY_CODE_POINT
             ? 1 : 2);
-        context.createNode();
         return true;
     }
 

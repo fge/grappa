@@ -65,7 +65,6 @@ public final class CharMatcher
         if (context.getCurrentChar() != character)
             return false;
         context.advanceIndex(1);
-        context.createNode();
         return true;
     }
 

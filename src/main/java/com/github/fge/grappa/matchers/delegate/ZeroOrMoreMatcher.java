@@ -52,7 +52,6 @@ public final class ZeroOrMoreMatcher
         while (subMatcher.getSubContext(context).runMatcher())
             ; // Nothing
 
-        context.createNode();
         return true;
     }
 

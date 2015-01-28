@@ -40,7 +40,6 @@ public final class EmptyMatcher
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
-        context.createNode();
         return true;
     }
 

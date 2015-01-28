@@ -53,7 +53,6 @@ public final class CharIgnoreCaseMatcher
         if (c != lowerBound && c != upperBound)
             return false;
         context.advanceIndex(1);
-        context.createNode();
         return true;
     }
 

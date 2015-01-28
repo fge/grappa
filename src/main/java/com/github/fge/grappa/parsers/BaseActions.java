@@ -20,8 +20,6 @@ import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.stack.ValueStack;
 import org.parboiled.Context;
 import org.parboiled.ContextAware;
-import org.parboiled.annotations.SuppressNode;
-import org.parboiled.annotations.SuppressSubnodes;
 import org.parboiled.errors.GrammarException;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.Position;
@@ -403,17 +401,6 @@ public abstract class BaseActions<V>
     public boolean inPredicate()
     {
         return context.inPredicate();
-    }
-
-    /**
-     * Returns true if the current context is for or below a rule marked
-     * {@link SuppressNode} or below one marked {@link SuppressSubnodes}
-     *
-     * @return true or false
-     */
-    public boolean nodeSuppressed()
-    {
-        return context.isNodeSuppressed();
     }
 
     /**

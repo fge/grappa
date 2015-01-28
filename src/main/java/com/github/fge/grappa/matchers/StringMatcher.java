@@ -69,7 +69,6 @@ public final class StringMatcher
             characters))
             return false;
         context.advanceIndex(characters.length);
-        context.createNode();
         return true;
     }
 

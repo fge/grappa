@@ -37,11 +37,7 @@ public final class EndOfInputMatcher
     public <V> boolean match(final MatcherContext<V> context)
     {
         final int index = context.getCurrentIndex();
-        if (context.getInputBuffer().codePointAt(index) == -1) {
-            context.createNode();
-            return true;
-        }
-        return false;
+        return context.getInputBuffer().codePointAt(index) == -1;
     }
 
     @Override
