@@ -16,6 +16,7 @@
 
 package org.parboiled.transform.process;
 
+import com.github.fge.grappa.exceptions.InvalidGrammarException;
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.rules.Rule;
 import com.google.common.collect.ImmutableList;
@@ -24,8 +25,7 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.fail;
+import static com.github.fge.grappa.util.CustomAssertions.shouldHaveThrown;
 
 @SuppressWarnings("InstantiatingObjectToGetClassObject")
 public class ErrorDetectionTest extends TransformationTest {
@@ -53,11 +53,8 @@ public class ErrorDetectionTest extends TransformationTest {
 
         try {
             processMethod("RuleWithActionAccessingPrivateField", processors);
-            fail();
-        } catch (Exception e) {
-            assertEquals(e.getMessage(),
-                    "Rule method 'RuleWithActionAccessingPrivateField' contains an illegal access to private field 'privateInt'.\n" +
-                            "Mark the field protected or package-private if you want to prevent public access!");
+            shouldHaveThrown(InvalidGrammarException.class);
+        } catch (InvalidGrammarException ignored) {
         }
     }
 
@@ -75,11 +72,8 @@ public class ErrorDetectionTest extends TransformationTest {
 
         try {
             processMethod("RuleWithActionAccessingPrivateMethod", processors);
-            fail();
-        } catch (Exception e) {
-            assertEquals(e.getMessage(),
-                    "Rule method 'RuleWithActionAccessingPrivateMethod' contains an illegal call to private method 'privateAction'.\n" +
-                            "Mark 'privateAction' protected or package-private if you want to prevent public access!");
+            shouldHaveThrown(InvalidGrammarException.class);
+        } catch (InvalidGrammarException ignored) {
         }
     }
 
