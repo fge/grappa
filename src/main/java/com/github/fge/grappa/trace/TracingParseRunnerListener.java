@@ -80,7 +80,6 @@ public final class TracingParseRunnerListener<V>
 
     private InputBuffer inputBuffer;
     private long startDate;
-    private long before = 0L;
 
     public TracingParseRunnerListener(final Path dir, final Path zipPath,
         final boolean deleteIfExists)
@@ -131,19 +130,17 @@ public final class TracingParseRunnerListener<V>
     public void beforeMatch(final PreMatchEvent<V> event)
     {
         try {
-            eventWriter.writeBefore(event.getContext());
+            eventWriter.writeBefore(event.getContext(), System.nanoTime());
         } catch (IOException e) {
             throw cleanup("failed to write event", e);
         }
-        before = System.nanoTime();
     }
 
     @Override
     public void matchSuccess(final MatchSuccessEvent<V> event)
     {
         try {
-            eventWriter.writeAfter(event.getContext(), before,
-                System.nanoTime(), true);
+            eventWriter.writeSuccess(event.getContext(), System.nanoTime());
         } catch (IOException e) {
             throw cleanup("failed to write event", e);
         }
@@ -153,8 +150,7 @@ public final class TracingParseRunnerListener<V>
     public void matchFailure(final MatchFailureEvent<V> event)
     {
         try {
-            eventWriter.writeAfter(event.getContext(), before,
-                System.nanoTime(), false);
+            eventWriter.writeFailure(event.getContext(), System.nanoTime());
         } catch (IOException e) {
             throw cleanup("failed to write event", e);
         }

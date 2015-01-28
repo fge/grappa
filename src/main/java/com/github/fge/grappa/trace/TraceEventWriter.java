@@ -44,7 +44,7 @@ public final class TraceEventWriter
         this.writer = Objects.requireNonNull(writer);
     }
 
-    public void writeBefore(final MatcherContext<?> context)
+    public void writeBefore(final MatcherContext<?> context, final long nanos)
         throws IOException
     {
         final Matcher matcher = context.getMatcher();
@@ -56,14 +56,14 @@ public final class TraceEventWriter
             .append(context.getCurrentIndex()).append(';')
             .append(context.getLevel()).append(';')
             .append(matcher.toString().replace(";", "\\;")).append(';')
-            .append(matcher.getType().ordinal())
-            .append(name.isEmpty() ? "(anonymous)" : name).append(';');
+            .append(matcher.getType().ordinal()).append(';')
+            .append(name.isEmpty() ? "(anonymous)" : name).append(';')
+            .append(nanos).append('\n');
 
         writer.append(sb);
     }
 
-    public void writeAfter(final MatcherContext<?> context,
-        final long start, final long end, final boolean success)
+    public void writeSuccess(final MatcherContext<?> context, final long nanos)
         throws IOException
     {
         final Matcher matcher = context.getMatcher();
@@ -72,14 +72,33 @@ public final class TraceEventWriter
 
         sb.setLength(0);
 
-        sb.append(start).append('\n')
-            .append(success ? MATCH_SUCCESS : MATCH_FAILURE).append(';')
+        sb.append(MATCH_SUCCESS).append(';')
             .append(context.getCurrentIndex()).append(';')
             .append(context.getLevel()).append(';')
             .append(matcher.toString().replace(";", "\\;")).append(';')
-            .append(matcher.getType().ordinal())
+            .append(matcher.getType().ordinal()).append(';')
             .append(name.isEmpty() ? "(anonymous)" : name).append(';')
-            .append(end).append('\n');
+            .append(nanos).append('\n');
+
+        writer.append(sb);
+    }
+
+    public void writeFailure(final MatcherContext<?> context, final long nanos)
+        throws IOException
+    {
+        final Matcher matcher = context.getMatcher();
+        @SuppressWarnings("ConstantConditions")
+        final String name = matcher.getClass().getSimpleName();
+
+        sb.setLength(0);
+
+        sb.append(MATCH_FAILURE).append(';')
+            .append(context.getCurrentIndex()).append(';')
+            .append(context.getLevel()).append(';')
+            .append(matcher.toString().replace(";", "\\;")).append(';')
+            .append(matcher.getType().ordinal()).append(';')
+            .append(name.isEmpty() ? "(anonymous)" : name).append(';')
+            .append(nanos).append('\n');
 
         writer.append(sb);
     }
