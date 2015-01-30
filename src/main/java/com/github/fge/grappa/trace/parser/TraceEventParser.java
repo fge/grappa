@@ -26,7 +26,7 @@ public class TraceEventParser
             matcherType(), ';',
             matcherClass(), ';',
             nanoSeconds(),
-            push(builder.build())
+            EOI
         );
     }
 
