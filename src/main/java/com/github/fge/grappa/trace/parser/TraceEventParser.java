@@ -48,7 +48,9 @@ public class TraceEventParser
     Rule matcher()
     {
         return sequence(
-            join(oneOrMore(noneOf("\\;"))).using("\\;").min(1),
+            join(oneOrMore(firstOf(noneOf("\\;"), sequence('\\', noneOf(";")))))
+                .using("\\;")
+                .min(1),
             builder.setMatcher(match())
         );
     }
