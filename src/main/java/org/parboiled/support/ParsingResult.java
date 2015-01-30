@@ -22,7 +22,7 @@ import com.github.fge.grappa.stack.ValueStack;
 import org.parboiled.errors.ParseError;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -32,40 +32,9 @@ import java.util.Objects;
 @NonFinalForTesting
 public class ParsingResult<V>
 {
-
-    /**
-     * DO NOT USE DIRECTLY!
-     *
-     * <p>Use {@link #isSuccess()} instead</p>
-     */
     private final boolean matched;
-
-    /**
-     * DO NOT USE DIRECTLY!
-     *
-     * <p>Use {@link #getTopStackValue()} instead</p>
-     */
-    private final V resultValue;
-
-    /**
-     * DO NOT USE DIRECTLY!
-     *
-     * <p>Use {@link #getValueStack()} instead</p>
-     */
     private final ValueStack<V> valueStack;
-
-    /**
-     * DO NOT USE DIRECTLY!
-     *
-     * <p>Use {@link #getParseErrors()} instead</p>
-     */
     private final List<ParseError> parseErrors;
-
-    /**
-     * DO NOT USE DIRECTLY!
-     *
-     * <p>Use {@link #getInputBuffer()} instead</p>
-     */
     private final InputBuffer inputBuffer;
 
     /**
@@ -83,7 +52,6 @@ public class ParsingResult<V>
     {
         this.matched = matched;
         this.valueStack = Objects.requireNonNull(valueStack);
-        resultValue = valueStack.isEmpty() ? null : valueStack.peek();
         this.parseErrors = Objects.requireNonNull(parseErrors);
         this.inputBuffer = Objects.requireNonNull(inputBuffer);
     }
@@ -102,15 +70,15 @@ public class ParsingResult<V>
     /**
      * Gets the value at the top of the stack, if any
      *
-     * <p>Note that unfortunately the top of the stack can also be null, so this
-     * method is not reliable.</p>
+     * @return the value at the top of the stack
+     * @throws IllegalArgumentException stack is empty
      *
-     * @return see description
+     * @see ValueStack#peek()
      */
-    @Nullable
+    @Nonnull
     public V getTopStackValue()
     {
-        return resultValue;
+        return valueStack.peek();
     }
 
     /**
@@ -133,7 +101,7 @@ public class ParsingResult<V>
     @Nonnull
     public List<ParseError> getParseErrors()
     {
-        return parseErrors;
+        return Collections.unmodifiableList(parseErrors);
     }
 
     /**
