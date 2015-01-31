@@ -20,7 +20,7 @@ public class TraceEventParser
 
     public Rule traceEvents(final int nrEvents)
     {
-        return join(traceEvent()).using('\n').max(nrEvents);
+        return join(traceEvent()).using('\n').times(nrEvents);
     }
 
     public Rule traceEvent()
