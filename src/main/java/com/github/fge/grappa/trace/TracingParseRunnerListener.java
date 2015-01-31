@@ -80,6 +80,7 @@ public final class TracingParseRunnerListener<V>
 
     private InputBuffer inputBuffer;
     private long startDate;
+    private int nrRuleInvocations = 0;
 
     public TracingParseRunnerListener(final Path dir, final Path zipPath,
         final boolean deleteIfExists)
@@ -131,6 +132,7 @@ public final class TracingParseRunnerListener<V>
     {
         try {
             eventWriter.writeBefore(event.getContext(), System.nanoTime());
+            nrRuleInvocations++;
         } catch (IOException e) {
             throw cleanup("failed to write event", e);
         }
@@ -168,7 +170,8 @@ public final class TracingParseRunnerListener<V>
             throw cleanup("failed to close trace file", e);
         }
 
-        final ParseRunInfo runInfo = new ParseRunInfo(startDate, inputBuffer);
+        final ParseRunInfo runInfo
+            = new ParseRunInfo(startDate, inputBuffer, nrRuleInvocations);
         final URI uri = URI.create("jar:" + zipPath.toUri());
 
         try (

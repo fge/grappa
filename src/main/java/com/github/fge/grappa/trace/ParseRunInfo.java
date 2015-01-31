@@ -11,11 +11,14 @@ public final class ParseRunInfo
     private final int nrLines;
     private final int nrChars;
     private final int nrCodePoints;
+    private final int nrRuleInvocations;
 
     @JsonIgnore
-    public ParseRunInfo(final long startDate, final InputBuffer buffer)
+    public ParseRunInfo(final long startDate, final InputBuffer buffer,
+        final int nrRuleInvocations)
     {
         this.startDate = startDate;
+        this.nrRuleInvocations = nrRuleInvocations;
         nrLines = buffer.getLineCount();
 
         final int len = buffer.length();
@@ -39,12 +42,14 @@ public final class ParseRunInfo
     public ParseRunInfo(@JsonProperty("startDate") final long startDate,
         @JsonProperty("nrLines") final int nrLines,
         @JsonProperty("nrChars") final int nrChars,
-        @JsonProperty("nrCodePoints") final int nrCodePoints)
+        @JsonProperty("nrCodePoints") final int nrCodePoints,
+        @JsonProperty("nrRuleInvocations") final int nrRuleInvocations)
     {
         this.startDate = startDate;
         this.nrLines = nrLines;
         this.nrChars = nrChars;
         this.nrCodePoints = nrCodePoints;
+        this.nrRuleInvocations = nrRuleInvocations;
     }
 
     public long getStartDate()
@@ -65,5 +70,10 @@ public final class ParseRunInfo
     public int getNrCodePoints()
     {
         return nrCodePoints;
+    }
+
+    public int getNrRuleInvocations()
+    {
+        return nrRuleInvocations;
     }
 }
