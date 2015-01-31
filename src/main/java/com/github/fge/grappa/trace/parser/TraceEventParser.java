@@ -5,18 +5,28 @@ import com.github.fge.grappa.rules.Rule;
 import com.github.fge.grappa.trace.TraceEvent;
 
 import java.util.Objects;
+import java.util.concurrent.BlockingQueue;
 
 public class TraceEventParser
     extends EventBusParser<TraceEvent>
 {
-    protected final TraceEventBuilder builder;
+    protected final TraceEventBuilder builder = new TraceEventBuilder();
+    private final BlockingQueue<TraceEvent> queue;
 
-    public TraceEventParser(final TraceEventBuilder builder)
+    public TraceEventParser(final BlockingQueue<TraceEvent> queue)
     {
-        this.builder = Objects.requireNonNull(builder);
+        this.queue = Objects.requireNonNull(queue);
     }
 
-    public Rule traceEvent()
+    public Rule traceEvents()
+    {
+        return sequence(
+            oneOrMore(traceEvent(), '\n'),
+            eof()
+        );
+    }
+
+    Rule traceEvent()
     {
         return sequence(
             eventType(), ';',
@@ -26,7 +36,7 @@ public class TraceEventParser
             matcherType(), ';',
             matcherClass(), ';',
             nanoSeconds(),
-            EOI
+            pushToQueue()
         );
     }
 
@@ -69,5 +79,16 @@ public class TraceEventParser
     Rule nanoSeconds()
     {
         return sequence(oneOrMore(digit()), builder.setNanoseconds(match()));
+    }
+
+    boolean pushToQueue()
+    {
+        try {
+            queue.put(builder.build());
+            return true;
+        } catch (InterruptedException ignored) {
+            Thread.currentThread().interrupt();
+            return false;
+        }
     }
 }
