@@ -18,6 +18,11 @@ public class TraceEventParser
         this.queue = Objects.requireNonNull(queue);
     }
 
+    public Rule traceEvents(final int nrEvents)
+    {
+        return join(traceEvent()).using('\n').times(nrEvents);
+    }
+
     public Rule traceEvent()
     {
         return sequence(
@@ -27,7 +32,7 @@ public class TraceEventParser
             matcher(), ';',
             matcherType(), ';',
             matcherClass(), ';',
-            nanoSeconds(), eof(),
+            nanoSeconds(),
             pushToQueue()
         );
     }
