@@ -18,15 +18,7 @@ public class TraceEventParser
         this.queue = Objects.requireNonNull(queue);
     }
 
-    public Rule traceEvents()
-    {
-        return sequence(
-            oneOrMore(traceEvent(), '\n'),
-            eof()
-        );
-    }
-
-    Rule traceEvent()
+    public Rule traceEvent()
     {
         return sequence(
             eventType(), ';',
@@ -35,7 +27,7 @@ public class TraceEventParser
             matcher(), ';',
             matcherType(), ';',
             matcherClass(), ';',
-            nanoSeconds(),
+            nanoSeconds(), eof(),
             pushToQueue()
         );
     }
