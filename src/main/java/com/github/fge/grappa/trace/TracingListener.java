@@ -77,7 +77,7 @@ public final class TracingListener<V>
             Files.deleteIfExists(zipPath);
         nodeFile = Files.createTempFile("nodes", ".csv");
         writer = Files.newBufferedWriter(nodeFile, UTF_8);
-        writer.write(NODE_CSV_HEAD);
+//        writer.write(NODE_CSV_HEAD);
     }
 
     @Override
@@ -236,7 +236,7 @@ public final class TracingListener<V>
         try (
             final BufferedWriter writer = Files.newBufferedWriter(path, UTF_8);
         ) {
-            writer.write(MATCHER_DESCRIPTOR_CSV_HEAD);
+//            writer.write(MATCHER_DESCRIPTOR_CSV_HEAD);
             for (final MatcherDescriptor descriptor:
                 matcherDescriptors.values()) {
                 sb.setLength(0);
@@ -261,7 +261,7 @@ public final class TracingListener<V>
 
             final BufferedWriter writer = Files.newBufferedWriter(path, UTF_8);
         ) {
-            writer.write(INFO_CSV_HEAD);
+//            writer.write(INFO_CSV_HEAD);
             sb.setLength(0);
             sb.append(startTime).append(';')
                 .append(prematchIndices.size()).append(';')
