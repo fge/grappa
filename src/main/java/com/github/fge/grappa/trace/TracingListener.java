@@ -33,17 +33,23 @@ public final class TracingListener<V>
     private static final String MATCHER_DESCRIPTOR_CSV_HEAD
         = "id;className;type;name\n";
     private static final String NODE_CSV_HEAD
-        = "parent;id;level;success;matcherId;start;end;time";
-    private static final int BUFSIZE = 16384;
+        = "parent;id;level;success;matcherId;start;end;time\n";
+    private static final String INFO_CSV_HEAD
+        = "startDate;treeDepth;nrMatchers;nrLines;nrChars;nrCodePoints;"
+        + "nrNodes\n";
 
     private static final Map<String, ?> ENV
         = Collections.singletonMap("create", "true");
     private static final String NODE_PATH = "/nodes.csv";
     private static final String MATCHERS_PATH = "/matchers.csv";
     private static final String INPUT_TEXT_PATH = "/input.txt";
+    private static final String INFO_PATH = "/info.csv";
 
     private InputBuffer inputBuffer;
     private long startTime;
+    private int nrLines;
+    private int nrChars;
+    private int nrCodePoints;
 
     private final Map<Matcher, MatcherDescriptor> matcherDescriptors
         = new IdentityHashMap<>();
@@ -79,6 +85,8 @@ public final class TracingListener<V>
     {
         nodeIds.put(-1, -1);
         inputBuffer = event.getContext().getInputBuffer();
+        nrChars = inputBuffer.length();
+        nrLines = inputBuffer.getLineCount();
         startTime = System.currentTimeMillis();
     }
 
@@ -104,7 +112,9 @@ public final class TracingListener<V>
         nextNodeId++;
 
         prematchMatcherIds.put(level, id);
-        prematchIndices.put(level, context.getCurrentIndex());
+        final int startIndex
+            = Math.min(nrChars, context.getCurrentIndex());
+        prematchIndices.put(level, startIndex);
         prematchTimes.put(level, System.nanoTime());
     }
 
@@ -120,7 +130,8 @@ public final class TracingListener<V>
         final Integer nodeId = nodeIds.get(level);
 
         final int startIndex = prematchIndices.get(level);
-        final int endIndex = context.getCurrentIndex();
+        final int endIndex
+            = Math.min(nrChars, context.getCurrentIndex());
 
         final Integer matcherId = prematchMatcherIds.get(level);
 
@@ -196,6 +207,7 @@ public final class TracingListener<V>
             Files.move(nodeFile, zipfs.getPath(NODE_PATH));
             copyInputText(zipfs);
             copyMatcherInfo(zipfs);
+            copyParseInfo(zipfs);
         } catch (IOException e) {
             throw cleanup(e);
         }
@@ -205,21 +217,14 @@ public final class TracingListener<V>
         throws IOException
     {
         final Path path = zipfs.getPath(INPUT_TEXT_PATH);
-        final int length = inputBuffer.length();
 
-        int start = 0;
-        String s;
+        final String s = inputBuffer.extract(0, nrChars);
+        nrCodePoints = s.codePointCount(0, nrChars);
 
         try (
             final BufferedWriter writer = Files.newBufferedWriter(path, UTF_8);
         ) {
-            while (start < length) {
-                // Note: relies on the fact that boundaries are adjusted
-                s = inputBuffer.extract(start, start + BUFSIZE);
-                writer.write(s);
-                start += BUFSIZE;
-            }
-
+            writer.write(s);
             writer.flush();
         }
     }
@@ -244,6 +249,29 @@ public final class TracingListener<V>
             writer.flush();
         } catch (IOException e) {
             throw cleanup(e);
+        }
+    }
+
+    // MUST be called after copyInputText!
+    private void copyParseInfo(final FileSystem zipfs)
+        throws IOException
+    {
+        final Path path = zipfs.getPath(INFO_PATH);
+        try (
+
+            final BufferedWriter writer = Files.newBufferedWriter(path, UTF_8);
+        ) {
+            writer.write(INFO_CSV_HEAD);
+            sb.setLength(0);
+            sb.append(startTime).append(';')
+                .append(prematchIndices.size()).append(';')
+                .append(nextMatcherId).append(';')
+                .append(nrLines).append(';')
+                .append(nrChars).append(';')
+                .append(nrCodePoints).append(';')
+                .append(nextNodeId).append('\n');
+            writer.append(sb);
+            writer.flush();
         }
     }
 
