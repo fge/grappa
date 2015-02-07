@@ -158,6 +158,15 @@ public final class CharSequenceInputBuffer
         return extract(start, end);
     }
 
+    @SuppressWarnings("AutoUnboxing")
+    @Override
+    public IndexRange getLineRange(final int lineNumber)
+    {
+        final Range<Integer> range
+            = Futures.getUnchecked(lineCounter).getLineRange(lineNumber);
+        return new IndexRange(range.lowerEndpoint(), range.upperEndpoint());
+    }
+
     @Override
     public int getLineCount()
     {

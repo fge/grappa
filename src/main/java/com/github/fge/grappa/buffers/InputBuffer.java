@@ -26,7 +26,6 @@ import org.parboiled.support.Position;
 // TODO: it furiously resembles a CharSequence and should use that
 public interface InputBuffer
 {
-
     /**
      * Returns the character at the given index.
      *
@@ -102,6 +101,14 @@ public interface InputBuffer
      * @return the string
      */
     String extractLine(int lineNumber);
+
+    /**
+     * Get the index range matching a given line number
+     *
+     * @param lineNumber the line number
+     * @return the index range
+     */
+    IndexRange getLineRange(int lineNumber);
 
     /**
      * Returns the number of lines in the input buffer.

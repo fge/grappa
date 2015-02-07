@@ -56,5 +56,4 @@ public class CharactersTest {
         assertEquals(Characters.of('A', 'B').remove(Characters.allBut('B', 'C')), Characters.of('B'));
         assertEquals(Characters.allBut('A', 'B').remove(Characters.allBut('B', 'C')), Characters.of('C'));
     }
-
 }
