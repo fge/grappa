@@ -9,6 +9,7 @@
 * Remove @MemoizeMismatches and associated code.
 * New tracing parser format (use CSV, not JSON).
 * Add .getLineRange() to InputBuffer.
+* Update TestNG dependency.
 
 ### 2.0.0-alpha.2
 
