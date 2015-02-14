@@ -8,6 +8,7 @@
 * Remove @BuildParseTree, @*Node{s} annotations and associated code.
 * Remove @MemoizeMismatches and associated code.
 * New tracing parser format (use CSV, not JSON).
+* Add .getLineRange() to InputBuffer.
 
 ### 2.0.0-alpha.2
 
