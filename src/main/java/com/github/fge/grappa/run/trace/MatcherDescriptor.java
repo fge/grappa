@@ -1,16 +1,16 @@
-package com.github.fge.grappa.trace;
+package com.github.fge.grappa.run.trace;
 
 import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.Matcher;
 
-public final class MatcherDescriptor
+final class MatcherDescriptor
 {
     private final int id;
     private final String className;
     private final MatcherType type;
     private final String name;
 
-    public MatcherDescriptor(final int id, final Matcher matcher)
+    MatcherDescriptor(final int id, final Matcher matcher)
     {
         this.id = id;
         className = matcher.getClass().getSimpleName();
@@ -18,32 +18,22 @@ public final class MatcherDescriptor
         name = matcher.getLabel();
     }
 
-    // To be used on reading
-    public MatcherDescriptor(final int id, final String className,
-        final MatcherType type, final String name)
-    {
-        this.id = id;
-        this.className = className;
-        this.type = type;
-        this.name = name;
-    }
-
-    public int getId()
+    int getId()
     {
         return id;
     }
 
-    public String getClassName()
+    String getClassName()
     {
         return className;
     }
 
-    public MatcherType getType()
+    MatcherType getType()
     {
         return type;
     }
 
-    public String getName()
+    String getName()
     {
         return name;
     }

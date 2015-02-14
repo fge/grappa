@@ -1,4 +1,4 @@
-package com.github.fge.grappa.trace;
+package com.github.fge.grappa.run.trace;
 
 import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.exceptions.GrappaException;
@@ -30,14 +30,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public final class TracingListener<V>
     extends ParseRunnerListener<V>
 {
-    private static final String MATCHER_DESCRIPTOR_CSV_HEAD
-        = "id;className;type;name\n";
-    private static final String NODE_CSV_HEAD
-        = "parent;id;level;success;matcherId;start;end;time\n";
-    private static final String INFO_CSV_HEAD
-        = "startDate;treeDepth;nrMatchers;nrLines;nrChars;nrCodePoints;"
-        + "nrNodes\n";
-
     private static final Map<String, ?> ENV
         = Collections.singletonMap("create", "true");
     private static final String NODE_PATH = "/nodes.csv";
@@ -45,11 +37,11 @@ public final class TracingListener<V>
     private static final String INPUT_TEXT_PATH = "/input.txt";
     private static final String INFO_PATH = "/info.csv";
 
-    private InputBuffer inputBuffer;
-    private long startTime;
-    private int nrLines;
-    private int nrChars;
-    private int nrCodePoints;
+    private InputBuffer inputBuffer = null;
+    private long startTime = 0L;
+    private int nrLines = 0;
+    private int nrChars = 0;
+    private int nrCodePoints = 0;
 
     private final Map<Matcher, MatcherDescriptor> matcherDescriptors
         = new IdentityHashMap<>();
@@ -77,7 +69,6 @@ public final class TracingListener<V>
             Files.deleteIfExists(zipPath);
         nodeFile = Files.createTempFile("nodes", ".csv");
         writer = Files.newBufferedWriter(nodeFile, UTF_8);
-//        writer.write(NODE_CSV_HEAD);
     }
 
     @Override
@@ -112,8 +103,7 @@ public final class TracingListener<V>
         nextNodeId++;
 
         prematchMatcherIds.put(level, id);
-        final int startIndex
-            = Math.min(nrChars, context.getCurrentIndex());
+        final int startIndex = Math.min(nrChars, context.getCurrentIndex());
         prematchIndices.put(level, startIndex);
         prematchTimes.put(level, System.nanoTime());
     }
@@ -236,7 +226,6 @@ public final class TracingListener<V>
         try (
             final BufferedWriter writer = Files.newBufferedWriter(path, UTF_8);
         ) {
-//            writer.write(MATCHER_DESCRIPTOR_CSV_HEAD);
             for (final MatcherDescriptor descriptor:
                 matcherDescriptors.values()) {
                 sb.setLength(0);
@@ -261,7 +250,6 @@ public final class TracingListener<V>
 
             final BufferedWriter writer = Files.newBufferedWriter(path, UTF_8);
         ) {
-//            writer.write(INFO_CSV_HEAD);
             sb.setLength(0);
             sb.append(startTime).append(';')
                 .append(prematchIndices.size()).append(';')

@@ -43,8 +43,6 @@ dependencies {
     compile(group: "org.ow2.asm", name: "asm-debug-all", version: "5.0.3");
     compile(group: "com.google.guava", name: "guava", version: "18.0");
     compile(group: "me.qmx.jitescript", name: "jitescript", version: "0.4.0");
-    compile(group: "com.fasterxml.jackson.core", name: "jackson-databind",
-        version: "2.5.0");
     testCompile(group: "org.testng", name: "testng", version: "6.8.13") {
         exclude(group: "junit", module: "junit");
         exclude(group: "org.beanshell", module: "bsh");
@@ -52,6 +50,8 @@ dependencies {
     };
     testCompile(group: "org.mockito", name: "mockito-core", version: "1.10.19");
     testCompile(group: "org.assertj", name: "assertj-core", version: "1.7.1");
+    testCompile(group: "com.fasterxml.jackson.core", name: "jackson-databind",
+        version: "2.5.0");
 }
 
 javadoc.options.links("http://docs.oracle.com/javase/7/docs/api/");
