@@ -13,7 +13,7 @@ parsers written with this package do **not** require a pre-processing phase. Yes
 generate your parsers at _runtime_.  And there is **no DSL**.  Pure Java!
 
 This is a fork of the original [parboiled](https://github.com/sirthias/parboiled). See also the
-[debugger package](https://github.com/fge/grappa-debuffer).
+[debugger package](https://github.com/fge/grappa-debugger).
 
 ### And, uh, the name?
 
