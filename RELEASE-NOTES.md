@@ -1,13 +1,13 @@
-### 2.0.0-alpha.3 (IN PROGRESS)
+### 2.0.0-alpha.3
 
 * Create GrappaException, InvalidGrammarException.
 * Add .canMatchEmpty() to Rule; detect anomalous grammars at build time.
 * Sequences now refuse to have an action as the first argument.
 * EOI is given the boot as ch(0xffff), now uses an EndOfInputMatcher().
 * Unify exceptions thrown by grammar build errors (InvalidGrammarException).
-* Dump trace events in CSV format instead; use a parser to parse this CSV.
 * Remove @BuildParseTree, @*Node{s} annotations and associated code.
 * Remove @MemoizeMismatches and associated code.
+* New tracing parser format (use CSV, not JSON).
 
 ### 2.0.0-alpha.2
 
