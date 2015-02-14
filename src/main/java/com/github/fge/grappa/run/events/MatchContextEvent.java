@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package com.github.fge.grappa.run;
+package com.github.fge.grappa.run.events;
 
-import org.parboiled.support.ParsingResult;
+import org.parboiled.MatcherContext;
 
-public final class PostParseEvent<V>
+public abstract class MatchContextEvent<V>
 {
-    private final ParsingResult<V> result;
+    protected final MatcherContext<V> context;
 
-    public PostParseEvent(final ParsingResult<V> result)
+    protected MatchContextEvent(final MatcherContext<V> context)
     {
-        this.result = result;
+        this.context = context;
     }
 
-    public ParsingResult<V> getResult()
+    public final MatcherContext<V> getContext()
     {
-        return result;
+        return context;
     }
 }

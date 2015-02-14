@@ -14,21 +14,15 @@
  * limitations under the License.
  */
 
-package com.github.fge.grappa.run;
+package com.github.fge.grappa.run.events;
 
 import org.parboiled.MatcherContext;
 
-public abstract class MatchContextEvent<V>
+public final class MatchFailureEvent<V>
+    extends MatchContextEvent<V>
 {
-    protected final MatcherContext<V> context;
-
-    protected MatchContextEvent(final MatcherContext<V> context)
+    public MatchFailureEvent(final MatcherContext<V> context)
     {
-        this.context = context;
-    }
-
-    public final MatcherContext<V> getContext()
-    {
-        return context;
+        super(context);
     }
 }

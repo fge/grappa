@@ -3,12 +3,12 @@ package com.github.fge.grappa.run.trace;
 import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.exceptions.GrappaException;
 import com.github.fge.grappa.matchers.base.Matcher;
-import com.github.fge.grappa.run.MatchFailureEvent;
-import com.github.fge.grappa.run.MatchSuccessEvent;
+import com.github.fge.grappa.run.events.MatchFailureEvent;
+import com.github.fge.grappa.run.events.MatchSuccessEvent;
 import com.github.fge.grappa.run.ParseRunnerListener;
-import com.github.fge.grappa.run.PostParseEvent;
-import com.github.fge.grappa.run.PreMatchEvent;
-import com.github.fge.grappa.run.PreParseEvent;
+import com.github.fge.grappa.run.events.PostParseEvent;
+import com.github.fge.grappa.run.events.PreMatchEvent;
+import com.github.fge.grappa.run.events.PreParseEvent;
 import org.parboiled.MatcherContext;
 
 import javax.annotation.ParametersAreNonnullByDefault;
