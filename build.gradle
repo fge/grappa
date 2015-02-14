@@ -43,7 +43,9 @@ dependencies {
     compile(group: "org.ow2.asm", name: "asm-debug-all", version: "5.0.3");
     compile(group: "com.google.guava", name: "guava", version: "18.0");
     compile(group: "me.qmx.jitescript", name: "jitescript", version: "0.4.0");
-    testCompile(group: "org.testng", name: "testng", version: "6.8.13") {
+    testCompile(group: "org.testng", name: "testng", version: "6.8.21") {
+        exclude(group: "org.apache.ant", module: "ant");
+        exclude(group: "com.google.inject", module: "guice");
         exclude(group: "junit", module: "junit");
         exclude(group: "org.beanshell", module: "bsh");
         exclude(group: "org.yaml", module: "snakeyaml");
