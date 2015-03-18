@@ -36,7 +36,7 @@ The following projects, all on GitHub, use grappa (**1.0.x**, see below):
 ### More simple examples
 
 I have put up a project, also using version 1.0.x, with some sample grammars; in particular, a
-grammar which is able to fully parse any [JSON](http://tools.ietf.org/rfc/7159):
+grammar which is able to fully parse any [JSON](http://tools.ietf.org/html/rfc7159):
 
 https://github.com/fge/grappa-examples
 
