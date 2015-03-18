@@ -20,9 +20,25 @@ This is a fork of the original [parboiled](https://github.com/sirthias/parboiled
 Well, you write <i>gra</i>mmars and can then generate <i>pa</i>rsers for them. (I also happen to
 like the [drink of the same name](http://www.istitutograppa.org/))
 
-## Example grammars
+## Examples
 
-TODO!
+OK, so, the package is tested as much as possible etc, but this does not replace real life usage,
+so...
+
+### Projects using grappa
+
+The following projects, all on GitHub, use grappa (**1.0.x**, see below):
+
+* https://github.com/Offene-Bibel
+* https://github.com/uscexp/grappa.extension
+* https://github.com/haasted/grappa-xml-parser
+
+### More simple examples
+
+I have put up a project, also using version 1.0.x, with some sample grammars; in particular, a
+grammar which is able to fully parse any [JSON](http://tools.ietf.org/rfc/7159):
+
+https://github.com/fge/grappa-examples
 
 ## Versions
 
