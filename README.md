@@ -32,6 +32,7 @@ The following projects, all on GitHub, use grappa (**1.0.x**, see below):
 * https://github.com/Offene-Bibel
 * https://github.com/uscexp/grappa.extension
 * https://github.com/haasted/grappa-xml-parser
+* https://github.com/opennars/opennars
 
 ### More simple examples
 
