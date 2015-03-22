@@ -33,6 +33,7 @@ The following projects, all on GitHub, use grappa (**1.0.x**, see below):
 * https://github.com/uscexp/grappa.extension
 * https://github.com/haasted/grappa-xml-parser
 * https://github.com/opennars/opennars
+* https://github.com/litesolutions/sonar-sslr-grappa
 
 ### More simple examples
 
