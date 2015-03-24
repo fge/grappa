@@ -24,7 +24,6 @@ package org.parboiled.transform;
 
 import com.github.parboiled1.grappa.annotations.WillBeFinal;
 import com.github.parboiled1.grappa.transform.method.ParserAnnotation;
-import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.io.Closer;
 import org.objectweb.asm.AnnotationVisitor;
@@ -221,8 +220,19 @@ public class ClassNodeInitializer
         final ClassLoader me = ClassNodeInitializer.class.getClassLoader();
         final ClassLoader context
             = Thread.currentThread().getContextClassLoader();
+        final ClassLoader system = ClassLoader.getSystemClassLoader();
 
-        return Optional.fromNullable(me.getResourceAsStream(name))
-            .or(context.getResourceAsStream(name));
+        InputStream ret = me.getResourceAsStream(name);
+
+        if (ret == null)
+            ret = context.getResourceAsStream(name);
+
+        if (ret == null)
+            ret = system.getResourceAsStream(name);
+
+        if (ret == null)
+            throw new IllegalStateException("unable to load parser class??");
+
+        return ret;
     }
 }
