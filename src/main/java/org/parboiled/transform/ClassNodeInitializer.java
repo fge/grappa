@@ -216,8 +216,19 @@ public final class ClassNodeInitializer
         final ClassLoader me = ClassNodeInitializer.class.getClassLoader();
         final ClassLoader context
             = Thread.currentThread().getContextClassLoader();
+        final ClassLoader system = ClassLoader.getSystemClassLoader();
 
-        return Optional.fromNullable(me.getResourceAsStream(name))
-            .or(context.getResourceAsStream(name));
+        InputStream ret = me.getResourceAsStream(name);
+
+        if (ret == null)
+            ret = context.getResourceAsStream(name);
+
+        if (ret == null)
+            ret = system.getResourceAsStream(name);
+
+        if (ret == null)
+            throw new IllegalStateException("unable to load parser class??");
+
+        return ret;
     }
 }
