@@ -30,7 +30,7 @@ apply(plugin: "com.github.johnrengelman.shadow");
 
 group = "com.github.parboiled1";
 description = "Write parsers in pure Java";
-version = "1.0.4-sonar";
+version = "1.0.4.1-sonar";
 
 def javaVersion = JavaVersion.VERSION_1_6;
 sourceCompatibility = javaVersion;
