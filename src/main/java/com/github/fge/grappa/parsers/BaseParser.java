@@ -481,11 +481,7 @@ public abstract class BaseParser<V>
     @DontLabel
     public Rule oneOrMore(final Object rule)
     {
-        final Rule subRule = toRule(rule);
-        if (subRule.canMatchEmpty())
-            throw new InvalidGrammarException("the inner rule of oneOrMore()"
-                + " cannot match an empty input");
-        return new OneOrMoreMatcher(subRule);
+        return new OneOrMoreMatcher(toRule(rule));
     }
 
     /**

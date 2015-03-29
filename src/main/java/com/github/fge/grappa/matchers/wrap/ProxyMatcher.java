@@ -128,8 +128,8 @@ public final class ProxyMatcher
 
         // we already have a target to which we can directly apply the label
         final Rule inner = unwrap(target);
-        target = (Matcher) inner.label(
-            label); // since relabelling might change the instance we have to update it
+        // since relabelling might change the instance we have to update it
+        target = (Matcher) inner.label(label);
         setLabel(null);
         return target;
     }

@@ -16,6 +16,8 @@
 
 package com.github.fge.grappa.matchers.delegate;
 
+import com.github.fge.grappa.exceptions.GrappaException;
+import com.github.fge.grappa.exceptions.InvalidGrammarException;
 import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.CustomDefaultLabelMatcher;
 import com.github.fge.grappa.matchers.base.Matcher;
@@ -48,11 +50,23 @@ public final class OneOrMoreMatcher
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
-        if (!subMatcher.getSubContext(context).runMatcher())
+        final boolean matched = subMatcher.getSubContext(context).runMatcher();
+        if (!matched)
             return false;
 
-        while (subMatcher.getSubContext(context).runMatcher())
-            ; // Nothing
+        // collect all further matches as well
+        // TODO: "optimize" first cyle away; also relevant for ZeroOrMoreMatcher
+        int beforeMatch = context.getCurrentIndex();
+        int afterMatch;
+        while (subMatcher.getSubContext(context).runMatcher()) {
+            afterMatch = context.getCurrentIndex();
+            if (afterMatch != beforeMatch) {
+                beforeMatch = afterMatch;
+                continue;
+            }
+            throw new GrappaException("The inner rule of OneOrMore rule '"
+                + context.getPath() + "' must not allow empty matches");
+        }
 
         return true;
     }
