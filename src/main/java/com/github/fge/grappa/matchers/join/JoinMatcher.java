@@ -16,11 +16,11 @@
 
 package com.github.fge.grappa.matchers.join;
 
+import com.github.fge.grappa.exceptions.GrappaException;
 import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.CustomDefaultLabelMatcher;
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.rules.Rule;
-import com.google.common.annotations.Beta;
 import com.github.fge.grappa.run.context.MatcherContext;
 
 /**
@@ -62,7 +62,6 @@ import com.github.fge.grappa.run.context.MatcherContext;
  *
  * @see JoinMatcherBootstrap
  */
-@Beta
 public abstract class JoinMatcher
     extends CustomDefaultLabelMatcher<JoinMatcher>
 {
@@ -109,7 +108,7 @@ public abstract class JoinMatcher
         Object snapshot = context.getValueStack().takeSnapshot();
         int beforeCycle = context.getCurrentIndex();
 
-        while (runAgain(cycles) && matchCycle(context)) {
+        while (runAgain(cycles) && matchCycle(context, beforeCycle)) {
             beforeCycle = context.getCurrentIndex();
             snapshot = context.getValueStack().takeSnapshot();
             cycles++;
@@ -125,9 +124,14 @@ public abstract class JoinMatcher
 
     protected abstract boolean enoughCycles(final int cycles);
 
-    protected final <V> boolean matchCycle(final MatcherContext<V> context)
+    protected final <V> boolean matchCycle(final MatcherContext<V> context,
+        final int beforeCycle)
     {
-        return joining.getSubContext(context).runMatcher()
-            && joined.getSubContext(context).runMatcher();
+        if (!joining.getSubContext(context).runMatcher())
+            return false;
+        if (context.getCurrentIndex() == beforeCycle)
+            throw new GrappaException("joining rule (" + joining + ") of a "
+                + "JoinMatcher cannot match an empty character sequence!");
+        return joined.getSubContext(context).runMatcher();
     }
 }

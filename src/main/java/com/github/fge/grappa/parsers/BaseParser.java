@@ -16,6 +16,11 @@
 
 package com.github.fge.grappa.parsers;
 
+import com.github.fge.grappa.annotations.Cached;
+import com.github.fge.grappa.annotations.DontExtend;
+import com.github.fge.grappa.annotations.DontLabel;
+import com.github.fge.grappa.annotations.SkipActionsInPredicates;
+import com.github.fge.grappa.exceptions.InvalidGrammarException;
 import com.github.fge.grappa.matchers.ActionMatcher;
 import com.github.fge.grappa.matchers.AnyMatcher;
 import com.github.fge.grappa.matchers.AnyOfMatcher;
@@ -44,14 +49,10 @@ import com.github.fge.grappa.matchers.unicode.CodePointMatcher;
 import com.github.fge.grappa.matchers.unicode.CodePointRangeMatcher;
 import com.github.fge.grappa.rules.Action;
 import com.github.fge.grappa.rules.Rule;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
-import com.github.fge.grappa.annotations.Cached;
-import com.github.fge.grappa.annotations.DontExtend;
-import com.github.fge.grappa.annotations.DontLabel;
-import com.github.fge.grappa.annotations.SkipActionsInPredicates;
 import com.github.fge.grappa.support.Characters;
 import com.github.fge.grappa.support.Chars;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Arrays;
