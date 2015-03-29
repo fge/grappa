@@ -1,7 +1,7 @@
 package com.github.fge.grappa.illegal;
 
 import com.github.fge.grappa.exceptions.InvalidGrammarException;
-import org.parboiled.Parboiled;
+import com.github.fge.grappa.Parboiled;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 

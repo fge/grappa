@@ -24,7 +24,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Range;
 import com.github.fge.grappa.run.context.MatcherContext;
-import org.parboiled.Parboiled;
+import com.github.fge.grappa.Parboiled;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 

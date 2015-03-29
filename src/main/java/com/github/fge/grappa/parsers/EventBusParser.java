@@ -18,7 +18,7 @@ package com.github.fge.grappa.parsers;
 
 import com.github.fge.grappa.helpers.ValueBuilder;
 import com.google.common.eventbus.EventBus;
-import org.parboiled.support.Var;
+import com.github.fge.grappa.support.Var;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;

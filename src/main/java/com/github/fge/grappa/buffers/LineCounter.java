@@ -19,7 +19,7 @@ package com.github.fge.grappa.buffers;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Range;
-import org.parboiled.support.Position;
+import com.github.fge.grappa.support.Position;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.Tainted;

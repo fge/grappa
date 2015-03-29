@@ -20,8 +20,8 @@ import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.stack.ValueStack;
 import com.github.fge.grappa.run.context.Context;
 import com.github.fge.grappa.run.context.ContextAware;
-import org.parboiled.support.IndexRange;
-import org.parboiled.support.Position;
+import com.github.fge.grappa.support.IndexRange;
+import com.github.fge.grappa.support.Position;
 
 import java.util.Objects;
 

@@ -35,7 +35,7 @@ import static org.objectweb.asm.Opcodes.ARETURN;
 import static org.objectweb.asm.Opcodes.DUP;
 import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
 import static org.objectweb.asm.Opcodes.NEW;
-import static org.parboiled.transform.AsmUtils.createArgumentLoaders;
+import static com.github.fge.grappa.misc.AsmUtils.createArgumentLoaders;
 
 /**
  * Adds one constructor for each of the ParserClassNode.constructors,

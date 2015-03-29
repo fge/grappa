@@ -16,7 +16,7 @@
 
 package com.github.fge.grappa.run.events;
 
-import org.parboiled.support.ParsingResult;
+import com.github.fge.grappa.run.ParsingResult;
 
 public final class PostParseEvent<V>
 {

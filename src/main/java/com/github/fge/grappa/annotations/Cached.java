@@ -17,7 +17,7 @@
 package com.github.fge.grappa.annotations;
 
 import com.github.fge.grappa.rules.Rule;
-import org.parboiled.transform.CacheArguments;
+import com.github.fge.grappa.transform.runtime.CacheArguments;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

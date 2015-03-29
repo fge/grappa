@@ -18,8 +18,8 @@ package com.github.fge.grappa.parsers;
 
 import com.github.fge.grappa.buffers.CharSequenceInputBuffer;
 import com.github.fge.grappa.buffers.InputBuffer;
-import org.parboiled.support.Chars;
-import org.parboiled.support.Position;
+import com.github.fge.grappa.support.Chars;
+import com.github.fge.grappa.support.Position;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 

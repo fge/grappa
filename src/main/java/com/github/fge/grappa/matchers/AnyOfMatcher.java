@@ -20,7 +20,7 @@ import com.github.fge.grappa.matchers.base.AbstractMatcher;
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.google.common.base.Preconditions;
 import com.github.fge.grappa.run.context.MatcherContext;
-import org.parboiled.support.Characters;
+import com.github.fge.grappa.support.Characters;
 
 import java.util.Objects;
 

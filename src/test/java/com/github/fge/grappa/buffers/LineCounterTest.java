@@ -18,7 +18,7 @@ package com.github.fge.grappa.buffers;
 
 import com.google.common.collect.ImmutableList.Builder;
 import com.google.common.collect.Range;
-import org.parboiled.support.Position;
+import com.github.fge.grappa.support.Position;
 import org.testng.annotations.Test;
 
 import java.util.List;

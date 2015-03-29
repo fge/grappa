@@ -25,8 +25,8 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 import com.github.fge.grappa.run.context.Context;
-import org.parboiled.transform.BaseAction;
-import org.parboiled.transform.process.GroupClassGenerator;
+import com.github.fge.grappa.transform.runtime.BaseAction;
+import com.github.fge.grappa.transform.process.GroupClassGenerator;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;

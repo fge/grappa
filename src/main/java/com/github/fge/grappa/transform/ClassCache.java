@@ -21,7 +21,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import org.objectweb.asm.Type;
-import org.parboiled.transform.AsmUtils;
+import com.github.fge.grappa.misc.AsmUtils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;

@@ -19,9 +19,9 @@ package com.github.fge.grappa.run.context;
 import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.stack.ValueStack;
-import org.parboiled.support.IndexRange;
-import org.parboiled.support.MatcherPath;
-import org.parboiled.support.Position;
+import com.github.fge.grappa.support.IndexRange;
+import com.github.fge.grappa.support.MatcherPath;
+import com.github.fge.grappa.support.Position;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

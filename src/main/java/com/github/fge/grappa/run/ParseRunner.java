@@ -17,7 +17,6 @@
 package com.github.fge.grappa.run;
 
 import com.github.fge.grappa.buffers.InputBuffer;
-import org.parboiled.support.ParsingResult;
 
 import java.nio.CharBuffer;
 

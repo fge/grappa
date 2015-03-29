@@ -35,7 +35,7 @@ import org.objectweb.asm.tree.LabelNode;
 import org.objectweb.asm.tree.LocalVariableNode;
 import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.analysis.BasicValue;
-import org.parboiled.support.Var;
+import com.github.fge.grappa.support.Var;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -57,11 +57,11 @@ import static com.github.fge.grappa.transform.ParserAnnotation.recordAnnotation;
 import static org.objectweb.asm.Opcodes.ARETURN;
 import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
 import static org.objectweb.asm.Opcodes.INVOKESTATIC;
-import static org.parboiled.transform.AsmUtils.getClassForType;
-import static org.parboiled.transform.AsmUtils.isActionRoot;
-import static org.parboiled.transform.AsmUtils.isAssignableTo;
-import static org.parboiled.transform.AsmUtils.isBooleanValueOfZ;
-import static org.parboiled.transform.AsmUtils.isVarRoot;
+import static com.github.fge.grappa.misc.AsmUtils.getClassForType;
+import static com.github.fge.grappa.misc.AsmUtils.isActionRoot;
+import static com.github.fge.grappa.misc.AsmUtils.isAssignableTo;
+import static com.github.fge.grappa.misc.AsmUtils.isBooleanValueOfZ;
+import static com.github.fge.grappa.misc.AsmUtils.isVarRoot;
 
 public class RuleMethod
     extends MethodNode
@@ -328,7 +328,7 @@ public class RuleMethod
         final String signature, final Label start, final Label end,
         final int index)
     {
-        // only remember the local variables of Type org.parboiled.support.Var that are not parameters
+        // only remember the local variables of Type com.github.fge.grappa.support.Var that are not parameters
         final Type type = Type.getType(desc);
         if (index > parameterCount
             && Var.class.isAssignableFrom(getClassForType(type)))

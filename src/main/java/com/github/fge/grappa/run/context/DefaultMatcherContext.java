@@ -25,10 +25,10 @@ import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.matchers.wrap.ProxyMatcher;
 import com.github.fge.grappa.stack.ValueStack;
 import com.google.common.base.Preconditions;
-import org.parboiled.MatchHandler;
-import org.parboiled.support.IndexRange;
-import org.parboiled.support.MatcherPath;
-import org.parboiled.support.Position;
+import com.github.fge.grappa.run.MatchHandler;
+import com.github.fge.grappa.support.IndexRange;
+import com.github.fge.grappa.support.MatcherPath;
+import com.github.fge.grappa.support.Position;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

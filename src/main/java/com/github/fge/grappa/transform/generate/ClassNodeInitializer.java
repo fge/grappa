@@ -49,7 +49,7 @@ import static org.objectweb.asm.Opcodes.ACC_FINAL;
 import static org.objectweb.asm.Opcodes.ACC_NATIVE;
 import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-import static org.parboiled.transform.AsmUtils.getExtendedParserClassName;
+import static com.github.fge.grappa.misc.AsmUtils.getExtendedParserClassName;
 
 /**
  * Initializes the basic ParserClassNode fields and collects all methods.

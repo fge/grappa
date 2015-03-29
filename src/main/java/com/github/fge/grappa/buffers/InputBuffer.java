@@ -16,9 +16,9 @@
 
 package com.github.fge.grappa.buffers;
 
-import org.parboiled.support.Chars;
-import org.parboiled.support.IndexRange;
-import org.parboiled.support.Position;
+import com.github.fge.grappa.support.Chars;
+import com.github.fge.grappa.support.IndexRange;
+import com.github.fge.grappa.support.Position;
 
 /**
  * Abstraction of a simple char[] buffer holding the input text to be parsed.

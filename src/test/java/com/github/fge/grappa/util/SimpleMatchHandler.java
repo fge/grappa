@@ -16,7 +16,7 @@
 
 package com.github.fge.grappa.util;
 
-import org.parboiled.MatchHandler;
+import com.github.fge.grappa.run.MatchHandler;
 import com.github.fge.grappa.run.context.MatcherContext;
 
 public final class SimpleMatchHandler

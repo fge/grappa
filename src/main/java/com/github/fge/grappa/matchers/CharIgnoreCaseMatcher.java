@@ -20,7 +20,7 @@ import com.github.fge.grappa.matchers.base.AbstractMatcher;
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.run.context.MatcherContext;
 
-import static org.parboiled.support.Chars.escape;
+import static com.github.fge.grappa.support.Chars.escape;
 
 /**
  * A {@link Matcher} matching a single character case-independently.

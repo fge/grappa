@@ -24,9 +24,7 @@ import com.github.fge.grappa.rules.Rule;
 import com.github.fge.grappa.stack.DefaultValueStack;
 import com.github.fge.grappa.stack.ValueStack;
 import com.github.fge.grappa.run.context.DefaultMatcherContext;
-import org.parboiled.MatchHandler;
 import com.github.fge.grappa.run.context.MatcherContext;
-import org.parboiled.support.ParsingResult;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;

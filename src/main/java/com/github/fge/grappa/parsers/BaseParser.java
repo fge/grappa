@@ -51,8 +51,8 @@ import com.github.fge.grappa.annotations.Cached;
 import com.github.fge.grappa.annotations.DontExtend;
 import com.github.fge.grappa.annotations.DontLabel;
 import com.github.fge.grappa.annotations.SkipActionsInPredicates;
-import org.parboiled.support.Characters;
-import org.parboiled.support.Chars;
+import com.github.fge.grappa.support.Characters;
+import com.github.fge.grappa.support.Chars;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Arrays;
