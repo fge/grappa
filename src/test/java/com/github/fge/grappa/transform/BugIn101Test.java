@@ -19,7 +19,7 @@ package com.github.fge.grappa.transform;
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.rules.Rule;
 import com.github.fge.grappa.run.EventBasedParseRunner;
-import com.github.fge.grappa.Parboiled;
+import com.github.fge.grappa.Grappa;
 import org.testng.annotations.Test;
 
 public class BugIn101Test {
@@ -45,7 +45,7 @@ public class BugIn101Test {
     public void test() throws Exception {
         // threw "java.lang.RuntimeException: Error creating extended parser class:
         // Execution can fall off end of the code" in 1.0.1
-        final Parser parser = Parboiled.createParser(Parser.class);
+        final Parser parser = Grappa.createParser(Parser.class);
 
         // threw "java.lang.NoSuchFieldError: field$1" in 1.0.1
         new EventBasedParseRunner<>(parser.B()).run("b");

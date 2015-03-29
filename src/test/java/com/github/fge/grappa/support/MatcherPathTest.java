@@ -19,7 +19,7 @@ package com.github.fge.grappa.support;
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.rules.Rule;
-import com.github.fge.grappa.Parboiled;
+import com.github.fge.grappa.Grappa;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
@@ -43,7 +43,7 @@ public class MatcherPathTest {
 
     @Test
     public void testMatcherPath() {
-        final Parser parser = Parboiled.createParser(Parser.class);
+        final Parser parser = Grappa.createParser(Parser.class);
         final MatcherPath path1 =
                 new MatcherPath(new MatcherPath.Element((Matcher)parser.A(), 0, 2),
                 new MatcherPath(new MatcherPath.Element((Matcher)parser.B(), 0, 1),

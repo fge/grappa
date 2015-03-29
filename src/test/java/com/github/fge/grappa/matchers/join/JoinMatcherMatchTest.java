@@ -24,7 +24,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Range;
 import com.github.fge.grappa.run.context.MatcherContext;
-import com.github.fge.grappa.Parboiled;
+import com.github.fge.grappa.Grappa;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -45,7 +45,7 @@ public final class JoinMatcherMatchTest
     }
 
     private final TestJoinParser parser
-        = Parboiled.createParser(TestJoinParser.class);
+        = Grappa.createParser(TestJoinParser.class);
 
     private final MatcherContextBuilder builder = new MatcherContextBuilder();
 

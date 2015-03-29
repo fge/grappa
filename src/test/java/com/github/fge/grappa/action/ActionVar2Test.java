@@ -16,7 +16,7 @@
 
 package com.github.fge.grappa.action;
 
-import com.github.fge.grappa.Parboiled;
+import com.github.fge.grappa.Grappa;
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.rules.Rule;
 import com.github.fge.grappa.misc.Reference;
@@ -48,7 +48,7 @@ public class ActionVar2Test extends ParboiledTest<Object>
 
     @Test
     public void test() {
-        final Parser parser = Parboiled.createParser(Parser.class);
+        final Parser parser = Grappa.createParser(Parser.class);
         test(parser.Clause(), "{12}abcdefghijkl\n").hasNoErrors();
     }
 

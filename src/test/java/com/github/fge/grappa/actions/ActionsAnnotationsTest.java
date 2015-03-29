@@ -19,7 +19,7 @@ package com.github.fge.grappa.actions;
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.rules.Rule;
 import com.github.fge.grappa.run.EventBasedParseRunner;
-import com.github.fge.grappa.Parboiled;
+import com.github.fge.grappa.Grappa;
 import com.github.fge.grappa.annotations.SkipActionsInPredicates;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -81,7 +81,7 @@ public final class ActionsAnnotationsTest
     public void byDefaultActionsRunInPredicates()
     {
         final Parser parser
-            = Parboiled.createParser(Parser.class, dummy);
+            = Grappa.createParser(Parser.class, dummy);
         new EventBasedParseRunner<>(parser.rule1()).run("f");
         verify(dummy).dummy();
     }
@@ -90,7 +90,7 @@ public final class ActionsAnnotationsTest
     public void whenAnnotatedActionsDoNotRunInPredicates()
     {
         final Parser parser
-            = Parboiled.createParser(Parser.class, dummy);
+            = Grappa.createParser(Parser.class, dummy);
         new EventBasedParseRunner<>(parser.rule2()).run("f");
         verify(dummy, never()).dummy();
     }

@@ -1,7 +1,7 @@
 package com.github.fge.grappa.illegal;
 
 import com.github.fge.grappa.exceptions.InvalidGrammarException;
-import com.github.fge.grappa.Parboiled;
+import com.github.fge.grappa.Grappa;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -31,7 +31,7 @@ public abstract class IllegalGrammarTest
     @BeforeMethod
     public void init()
     {
-        parser = Parboiled.createParser(parserClass);
+        parser = Grappa.createParser(parserClass);
     }
     @Test
     public final void illegalGrammarIsDetected()

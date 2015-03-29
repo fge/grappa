@@ -16,7 +16,7 @@
 
 package com.github.fge.grappa.action;
 
-import com.github.fge.grappa.Parboiled;
+import com.github.fge.grappa.Grappa;
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.rules.Rule;
@@ -45,7 +45,7 @@ public class ActionVarTest extends ParboiledTest<Integer>
 
     @Test
     public void test() {
-        final Parser parser = Parboiled.createParser(Parser.class);
+        final Parser parser = Grappa.createParser(Parser.class);
         final Matcher rule = (Matcher) parser.A();
 
         assertEquals(rule.getClass().getName(), "com.github.fge.grappa.matchers.wrap.VarFramingMatcher");

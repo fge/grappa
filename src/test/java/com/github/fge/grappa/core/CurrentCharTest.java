@@ -19,7 +19,7 @@ package com.github.fge.grappa.core;
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.rules.Rule;
 import com.github.fge.grappa.run.EventBasedParseRunner;
-import com.github.fge.grappa.Parboiled;
+import com.github.fge.grappa.Grappa;
 import org.testng.annotations.Test;
 
 import static org.mockito.Mockito.spy;
@@ -55,7 +55,7 @@ public final class CurrentCharTest
     public void currentCharWorks()
     {
         final Dummy dummy = spy(new Dummy());
-        final Parser parser = Parboiled.createParser(Parser.class, dummy);
+        final Parser parser = Grappa.createParser(Parser.class, dummy);
         new EventBasedParseRunner<>(parser.rule()).run("a");
         verify(dummy).store('a');
     }

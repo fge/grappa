@@ -20,7 +20,7 @@ import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.rules.Rule;
 import com.github.fge.grappa.run.EventBasedParseRunner;
 import com.github.fge.grappa.run.ParseRunner;
-import com.github.fge.grappa.Parboiled;
+import com.github.fge.grappa.Grappa;
 import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -37,7 +37,7 @@ public final class BasicParseRunnerTest
     }
 
     private final SimpleParser parser
-        = Parboiled.createParser(SimpleParser.class);
+        = Grappa.createParser(SimpleParser.class);
     private final ParseRunner<Object> runner
         = new EventBasedParseRunner<>(parser.rule());
 

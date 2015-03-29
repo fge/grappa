@@ -28,9 +28,9 @@ import java.util.Objects;
 /**
  * Main class providing the high-level entry point into the parboiled library.
  */
-public final class Parboiled
+public final class Grappa
 {
-    private Parboiled()
+    private Grappa()
     {
         throw new Error("nice try!");
     }
