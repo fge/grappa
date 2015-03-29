@@ -133,11 +133,4 @@ public final class ActionMatcher
         context.setCurrentIndex(parentContext.getCurrentIndex());
         return true;
     }
-
-    @Override
-    public boolean canMatchEmpty()
-    {
-        // By definition; an action has read only access to the parse context
-        return true;
-    }
 }

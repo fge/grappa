@@ -55,10 +55,4 @@ public final class CharIgnoreCaseMatcher
         context.advanceIndex(1);
         return true;
     }
-
-    @Override
-    public boolean canMatchEmpty()
-    {
-        return false;
-    }
 }

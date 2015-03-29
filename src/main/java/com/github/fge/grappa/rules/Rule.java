@@ -16,8 +16,6 @@
 
 package com.github.fge.grappa.rules;
 
-import com.github.fge.grappa.matchers.join.JoinMatcher;
-
 /**
  * Describes the return values of parser rule production methods.
  */
@@ -31,15 +29,4 @@ public interface Rule
      * @return this Rule
      */
     Rule label(String label);
-
-    /**
-     * Tells whether this rule can match an empty input text
-     *
-     * <p>This method is used during rule building in other to detect anomalous
-     * situations (for instance, the joining rule of a {@link JoinMatcher} is
-     * empty).</p>
-     *
-     * @return true if the rule can match an empty input text
-     */
-    boolean canMatchEmpty();
 }

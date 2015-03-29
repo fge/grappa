@@ -50,10 +50,4 @@ public final class OptionalMatcher
         subMatcher.getSubContext(context).runMatcher();
         return true;
     }
-
-    @Override
-    public boolean canMatchEmpty()
-    {
-        return true;
-    }
 }

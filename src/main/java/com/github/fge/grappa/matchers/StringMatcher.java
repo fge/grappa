@@ -71,11 +71,4 @@ public final class StringMatcher
         context.advanceIndex(characters.length);
         return true;
     }
-
-    @Override
-    public boolean canMatchEmpty()
-    {
-        // TODO: check, but that should be the case
-        return false;
-    }
 }

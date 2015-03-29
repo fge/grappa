@@ -56,10 +56,4 @@ public final class CodePointMatcher
         context.advanceIndex(codePointLength);
         return true;
     }
-
-    @Override
-    public boolean canMatchEmpty()
-    {
-        return false;
-    }
 }

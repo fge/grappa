@@ -65,13 +65,4 @@ public class SequenceMatcher
         }
         return true;
     }
-
-    @Override
-    public boolean canMatchEmpty()
-    {
-        for (final Matcher matcher: getChildren())
-            if (!matcher.canMatchEmpty())
-                return false;
-        return true;
-    }
 }

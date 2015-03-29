@@ -179,12 +179,4 @@ public final class ProxyMatcher
             throw new IllegalStateException(e);
         }
     }
-
-    @Override
-    public boolean canMatchEmpty()
-    {
-        if (dirty)
-            apply();
-        return target.canMatchEmpty();
-    }
 }

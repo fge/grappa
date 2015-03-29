@@ -70,11 +70,4 @@ public final class OneOrMoreMatcher
 
         return true;
     }
-
-    @Override
-    public boolean canMatchEmpty()
-    {
-        // Will have been checked at build time
-        return false;
-    }
 }

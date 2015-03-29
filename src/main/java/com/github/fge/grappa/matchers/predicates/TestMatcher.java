@@ -62,10 +62,4 @@ public final class TestMatcher
         context.getValueStack().restoreSnapshot(valueStackSnapshot);
         return true;
     }
-
-    @Override
-    public boolean canMatchEmpty()
-    {
-        return true; // by definition
-    }
 }

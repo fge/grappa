@@ -46,15 +46,4 @@ public final class BoundedDownJoinMatcher
     {
         return cycles >= minCycles;
     }
-
-    @Override
-    public boolean canMatchEmpty()
-    {
-        /*
-         * The minimum number of cycles can be zero here. If it is not, then
-         * the joining rule will kick in at least once, and it is checked at
-         * build time that it cannot match empty.
-         */
-        return minCycles == 0;
-    }
 }

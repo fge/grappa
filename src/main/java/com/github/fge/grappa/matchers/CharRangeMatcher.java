@@ -57,10 +57,4 @@ public final class CharRangeMatcher
         context.advanceIndex(1);
         return true;
     }
-
-    @Override
-    public boolean canMatchEmpty()
-    {
-        return false;
-    }
 }

@@ -39,10 +39,4 @@ public final class EndOfInputMatcher
         final int index = context.getCurrentIndex();
         return context.getInputBuffer().codePointAt(index) == -1;
     }
-
-    @Override
-    public boolean canMatchEmpty()
-    {
-        return true; // by definition
-    }
 }

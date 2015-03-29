@@ -58,10 +58,4 @@ public final class CodePointRangeMatcher
             ? 1 : 2);
         return true;
     }
-
-    @Override
-    public boolean canMatchEmpty()
-    {
-        return false;
-    }
 }

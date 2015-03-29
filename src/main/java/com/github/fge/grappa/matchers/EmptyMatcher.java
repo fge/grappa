@@ -42,10 +42,4 @@ public final class EmptyMatcher
     {
         return true;
     }
-
-    @Override
-    public boolean canMatchEmpty()
-    {
-        return true; // by definition
-    }
 }
