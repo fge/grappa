@@ -16,7 +16,6 @@
 
 package com.github.fge.grappa.parsers;
 
-import com.github.fge.grappa.exceptions.InvalidGrammarException;
 import com.github.fge.grappa.matchers.ActionMatcher;
 import com.github.fge.grappa.matchers.AnyMatcher;
 import com.github.fge.grappa.matchers.AnyOfMatcher;
@@ -688,11 +687,7 @@ public abstract class BaseParser<V>
     @DontLabel
     public Rule zeroOrMore(final Object rule)
     {
-        final Rule subRule = toRule(rule);
-        if (subRule.canMatchEmpty())
-            throw new InvalidGrammarException("the inner rule of zeroOrMore()"
-                + " cannot match an empty input");
-        return new ZeroOrMoreMatcher(subRule);
+        return new ZeroOrMoreMatcher(toRule(rule));
     }
 
     /**

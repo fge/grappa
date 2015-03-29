@@ -16,6 +16,7 @@
 
 package com.github.fge.grappa.matchers.delegate;
 
+import com.github.fge.grappa.exceptions.GrappaException;
 import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.CustomDefaultLabelMatcher;
 import com.github.fge.grappa.matchers.base.Matcher;
@@ -47,10 +48,18 @@ public final class ZeroOrMoreMatcher
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
-        Objects.requireNonNull(context, "context");
-        //noinspection StatementWithEmptyBody
-        while (subMatcher.getSubContext(context).runMatcher())
-            ; // Nothing
+        int beforeMatch = context.getCurrentIndex();
+        int afterMatch;
+
+        while (subMatcher.getSubContext(context).runMatcher()) {
+            afterMatch = context.getCurrentIndex();
+            if (afterMatch != beforeMatch) {
+                beforeMatch = afterMatch;
+                continue;
+            }
+            throw new GrappaException("The inner rule of zeroOrMore rule '"
+                + context.getPath() + "' must not allow empty matches");
+        }
 
         return true;
     }
