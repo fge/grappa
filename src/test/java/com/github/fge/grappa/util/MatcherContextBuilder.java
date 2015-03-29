@@ -24,19 +24,13 @@ import com.github.fge.grappa.stack.ValueStack;
 import com.google.common.base.Preconditions;
 import org.parboiled.DefaultMatcherContext;
 import org.parboiled.MatcherContext;
-import org.parboiled.errors.ParseError;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.List;
 
 public final class MatcherContextBuilder
 {
     private static final ValueStack<Object> STACK
         = new DefaultValueStack<>();
-    private static final List<ParseError> ERRORS
-        = new ArrayList<>();
-
     private InputBuffer buffer = null;
     private Matcher matcher = null;
     private int index = 0;
@@ -62,7 +56,7 @@ public final class MatcherContextBuilder
     public MatcherContext<Object> build()
     {
         final DefaultMatcherContext<Object> ret = new DefaultMatcherContext<>(
-            buffer, STACK, ERRORS, SimpleMatchHandler.INSTANCE, matcher);
+            buffer, STACK, SimpleMatchHandler.INSTANCE, matcher);
 
         ret.setCurrentIndex(index);
         return ret;

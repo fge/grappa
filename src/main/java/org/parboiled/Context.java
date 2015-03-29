@@ -19,14 +19,12 @@ package org.parboiled;
 import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.stack.ValueStack;
-import org.parboiled.errors.ParseError;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.MatcherPath;
 import org.parboiled.support.Position;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
 
 /**
  * A Context object is available to parser actions methods during their runtime
@@ -73,16 +71,6 @@ public interface Context<V>
      * @return the current character
      */
     char getCurrentChar();
-
-    /**
-     * Returns the list of parse errors for the entire parsing run.
-     *
-     * @return the list of parse errors
-     */
-    @Nonnull
-    // TODO: make that annotation above actually obeyed
-    // TODO: only used from ActionMatcher!
-    List<ParseError> getParseErrors();
 
     /**
      * Returns the {@link MatcherPath} to the currently running matcher.

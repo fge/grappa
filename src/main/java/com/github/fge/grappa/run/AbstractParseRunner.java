@@ -23,16 +23,13 @@ import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.rules.Rule;
 import com.github.fge.grappa.stack.DefaultValueStack;
 import com.github.fge.grappa.stack.ValueStack;
-import com.google.common.collect.Lists;
 import org.parboiled.DefaultMatcherContext;
 import org.parboiled.MatchHandler;
 import org.parboiled.MatcherContext;
-import org.parboiled.errors.ParseError;
 import org.parboiled.support.ParsingResult;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public abstract class AbstractParseRunner<V>
@@ -40,7 +37,6 @@ public abstract class AbstractParseRunner<V>
 {
     protected final Matcher rootMatcher;
     // TODO: make final
-    protected List<ParseError> parseErrors = Lists.newArrayList();
     protected ValueStack<V> valueStack = new DefaultValueStack<>();
     protected Object stackSnapshot;
 
@@ -74,7 +70,7 @@ public abstract class AbstractParseRunner<V>
         final InputBuffer inputBuffer, final MatchHandler matchHandler)
     {
         return new DefaultMatcherContext<>(inputBuffer, valueStack,
-            parseErrors, matchHandler, rootMatcher);
+            matchHandler, rootMatcher);
     }
 
     @NonFinalForTesting
@@ -82,6 +78,6 @@ public abstract class AbstractParseRunner<V>
         final MatcherContext<V> rootContext)
     {
         return new ParsingResult<>(matched, valueStack,
-            parseErrors, rootContext.getInputBuffer());
+            rootContext.getInputBuffer());
     }
 }

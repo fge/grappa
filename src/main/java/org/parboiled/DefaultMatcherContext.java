@@ -25,16 +25,12 @@ import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.matchers.wrap.ProxyMatcher;
 import com.github.fge.grappa.stack.ValueStack;
 import com.google.common.base.Preconditions;
-import org.parboiled.errors.BasicParseError;
-import org.parboiled.errors.ParseError;
-import org.parboiled.support.CharsEscaper;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.MatcherPath;
 import org.parboiled.support.Position;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -73,7 +69,6 @@ public final class DefaultMatcherContext<V>
 {
     private final InputBuffer inputBuffer;
     private final ValueStack<V> valueStack;
-    private final List<ParseError> parseErrors;
     private final MatchHandler matchHandler;
     private final DefaultMatcherContext<V> parent;
     private final int level;
@@ -91,20 +86,17 @@ public final class DefaultMatcherContext<V>
      *
      * @param inputBuffer the InputBuffer for the parsing run
      * @param valueStack the ValueStack instance to use for the parsing run
-     * @param parseErrors the parse error list to create ParseError objects in
      * @param matchHandler the MatcherHandler to use for the parsing run
      * @param matcher the root matcher
      */
     public DefaultMatcherContext(@Nonnull final InputBuffer inputBuffer,
         @Nonnull final ValueStack<V> valueStack,
-        @Nonnull final List<ParseError> parseErrors,
         @Nonnull final MatchHandler matchHandler,
         @Nonnull final Matcher matcher)
     {
 
         this(Objects.requireNonNull(inputBuffer, "inputBuffer"),
             Objects.requireNonNull(valueStack, "valueStack"),
-            Objects.requireNonNull(parseErrors, "parseErrors"),
             Objects.requireNonNull(matchHandler, "matchHandler"), null, 0);
         currentChar = inputBuffer.charAt(0);
         Objects.requireNonNull(matcher);
@@ -113,14 +105,12 @@ public final class DefaultMatcherContext<V>
     }
 
     private DefaultMatcherContext(final InputBuffer inputBuffer,
-        final ValueStack<V> valueStack, final List<ParseError> parseErrors,
-        final MatchHandler matchHandler,
+        final ValueStack<V> valueStack, final MatchHandler matchHandler,
         @Nullable final DefaultMatcherContext<V> parent,
         final int level)
     {
         this.inputBuffer = inputBuffer;
         this.valueStack = valueStack;
-        this.parseErrors = parseErrors;
         this.matchHandler = matchHandler;
         this.parent = parent;
         this.level = level;
@@ -163,13 +153,6 @@ public final class DefaultMatcherContext<V>
     public char getCurrentChar()
     {
         return currentChar;
-    }
-
-    @Nonnull
-    @Override
-    public List<ParseError> getParseErrors()
-    {
-        return parseErrors;
     }
 
     @Override
@@ -304,7 +287,7 @@ public final class DefaultMatcherContext<V>
         if (subContext == null) {
             // init new level
             subContext = new DefaultMatcherContext<V>(inputBuffer, valueStack,
-                parseErrors, matchHandler, this, level + 1);
+                matchHandler, this, level + 1);
         } else {
             // we always need to reset the MatcherPath, even for actions
             subContext.path = null;
@@ -342,13 +325,10 @@ public final class DefaultMatcherContext<V>
             throw e; // don't wrap, just bubble up
         } catch (Throwable e) { // TODO: Throwable? What the...
             final String msg = String.format(
-                "Error while parsing %s '%s' at input position\n%s",
+                "exception thrown when parsing %s '%s' at input position %s",
                 matcher instanceof ActionMatcher ? "action" : "rule", getPath(),
-                e);
-            final BasicParseError error = new BasicParseError(inputBuffer,
-                currentIndex, CharsEscaper.INSTANCE.escape(msg));
-            // TODO: UGLY
-            throw new GrappaException(error.toString(), e);
+                inputBuffer.getPosition(currentIndex));
+            throw new GrappaException(msg, e);
         }
     }
 }

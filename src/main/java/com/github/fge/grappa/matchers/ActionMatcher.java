@@ -23,8 +23,6 @@ import com.github.fge.grappa.rules.SkippableAction;
 import com.google.common.collect.Lists;
 import org.parboiled.ContextAware;
 import org.parboiled.MatcherContext;
-import org.parboiled.errors.ActionError;
-import org.parboiled.errors.ActionException;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -118,31 +116,22 @@ public final class ActionMatcher
         for (final ContextAware<?> contextAware: contextAwares)
             ((ContextAware<V>) contextAware).setContext(parentContext);
 
-
-        try {
-            final Object valueStackSnapshot
-                = context.getValueStack().takeSnapshot();
-            if (!((Action<V>) action).run(parentContext)) {
-                // failing actions are not allowed to change the ValueStack
-                context.getValueStack().restoreSnapshot(valueStackSnapshot);
-                return false;
-            }
-
-            // since we initialize the actions own context only partially in
-            // getSubContext(MatcherContext) (in order to be able to still
-            // access the previous subcontexts fields in action expressions) we
-            // need to make sure to not accidentally advance the current index
-            // of our parent with some old index from a previous subcontext, so
-            // we explicitly set the marker here
-            context.setCurrentIndex(parentContext.getCurrentIndex());
-            return true;
-        } catch (ActionException e) {
-            final ActionError error = new ActionError(context.getInputBuffer(),
-                context.getCurrentIndex(), e.getMessage(), context.getPath(),
-                e);
-            context.getParseErrors().add(error);
+        final Object valueStackSnapshot
+            = context.getValueStack().takeSnapshot();
+        if (!((Action<V>) action).run(parentContext)) {
+            // failing actions are not allowed to change the ValueStack
+            context.getValueStack().restoreSnapshot(valueStackSnapshot);
             return false;
         }
+
+        // since we initialize the actions own context only partially in
+        // getSubContext(MatcherContext) (in order to be able to still
+        // access the previous subcontexts fields in action expressions) we
+        // need to make sure to not accidentally advance the current index
+        // of our parent with some old index from a previous subcontext, so
+        // we explicitly set the marker here
+        context.setCurrentIndex(parentContext.getCurrentIndex());
+        return true;
     }
 
     @Override
