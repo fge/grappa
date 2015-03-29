@@ -16,9 +16,9 @@
 
 package org.parboiled.transform.process;
 
-import org.parboiled.transform.ClassNodeInitializer;
-import org.parboiled.transform.ParserClassNode;
-import org.parboiled.transform.RuleMethod;
+import com.github.fge.grappa.transform.generate.ClassNodeInitializer;
+import com.github.fge.grappa.transform.base.ParserClassNode;
+import com.github.fge.grappa.transform.base.RuleMethod;
 
 import java.io.IOException;
 import java.util.List;

@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package org.parboiled.transform;
+package com.github.fge.grappa.transform.generate;
 
 import com.github.fge.grappa.exceptions.InvalidGrammarException;
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.transform.CodeBlock;
+import com.github.fge.grappa.transform.base.ParserClassNode;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.InsnNode;

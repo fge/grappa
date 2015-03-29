@@ -34,8 +34,8 @@ import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.LabelNode;
 import org.parboiled.transform.CacheArguments;
-import org.parboiled.transform.ParserClassNode;
-import org.parboiled.transform.RuleMethod;
+import com.github.fge.grappa.transform.base.ParserClassNode;
+import com.github.fge.grappa.transform.base.RuleMethod;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;

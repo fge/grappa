@@ -17,11 +17,11 @@
 package org.parboiled.transform.process;
 
 import com.google.common.collect.ImmutableList;
-import org.parboiled.transform.ActionClassGenerator;
-import org.parboiled.transform.InstructionGroup;
-import org.parboiled.transform.RuleMethod;
+import com.github.fge.grappa.transform.generate.ActionClassGenerator;
+import com.github.fge.grappa.transform.base.InstructionGroup;
+import com.github.fge.grappa.transform.base.RuleMethod;
 import org.parboiled.transform.TestParser;
-import org.parboiled.transform.VarInitClassGenerator;
+import com.github.fge.grappa.transform.generate.VarInitClassGenerator;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 

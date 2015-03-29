@@ -14,26 +14,30 @@
  * limitations under the License.
  */
 
-package org.parboiled.transform;
+package com.github.fge.grappa.transform.generate;
 
+import com.github.fge.grappa.transform.base.InstructionGraphNode;
+import com.github.fge.grappa.transform.base.InstructionGroup;
+import com.github.fge.grappa.transform.base.ParserClassNode;
+import com.github.fge.grappa.transform.base.RuleMethod;
 import me.qmx.jitescript.util.CodegenUtils;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
-import com.github.fge.grappa.run.context.Context;
+import org.parboiled.transform.BaseVarInit;
 import org.parboiled.transform.process.GroupClassGenerator;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
 
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-import static org.objectweb.asm.Opcodes.IRETURN;
+import static org.objectweb.asm.Opcodes.ARETURN;
 
-// TODO: move to process/ subpackage
-public final class ActionClassGenerator
+// TODO: move to transform/ subpackage?
+public final class VarInitClassGenerator
     extends GroupClassGenerator
 {
-    public ActionClassGenerator(final boolean forceCodeBuilding)
+    public VarInitClassGenerator(final boolean forceCodeBuilding)
     {
         super(forceCodeBuilding);
     }
@@ -43,34 +47,31 @@ public final class ActionClassGenerator
         @Nonnull final RuleMethod method)
     {
         Objects.requireNonNull(method, "method");
-        return method.containsExplicitActions();
+        return method.containsVars();
     }
 
     @Override
     protected boolean appliesTo(final InstructionGraphNode group)
     {
-        return group.isActionRoot();
+        return group.isVarInitRoot();
     }
 
     @Override
     protected Type getBaseType()
     {
-        return Type.getType(BaseAction.class);
+        return Type.getType(BaseVarInit.class);
     }
 
     @Override
     protected void generateMethod(final InstructionGroup group,
         final ClassWriter cw)
     {
-        final MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "run",
-            CodegenUtils.sig(boolean.class, Context.class), null, null);
-
-        insertSetContextCalls(group, 1);
+        final MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "get",
+            CodegenUtils.sig(Object.class), null, null);
         convertXLoads(group);
-
         group.getInstructions().accept(mv);
 
-        mv.visitInsn(IRETURN);
+        mv.visitInsn(ARETURN);
         mv.visitMaxs(0, 0); // trigger automatic computing
     }
 }

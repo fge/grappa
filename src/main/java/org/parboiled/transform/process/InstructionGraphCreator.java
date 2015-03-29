@@ -24,9 +24,9 @@ package org.parboiled.transform.process;
 
 import org.objectweb.asm.tree.analysis.Analyzer;
 import org.objectweb.asm.tree.analysis.BasicValue;
-import org.parboiled.transform.ParserClassNode;
-import org.parboiled.transform.RuleMethod;
-import org.parboiled.transform.RuleMethodInterpreter;
+import com.github.fge.grappa.transform.base.ParserClassNode;
+import com.github.fge.grappa.transform.base.RuleMethod;
+import com.github.fge.grappa.transform.RuleMethodInterpreter;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;

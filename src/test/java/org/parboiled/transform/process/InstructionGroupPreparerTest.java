@@ -17,8 +17,8 @@
 package org.parboiled.transform.process;
 
 import com.google.common.collect.ImmutableList;
-import org.parboiled.transform.InstructionGroup;
-import org.parboiled.transform.RuleMethod;
+import com.github.fge.grappa.transform.base.InstructionGroup;
+import com.github.fge.grappa.transform.base.RuleMethod;
 import org.parboiled.transform.TestParser;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;

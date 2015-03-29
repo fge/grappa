@@ -19,7 +19,7 @@ package org.parboiled;
 import com.github.fge.grappa.exceptions.InvalidGrammarException;
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.run.ParseRunner;
-import org.parboiled.transform.ParserTransformer;
+import com.github.fge.grappa.transform.ParserTransformer;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.Constructor;

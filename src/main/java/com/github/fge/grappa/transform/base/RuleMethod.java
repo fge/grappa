@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package org.parboiled.transform;
+package com.github.fge.grappa.transform.base;
 
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.transform.ParserAnnotation;

@@ -18,8 +18,8 @@ package org.parboiled.transform.process;
 
 import com.github.fge.grappa.transform.CodeBlock;
 import org.objectweb.asm.tree.InsnList;
-import org.parboiled.transform.ParserClassNode;
-import org.parboiled.transform.RuleMethod;
+import com.github.fge.grappa.transform.base.ParserClassNode;
+import com.github.fge.grappa.transform.base.RuleMethod;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;

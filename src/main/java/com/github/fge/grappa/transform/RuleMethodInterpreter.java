@@ -20,10 +20,12 @@
  * THE SOFTWARE.
  */
 
-package org.parboiled.transform;
+package com.github.fge.grappa.transform;
 
 import com.github.fge.grappa.exceptions.InvalidGrammarException;
 import com.github.fge.grappa.rules.Rule;
+import com.github.fge.grappa.transform.base.InstructionGraphNode;
+import com.github.fge.grappa.transform.base.RuleMethod;
 import com.google.common.base.Preconditions;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;

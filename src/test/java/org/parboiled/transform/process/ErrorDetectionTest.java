@@ -20,7 +20,7 @@ import com.github.fge.grappa.exceptions.InvalidGrammarException;
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.rules.Rule;
 import com.google.common.collect.ImmutableList;
-import org.parboiled.transform.ActionClassGenerator;
+import com.github.fge.grappa.transform.generate.ActionClassGenerator;
 import org.testng.annotations.Test;
 
 import java.util.List;

@@ -14,8 +14,14 @@
  * limitations under the License.
  */
 
-package org.parboiled.transform;
+package com.github.fge.grappa.transform;
 
+import com.github.fge.grappa.transform.base.ParserClassNode;
+import com.github.fge.grappa.transform.base.RuleMethod;
+import com.github.fge.grappa.transform.generate.ActionClassGenerator;
+import com.github.fge.grappa.transform.generate.ClassNodeInitializer;
+import com.github.fge.grappa.transform.generate.ConstructorGenerator;
+import com.github.fge.grappa.transform.generate.VarInitClassGenerator;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import org.objectweb.asm.ClassWriter;
@@ -86,7 +92,7 @@ public final class ParserTransformer
     }
 
     @VisibleForTesting
-    static ParserClassNode extendParserClass(final Class<?> parserClass)
+    public static ParserClassNode extendParserClass(final Class<?> parserClass)
         throws Exception
     {
         final ParserClassNode classNode = new ParserClassNode(parserClass);

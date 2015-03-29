@@ -28,10 +28,10 @@ import com.google.common.base.Preconditions;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.MethodInsnNode;
-import org.parboiled.transform.InstructionGraphNode;
-import org.parboiled.transform.InstructionGroup;
-import org.parboiled.transform.ParserClassNode;
-import org.parboiled.transform.RuleMethod;
+import com.github.fge.grappa.transform.base.InstructionGraphNode;
+import com.github.fge.grappa.transform.base.InstructionGroup;
+import com.github.fge.grappa.transform.base.ParserClassNode;
+import com.github.fge.grappa.transform.base.RuleMethod;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.Modifier;

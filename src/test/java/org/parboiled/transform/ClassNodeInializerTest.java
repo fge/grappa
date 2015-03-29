@@ -16,6 +16,7 @@
 
 package org.parboiled.transform;
 
+import com.github.fge.grappa.transform.base.RuleMethod;
 import com.google.common.base.Predicate;
 import org.objectweb.asm.tree.MethodNode;
 import org.parboiled.transform.process.TransformationTest;

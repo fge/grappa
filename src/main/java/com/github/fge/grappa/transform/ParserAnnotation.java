@@ -24,7 +24,7 @@ import com.github.fge.grappa.annotations.DontLabel;
 import com.github.fge.grappa.annotations.DontSkipActionsInPredicates;
 import com.github.fge.grappa.annotations.ExplicitActionsOnly;
 import com.github.fge.grappa.annotations.SkipActionsInPredicates;
-import org.parboiled.transform.RuleMethod;
+import com.github.fge.grappa.transform.base.RuleMethod;
 
 import java.lang.annotation.Annotation;
 import java.util.EnumSet;

@@ -25,8 +25,8 @@ import org.objectweb.asm.tree.AnnotationNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.LabelNode;
 import com.github.fge.grappa.annotations.Label;
-import org.parboiled.transform.ParserClassNode;
-import org.parboiled.transform.RuleMethod;
+import com.github.fge.grappa.transform.base.ParserClassNode;
+import com.github.fge.grappa.transform.base.RuleMethod;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
