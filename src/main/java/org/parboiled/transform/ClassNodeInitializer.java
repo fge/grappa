@@ -125,8 +125,9 @@ public final class ClassNodeInitializer
             if ((access & ACC_FINAL) != 0)
                 throw new InvalidGrammarException("a parser class cannot be "
                     + "final");
-            classNode.visit(Opcodes.V1_7, ACC_PUBLIC, getExtendedParserClassName(name),
-                null, classNode.getParentType().getInternalName(), null);
+            final String className = getExtendedParserClassName(name);
+            classNode.visit(Opcodes.V1_7, ACC_PUBLIC, className, null,
+                classNode.getParentType().getInternalName(), null);
         }
     }
 
