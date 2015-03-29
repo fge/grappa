@@ -18,7 +18,7 @@ package org.parboiled;
 
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.rules.Rule;
-import org.parboiled.common.Reference;
+import com.github.fge.grappa.misc.Reference;
 import org.parboiled.test.ParboiledTest;
 import org.testng.annotations.Test;
 

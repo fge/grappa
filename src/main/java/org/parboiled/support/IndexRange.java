@@ -29,8 +29,6 @@ import java.util.Objects;
  */
 public final class IndexRange
 {
-    public static final IndexRange EMPTY = new IndexRange(0, 0);
-
     /**
      * The index of the first character in the range.
      */

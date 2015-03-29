@@ -23,7 +23,7 @@ import com.github.fge.grappa.util.SimpleMatchHandler;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Range;
-import org.parboiled.MatcherContext;
+import com.github.fge.grappa.run.context.MatcherContext;
 import org.parboiled.Parboiled;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;

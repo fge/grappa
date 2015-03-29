@@ -16,7 +16,7 @@
 
 package com.github.fge.grappa.run.events;
 
-import org.parboiled.MatcherContext;
+import com.github.fge.grappa.run.context.MatcherContext;
 
 public final class MatchSuccessEvent<V>
     extends MatchContextEvent<V>

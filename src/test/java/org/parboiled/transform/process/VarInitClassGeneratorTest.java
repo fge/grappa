@@ -146,7 +146,7 @@ public class VarInitClassGeneratorTest extends TransformationTest {
                 "    MAXLOCALS = 2\n" +
                 "\n" +
                 "  // access flags 0x1\n" +
-                "  public run(Lorg/parboiled/Context;)Z\n" +
+                "  public run(Lcom/github/fge/grappa/run/context/Context;)Z\n" +
                 "    ALOAD 0\n" +
                 "    GETFIELD org/parboiled/transform/process/Action$XXXXXXXXXXXXXXXX.field$0 : Lorg/parboiled/support/Var;\n" +
                 "    INVOKEVIRTUAL org/parboiled/support/Var.get ()Ljava/lang/Object;\n" +
@@ -155,7 +155,7 @@ public class VarInitClassGeneratorTest extends TransformationTest {
                 "    GETFIELD org/parboiled/transform/process/Action$XXXXXXXXXXXXXXXX.field$1 : Lorg/parboiled/transform/process/VarInitClassGeneratorTest$Parser$$parboiled;\n" +
                 "    DUP\n" +
                 "    ALOAD 1\n" +
-                "    INVOKEINTERFACE org/parboiled/ContextAware.setContext (Lorg/parboiled/Context;)V\n" +
+                "    INVOKEINTERFACE com/github/fge/grappa/run/context/ContextAware.setContext (Lcom/github/fge/grappa/run/context/Context;)V\n" +
                 "    INVOKEVIRTUAL org/parboiled/transform/process/VarInitClassGeneratorTest$Parser.match ()Ljava/lang/String;\n" +
                 "    INVOKEINTERFACE java/util/List.add (Ljava/lang/Object;)Z\n" +
                 "    IRETURN\n" +

@@ -18,7 +18,7 @@ package org.parboiled.support;
 
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.google.common.base.Preconditions;
-import org.parboiled.Context;
+import com.github.fge.grappa.run.context.Context;
 
 import javax.annotation.Nullable;
 import java.util.Objects;

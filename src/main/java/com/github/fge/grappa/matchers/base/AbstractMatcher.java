@@ -18,8 +18,8 @@ package com.github.fge.grappa.matchers.base;
 
 import com.github.fge.grappa.rules.Rule;
 import com.google.common.collect.ImmutableList;
-import org.parboiled.MatcherContext;
-import org.parboiled.trees.ImmutableGraphNode;
+import com.github.fge.grappa.run.context.MatcherContext;
+import com.github.fge.grappa.misc.ImmutableGraphNode;
 
 import java.util.Objects;
 

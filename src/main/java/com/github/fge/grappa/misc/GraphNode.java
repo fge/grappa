@@ -14,26 +14,23 @@
  * limitations under the License.
  */
 
-package org.parboiled.trees;
+package com.github.fge.grappa.misc;
 
-import javax.annotation.Nullable;
+import java.util.List;
 
 /**
- * A specialization of a {@link GraphNode} that contains a reference to its parent, thereby making the graph a tree
- * (since each node can now have only one parent node).
+ * A node in a directed graph (that may have cycles).
+ * The children list must not contain null entries.
  *
- * @param <T> the actual implementation type of this TreeNode
+ * @param <T> the actual implementation type of this graph node
  */
-public interface TreeNode<T extends TreeNode<T>>
-    extends GraphNode<T>
+public interface GraphNode<T extends GraphNode<T>>
 {
 
     /**
-     * Returns the parent node or null if this node is the root.
+     * Returns the sub nodes of this node.
      *
-     * @return the parent node
+     * @return the sub nodes
      */
-    // TODO: null! again!
-    @Nullable
-    T getParent();
+    List<T> getChildren();
 }

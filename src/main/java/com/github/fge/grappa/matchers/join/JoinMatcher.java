@@ -21,7 +21,7 @@ import com.github.fge.grappa.matchers.base.CustomDefaultLabelMatcher;
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.rules.Rule;
 import com.google.common.annotations.Beta;
-import org.parboiled.MatcherContext;
+import com.github.fge.grappa.run.context.MatcherContext;
 
 /**
  * A joining matcher

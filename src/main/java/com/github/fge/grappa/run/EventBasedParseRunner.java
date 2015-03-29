@@ -28,7 +28,7 @@ import com.github.fge.grappa.run.events.PreMatchEvent;
 import com.github.fge.grappa.run.events.PreParseEvent;
 import com.google.common.eventbus.EventBus;
 import org.parboiled.MatchHandler;
-import org.parboiled.MatcherContext;
+import com.github.fge.grappa.run.context.MatcherContext;
 import org.parboiled.support.ParsingResult;
 
 import javax.annotation.ParametersAreNonnullByDefault;

@@ -108,7 +108,7 @@ public class ActionClassGeneratorTest extends TransformationTest {
                 "    MAXLOCALS = 2\n" +
                 "\n" +
                 "  // access flags 0x1\n" +
-                "  public run(Lorg/parboiled/Context;)Z\n" +
+                "  public run(Lcom/github/fge/grappa/run/context/Context;)Z\n" +
                 "    ALOAD 0\n" +
                 "    GETFIELD org/parboiled/transform/Action$XXXXXXXXXXXXXXXX.field$0 : I\n" +
                 "    ALOAD 0\n" +
@@ -162,7 +162,7 @@ public class ActionClassGeneratorTest extends TransformationTest {
                 "    MAXLOCALS = 2\n" +
                 "\n" +
                 "  // access flags 0x1\n" +
-                "  public run(Lorg/parboiled/Context;)Z\n" +
+                "  public run(Lcom/github/fge/grappa/run/context/Context;)Z\n" +
                 "    ALOAD 0\n" +
                 "    GETFIELD org/parboiled/transform/Action$XXXXXXXXXXXXXXXX.field$0 : Lorg/parboiled/transform/TestParser$$parboiled;\n" +
                 "    GETFIELD org/parboiled/transform/TestParser.integer : I\n" +

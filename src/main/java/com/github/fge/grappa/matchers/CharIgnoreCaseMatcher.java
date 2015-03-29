@@ -18,7 +18,7 @@ package com.github.fge.grappa.matchers;
 
 import com.github.fge.grappa.matchers.base.AbstractMatcher;
 import com.github.fge.grappa.matchers.base.Matcher;
-import org.parboiled.MatcherContext;
+import com.github.fge.grappa.run.context.MatcherContext;
 
 import static org.parboiled.support.Chars.escape;
 

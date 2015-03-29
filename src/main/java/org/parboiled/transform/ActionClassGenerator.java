@@ -20,7 +20,7 @@ import me.qmx.jitescript.util.CodegenUtils;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
-import org.parboiled.Context;
+import com.github.fge.grappa.run.context.Context;
 import org.parboiled.transform.process.GroupClassGenerator;
 
 import javax.annotation.Nonnull;

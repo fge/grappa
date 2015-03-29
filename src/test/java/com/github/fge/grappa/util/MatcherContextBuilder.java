@@ -22,8 +22,8 @@ import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.stack.DefaultValueStack;
 import com.github.fge.grappa.stack.ValueStack;
 import com.google.common.base.Preconditions;
-import org.parboiled.DefaultMatcherContext;
-import org.parboiled.MatcherContext;
+import com.github.fge.grappa.run.context.DefaultMatcherContext;
+import com.github.fge.grappa.run.context.MatcherContext;
 
 import javax.annotation.Nonnull;
 

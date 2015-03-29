@@ -21,7 +21,7 @@ import com.github.fge.grappa.exceptions.InvalidGrammarException;
 import com.github.fge.grappa.matchers.delegate.FirstOfMatcher;
 import com.github.fge.grappa.rules.Rule;
 import com.google.common.annotations.VisibleForTesting;
-import org.parboiled.MatcherContext;
+import com.github.fge.grappa.run.context.MatcherContext;
 
 import java.util.HashSet;
 import java.util.Map;

@@ -18,8 +18,8 @@ package com.github.fge.grappa.rules;
 
 import com.github.fge.grappa.matchers.delegate.SequenceMatcher;
 import com.github.fge.grappa.parsers.BaseActions;
-import org.parboiled.Context;
-import org.parboiled.ContextAware;
+import com.github.fge.grappa.run.context.Context;
+import com.github.fge.grappa.run.context.ContextAware;
 
 /**
  * Instances of classes implementing this interface can be used directly in a

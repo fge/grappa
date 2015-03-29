@@ -19,7 +19,7 @@ package com.github.fge.grappa.matchers.wrap;
 import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.rules.Rule;
-import org.parboiled.MatcherContext;
+import com.github.fge.grappa.run.context.MatcherContext;
 
 import java.util.List;
 import java.util.Objects;

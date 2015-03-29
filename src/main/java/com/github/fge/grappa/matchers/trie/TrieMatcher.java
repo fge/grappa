@@ -19,7 +19,7 @@ package com.github.fge.grappa.matchers.trie;
 import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.AbstractMatcher;
 import com.google.common.annotations.Beta;
-import org.parboiled.MatcherContext;
+import com.github.fge.grappa.run.context.MatcherContext;
 
 import javax.annotation.concurrent.Immutable;
 import java.util.Objects;

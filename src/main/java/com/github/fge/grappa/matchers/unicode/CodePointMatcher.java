@@ -19,7 +19,7 @@ package com.github.fge.grappa.matchers.unicode;
 import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.AbstractMatcher;
-import org.parboiled.MatcherContext;
+import com.github.fge.grappa.run.context.MatcherContext;
 
 /**
  * A single Unicode code point matcher

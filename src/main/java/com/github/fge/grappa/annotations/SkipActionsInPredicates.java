@@ -17,7 +17,7 @@
 package com.github.fge.grappa.annotations;
 
 import com.github.fge.grappa.rules.Action;
-import org.parboiled.ContextAware;
+import com.github.fge.grappa.run.context.ContextAware;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

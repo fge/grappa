@@ -21,8 +21,8 @@ import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.rules.Action;
 import com.github.fge.grappa.rules.SkippableAction;
 import com.google.common.collect.Lists;
-import org.parboiled.ContextAware;
-import org.parboiled.MatcherContext;
+import com.github.fge.grappa.run.context.ContextAware;
+import com.github.fge.grappa.run.context.MatcherContext;
 
 import java.lang.reflect.Field;
 import java.util.List;

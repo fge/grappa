@@ -18,7 +18,7 @@ package com.github.fge.grappa.matchers;
 
 import com.github.fge.grappa.matchers.delegate.SequenceMatcher;
 import com.github.fge.grappa.rules.Rule;
-import org.parboiled.MatcherContext;
+import com.github.fge.grappa.run.context.MatcherContext;
 
 import java.util.Objects;
 

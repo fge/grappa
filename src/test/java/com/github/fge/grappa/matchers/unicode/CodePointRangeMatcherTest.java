@@ -19,7 +19,7 @@ package com.github.fge.grappa.matchers.unicode;
 import com.github.fge.grappa.buffers.InputBuffer;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.parboiled.MatcherContext;
+import com.github.fge.grappa.run.context.MatcherContext;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;

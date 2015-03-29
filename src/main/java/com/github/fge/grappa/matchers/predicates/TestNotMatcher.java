@@ -20,7 +20,7 @@ import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.CustomDefaultLabelMatcher;
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.rules.Rule;
-import org.parboiled.MatcherContext;
+import com.github.fge.grappa.run.context.MatcherContext;
 
 import java.util.Objects;
 

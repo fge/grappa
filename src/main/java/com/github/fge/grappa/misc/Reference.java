@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.parboiled.common;
+package com.github.fge.grappa.misc;
 
 import com.google.common.base.Optional;
 

@@ -18,8 +18,8 @@ package com.github.fge.grappa.matchers.base;
 
 import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.rules.Rule;
-import org.parboiled.MatcherContext;
-import org.parboiled.trees.GraphNode;
+import com.github.fge.grappa.run.context.MatcherContext;
+import com.github.fge.grappa.misc.GraphNode;
 
 /**
  * A Matcher instance is responsible for "executing" a specific Rule instance, i.e. it implements the actual

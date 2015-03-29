@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.parboiled;
+package com.github.fge.grappa.run.context;
 
 import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.exceptions.GrappaException;
@@ -25,6 +25,7 @@ import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.matchers.wrap.ProxyMatcher;
 import com.github.fge.grappa.stack.ValueStack;
 import com.google.common.base.Preconditions;
+import org.parboiled.MatchHandler;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.MatcherPath;
 import org.parboiled.support.Position;

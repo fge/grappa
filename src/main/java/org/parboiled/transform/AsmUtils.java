@@ -32,7 +32,7 @@ import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
-import org.parboiled.ContextAware;
+import com.github.fge.grappa.run.context.ContextAware;
 import org.parboiled.support.Var;
 
 import javax.annotation.Nullable;

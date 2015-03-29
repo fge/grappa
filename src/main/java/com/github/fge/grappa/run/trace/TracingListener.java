@@ -9,7 +9,7 @@ import com.github.fge.grappa.run.events.MatchSuccessEvent;
 import com.github.fge.grappa.run.events.PostParseEvent;
 import com.github.fge.grappa.run.events.PreMatchEvent;
 import com.github.fge.grappa.run.events.PreParseEvent;
-import org.parboiled.MatcherContext;
+import com.github.fge.grappa.run.context.MatcherContext;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.BufferedWriter;

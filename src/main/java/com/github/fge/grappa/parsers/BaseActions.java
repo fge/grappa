@@ -18,8 +18,8 @@ package com.github.fge.grappa.parsers;
 
 import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.stack.ValueStack;
-import org.parboiled.Context;
-import org.parboiled.ContextAware;
+import com.github.fge.grappa.run.context.Context;
+import com.github.fge.grappa.run.context.ContextAware;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.Position;
 

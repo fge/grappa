@@ -17,7 +17,7 @@
 package com.github.fge.grappa.matchers;
 
 import com.github.fge.grappa.matchers.base.AbstractMatcher;
-import org.parboiled.MatcherContext;
+import com.github.fge.grappa.run.context.MatcherContext;
 
 public final class EndOfInputMatcher
     extends AbstractMatcher

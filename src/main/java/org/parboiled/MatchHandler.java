@@ -16,6 +16,8 @@
 
 package org.parboiled;
 
+import com.github.fge.grappa.run.context.MatcherContext;
+
 /**
  * A MatchHandler is responsible for actually running the match of a given
  * {@link MatcherContext}. Many times it wraps the actual call to the matcher

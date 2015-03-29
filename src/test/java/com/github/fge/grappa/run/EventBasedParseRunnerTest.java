@@ -25,7 +25,7 @@ import com.github.fge.grappa.run.events.PreMatchEvent;
 import com.github.fge.grappa.run.events.PreParseEvent;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InOrder;
-import org.parboiled.MatcherContext;
+import com.github.fge.grappa.run.context.MatcherContext;
 import org.parboiled.support.ParsingResult;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

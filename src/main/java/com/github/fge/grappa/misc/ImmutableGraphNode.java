@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.parboiled.trees;
+package com.github.fge.grappa.misc;
 
 import com.google.common.collect.ImmutableList;
 

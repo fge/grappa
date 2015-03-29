@@ -21,6 +21,7 @@ import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.rules.Action;
 import com.github.fge.grappa.rules.Rule;
 import com.github.fge.grappa.annotations.Label;
+import com.github.fge.grappa.run.context.Context;
 import org.parboiled.test.ParboiledTest;
 import org.testng.annotations.Test;
 
