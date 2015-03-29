@@ -24,6 +24,7 @@ package org.parboiled.transform.process;
 
 import com.github.fge.grappa.transform.CodeBlock;
 import com.github.fge.grappa.transform.LoadingOpcode;
+import com.google.common.base.Supplier;
 import me.qmx.jitescript.util.CodegenUtils;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
@@ -33,7 +34,6 @@ import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
-import org.parboiled.common.Factory;
 import org.parboiled.transform.InstructionGraphNode;
 import org.parboiled.transform.InstructionGroup;
 import org.parboiled.transform.ParserClassNode;
@@ -86,7 +86,7 @@ public final class RuleMethodRewriter
             else  // if (root.isVarInitRoot())
                 // TODO: replace with Supplier
                 ((MethodInsnNode) rootInsn).desc = CodegenUtils.sig(void.class,
-                    Factory.class);
+                    Supplier.class);
         }
 
         method.setBodyRewritten();

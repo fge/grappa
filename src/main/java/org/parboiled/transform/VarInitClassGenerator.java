@@ -61,7 +61,7 @@ public final class VarInitClassGenerator
     protected void generateMethod(final InstructionGroup group,
         final ClassWriter cw)
     {
-        final MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "create",
+        final MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "get",
             CodegenUtils.sig(Object.class), null, null);
         convertXLoads(group);
         group.getInstructions().accept(mv);

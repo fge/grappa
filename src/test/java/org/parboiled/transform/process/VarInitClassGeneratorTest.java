@@ -87,7 +87,7 @@ public class VarInitClassGeneratorTest extends TransformationTest {
                 "    MAXLOCALS = 2\n" +
                 "\n" +
                 "  // access flags 0x1\n" +
-                "  public create()Ljava/lang/Object;\n" +
+                "  public get()Ljava/lang/Object;\n" +
                 "    NEW java/util/ArrayList\n" +
                 "    DUP\n" +
                 "    INVOKESPECIAL java/util/ArrayList.<init> ()V\n" +
@@ -114,7 +114,7 @@ public class VarInitClassGeneratorTest extends TransformationTest {
                 "    MAXLOCALS = 2\n" +
                 "\n" +
                 "  // access flags 0x1\n" +
-                "  public create()Ljava/lang/Object;\n" +
+                "  public get()Ljava/lang/Object;\n" +
                 "    BIPUSH 26\n" +
                 "    INVOKESTATIC java/lang/Integer.valueOf (I)Ljava/lang/Integer;\n" +
                 "    ARETURN\n" +

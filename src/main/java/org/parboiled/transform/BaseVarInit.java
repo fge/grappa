@@ -16,7 +16,7 @@
 
 package org.parboiled.transform;
 
-import org.parboiled.common.Factory;
+import com.google.common.base.Supplier;
 
 import java.util.Objects;
 
@@ -25,7 +25,7 @@ import java.util.Objects;
  */
 public abstract class BaseVarInit<V>
     extends BaseGroupClass
-    implements Factory<V>
+    implements Supplier<V>
 {
     protected BaseVarInit(final String name)
     {

@@ -87,7 +87,7 @@ public class RuleMethodRewriterTest extends TransformationTest {
                 " 7     DUP\n" +
                 " 8     LDC \"RuleWithComplexActionSetup_VarInit1\"\n" +
                 " 9     INVOKESPECIAL org/parboiled/transform/VarInit$XXXXXXXXXXXXXXXX.<init> (Ljava/lang/String;)V\n" +
-                "10     INVOKESPECIAL org/parboiled/support/Var.<init> (Lorg/parboiled/common/Factory;)V\n" +
+                "10     INVOKESPECIAL org/parboiled/support/Var.<init> (Lcom/google/common/base/Supplier;)V\n" +
                 "11     ASTORE 4\n" +
                 "12     ILOAD 2\n" +
                 "13     ILOAD 1\n" +

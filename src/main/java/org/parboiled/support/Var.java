@@ -17,8 +17,9 @@
 package org.parboiled.support;
 
 import com.google.common.base.Optional;
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
 import com.google.common.collect.Lists;
-import org.parboiled.common.Factory;
 import org.parboiled.common.Reference;
 
 import javax.annotation.Nonnull;
@@ -50,7 +51,7 @@ import java.util.Objects;
 public class Var<T>
     extends Reference<T>
 {
-    private final Factory<T> factory;
+    private final Supplier<T> supplier;
     private final Deque<T> stack = Lists.newLinkedList();
     private int level;
     private String name;
@@ -72,27 +73,19 @@ public class Var<T>
     public Var(@Nullable final T value)
     {
         super(value);
-        factory = new Factory<T>()
-        {
-            @Nullable
-            @Override
-            public T create()
-            {
-                return value;
-            }
-        };
+        supplier = Suppliers.ofInstance(value);
     }
 
     /**
-     * Initializes a new Var. The given factory will be used to create the
+     * Initializes a new Var. The given supplier will be used to create the
      * initial value for each "execution frame" of the enclosing rule.
      *
-     * @param factory the factory used to create the initial value for a rule execution frame
+     * @param supplier the supplier used to create the initial value for a rule execution frame
      *
      */
-    public Var(@Nonnull final Factory<T> factory)
+    public Var(@Nonnull final Supplier<T> supplier)
     {
-        this.factory = Objects.requireNonNull(factory);
+        this.supplier = Objects.requireNonNull(supplier);
     }
 
     /**
@@ -137,7 +130,7 @@ public class Var<T>
     {
         if (level++ > 0)
             stack.add(get());
-        return set(factory.create());
+        return set(supplier.get());
     }
 
     /**

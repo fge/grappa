@@ -74,7 +74,7 @@ public class ActionClassGeneratorTest extends TransformationTest {
                 "    MAXLOCALS = 2\n" +
                 "\n" +
                 "  // access flags 0x1\n" +
-                "  public create()Ljava/lang/Object;\n" +
+                "  public get()Ljava/lang/Object;\n" +
                 "    LDC \"text\"\n" +
                 "    ARETURN\n" +
                 "    MAXSTACK = 1\n" +
