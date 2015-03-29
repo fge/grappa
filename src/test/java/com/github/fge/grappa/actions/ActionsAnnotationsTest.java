@@ -20,7 +20,7 @@ import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.rules.Rule;
 import com.github.fge.grappa.run.EventBasedParseRunner;
 import org.parboiled.Parboiled;
-import org.parboiled.annotations.SkipActionsInPredicates;
+import com.github.fge.grappa.annotations.SkipActionsInPredicates;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 

@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package org.parboiled.annotations;
+package com.github.fge.grappa.annotations;
 
 import com.github.fge.grappa.rules.Rule;
+import org.parboiled.transform.ParserTransformer;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -25,19 +26,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Apply a custom label to a {@link Rule}
+ * Do not generate a wrapper method for this rule
  *
- * <p>The default behaviour of the parser generator is to label a rule after the
- * method name producing that rule. Using this annotation, you can instruct the
- * generator to give the rule a name of your choice.</p>
+ * <p>The normal process of parser generation is to create a wrapper method for
+ * each {@link Rule} defined in your parser class; this annotation will instruct
+ * the generation process to not generate such a wrapper method.</p>
  *
- * @see Rule#label(String)
- * @see DontLabel
+ * @see ParserTransformer
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface Label
+public @interface DontExtend
 {
-    String value();
 }

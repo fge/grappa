@@ -18,12 +18,12 @@ package com.github.fge.grappa.transform;
 
 import com.google.common.collect.ImmutableMap;
 import org.objectweb.asm.Type;
-import org.parboiled.annotations.Cached;
-import org.parboiled.annotations.DontExtend;
-import org.parboiled.annotations.DontLabel;
-import org.parboiled.annotations.DontSkipActionsInPredicates;
-import org.parboiled.annotations.ExplicitActionsOnly;
-import org.parboiled.annotations.SkipActionsInPredicates;
+import com.github.fge.grappa.annotations.Cached;
+import com.github.fge.grappa.annotations.DontExtend;
+import com.github.fge.grappa.annotations.DontLabel;
+import com.github.fge.grappa.annotations.DontSkipActionsInPredicates;
+import com.github.fge.grappa.annotations.ExplicitActionsOnly;
+import com.github.fge.grappa.annotations.SkipActionsInPredicates;
 import org.parboiled.transform.RuleMethod;
 
 import java.lang.annotation.Annotation;
@@ -35,7 +35,7 @@ import java.util.Set;
  * Enumeration associating parser or rule annotations to their ASM descriptor
  *
  * @see Type#getDescriptor()
- * @see org.parboiled.annotations
+ * @see com.github.fge.grappa.annotations
  */
 public enum ParserAnnotation
 {

@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package org.parboiled.annotations;
+package com.github.fge.grappa.annotations;
 
-import com.github.fge.grappa.parsers.BaseParser;
-import com.github.fge.grappa.rules.Action;
+import com.github.fge.grappa.rules.Rule;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -26,29 +25,19 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Don't wrap boolean expressions into {@link Action}s
+ * Do not generate a label for this rule, or parser
  *
- * <p>When used in rules, expressions returning {@code boolean}s are wrapped
- * into {@link Action}s by the parser generator. Example:</p>
+ * <p>By default, all generated parsers and rule methods are labeled (with the
+ * parser class name and the rule method name respectively). If this annotation
+ * is present on a parser class or method, then such a label will not be
+ * generated.</p>
  *
- * <pre>
- *     Rule myRule()
- *     {
- *         // Only if depth level is less than 5
- *         return Sequence(someRule(), getContext().getLevel() &lt; 5);
- *     }
- * </pre>
- *
- * <p>If this annotation is used (either at the method level or at the class
- * level), such automatic wrapping does not happen anymore and you have to use
- * {@link BaseParser#ACTION(boolean)} to make actions explicit.</p>
- *
- * @see SkipActionsInPredicates
- * @see DontSkipActionsInPredicates
+ * @see Rule#label(String)
+ * @see Label
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.TYPE})
-public @interface ExplicitActionsOnly
+public @interface DontLabel
 {
 }

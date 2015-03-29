@@ -1,6 +1,6 @@
 package org.parboiled.transform;
 
-import org.parboiled.annotations.Cached;
+import com.github.fge.grappa.annotations.Cached;
 
 import java.util.Arrays;
 import java.util.Map;

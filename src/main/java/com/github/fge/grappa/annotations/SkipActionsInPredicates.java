@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.parboiled.annotations;
+package com.github.fge.grappa.annotations;
 
 import com.github.fge.grappa.rules.Action;
 import org.parboiled.ContextAware;

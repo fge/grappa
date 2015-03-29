@@ -18,10 +18,10 @@ package org.parboiled.transform;
 
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.rules.Rule;
-import org.parboiled.annotations.Cached;
-import org.parboiled.annotations.DontLabel;
-import org.parboiled.annotations.ExplicitActionsOnly;
-import org.parboiled.annotations.Label;
+import com.github.fge.grappa.annotations.Cached;
+import com.github.fge.grappa.annotations.DontLabel;
+import com.github.fge.grappa.annotations.ExplicitActionsOnly;
+import com.github.fge.grappa.annotations.Label;
 import org.parboiled.support.Var;
 
 import static java.lang.Integer.parseInt;

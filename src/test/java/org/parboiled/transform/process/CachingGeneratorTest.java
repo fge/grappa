@@ -74,7 +74,7 @@ public class CachingGeneratorTest extends TransformationTest {
                 "    ARETURN\n");
 
         assertTraceDumpEquality(processMethod("RuleWithNamedLabel", processors), "" +
-                "  @Lorg/parboiled/annotations/Label;(value=\"harry\")\n" +
+                "  @Lcom/github/fge/grappa/annotations/Label;(value=\"harry\")\n" +
                 "    ALOAD 0\n" +
                 "    GETFIELD org/parboiled/transform/TestParser$$parboiled.cache$RuleWithNamedLabel : Lcom/github/fge/grappa/rules/Rule;\n" +
                 "    DUP\n" +

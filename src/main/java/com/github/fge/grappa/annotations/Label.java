@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package org.parboiled.annotations;
+package com.github.fge.grappa.annotations;
 
-import com.github.fge.grappa.rules.Action;
-import org.parboiled.ContextAware;
+import com.github.fge.grappa.rules.Rule;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -26,21 +25,19 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Override {@link SkipActionsInPredicates} for one particular rule
+ * Apply a custom label to a {@link Rule}
  *
- * <p>If your parser class is configured to {@link SkipActionsInPredicates}, you
- * can use this annotation on one particular rule to override this behaviour and
- * execute the action(s) of this rule nevertheless.</p>
+ * <p>The default behaviour of the parser generator is to label a rule after the
+ * method name producing that rule. Using this annotation, you can instruct the
+ * generator to give the rule a name of your choice.</p>
  *
- * <p>You probably want to use this annotation if your action performs a check
- * of the currently matched input.</p>
- *
- * @see Action
- * @see ContextAware
+ * @see Rule#label(String)
+ * @see DontLabel
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface DontSkipActionsInPredicates
+public @interface Label
 {
+    String value();
 }

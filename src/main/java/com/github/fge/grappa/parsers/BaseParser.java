@@ -47,10 +47,10 @@ import com.github.fge.grappa.rules.Action;
 import com.github.fge.grappa.rules.Rule;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import org.parboiled.annotations.Cached;
-import org.parboiled.annotations.DontExtend;
-import org.parboiled.annotations.DontLabel;
-import org.parboiled.annotations.SkipActionsInPredicates;
+import com.github.fge.grappa.annotations.Cached;
+import com.github.fge.grappa.annotations.DontExtend;
+import com.github.fge.grappa.annotations.DontLabel;
+import com.github.fge.grappa.annotations.SkipActionsInPredicates;
 import org.parboiled.support.Characters;
 import org.parboiled.support.Chars;
 

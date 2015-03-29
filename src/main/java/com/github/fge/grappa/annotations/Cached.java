@@ -14,29 +14,38 @@
  * limitations under the License.
  */
 
-package org.parboiled.annotations;
+package com.github.fge.grappa.annotations;
 
 import com.github.fge.grappa.rules.Rule;
-import org.parboiled.transform.ParserTransformer;
+import org.parboiled.transform.CacheArguments;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.HashMap;
 
 /**
- * Do not generate a wrapper method for this rule
+ * Build a cache for {@link Rule}s having arguments
  *
- * <p>The normal process of parser generation is to create a wrapper method for
- * each {@link Rule} defined in your parser class; this annotation will instruct
- * the generation process to not generate such a wrapper method.</p>
+ * <p>This annotation can be used on rules with arguments; for instance:</p>
  *
- * @see ParserTransformer
+ * <pre>
+ *     Rule matchChar(final char c)
+ *     {
+ *         return Ch(c);
+ *     }
+ * </pre>
+ *
+ * <p>The generated parser will then have a {@link HashMap} whose keys are
+ * {@link CacheArguments} instances and values are {@link Rule}s.</p>
+ * <p>You must <strong>not</strong> use this annotation for rules having no
+ * arguments (this will raise an error).</p>
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface DontExtend
+public @interface Cached
 {
 }

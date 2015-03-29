@@ -14,38 +14,33 @@
  * limitations under the License.
  */
 
-package org.parboiled.annotations;
+package com.github.fge.grappa.annotations;
 
-import com.github.fge.grappa.rules.Rule;
-import org.parboiled.transform.CacheArguments;
+import com.github.fge.grappa.rules.Action;
+import org.parboiled.ContextAware;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.util.HashMap;
 
 /**
- * Build a cache for {@link Rule}s having arguments
+ * Override {@link SkipActionsInPredicates} for one particular rule
  *
- * <p>This annotation can be used on rules with arguments; for instance:</p>
+ * <p>If your parser class is configured to {@link SkipActionsInPredicates}, you
+ * can use this annotation on one particular rule to override this behaviour and
+ * execute the action(s) of this rule nevertheless.</p>
  *
- * <pre>
- *     Rule matchChar(final char c)
- *     {
- *         return Ch(c);
- *     }
- * </pre>
+ * <p>You probably want to use this annotation if your action performs a check
+ * of the currently matched input.</p>
  *
- * <p>The generated parser will then have a {@link HashMap} whose keys are
- * {@link CacheArguments} instances and values are {@link Rule}s.</p>
- * <p>You must <strong>not</strong> use this annotation for rules having no
- * arguments (this will raise an error).</p>
+ * @see Action
+ * @see ContextAware
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface Cached
+public @interface DontSkipActionsInPredicates
 {
 }
