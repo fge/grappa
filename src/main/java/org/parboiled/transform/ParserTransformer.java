@@ -147,7 +147,7 @@ public final class ParserTransformer
     private static void defineExtendedParserClass(final ParserClassNode node)
     {
         final ClassWriter classWriter
-            = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+            = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
         node.accept(classWriter);
         node.setClassCode(classWriter.toByteArray());
         final Class<?> extendedClass  = loadClass(node.name.replace('/', '.'),

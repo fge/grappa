@@ -110,7 +110,7 @@ public abstract class GroupClassGenerator
     protected final byte[] generateGroupClassCode(final InstructionGroup group)
     {
         final ClassWriter classWriter
-            = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+            = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
         generateClassBasics(group, classWriter);
         generateFields(group, classWriter);
         generateConstructor(classWriter);
@@ -121,7 +121,7 @@ public abstract class GroupClassGenerator
     private void generateClassBasics(final InstructionGroup group,
         final ClassWriter cw)
     {
-        cw.visit(Opcodes.V1_6, ACC_PUBLIC + ACC_FINAL + ACC_SYNTHETIC,
+        cw.visit(Opcodes.V1_7, ACC_PUBLIC + ACC_FINAL + ACC_SYNTHETIC,
             group.getGroupClassType().getInternalName(), null,
             getBaseType().getInternalName(), null);
         cw.visitSource(classNode.sourceFile, null);

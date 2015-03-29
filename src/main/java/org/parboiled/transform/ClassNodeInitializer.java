@@ -48,7 +48,6 @@ import static org.objectweb.asm.Opcodes.ACC_FINAL;
 import static org.objectweb.asm.Opcodes.ACC_NATIVE;
 import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-import static org.objectweb.asm.Opcodes.V1_6;
 import static org.parboiled.transform.AsmUtils.getExtendedParserClassName;
 
 /**
@@ -126,7 +125,7 @@ public final class ClassNodeInitializer
             if ((access & ACC_FINAL) != 0)
                 throw new InvalidGrammarException("a parser class cannot be "
                     + "final");
-            classNode.visit(V1_6, ACC_PUBLIC, getExtendedParserClassName(name),
+            classNode.visit(Opcodes.V1_7, ACC_PUBLIC, getExtendedParserClassName(name),
                 null, classNode.getParentType().getInternalName(), null);
         }
     }
