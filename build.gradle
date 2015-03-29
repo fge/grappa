@@ -8,7 +8,7 @@ buildscript {
         classpath(group: "org.springframework.build.gradle", 
             name: "propdeps-plugin", version: "0.0.7");
         classpath(group: "info.solidsoft.gradle.pitest",
-            name: "gradle-pitest-plugin", version: "1.1.2");
+            name: "gradle-pitest-plugin", version: "1.1.4");
     }
 }
 
@@ -26,7 +26,7 @@ apply(plugin: "info.solidsoft.pitest");
 
 group = "com.github.fge";
 description = "Write parsers in pure Java";
-version = "2.0.0-alpha.3";
+version = "2.0.0-alpha.4-SNAPSHOT";
 
 def javaVersion = JavaVersion.VERSION_1_7;
 sourceCompatibility = javaVersion;
@@ -65,12 +65,6 @@ test {
     useTestNG() {
         useDefaultListeners = true;
     };
-}
-
-pitest {
-    // Since for now it is org.parboiled, we cannot leave the default.
-    // By default it is ${project.group}.
-    targetClasses = [ "org.parboiled.*", "com.github.fge.*" ];
 }
 
 task enforceVersion << {
