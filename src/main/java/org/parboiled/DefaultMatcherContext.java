@@ -17,6 +17,7 @@
 package org.parboiled;
 
 import com.github.fge.grappa.buffers.InputBuffer;
+import com.github.fge.grappa.exceptions.GrappaException;
 import com.github.fge.grappa.exceptions.InvalidGrammarException;
 import com.github.fge.grappa.matchers.ActionMatcher;
 import com.github.fge.grappa.matchers.MatcherType;
@@ -26,7 +27,6 @@ import com.github.fge.grappa.stack.ValueStack;
 import com.google.common.base.Preconditions;
 import org.parboiled.errors.BasicParseError;
 import org.parboiled.errors.ParseError;
-import org.parboiled.errors.ParserRuntimeException;
 import org.parboiled.support.CharsEscaper;
 import org.parboiled.support.IndexRange;
 import org.parboiled.support.MatcherPath;
@@ -338,7 +338,7 @@ public final class DefaultMatcherContext<V>
                 parent.currentChar = currentChar;
             }
             return ret;
-        } catch (ParserRuntimeException e) {
+        } catch (GrappaException e) {
             throw e; // don't wrap, just bubble up
         } catch (Throwable e) { // TODO: Throwable? What the...
             final String msg = String.format(
@@ -348,7 +348,7 @@ public final class DefaultMatcherContext<V>
             final BasicParseError error = new BasicParseError(inputBuffer,
                 currentIndex, CharsEscaper.INSTANCE.escape(msg));
             // TODO: UGLY
-            throw new ParserRuntimeException(e, error.toString());
+            throw new GrappaException(error.toString(), e);
         }
     }
 }
