@@ -35,7 +35,6 @@ import java.util.Set;
  * Enumeration associating parser or rule annotations to their ASM descriptor
  *
  * @see Type#getDescriptor()
- * @see com.github.fge.grappa.annotations
  */
 public enum ParserAnnotation
 {
@@ -61,12 +60,10 @@ public enum ParserAnnotation
     /**
      * @see RuleMethod#moveFlagsTo(RuleMethod)
      */
-    private static final Set<ParserAnnotation> FLAGS_SET = EnumSet.of(
-        DONT_LABEL
-    );
+    private static final Set<ParserAnnotation> FLAGS_SET
+        = EnumSet.of(DONT_LABEL);
 
-    private static final Map<String, ParserAnnotation>
-        REVERSE_MAP;
+    private static final Map<String, ParserAnnotation> REVERSE_MAP;
 
     static {
         final ImmutableMap.Builder<String, ParserAnnotation> builder
