@@ -3,12 +3,15 @@ buildscript {
     repositories {
         maven { url "http://repo.spring.io/plugins-release" };
         mavenCentral();
+        jcenter();
     }
     dependencies {
         classpath(group: "org.springframework.build.gradle", 
             name: "propdeps-plugin", version: "0.0.7");
         classpath(group: "info.solidsoft.gradle.pitest",
             name: "gradle-pitest-plugin", version: "1.1.4");
+        classpath(group: "com.github.jengelman.gradle.plugins",
+            name:"shadow", version:"1.2.1");
     }
 }
 
@@ -23,6 +26,7 @@ apply(plugin: "propdeps-maven");
 apply(plugin: "propdeps-idea");
 apply(plugin: "propdeps-eclipse");
 apply(plugin: "info.solidsoft.pitest");
+apply(plugin: "com.github.johnrengelman.shadow");
 
 group = "com.github.fge";
 description = "Write parsers in pure Java";
@@ -89,10 +93,15 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir;
 }
 
+shadowJar {
+    relocate("com.google.common", "r.com.google.common");
+}
+
 artifacts {
     archives jar;
     archives sourcesJar;
     archives javadocJar;
+    archives shadowJar;
 }
 
 task wrapper(type: Wrapper) {
