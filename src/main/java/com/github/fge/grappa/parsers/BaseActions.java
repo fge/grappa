@@ -412,12 +412,12 @@ public abstract class BaseActions<V>
      * Test/TestNot rule.
      * Useful for example for making sure actions are not run inside of a
      * predicate evaluation:
-     * <code>
+     * {@code
      * return Sequence(
      * ...,
      * inPredicate() || actions.doSomething()
      * );
-     * </code>
+     * }
      *
      * @return true if in a predicate
      */
@@ -432,12 +432,12 @@ public abstract class BaseActions<V>
      * error.
      * Useful for example for making sure actions are not run on erroneous
      * input:
-     * <code>
+     * {@code
      * return Sequence(
      * ...,
      * !hasError() &amp;&amp; actions.doSomething()
      * );
-     * </code>
+     * }
      *
      * @return true if either the current rule or a sub rule has recorded a
      * parse error

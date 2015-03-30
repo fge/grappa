@@ -218,10 +218,7 @@ public final class AsmUtils
         m.setAccessible(true);
         try {
             return (Class<?>) m.invoke(classLoader, className);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException("Could not determine whether class '"
-                + className + "' has already been loaded", e);
-        } catch (IllegalAccessException e) {
+        } catch (InvocationTargetException | IllegalAccessException e) {
             throw new RuntimeException("Could not determine whether class '"
                 + className + "' has already been loaded", e);
         } finally {
@@ -277,10 +274,7 @@ public final class AsmUtils
         try {
             return (Class<?>) m.invoke(classLoader, className, code, 0,
                 code.length);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException("Could not load class '" + className
-                + '\'', e);
-        } catch (IllegalAccessException e) {
+        } catch (InvocationTargetException | IllegalAccessException e) {
             throw new RuntimeException("Could not load class '" + className
                 + '\'', e);
         } finally {

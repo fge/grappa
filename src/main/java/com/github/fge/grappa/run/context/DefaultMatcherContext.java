@@ -287,7 +287,7 @@ public final class DefaultMatcherContext<V>
     {
         if (subContext == null) {
             // init new level
-            subContext = new DefaultMatcherContext<V>(inputBuffer, valueStack,
+            subContext = new DefaultMatcherContext<>(inputBuffer, valueStack,
                 matchHandler, this, level + 1);
         } else {
             // we always need to reset the MatcherPath, even for actions
