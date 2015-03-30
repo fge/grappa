@@ -17,39 +17,46 @@
 package com.github.fge.grappa.action;
 
 import com.github.fge.grappa.Grappa;
+import com.github.fge.grappa.misc.Reference;
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.rules.Rule;
-import com.github.fge.grappa.misc.Reference;
 import com.github.fge.grappa.test.ParboiledTest;
 import org.testng.annotations.Test;
 
 public class ActionVar2Test extends ParboiledTest<Object>
 {
-
-    // TODO: redo that test
-
     static class Parser extends BaseParser<Object>
     {
-        Rule Clause() {
+        Rule clause() {
             final Reference<Integer> count = new Reference<>();
-            return sequence(CharCount(count), Chars(count), '\n');
+            return sequence(charCount(count), chars(count), '\n');
         }
 
-        Rule CharCount(final Reference<Integer> count) {
-            return sequence('{', oneOrMore(charRange('0', '9')), count.set(Integer.parseInt(match())), '}');
-        }
-
-        Rule Chars(final Reference<Integer> count) {
+        Rule charCount(final Reference<Integer> count) {
             return sequence(
-                    zeroOrMore(EMPTY, count.get() > 0, ANY,
-                        count.set(count.get() - 1)), count.get() == 0);
+                '{',
+                oneOrMore(charRange('0', '9')),
+                count.set(Integer.parseInt(match())),
+                '}'
+            );
+        }
+
+        Rule chars(final Reference<Integer> count) {
+            return sequence(
+                zeroOrMore(
+                    count.get() > 0,
+                    ANY,
+                    count.set(count.get() - 1)
+                ),
+                count.get() == 0
+            );
         }
     }
 
     @Test
     public void test() {
         final Parser parser = Grappa.createParser(Parser.class);
-        test(parser.Clause(), "{12}abcdefghijkl\n").hasNoErrors();
+        test(parser.clause(), "{12}abcdefghijkl\n")
+                .hasNoErrors();
     }
-
 }
