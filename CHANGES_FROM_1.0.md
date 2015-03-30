@@ -35,10 +35,13 @@ Grappa.createParser(MyParser.class);
 All rules which appeared in grappa 1.0.x are there; however, UpperCaseNamed
 rules have _disappeared_.
 
-### Parse runners
+### Parsers/ parse runners
 
-All other parse runners other than the `EventBasedParseRunner` have disappeared;
-even the latter may see its name change.
+All other parse runners other than the `ListeningParseRunner` have disappeared.
+the latter is a rename of `EventBusParseRunner`.
+
+The `BaseParser` is still there; the `EventBusParser` has been renamed to
+`ListeningParser`.
 
 ### Tracer
 
