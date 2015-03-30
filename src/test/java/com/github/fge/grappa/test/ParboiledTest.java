@@ -18,7 +18,7 @@ package com.github.fge.grappa.test;
 
 import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.rules.Rule;
-import com.github.fge.grappa.run.EventBasedParseRunner;
+import com.github.fge.grappa.run.ListeningParseRunner;
 import com.github.fge.grappa.run.ParseRunner;
 import com.github.fge.grappa.run.ParsingResult;
 
@@ -43,12 +43,12 @@ public abstract class ParboiledTest<V> {
     }
 
     public TestResult<V> test(final Rule rule, final String input) {
-        final ParseRunner<V> runner = new EventBasedParseRunner<>(rule);
+        final ParseRunner<V> runner = new ListeningParseRunner<>(rule);
         return new TestResult<>(runner.run(input));
     }
     
     public TestResult<V> test(final Rule rule, final InputBuffer inputBuffer) {
-        final ParseRunner<V> runner = new EventBasedParseRunner<>(rule);
+        final ParseRunner<V> runner = new ListeningParseRunner<>(rule);
         return new TestResult<>(runner.run(inputBuffer));
     }
 }

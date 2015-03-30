@@ -86,7 +86,7 @@ import java.util.Objects;
  *
  * @see ValueBuilder
  */
-public abstract class EventBusParser<V>
+public abstract class ListeningParser<V>
     extends BaseParser<V>
 {
     protected final EventBus bus = new EventBus();

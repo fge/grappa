@@ -18,7 +18,7 @@ package com.github.fge.grappa.core;
 
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.rules.Rule;
-import com.github.fge.grappa.run.EventBasedParseRunner;
+import com.github.fge.grappa.run.ListeningParseRunner;
 import com.github.fge.grappa.Grappa;
 import org.testng.annotations.Test;
 
@@ -56,7 +56,7 @@ public final class CurrentCharTest
     {
         final Dummy dummy = spy(new Dummy());
         final Parser parser = Grappa.createParser(Parser.class, dummy);
-        new EventBasedParseRunner<>(parser.rule()).run("a");
+        new ListeningParseRunner<>(parser.rule()).run("a");
         verify(dummy).store('a');
     }
 }

@@ -44,7 +44,7 @@ import java.util.Objects;
 @SuppressWarnings("DesignForExtension")
 @ParametersAreNonnullByDefault
 @NonFinalForTesting
-public class EventBasedParseRunner<V>
+public class ListeningParseRunner<V>
     extends AbstractParseRunner<V>
     implements MatchHandler
 {
@@ -54,7 +54,7 @@ public class EventBasedParseRunner<V>
      *
      * @param rule the parser rule
      */
-    public EventBasedParseRunner(final Rule rule)
+    public ListeningParseRunner(final Rule rule)
     {
         super(rule);
     }

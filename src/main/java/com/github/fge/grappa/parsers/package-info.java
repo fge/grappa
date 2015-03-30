@@ -18,7 +18,7 @@
  * Event-based parser
  *
  * <p>The base parser class ({@link
- * com.github.fge.grappa.parsers.EventBusParser}) uses Guava's {@link
+ * com.github.fge.grappa.parsers.ListeningParser}) uses Guava's {@link
  * com.google.common.eventbus.EventBus} to dispatch events.</p>
  *
  * <p>The choice of this class over other implementations is performance;

@@ -17,7 +17,7 @@
 package com.github.fge.grappa.matchers.join;
 
 import com.github.fge.grappa.matchers.base.Matcher;
-import com.github.fge.grappa.parsers.EventBusParser;
+import com.github.fge.grappa.parsers.ListeningParser;
 import com.github.fge.grappa.util.MatcherContextBuilder;
 import com.github.fge.grappa.util.SimpleMatchHandler;
 import com.google.common.base.Strings;
@@ -38,7 +38,7 @@ public final class JoinMatcherMatchTest
     private static final String INPUT1 = Strings.repeat("ab", 5) + 'c';
 
     static class TestJoinParser
-        extends EventBusParser<Object>
+        extends ListeningParser<Object>
     {
         protected final JoinMatcherBuilder builder
             = join('a').using('b');

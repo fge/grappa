@@ -16,7 +16,7 @@
 
 package com.github.fge.grappa.helpers;
 
-import com.github.fge.grappa.parsers.EventBusParser;
+import com.github.fge.grappa.parsers.ListeningParser;
 
 import javax.annotation.Nonnull;
 
@@ -28,12 +28,12 @@ import javax.annotation.Nonnull;
  * for validation, you may make the setter return {@code false} to signal a
  * parsing error.</p>
  *
- * <p>This is also the base interface used by {@link EventBusParser} to post
+ * <p>This is also the base interface used by {@link ListeningParser} to post
  * events.</p>
  *
  * @param <T> type of the value produced
  *
- * @see EventBusParser#post(ValueBuilder)
+ * @see ListeningParser#post(ValueBuilder)
  */
 public interface ValueBuilder<T>
 {
@@ -48,7 +48,7 @@ public interface ValueBuilder<T>
     /**
      * Reset this builder
      *
-     * <p>This method is called by {@link EventBusParser#post(ValueBuilder)}
+     * <p>This method is called by {@link ListeningParser#post(ValueBuilder)}
      * after the value has been built. Since it always returns {@code true}, you
      * may also use it as an action in a parser.</p>
      *
