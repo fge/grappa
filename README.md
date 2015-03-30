@@ -50,6 +50,9 @@ dependencies {
 
 **No new development will occur on that version**.
 
+See [here](https://github.com/fge/grappa/wiki/Changes-from-grappa-1.0.x) for a
+list of changes between 1.0.x and 2.0.x.
+
 ## Projects using grappa
 
 OK, so, the package is tested as much as possible etc, but this does not replace real life usage,
