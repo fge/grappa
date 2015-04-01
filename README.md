@@ -2,7 +2,7 @@
 
 The license of this project is Apache 2.0.
 
-The latest version is **2.0.0-beta.1**.
+The latest version is **2.0.0-beta.2**.
 
 ## What this is
 
@@ -23,14 +23,14 @@ There are two major versions.
 
 ### 2.0.x
 
-The latest 2.0.x version is **2.0.0-beta.1**.
+The latest 2.0.x version is **2.0.0-beta.2**.
 
 Note that even though it is beta at the moment, it is **highly recommended**
 that new projects starting using Grappa use this one and not 1.0.x; see below.
 
 ```groovy
 dependencies {
-    compile(group: "com.github.fge", name: "grappa", version: "2.0.0-beta.1");
+    compile(group: "com.github.fge", name: "grappa", version: "2.0.0-beta.2");
 }
 ```
 
@@ -64,7 +64,8 @@ The following projects, all on GitHub, use grappa:
 * https://github.com/uscexp/grappa.extension (1.0.x);
 * https://github.com/haasted/grappa-xml-parser (1.0.x);
 * https://github.com/opennars/opennars (1.0.x);
-* https://github.com/litesolutions/sonar-sslr-grappa (2.0.x).
+* https://github.com/litesolutions/sonar-sslr-grappa (2.0.x);
+* https://github.com/hatstand0/Staskken (2.0.x).
 
 ## Examples
 
