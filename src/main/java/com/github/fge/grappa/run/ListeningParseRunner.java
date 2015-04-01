@@ -59,6 +59,7 @@ public class ListeningParseRunner<V>
         super(rule);
     }
 
+    // TODO: replace with a supplier mechanism
     public final void registerListener(final ParseRunnerListener<V> listener)
     {
         bus.register(listener);

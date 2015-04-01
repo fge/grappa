@@ -21,21 +21,19 @@ import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.internal.NonFinalForTesting;
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.rules.Rule;
-import com.github.fge.grappa.stack.DefaultValueStack;
-import com.github.fge.grappa.stack.ValueStack;
 import com.github.fge.grappa.run.context.DefaultMatcherContext;
 import com.github.fge.grappa.run.context.MatcherContext;
+import com.github.fge.grappa.stack.DefaultValueStack;
+import com.github.fge.grappa.stack.ValueStack;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
 import java.util.Objects;
 
 public abstract class AbstractParseRunner<V>
     implements ParseRunner<V>
 {
     protected final Matcher rootMatcher;
-    // TODO: make final
-    protected ValueStack<V> valueStack = new DefaultValueStack<>();
+    protected ValueStack<V> valueStack;
     protected Object stackSnapshot;
 
     protected AbstractParseRunner(@Nonnull final Rule rule)
@@ -57,10 +55,9 @@ public abstract class AbstractParseRunner<V>
 
     protected final void resetValueStack()
     {
-        // FIXME: hack
-        if (stackSnapshot == null)
-            stackSnapshot = new ArrayList<>();
-        valueStack.restoreSnapshot(stackSnapshot);
+        // TODO: write a "memoizing" API
+        valueStack = new DefaultValueStack<>();
+        stackSnapshot = null;
     }
 
     @NonFinalForTesting
