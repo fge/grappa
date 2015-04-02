@@ -66,7 +66,7 @@ public class ListeningParseRunner<V>
                 throwable.addSuppressed(exception);
         }
     });
-    
+
     /**
      * Creates a new BasicParseRunner instance for the given rule.
      *
