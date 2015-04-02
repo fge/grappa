@@ -17,9 +17,11 @@
 package com.github.fge.grappa.run;
 
 import com.github.fge.grappa.buffers.InputBuffer;
+import com.github.fge.grappa.exceptions.GrappaException;
 import com.github.fge.grappa.internal.NonFinalForTesting;
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.rules.Rule;
+import com.github.fge.grappa.run.context.MatcherContext;
 import com.github.fge.grappa.run.events.MatchContextEvent;
 import com.github.fge.grappa.run.events.MatchFailureEvent;
 import com.github.fge.grappa.run.events.MatchSuccessEvent;
@@ -27,7 +29,8 @@ import com.github.fge.grappa.run.events.PostParseEvent;
 import com.github.fge.grappa.run.events.PreMatchEvent;
 import com.github.fge.grappa.run.events.PreParseEvent;
 import com.google.common.eventbus.EventBus;
-import com.github.fge.grappa.run.context.MatcherContext;
+import com.google.common.eventbus.SubscriberExceptionContext;
+import com.google.common.eventbus.SubscriberExceptionHandler;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Objects;
@@ -48,7 +51,22 @@ public class ListeningParseRunner<V>
     extends AbstractParseRunner<V>
     implements MatchHandler
 {
-    private final EventBus bus = new EventBus();
+    // TODO: does it need to be volatile?
+    private volatile Throwable throwable = null;
+
+    private final EventBus bus = new EventBus(new SubscriberExceptionHandler()
+    {
+        @Override
+        public void handleException(final Throwable exception,
+            final SubscriberExceptionContext context)
+        {
+            if (throwable == null)
+                throwable = exception;
+            else
+                throwable.addSuppressed(exception);
+        }
+    });
+    
     /**
      * Creates a new BasicParseRunner instance for the given rule.
      *
@@ -74,10 +92,21 @@ public class ListeningParseRunner<V>
         final MatcherContext<V> rootContext
             = createRootContext(inputBuffer, this);
         bus.post(new PreParseEvent<>(rootContext));
+
+        if (throwable != null)
+            throw new GrappaException("parsing listener error (before parse)",
+                throwable);
+
         final boolean matched = rootContext.runMatcher();
         final ParsingResult<V> result
             = createParsingResult(matched, rootContext);
+
         bus.post(new PostParseEvent<>(result));
+
+        if (throwable != null)
+            throw new GrappaException("parsing listener error (after parse)",
+                throwable);
+
         return result;
     }
 
@@ -89,6 +118,10 @@ public class ListeningParseRunner<V>
         final PreMatchEvent<T> preMatchEvent = new PreMatchEvent<>(context);
         bus.post(preMatchEvent);
 
+        if (throwable != null)
+            throw new GrappaException("parsing listener error (before match)",
+                throwable);
+
         // FIXME: is there any case at all where context.getMatcher() is null?
         @SuppressWarnings("ConstantConditions")
         final boolean match = matcher.match(context);
@@ -96,7 +129,12 @@ public class ListeningParseRunner<V>
         final MatchContextEvent<T> postMatchEvent = match
             ? new MatchSuccessEvent<>(context)
             : new MatchFailureEvent<>(context);
+
         bus.post(postMatchEvent);
+
+        if (throwable != null)
+            throw new GrappaException("parsing listener error (after match)",
+                throwable);
 
         return match;
     }
