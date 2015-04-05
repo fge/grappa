@@ -82,7 +82,6 @@ public final class DefaultMatcherContext<V>
     private DefaultMatcherContext<V> subContext;
     private int startIndex;
     private int currentIndex;
-    private char currentChar;
     private Matcher matcher;
     private String path;
     private boolean hasError;
@@ -104,7 +103,6 @@ public final class DefaultMatcherContext<V>
         this(Objects.requireNonNull(inputBuffer, "inputBuffer"),
             Objects.requireNonNull(valueStack, "valueStack"),
             Objects.requireNonNull(matchHandler, "matchHandler"), null, 0);
-        currentChar = inputBuffer.charAt(0);
         Objects.requireNonNull(matcher);
         // TODO: what the...
         this.matcher = ProxyMatcher.unwrap(matcher);
@@ -158,7 +156,13 @@ public final class DefaultMatcherContext<V>
     @Override
     public char getCurrentChar()
     {
-        return currentChar;
+        return inputBuffer.charAt(currentIndex);
+    }
+
+    @Override
+    public int getCurrentCodePoint()
+    {
+        return inputBuffer.codePointAt(currentIndex);
     }
 
     @Override
@@ -265,14 +269,12 @@ public final class DefaultMatcherContext<V>
     {
         Preconditions.checkArgument(currentIndex >= 0);
         this.currentIndex = currentIndex;
-        currentChar = inputBuffer.charAt(currentIndex);
     }
 
     @Override
     public void advanceIndex(final int delta)
     {
         currentIndex += delta;
-        currentChar = inputBuffer.charAt(currentIndex);
     }
 
     @Override
@@ -297,7 +299,6 @@ public final class DefaultMatcherContext<V>
         sc.matcher = matcher;
         sc.setStartIndex(currentIndex);
         sc.setCurrentIndex(currentIndex);
-        sc.currentChar = currentChar;
         sc.hasError = false;
         return sc;
     }
@@ -312,7 +313,6 @@ public final class DefaultMatcherContext<V>
             matcher = null;
             if (ret && parent != null) {
                 parent.currentIndex = currentIndex;
-                parent.currentChar = currentChar;
             }
             return ret;
         } catch (GrappaException e) {

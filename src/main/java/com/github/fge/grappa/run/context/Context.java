@@ -72,6 +72,15 @@ public interface Context<V>
     char getCurrentChar();
 
     /**
+     * Return the code point at the current index
+     *
+     * @return the code point, or -1 if end of buffer
+     *
+     * @see InputBuffer#codePointAt(int)
+     */
+    int getCurrentCodePoint();
+
+    /**
      * Returns the current matcher level, with 0 being the root level, 1 being
      * one level below the root and so on.
      *

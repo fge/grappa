@@ -26,7 +26,6 @@ import com.github.fge.grappa.run.context.MatcherContext;
 public final class AnyMatcher
     extends AbstractMatcher
 {
-
     public AnyMatcher()
     {
         super("ANY");
@@ -41,6 +40,8 @@ public final class AnyMatcher
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
+        if (context.getCurrentCodePoint() == -1)
+            return false;
         context.advanceIndex(1);
         return true;
     }
