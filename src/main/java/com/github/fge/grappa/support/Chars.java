@@ -19,7 +19,6 @@ package com.github.fge.grappa.support;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
 
-import java.util.Arrays;
 import java.util.Map;
 
 public final class Chars
@@ -57,12 +56,5 @@ public final class Chars
     public static String escape(final char c)
     {
         return Optional.fromNullable(ESCAPE_MAP.get(c)).or(String.valueOf(c));
-    }
-
-    public static String repeat(final char c, final int n)
-    {
-        final char[] array = new char[n];
-        Arrays.fill(array, c);
-        return new String(array);
     }
 }

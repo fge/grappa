@@ -43,11 +43,6 @@ public final class CharMatcher
         return MatcherType.TERMINAL;
     }
 
-    public char getCharacter()
-    {
-        return character;
-    }
-
     // TODO: remove...
     private static String getLabel(final char c)
     {

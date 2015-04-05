@@ -16,17 +16,16 @@
 
 package com.github.fge.grappa.buffers;
 
+import com.github.fge.grappa.support.Chars;
+import com.github.fge.grappa.support.IndexRange;
+import com.github.fge.grappa.support.Position;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.github.fge.grappa.support.Chars;
-import com.github.fge.grappa.support.IndexRange;
-import com.github.fge.grappa.support.Position;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
-import java.nio.CharBuffer;
 import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -75,11 +74,6 @@ public final class CharSequenceInputBuffer
                 return new LineCounter(charSequence);
             }
         });
-    }
-
-    public CharSequenceInputBuffer(@Nonnull final char[] chars)
-    {
-        this(CharBuffer.wrap(Objects.requireNonNull(chars)));
     }
 
     @Override
