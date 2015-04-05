@@ -29,7 +29,6 @@ import com.github.fge.grappa.matchers.CharMatcher;
 import com.github.fge.grappa.matchers.CharRangeMatcher;
 import com.github.fge.grappa.matchers.EmptyMatcher;
 import com.github.fge.grappa.matchers.EndOfInputMatcher;
-import com.github.fge.grappa.matchers.FirstOfStringsMatcher;
 import com.github.fge.grappa.matchers.NothingMatcher;
 import com.github.fge.grappa.matchers.StringMatcher;
 import com.github.fge.grappa.matchers.delegate.FirstOfMatcher;
@@ -55,6 +54,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -457,18 +457,15 @@ public abstract class BaseParser<V>
         if (rules.length == 1)
             return toRule(rules[0]);
 
-        final Rule[] convertedRules = toRules(rules);
-        final int len = convertedRules.length;
-        final char[][] chars = new char[rules.length][];
+        final Collection<String> strings = new ArrayList<>();
 
-        Object rule;
-        for (int i = 0; i < len; i++) {
-            rule = convertedRules[i];
-            if (!(rule instanceof StringMatcher))
-                return new FirstOfMatcher(convertedRules);
-            chars[i] = ((StringMatcher) rule).getCharacters();
+        for (final Object object: rules) {
+            if (!(object instanceof String))
+                return new FirstOfMatcher(toRules(rules));
+            strings.add((String) object);
         }
-        return new FirstOfStringsMatcher(convertedRules, chars);
+
+        return trie(strings);
     }
 
     /**
