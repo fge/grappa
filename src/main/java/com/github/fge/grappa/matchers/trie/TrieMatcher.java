@@ -38,7 +38,7 @@ public final class TrieMatcher
 
     public TrieMatcher(final Trie trie)
     {
-        super("Trie (" + Objects.requireNonNull(trie).getNrWords()
+        super("trie(" + Objects.requireNonNull(trie).getNrWords()
             + " strings)");
         this.trie = trie;
     }
