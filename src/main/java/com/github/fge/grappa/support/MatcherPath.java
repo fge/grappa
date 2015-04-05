@@ -104,11 +104,6 @@ public final class MatcherPath
         return isPrefixOf(that.parent);
     }
 
-    public Element getElement()
-    {
-        return element;
-    }
-
     public MatcherPath getParent()
     {
         return parent;
@@ -134,27 +129,6 @@ public final class MatcherPath
         if (level < element.getLevel())
             return parent.getElementAtLevel(level);
         return element;
-    }
-
-    /**
-     * Returns the common prefix of this MatcherPath and the given other one.
-     *
-     * @param that the other path
-     * @return the common prefix or null
-     */
-    @Nullable // TODO! Remove that null!
-    public MatcherPath commonPrefix(final MatcherPath that)
-    {
-        Objects.requireNonNull(that, "that");
-        if (element.getLevel() > that.element.getLevel())
-            return parent.commonPrefix(that);
-        if (element.getLevel() < that.element.getLevel())
-            return commonPrefix(that.parent);
-        if (this == that)
-            return this;
-        return hasParent() && that.hasParent()
-            ? parent.commonPrefix(that.parent)
-            : null;
     }
 
     /**

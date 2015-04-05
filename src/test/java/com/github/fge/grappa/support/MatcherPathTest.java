@@ -52,7 +52,6 @@ public class MatcherPathTest {
 
         assertEquals(path1.toString(), "C/B/A");
         assertEquals(path2.toString(), "C/B");
-        assertTrue(path2.isPrefixOf(path1));
         assertTrue(path1.contains((Matcher)parser.B()));
         assertEquals(path1.getElementAtLevel(0).getMatcher().toString(), "C");
     }
