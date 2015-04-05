@@ -58,7 +58,7 @@ public final class ZeroOrMoreMatcher
                 continue;
             }
             throw new GrappaException("The inner rule of zeroOrMore rule '"
-                + context.getPath() + "' must not allow empty matches");
+                + getLabel() + "' must not allow empty matches");
         }
 
         return true;

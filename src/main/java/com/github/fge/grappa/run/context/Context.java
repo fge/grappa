@@ -20,7 +20,6 @@ import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.stack.ValueStack;
 import com.github.fge.grappa.support.IndexRange;
-import com.github.fge.grappa.support.MatcherPath;
 import com.github.fge.grappa.support.Position;
 
 import javax.annotation.Nonnull;
@@ -71,14 +70,6 @@ public interface Context<V>
      * @return the current character
      */
     char getCurrentChar();
-
-    /**
-     * Returns the {@link MatcherPath} to the currently running matcher.
-     *
-     * @return the path
-     */
-    @Nonnull
-    MatcherPath getPath();
 
     /**
      * Returns the current matcher level, with 0 being the root level, 1 being

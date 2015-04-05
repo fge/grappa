@@ -23,15 +23,18 @@ import com.github.fge.grappa.matchers.ActionMatcher;
 import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.matchers.wrap.ProxyMatcher;
-import com.github.fge.grappa.stack.ValueStack;
-import com.google.common.base.Preconditions;
 import com.github.fge.grappa.run.MatchHandler;
+import com.github.fge.grappa.stack.ValueStack;
 import com.github.fge.grappa.support.IndexRange;
-import com.github.fge.grappa.support.MatcherPath;
 import com.github.fge.grappa.support.Position;
+import com.google.common.base.Joiner;
+import com.google.common.base.Preconditions;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -68,6 +71,8 @@ import java.util.Objects;
 public final class DefaultMatcherContext<V>
     implements MatcherContext<V>
 {
+    private static final Joiner JOINER = Joiner.on('/');
+
     private final InputBuffer inputBuffer;
     private final ValueStack<V> valueStack;
     private final MatchHandler matchHandler;
@@ -79,7 +84,7 @@ public final class DefaultMatcherContext<V>
     private int currentIndex;
     private char currentChar;
     private Matcher matcher;
-    private MatcherPath path;
+    private String path;
     private boolean hasError;
 
     /**
@@ -120,7 +125,7 @@ public final class DefaultMatcherContext<V>
     @Override
     public String toString()
     {
-        return getPath().toString();
+        return getPath();
     }
 
     //////////////////////////////// CONTEXT INTERFACE ////////////////////////////////////
@@ -160,18 +165,6 @@ public final class DefaultMatcherContext<V>
     public int getCurrentIndex()
     {
         return currentIndex;
-    }
-
-    @Nonnull
-    @Override
-    public MatcherPath getPath()
-    {
-        if (path != null)
-            return path;
-
-        path = new MatcherPath(new MatcherPath.Element(matcher, startIndex,
-            level), parent != null ? parent.getPath() : null);
-        return path;
     }
 
     @Override
@@ -331,5 +324,29 @@ public final class DefaultMatcherContext<V>
                 inputBuffer.getPosition(currentIndex));
             throw new GrappaException(msg, e);
         }
+    }
+
+    private String getPath()
+    {
+        if (path != null)
+            return path;
+
+        final List<String> list = new ArrayList<>();
+
+        MatcherContext<V> ctx;
+        Matcher matcher;
+
+        for (ctx = this; ctx != null; ctx = ctx.getParent()) {
+            matcher = ctx.getMatcher();
+            // TODO: can this really happen?
+            if (matcher != null)
+                list.add(matcher.toString());
+        }
+
+        Collections.reverse(list);
+
+        path = JOINER.join(list);
+
+        return path;
     }
 }
