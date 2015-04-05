@@ -30,12 +30,11 @@ apply(plugin: "com.github.johnrengelman.shadow");
 
 group = "com.github.fge";
 description = "Write parsers in pure Java";
-version = "2.0.0-beta.3";
+version = "2.0.0-beta.4-SNAPSHOT";
 
 def javaVersion = JavaVersion.VERSION_1_7;
 sourceCompatibility = javaVersion;
 targetCompatibility = javaVersion; // defaults to sourceCompatibility
-
 
 repositories {
     mavenCentral();
