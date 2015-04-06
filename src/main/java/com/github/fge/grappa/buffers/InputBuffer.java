@@ -54,16 +54,6 @@ public interface InputBuffer
     int codePointAt(int index);
 
     /**
-     * Determines whether the characters starting at the given index match the
-     * ones from the given array (in order).
-     *
-     * @param index the index into the input buffer where to start the comparison
-     * @param characters the characters to test against the input buffer
-     * @return true if matched
-     */
-    boolean test(int index, char[] characters);
-
-    /**
      * Constructs a new {@link String} from all character between the given
      * indices. Invalid indices are automatically adjusted to their respective
      * boundary.
