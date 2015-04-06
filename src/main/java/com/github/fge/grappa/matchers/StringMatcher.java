@@ -16,8 +16,8 @@
 
 package com.github.fge.grappa.matchers;
 
+import com.github.fge.grappa.matchers.base.AbstractMatcher;
 import com.github.fge.grappa.matchers.delegate.SequenceMatcher;
-import com.github.fge.grappa.rules.Rule;
 import com.github.fge.grappa.run.context.MatcherContext;
 
 import java.util.Objects;
@@ -27,14 +27,14 @@ import java.util.Objects;
  * current context has it enabled.
  */
 public final class StringMatcher
-    extends SequenceMatcher
+    extends AbstractMatcher
 {
-    private final char[] characters;
+    private final String input;
 
-    public StringMatcher(final Rule[] charMatchers, final char[] characters)
+    public StringMatcher(final String input)
     {
-        super(Objects.requireNonNull(charMatchers, "charMatchers"));
-        this.characters = characters;
+        super("string(" + input + ')');
+        this.input = Objects.requireNonNull(input);
     }
     
     @Override
@@ -43,32 +43,17 @@ public final class StringMatcher
         return MatcherType.TERMINAL;
     }
 
-    public char[] getCharacters()
-    {
-        return characters;
-    }
-
-    @Override
-    public String getLabel()
-    {
-        return super.getLabel() != null
-            ? super.getLabel()
-            : '"' + String.valueOf(characters) + '"';
-    }
-
-    @Override
-    public boolean hasCustomLabel()
-    {
-        return true;
-    }
-
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
-        if (!context.getInputBuffer().test(context.getCurrentIndex(),
-            characters))
+        final int len = input.length();
+        final int index = context.getCurrentIndex();
+        final String s = context.getInputBuffer().extract(index, index + len);
+
+        if (!s.equals(input))
             return false;
-        context.advanceIndex(characters.length);
+
+        context.advanceIndex(len);
         return true;
     }
 }
