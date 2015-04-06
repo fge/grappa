@@ -30,6 +30,7 @@ import com.github.fge.grappa.matchers.CharRangeMatcher;
 import com.github.fge.grappa.matchers.EmptyMatcher;
 import com.github.fge.grappa.matchers.EndOfInputMatcher;
 import com.github.fge.grappa.matchers.NothingMatcher;
+import com.github.fge.grappa.matchers.StringIgnoreCaseMatcher;
 import com.github.fge.grappa.matchers.StringMatcher;
 import com.github.fge.grappa.matchers.delegate.FirstOfMatcher;
 import com.github.fge.grappa.matchers.delegate.OneOrMoreMatcher;
@@ -342,11 +343,7 @@ public abstract class BaseParser<V>
     {
         if (characters.length == 1)
             return ignoreCase(characters[0]); // optimize one-char strings
-        final Rule[] matchers = new Rule[characters.length];
-        for (int i = 0; i < characters.length; i++)
-            matchers[i] = ignoreCase(characters[i]);
-        return new SequenceMatcher(matchers)
-            .label('"' + String.valueOf(characters) + '"');
+        return new StringIgnoreCaseMatcher(new String(characters));
     }
 
     /**
