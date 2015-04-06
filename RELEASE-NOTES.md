@@ -1,3 +1,9 @@
+### 2.0.0-beta.4
+
+* Simplify firstOf() with strings: replace with a trie()
+* Simplify string() and ignoreCase()
+* Get rid of MatcherPath
+
 ### 2.0.0-beta.3
 
 * ListeningParseRunner: throw exceptions thrown by parse runner listeners
