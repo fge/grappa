@@ -30,7 +30,7 @@ import com.github.fge.grappa.matchers.CharRangeMatcher;
 import com.github.fge.grappa.matchers.EmptyMatcher;
 import com.github.fge.grappa.matchers.EndOfInputMatcher;
 import com.github.fge.grappa.matchers.NothingMatcher;
-import com.github.fge.grappa.matchers.StringMatcher;
+import com.github.fge.grappa.matchers.StringMatcher2;
 import com.github.fge.grappa.matchers.delegate.FirstOfMatcher;
 import com.github.fge.grappa.matchers.delegate.OneOrMoreMatcher;
 import com.github.fge.grappa.matchers.delegate.OptionalMatcher;
@@ -317,7 +317,7 @@ public abstract class BaseParser<V>
         final Rule[] matchers = new Rule[characters.length];
         for (int i = 0; i < characters.length; i++)
             matchers[i] = ch(characters[i]);
-        return new StringMatcher(matchers, characters);
+        return new StringMatcher2(new String(characters));
     }
 
     /**
