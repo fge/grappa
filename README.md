@@ -63,7 +63,7 @@ The following projects, all on GitHub, use grappa:
 * https://github.com/Offene-Bibel/converter (1.0.x);
 * https://github.com/uscexp/grappa.extension (1.0.x);
 * https://github.com/haasted/grappa-xml-parser (1.0.x);
-* https://github.com/opennars/opennars (1.0.x);
+* https://github.com/opennars/opennars (2.0.x);
 * https://github.com/litesolutions/sonar-sslr-grappa (2.0.x);
 * https://github.com/hatstand0/Staskken (2.0.x).
 
