@@ -1,3 +1,9 @@
+### 2.0.0
+
+* trie() now accepts single character strings.
+* When generating a label in the tracing CSV, escape all ASCII controls (this
+  includes \r and \n).
+
 ### 2.0.0-beta.4
 
 * Simplify firstOf() with strings: replace with a trie()
