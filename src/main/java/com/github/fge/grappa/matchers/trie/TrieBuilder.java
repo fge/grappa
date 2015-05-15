@@ -17,7 +17,6 @@
 package com.github.fge.grappa.matchers.trie;
 
 import com.google.common.annotations.Beta;
-import com.google.common.base.Preconditions;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
@@ -30,7 +29,7 @@ import java.util.Objects;
 @Beta
 public final class TrieBuilder
 {
-    int nrWords;
+    int nrWords = 0;
     int maxLength = 0;
     final TrieNodeBuilder nodeBuilder
         = new TrieNodeBuilder();
@@ -49,10 +48,14 @@ public final class TrieBuilder
     public TrieBuilder addWord(@Nonnull final String word)
     {
         Objects.requireNonNull(word);
-        Preconditions.checkArgument(word.length() >= 2,
-            "strings in a trie must be two characters long or greater");
+
+        final int length = word.length();
+
+        if (length == 0)
+            throw new IllegalArgumentException("a trie cannot have empty "
+                + "strings (use EMPTY instead)");
         nrWords++;
-        maxLength = Math.max(maxLength, word.length());
+        maxLength = Math.max(maxLength, length);
         nodeBuilder.addWord(word);
         return this;
     }
