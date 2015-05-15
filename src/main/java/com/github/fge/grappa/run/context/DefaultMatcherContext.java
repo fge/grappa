@@ -311,9 +311,8 @@ public final class DefaultMatcherContext<V>
             // Retire this context
             // TODO: what does the above really mean?
             matcher = null;
-            if (ret && parent != null) {
+            if (ret && parent != null)
                 parent.currentIndex = currentIndex;
-            }
             return ret;
         } catch (GrappaException e) {
             throw e; // don't wrap, just bubble up
