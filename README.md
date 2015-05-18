@@ -30,7 +30,7 @@ version and not 1.0.x; see below.
 
 ```groovy
 dependencies {
-    compile(group: "com.github.fge", name: "grappa", version: "2.0.0-beta.4");
+    compile(group: "com.github.fge", name: "grappa", version: "2.0.0");
 }
 ```
 
