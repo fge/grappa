@@ -449,9 +449,10 @@ public abstract class BaseParser<V>
 
     /**
      * Match one string among many using a <a
-     * href="http://en.wikipedia.org/wiki/Trie" target="_blank">trie</a>
+     * href="http://en.wikipedia.org/wiki/Trie" target="_blank">trie</a>, case
+     * insensitive
      *
-     * <p>This method delegates to {@link #trie(Collection)}.</p>
+     * <p>This method delegates to {@link #trieIgnoreCase(Collection)}.</p>
      *
      * @param first the first string
      * @param second the second string
