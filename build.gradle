@@ -43,10 +43,10 @@ repositories {
 dependencies {
     provided(group: "com.google.code.findbugs", name: "jsr305",
         version: "3.0.0");
-    compile(group: "org.ow2.asm", name: "asm-debug-all", version: "5.0.3");
+    compile(group: "org.ow2.asm", name: "asm-debug-all", version: "5.0.4");
     compile(group: "com.google.guava", name: "guava", version: "18.0");
     compile(group: "me.qmx.jitescript", name: "jitescript", version: "0.4.0");
-    testCompile(group: "org.testng", name: "testng", version: "6.8.21") {
+    testCompile(group: "org.testng", name: "testng", version: "6.9.4") {
         exclude(group: "org.apache.ant", module: "ant");
         exclude(group: "com.google.inject", module: "guice");
         exclude(group: "junit", module: "junit");
@@ -56,7 +56,7 @@ dependencies {
     testCompile(group: "org.mockito", name: "mockito-core", version: "1.10.19");
     testCompile(group: "org.assertj", name: "assertj-core", version: "2.0.0");
     testCompile(group: "com.fasterxml.jackson.core", name: "jackson-databind",
-        version: "2.5.1");
+        version: "2.5.4");
 }
 
 javadoc.options.links("http://docs.oracle.com/javase/7/docs/api/");
@@ -205,4 +205,3 @@ signing {
     required { forRelease && gradle.taskGraph.hasTask("uploadArchives") };
     sign configurations.archives;
 }
-
