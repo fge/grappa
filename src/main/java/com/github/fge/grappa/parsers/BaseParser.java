@@ -45,6 +45,12 @@ import com.github.fge.grappa.matchers.trie.Trie;
 import com.github.fge.grappa.matchers.trie.TrieBuilder;
 import com.github.fge.grappa.matchers.trie.TrieMatcher;
 import com.github.fge.grappa.matchers.trie.TrieNode;
+import com.github.fge.grappa.matchers.trie.ignorecase.CaseInsensitiveTrie;
+import com.github.fge.grappa.matchers.trie.ignorecase
+    .CaseInsensitiveTrieBuilder;
+import com.github.fge.grappa.matchers.trie.ignorecase
+    .CaseInsensitiveTrieMatcher;
+import com.github.fge.grappa.matchers.trie.ignorecase.CaseInsensitiveTrieNode;
 import com.github.fge.grappa.matchers.unicode.CodePointMatcher;
 import com.github.fge.grappa.matchers.unicode.CodePointRangeMatcher;
 import com.github.fge.grappa.rules.Action;
@@ -402,6 +408,66 @@ public abstract class BaseParser<V>
             .add(second).add(others).build();
 
         return trie(words);
+    }
+
+    /**
+     * Match one string among many using a <a
+     * href="http://en.wikipedia.org/wiki/Trie" target="_blank">trie</a>, case
+     * insensitive version
+     *
+     * <p>Duplicate elements will be silently eliminated.</p>
+     *
+     * <p>Note that order of elements does not matter, and that this rule will
+     * always trie (err, try) and match the <em>longest possible sequence</em>.
+     * That is, if you build a rule with inputs "do" and "double" in this order
+     * and the input text is "doubles", then "double" will be matched. However,
+     * if the input text is "doubling" then "do" is matched instead.</p>
+     *
+     * <p>Note also that the minimum length of strings in a trie is 2.</p>
+     *
+     * @param strings the list of strings for this trie
+     * @return a rule
+     *
+     * @see CaseInsensitiveTrieMatcher
+     * @see CaseInsensitiveTrieNode
+     */
+    // TODO: potentially a slew of strings in a trie; so maybe it's not a good
+    // idea to cache here
+    @Cached
+    public Rule trieIgnoreCase(final Collection<String> strings)
+    {
+        final List<String> list = ImmutableList.copyOf(strings);
+
+        final CaseInsensitiveTrieBuilder builder
+            = CaseInsensitiveTrie.newBuilder();
+
+        for (final String word: list)
+            builder.addWord(word);
+
+        return new CaseInsensitiveTrieMatcher(builder.build());
+    }
+
+    /**
+     * Match one string among many using a <a
+     * href="http://en.wikipedia.org/wiki/Trie" target="_blank">trie</a>
+     *
+     * <p>This method delegates to {@link #trie(Collection)}.</p>
+     *
+     * @param first the first string
+     * @param second the second string
+     * @param others other strings
+     * @return a rule
+     *
+     * @see CaseInsensitiveTrieMatcher
+     * @see CaseInsensitiveTrieNode
+     */
+    public Rule trieIgnoreCase(final String first, final String second,
+        final String... others)
+    {
+        final List<String> words = ImmutableList.<String>builder().add(first)
+            .add(second).add(others).build();
+
+        return trieIgnoreCase(words);
     }
 
     /*
