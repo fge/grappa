@@ -2,7 +2,7 @@
 
 The license of this project is Apache 2.0.
 
-The latest version is **2.0.0**. It requires the use of Java 7 or better.
+The latest version is **2.0.1**. It requires the use of Java 7 or better.
 
 ## What this is
 
@@ -23,14 +23,14 @@ There are two major versions.
 
 ### 2.0.x
 
-The latest 2.0.x version is **2.0.0**.
+The latest 2.0.x version is **2.0.1**.
 
 It is **highly recommended** that new projects starting using Grappa use this
 version and not 1.0.x; see below.
 
 ```groovy
 dependencies {
-    compile(group: "com.github.fge", name: "grappa", version: "2.0.0");
+    compile(group: "com.github.fge", name: "grappa", version: "2.0.1");
 }
 ```
 
