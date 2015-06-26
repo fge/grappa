@@ -1,3 +1,7 @@
+### 2.0.1
+
+* trieIgnoreCase()
+
 ### 2.0.0
 
 * trie() now accepts single character strings.
