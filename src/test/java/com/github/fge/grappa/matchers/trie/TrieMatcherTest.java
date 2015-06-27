@@ -43,7 +43,7 @@ public final class TrieMatcherTest
 
     public TrieMatcherTest()
     {
-        final TrieBuilder builder = Trie.newBuilder();
+        final TrieBuilder builder = Trie.newBuilder(false);
         for (final String keyword: KEYWORDS)
             builder.addWord(keyword);
         matcher = new TrieMatcher(builder.build());

@@ -18,7 +18,6 @@ package com.github.fge.grappa.matchers.trie;
 
 import com.google.common.annotations.Beta;
 
-import java.nio.CharBuffer;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -28,10 +27,17 @@ import java.util.TreeMap;
  * <p>The tree is built "in depth"; each character of a string will create a new
  * builder unless there is already a builder for that character.</p>
  *
+ * <p>In the event where the matching is case insensitive (the argument to
+ * {@link TrieBuilder#TrieBuilder(boolean)} is {@code true}), a further node
+ * will be created when appropriate.</p>
+ *
  * <p>When {@link #build()} is called, the whole tree is built from the leaves
  * up to the root.</p>
  *
  * @since 1.0.0-beta.6
+ *
+ * @see Character#isUpperCase(char)
+ * @see Character#isLowerCase(char)
  */
 @Beta
 public final class TrieNodeBuilder
@@ -41,38 +47,60 @@ public final class TrieNodeBuilder
     private final Map<Character, TrieNodeBuilder> subnodes
         = new TreeMap<>();
 
-    TrieNodeBuilder addWord(final String word)
+    TrieNodeBuilder addWord(final CharSequence word, final boolean ignoreCase)
     {
-        doAddWord(CharBuffer.wrap(word));
+        doAddWord(word, ignoreCase, 0);
         return this;
     }
 
     /**
      * Add a word
      *
-     * <p>Here also, a {@link CharBuffer} is used, which changes position as we
-     * progress into building the tree, character by character, node by node.
-     * </p>
-     *
-     * <p>If the buffer is "empty" when entering this method, it means a match
-     * must be recorded (see {@link #fullWord}).</p>
-     *
-     * @param buffer the buffer (never null)
+     * @param word the word as a {@link CharSequence}
+     * @param ignoreCase whether the trie ignores case
+     * @param index the current index in the sequence
      */
-    private void doAddWord(final CharBuffer buffer)
+    private void doAddWord(final CharSequence word, final boolean ignoreCase,
+        final int index)
     {
-        if (!buffer.hasRemaining()) {
+        if (word.length() == index) {
             fullWord = true;
             return;
         }
 
-        final char c = buffer.get();
-        TrieNodeBuilder builder = subnodes.get(c);
+        char c;
+        TrieNodeBuilder builder;
+
+        c = word.charAt(index);
+        builder = subnodes.get(c);
         if (builder == null) {
             builder = new TrieNodeBuilder();
             subnodes.put(c, builder);
         }
-        builder.doAddWord(buffer);
+        builder.doAddWord(word, ignoreCase, index + 1);
+
+        if (!ignoreCase)
+            return;
+
+        if (Character.isUpperCase(c)) {
+            c = Character.toLowerCase(c);
+            builder = subnodes.get(c);
+            if (builder == null) {
+                builder = new TrieNodeBuilder();
+                subnodes.put(c, builder);
+            }
+            builder.doAddWord(word, ignoreCase, index + 1);
+        }
+
+        if (Character.isLowerCase(c)) {
+            c = Character.toUpperCase(c);
+            builder = subnodes.get(c);
+            if (builder == null) {
+                builder = new TrieNodeBuilder();
+                subnodes.put(c, builder);
+            }
+            builder.doAddWord(word, ignoreCase, index + 1);
+        }
     }
 
     public TrieNode build()

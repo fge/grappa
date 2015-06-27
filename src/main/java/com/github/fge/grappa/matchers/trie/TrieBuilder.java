@@ -29,13 +29,14 @@ import java.util.Objects;
 @Beta
 public final class TrieBuilder
 {
+    private final boolean ignoreCase;
     int nrWords = 0;
     int maxLength = 0;
-    final TrieNodeBuilder nodeBuilder
-        = new TrieNodeBuilder();
+    final TrieNodeBuilder nodeBuilder = new TrieNodeBuilder();
 
-    TrieBuilder()
+    TrieBuilder(final boolean ignoreCase)
     {
+        this.ignoreCase = ignoreCase;
     }
 
     /**
@@ -56,7 +57,7 @@ public final class TrieBuilder
                 + "strings (use EMPTY instead)");
         nrWords++;
         maxLength = Math.max(maxLength, length);
-        nodeBuilder.addWord(word);
+        nodeBuilder.addWord(word, ignoreCase);
         return this;
     }
 

@@ -48,11 +48,15 @@ public final class Trie
     /**
      * Create a new builder for this class
      *
+     * @param ignoreCase should the resulting trie be case insensitive
      * @return a builder
+     *
+     * @see Character#isLowerCase(char)
+     * @see Character#isUpperCase(char)
      */
-    public static TrieBuilder newBuilder()
+    public static TrieBuilder newBuilder(final boolean ignoreCase)
     {
-        return new TrieBuilder();
+        return new TrieBuilder(ignoreCase);
     }
 
     /**
