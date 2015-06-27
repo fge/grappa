@@ -99,7 +99,7 @@ public final class TrieNode
          */
         char c = buffer.get();
         int index = Arrays.binarySearch(nextChars, c);
-        if (index == -1 && ignoreCase) {
+        if (index < 0 && ignoreCase) {
             final boolean isUpper = Character.isUpperCase(c);
             final boolean isLower = Character.isLowerCase(c);
             if (isUpper != isLower) {
