@@ -1,3 +1,7 @@
+### 2.0.2
+
+* Significant performance improvements in trieIgnoreCase()
+
 ### 2.0.1
 
 * trieIgnoreCase()
