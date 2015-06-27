@@ -82,6 +82,12 @@ public final class TrieNodeBuilder
         if (!ignoreCase)
             return;
 
+        final boolean upper = Character.isUpperCase(c);
+        final boolean lower = Character.isLowerCase(c);
+
+        if (upper == lower)
+            return;
+
         if (Character.isUpperCase(c)) {
             c = Character.toLowerCase(c);
             builder = subnodes.get(c);
