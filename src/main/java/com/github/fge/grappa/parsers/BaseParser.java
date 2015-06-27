@@ -41,6 +41,7 @@ import com.github.fge.grappa.matchers.join.JoinMatcherBootstrap;
 import com.github.fge.grappa.matchers.join.JoinMatcherBuilder;
 import com.github.fge.grappa.matchers.predicates.TestMatcher;
 import com.github.fge.grappa.matchers.predicates.TestNotMatcher;
+import com.github.fge.grappa.matchers.trie.CaseInsensitiveTrieMatcher;
 import com.github.fge.grappa.matchers.trie.Trie;
 import com.github.fge.grappa.matchers.trie.TrieBuilder;
 import com.github.fge.grappa.matchers.trie.TrieMatcher;
@@ -373,7 +374,7 @@ public abstract class BaseParser<V>
     {
         final List<String> list = ImmutableList.copyOf(strings);
 
-        final TrieBuilder builder = Trie.newBuilder(false);
+        final TrieBuilder builder = Trie.newBuilder();
 
         for (final String word: list)
             builder.addWord(word);
@@ -417,10 +418,12 @@ public abstract class BaseParser<V>
      * and the input text is "doubles", then "double" will be matched. However,
      * if the input text is "doubling" then "do" is matched instead.</p>
      *
+     * <p>Note also that the minimum length of strings in a trie is 2.</p>
+     *
      * @param strings the list of strings for this trie
      * @return a rule
      *
-     * @see TrieBuilder#TrieBuilder(boolean)
+     * @see CaseInsensitiveTrieMatcher
      */
     // TODO: potentially a slew of strings in a trie; so maybe it's not a good
     // idea to cache here
@@ -429,12 +432,12 @@ public abstract class BaseParser<V>
     {
         final List<String> list = ImmutableList.copyOf(strings);
 
-        final TrieBuilder builder = Trie.newBuilder(true);
+        final TrieBuilder builder = Trie.newBuilder();
 
         for (final String word: list)
             builder.addWord(word);
 
-        return new TrieMatcher(builder.build());
+        return new CaseInsensitiveTrieMatcher(builder.build());
     }
 
     /**
@@ -449,7 +452,7 @@ public abstract class BaseParser<V>
      * @param others other strings
      * @return a rule
      *
-     * @see TrieBuilder#TrieBuilder(boolean)
+     * @see CaseInsensitiveTrieMatcher
      */
     public Rule trieIgnoreCase(final String first, final String second,
         final String... others)

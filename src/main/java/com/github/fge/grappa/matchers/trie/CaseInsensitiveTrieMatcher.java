@@ -18,7 +18,6 @@ package com.github.fge.grappa.matchers.trie;
 
 import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.AbstractMatcher;
-import com.google.common.annotations.Beta;
 import com.github.fge.grappa.run.context.MatcherContext;
 
 import javax.annotation.concurrent.Immutable;
@@ -26,19 +25,16 @@ import java.util.Objects;
 
 /**
  * The trie matcher
- *
- * @since 1.0.0-beta.6
  */
 @Immutable
-@Beta
-public final class TrieMatcher
+public final class CaseInsensitiveTrieMatcher
     extends AbstractMatcher
 {
     private final Trie trie;
 
-    public TrieMatcher(final Trie trie)
+    public CaseInsensitiveTrieMatcher(final Trie trie)
     {
-        super("trie(" + Objects.requireNonNull(trie).getNrWords()
+        super("trieIgnoreCase(" + Objects.requireNonNull(trie).getNrWords()
             + " strings)");
         this.trie = trie;
     }
@@ -62,6 +58,9 @@ public final class TrieMatcher
          * Since the trie knows about the length of its possible longest match,
          * extract that many characters from the buffer. Remind that .extract()
          * will adjust illegal indices automatically.
+         *
+         * Convert the word to lowercase, since all characters are stored as
+         * lowercase in the trie.
          */
         final int maxLength = trie.getMaxLength();
         final int index = context.getCurrentIndex();
@@ -71,7 +70,7 @@ public final class TrieMatcher
         /*
          * We now just have to trie and search... (pun intended)
          */
-        final int ret = trie.search(input, false);
+        final int ret = trie.search(input, true);
         if (ret == -1)
             return false;
 

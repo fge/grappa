@@ -56,9 +56,10 @@ public final class TrieNode
         this.nextNodes = nextNodes;
     }
 
-    public int search(final String needle)
+    public int search(final String needle, final boolean ignoreCase)
     {
-        return doSearch(CharBuffer.wrap(needle), fullWord ? 0 : -1, 0);
+        return doSearch(CharBuffer.wrap(needle), fullWord ? 0 : -1, 0,
+            ignoreCase);
     }
 
     /**
@@ -76,7 +77,7 @@ public final class TrieNode
      * @return the length of the match found, -1 otherwise
      */
     private int doSearch(final CharBuffer buffer, final int matchedLength,
-        final int currentLength)
+        final int currentLength, final boolean ignoreCase)
     {
         /*
          * Try and see if there is a possible match here; there is if "fullword"
@@ -96,15 +97,26 @@ public final class TrieNode
          * OK, there is at least one character remaining, so pick it up and see
          * whether it is in the list of our children...
          */
-        final int index = Arrays.binarySearch(nextChars, buffer.get());
+        char c = buffer.get();
+        int index = Arrays.binarySearch(nextChars, c);
+        if (index == -1 && ignoreCase) {
+            final boolean isUpper = Character.isUpperCase(c);
+            final boolean isLower = Character.isLowerCase(c);
+            if (isUpper != isLower) {
+               c = isUpper ? Character.toLowerCase(c)
+                   : Character.toUpperCase(c);
+               index = Arrays.binarySearch(nextChars, c);
+            }
+        }
 
         /*
          * If not, we return the last good match; if yes, we call this same
          * method on the matching child node with the (possibly new) matched
          * length as an argument and a depth increased by 1.
          */
-        return index < 0
-            ? nextLength
-            : nextNodes[index].doSearch(buffer, nextLength, currentLength + 1);
+        if (index < 0)
+            return nextLength;
+        return nextNodes[index].doSearch(buffer, nextLength, currentLength + 1,
+            ignoreCase);
     }
 }

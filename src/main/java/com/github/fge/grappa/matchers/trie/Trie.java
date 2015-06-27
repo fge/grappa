@@ -48,15 +48,11 @@ public final class Trie
     /**
      * Create a new builder for this class
      *
-     * @param ignoreCase should the resulting trie be case insensitive
      * @return a builder
-     *
-     * @see Character#isLowerCase(char)
-     * @see Character#isUpperCase(char)
      */
-    public static TrieBuilder newBuilder(final boolean ignoreCase)
+    public static TrieBuilder newBuilder()
     {
-        return new TrieBuilder(ignoreCase);
+        return new TrieBuilder();
     }
 
     /**
@@ -85,9 +81,9 @@ public final class Trie
      * @param needle the string to search
      * @return the length of the match (ie, the string) or -1 if not found
      */
-    public int search(final String needle)
+    public int search(final String needle, final boolean ignoreCase)
     {
-        return node.search(needle);
+        return node.search(needle, ignoreCase);
     }
 
     Trie(final TrieBuilder builder)

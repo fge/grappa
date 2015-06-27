@@ -16,9 +16,9 @@
 
 package com.github.fge.grappa.matchers.trie.ignorecase;
 
+import com.github.fge.grappa.matchers.trie.CaseInsensitiveTrieMatcher;
 import com.github.fge.grappa.matchers.trie.Trie;
 import com.github.fge.grappa.matchers.trie.TrieBuilder;
-import com.github.fge.grappa.matchers.trie.TrieMatcher;
 import com.github.fge.grappa.run.context.MatcherContext;
 import com.github.fge.grappa.util.MatcherContextBuilder;
 import com.google.common.collect.Lists;
@@ -42,16 +42,16 @@ public final class CaseInsensitiveTrieMatcherTest
         "volatile", "while", "false", "null", "true"
     };
 
-    private final TrieMatcher matcher;
+    private final CaseInsensitiveTrieMatcher matcher;
 
     public CaseInsensitiveTrieMatcherTest()
     {
-        final TrieBuilder builder = Trie.newBuilder(true);
+        final TrieBuilder builder = Trie.newBuilder();
 
         for (final String keyword: KEYWORDS)
             builder.addWord(keyword);
 
-        matcher = new TrieMatcher(builder.build());
+        matcher = new CaseInsensitiveTrieMatcher(builder.build());
     }
 
     @DataProvider
