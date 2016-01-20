@@ -6,7 +6,7 @@ buildscript {
         jcenter();
     }
     dependencies {
-        classpath(group: "org.springframework.build.gradle", 
+        classpath(group: "org.springframework.build.gradle",
             name: "propdeps-plugin", version: "0.0.7");
         classpath(group: "info.solidsoft.gradle.pitest",
             name: "gradle-pitest-plugin", version: "1.1.4");
@@ -70,15 +70,6 @@ test {
     };
 }
 
-task enforceVersion << {
-    def foundVersion = JavaVersion.current();
-    if (foundVersion != javaVersion)
-        throw new IllegalStateException("Wrong java version; required is " +
-            javaVersion + ", but found " + foundVersion);
-}
-
-compileJava.dependsOn(enforceVersion);
-
 /*
  * Necessary to generate the source and javadoc jars
  */
@@ -138,8 +129,15 @@ task checkSigningRequirements << {
             "upload");
 }
 
+task enforceVersion << {
+    def foundVersion = JavaVersion.current();
+    if (foundVersion != javaVersion)
+        throw new IllegalStateException("Wrong java version; required is " +
+            javaVersion + ", but found " + foundVersion);
+}
+
 uploadArchives {
-    dependsOn(checkSigningRequirements);
+    dependsOn(enforceVersion, checkSigningRequirements);
     repositories {
         mavenDeployer {
             beforeDeployment {
