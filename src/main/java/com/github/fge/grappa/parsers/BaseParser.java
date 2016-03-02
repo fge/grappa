@@ -653,7 +653,7 @@ public abstract class BaseParser<V>
      * @see #sequence(Object, Object, Object...)
      */
     public final JoinMatcherBootstrap<V, BaseParser<V>> join(final Object rule,
-        final Object rule2, final Object moreRules)
+        final Object rule2, final Object... moreRules)
     {
         Objects.requireNonNull(moreRules);
         return join(sequence(rule, rule2, moreRules));
