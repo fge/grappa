@@ -24,10 +24,12 @@ import com.github.fge.grappa.run.context.ContextAware;
 import com.github.fge.grappa.support.IndexRange;
 import com.github.fge.grappa.support.Position;
 
+import javax.annotation.Nonnull;
 import java.util.Objects;
 
 /**
- * Convenience context aware base class defining a number of useful helper methods.
+ * Convenience context aware base class defining a number of useful helper
+ * methods.
  *
  * @param <V> the type of the parser values
  */
@@ -239,8 +241,24 @@ public abstract class BaseActions<V>
     }
 
     /**
+     * Removes the value at the top of the value stack and casts it before
+     * returning it
+     *
+     * @param c the class to cast to
+     * @param <E> type of the class
+     * @return the current top value
+     * @throws IllegalArgumentException if the stack is empty
+     *
+     * @see #pop()
+     */
+    public <E extends V> E popAs(@Nonnull final Class<E> c)
+    {
+        return c.cast(pop());
+    }
+
+    /**
      * Removes the value the given number of elements below the top of the value
-     * stack.
+     * stack and returns it
      *
      * @param down the number of elements to skip before removing the value (0
      * being equivalent to pop())
@@ -253,6 +271,25 @@ public abstract class BaseActions<V>
     {
         check();
         return context.getValueStack().pop(down);
+    }
+
+    /**
+     * Removes the value the given number of elements below the top of the value
+     * stack and casts it before returning it
+     *
+     * @param c the class to cast to
+     * @param down the number of elements to skip before removing the value (0
+     * being equivalent to pop())
+     * @param <E> type of the class
+     * @return the value
+     * @throws IllegalArgumentException if the stack does not contain enough
+     * elements to perform this operation
+     *
+     * @see #pop(int)
+     */
+    public <E extends V> E popAs(final Class<E> c, final int down)
+    {
+        return c.cast(pop(down));
     }
 
     /**
@@ -301,6 +338,21 @@ public abstract class BaseActions<V>
     }
 
     /**
+     * Returns and casts the value at the top of the value stack without
+     * removing it.
+     *
+     * @param c the class to cast to
+     * @param <E> type of the class
+     * @return the value
+     *
+     * @see #peek()
+     */
+    public <E extends V> E peekAs(final Class<E> c)
+    {
+        return c.cast(peek());
+    }
+
+    /**
      * Returns the value the given number of elements below the top of the value
      * stack without removing it.
      *
@@ -314,6 +366,22 @@ public abstract class BaseActions<V>
     {
         check();
         return context.getValueStack().peek(down);
+    }
+
+    /**
+     * Returns and casts the value the given number of elements below the top
+     * of the value stack without removing it.
+     *
+     * @param c the class to cast to
+     * @param down the number of elements to skip (0 being equivalent to peek())
+     * @param <E> type of the class
+     * @return the value
+     *
+     * @see #peek(int)
+     */
+    public <E extends V> E peekAs(final Class<E> c, final int down)
+    {
+        return c.cast(peek(down));
     }
 
     /**
