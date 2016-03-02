@@ -35,10 +35,9 @@ import java.util.Objects;
  * object is converted to a {@link Rule} using {@link
  * BaseParser#toRule(Object)}.</p>
  *
- * <p>Its only method, {@link #using(Object)}, produces a {@link
- * JoinMatcherBuilder}; the argument to this method (converted to a rule in a
- * similar fashion as the above) will become the "joined" rule of the produced
- * matcher.</p>
+ * <p>Its {@link #using(Object)} method produces a {@link JoinMatcherBuilder};
+ * the argument to this method (converted to a rule in a similar fashion as the
+ * above) will become the "joined" rule of the produced matcher.</p>
  *
  * @param <V> value type produced by the parser
  * @param <P> parser class
@@ -55,18 +54,45 @@ public final class JoinMatcherBootstrap<V, P extends BaseParser<V>>
     static <T, E extends BaseParser<T>> JoinMatcherBootstrap<T, E> create(
         final E parser, final Object joined)
     {
-        return new JoinMatcherBootstrap<>(parser, joined);
+        return new JoinMatcherBootstrap<>(parser, parser.toRule(joined));
     }
 
     public JoinMatcherBootstrap(@Nonnull final P parser,
-        @Nonnull final Object joined)
+        @Nonnull final Rule joined)
     {
         this.parser = Objects.requireNonNull(parser);
-        this.joined = parser.toRule(joined);
+        this.joined = joined;
     }
 
+    /**
+     * Define the joining rule
+     *
+     * @param joining the rule
+     * @return a new {@link JoinMatcherBuilder}
+     *
+     * @see BaseParser#toRule(Object)
+     */
     public JoinMatcherBuilder using(@Nonnull final Object joining)
     {
         return new JoinMatcherBuilder(joined, parser.toRule(joining));
+    }
+
+    /**
+     * Define the joining rule
+     *
+     * <p>Like {@link #using(Object)}, except several rules are accepted as
+     * arguments.</p>
+     *
+     * @param rule first rule
+     * @param rule2 second rule
+     * @param moreRules other rules
+     * @return a new {@link JoinMatcherBuilder}
+     *
+     * @see BaseParser#sequence(Object, Object, Object...)
+     */
+    public JoinMatcherBuilder using(final Object rule, final Object rule2,
+        final Object... moreRules)
+    {
+        return using(parser.sequence(rule, rule2, moreRules));
     }
 }

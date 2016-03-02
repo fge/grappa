@@ -635,7 +635,28 @@ public abstract class BaseParser<V>
      */
     public final JoinMatcherBootstrap<V, BaseParser<V>> join(final Object rule)
     {
-        return new JoinMatcherBootstrap<>(this, rule);
+        final Rule matcher = toRule(rule);
+        return new JoinMatcherBootstrap<>(this, matcher);
+    }
+
+    /**
+     * Kickstart a {@code join} rule
+     *
+     * <p>Like {@link #join(Object)}, except that several rules are accepted as
+     * arguments.</p>
+     *
+     * @param rule first rule
+     * @param rule2 second rule
+     * @param moreRules other rules
+     * @return a {@link JoinMatcherBootstrap}
+     *
+     * @see #sequence(Object, Object, Object...)
+     */
+    public final JoinMatcherBootstrap<V, BaseParser<V>> join(final Object rule,
+        final Object rule2, final Object moreRules)
+    {
+        Objects.requireNonNull(moreRules);
+        return join(sequence(rule, rule2, moreRules));
     }
 
     /*
