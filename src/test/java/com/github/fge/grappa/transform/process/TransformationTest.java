@@ -19,10 +19,12 @@ package com.github.fge.grappa.transform.process;
 import com.github.fge.grappa.transform.generate.ClassNodeInitializer;
 import com.github.fge.grappa.transform.base.ParserClassNode;
 import com.github.fge.grappa.transform.base.RuleMethod;
+import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.util.List;
 
+@Test
 public abstract class TransformationTest {
 
     protected ParserClassNode classNode;
