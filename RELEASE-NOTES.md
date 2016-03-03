@@ -1,3 +1,11 @@
+### 2.0.4
+
+* Add repeat() rule; remove {Zero,One}OrMoreMatcher since they are special cases
+  of the new RepeatMatcher.
+* Add popAs(), peekAs() to retrieve stack values casted to a subclass.
+* join() (and using()) now allow several arguments: join(rule1,
+  rule2).using(rule2, rule3) etc.
+
 ### 2.0.3
 
 * Fix bugs with trieIgnoreCase()
