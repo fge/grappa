@@ -72,9 +72,9 @@ public final class JoinMatcherBootstrap<V, P extends BaseParser<V>>
      *
      * @see BaseParser#toRule(Object)
      */
-    public JoinMatcherBuilder using(@Nonnull final Object joining)
+    public JoinMatcherBuilder<V> using(@Nonnull final Object joining)
     {
-        return new JoinMatcherBuilder(joined, parser.toRule(joining));
+        return new JoinMatcherBuilder<>(joined, parser, parser.toRule(joining));
     }
 
     /**
