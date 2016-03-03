@@ -390,6 +390,123 @@ public abstract class BaseParser<V>
     }
 
     /**
+     * Match the longest possible string among a series of strings (case
+     * sensitive)
+     *
+     * <p>As its name says, this rule will always try and match the longest
+     * possible string among its arguments. It means that, for instance, if you
+     * write:</p>
+     *
+     * <pre>
+     *     longestString("do", "double")
+     * </pre>
+     *
+     * <p>then with an input of {@code doubles}, then {@code double} will be
+     * matched; but if the input is {@code doubling} then {@code do} is matched.
+     * </p>
+     *
+     * <p>This method builds a {@link Collection} and delegates to {@link
+     * #longestString(Collection)}.</p>
+     *
+     * @param first the first string to match
+     * @param second the second string to match
+     * @param others the other strings to match, if any
+     * @return a rule
+     */
+    public Rule longestString(final String first, final String second,
+        final String... others)
+    {
+        return trie(first, second, others);
+    }
+
+    /**
+     * Match the longest possible string among a series of strings (case
+     * sensitive)
+     *
+     * <p>Duplicate elements will be silently eliminated.</p>
+     *
+     * <p>As its name says, this rule will always try and match the longest
+     * possible string among its arguments. It means that, for instance, if you
+     * write:</p>
+     *
+     * <pre>
+     *     longestString("do", "double")
+     * </pre>
+     *
+     * <p>then with an input of {@code doubles}, then {@code double} will be
+     * matched; but if the input is {@code doubling} then {@code do} is matched.
+     * </p>
+     *
+     * <p>This method ultimately delegates to {@link #trie(Collection)}.</p>
+     *
+     * @param strings the list of strings for this trie
+     * @return a rule
+     */
+    public Rule longestString(final Collection<String> strings)
+    {
+        return trie(strings);
+    }
+
+    /**
+     * Match the longest possible string among a series of strings (case
+     * insensitive)
+     *
+     * <p>As its name says, this rule will always try and match the longest
+     * possible string among its arguments. It means that, for instance, if you
+     * write:</p>
+     *
+     * <pre>
+     *     longestStringIgnoreCase("do", "double")
+     * </pre>
+     *
+     * <p>then with an input of {@code doubles}, then {@code double} will be
+     * matched; but if the input is {@code doubling} then {@code do} is matched.
+     * </p>
+     *
+     * <p>This method builds a {@link Collection}, and delegates to
+     * {@link #longestString(Collection)}.</p>
+     *
+     * @param first the first string to match
+     * @param second the second string to match
+     * @param others the other strings to match, if any
+     * @return a rule
+     */
+    public Rule longestStringIgnoreCase(final String first, final String second,
+        final String... others)
+    {
+        return trieIgnoreCase(first, second, others);
+    }
+
+    /**
+     * Match the longest possible string among a series of strings (case
+     * insensitive)
+     *
+     * <p>Duplicate elements will be silently eliminated.</p>
+     *
+     * <p>As its name says, this rule will always try and match the longest
+     * possible string among its arguments. It means that, for instance, if you
+     * write:</p>
+     *
+     * <pre>
+     *     longestStringIgnoreCase("do", "double")
+     * </pre>
+     *
+     * <p>then with an input of {@code doubles}, then {@code double} will be
+     * matched; but if the input is {@code doubling} then {@code do} is matched.
+     * </p>
+     *
+     * <p>This method ultimately delegates to {@link
+     * #trieIgnoreCase(Collection)}.</p>
+     *
+     * @param strings the list of strings for this trie
+     * @return a rule
+     */
+    public Rule longestStringIgnoreCase(final Collection<String> strings)
+    {
+        return trieIgnoreCase(strings);
+    }
+
+    /**
      * Match one string among many using a <a
      * href="http://en.wikipedia.org/wiki/Trie" target="_blank">trie</a>
      *
@@ -401,7 +518,7 @@ public abstract class BaseParser<V>
      * and the input text is "doubles", then "double" will be matched. However,
      * if the input text is "doubling" then "do" is matched instead.</p>
      *
-     * <p>Note also that the minimum length of strings in a trie is 2.</p>
+     * <p>Note also that the minimum length of strings in a trie is 1.</p>
      *
      * @param strings the list of strings for this trie
      * @return a rule
@@ -409,8 +526,14 @@ public abstract class BaseParser<V>
      * @see TrieMatcher
      * @see TrieNode
      */
-    // TODO: potentially a slew of strings in a trie; so maybe it's not a good
-    // idea to cache here
+    /*
+     * TODO:
+     *
+     * - caching may not be that good of an idea...
+     * - we may end up with only one string and that is a waste
+     * - non BMP!
+     */
+
     @Cached
     public Rule trie(final Collection<String> strings)
     {
@@ -460,15 +583,13 @@ public abstract class BaseParser<V>
      * and the input text is "doubles", then "double" will be matched. However,
      * if the input text is "doubling" then "do" is matched instead.</p>
      *
-     * <p>Note also that the minimum length of strings in a trie is 2.</p>
+     * <p>Note also that the minimum length of strings in a trie is 1.</p>
      *
      * @param strings the list of strings for this trie
      * @return a rule
      *
      * @see CaseInsensitiveTrieMatcher
      */
-    // TODO: potentially a slew of strings in a trie; so maybe it's not a good
-    // idea to cache here
     @Cached
     public Rule trieIgnoreCase(final Collection<String> strings)
     {
