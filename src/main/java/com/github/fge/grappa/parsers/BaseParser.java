@@ -33,10 +33,8 @@ import com.github.fge.grappa.matchers.NothingMatcher;
 import com.github.fge.grappa.matchers.StringIgnoreCaseMatcher;
 import com.github.fge.grappa.matchers.StringMatcher;
 import com.github.fge.grappa.matchers.delegate.FirstOfMatcher;
-import com.github.fge.grappa.matchers.delegate.OneOrMoreMatcher;
 import com.github.fge.grappa.matchers.delegate.OptionalMatcher;
 import com.github.fge.grappa.matchers.delegate.SequenceMatcher;
-import com.github.fge.grappa.matchers.delegate.ZeroOrMoreMatcher;
 import com.github.fge.grappa.matchers.join.JoinMatcherBootstrap;
 import com.github.fge.grappa.matchers.join.JoinMatcherBuilder;
 import com.github.fge.grappa.matchers.predicates.TestMatcher;
@@ -58,7 +56,6 @@ import com.google.common.collect.ImmutableList;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -537,30 +534,37 @@ public abstract class BaseParser<V>
     /**
      * Try and match a rule repeatedly, at least once
      *
+     * <p>This is in fact an alias for {@code repeat(rule).min(1)}.</p>
+     *
      * @param rule the subrule
      * @return a rule
+     *
+     * @see #repeat(Object)
      */
-    @Cached
     @DontLabel
     public Rule oneOrMore(final Object rule)
     {
-        return new OneOrMoreMatcher(toRule(rule));
+        return repeat(rule).min(1);
     }
 
     /**
      * Try and repeatedly match a set of rules, at least once
      *
+     * <p>This is in fact an alias for {@code repeat(rule, rule2, ...).min(1)}.
+     * </p>
+     *
      * @param rule the first subrule
      * @param rule2 the second subrule
      * @param moreRules the other subrules
      * @return a rule
+     *
+     * @see #repeat(Object, Object, Object...)
      */
     @DontLabel
     public Rule oneOrMore(final Object rule, final Object rule2,
         final Object... moreRules)
     {
-        Objects.requireNonNull(moreRules);
-        return oneOrMore(sequence(rule, rule2, moreRules));
+        return repeat(rule, rule2, moreRules).min(1);
     }
 
     /**
@@ -646,6 +650,7 @@ public abstract class BaseParser<V>
      *
      * @see JoinMatcherBootstrap#using(Object)
      */
+    @DontLabel
     public final JoinMatcherBootstrap<V, BaseParser<V>> join(final Object rule)
     {
         final Rule matcher = toRule(rule);
@@ -665,6 +670,7 @@ public abstract class BaseParser<V>
      *
      * @see #sequence(Object, Object, Object...)
      */
+    @DontLabel
     public final JoinMatcherBootstrap<V, BaseParser<V>> join(final Object rule,
         final Object rule2, final Object... moreRules)
     {
@@ -686,6 +692,7 @@ public abstract class BaseParser<V>
      * @param rule the rule to be repeated
      * @return a builder
      */
+    @DontLabel
     public final RepeatMatcherBuilder<V> repeat(final Object rule)
     {
         return new RepeatMatcherBuilder<>(this, toRule(rule));
@@ -704,6 +711,7 @@ public abstract class BaseParser<V>
      *
      * @see #sequence(Object, Object, Object...)
      */
+    @DontLabel
     public final RepeatMatcherBuilder<V> repeat(final Object rule,
         final Object rule2, final Object... moreRules)
     {
@@ -794,20 +802,23 @@ public abstract class BaseParser<V>
     /**
      * Try and match a rule zero or more times
      *
-     * <p>The rule will therefore always succeed.</p>
+     * <p>This is an alias for {@code repeat(rule).min(0)}.</p>
      *
      * @param rule the subrule
      * @return a rule
+     *
+     * @see #repeat(Object)
      */
-    @Cached
     @DontLabel
     public Rule zeroOrMore(final Object rule)
     {
-        return new ZeroOrMoreMatcher(toRule(rule));
+        return repeat(rule).min(0);
     }
 
     /**
      * Try and match a set of rules zero or more times
+     *
+     * <p>This is an alias for {@code repeat(rule, rule2, ...).min(0)}.</p>
      *
      * @param rule the first subrule
      * @param rule2 the second subrule
@@ -818,8 +829,7 @@ public abstract class BaseParser<V>
     public Rule zeroOrMore(final Object rule, final Object rule2,
         final Object... moreRules)
     {
-        Objects.requireNonNull(moreRules);
-        return zeroOrMore(sequence(rule, rule2, moreRules));
+        return repeat(rule, rule2, moreRules).min(0);
     }
 
     /**
@@ -836,20 +846,7 @@ public abstract class BaseParser<V>
     @Deprecated
     public Rule nTimes(final int repetitions, final Object rule)
     {
-        Objects.requireNonNull(rule);
-        if (repetitions < 0)
-            throw new InvalidGrammarException("illegal repetition count "
-                + repetitions + ": must not be negative");
-
-        final Rule theRule = toRule(rule);
-        if (repetitions == 0)
-            return EMPTY;
-        if (repetitions == 1)
-            return theRule;
-
-        final Rule[] array = new Rule[repetitions];
-        Arrays.fill(array, theRule);
-        return sequence(array);
+        return repeat(rule).times(repetitions);
     }
 
     /*
