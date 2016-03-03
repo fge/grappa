@@ -98,10 +98,22 @@ public abstract class BaseParser<V>
      */
 
     /**
+     * Match an empty string
+     *
+     * @return a rule
+     */
+    @DontExtend
+    public Rule empty()
+    {
+        return EMPTY;
+    }
+
+    /**
      * Match only at the end of input
      *
      * @return a rule
      */
+    @DontExtend
     public Rule eof()
     {
         return EOI;

@@ -10,11 +10,6 @@ public abstract class IllegalGrammarParser
 
     abstract Rule legal();
 
-    Rule empty()
-    {
-        return EMPTY;
-    }
-
     Rule nonEmpty()
     {
         return ch('x');
