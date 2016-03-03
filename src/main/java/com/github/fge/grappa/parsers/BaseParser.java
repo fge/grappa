@@ -41,6 +41,7 @@ import com.github.fge.grappa.matchers.join.JoinMatcherBootstrap;
 import com.github.fge.grappa.matchers.join.JoinMatcherBuilder;
 import com.github.fge.grappa.matchers.predicates.TestMatcher;
 import com.github.fge.grappa.matchers.predicates.TestNotMatcher;
+import com.github.fge.grappa.matchers.repeat.RepeatMatcherBuilder;
 import com.github.fge.grappa.matchers.trie.CaseInsensitiveTrieMatcher;
 import com.github.fge.grappa.matchers.trie.Trie;
 import com.github.fge.grappa.matchers.trie.TrieBuilder;
@@ -671,6 +672,45 @@ public abstract class BaseParser<V>
         return join(sequence(rule, rule2, moreRules));
     }
 
+    /**
+     * Kickstart a repeat rule
+     *
+     * <p>Usages:</p>
+     *
+     * <pre>
+     *     return repeat("Yes we can!").times(3);
+     *     return repeat(someRule).min(2);
+     *     // etc
+     * </pre>
+     *
+     * @param rule the rule to be repeated
+     * @return a builder
+     */
+    public final RepeatMatcherBuilder<V> repeat(final Object rule)
+    {
+        return new RepeatMatcherBuilder<>(this, toRule(rule));
+    }
+
+    /**
+     * Kickstart a repeat rule
+     *
+     * <p>Like {@link #repeat(Object)}, except several rules are accepted as
+     * arguments.</p>
+     *
+     * @param rule first rule
+     * @param rule2 second rule
+     * @param moreRules other rules
+     * @return a rule
+     *
+     * @see #sequence(Object, Object, Object...)
+     */
+    public final RepeatMatcherBuilder<V> repeat(final Object rule,
+        final Object rule2, final Object... moreRules)
+    {
+        Objects.requireNonNull(moreRules);
+        return repeat(sequence(rule, rule2, moreRules));
+    }
+
     /*
      * PREDICATES
      */
@@ -788,9 +828,12 @@ public abstract class BaseParser<V>
      * @param repetitions The number of repetitions to match. Must be &gt;= 0.
      * @param rule the sub rule to match repeatedly.
      * @return a rule
+     *
+     * @deprecated use {@link #repeat(Object)} instead
      */
     @Cached
     @DontLabel
+    @Deprecated
     public Rule nTimes(final int repetitions, final Object rule)
     {
         Objects.requireNonNull(rule);
