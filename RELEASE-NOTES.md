@@ -5,6 +5,7 @@
 * Add popAs(), peekAs() to retrieve stack values casted to a subclass.
 * join() (and using()) now allow several arguments: join(rule1,
   rule2).using(rule2, rule3) etc.
+* Add regex() to match a Java regular expression (using .lookingAt()).
 
 ### 2.0.3
 

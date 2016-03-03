@@ -30,6 +30,7 @@ import com.github.fge.grappa.matchers.CharRangeMatcher;
 import com.github.fge.grappa.matchers.EmptyMatcher;
 import com.github.fge.grappa.matchers.EndOfInputMatcher;
 import com.github.fge.grappa.matchers.NothingMatcher;
+import com.github.fge.grappa.matchers.RegexMatcher;
 import com.github.fge.grappa.matchers.StringIgnoreCaseMatcher;
 import com.github.fge.grappa.matchers.StringMatcher;
 import com.github.fge.grappa.matchers.delegate.FirstOfMatcher;
@@ -59,6 +60,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Base class of all parboiled parsers. Defines the basic rule creation methods.
@@ -355,6 +358,35 @@ public abstract class BaseParser<V>
         if (characters.length == 1)
             return ignoreCase(characters[0]); // optimize one-char strings
         return new StringIgnoreCaseMatcher(new String(characters));
+    }
+
+    /**
+     * Match the input text using a Java regular expression
+     *
+     * <p>A few important considerations:</p>
+     *
+     * <ul>
+     *     <li>the method used to match text is {@link Matcher#lookingAt()}; it
+     *     means that the match will always be attempted at the current index in
+     *     the input;</li>
+     *     <li>no flags are passed to {@link Pattern#compile(String)}, therefore
+     *     if you want case insensitive matches etc, you have to use the
+     *     appropriate regex modifiers in the regex itself (for instance, {@code
+     *     (?i)} for case insensitivity).</li>
+     * </ul>
+     *
+     * @param regex the regex
+     * @return a rule
+     *
+     * @see Pattern
+     * @see Matcher#lookingAt()
+     * @see Matcher#end()
+     */
+    @Cached
+    @DontLabel
+    public Rule regex(final String regex)
+    {
+        return new RegexMatcher(regex);
     }
 
     /**
