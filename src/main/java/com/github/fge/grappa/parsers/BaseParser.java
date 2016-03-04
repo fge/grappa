@@ -544,7 +544,8 @@ public abstract class BaseParser<V>
      * @see TrieMatcher
      * @see TrieNode
      *
-     * @deprecated use {@link #longestString(Collection)} instead
+     * @deprecated use {@link #longestString(Collection)} instead. Will be
+     * removed in 2.1.0.
      */
     public Rule trie(final Collection<String> strings)
     {
@@ -559,7 +560,8 @@ public abstract class BaseParser<V>
      * @param others other strings
      * @return a rule
      *
-     * @deprecated use {@link #longestString(String, String, String...)} instead
+     * @deprecated use {@link #longestString(String, String, String...)}
+     * instead. Will be removed in 2.1.0.
      */
     public Rule trie(final String first, final String second,
         final String... others)
@@ -576,7 +578,8 @@ public abstract class BaseParser<V>
      * @param strings the list of strings for this trie
      * @return a rule
      *
-     * @deprecated use {@link #longestStringIgnoreCase(Collection)} instead
+     * @deprecated use {@link #longestStringIgnoreCase(Collection)} instead.
+     * Will be removed in 2.1.0.
      */
     public Rule trieIgnoreCase(final Collection<String> strings)
     {
@@ -592,7 +595,7 @@ public abstract class BaseParser<V>
      * @return a rule
      *
      * @deprecated use {@link #longestString(String, String, String...)}
-     * instead
+     * instead. Will be removed in 2.1.0.
      */
     @Deprecated
     public Rule trieIgnoreCase(final String first, final String second,
