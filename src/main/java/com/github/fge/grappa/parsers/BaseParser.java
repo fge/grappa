@@ -416,7 +416,10 @@ public abstract class BaseParser<V>
     public Rule longestString(final String first, final String second,
         final String... others)
     {
-        return trie(first, second, others);
+        final List<String> words = ImmutableList.<String>builder().add(first)
+            .add(second).add(others).build();
+
+        return longestString(words);
     }
 
     /**
@@ -442,9 +445,24 @@ public abstract class BaseParser<V>
      * @param strings the list of strings for this trie
      * @return a rule
      */
+    /*
+     * TODO:
+     *
+     * - caching may not be that good of an idea...
+     * - we may end up with only one string and that is a waste
+     * - non BMP!
+     */
+    @Cached
     public Rule longestString(final Collection<String> strings)
     {
-        return trie(strings);
+        final List<String> list = ImmutableList.copyOf(strings);
+
+        final TrieBuilder builder = Trie.newBuilder();
+
+        for (final String word: list)
+            builder.addWord(word);
+
+        return new TrieMatcher(builder.build());
     }
 
     /**
@@ -474,7 +492,10 @@ public abstract class BaseParser<V>
     public Rule longestStringIgnoreCase(final String first, final String second,
         final String... others)
     {
-        return trieIgnoreCase(first, second, others);
+        final List<String> words = ImmutableList.<String>builder().add(first)
+            .add(second).add(others).build();
+
+        return longestStringIgnoreCase(words);
     }
 
     /**
@@ -501,97 +522,8 @@ public abstract class BaseParser<V>
      * @param strings the list of strings for this trie
      * @return a rule
      */
+    @Cached
     public Rule longestStringIgnoreCase(final Collection<String> strings)
-    {
-        return trieIgnoreCase(strings);
-    }
-
-    /**
-     * Match one string among many using a <a
-     * href="http://en.wikipedia.org/wiki/Trie" target="_blank">trie</a>
-     *
-     * <p>Duplicate elements will be silently eliminated.</p>
-     *
-     * <p>Note that order of elements does not matter, and that this rule will
-     * always trie (err, try) and match the <em>longest possible sequence</em>.
-     * That is, if you build a rule with inputs "do" and "double" in this order
-     * and the input text is "doubles", then "double" will be matched. However,
-     * if the input text is "doubling" then "do" is matched instead.</p>
-     *
-     * <p>Note also that the minimum length of strings in a trie is 1.</p>
-     *
-     * @param strings the list of strings for this trie
-     * @return a rule
-     *
-     * @see TrieMatcher
-     * @see TrieNode
-     */
-    /*
-     * TODO:
-     *
-     * - caching may not be that good of an idea...
-     * - we may end up with only one string and that is a waste
-     * - non BMP!
-     */
-
-    @Cached
-    public Rule trie(final Collection<String> strings)
-    {
-        final List<String> list = ImmutableList.copyOf(strings);
-
-        final TrieBuilder builder = Trie.newBuilder();
-
-        for (final String word: list)
-            builder.addWord(word);
-
-        return new TrieMatcher(builder.build());
-    }
-
-    /**
-     * Match one string among many using a <a
-     * href="http://en.wikipedia.org/wiki/Trie" target="_blank">trie</a>
-     *
-     * <p>This method delegates to {@link #trie(Collection)}.</p>
-     *
-     * @param first the first string
-     * @param second the second string
-     * @param others other strings
-     * @return a rule
-     *
-     * @see TrieMatcher
-     * @see TrieNode
-     */
-    public Rule trie(final String first, final String second,
-        final String... others)
-    {
-        final List<String> words = ImmutableList.<String>builder().add(first)
-            .add(second).add(others).build();
-
-        return trie(words);
-    }
-
-    /**
-     * Match one string among many using a <a
-     * href="http://en.wikipedia.org/wiki/Trie" target="_blank">trie</a>, case
-     * insensitive version
-     *
-     * <p>Duplicate elements will be silently eliminated.</p>
-     *
-     * <p>Note that order of elements does not matter, and that this rule will
-     * always trie (err, try) and match the <em>longest possible sequence</em>.
-     * That is, if you build a rule with inputs "do" and "double" in this order
-     * and the input text is "doubles", then "double" will be matched. However,
-     * if the input text is "doubling" then "do" is matched instead.</p>
-     *
-     * <p>Note also that the minimum length of strings in a trie is 1.</p>
-     *
-     * @param strings the list of strings for this trie
-     * @return a rule
-     *
-     * @see CaseInsensitiveTrieMatcher
-     */
-    @Cached
-    public Rule trieIgnoreCase(final Collection<String> strings)
     {
         final List<String> list = ImmutableList.copyOf(strings);
 
@@ -604,26 +536,69 @@ public abstract class BaseParser<V>
     }
 
     /**
-     * Match one string among many using a <a
-     * href="http://en.wikipedia.org/wiki/Trie" target="_blank">trie</a>, case
-     * insensitive
+     * Match one string among many
      *
-     * <p>This method delegates to {@link #trieIgnoreCase(Collection)}.</p>
+     * @param strings the list of strings to match
+     * @return a rule
+     *
+     * @see TrieMatcher
+     * @see TrieNode
+     *
+     * @deprecated use {@link #longestString(Collection)} instead
+     */
+    public Rule trie(final Collection<String> strings)
+    {
+        return longestString(strings);
+    }
+
+    /**
+     * Match one string among many
      *
      * @param first the first string
      * @param second the second string
      * @param others other strings
      * @return a rule
      *
-     * @see CaseInsensitiveTrieMatcher
+     * @deprecated use {@link #longestString(String, String, String...)} instead
      */
-    public Rule trieIgnoreCase(final String first, final String second,
+    public Rule trie(final String first, final String second,
         final String... others)
     {
         final List<String> words = ImmutableList.<String>builder().add(first)
             .add(second).add(others).build();
 
-        return trieIgnoreCase(words);
+        return longestString(words);
+    }
+
+    /**
+     * Match one string among many, case insensitive version
+     *
+     * @param strings the list of strings for this trie
+     * @return a rule
+     *
+     * @deprecated use {@link #longestStringIgnoreCase(Collection)} instead
+     */
+    public Rule trieIgnoreCase(final Collection<String> strings)
+    {
+        return longestStringIgnoreCase(strings);
+    }
+
+    /**
+     * Match one string among many, case insensitive
+     *
+     * @param first the first string
+     * @param second the second string
+     * @param others other strings
+     * @return a rule
+     *
+     * @deprecated use {@link #longestString(String, String, String...)}
+     * instead
+     */
+    @Deprecated
+    public Rule trieIgnoreCase(final String first, final String second,
+        final String... others)
+    {
+        return longestStringIgnoreCase(first, second, others);
     }
 
     /*
