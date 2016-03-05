@@ -11,7 +11,7 @@ buildscript {
         classpath(group: "info.solidsoft.gradle.pitest",
             name: "gradle-pitest-plugin", version: "1.1.9");
         classpath(group: "com.github.jengelman.gradle.plugins",
-            name:"shadow", version:"1.2.2");
+            name:"shadow", version:"1.2.3");
     }
 }
 
@@ -102,7 +102,7 @@ artifacts {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = "2.4";
+    gradleVersion = "2.11";
     distributionUrl = "http://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip";
 }
 
