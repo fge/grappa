@@ -18,20 +18,14 @@ package com.github.fge.grappa.matchers.trie;
 
 import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.AbstractMatcher;
-import com.github.fge.grappa.parsers.BaseParser;
 import com.google.common.annotations.Beta;
 import com.github.fge.grappa.run.context.MatcherContext;
 
 import javax.annotation.concurrent.Immutable;
-import java.util.Collection;
 import java.util.Objects;
 
 /**
- * A matcher for a fixed number of strings, using a <a
- * href="https://en.wikipedia.org/wiki/Trie">trie</a>
- *
- * <p>This is called by {@link BaseParser#longestString(Collection)} and {@link
- * BaseParser#longestStringIgnoreCase(Collection)}.</p>
+ * The trie matcher
  *
  * @since 1.0.0-beta.6
  */
