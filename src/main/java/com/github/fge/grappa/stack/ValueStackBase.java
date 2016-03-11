@@ -30,6 +30,12 @@ public abstract class ValueStackBase<V>
     implements ValueStack<V>
 {
     @Override
+    public final boolean isEmpty()
+    {
+        return size() == 0;
+    }
+
+    @Override
     public final void push(final V value)
     {
         push(0, value);

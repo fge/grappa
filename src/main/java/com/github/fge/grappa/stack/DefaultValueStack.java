@@ -34,12 +34,6 @@ public final class DefaultValueStack<V>
     private List<V> stack = new ArrayList<>();
 
     @Override
-    public boolean isEmpty()
-    {
-        return stack.isEmpty();
-    }
-
-    @Override
     public int size()
     {
         return stack.size();
