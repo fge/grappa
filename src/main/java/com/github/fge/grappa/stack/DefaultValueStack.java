@@ -112,11 +112,4 @@ public final class DefaultValueStack<V>
     {
         return stack.toString();
     }
-
-    @Override
-    protected void checkIndex(final int index)
-    {
-        Preconditions.checkState(index < stack.size(),
-            "not enough elements in stack");
-    }
 }

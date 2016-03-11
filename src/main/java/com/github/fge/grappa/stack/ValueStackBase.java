@@ -29,6 +29,10 @@ import java.util.Objects;
 public abstract class ValueStackBase<V>
     implements ValueStack<V>
 {
+    private static final String NEGATIVE_INDEX = "index cannot be negative";
+
+    private static final String NOT_ENOUGH_ELEMENTS = "not enough elements in stack";
+
     @Override
     public final boolean isEmpty()
     {
@@ -49,7 +53,7 @@ public abstract class ValueStackBase<V>
          * index - 1 is strictly less than size, not the index itself
          */
         if (down < 0)
-            throw new IllegalArgumentException("index cannot be negative");
+            throw new IllegalArgumentException(NEGATIVE_INDEX);
         checkIndex(down - 1);
         Objects.requireNonNull(value);
         doPush(down, value);
@@ -78,7 +82,7 @@ public abstract class ValueStackBase<V>
     public final V pop(final int down)
     {
         if (down < 0)
-            throw new IllegalArgumentException("index cannot be negative");
+            throw new IllegalArgumentException(NEGATIVE_INDEX);
         checkIndex(down);
         return doPop(down);
     }
@@ -119,7 +123,7 @@ public abstract class ValueStackBase<V>
     public final V peek(final int down)
     {
         if (down < 0)
-            throw new IllegalArgumentException("index cannot be negative");
+            throw new IllegalArgumentException(NEGATIVE_INDEX);
         checkIndex(down);
         return doPeek(down);
     }
@@ -158,7 +162,7 @@ public abstract class ValueStackBase<V>
     public final void poke(final int down, final V value)
     {
         if (down < 0)
-            throw new IllegalArgumentException("index cannot be negative");
+            throw new IllegalArgumentException(NEGATIVE_INDEX);
         checkIndex(down);
         Objects.requireNonNull(value);
         doPoke(down, value);
@@ -214,5 +218,17 @@ public abstract class ValueStackBase<V>
      */
     protected abstract void doSwap(final int n);
 
-    protected abstract void checkIndex(final int index);
+    /**
+     * Check whether the stack has enough elements to perform an operation
+     * given an index in the stack
+     *
+     * @param index the index
+     *
+     * @throws IllegalStateException not enough elements in stack
+     */
+    protected final void checkIndex(final int index)
+    {
+        if (index >= size())
+            throw new IllegalStateException(NOT_ENOUGH_ELEMENTS);
+    }
 }
