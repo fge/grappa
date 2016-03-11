@@ -23,7 +23,7 @@ import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.rules.Rule;
 import com.github.fge.grappa.run.context.DefaultMatcherContext;
 import com.github.fge.grappa.run.context.MatcherContext;
-import com.github.fge.grappa.stack.ListValueStack;
+import com.github.fge.grappa.stack.ArrayValueStack;
 import com.github.fge.grappa.stack.ValueStack;
 
 import javax.annotation.Nonnull;
@@ -61,7 +61,7 @@ public abstract class AbstractParseRunner<V>
     protected final void resetValueStack()
     {
         // TODO: write a "memoizing" API
-        valueStack = new ListValueStack<>();
+        valueStack = new ArrayValueStack<>();
         stackSnapshot = null;
     }
 

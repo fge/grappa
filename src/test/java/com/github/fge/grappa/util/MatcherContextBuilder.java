@@ -19,18 +19,17 @@ package com.github.fge.grappa.util;
 import com.github.fge.grappa.buffers.CharSequenceInputBuffer;
 import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.matchers.base.Matcher;
-import com.github.fge.grappa.stack.ListValueStack;
-import com.github.fge.grappa.stack.ValueStack;
-import com.google.common.base.Preconditions;
 import com.github.fge.grappa.run.context.DefaultMatcherContext;
 import com.github.fge.grappa.run.context.MatcherContext;
+import com.github.fge.grappa.stack.ArrayValueStack;
+import com.github.fge.grappa.stack.ValueStack;
+import com.google.common.base.Preconditions;
 
 import javax.annotation.Nonnull;
 
 public final class MatcherContextBuilder
 {
-    private static final ValueStack<Object> STACK
-        = new ListValueStack<>();
+    private static final ValueStack<Object> STACK = new ArrayValueStack<>();
     private InputBuffer buffer = null;
     private Matcher matcher = null;
     private int index = 0;
