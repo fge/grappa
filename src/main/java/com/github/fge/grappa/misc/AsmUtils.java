@@ -301,11 +301,13 @@ public final class AsmUtils
     }
 
     /**
-     * Determines whether the class with the given descriptor is assignable to the given type.
+     * Determines whether the class with the given descriptor is assignable to
+     * the given type.
      *
      * @param classInternalName the class descriptor
      * @param type the type
-     * @return true if the class with the given descriptor is assignable to the given type
+     * @return true if the class with the given descriptor is assignable to the
+     * given type
      */
     public static boolean isAssignableTo(final String classInternalName,
         final Class<?> type)

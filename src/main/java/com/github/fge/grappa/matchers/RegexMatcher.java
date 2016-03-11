@@ -2,6 +2,7 @@ package com.github.fge.grappa.matchers;
 
 import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.matchers.base.AbstractMatcher;
+import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.run.context.MatcherContext;
 
 import java.util.regex.Matcher;
@@ -9,6 +10,8 @@ import java.util.regex.Pattern;
 
 /**
  * A matcher for a Java regular expression
+ *
+ * <p>This is the matcher used by {@link BaseParser#regex(String) regex()}.</p>
  *
  * <p>Note that the operation used to perform the match is {@link
  * Matcher#lookingAt()}, not {@code matches()} or {@code find()}.</p>

@@ -17,8 +17,15 @@
 package com.github.fge.grappa.matchers;
 
 import com.github.fge.grappa.matchers.base.AbstractMatcher;
+import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.run.context.MatcherContext;
 
+/**
+ * A matcher which only succeeds at the end of the input text, and matches
+ * nothing
+ *
+ * @see BaseParser#EOI
+ */
 public final class EndOfInputMatcher
     extends AbstractMatcher
 {

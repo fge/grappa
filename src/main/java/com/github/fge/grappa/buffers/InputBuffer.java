@@ -21,7 +21,7 @@ import com.github.fge.grappa.support.IndexRange;
 import com.github.fge.grappa.support.Position;
 
 /**
- * Abstraction of a simple char[] buffer holding the input text to be parsed.
+ * Abstraction of a simple character buffer holding the input text to be parsed.
  */
 // TODO: it furiously resembles a CharSequence and should use that
 public interface InputBuffer
@@ -31,6 +31,10 @@ public interface InputBuffer
      *
      * <p>If the index is greater than, or equal to, the buffer's length, this
      * method returns {@link Chars#EOI}.</p>
+     *
+     * <p>Note that {@code EOI} is nothing else than U+FFFF; this may be legal
+     * in certain inputs. It is recommended that you use {@link
+     * #codePointAt(int)} instead.</p>
      *
      * @param index the index
      * @return the character at the given index or Chars.EOI.
@@ -54,29 +58,30 @@ public interface InputBuffer
     int codePointAt(int index);
 
     /**
-     * Constructs a new {@link String} from all character between the given
+     * Constructs a new {@link String} from all characters between the given
      * indices. Invalid indices are automatically adjusted to their respective
      * boundary.
      *
-     * @param start the start index (inclusively)
-     * @param end the end index (exclusively)
-     * @return a new String (non-interned)
+     * @param start the start index (inclusive)
+     * @param end the end index (exclusive)
+     * @return a String
      */
     String extract(int start, int end);
 
     /**
      * Constructs a new {@link String} from all character covered by the given
-     * IndexRange.
+     * {@link IndexRange}
      *
-     * @param range the IndexRange
-     * @return a new String (non-interned)
+     * @param range the range
+     * @return a String
      */
     String extract(IndexRange range);
 
     /**
      * Returns the line and column number of the character with the given index
-     * encapsulated in a {@link Position} object. The very first character has
-     * the line number 1 and the column number 1.
+     * encapsulated in a {@link Position} object
+     *
+     * <p>Note that both line indices and column indices start at 1.</p>
      *
      * @param index the index of the character to get the line number of
      * @return the line number
@@ -85,7 +90,7 @@ public interface InputBuffer
 
     /**
      * Constructs a new {@link String} containing all characters with the given
-     * line number except for the trailing newline.
+     * line number, except for the trailing newline
      *
      * @param lineNumber the line number to get
      * @return the string
@@ -107,5 +112,13 @@ public interface InputBuffer
      */
     int getLineCount();
 
+    /**
+     * Returns the number of characters in this input buffer
+     *
+     * <p>Note that here a "character" means a Java {@code char}, not a Unicode
+     * code point.</p>
+     *
+     * @return see description
+     */
     int length();
 }

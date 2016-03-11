@@ -40,7 +40,7 @@ import java.util.Objects;
 /**
  * <p>The Context implementation orchestrating most of the matching process.</p>
  *
- * <p>The parsing process works as following:</p>
+ * <p>The parsing process works as follows:</p>
  *
  * <p>After the rule tree (which is in fact a directed and potentially even
  * cyclic graph of {@link Matcher} instances) has been created a root
@@ -55,19 +55,13 @@ import java.util.Objects;
  * on it.</p>
  *
  * <p>This basically creates a stack of MatcherContexts, each corresponding to
- * their rule matchers. The MatcherContext instances serve as companion objects
- * to the matchers, providing them with support for building the parse tree
- * nodes, keeping track of input locations and error recovery.</p>
+ * their rule matchers.</p>
  *
  * <p>At each point during the parsing process the matchers and action
  * expressions have access to the current MatcherContext and all "open" parent
  * MatcherContexts through the {@link #getParent()} chain.</p>
- *
- * <p>For performance reasons subcontext instances are reused instead of being
- * recreated. If a MatcherContext instance returns null on a {@link
- * #getMatcher()} call it has been retired (is invalid) and is waiting to be
- * reinitialized with a new Matcher by its parent</p>
  */
+@SuppressWarnings("InstanceVariableMayNotBeInitialized")
 public final class DefaultMatcherContext<V>
     implements MatcherContext<V>
 {
@@ -126,7 +120,7 @@ public final class DefaultMatcherContext<V>
         return getPath();
     }
 
-    //////////////////////////////// CONTEXT INTERFACE ////////////////////////////////////
+    //////////////////////////////// CONTEXT INTERFACE /////////////////////////
 
     @Override
     public MatcherContext<V> getParent()

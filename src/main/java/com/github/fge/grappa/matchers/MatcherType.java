@@ -16,8 +16,12 @@
 
 package com.github.fge.grappa.matchers;
 
+import com.github.fge.grappa.matchers.base.Matcher;
+
 /**
  * Enumeration of the different matcher types
+ *
+ * @see Matcher#getType()
  */
 public enum MatcherType
 {
@@ -27,12 +31,14 @@ public enum MatcherType
      * <p>This is equivalent to a terminal rule in formal grammars.</p>
      */
     TERMINAL,
+
     /**
      * Action
      *
      * <p>Only used by {@link ActionMatcher}.</p>
      */
     ACTION,
+
     /**
      * Composite
      *
@@ -41,6 +47,7 @@ public enum MatcherType
      * whether the whole match succeeds.</p>
      */
     COMPOSITE,
+
     /**
      * Predicate
      *

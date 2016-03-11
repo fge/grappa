@@ -4,6 +4,14 @@ import com.github.fge.grappa.misc.RangeMatcherBuilder;
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.rules.Rule;
 
+/**
+ * Builder for a repeat matcher
+ *
+ * @param <V> parameter type of the elements on the parser stack
+ *
+ * @see BaseParser#repeat(Object)
+ * @see BaseParser#repeat(Object, Object, Object...)
+ */
 public final class RepeatMatcherBuilder<V>
     extends RangeMatcherBuilder<V>
 {

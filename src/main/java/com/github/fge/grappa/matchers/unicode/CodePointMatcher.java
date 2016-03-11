@@ -19,10 +19,14 @@ package com.github.fge.grappa.matchers.unicode;
 import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.AbstractMatcher;
+import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.run.context.MatcherContext;
 
 /**
  * A single Unicode code point matcher
+ *
+ * <p>This is the matcher used by {@link BaseParser#unicodeChar(int)
+ * unicodeChar()}.</p>
  *
  * @see InputBuffer#codePointAt(int)
  */
@@ -36,8 +40,7 @@ public final class CodePointMatcher
     {
         super(String.format("U+%04X", codePoint));
         this.codePoint = codePoint;
-        codePointLength = codePoint < Character.MIN_SUPPLEMENTARY_CODE_POINT
-            ? 1 : 2;
+        codePointLength = Character.charCount(codePoint);
     }
 
     @Override

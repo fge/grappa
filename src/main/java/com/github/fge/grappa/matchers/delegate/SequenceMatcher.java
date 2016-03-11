@@ -19,6 +19,7 @@ package com.github.fge.grappa.matchers.delegate;
 import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.CustomDefaultLabelMatcher;
 import com.github.fge.grappa.matchers.base.Matcher;
+import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.rules.Rule;
 import com.github.fge.grappa.stack.ValueStack;
 import com.github.fge.grappa.run.context.MatcherContext;
@@ -26,19 +27,17 @@ import com.github.fge.grappa.run.context.MatcherContext;
 import java.util.Objects;
 
 /**
- * A {@link Matcher} that executes all of its submatchers in sequence and only succeeds if all submatchers succeed.
- */
-/*
- * TODO! Generalize, abstract away, something...
+ * A {@link Matcher} that executes all of its submatchers in sequence and only
+ * succeeds if all submatchers succeed.
  *
- * The thing is, Actions can only occur within this class; this makes it
- * impossible to .chainInto(someMatchConsumer) for instance, which is a royal
- * pain.
+ * <p>This is the matcher used by {@link BaseParser#sequence(Object[])
+ * sequence()}; but it is also used in rules accepting more than one rule as
+ * an argument, for instance {@code join(...)}, {@code zeroOrMore(...)}, {@code
+ * test(...)} etc.</p>
  */
-public class SequenceMatcher
+public final class SequenceMatcher
     extends CustomDefaultLabelMatcher<SequenceMatcher>
 {
-
     public SequenceMatcher(final Rule[] subRules)
     {
         super(Objects.requireNonNull(subRules, "subRules"), "sequence");

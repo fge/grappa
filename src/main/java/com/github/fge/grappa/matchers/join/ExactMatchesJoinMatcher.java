@@ -17,13 +17,11 @@
 package com.github.fge.grappa.matchers.join;
 
 import com.github.fge.grappa.rules.Rule;
-import com.google.common.annotations.Beta;
 
 /*
  * A matcher which must match exactly n times. Note that n is >= 2 (otherwise
  * the builder would have returned an empty matcher or the joined rule)
  */
-@Beta
 public final class ExactMatchesJoinMatcher
     extends JoinMatcher
 {

@@ -48,7 +48,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
  * <p>All the default implementations of methods in this class do nothing. A
  * call to {@code super()} in implementations is therefore not necessary.</p>
  *
- * @param <V> the type of the parser's stack elements
+ * @param <V> the type parameter of the parser's stack values
  *
  * @see ListeningParseRunner#registerListener(ParseRunnerListener)
  */

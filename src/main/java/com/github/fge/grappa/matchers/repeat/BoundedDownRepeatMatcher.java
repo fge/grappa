@@ -2,6 +2,10 @@ package com.github.fge.grappa.matchers.repeat;
 
 import com.github.fge.grappa.rules.Rule;
 
+/**
+ * A repeat matcher with only the lower bound defined (must match a minimum
+ * number of time, no upper limit)
+ */
 public final class BoundedDownRepeatMatcher
     extends RepeatMatcher
 {

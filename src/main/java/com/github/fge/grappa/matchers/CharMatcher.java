@@ -18,6 +18,7 @@ package com.github.fge.grappa.matchers;
 
 import com.github.fge.grappa.matchers.base.AbstractMatcher;
 import com.github.fge.grappa.matchers.base.Matcher;
+import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.run.context.MatcherContext;
 import com.github.fge.grappa.support.Chars;
 
@@ -25,6 +26,8 @@ import static com.github.fge.grappa.support.Chars.escape;
 
 /**
  * A {@link Matcher} matching a single given character.
+ *
+ * <p>This is the matcher used by {@link BaseParser#ch(char) ch()}.</p>
  */
 public final class CharMatcher
     extends AbstractMatcher

@@ -16,8 +16,6 @@
 
 package com.github.fge.grappa.matchers.trie;
 
-import com.google.common.annotations.Beta;
-
 import javax.annotation.Nonnull;
 import java.util.Objects;
 
@@ -26,7 +24,6 @@ import java.util.Objects;
  *
  * @since 1.0.0-beta.6
  */
-@Beta
 public final class TrieBuilder
 {
     int nrWords = 0;

@@ -31,11 +31,12 @@ import java.util.Objects;
  * Convenience context aware base class defining a number of useful helper
  * methods.
  *
- * @param <V> the type of the parser values
+ * @param <V> parameter type of the values on the parser stack
  */
 public abstract class BaseActions<V>
     implements ContextAware<V>
 {
+    @SuppressWarnings("InstanceVariableMayNotBeInitialized")
     private Context<V> context;
 
     /**

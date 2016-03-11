@@ -28,6 +28,7 @@ import javax.annotation.Nullable;
  */
 public class Reference<T>
 {
+    @SuppressWarnings("InstanceVariableMayNotBeInitialized")
     private T value;
 
     /**

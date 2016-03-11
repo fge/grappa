@@ -22,9 +22,10 @@ import com.github.fge.grappa.run.context.MatcherContext;
 import com.github.fge.grappa.misc.GraphNode;
 
 /**
- * A Matcher instance is responsible for "executing" a specific Rule instance, i.e. it implements the actual
- * rule type specific matching logic.
- * Since it extends the {@link GraphNode} interface it can have submatchers.
+ * A Matcher instance
+ *
+ * <p>A matcheris responsible for "executing" a specific Rule instance, i.e. it
+ * implements the actual matching on the input text.</p>
  */
 public interface Matcher
     extends Rule, GraphNode<Matcher>

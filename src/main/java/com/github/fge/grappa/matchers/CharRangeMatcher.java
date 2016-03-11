@@ -18,13 +18,18 @@ package com.github.fge.grappa.matchers;
 
 import com.github.fge.grappa.matchers.base.AbstractMatcher;
 import com.github.fge.grappa.matchers.base.Matcher;
+import com.github.fge.grappa.parsers.BaseParser;
 import com.google.common.base.Preconditions;
 import com.github.fge.grappa.run.context.MatcherContext;
 
 import static com.github.fge.grappa.support.Chars.escape;
 
 /**
- * A {@link Matcher} matching a single character out of a given range of characters.
+ * A {@link Matcher} matching a single character out of a given range of
+ * characters.
+ *
+ * <p>This is the matcher used by {@link BaseParser#charRange(char, char)
+ * charRange()}.</p>
  */
 @SuppressWarnings("ImplicitNumericConversion")
 public final class CharRangeMatcher

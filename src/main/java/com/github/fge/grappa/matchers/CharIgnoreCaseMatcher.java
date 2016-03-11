@@ -18,12 +18,16 @@ package com.github.fge.grappa.matchers;
 
 import com.github.fge.grappa.matchers.base.AbstractMatcher;
 import com.github.fge.grappa.matchers.base.Matcher;
+import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.run.context.MatcherContext;
 
 import static com.github.fge.grappa.support.Chars.escape;
 
 /**
  * A {@link Matcher} matching a single character case-independently.
+ *
+ * <p>This is the matcher used by {@link BaseParser#ignoreCase(char)
+ * ignoreCase()} (the single character version).</p>
  */
 public final class CharIgnoreCaseMatcher
     extends AbstractMatcher

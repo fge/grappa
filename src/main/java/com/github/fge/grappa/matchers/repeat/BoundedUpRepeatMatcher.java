@@ -2,6 +2,12 @@ package com.github.fge.grappa.matchers.repeat;
 
 import com.github.fge.grappa.rules.Rule;
 
+/**
+ * A repeat matcher matching a given maximum number of times
+ *
+ * <p>Note that this means that it can match zero times, that is no input text.
+ * </p>
+ */
 public final class BoundedUpRepeatMatcher
     extends RepeatMatcher
 {

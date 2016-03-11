@@ -36,13 +36,12 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Objects;
 
 /**
- * The most basic of all {@link ParseRunner} implementations. It runs a rule
- * against a given input text and builds a corresponding {@link ParsingResult}
- * instance. However, it does not report any parse errors nor recover from them.
- * Instead it simply marks the ParsingResult as "unmatched" if the input is not
- * valid with regard to the rule grammar.It never causes the parser to perform
- * more than one parsing run and is the fastest way to determine whether a given
- * input conforms to the rule grammar.
+ * The base {@link ParseRunner} implementation
+ *
+ * <p>This implementation allows you to attach {@link ParseRunnerListener}
+ * instances; those must be {@link #registerListener(ParseRunnerListener)
+ * registered} <em>before</em> you {@link #run(InputBuffer)} the parsing
+ * process.</p>
  */
 @SuppressWarnings("DesignForExtension")
 @ParametersAreNonnullByDefault

@@ -16,8 +16,6 @@
 
 package com.github.fge.grappa.matchers.trie;
 
-import com.google.common.annotations.Beta;
-
 import javax.annotation.concurrent.Immutable;
 import java.nio.CharBuffer;
 import java.util.Arrays;
@@ -39,7 +37,6 @@ import java.util.Arrays;
  * @since 1.0.0-beta.6
  */
 @Immutable
-@Beta
 public final class TrieNode
 {
     private final boolean fullWord;

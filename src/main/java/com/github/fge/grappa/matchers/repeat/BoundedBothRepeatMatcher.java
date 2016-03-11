@@ -2,6 +2,10 @@ package com.github.fge.grappa.matchers.repeat;
 
 import com.github.fge.grappa.rules.Rule;
 
+/**
+ * A repeat matcher bounded on both ends (must match a minimum of times and no
+ * more than a maximum of times)
+ */
 public final class BoundedBothRepeatMatcher
     extends RepeatMatcher
 {

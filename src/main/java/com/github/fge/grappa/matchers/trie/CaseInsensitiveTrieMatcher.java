@@ -18,13 +18,20 @@ package com.github.fge.grappa.matchers.trie;
 
 import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.AbstractMatcher;
+import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.run.context.MatcherContext;
 
 import javax.annotation.concurrent.Immutable;
+import java.util.Collection;
 import java.util.Objects;
 
 /**
- * The trie matcher
+ * A case insensitive trie matcher
+ *
+ * <p>This is the matcher used by {@link BaseParser#trieIgnoreCase(Collection)
+ * trieIgnoreCase()}.</p>
+ *
+ * @see Trie
  */
 @Immutable
 public final class CaseInsensitiveTrieMatcher

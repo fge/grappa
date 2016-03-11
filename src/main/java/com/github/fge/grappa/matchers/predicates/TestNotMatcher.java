@@ -19,14 +19,25 @@ package com.github.fge.grappa.matchers.predicates;
 import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.CustomDefaultLabelMatcher;
 import com.github.fge.grappa.matchers.base.Matcher;
+import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.rules.Rule;
 import com.github.fge.grappa.run.context.MatcherContext;
 
 import java.util.Objects;
 
 /**
- * A special {@link Matcher} not actually matching any input but rather trying its submatcher against the current input
- * position. Succeeds if the submatcher would fail.
+ * A "negative lookahead" matcher
+ *
+ * <p>This is the matcher used by {@link BaseParser#testNot(Object) testNot()}.
+ * This matcher will run its submatcher and declare success if the submatcher
+ * <em>fails</em>.</p>
+ *
+ * <p>However, unlike other delegating matchers, after the submatcher is done,
+ * it will reset both the current index and value stack to the values they had
+ * when entering this matcher. Among other things, this means that this matcher
+ * never advances in the input text.</p>
+ *
+ * @see MatcherType#PREDICATE
  */
 public final class TestNotMatcher
     extends CustomDefaultLabelMatcher<TestNotMatcher>

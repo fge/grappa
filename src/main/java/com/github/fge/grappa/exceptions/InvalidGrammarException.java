@@ -1,8 +1,8 @@
 package com.github.fge.grappa.exceptions;
 
 /**
- * Exception thrown when an invalid combination of rules in a grammar is detected
- * at build time
+ * Exception thrown when an invalid combination of rules in a grammar is
+ * detected at build time
  */
 public final class InvalidGrammarException
     extends GrappaException

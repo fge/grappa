@@ -29,6 +29,11 @@ import com.github.fge.grappa.stack.ValueStack;
 import javax.annotation.Nonnull;
 import java.util.Objects;
 
+/**
+ * Abstract base implementation of a parse runner
+ *
+ * @param <V> type parameter of the parser's stack values
+ */
 public abstract class AbstractParseRunner<V>
     implements ParseRunner<V>
 {

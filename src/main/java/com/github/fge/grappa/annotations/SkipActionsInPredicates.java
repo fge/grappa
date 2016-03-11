@@ -26,7 +26,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Do not run actions in "predicate" rules ({@code Test} and {@code TestNot})
+ * Do not run actions in "predicate" rules ({@code test} and {@code testNot})
  *
  * <p>{@link Action}s can be used to perform user defined operations, which can
  * include, for instance, setting values into beans etc. For instance:</p>
@@ -34,17 +34,17 @@ import java.lang.annotation.Target;
  * <pre>
  *     Rule myRule()
  *     {
- *         return Sequence(someRule(), storeSomeValue());
+ *         return sequence(someRule(), storeSomeValue());
  *     }
  * </pre>
  *
- * <p>The problem is that you may also use such rules in a {@code Test} or
- * {@code TestNot} rule such as in:</p>
+ * <p>The problem is that you may also use such rules in a {@code test} or
+ * {@code testNot} rule such as in:</p>
  *
  * <pre>
  *     Rule otherRule()
  *     {
- *         return Sequence(TestNot(myRule()), someOtherRule());
+ *         return sequence(testNot(myRule()), someOtherRule());
  *     }
  * </pre>
  *

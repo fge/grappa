@@ -17,6 +17,7 @@
 package com.github.fge.grappa.helpers;
 
 import com.github.fge.grappa.parsers.ListeningParser;
+import com.google.common.annotations.Beta;
 
 import javax.annotation.Nonnull;
 
@@ -35,6 +36,7 @@ import javax.annotation.Nonnull;
  *
  * @see ListeningParser#post(ValueBuilder)
  */
+@Beta
 public interface ValueBuilder<T>
 {
     /**

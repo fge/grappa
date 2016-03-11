@@ -17,14 +17,16 @@
 package com.github.fge.grappa.matchers;
 
 import com.github.fge.grappa.matchers.base.AbstractMatcher;
-import com.github.fge.grappa.matchers.delegate.SequenceMatcher;
+import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.run.context.MatcherContext;
 
 import java.util.Objects;
 
 /**
- * A {@link SequenceMatcher} specialization for sequences of CharMatchers. Performs fast string matching if the
- * current context has it enabled.
+ * A matcher which matches a given string literal in a case insensitive manner
+ *
+ * <p>This is the matcher used by {@link BaseParser#ignoreCase(String)
+ * ignoreCase()} (the string version).</p>
  */
 public final class StringIgnoreCaseMatcher
     extends AbstractMatcher

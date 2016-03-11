@@ -19,10 +19,14 @@ package com.github.fge.grappa.matchers.unicode;
 import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.AbstractMatcher;
+import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.run.context.MatcherContext;
 
 /**
  * Matcher for a range of Unicode code points
+ *
+ * <p>This is the matcher used by {@link BaseParser#unicodeRange(int, int)
+ * unicodeRange()}.</p>
  *
  * @see InputBuffer#codePointAt(int)
  */
@@ -54,8 +58,7 @@ public final class CodePointRangeMatcher
         if (codePoint < low || codePoint > high)
             return false;
 
-        context.advanceIndex(codePoint < Character.MIN_SUPPLEMENTARY_CODE_POINT
-            ? 1 : 2);
+        context.advanceIndex(Character.charCount(codePoint));
         return true;
     }
 }

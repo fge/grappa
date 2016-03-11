@@ -16,8 +16,6 @@
 
 package com.github.fge.grappa.matchers.trie;
 
-import com.google.common.annotations.Beta;
-
 import javax.annotation.concurrent.Immutable;
 
 /**
@@ -32,13 +30,12 @@ import javax.annotation.concurrent.Immutable;
  * target="_blank">radix tree</a>, but it is efficient enough that searching
  * for a string among a series of strings is very fast.</p>
  *
- * <p>The core of the trie search algorithm is implemented by {@link
- * TrieNode}.</p>
+ * <p>The core of the trie search algorithm is implemented by {@link TrieNode}.
+ * </p>
  *
  * @since 1.0.0-beta.6
  */
 @Immutable
-@Beta
 public final class Trie
 {
     private final int nrWords;

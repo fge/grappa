@@ -16,8 +16,16 @@
 
 package com.github.fge.grappa.run.events;
 
+import com.github.fge.grappa.run.ParseRunnerListener;
 import com.github.fge.grappa.run.context.MatcherContext;
 
+/**
+ * Event sent to parsing event listeners which listen for a match success
+ *
+ * @param <V> parameter type of the parser's stack values
+ *
+ * @see ParseRunnerListener#matchSuccess(MatchSuccessEvent)
+ */
 public final class MatchSuccessEvent<V>
     extends MatchContextEvent<V>
 {

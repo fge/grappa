@@ -26,6 +26,21 @@ import java.util.Map;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+/**
+ * The tracing listener
+ *
+ * <p>This parsing event listener will collect all match failures and successes,
+ * and maintain parent/child relationships between matches.</p>
+ *
+ * <p>The information is made as condensed as possible for performance reasons,
+ * since parsing a big file can produce several millions of parsing nodes.</p>
+ *
+ * <p>The output of this listener is a zip archive which can then be used in
+ * the <a href="https://github.com/fge/grappa-debugger"
+ * target="_blank">debugger</a>.</p>
+ *
+ * @param <V> type parameter of the parser's stack values
+ */
 @ParametersAreNonnullByDefault
 public final class TracingListener<V>
     extends ParseRunnerListener<V>
@@ -61,6 +76,14 @@ public final class TracingListener<V>
     private final BufferedWriter writer;
     private final StringBuilder sb = new StringBuilder();
 
+    /**
+     * Constructor
+     *
+     * @param zipPath path to the zip to be generated
+     * @param delete delete the zip if it already exists
+     * @throws IOException file already exists and {@code delete} is false; or
+     * failed to open the zip for writing
+     */
     public TracingListener(final Path zipPath, final boolean delete)
         throws IOException
     {

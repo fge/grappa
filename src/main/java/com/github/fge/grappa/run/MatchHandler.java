@@ -16,12 +16,14 @@
 
 package com.github.fge.grappa.run;
 
+import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.run.context.MatcherContext;
 
 /**
- * A MatchHandler is responsible for actually running the match of a given
- * {@link MatcherContext}. Many times it wraps the actual call to the matcher
- * with some custom logic, e.g. for error handling.
+ * Interface used to run a {@link Matcher} against an input text
+ *
+ * <p>The {@link MatcherContext} as an argument holds the matcher to be
+ * actually run by invoking {@link MatcherContext#getMatcher()}.</p>
  */
 public interface MatchHandler
 {

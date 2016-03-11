@@ -17,12 +17,10 @@
 package com.github.fge.grappa.matchers.join;
 
 import com.github.fge.grappa.rules.Rule;
-import com.google.common.annotations.Beta;
 
 /*
  * A joining matcher with a maximum number of matches to perform
  */
-@Beta
 public final class BoundedUpJoinMatcher
     extends JoinMatcher
 {

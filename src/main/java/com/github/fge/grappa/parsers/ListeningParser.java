@@ -17,6 +17,7 @@
 package com.github.fge.grappa.parsers;
 
 import com.github.fge.grappa.helpers.ValueBuilder;
+import com.google.common.annotations.Beta;
 import com.google.common.eventbus.EventBus;
 import com.github.fge.grappa.support.Var;
 
@@ -86,6 +87,7 @@ import java.util.Objects;
  *
  * @see ValueBuilder
  */
+@Beta
 public abstract class ListeningParser<V>
     extends BaseParser<V>
 {

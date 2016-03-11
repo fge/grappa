@@ -26,7 +26,10 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Special wrapping matcher that manages the creation and destruction of execution frames for a number of action vars.
+ * Special wrapping matcher that manages the creation and destruction of
+ * execution frames for a number of action vars.
+ *
+ * @see Var
  */
 // TODO: use delegation pattern
 public final class VarFramingMatcher

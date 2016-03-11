@@ -4,6 +4,9 @@ import com.google.common.escape.ArrayBasedUnicodeEscaper;
 
 import java.util.Collections;
 
+/**
+ * A label escaper used by the {@link TracingListener} when writing CSVs
+ */
 public final class LabelEscaper
     extends ArrayBasedUnicodeEscaper
 {

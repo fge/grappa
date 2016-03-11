@@ -20,22 +20,27 @@ import com.github.fge.grappa.matchers.base.AbstractMatcher;
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.rules.Action;
 import com.github.fge.grappa.rules.SkippableAction;
-import com.google.common.collect.Lists;
 import com.github.fge.grappa.run.context.ContextAware;
 import com.github.fge.grappa.run.context.MatcherContext;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 /**
- * A {@link Matcher} that not actually matches input but runs a given parser {@link Action}.
+ * A {@link Matcher} that not actually matches input but runs a given parser
+ * {@link Action}
+ *
+ * <p>All actions in parsers (that is, methods returning booleans or boolean
+ * expressions in rules) will eventually be wrapped up in this matcher.</p>
+ *
  */
 public final class ActionMatcher
     extends AbstractMatcher
 {
     private final Action<?> action;
-    private final List<ContextAware<?>> contextAwares = Lists.newArrayList();
+    private final List<ContextAware<?>> contextAwares = new ArrayList<>();
     private final boolean skipInPredicates;
 
     public ActionMatcher(final Action<?> action)

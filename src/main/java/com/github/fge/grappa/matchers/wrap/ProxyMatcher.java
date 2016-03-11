@@ -25,8 +25,11 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * A {@link Matcher} that delegates all {@link Rule} and {@link Matcher} interface methods to another {@link Matcher}.
- * It can also hold a label and a leaf marker and lazily apply these to the underlying {@link Matcher} once it is available.
+ * A {@link Matcher} that delegates all {@link Rule} and {@link Matcher}
+ * interface methods to another {@link Matcher}.
+ *
+ * <p>It can also hold a label and a leaf marker and lazily apply these to the
+ * underlying {@link Matcher} once it is available.</p>
  */
 // TODO: REMOVE!! It is THE pain point in generation today
 public final class ProxyMatcher

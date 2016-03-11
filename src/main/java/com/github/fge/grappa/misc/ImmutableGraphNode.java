@@ -31,15 +31,6 @@ import java.util.Objects;
 public class ImmutableGraphNode<T extends GraphNode<T>>
     implements GraphNode<T>
 {
-    /*
-     * TODO: cleanup that royal mess
-     *
-     * ImmutableLinkedList seems only to be used in a few special cases; this
-     * class unfortunately allows for both the aforementioned class (which is,
-     * frankly, also a mess) and regular lists.
-     *
-     * Find a way to separate.
-     */
     private final List<T> children;
 
     public ImmutableGraphNode()
@@ -47,7 +38,6 @@ public class ImmutableGraphNode<T extends GraphNode<T>>
         this(ImmutableList.<T>of());
     }
 
-    // TODO! Null! Again! I need a gun!
     public ImmutableGraphNode(@Nonnull final List<T> children)
     {
         Objects.requireNonNull(children);
@@ -60,6 +50,7 @@ public class ImmutableGraphNode<T extends GraphNode<T>>
         this.children = ImmutableList.copyOf(children);
     }
 
+    @SuppressWarnings("ReturnOfCollectionOrArrayField")
     @Override
     public final List<T> getChildren()
     {

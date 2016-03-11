@@ -16,30 +16,31 @@
 
 package com.github.fge.grappa.rules;
 
-import com.github.fge.grappa.matchers.delegate.SequenceMatcher;
 import com.github.fge.grappa.parsers.BaseActions;
 import com.github.fge.grappa.run.context.Context;
 import com.github.fge.grappa.run.context.ContextAware;
 
 /**
- * Instances of classes implementing this interface can be used directly in a
- * rule definition to define a parser action.
- * If the class also implements the {@link ContextAware} interface it will be
- * used to inform the object of the current parsing {@link Context} immediately
- * before the invocation of the {@link #run} method.
- * Additionally, if the class implementing this interface is an inner class
- * (anonymous or not) and its outer class(es) implement(s) {@link ContextAware}
- * its outer class(es) will also be informed object of the current parsing
- * {@link Context} immediately before the invocation of the action's {@link
- * #run} method.
- * This allows simple anonymous action class implementations directly in the
- * parser rule definitions, even when they access context-sensitive methods
- * defined in the BaseActions or BaseParser classes.
+ * Class for a user defined action
  *
- * <p><strong>NOTE! IMPORTANT!</strong> Right now there is a severe limitation
- * that an {@code Action} instance, if it is to collect a value, must be the
- * second or later rule of a {@link SequenceMatcher}. This limitation will be
- * removed in the future.</p>
+ * <p>Instances of classes implementing this interface can be used directly in a
+ * rule definition to define a parser action. In addition, all boolean
+ * expressions and methods returning a boolean in parsers will be transformed so
+ * as to implement this interface.</p>
+ *
+ * <p>If a user implementation of this class also implements {@link
+ * ContextAware}, instances will be made aware of the current parsing context
+ * (via {@link ContextAware#setContext(Context)} immediately before the
+ * invocation of the {@link #run} method.</p>
+ *
+ * <p>Additionally, if the class implementing this interface is an inner class
+ * (anonymous or not) and its outer class(es) implement(s) {@link ContextAware},
+ * its outer class(es) will also be informed of the current parsing context,
+ * immediately before the invocation of the action's {@link * #run} method.</p>
+ *
+ * <p>This allows simple anonymous action class implementations directly in the
+ * parser rule definitions, even when they access context-sensitive methods
+ * defined in parser classes.</p>
  *
  * @see BaseActions#match()
  */

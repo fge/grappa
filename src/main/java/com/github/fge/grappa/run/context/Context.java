@@ -18,6 +18,7 @@ package com.github.fge.grappa.run.context;
 
 import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.matchers.base.Matcher;
+import com.github.fge.grappa.rules.Action;
 import com.github.fge.grappa.stack.ValueStack;
 import com.github.fge.grappa.support.IndexRange;
 import com.github.fge.grappa.support.Position;
@@ -26,8 +27,11 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * A Context object is available to parser actions methods during their runtime
- * and provides various support functionalities.
+ * A parsing context, as seen by {@link Matcher}s (and any {@link ContextAware}
+ * implementations) at runtime
+ *
+ * @see Matcher#match(MatcherContext)
+ * @see Action#run(Context)
  */
 public interface Context<V>
 {

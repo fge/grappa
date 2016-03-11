@@ -18,7 +18,6 @@ package com.github.fge.grappa.matchers.join;
 
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.rules.Rule;
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
 
 import javax.annotation.Nonnull;
@@ -44,7 +43,6 @@ import java.util.Objects;
  *
  * @see JoinMatcherBuilder
  */
-@Beta
 public final class JoinMatcherBootstrap<V, P extends BaseParser<V>>
 {
     private final P parser;

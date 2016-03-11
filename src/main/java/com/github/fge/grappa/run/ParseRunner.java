@@ -18,16 +18,8 @@ package com.github.fge.grappa.run;
 
 import com.github.fge.grappa.buffers.InputBuffer;
 
-import java.nio.CharBuffer;
-
 /**
- * A ParseRunner performs the actual parsing run of a given parser rule on a
- * given input text.
- *
- * <p>Note: if you want to use a parser on a {@link String} input, use the
- * {@link #run(CharSequence)} method, since String implements
- * {@link CharSequence} (and so does {@link CharBuffer}; see also <a
- * href="https://github.com/fge/largetext">for large files</a>).</p>
+ * Main interface to run parser instances against a character input
  */
 /*
  * TODO: separation of concerns

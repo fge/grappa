@@ -18,19 +18,22 @@ package com.github.fge.grappa.matchers.trie;
 
 import com.github.fge.grappa.matchers.MatcherType;
 import com.github.fge.grappa.matchers.base.AbstractMatcher;
-import com.google.common.annotations.Beta;
+import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.run.context.MatcherContext;
 
 import javax.annotation.concurrent.Immutable;
+import java.util.Collection;
 import java.util.Objects;
 
 /**
  * The trie matcher
  *
+ * <p>This is the matcher used by {@link BaseParser#trie(Collection) trie()}.
+ * </p>
+ *
  * @since 1.0.0-beta.6
  */
 @Immutable
-@Beta
 public final class TrieMatcher
     extends AbstractMatcher
 {

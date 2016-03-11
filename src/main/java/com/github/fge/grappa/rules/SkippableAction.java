@@ -16,12 +16,15 @@
 
 package com.github.fge.grappa.rules;
 
+import com.github.fge.grappa.annotations.SkipActionsInPredicates;
 import com.github.fge.grappa.matchers.predicates.TestMatcher;
 import com.github.fge.grappa.matchers.predicates.TestNotMatcher;
 
 /**
  * An action that can optionally be skipped when run underneath a predicate
  * matcher.
+ *
+ * @see SkipActionsInPredicates
  */
 // TODO: why? Why isn't this in Action?
 public interface SkippableAction<V>

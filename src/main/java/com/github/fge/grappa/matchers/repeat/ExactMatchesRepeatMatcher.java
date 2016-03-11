@@ -2,6 +2,10 @@ package com.github.fge.grappa.matchers.repeat;
 
 import com.github.fge.grappa.rules.Rule;
 
+/**
+ * A repeat matcher which must match exactly a given number of times; no less,
+ * no more
+ */
 public final class ExactMatchesRepeatMatcher
     extends RepeatMatcher
 {

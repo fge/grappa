@@ -16,8 +16,16 @@
 
 package com.github.fge.grappa.run.events;
 
+import com.github.fge.grappa.run.ParseRunnerListener;
 import com.github.fge.grappa.run.context.MatcherContext;
 
+/**
+ * Event sent to parsing event listeners before a match is attempted
+ *
+ * @param <V> type parameter of the parser's stack values
+ *
+ * @see ParseRunnerListener#beforeMatch(PreMatchEvent)
+ */
 public final class PreMatchEvent<V>
     extends MatchContextEvent<V>
 {

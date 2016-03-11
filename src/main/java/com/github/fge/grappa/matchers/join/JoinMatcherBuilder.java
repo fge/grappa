@@ -21,7 +21,6 @@ import com.github.fge.grappa.matchers.delegate.OptionalMatcher;
 import com.github.fge.grappa.misc.RangeMatcherBuilder;
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.rules.Rule;
-import com.google.common.annotations.Beta;
 import com.google.common.collect.Range;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -55,7 +54,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
  * @see Range
  */
 @ParametersAreNonnullByDefault
-@Beta
 public final class JoinMatcherBuilder<V>
     extends RangeMatcherBuilder<V>
 {

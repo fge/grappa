@@ -16,8 +16,16 @@
 
 package com.github.fge.grappa.run.events;
 
+import com.github.fge.grappa.run.ParseRunnerListener;
 import com.github.fge.grappa.run.ParsingResult;
 
+/**
+ * Event sent to parsing event listeners after a parsing process is complete
+ *
+ * @param <V> type parameter of the parser's stack values
+ *
+ * @see ParseRunnerListener#afterParse(PostParseEvent)
+ */
 public final class PostParseEvent<V>
 {
     private final ParsingResult<V> result;

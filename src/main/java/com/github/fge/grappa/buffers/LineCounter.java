@@ -16,22 +16,28 @@
 
 package com.github.fge.grappa.buffers;
 
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Range;
 import com.github.fge.grappa.support.Position;
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.Range;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.Tainted;
+import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A line counter used to calculate the lines in a given input
+ *
+ * @see InputBuffer#getLineCount()
+ * @see InputBuffer#getLineRange(int)
+ */
 // TODO: get rid of edge cases
 @SuppressWarnings({ "AutoBoxing", "AutoUnboxing" })
 @ParametersAreNonnullByDefault
 public final class LineCounter
 {
     // TODO: replace with IntRange from largetext
-    private final List<Range<Integer>> lines = Lists.newArrayList();
+    private final List<Range<Integer>> lines = new ArrayList<>();
     private final int nrLines;
     private final int len;
 
