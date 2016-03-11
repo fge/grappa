@@ -37,6 +37,9 @@ public abstract class ValueStackBase<V>
     @VisibleForTesting
     static final String NOT_ENOUGH_ELEMENTS = "not enough elements in stack";
 
+    @VisibleForTesting
+    static final String SWAP_BADARG = "argument to swap(...) must be >= 2";
+
     @Override
     public final boolean isEmpty()
     {
@@ -187,7 +190,7 @@ public abstract class ValueStackBase<V>
     public final void swap(final int n)
     {
         if (n < 2)
-            throw new IllegalArgumentException("argument must be >= 2");
+            throw new IllegalArgumentException(SWAP_BADARG);
         /*
          * As for .push(n, value), we need to check for n - 1 here
          */
@@ -202,6 +205,15 @@ public abstract class ValueStackBase<V>
     }
 
     /**
+     * Reverses the order of the top n stack values
+     *
+     * <p>The number of values is guaranteed to be valid.</p>
+     *
+     * @param n the number of values to swap
+     */
+    protected abstract void doSwap(final int n);
+
+    /**
      * Duplicates the top value. Equivalent to push(peek()).
      */
     @Override
@@ -212,15 +224,6 @@ public abstract class ValueStackBase<V>
     }
 
     protected abstract void doDup();
-
-    /**
-     * Reverses the order of the top n stack values
-     *
-     * <p>The number of values is guaranteed to be valid.</p>
-     *
-     * @param n the number of values to swap
-     */
-    protected abstract void doSwap(final int n);
 
     /**
      * Check whether the stack has enough elements to perform an operation

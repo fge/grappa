@@ -190,4 +190,60 @@ public final class ValueStackBaseTest
         verify(stack).doPoke(eq(2), same(element));
     }
 
+    @Test
+    public void swapBadArg()
+    {
+        try {
+            stack.swap(1);
+            shouldHaveThrown(IllegalArgumentException.class);
+        } catch (IllegalArgumentException e) {
+            assertThat(e).hasMessage(ValueStackBase.SWAP_BADARG);
+        }
+    }
+
+    @Test
+    public void swapIllegalIndex()
+    {
+        doReturn(2).when(stack).size();
+
+        try {
+            stack.swap(3);
+            shouldHaveThrown(IllegalStateException.class);
+        } catch (IllegalStateException e) {
+            assertThat(e).hasMessage(ValueStackBase.NOT_ENOUGH_ELEMENTS);
+        }
+    }
+
+    @Test
+    public void swapTest()
+    {
+        doReturn(3).when(stack).size();
+
+        stack.swap(3);
+
+        verify(stack).doSwap(3);
+    }
+
+    @Test
+    public void dupIllegalIndex()
+    {
+        doReturn(0).when(stack).size();
+
+        try {
+            stack.dup();
+            shouldHaveThrown(IllegalStateException.class);
+        } catch (IllegalStateException e) {
+            assertThat(e).hasMessage(ValueStackBase.NOT_ENOUGH_ELEMENTS);
+        }
+    }
+
+    @Test
+    public void dupTest()
+    {
+        doReturn(1).when(stack).size();
+
+        stack.dup();
+
+        verify(stack).doDup();
+    }
 }
