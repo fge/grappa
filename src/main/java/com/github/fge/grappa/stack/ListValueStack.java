@@ -16,22 +16,34 @@
 
 package com.github.fge.grappa.stack;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterators;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
 @ParametersAreNonnullByDefault
-public final class DefaultValueStack<V>
+public final class ListValueStack<V>
     extends ValueStackBase<V>
 {
     private List<V> stack = new ArrayList<>();
+
+    public ListValueStack()
+    {
+    }
+
+    @VisibleForTesting
+    ListValueStack(final Collection<V> collection)
+    {
+        stack.addAll(collection);
+    }
 
     @Override
     public int size()

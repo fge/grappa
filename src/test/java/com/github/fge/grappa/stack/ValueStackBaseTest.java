@@ -49,8 +49,7 @@ public final class ValueStackBaseTest
             stack.push(-1, new Object());
             shouldHaveThrown(IllegalArgumentException.class);
         } catch (IllegalArgumentException e) {
-            assertThat(e.getMessage())
-                .isEqualTo(ValueStackBase.NEGATIVE_INDEX);
+            assertThat(e).hasMessage(ValueStackBase.NEGATIVE_INDEX);
         }
 
         verify(stack, never()).doPush(anyInt(), any());

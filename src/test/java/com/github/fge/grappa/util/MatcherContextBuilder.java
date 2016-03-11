@@ -19,7 +19,7 @@ package com.github.fge.grappa.util;
 import com.github.fge.grappa.buffers.CharSequenceInputBuffer;
 import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.matchers.base.Matcher;
-import com.github.fge.grappa.stack.DefaultValueStack;
+import com.github.fge.grappa.stack.ListValueStack;
 import com.github.fge.grappa.stack.ValueStack;
 import com.google.common.base.Preconditions;
 import com.github.fge.grappa.run.context.DefaultMatcherContext;
@@ -30,7 +30,7 @@ import javax.annotation.Nonnull;
 public final class MatcherContextBuilder
 {
     private static final ValueStack<Object> STACK
-        = new DefaultValueStack<>();
+        = new ListValueStack<>();
     private InputBuffer buffer = null;
     private Matcher matcher = null;
     private int index = 0;
