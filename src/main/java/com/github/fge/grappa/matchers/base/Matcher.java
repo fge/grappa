@@ -56,6 +56,8 @@ public interface Matcher
      *
      * @param context the parent context
      * @return the context this matcher is to be run in
+     *
+     * @param <V> type parameter of the parsers's stack values
      */
     <V> MatcherContext<V> getSubContext(MatcherContext<V> context);
 
@@ -64,6 +66,8 @@ public interface Matcher
      *
      * @param context the MatcherContext
      * @return true if the match was successful
+     *
+     * @param <V> type parameter of the parsers's stack values
      */
     <V> boolean match(MatcherContext<V> context);
 }

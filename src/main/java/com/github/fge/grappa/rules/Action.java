@@ -36,7 +36,7 @@ import com.github.fge.grappa.run.context.ContextAware;
  * <p>Additionally, if the class implementing this interface is an inner class
  * (anonymous or not) and its outer class(es) implement(s) {@link ContextAware},
  * its outer class(es) will also be informed of the current parsing context,
- * immediately before the invocation of the action's {@link * #run} method.</p>
+ * immediately before the invocation of the action's {@link #run} method.</p>
  *
  * <p>This allows simple anonymous action class implementations directly in the
  * parser rule definitions, even when they access context-sensitive methods
