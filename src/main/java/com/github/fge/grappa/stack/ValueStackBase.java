@@ -16,6 +16,8 @@
 
 package com.github.fge.grappa.stack;
 
+import com.google.common.annotations.VisibleForTesting;
+
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Objects;
@@ -29,9 +31,11 @@ import java.util.Objects;
 public abstract class ValueStackBase<V>
     implements ValueStack<V>
 {
-    private static final String NEGATIVE_INDEX = "index cannot be negative";
+    @VisibleForTesting
+    static final String NEGATIVE_INDEX = "index cannot be negative";
 
-    private static final String NOT_ENOUGH_ELEMENTS = "not enough elements in stack";
+    @VisibleForTesting
+    static final String NOT_ENOUGH_ELEMENTS = "not enough elements in stack";
 
     @Override
     public final boolean isEmpty()
