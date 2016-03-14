@@ -29,6 +29,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * A {@link ValueStack} implementation using an {@link ArrayList}
+ *
+ * <p>UNUSED!</p>
+ *
+ * @param <V> type parameter of the stack's element
+ */
 @ParametersAreNonnullByDefault
 public final class ListValueStack<V>
     extends ValueStackBase<V>

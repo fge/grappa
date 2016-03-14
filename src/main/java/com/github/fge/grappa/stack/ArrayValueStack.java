@@ -8,6 +8,13 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ * A {@link ValueStack} implementation using arrays
+ *
+ * <p>This is the default implementation currently used.</p>
+ *
+ * @param <V> type parameter of the stack's element
+ */
 @ParametersAreNonnullByDefault
 public final class ArrayValueStack<V>
     extends ValueStackBase<V>
