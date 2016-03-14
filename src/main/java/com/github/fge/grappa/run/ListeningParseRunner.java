@@ -16,31 +16,23 @@
 
 package com.github.fge.grappa.run;
 
-import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.internal.NonFinalForTesting;
 import com.github.fge.grappa.rules.Rule;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
- * The base {@link ParseRunner} implementation
+ * Deprecated!
  *
- * <p>This implementation allows you to attach {@link ParseEventListener}
- * instances; those must be {@link #registerListener(ParseEventListener)
- * registered} <em>before</em> you {@link #run(InputBuffer)} the parsing
- * process.</p>
+ * @deprecated use {@link ParseRunner} instead
  */
+@Deprecated
 @SuppressWarnings("DesignForExtension")
 @ParametersAreNonnullByDefault
 @NonFinalForTesting
 public class ListeningParseRunner<V>
     extends ParseRunner<V>
 {
-    /**
-     * Creates a new BasicParseRunner instance for the given rule.
-     *
-     * @param rule the parser rule
-     */
     public ListeningParseRunner(final Rule rule)
     {
         super(rule);

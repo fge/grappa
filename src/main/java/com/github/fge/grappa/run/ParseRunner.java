@@ -16,6 +16,7 @@
 
 package com.github.fge.grappa.run;
 
+import com.github.fge.grappa.Grappa;
 import com.github.fge.grappa.buffers.CharSequenceInputBuffer;
 import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.exceptions.GrappaException;
@@ -30,9 +31,9 @@ import com.github.fge.grappa.run.events.MatchSuccessEvent;
 import com.github.fge.grappa.run.events.PostParseEvent;
 import com.github.fge.grappa.run.events.PreMatchEvent;
 import com.github.fge.grappa.run.events.PreParseEvent;
-import com.github.fge.grappa.run.trace.TracingListener;
 import com.github.fge.grappa.stack.ArrayValueStack;
 import com.github.fge.grappa.stack.ValueStack;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.SubscriberExceptionContext;
 import com.google.common.eventbus.SubscriberExceptionHandler;
@@ -43,15 +44,25 @@ import java.util.Objects;
 /**
  * Class to run a parser on an input, and retrieve a result
  *
- * <p>You can also register listeners which will be listening for one, or more,
- * parse events. Those listeners must implement {@link ParseEventListener}.</p>
+ * <p>This is the class which is used when you want to actually run an instance
+ * of a parser (created using {@link Grappa#createParser(Class, Object...)})
+ * against a text input.</p>
  *
- * <p>For instance, the provided {@link TracingListener} will collect all parse
- * failues and success to construct a complete picture of the parsing process.
- * </p>
+ * <p>The basic text input is a {@link CharSequence}; since {@link @String}
+ * implements this interface, this is the most direct way to run a parser.
+ * If you wish to, however, you may implement your own {@link InputBuffer} and
+ * pass is as an alternative.</p>
+ *
+ * <p>You can also register a number of listeners implementing {@link
+ * ParseEventListener}. Such listeners have the ability to listen to the parse
+ * events of your choice (before parsing, before matching, match failure
+ * or success, after parsing), further extending the use of grappa.</p>
  *
  * @param <V> type parameter of the parser's stack values
+ *
+ * @see ParseEventListener
  */
+@NonFinalForTesting
 public class ParseRunner<V>
     implements MatchHandler
 {
@@ -76,6 +87,11 @@ public class ParseRunner<V>
     protected ValueStack<V> valueStack;
     protected Object stackSnapshot;
 
+    /**
+     * Constructor
+     *
+     * @param rule the rule
+     */
     public ParseRunner(@Nonnull final Rule rule)
     {
         rootMatcher = Objects.requireNonNull((Matcher) rule, "rule");
@@ -112,7 +128,6 @@ public class ParseRunner<V>
         return result;
     }
 
-
     private void resetValueStack()
     {
         // TODO: write a "memoizing" API
@@ -120,28 +135,34 @@ public class ParseRunner<V>
         stackSnapshot = null;
     }
 
-    @NonFinalForTesting
-    protected MatcherContext<V> createRootContext(
+    @VisibleForTesting
+    MatcherContext<V> createRootContext(
         final InputBuffer inputBuffer, final MatchHandler matchHandler)
     {
         return new DefaultMatcherContext<>(inputBuffer, valueStack,
             matchHandler, rootMatcher);
     }
 
-    @NonFinalForTesting
-    protected ParsingResult<V> createParsingResult(final boolean matched,
-        final MatcherContext<V> rootContext)
+    @VisibleForTesting
+    ParsingResult<V> createParsingResult(final boolean matched,
+        final MatcherContext<V> context)
     {
         return new ParsingResult<>(matched, valueStack,
-            rootContext.getInputBuffer());
+            context.getInputBuffer());
     }
 
-    // TODO: replace with a supplier mechanism
     public final void registerListener(final ParseEventListener<V> listener)
     {
         bus.register(listener);
     }
 
+    /**
+     * Internal method. DO NOT USE!
+     *
+     * @param context the MatcherContext
+     * @param <T> type parameter of the values on the parser stack
+     * @return true on a match; false otherwise
+     */
     @Override
     public <T> boolean match(final MatcherContext<T> context)
     {
