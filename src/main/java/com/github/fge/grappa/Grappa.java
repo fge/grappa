@@ -18,7 +18,6 @@ package com.github.fge.grappa;
 
 import com.github.fge.grappa.exceptions.InvalidGrammarException;
 import com.github.fge.grappa.parsers.BaseParser;
-import com.github.fge.grappa.run.ParseRunner;
 import com.github.fge.grappa.transform.ParserTransformer;
 
 import javax.annotation.Nonnull;

@@ -16,10 +16,10 @@
 
 package com.github.fge.grappa.transform;
 
+import com.github.fge.grappa.Grappa;
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.rules.Rule;
-import com.github.fge.grappa.run.ListeningParseRunner;
-import com.github.fge.grappa.Grappa;
+import com.github.fge.grappa.run.ParseRunner;
 import org.testng.annotations.Test;
 
 public class BugIn101Test {
@@ -48,6 +48,6 @@ public class BugIn101Test {
         final Parser parser = Grappa.createParser(Parser.class);
 
         // threw "java.lang.NoSuchFieldError: field$1" in 1.0.1
-        new ListeningParseRunner<>(parser.B()).run("b");
+        new ParseRunner<>(parser.B()).run("b");
     }
 }

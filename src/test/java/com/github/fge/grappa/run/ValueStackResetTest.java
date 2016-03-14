@@ -44,8 +44,7 @@ public final class ValueStackResetTest
     {
         final TestParser parser = Grappa.createParser(TestParser.class);
 
-        final ParseRunner<Object> runner
-            = new ListeningParseRunner<>(parser.rule());
+        final ParseRunner<Object> runner = new ParseRunner<>(parser.rule());
 
         ParsingResult<Object> result;
         ValueStack<Object> stack;

@@ -2,7 +2,7 @@ package com.github.fge.grappa.parsers;
 
 import com.github.fge.grappa.Grappa;
 import com.github.fge.grappa.rules.Rule;
-import com.github.fge.grappa.run.ListeningParseRunner;
+import com.github.fge.grappa.run.ParseRunner;
 import com.google.common.eventbus.Subscribe;
 import org.testng.annotations.Test;
 
@@ -36,8 +36,7 @@ public class EventBusParserTest
         final MyListener listener = spy(new MyListener());
         parser.register(listener);
 
-        final ListeningParseRunner<Void> runner
-            = new ListeningParseRunner<>(parser.theRule());
+        final ParseRunner<Void> runner = new ParseRunner<>(parser.theRule());
 
         runner.run("");
 

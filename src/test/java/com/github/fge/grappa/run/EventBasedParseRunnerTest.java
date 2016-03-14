@@ -42,8 +42,8 @@ public final class EventBasedParseRunnerTest
 {
     private MatcherContext<Object> context;
     private Matcher matcher;
-    private ListeningParseRunner<Object> parseRunner;
-    private ParseRunnerListener<Object> listener;
+    private ParseRunner<Object> parseRunner;
+    private ParseEventListener<Object> listener;
 
     @BeforeMethod
     public void init()
@@ -51,8 +51,8 @@ public final class EventBasedParseRunnerTest
         //noinspection unchecked
         context = mock(MatcherContext.class);
         matcher = mock(Matcher.class);
-        parseRunner = spy(new ListeningParseRunner<>(matcher));
-        listener = spy(new ParseRunnerListener<>());
+        parseRunner = spy(new ParseRunner<>(matcher));
+        listener = spy(new ParseEventListener<>());
         parseRunner.registerListener(listener);
     }
 

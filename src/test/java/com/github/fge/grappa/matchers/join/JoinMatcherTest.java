@@ -20,7 +20,6 @@ import com.github.fge.grappa.Grappa;
 import com.github.fge.grappa.exceptions.GrappaException;
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.rules.Rule;
-import com.github.fge.grappa.run.ListeningParseRunner;
 import com.github.fge.grappa.run.ParseRunner;
 import org.testng.annotations.Test;
 
@@ -45,8 +44,7 @@ public final class JoinMatcherTest
     {
         final CharSequence input = "aaaabaaaaxaaa";
         final MyParser parser = Grappa.createParser(MyParser.class);
-        final ParseRunner<Object> runner
-            = new ListeningParseRunner<>(parser.rule());
+        final ParseRunner<Object> runner = new ParseRunner<>(parser.rule());
         final String expectedMessage = "joining rule (foo) of a JoinMatcher" +
             " cannot match an empty character sequence!";
 

@@ -16,11 +16,11 @@
 
 package com.github.fge.grappa.actions;
 
-import com.github.fge.grappa.parsers.BaseParser;
-import com.github.fge.grappa.rules.Rule;
-import com.github.fge.grappa.run.ListeningParseRunner;
 import com.github.fge.grappa.Grappa;
 import com.github.fge.grappa.annotations.SkipActionsInPredicates;
+import com.github.fge.grappa.parsers.BaseParser;
+import com.github.fge.grappa.rules.Rule;
+import com.github.fge.grappa.run.ParseRunner;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -82,7 +82,7 @@ public final class ActionsAnnotationsTest
     {
         final Parser parser
             = Grappa.createParser(Parser.class, dummy);
-        new ListeningParseRunner<>(parser.rule1()).run("f");
+        new ParseRunner<>(parser.rule1()).run("f");
         verify(dummy).dummy();
     }
 
@@ -91,7 +91,7 @@ public final class ActionsAnnotationsTest
     {
         final Parser parser
             = Grappa.createParser(Parser.class, dummy);
-        new ListeningParseRunner<>(parser.rule2()).run("f");
+        new ParseRunner<>(parser.rule2()).run("f");
         verify(dummy, never()).dummy();
     }
 }
