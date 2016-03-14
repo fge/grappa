@@ -16,6 +16,7 @@
 
 package com.github.fge.grappa.parsers;
 
+import com.github.fge.grappa.annotations.SkipActionsInPredicates;
 import com.github.fge.grappa.rules.Action;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -36,10 +37,8 @@ import java.util.Objects;
  *     <li>they must accept one, and only one, argument.</li>
  * </ul>
  *
- * <p>Since Grappa allows you to build basically anything during a parsing run,
- * you may use it, for instance, to post elements you would push on the stack
- * "ahead of time". Or, even more simple, you'd just post an event each time you
- * have a match for a certain rule, with the text matched. For instance:</p>
+ * <p>A sample usage is shown below, where an event is posted on the bus, with
+ * the text matched as an argument:</p>
  *
  * <pre>
  *     public Rule someRule()
@@ -50,43 +49,32 @@ import java.util.Objects;
  *     }
  * </pre>
  *
- * <p>You can, of course, do more than that.</p>
- *
- * <p>The method to post on the bus ({@link #post(Object)}, of which there is
- * an example above) is basically an {@link Action}, and as such obeys all rules
- * of an action; unlike what happens with the parser stack however, if you are
- * in a predicate and allow actions, the objects you post on the bus cannot be
- * "rolled back", for obvious reasons. You may still detect whether you are in
- * an action and post anyway as follows:</p>
- *
- * <pre>
- *     public boolean postNoPredicate(final Object object)
- *     {
- *         if (!inPredicate())
- *             post(object);
- *         return true;
- *     }
- * </pre>
+ * <p>This method ({@link #post(Object)} ultimately becomes an {@link Action},
+ * which means it obeys all the rules of an action. This includes, for instance,
+ * the presence (or absence thereof) of annotations such as {@link
+ * SkipActionsInPredicates}.</p>
  *
  * <h2>Usage notes</h2>
  *
- * <p>You can only register listeners to such a parser once the parser has been
- * created, and they <em>must</em> be created before the parser is run on an
- * input. For instance:</p>
+ * <p>Listeners to such a parser can only be registered once the parser has been
+ * created. For instance:</p>
  *
  * <pre>
  *     // MyParser extends EventBusParser
  *     final MyParser parser = Grappa.createParser(MyParser.class);
  *
+ *     // Create the listener
  *     final MyListener listener = new MyListener();
+ *
+ *     // Register it to the parser
  *     parser.register(listener);
  *
  *     // Crete a runner, run on an input
  * </pre>
  *
- * <p>If you reuse the same parser again on different inputs, then your listener
- * will be reused again, so be careful about it being state dependent (this may
- * be a desired effect however; this is up to you to decide).</p>
+ * <p>Please note that such a listener's state, if any, will be retained across
+ * reuses of the same parser on different inputs. According to the use case,
+ * this may, or may not, be a desirable property.</p>
  *
  * @see Subscribe
  * @see EventBus#register(Object)
