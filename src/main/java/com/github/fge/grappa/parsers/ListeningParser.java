@@ -17,9 +17,8 @@
 package com.github.fge.grappa.parsers;
 
 import com.github.fge.grappa.helpers.ValueBuilder;
-import com.google.common.annotations.Beta;
-import com.google.common.eventbus.EventBus;
 import com.github.fge.grappa.support.Var;
+import com.google.common.eventbus.EventBus;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
@@ -86,8 +85,10 @@ import java.util.Objects;
  * @param <V> the result type of the parser
  *
  * @see ValueBuilder
+ *
+ * @deprecated will disappear in 2.1.x. No real value.
  */
-@Beta
+@Deprecated
 public abstract class ListeningParser<V>
     extends BaseParser<V>
 {

@@ -16,15 +16,15 @@
 
 package com.github.fge.grappa.matchers.join;
 
+import com.github.fge.grappa.Grappa;
 import com.github.fge.grappa.matchers.base.Matcher;
-import com.github.fge.grappa.parsers.ListeningParser;
+import com.github.fge.grappa.parsers.EventBusParser;
+import com.github.fge.grappa.run.context.MatcherContext;
 import com.github.fge.grappa.util.MatcherContextBuilder;
 import com.github.fge.grappa.util.SimpleMatchHandler;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Range;
-import com.github.fge.grappa.run.context.MatcherContext;
-import com.github.fge.grappa.Grappa;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -38,7 +38,7 @@ public final class JoinMatcherMatchTest
     private static final String INPUT1 = Strings.repeat("ab", 5) + 'c';
 
     static class TestJoinParser
-        extends ListeningParser<Object>
+        extends EventBusParser<Object>
     {
         protected final JoinMatcherBuilder builder
             = join('a').using('b');

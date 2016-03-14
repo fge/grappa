@@ -17,7 +17,6 @@
 package com.github.fge.grappa.helpers;
 
 import com.github.fge.grappa.parsers.ListeningParser;
-import com.google.common.annotations.Beta;
 
 import javax.annotation.Nonnull;
 
@@ -35,8 +34,10 @@ import javax.annotation.Nonnull;
  * @param <T> type of the value produced
  *
  * @see ListeningParser#post(ValueBuilder)
+ *
+ * @deprecated No value. Will disappear in 2.1.x.
  */
-@Beta
+@Deprecated
 public interface ValueBuilder<T>
 {
     /**

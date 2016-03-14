@@ -1,10 +1,10 @@
 package com.github.fge.grappa.illegal;
 
-import com.github.fge.grappa.parsers.ListeningParser;
+import com.github.fge.grappa.parsers.EventBusParser;
 import com.github.fge.grappa.rules.Rule;
 
 public abstract class IllegalGrammarParser
-    extends ListeningParser<Object>
+    extends EventBusParser<Object>
 {
     abstract Rule illegal();
 

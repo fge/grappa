@@ -18,9 +18,10 @@ package com.github.fge.grappa.parsers;
 
 import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.exceptions.InvalidGrammarException;
-import com.github.fge.grappa.stack.ValueStack;
+import com.github.fge.grappa.rules.Action;
 import com.github.fge.grappa.run.context.Context;
 import com.github.fge.grappa.run.context.ContextAware;
+import com.github.fge.grappa.stack.ValueStack;
 import com.github.fge.grappa.support.IndexRange;
 import com.github.fge.grappa.support.Position;
 
@@ -28,8 +29,12 @@ import javax.annotation.Nonnull;
 import java.util.Objects;
 
 /**
- * Convenience context aware base class defining a number of useful helper
- * methods.
+ * The basic class for all {@link ContextAware} implementations.
+ *
+ * <p>This class is used by all basic parsers which you may extend ({@link
+ * BaseParser}, {@link EventBusParser}), but also by all of a parser's {@link
+ * Action actions} (that is, any boolean expressions in rules, or any methods in
+ * a parser returning a boolean).</p>
  *
  * @param <V> parameter type of the values on the parser stack
  */
