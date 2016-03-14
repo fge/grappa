@@ -30,6 +30,7 @@ import com.github.fge.grappa.run.events.MatchSuccessEvent;
 import com.github.fge.grappa.run.events.PostParseEvent;
 import com.github.fge.grappa.run.events.PreMatchEvent;
 import com.github.fge.grappa.run.events.PreParseEvent;
+import com.github.fge.grappa.run.trace.TracingListener;
 import com.github.fge.grappa.stack.ArrayValueStack;
 import com.github.fge.grappa.stack.ValueStack;
 import com.google.common.eventbus.EventBus;
@@ -40,7 +41,14 @@ import javax.annotation.Nonnull;
 import java.util.Objects;
 
 /**
- * Abstract base implementation of a parse runner
+ * Class to run a parser on an input, and retrieve a result
+ *
+ * <p>You can also register listeners which will be listening for one, or more,
+ * parse events. Those listeners must implement {@link ParseEventListener}.</p>
+ *
+ * <p>For instance, the provided {@link TracingListener} will collect all parse
+ * failues and success to construct a complete picture of the parsing process.
+ * </p>
  *
  * @param <V> type parameter of the parser's stack values
  */
