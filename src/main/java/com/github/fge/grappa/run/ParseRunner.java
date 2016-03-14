@@ -48,7 +48,7 @@ import java.util.Objects;
  * of a parser (created using {@link Grappa#createParser(Class, Object...)})
  * against a text input.</p>
  *
- * <p>The basic text input is a {@link CharSequence}; since {@link @String}
+ * <p>The basic text input is a {@link CharSequence}; since {@link String}
  * implements this interface, this is the most direct way to run a parser.
  * If you wish to, however, you may implement your own {@link InputBuffer} and
  * pass is as an alternative.</p>

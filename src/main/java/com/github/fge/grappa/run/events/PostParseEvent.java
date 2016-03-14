@@ -16,7 +16,7 @@
 
 package com.github.fge.grappa.run.events;
 
-import com.github.fge.grappa.run.ParseRunnerListener;
+import com.github.fge.grappa.run.ParseEventListener;
 import com.github.fge.grappa.run.ParsingResult;
 
 /**
@@ -24,7 +24,7 @@ import com.github.fge.grappa.run.ParsingResult;
  *
  * @param <V> type parameter of the parser's stack values
  *
- * @see ParseRunnerListener#afterParse(PostParseEvent)
+ * @see ParseEventListener#afterParse(PostParseEvent)
  */
 public final class PostParseEvent<V>
 {

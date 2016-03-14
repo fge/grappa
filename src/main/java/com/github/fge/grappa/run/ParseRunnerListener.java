@@ -19,7 +19,7 @@ package com.github.fge.grappa.run;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
- * A listener which you can register to a {@link ListeningParseRunner}
+ * A listener which you can register to a {@link ParseRunner}
  *
  * @deprecated use {@link ParseEventListener} instead
  */

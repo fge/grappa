@@ -27,7 +27,7 @@ import com.google.common.eventbus.Subscribe;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
- * A listener which you can register to a {@link ListeningParseRunner}
+ * A listener which you can register to a {@link ParseRunner}
  *
  * <p>You can register listeners at five different points in the parsing
  * process:</p>
@@ -50,7 +50,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
  *
  * @param <V> the type parameter of the parser's stack values
  *
- * @see ListeningParseRunner#registerListener(ParseEventListener)
+ * @see ParseRunner#registerListener(ParseEventListener)
  */
 @ParametersAreNonnullByDefault
 public class ParseEventListener<V>
