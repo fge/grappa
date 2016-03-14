@@ -38,8 +38,8 @@ import java.util.Objects;
 /**
  * The base {@link ParseRunner} implementation
  *
- * <p>This implementation allows you to attach {@link ParseRunnerListener}
- * instances; those must be {@link #registerListener(ParseRunnerListener)
+ * <p>This implementation allows you to attach {@link ParseEventListener}
+ * instances; those must be {@link #registerListener(ParseEventListener)
  * registered} <em>before</em> you {@link #run(InputBuffer)} the parsing
  * process.</p>
  */
@@ -77,7 +77,7 @@ public class ListeningParseRunner<V>
     }
 
     // TODO: replace with a supplier mechanism
-    public final void registerListener(final ParseRunnerListener<V> listener)
+    public final void registerListener(final ParseEventListener<V> listener)
     {
         bus.register(listener);
     }
