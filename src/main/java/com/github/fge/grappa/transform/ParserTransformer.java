@@ -18,6 +18,7 @@ package com.github.fge.grappa.transform;
 
 import com.github.fge.grappa.transform.base.ParserClassNode;
 import com.github.fge.grappa.transform.base.RuleMethod;
+import com.github.fge.grappa.transform.load.ReflectiveClassLoader;
 import com.github.fge.grappa.transform.generate.ActionClassGenerator;
 import com.github.fge.grappa.transform.generate.ClassNodeInitializer;
 import com.github.fge.grappa.transform.generate.ConstructorGenerator;

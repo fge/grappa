@@ -19,7 +19,7 @@ package com.github.fge.grappa.transform.process;
 import com.github.fge.grappa.run.context.Context;
 import com.github.fge.grappa.run.context.ContextAware;
 import com.github.fge.grappa.transform.CodeBlock;
-import com.github.fge.grappa.transform.ReflectiveClassLoader;
+import com.github.fge.grappa.transform.load.ReflectiveClassLoader;
 import com.github.fge.grappa.transform.base.InstructionGraphNode;
 import com.github.fge.grappa.transform.base.InstructionGroup;
 import com.github.fge.grappa.transform.base.ParserClassNode;

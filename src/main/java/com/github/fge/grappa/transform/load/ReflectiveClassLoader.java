@@ -1,5 +1,6 @@
-package com.github.fge.grappa.transform;
+package com.github.fge.grappa.transform.load;
 
+import com.github.fge.grappa.transform.ParserTransformException;
 import com.sun.istack.internal.Nullable;
 
 import java.lang.reflect.InvocationTargetException;
