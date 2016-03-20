@@ -16,7 +16,14 @@
 
 package com.github.fge.grappa.transform.process;
 
+import com.github.fge.grappa.run.context.Context;
+import com.github.fge.grappa.run.context.ContextAware;
 import com.github.fge.grappa.transform.CodeBlock;
+import com.github.fge.grappa.transform.ReflectiveClassLoader;
+import com.github.fge.grappa.transform.base.InstructionGraphNode;
+import com.github.fge.grappa.transform.base.InstructionGroup;
+import com.github.fge.grappa.transform.base.ParserClassNode;
+import com.github.fge.grappa.transform.base.RuleMethod;
 import me.qmx.jitescript.util.CodegenUtils;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
@@ -28,13 +35,6 @@ import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
-import com.github.fge.grappa.run.context.Context;
-import com.github.fge.grappa.run.context.ContextAware;
-import com.github.fge.grappa.misc.AsmUtils;
-import com.github.fge.grappa.transform.base.InstructionGraphNode;
-import com.github.fge.grappa.transform.base.InstructionGroup;
-import com.github.fge.grappa.transform.base.ParserClassNode;
-import com.github.fge.grappa.transform.base.RuleMethod;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
@@ -82,13 +82,17 @@ public abstract class GroupClassGenerator
             = classNode.getParentClass().getClassLoader();
 
         final Class<?> groupClass;
-        synchronized (AsmUtils.class) {
-            groupClass = AsmUtils.findLoadedClass(className, classLoader);
+
+        try (
+            final ReflectiveClassLoader loader
+                = new ReflectiveClassLoader(classLoader);
+        ) {
+            groupClass = loader.findClass(className);
             if (groupClass == null || forceCodeBuilding) {
                 final byte[] groupClassCode = generateGroupClassCode(group);
                 group.setGroupClassCode(groupClassCode);
                 if (groupClass == null)
-                    AsmUtils.loadClass(className, groupClassCode, classLoader);
+                    loader.loadClass(className, groupClassCode);
             }
         }
     }
