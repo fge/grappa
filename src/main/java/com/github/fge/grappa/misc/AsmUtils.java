@@ -23,6 +23,8 @@
 package com.github.fge.grappa.misc;
 
 import com.github.fge.grappa.parsers.BaseParser;
+import com.github.fge.grappa.run.context.ContextAware;
+import com.github.fge.grappa.support.Var;
 import com.github.fge.grappa.transform.ClassCache;
 import com.github.fge.grappa.transform.LoadingOpcode;
 import me.qmx.jitescript.util.CodegenUtils;
@@ -32,13 +34,10 @@ import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
-import com.github.fge.grappa.run.context.ContextAware;
-import com.github.fge.grappa.support.Var;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Objects;
 
@@ -180,105 +179,6 @@ public final class AsmUtils
         } catch (NoSuchMethodException e) {
             throw new RuntimeException("Constructor with descriptor '"
                 + constructorDesc + "' not found in '" + c, e);
-        }
-    }
-
-    /**
-     * Returns the class with the given name if it has already been loaded by
-     * the given class loader. Otherwise the method returns null.
-     *
-     * @param className the full name of the class to be loaded
-     * @param classLoader the class loader to use
-     * @return the class instance or null
-     */
-    // TODO: rework synchronization
-    @Nullable
-    public static Class<?> findLoadedClass(final String className,
-        final ClassLoader classLoader)
-    {
-        Objects.requireNonNull(className, "className");
-        Objects.requireNonNull(classLoader, "classLoader");
-
-        final Class<?> c;
-        final Method m;
-
-        try {
-            c = Class.forName("java.lang.ClassLoader");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Could not determine whether class '"
-                + className + "' has already been loaded", e);
-        }
-
-        try {
-            m = c.getDeclaredMethod("findLoadedClass", String.class);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException("Could not determine whether class '"
-                + className + "' has already been loaded", e);
-        }
-        m.setAccessible(true);
-        try {
-            return (Class<?>) m.invoke(classLoader, className);
-        } catch (InvocationTargetException | IllegalAccessException e) {
-            throw new RuntimeException("Could not determine whether class '"
-                + className + "' has already been loaded", e);
-        } finally {
-            m.setAccessible(false);
-        }
-    }
-
-    /**
-     * Loads the class defined with the given name and bytecode using the given
-     * class loader
-     *
-     * <p>Since package and class idendity includes the ClassLoader instance
-     * used to load a class, we use reflection on the given class loader to
-     * define generated classes.</p>
-     *
-     * <p>If we used our own class loader (in order  to be able to access the
-     * protected "defineClass" method), we would likely still be able to load
-     * generated classes; however, they would not have access to package-private
-     * classes and members of their super classes.</p>
-     *
-     * @param className the full name of the class to be loaded
-     * @param code the bytecode of the class to load
-     * @param classLoader the class loader to use
-     * @return the class instance
-     */
-    public static Class<?> loadClass(final String className, final byte[] code,
-        final ClassLoader classLoader)
-    {
-        Objects.requireNonNull(className, "className");
-        Objects.requireNonNull(code, "code");
-        Objects.requireNonNull(classLoader, "classLoader");
-
-        final Class<?> c;
-        final Method m;
-
-        try {
-            c = Class.forName("java.lang.ClassLoader");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Could not load class '" + className
-                + '\'', e);
-        }
-
-        try {
-            m = c.getDeclaredMethod("defineClass", String.class, byte[].class,
-                int.class, int.class);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException("Could not load class '" + className
-                + '\'', e);
-        }
-
-        // protected method invocation
-        m.setAccessible(true);
-        try {
-            return (Class<?>) m.invoke(classLoader, className, code, 0,
-                code.length);
-        } catch (InvocationTargetException | IllegalAccessException e) {
-            throw new RuntimeException("Could not load class '" + className
-                + '\'', e);
-        } finally {
-            m.setAccessible(false);
         }
     }
 

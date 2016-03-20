@@ -22,9 +22,6 @@ import com.github.fge.grappa.transform.generate.ActionClassGenerator;
 import com.github.fge.grappa.transform.generate.ClassNodeInitializer;
 import com.github.fge.grappa.transform.generate.ConstructorGenerator;
 import com.github.fge.grappa.transform.generate.VarInitClassGenerator;
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.ImmutableList;
-import org.objectweb.asm.ClassWriter;
 import com.github.fge.grappa.transform.process.BodyWithSuperCallReplacer;
 import com.github.fge.grappa.transform.process.CachingGenerator;
 import com.github.fge.grappa.transform.process.ImplicitActionsConverter;
@@ -38,13 +35,14 @@ import com.github.fge.grappa.transform.process.RuleMethodRewriter;
 import com.github.fge.grappa.transform.process.SuperCallRewriter;
 import com.github.fge.grappa.transform.process.UnusedLabelsRemover;
 import com.github.fge.grappa.transform.process.VarFramingGenerator;
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ImmutableList;
+import org.objectweb.asm.ClassWriter;
 
 import java.util.List;
 import java.util.Objects;
 
-import static com.github.fge.grappa.misc.AsmUtils.findLoadedClass;
 import static com.github.fge.grappa.misc.AsmUtils.getExtendedParserClassName;
-import static com.github.fge.grappa.misc.AsmUtils.loadClass;
 
 public final class ParserTransformer
 {
@@ -53,7 +51,7 @@ public final class ParserTransformer
     }
 
     // TODO: remove "synchronized" here
-    // TODO: move to Parboiled or the future Grappa class
+    // TODO: move elsewhere
     public static synchronized <T> Class<? extends T> transformParser(
         final Class<T> parserClass)
         throws Exception
@@ -61,10 +59,17 @@ public final class ParserTransformer
         Objects.requireNonNull(parserClass, "parserClass");
         // first check whether we did not already create and load the extension
         // of the given parser class
-        final String name
-            = getExtendedParserClassName(parserClass.getName());
-        final Class<?> extendedClass
-            = findLoadedClass(name,parserClass.getClassLoader());
+        final String name = getExtendedParserClassName(parserClass.getName());
+
+        final Class<?> extendedClass;
+
+        try (
+            final ReflectiveClassLoader loader
+                = new ReflectiveClassLoader(parserClass.getClassLoader());
+        ) {
+            extendedClass = loader.findClass(name);
+        }
+
         final Class<?> ret = extendedClass != null
             ? extendedClass
             : extendParserClass(parserClass).getExtendedClass();
@@ -124,10 +129,9 @@ public final class ParserTransformer
                     methodProcessor.process(classNode, ruleMethod);
         }
 
-        for (final RuleMethod ruleMethod: classNode.getRuleMethods().values()) {
+        for (final RuleMethod ruleMethod: classNode.getRuleMethods().values())
             if (!ruleMethod.isGenerationSkipped())
                 classNode.methods.add(ruleMethod);
-        }
     }
 
     private static List<RuleMethodProcessor> createRuleMethodProcessors()
@@ -152,12 +156,24 @@ public final class ParserTransformer
 
     private static void defineExtendedParserClass(final ParserClassNode node)
     {
-        final ClassWriter classWriter
-            = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
-        node.accept(classWriter);
-        node.setClassCode(classWriter.toByteArray());
-        final Class<?> extendedClass  = loadClass(node.name.replace('/', '.'),
-            node.getClassCode(), node.getParentClass().getClassLoader());
+        final ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
+
+        node.accept(writer);
+        node.setClassCode(writer.toByteArray());
+
+        final String className = node.name.replace('/', '.');
+        final byte[] bytecode = node.getClassCode();
+
+        final ClassLoader classLoader = node.getParentClass().getClassLoader();
+        final Class<?> extendedClass;
+
+        try (
+            final ReflectiveClassLoader loader
+                = new ReflectiveClassLoader(classLoader);
+        ) {
+            extendedClass = loader.loadClass(className, bytecode);
+        }
+
         node.setExtendedClass(extendedClass);
     }
 }
