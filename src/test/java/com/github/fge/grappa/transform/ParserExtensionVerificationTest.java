@@ -42,7 +42,7 @@ import static org.testng.Assert.assertNotNull;
  * classCode is null in this case.
  *
  * With the rewritten test, it fails on three. Disable tests for now... Probably
- * has to do with the classloading context.
+ * has to do with the load context.
  */
 public final class ParserExtensionVerificationTest {
 
