@@ -28,6 +28,7 @@ import com.github.fge.grappa.transform.ParserTransformException;
 import com.github.fge.grappa.transform.base.ParserClassNode;
 import com.github.fge.grappa.transform.base.RuleMethod;
 import com.github.fge.grappa.transform.load.ClassLoaderList;
+import com.google.common.annotations.Beta;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
@@ -51,8 +52,9 @@ import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 
 /**
- * Initializes the basic ParserClassNode fields and collects all methods.
+ * A replacement for {@link ClassNodeBootstrap}
  */
+@Beta
 public final class ClassNodeBootstrap
     extends ClassVisitor
 {

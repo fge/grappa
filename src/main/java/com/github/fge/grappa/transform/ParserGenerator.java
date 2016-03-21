@@ -38,6 +38,7 @@ import com.github.fge.grappa.transform.process.RuleMethodRewriter;
 import com.github.fge.grappa.transform.process.SuperCallRewriter;
 import com.github.fge.grappa.transform.process.UnusedLabelsRemover;
 import com.github.fge.grappa.transform.process.VarFramingGenerator;
+import com.google.common.annotations.Beta;
 import com.google.common.collect.ImmutableList;
 import org.objectweb.asm.ClassWriter;
 
@@ -46,6 +47,14 @@ import java.util.Objects;
 
 import static com.github.fge.grappa.misc.AsmUtils.getExtendedParserClassName;
 
+/**
+ * A replacement for {@link ParserTransformer}
+ *
+ * @param <V> type parameter of the stack values of the parser class
+ * @param <P> type parmaeter for the parser class
+ */
+@Beta
+// TODO: generics can be better
 public final class ParserGenerator<V, P extends BaseParser<V>>
 {
     private static final List<RuleMethodProcessor> PROCESSORS;
