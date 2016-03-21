@@ -1,10 +1,20 @@
 package com.github.fge.grappa.transform;
 
+import com.github.fge.grappa.Grappa;
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.transform.load.ClassLoaderList;
+import com.google.common.annotations.Beta;
 
 import java.lang.reflect.Constructor;
 
+/**
+ * A factory to generate parser instances
+ *
+ * <p>The main difference with {@link Grappa#createParser(Class, Object...)} is
+ * that this class can build from other classloaders than the defaults (see
+ * {@link ClassLoaderList}).</p>
+ */
+@Beta
 public final class ParserFactory
 {
     private final ClassLoaderList loaderList;
@@ -23,6 +33,7 @@ public final class ParserFactory
         final Object... arguments)
         throws Exception
     {
+        // TODO: generics usage may be improved here
         final ParserGenerator<V, P> generator = new ParserGenerator<>(
             parserClass, loaderList);
 
