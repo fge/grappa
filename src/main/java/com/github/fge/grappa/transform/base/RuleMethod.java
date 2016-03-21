@@ -299,7 +299,7 @@ public class RuleMethod
 
     @Override
     public void visitTableSwitchInsn(final int min, final int max,
-        final Label dflt, final Label[] labels)
+        final Label dflt, final Label... labels)
     {
         usedLabels.add(getLabelNode(dflt));
         for (final Label label : labels)
