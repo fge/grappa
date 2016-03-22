@@ -49,8 +49,7 @@ public final class ArrayValueStack<V>
     protected void doPush(final int down, final V value)
     {
         ensureCapacity();
-        for (int index = arraySize; index > down; index--)
-            array[index] = array[index - 1];
+        System.arraycopy(array, down, array, down + 1, arraySize - down);
         array[down] = value;
         arraySize++;
     }
@@ -60,8 +59,7 @@ public final class ArrayValueStack<V>
     {
         final V ret = array[down];
         arraySize--;
-        for (int index = down; index < arraySize; index++)
-            array[index] = array[index + 1];
+        System.arraycopy(array, down + 1, array, down, arraySize - down);
         array[arraySize] = null;
         shrinkIfNecessary();
         return ret;
@@ -83,8 +81,7 @@ public final class ArrayValueStack<V>
     protected void doDup()
     {
         ensureCapacity();
-        for (int index = arraySize; index > 0; index--)
-            array[index] = array[index - 1];
+        System.arraycopy(array, 0, array, 1, arraySize);
         arraySize++;
     }
 
