@@ -20,7 +20,6 @@ import com.github.fge.grappa.matchers.base.AbstractMatcher;
 import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.run.context.MatcherContext;
-import com.github.fge.grappa.support.Chars;
 
 import static com.github.fge.grappa.support.Chars.escape;
 
@@ -50,8 +49,8 @@ public final class CharMatcher
     private static String getLabel(final char c)
     {
         switch (c) {
-            case Chars.EOI:
-                return escape(c);
+            case 0xffff:
+                return "EOI";
             default:
                 return '\'' + escape(c) + '\'';
         }

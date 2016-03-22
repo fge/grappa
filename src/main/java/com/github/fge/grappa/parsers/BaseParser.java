@@ -287,20 +287,6 @@ public abstract class BaseParser<V>
         Objects.requireNonNull(characters);
         Preconditions.checkArgument(characters.length > 0);
 
-        // make sure to always exclude EOI as well
-        boolean containsEOI = false;
-        for (final char c: characters)
-            if (c == Chars.EOI) {
-                containsEOI = true;
-                break;
-            }
-        if (!containsEOI) {
-            final char[] withEOI = new char[characters.length + 1];
-            System.arraycopy(characters, 0, withEOI, 0, characters.length);
-            withEOI[characters.length] = Chars.EOI;
-            characters = withEOI;
-        }
-
         return anyOf(Characters.allBut(characters));
     }
 

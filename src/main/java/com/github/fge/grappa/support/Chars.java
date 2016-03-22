@@ -23,18 +23,13 @@ import java.util.Map;
 
 public final class Chars
 {
-    /**
-     * The End-of-Input non-character.
-     */
-    public static final char EOI = '\uFFFF';
-
     private static final Map<Character, String> ESCAPE_MAP
         = ImmutableMap.<Character, String>builder()
         .put('\r', "\\r")
         .put('\n', "\\n")
         .put('\t', "\\t")
         .put('\f', "\\f")
-        .put(EOI, "EOI")
+        .put('\uFFFF', "EOI")
         .build();
 
     private Chars()
