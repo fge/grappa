@@ -23,7 +23,6 @@ import java.util.Objects;
  * An immutable, set-like aggregation of (relatively few) characters that allows
  * for an inverted semantic ("all chars except these few").
  */
-// TODO: replace with a sorted array
 public final class Characters
 {
     private static final char[] NO_CHARS = new char[0];
@@ -42,6 +41,60 @@ public final class Characters
     // characters in the set" to "includes all characters not in the set"
     private final boolean subtractive;
     private final char[] chars;
+
+    /**
+     * Creates a new Characters instance containing only the given char.
+     *
+     * @param c the char
+     * @return a new Characters object
+     */
+    public static Characters of(final char c)
+    {
+        return new Characters(false, new char[]{ c });
+    }
+
+    /**
+     * Creates a new Characters instance containing only the given chars.
+     *
+     * @param chars the chars
+     * @return a new Characters object
+     */
+    public static Characters of(final char... chars)
+    {
+        final int length = chars.length;
+        if (length == 0)
+            return NONE;
+        final char[] array = Arrays.copyOf(chars, length);
+        Arrays.sort(array);
+        return new Characters(false, array);
+    }
+
+    /**
+     * Creates a new Characters instance containing only the given chars.
+     *
+     * @param chars the chars
+     * @return a new Characters object
+     */
+    public static Characters of(final String chars)
+    {
+        return chars.isEmpty() ? NONE : of(chars.toCharArray());
+    }
+
+    /**
+     * Creates a new Characters instance containing all characters minus the given ones.
+     *
+     * @param chars the chars to NOT include
+     * @return a new Characters object
+     */
+    public static Characters allBut(final char... chars)
+    {
+        final int length = chars.length;
+        if (length == 0)
+            return ALL;
+        final char[] array = Arrays.copyOf(chars, length);
+        Arrays.sort(array);
+        return new Characters(true, array);
+    }
 
     private Characters(final boolean subtractive, final char[] chars)
     {
@@ -69,28 +122,6 @@ public final class Characters
     }
 
     /**
-     * Adds the given character to the set.
-     *
-     * @param c the character to add
-     * @return a new Characters object
-     */
-    public Characters add(final char c)
-    {
-        return subtractive ? removeFromChars(c) : addToChars(c);
-    }
-
-    /**
-     * Removes the given character from the set.
-     *
-     * @param c the character to remove
-     * @return a new Characters object
-     */
-    public Characters remove(final char c)
-    {
-        return subtractive ? addToChars(c) : removeFromChars(c);
-    }
-
-    /**
      * Determines whether this instance contains the given character.
      *
      * @param c the character to check for
@@ -98,47 +129,8 @@ public final class Characters
      */
     public boolean contains(final char c)
     {
-        return indexOf(chars, c) == -1 ? subtractive : !subtractive;
-    }
-
-    /**
-     * Returns a new Characters object containing all the characters of this instance plus all characters of the
-     * given instance.
-     *
-     * @param other the other Characters to add
-     * @return a new Characters object
-     */
-    public Characters add(final Characters other)
-    {
-        Objects.requireNonNull(other, "other");
-        if (!subtractive && !other.subtractive) {
-            return addToChars(other.chars);
-        }
-        if (subtractive && other.subtractive) {
-            return retainAllChars(other.chars);
-        }
-        return subtractive ? removeFromChars(other.chars)
-            : other.removeFromChars(chars);
-    }
-
-    /**
-     * Returns a new Characters object containing all the characters of this instance minus all characters of the
-     * given instance.
-     *
-     * @param other the other Characters to remove
-     * @return a new Characters object
-     */
-    public Characters remove(final Characters other)
-    {
-        Objects.requireNonNull(other, "other");
-        if (!subtractive && !other.subtractive) {
-            return removeFromChars(other.chars);
-        }
-        if (subtractive && other.subtractive) {
-            return new Characters(false, other.removeFromChars(chars).chars);
-        }
-        return subtractive ? addToChars(other.chars)
-            : retainAllChars(other.chars);
+        final int index = Arrays.binarySearch(chars, c);
+        return (index == -1) == subtractive;
     }
 
     @Override
@@ -154,173 +146,20 @@ public final class Characters
     }
 
     @Override
-    public boolean equals(final Object o)
+    public boolean equals(final Object obj)
     {
-        if (this == o)
+        if (this == obj)
             return true;
-        if (!(o instanceof Characters))
+        if (!(obj instanceof Characters))
             return false;
-        final Characters that = (Characters) o;
-        return subtractive == that.subtractive && equivalent(chars, that.chars);
+        final Characters other = (Characters) obj;
+        return subtractive == other.subtractive
+            && Arrays.equals(chars, other.chars);
     }
 
     @Override
     public int hashCode()
     {
         return Arrays.hashCode(chars) + (subtractive ? 31 : 0);
-    }
-
-    private Characters addToChars(final char[] chs)
-    {
-        Characters characters = this;
-        for (final char c : chs) {
-            characters = characters.addToChars(c);
-        }
-        return characters;
-    }
-
-    private Characters addToChars(final char c)
-    {
-        if (indexOf(chars, c) != -1)
-            return this;
-        final char[] newChars = new char[chars.length + 1];
-        System.arraycopy(chars, 0, newChars, 0, chars.length);
-        newChars[chars.length] = c;
-        return new Characters(subtractive, newChars);
-    }
-
-    private Characters removeFromChars(final char[] chs)
-    {
-        Characters characters = this;
-        for (final char c : chs) {
-            characters = characters.removeFromChars(c);
-        }
-        return characters;
-    }
-
-    private Characters removeFromChars(final char c)
-    {
-        final int ix = indexOf(chars, c);
-        if (ix == -1)
-            return this;
-        if (chars.length == 1)
-            return subtractive ? Characters.ALL : Characters.NONE;
-        final char[] newChars = new char[chars.length - 1];
-        System.arraycopy(chars, 0, newChars, 0, ix);
-        System.arraycopy(chars, ix + 1, newChars, ix, chars.length - ix - 1);
-        return new Characters(subtractive, newChars);
-    }
-
-    private Characters retainAllChars(final char[] chs)
-    {
-        Characters characters = this;
-        for (final char c : chars) {
-            if (indexOf(chs, c) == -1) {
-                characters = characters.removeFromChars(c);
-            }
-        }
-        return characters;
-    }
-
-    private static int indexOf(final char[] chars, final char c)
-    {
-        for (int i = 0; i < chars.length; i++) {
-            if (chars[i] == c)
-                return i;
-        }
-        return -1;
-    }
-
-    // order independent Array.equals()
-    private static boolean equivalent(final char[] a, final char[] b)
-    {
-        Objects.requireNonNull(a, "a");
-        Objects.requireNonNull(b, "b");
-        if (a == b)
-            return true;
-        final int length = a.length;
-        if (b.length != length)
-            return false;
-
-outer:
-        for (final char ac: a) {
-            for (int j = 0; j < length; j++) {
-                if (ac == b[j]) {
-                    continue outer;
-                }
-            }
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Creates a new Characters instance containing only the given char.
-     *
-     * @param c the char
-     * @return a new Characters object
-     */
-    public static Characters of(final char c)
-    {
-        return new Characters(false, new char[]{ c });
-    }
-
-    /**
-     * Creates a new Characters instance containing only the given chars.
-     *
-     * @param chars the chars
-     * @return a new Characters object
-     */
-    public static Characters of(final char... chars)
-    {
-        return chars.length == 0 ? Characters.NONE
-            : new Characters(false, chars.clone());
-    }
-
-    /**
-     * Creates a new Characters instance containing only the given chars.
-     *
-     * @param chars the chars
-     * @return a new Characters object
-     */
-    public static Characters of(final String chars)
-    {
-        return chars.isEmpty() ? Characters.NONE
-            : new Characters(false, chars.toCharArray());
-    }
-
-    /**
-     * Creates a new Characters instance containing all characters minus the given one.
-     *
-     * @param c the char to NOT include
-     * @return a new Characters object
-     */
-    public static Characters allBut(final char c)
-    {
-        return new Characters(true, new char[]{ c });
-    }
-
-    /**
-     * Creates a new Characters instance containing all characters minus the given ones.
-     *
-     * @param chars the chars to NOT include
-     * @return a new Characters object
-     */
-    public static Characters allBut(final char... chars)
-    {
-        return chars.length == 0 ? Characters.ALL
-            : new Characters(true, chars.clone());
-    }
-
-    /**
-     * Creates a new Characters instance containing all characters minus the given ones.
-     *
-     * @param chars the chars to NOT include
-     * @return a new Characters object
-     */
-    public static Characters allBut(final String chars)
-    {
-        return chars.isEmpty() ? Characters.ALL
-            : new Characters(true, chars.toCharArray());
     }
 }

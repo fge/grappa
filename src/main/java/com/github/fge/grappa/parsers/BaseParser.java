@@ -282,7 +282,7 @@ public abstract class BaseParser<V>
      * @return a new rule
      */
     @DontLabel
-    public Rule noneOf(char[] characters)
+    public Rule noneOf(final char[] characters)
     {
         Objects.requireNonNull(characters);
         Preconditions.checkArgument(characters.length > 0);
