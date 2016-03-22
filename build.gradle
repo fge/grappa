@@ -30,7 +30,7 @@ apply(plugin: "com.github.johnrengelman.shadow");
 
 group = "com.github.fge";
 description = "Write parsers in pure Java";
-version = "2.1.0-SNAPSHOT";
+version = "2.1.0-beta.1";
 
 def javaVersion = JavaVersion.VERSION_1_7;
 sourceCompatibility = javaVersion;
