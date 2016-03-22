@@ -60,11 +60,13 @@ public final class CharSequenceInputBuffer
     }
 
     private final CharSequence charSequence;
+    private final int length;
     private final Future<LineCounter> lineCounter;
 
     public CharSequenceInputBuffer(@Nonnull final CharSequence charSequence)
     {
         this.charSequence = Objects.requireNonNull(charSequence);
+        length = charSequence.length();
         lineCounter = EXECUTOR_SERVICE.submit(new Callable<LineCounter>()
         {
             @Override
@@ -82,15 +84,13 @@ public final class CharSequenceInputBuffer
         if (index < 0)
             throw new IllegalArgumentException("index is negative");
 
-        return index < charSequence.length() ? charSequence.charAt(index)
-            : Chars.EOI;
+        return index < length ? charSequence.charAt(index) : Chars.EOI;
     }
 
     @SuppressWarnings("ImplicitNumericConversion")
     @Override
     public int codePointAt(final int index)
     {
-        final int length = charSequence.length();
         if (index >= length)
             return -1;
         if (index < 0)
@@ -109,7 +109,7 @@ public final class CharSequenceInputBuffer
     public String extract(final int start, final int end)
     {
         final int realStart = Math.max(start, 0);
-        final int realEnd = Math.min(end, charSequence.length());
+        final int realEnd = Math.min(end, length);
         return charSequence.subSequence(realStart, realEnd).toString();
     }
 
@@ -158,6 +158,6 @@ public final class CharSequenceInputBuffer
     @Override
     public int length()
     {
-        return charSequence.length();
+        return length;
     }
 }
