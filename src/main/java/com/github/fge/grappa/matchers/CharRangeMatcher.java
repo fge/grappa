@@ -55,7 +55,11 @@ public final class CharRangeMatcher
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
+        if (context.atEnd())
+            return false;
+
         final char c = context.getCurrentChar();
+
         if (c < lowerBound || c > upperBound)
             return false;
 

@@ -471,7 +471,21 @@ public abstract class BaseActions<V>
     }
 
     /**
+     * Check whether the end of input has been reached
+     *
+     * @return true if EOI
+     */
+    public boolean atEnd()
+    {
+        check();
+        return context.atEnd();
+    }
+
+    /**
      * Returns the next input character about to be matched.
+     *
+     * <p>If you use this method, you MUST first check whether you have reached
+     * the end of the buffer using {@link #atEnd()}.</p>
      *
      * @return the next input character about to be matched
      */

@@ -60,8 +60,12 @@ public final class CharMatcher
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
+        if (context.atEnd())
+            return false;
+
         if (context.getCurrentChar() != character)
             return false;
+
         context.advanceIndex(1);
         return true;
     }

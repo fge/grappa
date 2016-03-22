@@ -69,6 +69,13 @@ public interface Context<V>
     int getCurrentIndex();
 
     /**
+     * Check whether we are at the end of the buffer
+     *
+     * @return true if the end of the buffer has been reached
+     */
+    boolean atEnd();
+
+    /**
      * Returns the character at the current index..
      *
      * @return the current character

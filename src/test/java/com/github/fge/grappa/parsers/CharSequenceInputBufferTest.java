@@ -18,7 +18,6 @@ package com.github.fge.grappa.parsers;
 
 import com.github.fge.grappa.buffers.CharSequenceInputBuffer;
 import com.github.fge.grappa.buffers.InputBuffer;
-import com.github.fge.grappa.support.Chars;
 import com.github.fge.grappa.support.Position;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -27,7 +26,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static com.github.fge.grappa.util.CustomAssertions.shouldHaveThrown;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.assertEquals;
 
@@ -43,8 +41,6 @@ public final class CharSequenceInputBufferTest
         final InputBuffer buf = new CharSequenceInputBuffer("abcdefgh");
         assertEquals(buf.charAt(0), 'a');
         assertEquals(buf.charAt(7), 'h');
-        assertEquals(buf.charAt(8), Chars.EOI);
-        assertEquals(buf.charAt(26), Chars.EOI);
 
         assertEquals(buf.extractLine(1), "abcdefgh");
 
@@ -89,19 +85,6 @@ public final class CharSequenceInputBufferTest
         assertEquals(buf.getPosition(13), new Position(5, 1));
     }
 
-    @Test
-    public void charAtThrowsIAEOnNegativeIndex()
-    {
-        final InputBuffer buf = new CharSequenceInputBuffer("abcdefgh");
-
-        try {
-            buf.charAt(-1);
-            shouldHaveThrown(IllegalArgumentException.class);
-        } catch (IllegalArgumentException e) {
-            assertThat(e).hasMessage("index is negative");
-        }
-    }
-
     @DataProvider
     public Iterator<Object[]> indicesAndCodePoints()
     {
@@ -121,16 +104,5 @@ public final class CharSequenceInputBufferTest
     public void codePointTest(final int index, final int codePoint)
     {
         assertThat(UNICODE_BUFFER.codePointAt(index)).isEqualTo(codePoint);
-    }
-
-    @Test
-    public void iaeIsThrownIfIndexIsNegative()
-    {
-        try {
-            UNICODE_BUFFER.codePointAt(-1);
-            shouldHaveThrown(IllegalArgumentException.class);
-        } catch (IllegalArgumentException e) {
-            assertThat(e).hasMessage("index is negative");
-        }
     }
 }

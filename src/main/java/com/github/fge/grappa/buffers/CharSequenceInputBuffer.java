@@ -16,7 +16,6 @@
 
 package com.github.fge.grappa.buffers;
 
-import com.github.fge.grappa.support.Chars;
 import com.github.fge.grappa.support.IndexRange;
 import com.github.fge.grappa.support.Position;
 import com.google.common.base.Preconditions;
@@ -81,10 +80,7 @@ public final class CharSequenceInputBuffer
     @Override
     public char charAt(final int index)
     {
-        if (index < 0)
-            throw new IllegalArgumentException("index is negative");
-
-        return index < length ? charSequence.charAt(index) : Chars.EOI;
+        return charSequence.charAt(index);
     }
 
     @SuppressWarnings("ImplicitNumericConversion")
@@ -93,8 +89,6 @@ public final class CharSequenceInputBuffer
     {
         if (index >= length)
             return -1;
-        if (index < 0)
-            throw new IllegalArgumentException("index is negative");
 
         final char c = charSequence.charAt(index);
         if (!Character.isHighSurrogate(c))
@@ -106,11 +100,17 @@ public final class CharSequenceInputBuffer
     }
 
     @Override
+    public CharSequence subSequence(final int start, final int end)
+    {
+        return charSequence.subSequence(start, end);
+    }
+
+    @Override
     public String extract(final int start, final int end)
     {
         final int realStart = Math.max(start, 0);
         final int realEnd = Math.min(end, length);
-        return charSequence.subSequence(realStart, realEnd).toString();
+        return subSequence(realStart, realEnd).toString();
     }
 
     @Override

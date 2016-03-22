@@ -16,33 +16,15 @@
 
 package com.github.fge.grappa.buffers;
 
-import com.github.fge.grappa.support.Chars;
 import com.github.fge.grappa.support.IndexRange;
 import com.github.fge.grappa.support.Position;
 
 /**
  * Abstraction of a simple character buffer holding the input text to be parsed.
  */
-// TODO: it furiously resembles a CharSequence and should use that
 public interface InputBuffer
+    extends CharSequence
 {
-    /**
-     * Returns the character at the given index.
-     *
-     * <p>If the index is greater than, or equal to, the buffer's length, this
-     * method returns {@link Chars#EOI}.</p>
-     *
-     * <p>Note that {@code EOI} is nothing else than U+FFFF; this may be legal
-     * in certain inputs. It is recommended that you use {@link
-     * #codePointAt(int)} instead.</p>
-     *
-     * @param index the index
-     * @return the character at the given index or Chars.EOI.
-     *
-     * @throws IllegalArgumentException index is negative
-     */
-    char charAt(int index);
-
     /**
      * Returns the Unicode code point starting at a given index
      *
@@ -58,9 +40,9 @@ public interface InputBuffer
     int codePointAt(int index);
 
     /**
-     * Constructs a new {@link String} from all characters between the given
-     * indices. Invalid indices are automatically adjusted to their respective
-     * boundary.
+     * Extracts a given index range from this buffer as a string
+     *
+     * <p>Indexes are automatically adjusted to their respective boundaries.</p>
      *
      * @param start the start index (inclusive)
      * @param end the end index (exclusive)
@@ -111,14 +93,4 @@ public interface InputBuffer
      * @return number of lines in the input buffer.
      */
     int getLineCount();
-
-    /**
-     * Returns the number of characters in this input buffer
-     *
-     * <p>Note that here a "character" means a Java {@code char}, not a Unicode
-     * code point.</p>
-     *
-     * @return see description
-     */
-    int length();
 }

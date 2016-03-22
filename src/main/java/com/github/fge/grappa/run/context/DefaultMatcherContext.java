@@ -148,6 +148,12 @@ public final class DefaultMatcherContext<V>
     }
 
     @Override
+    public boolean atEnd()
+    {
+        return currentIndex == inputBuffer.length();
+    }
+
+    @Override
     public char getCurrentChar()
     {
         return inputBuffer.charAt(currentIndex);

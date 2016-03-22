@@ -57,8 +57,12 @@ public final class AnyOfMatcher
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
+        if (context.atEnd())
+            return false;
+
         if (!characters.contains(context.getCurrentChar()))
             return false;
+
         context.advanceIndex(1);
         return true;
     }

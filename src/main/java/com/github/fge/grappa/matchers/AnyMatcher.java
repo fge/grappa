@@ -43,7 +43,7 @@ public final class AnyMatcher
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
-        if (context.getCurrentCodePoint() == -1)
+        if (context.atEnd())
             return false;
         context.advanceIndex(1);
         return true;
