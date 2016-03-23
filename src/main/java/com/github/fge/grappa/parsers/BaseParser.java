@@ -971,23 +971,6 @@ public abstract class BaseParser<V>
         return repeat(rule, rule2, moreRules).min(0);
     }
 
-    /**
-     * Match a rule a fixed number of times
-     *
-     * @param repetitions The number of repetitions to match. Must be &gt;= 0.
-     * @param rule the sub rule to match repeatedly.
-     * @return a rule
-     *
-     * @deprecated use {@link #repeat(Object)} instead
-     */
-    @Cached
-    @DontLabel
-    @Deprecated
-    public Rule nTimes(final int repetitions, final Object rule)
-    {
-        return repeat(rule).times(repetitions);
-    }
-
     /*
      * UTILITY RULES
      *
