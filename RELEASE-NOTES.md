@@ -1,3 +1,12 @@
+### 2.1.0
+
+* Replace the value stack with a better performing one, based on arrays.
+* Make InputBuffer implement CharSequence.
+* New EventBusParser class.
+* Name change: ParseRunnerListener -> ParseEventListener.
+* Gradle 2.12.
+* Experimental code to generate parsers from classes in custom classloaders.
+
 ### 2.0.4
 
 * Add repeat() rule; remove {Zero,One}OrMoreMatcher since they are special cases
