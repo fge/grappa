@@ -6,7 +6,7 @@ Requires Java 7 or later.
 
 The latest versions are:
 
-* development: **2.1.0-beta.1**;
+* development: **2.1.0-beta.2**;
 * stable: **2.0.4**.
 
 ## What this is
