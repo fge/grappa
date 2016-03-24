@@ -130,7 +130,7 @@ public final class Characters
     public boolean contains(final char c)
     {
         final int index = Arrays.binarySearch(chars, c);
-        return (index == -1) == subtractive;
+        return index < 0 == subtractive;
     }
 
     @Override
