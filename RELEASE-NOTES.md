@@ -1,4 +1,8 @@
-### 2.1.0
+### 2.1.0-beta.2
+
+* Fix stupid bug with Characters
+
+### 2.1.0-beta.1
 
 * Replace the value stack with a better performing one, based on arrays.
 * Make InputBuffer implement CharSequence.
