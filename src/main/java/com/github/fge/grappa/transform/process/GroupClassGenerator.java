@@ -125,7 +125,7 @@ public abstract class GroupClassGenerator
     private void generateClassBasics(final InstructionGroup group,
         final ClassWriter cw)
     {
-        cw.visit(Opcodes.V1_7, ACC_PUBLIC + ACC_FINAL + ACC_SYNTHETIC,
+        cw.visit(Opcodes.V1_8, ACC_PUBLIC + ACC_FINAL + ACC_SYNTHETIC,
             group.getGroupClassType().getInternalName(), null,
             getBaseType().getInternalName(), null);
         cw.visitSource(classNode.sourceFile, null);

@@ -32,7 +32,7 @@ group = "com.github.fge";
 description = "Write parsers in pure Java";
 version = "2.1.0-beta.3-SNAPSHOT";
 
-def javaVersion = JavaVersion.VERSION_1_7;
+def javaVersion = JavaVersion.VERSION_1_8;
 sourceCompatibility = javaVersion;
 targetCompatibility = javaVersion; // defaults to sourceCompatibility
 

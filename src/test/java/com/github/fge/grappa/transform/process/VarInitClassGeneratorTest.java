@@ -72,7 +72,7 @@ public class VarInitClassGeneratorTest extends TransformationTest {
         InstructionGroup group = method.getGroups().get(0);
         assertEquals(getClassDump(group.getGroupClassCode())
             .replaceAll("(?<=\\$)[A-Za-z0-9]{16}", "XXXXXXXXXXXXXXXX"), "" +
-                "// class version 51.0 (51)\n" +
+                "// class version 52.0 (52)\n" +
                 "// access flags 0x1011\n" +
                 "public final synthetic class com/github/fge/grappa/transform/process/VarInit$XXXXXXXXXXXXXXXX extends com/github/fge/grappa/transform/runtime/BaseVarInit  {\n" +
                 "\n" +
@@ -99,7 +99,7 @@ public class VarInitClassGeneratorTest extends TransformationTest {
         group = method.getGroups().get(1);
         assertEquals(getClassDump(group.getGroupClassCode())
             .replaceAll("(?<=\\$)[A-Za-z0-9]{16}", "XXXXXXXXXXXXXXXX"), "" +
-                "// class version 51.0 (51)\n" +
+                "// class version 52.0 (52)\n" +
                 "// access flags 0x1011\n" +
                 "public final synthetic class com/github/fge/grappa/transform/process/VarInit$XXXXXXXXXXXXXXXX extends com/github/fge/grappa/transform/runtime/BaseVarInit  {\n" +
                 "\n" +
@@ -125,7 +125,7 @@ public class VarInitClassGeneratorTest extends TransformationTest {
         group = method.getGroups().get(2);
         assertEquals(getClassDump(group.getGroupClassCode())
             .replaceAll("(?<=\\$)[A-Za-z0-9]{16}", "XXXXXXXXXXXXXXXX"), "" +
-                "// class version 51.0 (51)\n" +
+                "// class version 52.0 (52)\n" +
                 "// access flags 0x1011\n" +
                 "public final synthetic class com/github/fge/grappa/transform/process/Action$XXXXXXXXXXXXXXXX extends com/github/fge/grappa/transform/runtime/BaseAction  {\n" +
                 "\n" +

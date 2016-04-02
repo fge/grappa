@@ -16,7 +16,7 @@ import static org.objectweb.asm.Opcodes.ALOAD;
 import static org.objectweb.asm.Opcodes.H_INVOKESTATIC;
 import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
 import static org.objectweb.asm.Opcodes.RETURN;
-import static org.objectweb.asm.Opcodes.V1_7;
+import static org.objectweb.asm.Opcodes.V1_8;
 
 public final class Tester
 {
@@ -37,7 +37,7 @@ public final class Tester
     public static void main(final String[] args) throws Throwable {
         Label line;
         final ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
-        cw.visit(V1_7, ACC_PUBLIC, "pkg/MyClass", null, "java/lang/Object",
+        cw.visit(V1_8, ACC_PUBLIC, "pkg/MyClass", null, "java/lang/Object",
             new String[]{ "java/lang/Runnable" });
         cw.visitSource("(generated)", "(generated)");
         MethodVisitor visitor = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
