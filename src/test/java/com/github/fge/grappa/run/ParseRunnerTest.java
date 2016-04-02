@@ -14,17 +14,16 @@
  * limitations under the License.
  */
 
-package com.github.fge.grappa.parserunners;
+package com.github.fge.grappa.run;
 
 import com.github.fge.grappa.Grappa;
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.rules.Rule;
-import com.github.fge.grappa.run.ParseRunner;
 import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public final class BasicParseRunnerTest
+public final class ParseRunnerTest
 {
     static class SimpleParser
         extends BaseParser<Object>
@@ -52,5 +51,13 @@ public final class BasicParseRunnerTest
         assertThat(runner.run("aab").isSuccess())
             .as("incomplete match is a failure")
             .isFalse();
+    }
+
+    @Test
+    public void completeMatchIsASuccess()
+    {
+        assertThat(runner.run("aaaa").isSuccess())
+            .as("complete match is a success")
+            .isTrue();
     }
 }
