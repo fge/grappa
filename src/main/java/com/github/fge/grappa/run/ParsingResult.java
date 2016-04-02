@@ -18,6 +18,7 @@ package com.github.fge.grappa.run;
 
 import com.github.fge.grappa.buffers.InputBuffer;
 import com.github.fge.grappa.internal.NonFinalForTesting;
+import com.github.fge.grappa.run.context.Context;
 import com.github.fge.grappa.stack.ValueStack;
 
 import javax.annotation.Nonnull;
@@ -32,21 +33,24 @@ public class ParsingResult<V>
     private final boolean matched;
     private final ValueStack<V> valueStack;
     private final InputBuffer inputBuffer;
+    private final int contextIndex;
 
     /**
      * Creates a new ParsingResult.
      *
      * @param matched true if the rule matched the input
      * @param valueStack the value stack of the parsing run
-     * @param inputBuffer the input buffer
+     * @param context the parsing context
      */
     public ParsingResult(final boolean matched,
         @Nonnull final ValueStack<V> valueStack,
-        @Nonnull final InputBuffer inputBuffer)
+        @Nonnull final Context<V> context)
     {
+        Objects.requireNonNull(context);
         this.matched = matched;
         this.valueStack = Objects.requireNonNull(valueStack);
-        this.inputBuffer = Objects.requireNonNull(inputBuffer);
+        inputBuffer = context.getInputBuffer();
+        contextIndex = context.getCurrentIndex();
     }
 
 
@@ -57,7 +61,7 @@ public class ParsingResult<V>
      */
     public boolean isSuccess()
     {
-        return matched;
+        return matched && contextIndex == inputBuffer.length();
     }
 
     /**

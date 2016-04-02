@@ -37,13 +37,20 @@ public final class BasicParseRunnerTest
 
     private final SimpleParser parser
         = Grappa.createParser(SimpleParser.class);
-    private final ParseRunner<Object> runner
-        = new ParseRunner<>(parser.rule());
+    private final ParseRunner<Object> runner = new ParseRunner<>(parser.rule());
 
     @Test
     public void basicParseRunnerCanReliablyReportErrors()
     {
         assertThat(runner.run("bbb").isSuccess()).as("errors are reported")
+            .isFalse();
+    }
+
+    @Test
+    public void incompleteMatchIsReportedAsFailure()
+    {
+        assertThat(runner.run("aab").isSuccess())
+            .as("incomplete match is a failure")
             .isFalse();
     }
 }

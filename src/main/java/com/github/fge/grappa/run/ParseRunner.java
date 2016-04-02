@@ -147,8 +147,7 @@ public class ParseRunner<V>
     ParsingResult<V> createParsingResult(final boolean matched,
         final MatcherContext<V> context)
     {
-        return new ParsingResult<>(matched, valueStack,
-            context.getInputBuffer());
+        return new ParsingResult<>(matched, valueStack, context);
     }
 
     public final void registerListener(final ParseEventListener<V> listener)
