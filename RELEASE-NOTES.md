@@ -1,3 +1,8 @@
+### 2.1.0-beta.3
+
+* ParseRunner now requires the input to fully match to declare success.
+* Require Java 8.
+
 ### 2.1.0-beta.2
 
 * Fix stupid bug with Characters
