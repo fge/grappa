@@ -6,8 +6,8 @@ Requires Java 7 or later.
 
 The latest versions are:
 
-* development: **2.1.0-beta.2**;
-* stable: **2.0.4**.
+* development: **2.1.0-beta.3**; requires **Java 8** (this is 2016, after all);
+* stable: **2.0.4**. requires **Java 7**.
 
 ## What this is
 
