@@ -36,6 +36,7 @@ import com.github.fge.grappa.transform.process.GroupClassGenerator;
  *
  * @see GroupClassGenerator#insertSetContextCalls(InstructionGroup, int)
  */
+@FunctionalInterface
 public interface ContextAware<V>
 {
 

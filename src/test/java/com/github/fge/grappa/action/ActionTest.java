@@ -17,88 +17,102 @@
 package com.github.fge.grappa.action;
 
 import com.github.fge.grappa.Grappa;
+import com.github.fge.grappa.annotations.Label;
 import com.github.fge.grappa.parsers.BaseActions;
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.rules.Action;
 import com.github.fge.grappa.rules.Rule;
-import com.github.fge.grappa.annotations.Label;
 import com.github.fge.grappa.run.context.Context;
 import com.github.fge.grappa.test.ParboiledTest;
 import org.testng.annotations.Test;
 
-public class ActionTest extends ParboiledTest<Integer>
+public class ActionTest
+    extends ParboiledTest<Integer>
 {
 
-    public static class Actions extends BaseActions<Integer>
+    public static class Actions
+        extends BaseActions<Integer>
     {
 
-        public boolean addOne() {
+        public boolean addOne()
+        {
             final Integer i = getContext().getValueStack().pop();
             getContext().getValueStack().push(i + 1);
             return true;
         }
     }
 
-    public static class Parser extends BaseParser<Integer>
+    public static class Parser
+        extends BaseParser<Integer>
     {
 
         final Actions actions = new Actions();
 
-        public Rule A() {
+        public Rule A()
+        {
             return sequence(
-                    'a',
-                    push(42),
-                    B(18),
-                    stringAction("lastText:" + match())
+                'a',
+                push(42),
+                B(18),
+                stringAction("lastText:" + match())
             );
         }
 
-        public Rule B(final int i) {
+        public Rule B(final int i)
+        {
             final int j = i + 1;
             return sequence(
-                    'b',
-                    push(timesTwo(i + j)),
-                    C(),
-                    push(pop()) // no effect
+                'b',
+                push(timesTwo(i + j)),
+                C(),
+                push(pop()) // no effect
             );
         }
 
-        public Rule C() {
+        public Rule C()
+        {
             return sequence(
-                    'c',
-                    push(pop()), // no effect
-                    new Action() {
-                        public boolean run(final Context context) {
-                            return getContext() == context;
-                        }
-                    },
-                    D(1)
+                'c',
+                push(pop()), // no effect
+                // FIXME: turning into a lambda throws IllegalAccessException...
+                new Action<Integer>()
+                {
+                    @Override
+                    public boolean run(final Context<Integer> context) {
+                        return getContext() == context;
+                    }
+                },
+                D(1)
             );
         }
 
         @Label("Last")
-        public Rule D(final int i) {
+        public Rule D(final int i)
+        {
             return sequence(
-                    'd', dup(),
-                    push(i),
-                    actions.addOne()
+                'd', dup(),
+                push(i),
+                actions.addOne()
             );
         }
 
-        public boolean stringAction(final String string) {
+        public boolean stringAction(final String string)
+        {
             return "lastText:bcd".equals(string);
         }
 
         // ************* ACTIONS **************
 
-        public int timesTwo(final int i) {
+        public int timesTwo(final int i)
+        {
             return i * 2;
         }
 
     }
 
     @Test
-    public void test() {
+    public void test()
+    {
         final Parser parser = Grappa.createParser(Parser.class);
         test(parser.A(), "abcd").hasNoErrors();
     }

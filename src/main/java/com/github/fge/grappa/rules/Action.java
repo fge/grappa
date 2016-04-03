@@ -44,6 +44,7 @@ import com.github.fge.grappa.run.context.ContextAware;
  *
  * @see BaseActions#match()
  */
+@FunctionalInterface
 public interface Action<V>
 {
     /**
