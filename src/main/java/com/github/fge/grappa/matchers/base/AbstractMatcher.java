@@ -24,7 +24,7 @@ import com.github.fge.grappa.misc.ImmutableGraphNode;
 import java.util.Objects;
 
 /**
- * Abstract base class of most regular {@link Matcher}s.
+ * Abstract base class of most regular {@link Matcher}s
  */
 public abstract class AbstractMatcher
     extends ImmutableGraphNode<Matcher>

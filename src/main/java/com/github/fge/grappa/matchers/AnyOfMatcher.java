@@ -21,12 +21,11 @@ import com.github.fge.grappa.matchers.base.Matcher;
 import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.run.context.MatcherContext;
 import com.github.fge.grappa.support.Characters;
-import com.google.common.base.Preconditions;
 
 import java.util.Objects;
 
 /**
- * A {@link Matcher} matching a single character out of a given {@link
+ * A {@link Matcher} matching a single (Java) {@code char} out of a given {@link
  * Characters} set.
  *
  * <p>This is the matcher used by {@link BaseParser#anyOf(char[]) anyOf()}.</p>
@@ -38,8 +37,9 @@ public final class AnyOfMatcher
 
     public AnyOfMatcher(final Characters characters)
     {
-        super(Objects.requireNonNull(characters, "characters").toString());
-        Preconditions.checkArgument(!characters.equals(Characters.NONE));
+        super(Objects.requireNonNull(characters).toString());
+        if (characters.equals(Characters.NONE))
+            throw new IllegalArgumentException("empty character specification");
         this.characters = characters;
     }
 

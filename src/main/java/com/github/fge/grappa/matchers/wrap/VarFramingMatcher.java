@@ -27,7 +27,7 @@ import java.util.Objects;
 
 /**
  * Special wrapping matcher that manages the creation and destruction of
- * execution frames for a number of action vars.
+ * execution frames for a number of action vars
  *
  * @see Var
  */

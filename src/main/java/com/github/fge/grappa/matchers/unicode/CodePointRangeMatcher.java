@@ -52,8 +52,9 @@ public final class CodePointRangeMatcher
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
-        final int codePoint
-            = context.getInputBuffer().codePointAt(context.getCurrentIndex());
+        final int index = context.getCurrentIndex();
+        final InputBuffer buffer = context.getInputBuffer();
+        final int codePoint = buffer.codePointAt(index);
 
         if (codePoint < low || codePoint > high)
             return false;

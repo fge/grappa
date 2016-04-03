@@ -28,7 +28,7 @@ import java.util.Objects;
 
 /**
  * A {@link Matcher} that executes all of its submatchers in sequence and only
- * succeeds if all submatchers succeed.
+ * succeeds if all submatchers succeed
  *
  * <p>This is the matcher used by {@link BaseParser#sequence(Object[])
  * sequence()}; but it is also used in rules accepting more than one rule as

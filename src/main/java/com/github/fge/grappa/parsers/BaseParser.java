@@ -56,6 +56,7 @@ import com.google.common.collect.ImmutableList;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -1166,7 +1167,9 @@ public abstract class BaseParser<V>
 
     /**
      * Explicitly marks the wrapped expression as an action expression.
-     * parboiled transforms the wrapped expression into an {@link Action} instance during parser construction.
+     *
+     * <p>Grappa transforms the wrapped expression into an {@link Action}
+     * instance during parser construction</p>
      *
      * @param expression the expression to turn into an Action
      * @return the Action wrapping the given expression
@@ -1180,9 +1183,7 @@ public abstract class BaseParser<V>
     ///************************* HELPER METHODS ***************************///
 
     /**
-     * Used internally to convert the given character literal to a parser rule.
-     * You can override this method, e.g. for specifying a Sequence that automatically matches all trailing
-     * whitespace after the character.
+     * Convert a character literal to a parser rule
      *
      * @param c the character
      * @return the rule
@@ -1194,9 +1195,7 @@ public abstract class BaseParser<V>
     }
 
     /**
-     * Used internally to convert the given string literal to a parser rule.
-     * You can override this method, e.g. for specifying a Sequence that automatically matches all trailing
-     * whitespace after the string.
+     * Convert a string literal to a parser rule
      *
      * @param string the string
      * @return the rule
@@ -1209,9 +1208,7 @@ public abstract class BaseParser<V>
     }
 
     /**
-     * Used internally to convert the given char array to a parser rule.
-     * You can override this method, e.g. for specifying a Sequence that automatically matches all trailing
-     * whitespace after the characters.
+     * Convert a char array to a parser rule
      *
      * @param array the char array
      * @return the rule
@@ -1224,7 +1221,7 @@ public abstract class BaseParser<V>
     }
 
     /**
-     * Converts the given object array to an array of rules.
+     * Convert the given object array to an array of rules
      *
      * @param objects the objects to convert
      * @return the rules corresponding to the given objects
@@ -1232,17 +1229,11 @@ public abstract class BaseParser<V>
     @DontExtend
     public Rule[] toRules(final Object... objects)
     {
-        final Rule[] rules = new Rule[objects.length];
-
-        for (int i = 0; i < objects.length; i++)
-            rules[i] = toRule(objects[i]);
-        return rules;
+        return Arrays.stream(objects).map(this::toRule).toArray(Rule[]::new);
     }
 
     /**
-     * Converts the given object to a rule.
-     * This method can be overriden to enable the use of custom objects directly
-     * in rule specifications.
+     * Converts the given object to a rule
      *
      * @param obj the object to convert
      * @return the rule corresponding to the given object

@@ -24,7 +24,7 @@ import com.github.fge.grappa.run.context.MatcherContext;
 import static com.github.fge.grappa.support.Chars.escape;
 
 /**
- * A {@link Matcher} matching a single given character.
+ * A {@link Matcher} matching a single given (Java) {@code char}
  *
  * <p>This is the matcher used by {@link BaseParser#ch(char) ch()}.</p>
  */

@@ -20,7 +20,11 @@ import com.github.fge.grappa.support.IndexRange;
 import com.github.fge.grappa.support.Position;
 
 /**
- * Abstraction of a simple character buffer holding the input text to be parsed.
+ * Abstraction of a character buffer holding the input text to be parsed
+ *
+ * <p>This interface also implements {@link CharSequence}; this means that
+ * anywhere a {@code CharSequence} is valid, an implementation of this interface
+ * is valid.</p>
  */
 public interface InputBuffer
     extends CharSequence
@@ -42,7 +46,8 @@ public interface InputBuffer
     /**
      * Extracts a given index range from this buffer as a string
      *
-     * <p>Indexes are automatically adjusted to their respective boundaries.</p>
+     * <p>Unlike what happens with {@link #subSequence(int, int)}, indices are
+     * automatically adjusted to their respective boundaries.</p>
      *
      * @param start the start index (inclusive)
      * @param end the end index (exclusive)
@@ -56,6 +61,8 @@ public interface InputBuffer
      *
      * @param range the range
      * @return a String
+     *
+     * @see #extract(int, int)
      */
     String extract(IndexRange range);
 

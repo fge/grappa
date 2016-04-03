@@ -27,7 +27,7 @@ import java.util.Objects;
 
 /**
  * A {@link Matcher} trying all of its submatchers in order and succeeding when
- * the first submatcher succeeds.
+ * the first submatcher succeeds
  *
  * <p>This is the matcher used by {@link BaseParser#firstOf(Object, Object,
  * Object...) firstOf()}.</p>

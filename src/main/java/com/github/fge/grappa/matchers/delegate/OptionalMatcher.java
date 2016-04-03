@@ -25,7 +25,8 @@ import com.github.fge.grappa.run.context.MatcherContext;
 import java.util.Objects;
 
 /**
- * A {@link Matcher} that tries its submatcher once against the input and always succeeds.
+ * A {@link Matcher} that tries its submatcher once against the input and always
+ * succeeds
  */
 public final class OptionalMatcher
     extends CustomDefaultLabelMatcher<OptionalMatcher>

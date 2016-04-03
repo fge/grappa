@@ -22,7 +22,7 @@ import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.run.context.MatcherContext;
 
 /**
- * A {@link Matcher} that always successfully matches nothing.
+ * A {@link Matcher} that always successfully matches nothing
  *
  * @see BaseParser#EMPTY
  */

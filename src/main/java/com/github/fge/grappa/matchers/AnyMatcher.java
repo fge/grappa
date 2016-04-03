@@ -22,7 +22,7 @@ import com.github.fge.grappa.parsers.BaseParser;
 import com.github.fge.grappa.run.context.MatcherContext;
 
 /**
- * A {@link Matcher} matching any single character except EOI.
+ * A {@link Matcher} matching any single (Java) {@code char}
  *
  * @see BaseParser#ANY
  */

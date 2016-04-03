@@ -26,7 +26,7 @@ import java.util.Objects;
 
 /**
  * A {@link Matcher} that delegates all {@link Rule} and {@link Matcher}
- * interface methods to another {@link Matcher}.
+ * interface methods to another {@link Matcher}
  *
  * <p>It can also hold a label and a leaf marker and lazily apply these to the
  * underlying {@link Matcher} once it is available.</p>

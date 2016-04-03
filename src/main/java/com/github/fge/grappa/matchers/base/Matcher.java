@@ -24,8 +24,8 @@ import com.github.fge.grappa.misc.GraphNode;
 /**
  * A Matcher instance
  *
- * <p>A matcheris responsible for "executing" a specific Rule instance, i.e. it
- * implements the actual matching on the input text.</p>
+ * <p>A matcher is responsible for "executing" a specific Rule instance, meaning
+ * it implements the actual matching on the input text.</p>
  */
 public interface Matcher
     extends Rule, GraphNode<Matcher>

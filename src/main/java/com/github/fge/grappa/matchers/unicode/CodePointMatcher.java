@@ -52,8 +52,9 @@ public final class CodePointMatcher
     @Override
     public <V> boolean match(final MatcherContext<V> context)
     {
-        if (codePoint != context.getInputBuffer()
-            .codePointAt(context.getCurrentIndex()))
+        final int index = context.getCurrentIndex();
+        final InputBuffer buffer = context.getInputBuffer();
+        if (codePoint != buffer.codePointAt(index))
             return false;
 
         context.advanceIndex(codePointLength);

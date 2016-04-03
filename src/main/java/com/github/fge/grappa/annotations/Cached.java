@@ -34,13 +34,14 @@ import java.util.HashMap;
  * <pre>
  *     Rule matchChar(final char c)
  *     {
- *         return Ch(c);
+ *         return ch(c);
  *     }
  * </pre>
  *
  * <p>The generated parser will then have a {@link HashMap} whose keys are
  * {@link CacheArguments} instances and values are {@link Rule}s.</p>
- * <p>You must <strong>not</strong> use this annotation for rules having no
+ *
+ * <p>You <strong>must not</strong> use this annotation for rules having no
  * arguments (this will raise an error).</p>
  */
 @Documented

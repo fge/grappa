@@ -78,12 +78,13 @@ public abstract class BaseActions<V>
     }
 
     /**
-     * <p>Returns the input text matched by the rule immediately preceding the
-     * action expression that is currently being evaluated. This call can only
-     * be used in actions that are part of a Sequence rule and are not at first
-     * position in this Sequence.</p>
+     * Return the input text matched by the immediately preceding rule
      *
-     * @return the input text matched by the immediately preceding subrule
+     * <p>This call can only be used in actions (or any implementation of {@link
+     * ContextAware} that are part of a sequence rule and are not at first
+     * position in this sequence.</p>
+     *
+     * @return the input text matched by the immediately previous rule
      */
     public String match()
     {
@@ -92,10 +93,12 @@ public abstract class BaseActions<V>
     }
 
     /**
-     * Creates a new {@link IndexRange} instance covering the input text matched
-     * by the rule immediately preceding the action expression that is currently
-     * being evaluated. This call can only be used in actions that are part of a
-     * Sequence rule and are not at first position in this Sequence.
+     * Returns the range covering the input text matched by the immediately
+     * preceding rule
+     *
+     * <p>This call can only be used in actions (or any implementation of {@link
+     * ContextAware} that are part of a sequence rule and are not at first
+     * position in this sequence.</p>
      *
      * @return a new IndexRange instance
      */
@@ -106,51 +109,13 @@ public abstract class BaseActions<V>
     }
 
     /**
-     * <p>Returns the input text matched by the rule immediately preceding the
-     * action expression that is currently being evaluated. If the matched input
-     * text is empty the given default string is returned. This call can only be
-     * used in actions that are part of a Sequence rule and are not at first
-     * position in this Sequence.</p>
+     * Returns the start index of the immediately preceding rule's context
      *
-     * @param defaultString the default string to return if the matched input
-     * text is empty
-     * @return the input text matched by the immediately preceding subrule or
-     * the default string
-     */
-    public String matchOrDefault(final String defaultString)
-    {
-        check();
-        final String match = context.getMatch();
-        return match.isEmpty() ? defaultString : match;
-    }
-
-    /**
-     * <p>Returns the first character of the input text matched by the rule
-     * immediately preceding the action expression that is currently being
-     * evaluated. This call can only be used in actions that are part of a
-     * Sequence rule and are not at first position in this Sequence.</p>
-     * <p>If the immediately preceding rule did not match anything this method
-     * throws a GrammarException. If you need to be able to handle that case use
-     * the getMatch() method.</p>
+     * <p>This call can only be used in actions (or any implementation of {@link
+     * ContextAware} that are part of a sequence rule and are not at first
+     * position in this sequence.</p>
      *
-     * @return the first input char of the input text matched by the immediately
-     * preceding subrule or null, if the previous rule matched nothing
-     */
-    // TODO: can't return null; check what _really_ happens.
-    public char matchedChar()
-    {
-        check();
-        return context.getFirstMatchChar();
-    }
-
-    /**
-     * <p>Returns the start index of the rule immediately preceding the action
-     * expression that is currently being evaluated. This call can only be used
-     * in actions that are part of a Sequence rule and are not at first position
-     * in this Sequence.</p>
-     *
-     * @return the start index of the context immediately preceding current
-     * action
+     * @return see description
      */
     public int matchStart()
     {
@@ -159,14 +124,17 @@ public abstract class BaseActions<V>
     }
 
     /**
-     * <p>Returns the end location of the rule immediately preceding the action
-     * expression that is currently being evaluated. This call can only be used
-     * in actions that are part of a Sequence rule and are not at first position
-     * in this Sequence.</p>
+     * Returns the end index of the immediately preceding rule's context
      *
-     * @return the end index of the context immediately preceding current
-     * action, i.e. the index of the character immediately following the last
-     * matched character
+     * <p>Note that the index is exclusive; that is, it will point to the next
+     * character in the buffer (possibly past the end of the sequence if the
+     * previous rule matched until the end of the input).</p>
+     *
+     * <p>This call can only be used in actions (or any implementation of {@link
+     * ContextAware} that are part of a sequence rule and are not at first
+     * position in this sequence.</p>
+     *
+     * @return see description
      */
     public int matchEnd()
     {
@@ -175,22 +143,8 @@ public abstract class BaseActions<V>
     }
 
     /**
-     * <p>Returns the number of characters matched by the rule immediately
-     * preceding the action expression that is currently being evaluated. This
-     * call can only be used in actions that are part of a Sequence rule and are
-     * not at first position in this Sequence.</p>
-     *
-     * @return the number of characters matched
-     */
-    public int matchLength()
-    {
-        check();
-        return context.getMatchLength();
-    }
-
-    /**
-     * <p>Returns the current position in the underlying {@link InputBuffer} as
-     * a {@link Position} instance.</p>
+     * Returns the current position in the underlying {@link InputBuffer} as a
+     * {@link Position}
      *
      * @return the current position in the underlying inputbuffer
      */
@@ -201,8 +155,9 @@ public abstract class BaseActions<V>
     }
 
     /**
-     * Pushes the given value onto the value stack. Equivalent to push(0,
-     * value).
+     * Pushes the given value onto the value stack
+     *
+     * <p>Equivalent to {@code push(0, value)}.
      *
      * @param value the value to push
      * @return true
@@ -216,14 +171,14 @@ public abstract class BaseActions<V>
 
     /**
      * Inserts the given value a given number of elements below the current top
-     * of the value stack.
+     * of the value stack
      *
      * @param down the number of elements to skip before inserting the value (0
-     * being equivalent to push(value))
+     * being equivalent to {@code push(value)})
      * @param value the value
      * @return true
      *
-     * @throws IllegalArgumentException if the stack does not contain enough
+     * @throws IllegalArgumentException the stack does not contain enough
      * elements to perform this operation
      */
     public boolean push(final int down, final V value)
@@ -234,11 +189,11 @@ public abstract class BaseActions<V>
     }
 
     /**
-     * Removes the value at the top of the value stack and returns it.
+     * Removes the value at the top of the value stack and returns it
      *
      * @return the current top value
      *
-     * @throws IllegalArgumentException if the stack is empty
+     * @throws IllegalArgumentException the stack is empty
      */
     public V pop()
     {
@@ -253,7 +208,7 @@ public abstract class BaseActions<V>
      * @param c the class to cast to
      * @param <E> type of the class
      * @return the current top value
-     * @throws IllegalArgumentException if the stack is empty
+     * @throws IllegalArgumentException the stack is empty
      *
      * @see #pop()
      */
@@ -267,10 +222,10 @@ public abstract class BaseActions<V>
      * stack and returns it
      *
      * @param down the number of elements to skip before removing the value (0
-     * being equivalent to pop())
+     * being equivalent to {@code pop()})
      * @return the value
      *
-     * @throws IllegalArgumentException if the stack does not contain enough
+     * @throws IllegalArgumentException the stack does not contain enough
      * elements to perform this operation
      */
     public V pop(final int down)
@@ -285,10 +240,10 @@ public abstract class BaseActions<V>
      *
      * @param c the class to cast to
      * @param down the number of elements to skip before removing the value (0
-     * being equivalent to pop())
+     * being equivalent to {@code pop()})
      * @param <E> type of the class
      * @return the value
-     * @throws IllegalArgumentException if the stack does not contain enough
+     * @throws IllegalArgumentException the stack does not contain enough
      * elements to perform this operation
      *
      * @see #pop(int)
@@ -299,11 +254,11 @@ public abstract class BaseActions<V>
     }
 
     /**
-     * Removes the value at the top of the value stack.
+     * Removes the value at the top of the value stack
      *
      * @return true
      *
-     * @throws IllegalArgumentException if the stack is empty
+     * @throws IllegalArgumentException the stack is empty
      */
     public boolean drop()
     {
@@ -314,13 +269,13 @@ public abstract class BaseActions<V>
 
     /**
      * Removes the value the given number of elements below the top of the value
-     * stack.
+     * stack
      *
      * @param down the number of elements to skip before removing the value (0
-     * being equivalent to drop())
+     * being equivalent to {@code drop()})
      * @return true
      *
-     * @throws IllegalArgumentException if the stack does not contain enough
+     * @throws IllegalArgumentException the stack does not contain enough
      * elements to perform this operation
      */
     public boolean drop(final int down)
@@ -331,7 +286,7 @@ public abstract class BaseActions<V>
     }
 
     /**
-     * Returns the value at the top of the value stack without removing it.
+     * Returns the value at the top of the value stack without removing it
      *
      * @return the current top value
      *
@@ -345,7 +300,7 @@ public abstract class BaseActions<V>
 
     /**
      * Returns and casts the value at the top of the value stack without
-     * removing it.
+     * removing it
      *
      * @param c the class to cast to
      * @param <E> type of the class
@@ -360,12 +315,13 @@ public abstract class BaseActions<V>
 
     /**
      * Returns the value the given number of elements below the top of the value
-     * stack without removing it.
+     * stack without removing it
      *
-     * @param down the number of elements to skip (0 being equivalent to peek())
+     * @param down the number of elements to skip (0 being equivalent to {@code
+     * peek()})
      * @return the value
      *
-     * @throws IllegalArgumentException if the stack does not contain enough
+     * @throws IllegalArgumentException the stack does not contain enough
      * elements to perform this operation
      */
     public V peek(final int down)
@@ -379,7 +335,8 @@ public abstract class BaseActions<V>
      * of the value stack without removing it.
      *
      * @param c the class to cast to
-     * @param down the number of elements to skip (0 being equivalent to peek())
+     * @param down the number of elements to skip (0 being equivalent to {@code
+     * peek()})
      * @param <E> type of the class
      * @return the value
      *
@@ -391,13 +348,14 @@ public abstract class BaseActions<V>
     }
 
     /**
-     * Replaces the current top value of the value stack with the given value.
-     * Equivalent to poke(0, value).
+     * Replaces the current top value of the value stack with the given value
+     *
+     * <p>Equivalent to {@code poke(0, value)}.
      *
      * @param value the value
      * @return true
      *
-     * @throws IllegalArgumentException if the stack is empty
+     * @throws IllegalArgumentException the stack is empty
      */
     public boolean poke(final V value)
     {
@@ -408,14 +366,14 @@ public abstract class BaseActions<V>
 
     /**
      * Replaces the element the given number of elements below the current top
-     * of the value stack.
+     * of the value stack
      *
      * @param down the number of elements to skip before replacing the value (0
-     * being equivalent to poke(value))
+     * being equivalent to {@code poke(value)})
      * @param value the value to replace with
      * @return true
      *
-     * @throws IllegalArgumentException if the stack does not contain enough
+     * @throws IllegalArgumentException the stack does not contain enough
      * elements to perform this operation
      */
     public boolean poke(final int down, final V value)
@@ -426,11 +384,11 @@ public abstract class BaseActions<V>
     }
 
     /**
-     * Duplicates the top value of the value stack. Equivalent to push(peek()).
+     * Duplicates the top value of the value stack
      *
      * @return true
      *
-     * @throws IllegalArgumentException if the stack is empty
+     * @throws IllegalArgumentException the stack is empty
      */
     public boolean dup()
     {
@@ -444,7 +402,7 @@ public abstract class BaseActions<V>
      *
      * @return true
      *
-     * @throws IllegalArgumentException if the stack does not contain at least
+     * @throws IllegalArgumentException the stack does not contain at least
      * two elements
      */
     public boolean swap()
@@ -471,9 +429,9 @@ public abstract class BaseActions<V>
     }
 
     /**
-     * Check whether the end of input has been reached
+     * Check whether the end of input has been reached by the current context
      *
-     * @return true if EOI
+     * @return true if the end of the input has been reached
      */
     public boolean atEnd()
     {
@@ -482,7 +440,7 @@ public abstract class BaseActions<V>
     }
 
     /**
-     * Returns the next input character about to be matched.
+     * Returns the next input character about to be matched
      *
      * <p>If you use this method, you MUST first check whether you have reached
      * the end of the buffer using {@link #atEnd()}.</p>
@@ -496,16 +454,15 @@ public abstract class BaseActions<V>
     }
 
     /**
-     * Returns true if the current rule is running somewhere underneath a
-     * Test/TestNot rule.
-     * Useful for example for making sure actions are not run inside of a
-     * predicate evaluation:
-     * {@code
-     * return Sequence(
-     * ...,
-     * inPredicate() || actions.doSomething()
-     * );
-     * }
+     * Check whether the current context is within a predicate ({@code test()}
+     * or {@code testNot()})
+     *
+     * <p>Useful for example for making sure actions are not run inside of a
+     * predicate evaluation:</p>
+     *
+     * <pre>
+     *     return sequence(inPredicate() || someActionHere());
+     * </pre>
      *
      * @return true if in a predicate
      */
@@ -516,16 +473,7 @@ public abstract class BaseActions<V>
     }
 
     /**
-     * Determines whether the current rule or a sub rule has recorded a parse
-     * error.
-     * Useful for example for making sure actions are not run on erroneous
-     * input:
-     * {@code
-     * return Sequence(
-     * ...,
-     * !hasError() &amp;&amp; actions.doSomething()
-     * );
-     * }
+     * Check whether the current context has recorded a parse error
      *
      * @return true if either the current rule or a sub rule has recorded a
      * parse error

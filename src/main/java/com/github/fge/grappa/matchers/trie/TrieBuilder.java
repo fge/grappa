@@ -40,7 +40,7 @@ public final class TrieBuilder
      *
      * @param word the word to add
      * @return this
-     * @throws IllegalArgumentException word is less than two characters long
+     * @throws IllegalArgumentException word is empty
      */
     public TrieBuilder addWord(@Nonnull final String word)
     {

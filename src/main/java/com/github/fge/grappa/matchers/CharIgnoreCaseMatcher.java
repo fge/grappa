@@ -24,10 +24,12 @@ import com.github.fge.grappa.run.context.MatcherContext;
 import static com.github.fge.grappa.support.Chars.escape;
 
 /**
- * A {@link Matcher} matching a single character case-independently.
+ * A {@link Matcher} matching a single (Java) {@code char} case-independently
  *
  * <p>This is the matcher used by {@link BaseParser#ignoreCase(char)
  * ignoreCase()} (the single character version).</p>
+ *
+ * @see Character#toLowerCase(char)
  */
 public final class CharIgnoreCaseMatcher
     extends AbstractMatcher
