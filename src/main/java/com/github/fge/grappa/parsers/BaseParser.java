@@ -80,8 +80,8 @@ public abstract class BaseParser<V>
     /**
      * Matches any character.
      *
-     * <p>Note that is is a Java `char` (ie, a UTF-16 code unit), not a Unicode
-     * code point. If the latter is what you want, use {@link
+     * <p>Note that is is a Java {@code char} (ie, a UTF-16 code unit), not a
+     * Unicode code point. If the latter is what you want, use {@link
      * #unicodeRange(int, int)}.</p>
      */
     protected static final Rule ANY = new AnyMatcher();
@@ -237,9 +237,14 @@ public abstract class BaseParser<V>
     public Rule anyOf(final char[] characters)
     {
         Objects.requireNonNull(characters);
-        Preconditions.checkArgument(characters.length > 0);
-        return characters.length == 1 ? ch(characters[0])
-            : anyOf(Characters.of(characters));
+        switch (characters.length) {
+            case 0:
+                throw new IllegalArgumentException("empty character array");
+            case 1:
+                return ch(characters[0]);
+            default:
+                return anyOf(Characters.of(characters));
+        }
     }
 
     /**
