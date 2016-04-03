@@ -40,7 +40,7 @@ public final class JoinMatcherMatchTest
     static class TestJoinParser
         extends EventBusParser<Object>
     {
-        protected final JoinMatcherBuilder builder
+        protected final JoinMatcherBuilder<Object> builder
             = join('a').using('b');
     }
 

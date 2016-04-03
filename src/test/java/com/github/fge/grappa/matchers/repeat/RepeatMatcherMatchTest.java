@@ -40,7 +40,7 @@ public final class RepeatMatcherMatchTest
     static class TestJoinParser
         extends EventBusParser<Object>
     {
-        protected final RepeatMatcherBuilder builder = repeat("ab");
+        protected final RepeatMatcherBuilder<Object> builder = repeat("ab");
     }
 
     private final TestJoinParser parser

@@ -88,7 +88,7 @@ public final class JoinMatcherBootstrap<V, P extends BaseParser<V>>
      *
      * @see BaseParser#sequence(Object, Object, Object...)
      */
-    public JoinMatcherBuilder using(final Object rule, final Object rule2,
+    public JoinMatcherBuilder<V> using(final Object rule, final Object rule2,
         final Object... moreRules)
     {
         return using(parser.sequence(rule, rule2, moreRules));
