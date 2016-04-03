@@ -51,7 +51,6 @@ import com.github.fge.grappa.matchers.unicode.CodePointRangeMatcher;
 import com.github.fge.grappa.rules.Action;
 import com.github.fge.grappa.rules.Rule;
 import com.github.fge.grappa.support.Characters;
-import com.github.fge.grappa.support.Chars;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 
@@ -73,14 +72,16 @@ public abstract class BaseParser<V>
     extends BaseActions<V>
 {
     /**
-     * End of input rule
-     *
-     * <p>Please don't use this directly; use {@link #eof()} instead.</p>
+     * Match only at the end of the input
      */
     protected static final Rule EOI = new EndOfInputMatcher();
 
     /**
-     * Matches any character except {@link Chars#EOI}.
+     * Matches any character.
+     *
+     * <p>Note that is is a Java `char` (ie, a UTF-16 code unit), not a Unicode
+     * code point. If the latter is what you want, use {@link
+     * #unicodeRange(int, int)}.</p>
      */
     protected static final Rule ANY = new AnyMatcher();
 
