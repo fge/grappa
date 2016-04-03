@@ -88,8 +88,7 @@ public final class ImplicitActionsConverter
         if (node.isActionRoot())
             return;
 
-        for (final InstructionGraphNode predecessor: node.getPredecessors())
-            walkNode(predecessor);
+        node.getPredecessors().forEach(this::walkNode);
     }
 
     private void replaceWithActionWrapper(final InstructionGraphNode node)

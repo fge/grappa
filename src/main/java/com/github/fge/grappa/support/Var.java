@@ -19,11 +19,11 @@ package com.github.fge.grappa.support;
 import com.google.common.base.Optional;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
-import com.google.common.collect.Lists;
 import com.github.fge.grappa.misc.Reference;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Objects;
 
@@ -52,7 +52,7 @@ public class Var<T>
     extends Reference<T>
 {
     private final Supplier<T> supplier;
-    private final Deque<T> stack = Lists.newLinkedList();
+    private final Deque<T> stack = new ArrayDeque<>();
     private int level;
     private String name;
 

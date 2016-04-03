@@ -17,9 +17,8 @@
 package com.github.fge.grappa.matchers.unicode;
 
 import com.github.fge.grappa.buffers.InputBuffer;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import com.github.fge.grappa.run.context.MatcherContext;
+import org.mockito.stubbing.Answer;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -51,23 +50,13 @@ public final class CodePointRangeMatcherTest
 
         index = THE_ANSWER;
 
-        doAnswer(new Answer<Void>()
-        {
-            @Override
-            public Void answer(final InvocationOnMock invocation)
-            {
-                index += (Integer) invocation.getArguments()[0];
-                return null;
-            }
+        doAnswer((Answer<Void>) invocation -> {
+            index += (Integer) invocation.getArguments()[0];
+            return null;
         }).when(context).advanceIndex(anyInt());
-        doAnswer(new Answer<Void>()
-        {
-            @Override
-            public Void answer(final InvocationOnMock invocation)
-            {
-                index = (Integer) invocation.getArguments()[0];
-                return null;
-            }
+        doAnswer((Answer<Void>) invocation -> {
+            index = (Integer) invocation.getArguments()[0];
+            return null;
         }).when(context).setCurrentIndex(anyInt());
         when(context.getInputBuffer()).thenReturn(buffer);
         when(context.getCurrentIndex()).thenReturn(THE_ANSWER);

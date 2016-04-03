@@ -528,8 +528,7 @@ public abstract class BaseParser<V>
 
         final TrieBuilder builder = Trie.newBuilder();
 
-        for (final String word: list)
-            builder.addWord(word);
+        list.forEach(builder::addWord);
 
         return new TrieMatcher(builder.build());
     }
@@ -584,8 +583,7 @@ public abstract class BaseParser<V>
 
         final TrieBuilder builder = Trie.newBuilder();
 
-        for (final String word: list)
-            builder.addWord(word);
+        list.forEach(builder::addWord);
 
         return new CaseInsensitiveTrieMatcher(builder.build());
     }

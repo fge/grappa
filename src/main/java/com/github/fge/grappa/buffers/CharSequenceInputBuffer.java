@@ -26,7 +26,6 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 import java.util.Objects;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -50,12 +49,12 @@ import java.util.regex.Pattern;
 public final class CharSequenceInputBuffer
     implements InputBuffer
 {
-    private static final ExecutorService EXECUTOR_SERVICE;
+    private static final ExecutorService EXECUTOR;
 
     static {
         final ThreadFactory factory = new ThreadFactoryBuilder()
             .setDaemon(true).setNameFormat("linecounter-thread-%d").build();
-        EXECUTOR_SERVICE = Executors.newCachedThreadPool(factory);
+        EXECUTOR = Executors.newCachedThreadPool(factory);
     }
 
     private final CharSequence charSequence;
@@ -66,15 +65,7 @@ public final class CharSequenceInputBuffer
     {
         this.charSequence = Objects.requireNonNull(charSequence);
         length = charSequence.length();
-        lineCounter = EXECUTOR_SERVICE.submit(new Callable<LineCounter>()
-        {
-            @Override
-            public LineCounter call()
-                throws Exception
-            {
-                return new LineCounter(charSequence);
-            }
-        });
+        lineCounter = EXECUTOR.submit(() -> new LineCounter(charSequence));
     }
 
     @Override

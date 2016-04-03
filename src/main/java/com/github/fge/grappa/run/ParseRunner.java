@@ -35,8 +35,6 @@ import com.github.fge.grappa.stack.ArrayValueStack;
 import com.github.fge.grappa.stack.ValueStack;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.eventbus.EventBus;
-import com.google.common.eventbus.SubscriberExceptionContext;
-import com.google.common.eventbus.SubscriberExceptionHandler;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
@@ -69,17 +67,11 @@ public class ParseRunner<V>
     // TODO: does it need to be volatile?
     private volatile Throwable throwable = null;
 
-    private final EventBus bus = new EventBus(new SubscriberExceptionHandler()
-    {
-        @Override
-        public void handleException(final Throwable exception,
-            final SubscriberExceptionContext context)
-        {
-            if (throwable == null)
-                throwable = exception;
-            else
-                throwable.addSuppressed(exception);
-        }
+    private final EventBus bus = new EventBus((exception, context) -> {
+        if (throwable == null)
+            throwable = exception;
+        else
+            throwable.addSuppressed(exception);
     });
 
 

@@ -29,28 +29,37 @@ import java.util.List;
 
 import static org.testng.Assert.assertEquals;
 
-public class ActionVarTest extends ParboiledTest<Integer>
+public class ActionVarTest
+    extends ParboiledTest<Integer>
 {
-
-    static class Parser extends BaseParser<Integer>
+    static class Parser
+        extends BaseParser<Integer>
     {
-
         @SuppressWarnings("InfiniteRecursion")
-        public Rule A() {
-            final Var<List<String>> list = new Var<List<String>>(new ArrayList<String>());
-            return sequence('a', optional(A(), list.get().add("Text"), push(list.get().size())));
+        public Rule A()
+        {
+            final Var<List<String>> list = new Var<>(new ArrayList<>());
+            return sequence(
+                'a',
+                optional(
+                    A(),
+                    list.get().add("Text"),
+                    push(list.get().size())
+                )
+            );
         }
 
     }
 
     @Test
-    public void test() {
+    public void test()
+    {
         final Parser parser = Grappa.createParser(Parser.class);
         final Matcher rule = (Matcher) parser.A();
 
-        assertEquals(rule.getClass().getName(), "com.github.fge.grappa.matchers.wrap.VarFramingMatcher");
+        assertEquals(rule.getClass().getName(),
+            "com.github.fge.grappa.matchers.wrap.VarFramingMatcher");
 
         test(rule, "aaaa").hasNoErrors();
     }
-
 }
