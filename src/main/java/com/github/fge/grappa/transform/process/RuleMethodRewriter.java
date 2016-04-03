@@ -24,7 +24,10 @@ package com.github.fge.grappa.transform.process;
 
 import com.github.fge.grappa.transform.CodeBlock;
 import com.github.fge.grappa.transform.LoadingOpcode;
-import com.google.common.base.Supplier;
+import com.github.fge.grappa.transform.base.InstructionGraphNode;
+import com.github.fge.grappa.transform.base.InstructionGroup;
+import com.github.fge.grappa.transform.base.ParserClassNode;
+import com.github.fge.grappa.transform.base.RuleMethod;
 import me.qmx.jitescript.util.CodegenUtils;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
@@ -34,13 +37,10 @@ import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
-import com.github.fge.grappa.transform.base.InstructionGraphNode;
-import com.github.fge.grappa.transform.base.InstructionGroup;
-import com.github.fge.grappa.transform.base.ParserClassNode;
-import com.github.fge.grappa.transform.base.RuleMethod;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 import static org.objectweb.asm.Opcodes.DUP;
 import static org.objectweb.asm.Opcodes.PUTFIELD;
@@ -84,7 +84,6 @@ public final class RuleMethodRewriter
             if (root.isActionRoot())
                 method.instructions.remove(rootInsn);
             else  // if (root.isVarInitRoot())
-                // TODO: replace with Supplier
                 ((MethodInsnNode) rootInsn).desc = CodegenUtils.sig(void.class,
                     Supplier.class);
         }

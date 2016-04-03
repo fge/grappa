@@ -16,9 +16,6 @@
 
 package com.github.fge.grappa.support;
 
-import com.google.common.base.Optional;
-import com.google.common.base.Supplier;
-import com.google.common.base.Suppliers;
 import com.github.fge.grappa.misc.Reference;
 
 import javax.annotation.Nonnull;
@@ -26,6 +23,8 @@ import javax.annotation.Nullable;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Supplier;
 
 /**
  * <p>This class provides a "local variable"-like construct for action
@@ -73,7 +72,7 @@ public class Var<T>
     public Var(@Nullable final T value)
     {
         super(value);
-        supplier = Suppliers.ofInstance(value);
+        supplier = () -> value;
     }
 
     /**
@@ -150,6 +149,6 @@ public class Var<T>
     @Override
     public final String toString()
     {
-        return Optional.fromNullable(name).or(super.toString());
+        return Optional.ofNullable(name).orElse(super.toString());
     }
 }

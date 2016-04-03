@@ -17,14 +17,14 @@
 package com.github.fge.grappa.transform;
 
 import com.github.fge.grappa.transform.base.RuleMethod;
-import com.google.common.base.Predicate;
-import org.objectweb.asm.tree.MethodNode;
 import com.github.fge.grappa.transform.process.TransformationTest;
+import org.objectweb.asm.tree.MethodNode;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.function.Predicate;
 
 import static org.testng.Assert.assertEquals;
 
@@ -74,7 +74,7 @@ public class ClassNodeInializerTest extends TransformationTest
     private <T extends MethodNode> String join(final Collection<T> methods, final Predicate<T> predicate) {
         final StringBuilder sb = new StringBuilder();
         for (final T method : methods) {
-            if (predicate == null || predicate.apply(method)) {
+            if (predicate == null || predicate.test(method)) {
                 if (sb.length() > 0)
                     sb.append(',');
                 sb.append(method.name);

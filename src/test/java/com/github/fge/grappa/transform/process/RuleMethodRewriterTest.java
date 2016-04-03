@@ -87,7 +87,7 @@ public class RuleMethodRewriterTest extends TransformationTest {
                 " 7     DUP\n" +
                 " 8     LDC \"RuleWithComplexActionSetup_VarInit1\"\n" +
                 " 9     INVOKESPECIAL com/github/fge/grappa/transform/VarInit$XXXXXXXXXXXXXXXX.<init> (Ljava/lang/String;)V\n" +
-                "10     INVOKESPECIAL com/github/fge/grappa/support/Var.<init> (Lcom/google/common/base/Supplier;)V\n" +
+                "10     INVOKESPECIAL com/github/fge/grappa/support/Var.<init> (Ljava/util/function/Supplier;)V\n" +
                 "11     ASTORE 4\n" +
                 "12     ILOAD 2\n" +
                 "13     ILOAD 1\n" +

@@ -16,9 +16,8 @@
 
 package com.github.fge.grappa.transform.runtime;
 
-import com.google.common.base.Supplier;
-
 import java.util.Objects;
+import java.util.function.Supplier;
 
 /**
  * Base class of generated classes wrapping action var initializers.
